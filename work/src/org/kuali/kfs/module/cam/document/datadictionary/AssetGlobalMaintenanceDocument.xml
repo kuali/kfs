@@ -44,27 +44,27 @@
         <lockingKeys>
             <field attributeName="documentNumber" />
         </lockingKeys>
- 
+
          <defaultExistenceChecks>
-            <reference attributeName="organizationOwnerChartOfAccountsCodeObject" attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
-            <reference attributeName="organizationOwnerAccountNumberObject" attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+            <reference attributeName="organizationOwnerChartOfAccounts" attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
+            <reference attributeName="organizationOwnerAccount" attributeToHighlightOnFail="organizationOwnerAccountNumber" />
             <!-- org owner -->
-            <reference attributeName="agencyNumberObject" attributeToHighlightOnFail="agencyNumber" />
-            <reference attributeName="acquisitionTypeCodeObject" attributeToHighlightOnFail="acquisitionTypeCode" />
-            <reference attributeName="inventoryStatusCodeObject" attributeToHighlightOnFail="inventoryStatusCode" />
-            <reference attributeName="conditionCodeObject" attributeToHighlightOnFail="conditionCode" />
-            <reference attributeName="capitalAssetTypeCodeObject" attributeToHighlightOnFail="capitalAssetTypeCode" />
+            <reference attributeName="agency" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="acquisitionType" attributeToHighlightOnFail="acquisitionTypeCode" />
+            <reference attributeName="inventoryStatus" attributeToHighlightOnFail="inventoryStatusCode" />
+            <reference attributeName="condition" attributeToHighlightOnFail="conditionCode" />
+            <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
             <!-- asset rep. -->
-			<reference attributeName="lastInventoryDateObject" attributeToHighlightOnFail="lastInventoryDate" />
-			<reference attributeName="createDateObject" attributeToHighlightOnFail="createDate" />
-			<reference attributeName="financialDocumentPostingYearObject" attributeToHighlightOnFail="financialDocumentPostingYear" />
-			<reference attributeName="financialDocumentPostingPeriodCodeObject" attributeToHighlightOnFail="financialDocumentPostingPeriodCode" />
-			<reference attributeName="capitalAssetInServiceDateObject" attributeToHighlightOnFail="capitalAssetInServiceDate" />
+			<reference attributeName="lastInventory" attributeToHighlightOnFail="lastInventoryDate" />
+			<reference attributeName="create" attributeToHighlightOnFail="createDate" />
+			<reference attributeName="financialDocumentPostingYr" attributeToHighlightOnFail="financialDocumentPostingYear" />
+			<reference attributeName="financialDocumentPostingPeriod" attributeToHighlightOnFail="financialDocumentPostingPeriodCode" />
+			<reference attributeName="capitalAssetInService" attributeToHighlightOnFail="capitalAssetInServiceDate" />
             <!-- deprec. date -->  
         </defaultExistenceChecks>
  
         <maintainableSections>
-
+        
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems>
 					<maintainableField name="organizationOwnerChartOfAccountsCode" required="true" />
@@ -83,11 +83,17 @@
 					<maintainableField name="organizationText" />
 					<!-- asset rep. -->
 					<maintainableField name="leoAssetRepresentitive" readOnly="true"/>
-					<maintainableField name="lastInventoryDate" required="true" />
-					<maintainableField name="createDate" required="true" />
+					<maintainableField name="lastInventoryDate" required="true">
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                    </maintainableField>
+					<maintainableField name="createDate" required="true">
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                    </maintainableField>
 					<maintainableField name="financialDocumentPostingYear" required="true" />
 					<maintainableField name="financialDocumentPostingPeriodCode" required="true" />
-					<maintainableField name="capitalAssetInServiceDate" />
+					<maintainableField name="capitalAssetInServiceDate">
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                    </maintainableField>
 					<!-- deprec. date -->
 					<maintainableField name="leoDeprecationDate" readOnly="true"/>
 	                <maintainableField name="versionNumber" />					
@@ -96,9 +102,23 @@
 
             <maintainableSection title="Unique Asset Information">
                 <maintainableItems>
-                	<!-- assets to create -->
+                    <!-- nbr of assets to create -->
                 	<maintainableField name="leoAssetsToCreate" readOnly="true" />
-                	<subSectionHeader name="Campus Location" />
+					<maintainableField name="capitalAssetNumber" />
+					<maintainableField name="campusTagNumber" />
+					<maintainableField name="serialNumber" />
+					<!-- government tag -->
+					<maintainableField name="leoGovernmentTag" readOnly="true" />
+					<!-- national stock number -->
+					<maintainableField name="leoNationalStockNbr" readOnly="true" />
+                	<maintainableField name="organizationInventoryName" />
+                	<maintainableField name="organizationAssetTypeIdentifier" />
+				</maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Campus Location">
+                <maintainableItems>
+                	<!-- <subSectionHeader name="Campus Location" /> -->
                     <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetGlobalDetails" summaryTitle="Location">
 						<!-- <subSectionHeader name="On Campus" /> -->
 						<maintainableField name="capitalAssetNumber" readOnly="true"/>
@@ -128,6 +148,31 @@
 				    <maintainableField name="landCountyName" />
 				    <maintainableField name="landAcreageSize" />
 				    <maintainableField name="landParcelNumber" />
+				</maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Add Payments">
+                <maintainableItems>
+				    <maintainableField name="chartOfAccountsCode" required="true" />
+				    <maintainableField name="accountNumber" required="true" />
+				    	<!-- display acct name & org. code -->
+				    <maintainableField name="subAccountNumber" />
+				    <maintainableField name="financialObjectCode" required="true" />
+				    	<!-- display object code name -->
+				    <maintainableField name="financialSubObjectCode" />
+				    <maintainableField name="projectCode" />
+				    <maintainableField name="organizationReferenceId" />
+				    <maintainableField name="documentNumber" required="true" />
+				    <maintainableField name="financialDocumentTypeCode" required="true" />
+				    <maintainableField name="purchaseOrderNumber" />
+				    <maintainableField name="requisitionNumber" />
+				    <maintainableField name="financialDocumentPostingDate" required="true" />
+				    <maintainableField name="financialDocumentPostingYear" required="true" />
+				    <maintainableField name="financialDocumentPostingPeriodCode" required="true" />
+				    <maintainableField name="accountChargeAmount" required="true" />
+				    <maintainableField name="leoAddPaymentsTotalCost">
+                        <defaultValue>0.00</defaultValue>
+                    </maintainableField>
 				</maintainableItems>
             </maintainableSection>
 

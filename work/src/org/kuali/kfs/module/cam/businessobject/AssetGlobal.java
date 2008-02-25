@@ -1,5 +1,6 @@
 package org.kuali.module.cams.bo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -45,30 +46,56 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Date capitalAssetInServiceDate;
     private Date leoDeprecationDate; //deprec. date
     
+    /* unique asset information (Asset / CM_CPTLAST_T) */
+    private String leoAssetsToCreate; //nbr of assets to create
+    private long capitalAssetNumber; // PK
+    private String campusTagNumber;
+    private String serialNumber;
+    private String leoGovernmentTag; // government tag
+    private String leoNationalStockNbr; //national stock number
+    private String organizationInventoryName;
+    private String organizationAssetTypeIdentifier; // (AssetOrganization / CM_AST_ORG_T)
     /* location - on/off campus (AssetGlobalDetail / CM_MULT_AST_DTL_T) */
-    private String leoAssetsToCreate;
-    private List<AssetGlobalDetail> assetGlobalDetails;
+    private List<AssetGlobalDetail> assetGlobalDetails; 
 
     /* land information */
     private String landCountyName;
     private String landAcreageSize;
     private String landParcelNumber;
+    
+    /* Add Payments (AssetPayment / CM_AST_PAYMENT_T) */
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private String projectCode;
+    private String organizationReferenceId;
+    private String leoDocumentNumber; // dup/exists?
+    private String financialDocumentTypeCode;
+    private String purchaseOrderNumber;
+    private String requisitionNumber;
+    private Date financialDocumentPostingDate;
+    private int leoFinancialDocumentPostingYear ;  // dup/exists?
+    private String leoFinancialDocumentPostingPeriodCode; // dup/exists?
+    private BigDecimal accountChargeAmount;
+    private BigDecimal leoAddPaymentsTotalCost;
 
     /* lookup */
-    private Chart organizationOwnerChartOfAccountsCodeObject;
-    private Account organizationOwnerAccountNumberObject;
+    private Chart organizationOwnerChartOfAccounts;
+    private Account organizationOwnerAccount;
     //org. owner
-    private Asset agencyNumberObject;
-    private Asset acquisitionTypeCodeObject;
-    private Asset inventoryStatusCodeObject;
-    private Asset conditionCodeObject;
-    private Asset capitalAssetTypeCodeObject;
+    private Asset agency;
+    private Asset acquisitionType;
+    private Asset inventoryStatus;
+    private Asset condition;
+    private Asset capitalAssetType;
     //asset rep.
-    private Asset lastInventoryDateObject;
-    private Asset createDateObject;
-    private Asset financialDocumentPostingYearObject;
-    private Asset financialDocumentPostingPeriodCodeObject;
-    private Asset capitalAssetInServiceDateObject;
+    private Asset lastInventory;
+    private Asset create;
+    private Asset financialDocumentPostingYr;
+    private Asset financialDocumentPostingPeriod;
+    private Asset capitalAssetInService;
     //deprec. date
     
     /**
@@ -411,115 +438,115 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the acquisitionTypeCodeObject attribute. 
-     * @return Returns the acquisitionTypeCodeObject.
+     * Gets the acquisitionType attribute. 
+     * @return Returns the acquisitionType.
      */
-    public Asset getAcquisitionTypeCodeObject() {
-        return acquisitionTypeCodeObject;
+    public Asset getAcquisitionType() {
+        return acquisitionType;
     }
 
     /**
-     * Sets the acquisitionTypeCodeObject attribute value.
-     * @param acquisitionTypeCodeObject The acquisitionTypeCodeObject to set.
+     * Sets the acquisitionType attribute value.
+     * @param acquisitionType The acquisitionType to set.
      */
-    public void setAcquisitionTypeCodeObject(Asset acquisitionTypeCodeObject) {
-        this.acquisitionTypeCodeObject = acquisitionTypeCodeObject;
+    public void setAcquisitionType(Asset acquisitionTypeCodeObject) {
+        this.acquisitionType = acquisitionTypeCodeObject;
     }
 
     /**
-     * Gets the agencyNumberObject attribute. 
-     * @return Returns the agencyNumberObject.
+     * Gets the agency attribute. 
+     * @return Returns the agency.
      */
-    public Asset getAgencyNumberObject() {
-        return agencyNumberObject;
+    public Asset getAgency() {
+        return agency;
     }
 
     /**
-     * Sets the agencyNumberObject attribute value.
-     * @param agencyNumberObject The agencyNumberObject to set.
+     * Sets the agency attribute value.
+     * @param agency The agency to set.
      */
-    public void setAgencyNumberObject(Asset agencyNumberObject) {
-        this.agencyNumberObject = agencyNumberObject;
+    public void setAgency(Asset agencyNumberObject) {
+        this.agency = agencyNumberObject;
     }
 
     /**
-     * Gets the organizationOwnerAccountNumberObject attribute. 
-     * @return Returns the organizationOwnerAccountNumberObject.
+     * Gets the organizationOwnerAccount attribute. 
+     * @return Returns the organizationOwnerAccount.
      */
-    public Account getOrganizationOwnerAccountNumberObject() {
-        return organizationOwnerAccountNumberObject;
+    public Account getOrganizationOwnerAccount() {
+        return organizationOwnerAccount;
     }
 
     /**
-     * Sets the organizationOwnerAccountNumberObject attribute value.
-     * @param organizationOwnerAccountNumberObject The organizationOwnerAccountNumberObject to set.
+     * Sets the organizationOwnerAccount attribute value.
+     * @param organizationOwnerAccount The organizationOwnerAccount to set.
      */
-    public void setOrganizationOwnerAccountNumberObject(Account organizationOwnerAccountNumberObject) {
-        this.organizationOwnerAccountNumberObject = organizationOwnerAccountNumberObject;
+    public void setOrganizationOwnerAccount(Account organizationOwnerAccountNumberObject) {
+        this.organizationOwnerAccount = organizationOwnerAccountNumberObject;
     }
 
     /**
-     * Gets the organizationOwnerChartOfAccountsCodeObject attribute. 
-     * @return Returns the organizationOwnerChartOfAccountsCodeObject.
+     * Gets the organizationOwnerChartOfAccounts attribute. 
+     * @return Returns the organizationOwnerChartOfAccounts.
      */
-    public Chart getOrganizationOwnerChartOfAccountsCodeObject() {
-        return organizationOwnerChartOfAccountsCodeObject;
+    public Chart getOrganizationOwnerChartOfAccounts() {
+        return organizationOwnerChartOfAccounts;
     }
 
     /**
-     * Sets the organizationOwnerChartOfAccountsCodeObject attribute value.
-     * @param organizationOwnerChartOfAccountsCodeObject The organizationOwnerChartOfAccountsCodeObject to set.
+     * Sets the organizationOwnerChartOfAccounts attribute value.
+     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
      */
-    public void setOrganizationOwnerChartOfAccountsCodeObject(Chart organizationOwnerChartOfAccountsCodeObject) {
-        this.organizationOwnerChartOfAccountsCodeObject = organizationOwnerChartOfAccountsCodeObject;
+    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccountsCodeObject) {
+        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccountsCodeObject;
     }
 
     /**
-     * Gets the inventoryStatusCodeObject attribute. 
-     * @return Returns the inventoryStatusCodeObject.
+     * Gets the inventoryStatus attribute. 
+     * @return Returns the inventoryStatus.
      */
-    public Asset getInventoryStatusCodeObject() {
-        return inventoryStatusCodeObject;
+    public Asset getInventoryStatus() {
+        return inventoryStatus;
     }
 
     /**
-     * Sets the inventoryStatusCodeObject attribute value.
-     * @param inventoryStatusCodeObject The inventoryStatusCodeObject to set.
+     * Sets the inventoryStatus attribute value.
+     * @param inventoryStatus The inventoryStatus to set.
      */
-    public void setInventoryStatusCodeObject(Asset inventoryStatusCodeObject) {
-        this.inventoryStatusCodeObject = inventoryStatusCodeObject;
+    public void setInventoryStatus(Asset inventoryStatusCodeObject) {
+        this.inventoryStatus = inventoryStatusCodeObject;
     }
 
     /**
-     * Gets the conditionCodeObject attribute. 
-     * @return Returns the conditionCodeObject.
+     * Gets the condition attribute. 
+     * @return Returns the condition.
      */
-    public Asset getConditionCodeObject() {
-        return conditionCodeObject;
+    public Asset getCondition() {
+        return condition;
     }
 
     /**
-     * Sets the conditionCodeObject attribute value.
-     * @param conditionCodeObject The conditionCodeObject to set.
+     * Sets the condition attribute value.
+     * @param condition The condition to set.
      */
-    public void setConditionCodeObject(Asset conditionCodeObject) {
-        this.conditionCodeObject = conditionCodeObject;
+    public void setCondition(Asset conditionCodeObject) {
+        this.condition = conditionCodeObject;
     }
     
     /**
-     * Gets the capitalAssetTypeCodeObject attribute. 
-     * @return Returns the capitalAssetTypeCodeObject.
+     * Gets the capitalAssetType attribute. 
+     * @return Returns the capitalAssetType.
      */
-    public Asset getCapitalAssetTypeCodeObject() {
-        return capitalAssetTypeCodeObject;
+    public Asset getCapitalAssetType() {
+        return capitalAssetType;
     }
 
     /**
-     * Sets the capitalAssetTypeCodeObject attribute value.
-     * @param capitalAssetTypeCodeObject The capitalAssetTypeCodeObject to set.
+     * Sets the capitalAssetType attribute value.
+     * @param capitalAssetType The capitalAssetType to set.
      */
-    public void setCapitalAssetTypeCodeObject(Asset capitalAssetTypeCodeObject) {
-        this.capitalAssetTypeCodeObject = capitalAssetTypeCodeObject;
+    public void setCapitalAssetType(Asset capitalAssetTypeCodeObject) {
+        this.capitalAssetType = capitalAssetTypeCodeObject;
     }
 
     /**
@@ -603,19 +630,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the capitalAssetInServiceDateObject attribute. 
-     * @return Returns the capitalAssetInServiceDateObject.
+     * Gets the capitalAssetInService attribute. 
+     * @return Returns the capitalAssetInService.
      */
-    public Asset getCapitalAssetInServiceDateObject() {
-        return capitalAssetInServiceDateObject;
+    public Asset getCapitalAssetInService() {
+        return capitalAssetInService;
     }
 
     /**
-     * Sets the capitalAssetInServiceDateObject attribute value.
-     * @param capitalAssetInServiceDateObject The capitalAssetInServiceDateObject to set.
+     * Sets the capitalAssetInService attribute value.
+     * @param capitalAssetInService The capitalAssetInService to set.
      */
-    public void setCapitalAssetInServiceDateObject(Asset capitalAssetInServiceDateObject) {
-        this.capitalAssetInServiceDateObject = capitalAssetInServiceDateObject;
+    public void setCapitalAssetInService(Asset capitalAssetInServiceDateObject) {
+        this.capitalAssetInService = capitalAssetInServiceDateObject;
     }
 
     /**
@@ -635,19 +662,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the createDateObject attribute. 
-     * @return Returns the createDateObject.
+     * Gets the create attribute. 
+     * @return Returns the create.
      */
-    public Asset getCreateDateObject() {
-        return createDateObject;
+    public Asset getCreate() {
+        return create;
     }
 
     /**
-     * Sets the createDateObject attribute value.
-     * @param createDateObject The createDateObject to set.
+     * Sets the create attribute value.
+     * @param create The create to set.
      */
-    public void setCreateDateObject(Asset createDateObject) {
-        this.createDateObject = createDateObject;
+    public void setCreate(Asset createDateObject) {
+        this.create = createDateObject;
     }
 
     /**
@@ -667,19 +694,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the financialDocumentPostingPeriodCodeObject attribute. 
-     * @return Returns the financialDocumentPostingPeriodCodeObject.
+     * Gets the financialDocumentPostingPeriod attribute. 
+     * @return Returns the financialDocumentPostingPeriod.
      */
-    public Asset getFinancialDocumentPostingPeriodCodeObject() {
-        return financialDocumentPostingPeriodCodeObject;
+    public Asset getFinancialDocumentPostingPeriod() {
+        return financialDocumentPostingPeriod;
     }
 
     /**
-     * Sets the financialDocumentPostingPeriodCodeObject attribute value.
-     * @param financialDocumentPostingPeriodCodeObject The financialDocumentPostingPeriodCodeObject to set.
+     * Sets the financialDocumentPostingPeriod attribute value.
+     * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
      */
-    public void setFinancialDocumentPostingPeriodCodeObject(Asset financialDocumentPostingPeriodCodeObject) {
-        this.financialDocumentPostingPeriodCodeObject = financialDocumentPostingPeriodCodeObject;
+    public void setFinancialDocumentPostingPeriod(Asset financialDocumentPostingPeriodCodeObject) {
+        this.financialDocumentPostingPeriod = financialDocumentPostingPeriodCodeObject;
     }
 
     /**
@@ -699,19 +726,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the financialDocumentPostingYearObject attribute. 
-     * @return Returns the financialDocumentPostingYearObject.
+     * Gets the financialDocumentPostingYr attribute. 
+     * @return Returns the financialDocumentPostingYr.
      */
-    public Asset getFinancialDocumentPostingYearObject() {
-        return financialDocumentPostingYearObject;
+    public Asset getFinancialDocumentPostingYr() {
+        return financialDocumentPostingYr;
     }
 
     /**
-     * Sets the financialDocumentPostingYearObject attribute value.
-     * @param financialDocumentPostingYearObject The financialDocumentPostingYearObject to set.
+     * Sets the financialDocumentPostingYr attribute value.
+     * @param financialDocumentPostingYr The financialDocumentPostingYr to set.
      */
-    public void setFinancialDocumentPostingYearObject(Asset financialDocumentPostingYearObject) {
-        this.financialDocumentPostingYearObject = financialDocumentPostingYearObject;
+    public void setFinancialDocumentPostingYr(Asset financialDocumentPostingYearObject) {
+        this.financialDocumentPostingYr = financialDocumentPostingYearObject;
     }
 
     /**
@@ -731,19 +758,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the lastInventoryDateObject attribute. 
-     * @return Returns the lastInventoryDateObject.
+     * Gets the lastInventory attribute. 
+     * @return Returns the lastInventory.
      */
-    public Asset getLastInventoryDateObject() {
-        return lastInventoryDateObject;
+    public Asset getLastInventory() {
+        return lastInventory;
     }
 
     /**
-     * Sets the lastInventoryDateObject attribute value.
-     * @param lastInventoryDateObject The lastInventoryDateObject to set.
+     * Sets the lastInventory attribute value.
+     * @param lastInventory The lastInventory to set.
      */
-    public void setLastInventoryDateObject(Asset lastInventoryDateObject) {
-        this.lastInventoryDateObject = lastInventoryDateObject;
+    public void setLastInventory(Asset lastInventoryDateObject) {
+        this.lastInventory = lastInventoryDateObject;
     }
 
     /**
@@ -760,5 +787,373 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setLeoAssetsToCreate(String leoAssetsToCreate) {
         this.leoAssetsToCreate = leoAssetsToCreate;
+    }
+
+    /**
+     * Gets the campusTagNumber attribute. 
+     * @return Returns the campusTagNumber.
+     */
+    public String getCampusTagNumber() {
+        return campusTagNumber;
+    }
+
+    /**
+     * Sets the campusTagNumber attribute value.
+     * @param campusTagNumber The campusTagNumber to set.
+     */
+    public void setCampusTagNumber(String campusTagNumber) {
+        this.campusTagNumber = campusTagNumber;
+    }
+
+    /**
+     * Gets the capitalAssetNumber attribute. 
+     * @return Returns the capitalAssetNumber.
+     */
+    public long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    /**
+     * Sets the capitalAssetNumber attribute value.
+     * @param capitalAssetNumber The capitalAssetNumber to set.
+     */
+    public void setCapitalAssetNumber(long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
+
+    /**
+     * Gets the leoGovernmentTag attribute. 
+     * @return Returns the leoGovernmentTag.
+     */
+    public String getLeoGovernmentTag() {
+        return leoGovernmentTag;
+    }
+
+    /**
+     * Sets the leoGovernmentTag attribute value.
+     * @param leoGovernmentTag The leoGovernmentTag to set.
+     */
+    public void setLeoGovernmentTag(String leoGovernmentTag) {
+        this.leoGovernmentTag = leoGovernmentTag;
+    }
+
+    /**
+     * Gets the leoNationalStockNbr attribute. 
+     * @return Returns the leoNationalStockNbr.
+     */
+    public String getLeoNationalStockNbr() {
+        return leoNationalStockNbr;
+    }
+
+    /**
+     * Sets the leoNationalStockNbr attribute value.
+     * @param leoNationalStockNbr The leoNationalStockNbr to set.
+     */
+    public void setLeoNationalStockNbr(String leoNationalStockNbr) {
+        this.leoNationalStockNbr = leoNationalStockNbr;
+    }
+
+    /**
+     * Gets the organizationAssetTypeIdentifier attribute. 
+     * @return Returns the organizationAssetTypeIdentifier.
+     */
+    public String getOrganizationAssetTypeIdentifier() {
+        return organizationAssetTypeIdentifier;
+    }
+
+    /**
+     * Sets the organizationAssetTypeIdentifier attribute value.
+     * @param organizationAssetTypeIdentifier The organizationAssetTypeIdentifier to set.
+     */
+    public void setOrganizationAssetTypeIdentifier(String organizationAssetTypeIdentifier) {
+        this.organizationAssetTypeIdentifier = organizationAssetTypeIdentifier;
+    }
+
+    /**
+     * Gets the organizationInventoryName attribute. 
+     * @return Returns the organizationInventoryName.
+     */
+    public String getOrganizationInventoryName() {
+        return organizationInventoryName;
+    }
+
+    /**
+     * Sets the organizationInventoryName attribute value.
+     * @param organizationInventoryName The organizationInventoryName to set.
+     */
+    public void setOrganizationInventoryName(String organizationInventoryName) {
+        this.organizationInventoryName = organizationInventoryName;
+    }
+
+    /**
+     * Gets the serialNumber attribute. 
+     * @return Returns the serialNumber.
+     */
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    /**
+     * Sets the serialNumber attribute value.
+     * @param serialNumber The serialNumber to set.
+     */
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    /**
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute value.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * Gets the accountChargeAmount attribute. 
+     * @return Returns the accountChargeAmount.
+     */
+    public BigDecimal getAccountChargeAmount() {
+        return accountChargeAmount;
+    }
+
+    /**
+     * Sets the accountChargeAmount attribute value.
+     * @param accountChargeAmount The accountChargeAmount to set.
+     */
+    public void setAccountChargeAmount(BigDecimal accountChargeAmount) {
+        this.accountChargeAmount = accountChargeAmount;
+    }
+
+    /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the financialDocumentPostingDate attribute. 
+     * @return Returns the financialDocumentPostingDate.
+     */
+    public Date getFinancialDocumentPostingDate() {
+        return financialDocumentPostingDate;
+    }
+
+    /**
+     * Sets the financialDocumentPostingDate attribute value.
+     * @param financialDocumentPostingDate The financialDocumentPostingDate to set.
+     */
+    public void setFinancialDocumentPostingDate(Date financialDocumentPostingDate) {
+        this.financialDocumentPostingDate = financialDocumentPostingDate;
+    }
+
+    /**
+     * Gets the financialDocumentTypeCode attribute. 
+     * @return Returns the financialDocumentTypeCode.
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
+
+    /**
+     * Sets the financialDocumentTypeCode attribute value.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
+
+    /**
+     * Gets the financialObjectCode attribute. 
+     * @return Returns the financialObjectCode.
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+    /**
+     * Sets the financialObjectCode attribute value.
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+
+    /**
+     * Gets the financialSubObjectCode attribute. 
+     * @return Returns the financialSubObjectCode.
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    /**
+     * Sets the financialSubObjectCode attribute value.
+     * @param financialSubObjectCode The financialSubObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    /**
+     * Gets the leoAddPaymentsTotalCost attribute. 
+     * @return Returns the leoAddPaymentsTotalCost.
+     */
+    public BigDecimal getLeoAddPaymentsTotalCost() {
+        return leoAddPaymentsTotalCost;
+    }
+
+    /**
+     * Sets the leoAddPaymentsTotalCost attribute value.
+     * @param leoAddPaymentsTotalCost The leoAddPaymentsTotalCost to set.
+     */
+    public void setLeoAddPaymentsTotalCost(BigDecimal leoAddPaymentsTotalCost) {
+        this.leoAddPaymentsTotalCost = leoAddPaymentsTotalCost;
+    }
+
+    /**
+     * Gets the leoDocumentNumber attribute. 
+     * @return Returns the leoDocumentNumber.
+     */
+    public String getLeoDocumentNumber() {
+        return leoDocumentNumber;
+    }
+
+    /**
+     * Sets the leoDocumentNumber attribute value.
+     * @param leoDocumentNumber The leoDocumentNumber to set.
+     */
+    public void setLeoDocumentNumber(String leoDocumentNumber) {
+        this.leoDocumentNumber = leoDocumentNumber;
+    }
+
+    /**
+     * Gets the leoFinancialDocumentPostingPeriodCode attribute. 
+     * @return Returns the leoFinancialDocumentPostingPeriodCode.
+     */
+    public String getLeoFinancialDocumentPostingPeriodCode() {
+        return leoFinancialDocumentPostingPeriodCode;
+    }
+
+    /**
+     * Sets the leoFinancialDocumentPostingPeriodCode attribute value.
+     * @param leoFinancialDocumentPostingPeriodCode The leoFinancialDocumentPostingPeriodCode to set.
+     */
+    public void setLeoFinancialDocumentPostingPeriodCode(String leoFinancialDocumentPostingPeriodCode) {
+        this.leoFinancialDocumentPostingPeriodCode = leoFinancialDocumentPostingPeriodCode;
+    }
+
+    /**
+     * Gets the leoFinancialDocumentPostingYear attribute. 
+     * @return Returns the leoFinancialDocumentPostingYear.
+     */
+    public int getLeoFinancialDocumentPostingYear() {
+        return leoFinancialDocumentPostingYear;
+    }
+
+    /**
+     * Sets the leoFinancialDocumentPostingYear attribute value.
+     * @param leoFinancialDocumentPostingYear The leoFinancialDocumentPostingYear to set.
+     */
+    public void setLeoFinancialDocumentPostingYear(int leoFinancialDocumentPostingYear) {
+        this.leoFinancialDocumentPostingYear = leoFinancialDocumentPostingYear;
+    }
+
+    /**
+     * Gets the organizationReferenceId attribute. 
+     * @return Returns the organizationReferenceId.
+     */
+    public String getOrganizationReferenceId() {
+        return organizationReferenceId;
+    }
+
+    /**
+     * Sets the organizationReferenceId attribute value.
+     * @param organizationReferenceId The organizationReferenceId to set.
+     */
+    public void setOrganizationReferenceId(String organizationReferenceId) {
+        this.organizationReferenceId = organizationReferenceId;
+    }
+
+    /**
+     * Gets the projectCode attribute. 
+     * @return Returns the projectCode.
+     */
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    /**
+     * Sets the projectCode attribute value.
+     * @param projectCode The projectCode to set.
+     */
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    /**
+     * Gets the purchaseOrderNumber attribute. 
+     * @return Returns the purchaseOrderNumber.
+     */
+    public String getPurchaseOrderNumber() {
+        return purchaseOrderNumber;
+    }
+
+    /**
+     * Sets the purchaseOrderNumber attribute value.
+     * @param purchaseOrderNumber The purchaseOrderNumber to set.
+     */
+    public void setPurchaseOrderNumber(String purchaseOrderNumber) {
+        this.purchaseOrderNumber = purchaseOrderNumber;
+    }
+
+    /**
+     * Gets the requisitionNumber attribute. 
+     * @return Returns the requisitionNumber.
+     */
+    public String getRequisitionNumber() {
+        return requisitionNumber;
+    }
+
+    /**
+     * Sets the requisitionNumber attribute value.
+     * @param requisitionNumber The requisitionNumber to set.
+     */
+    public void setRequisitionNumber(String requisitionNumber) {
+        this.requisitionNumber = requisitionNumber;
+    }
+
+    /**
+     * Gets the subAccountNumber attribute. 
+     * @return Returns the subAccountNumber.
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    /**
+     * Sets the subAccountNumber attribute value.
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
     }
 }

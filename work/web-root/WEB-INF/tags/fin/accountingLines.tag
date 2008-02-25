@@ -93,6 +93,8 @@
 <%@ attribute name="suppressBaseline" required="false" type="java.lang.Boolean"
               description="indicate if we should suppress the baseline account, this allows the accounting line to be used in places where
               we don't need the baseline"%> 
+<%@ attribute name="customActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions" %>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -162,6 +164,7 @@
           suppressBaseline="${suppressBaseline}"
           hideFields="${hideFields}"
           accountingAddLineIndex="${accountingAddLineIndex}"
+          customActions="${customActions}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -185,7 +188,8 @@
             accountPrefix="${accountPrefix}"
             hideTotalLine="${hideTotalLine}"
             suppressBaseline="${suppressBaseline}"
-            hideFields="${hideFields}"      
+            hideFields="${hideFields}"
+            customActions="${customActions}"            
             />
       </c:if>
     </table>

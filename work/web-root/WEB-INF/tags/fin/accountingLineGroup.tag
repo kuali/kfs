@@ -100,6 +100,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 <%@ attribute name="suppressBaseline" required="false" type="java.lang.Boolean"
               description="indicate if we should suppress the baseline account, this allows the accounting line to be used in places where
               we don't need the baseline"%> 
+<%@ attribute name="customActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions" %>
 
 		  
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
@@ -270,7 +272,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         forcedReadOnlyFields="${forcedReadOnlyFields}"
         hideFields="${hideFields}"
         accountingAddLineIndex="${accountingAddLineIndex}"       
-        nestedIndex="${nestedIndex}" 
+        nestedIndex="${nestedIndex}"
+        customActions="${customActions}"
         />
 
     <c:if test="${displayMonthlyAmounts}">
@@ -347,6 +350,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         hideFields="${hideFields}"  
         accountingAddLineIndex="${accountingAddLineIndex}"
         nestedIndex="${nestedIndex}"
+        customActions="${customActions}"
         />
 
     <c:if test="${displayMonthlyAmounts}">

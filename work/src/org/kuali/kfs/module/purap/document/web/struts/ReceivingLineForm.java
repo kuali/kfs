@@ -96,7 +96,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
         // Correction button
         ExtraButton correctionButton = new ExtraButton();
         correctionButton.setExtraButtonProperty("methodToCall.createReceivingCorrection");
-        correctionButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_receivingcorrection.gif");
+        correctionButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_correction.gif");
         correctionButton.setExtraButtonAltText("Correction");
                 
         result.put(correctionButton.getExtraButtonProperty(), correctionButton);

@@ -343,7 +343,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // Receiving button
         ExtraButton receivingButton = new ExtraButton();
         receivingButton.setExtraButtonProperty("methodToCall.createReceivingLine");
-        receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_receivingline.gif");
+        receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_receiving.gif");
         receivingButton.setExtraButtonAltText("Receiving");
         
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);

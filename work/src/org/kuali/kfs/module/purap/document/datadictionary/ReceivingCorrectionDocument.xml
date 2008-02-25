@@ -7,7 +7,9 @@
         <documentClass>org.kuali.module.purap.document.ReceivingCorrectionDocument</documentClass>
         <businessRulesClass>org.kuali.module.purap.rules.ReceivingCorrectionRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingCorrectionPreRules</preRulesCheckClass>
-        
+
+        <documentAuthorizerClass>org.kuali.module.purap.document.authorization.ReceivingCorrectionDocumentAuthorizer</documentAuthorizerClass>
+                
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
@@ -56,5 +58,10 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-    </transactionalDocument>transactionalDocument>
+        
+        <help parameterNamespace="KFS-PA" parameterDetailType="ReceivingLine" parameterName="RECEIVING_LINE" />
+        <allowsCopy>false</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+    </transactionalDocument>
 </dictionaryEntry>

@@ -85,10 +85,10 @@
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-					<kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" />
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /><br> *required for US</div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" property="document.vendorAddressInternationalProvinceName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
 
@@ -100,25 +100,55 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /><br> *required for US</div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
                 </th>
 				<td align=left valign=middle class="datacell">
-					<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
+                    extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
+                    readOnly="${not (fullEntryMode or amendmentEntry)}" />					
 				</td>
             </tr>
             
             <tr>
-            	<th align=right valign=middle class="bord-l-b">
+            	<th align=right valign=middle class="bord-l-b">            	
+    	        	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReceivedDate}" /></div>
+            	</th>
+            	<td align=left valign=middle class="datacell">
+	            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReceivedDate}" property="document.shipmentReceivedDate" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            	</td>
+            	<th align=right valign=middle class="bord-l-b">            		
             	</th>
             	<td align=left valign=middle class="datacell">
             	</td>
+            </tr>
+
+            <tr>
             	<th align=right valign=middle class="bord-l-b">
-            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
+	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" /></div>
             	</th>
             	<td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
-                    extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
-                    readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentPackingSlipNumber}" property="document.shipmentPackingSlipNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            	</td>
+            	<th align=right valign=middle class="bord-l-b"> 
+            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentReferenceNumber}" /></div>           		
+            	</th>
+            	<td align=left valign=middle class="datacell">
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentReferenceNumber}" property="document.shipmentReferenceNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            	</td>
+            </tr>
+
+            <tr>
+            	<th align=right valign=middle class="bord-l-b">
+	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" /></div>
+            	</th>
+            	<td align=left valign=middle class="datacell">
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.shipmentBillOfLadingNumber}" property="document.shipmentBillOfLadingNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            	</td>
+            	<th align=right valign=middle class="bord-l-b"> 
+            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.carrierCode}" /></div>           		
+            	</th>
+            	<td align=left valign=middle class="datacell">
+            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.carrierCode}" property="document.carrierCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
             	</td>
             </tr>
 

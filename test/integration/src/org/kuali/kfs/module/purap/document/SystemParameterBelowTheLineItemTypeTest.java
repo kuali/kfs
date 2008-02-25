@@ -59,7 +59,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
     }
 
     /**
-     * Tests that the existing item types in the Requisition match with the "BELOW_THE_LINE_ITEM_TYPES" System Parameter.
+     * Tests that the existing item types in the Requisition match with the "ADDITIONAL_CHARGES_ITEM_TYPES" System Parameter.
      * 
      * @throws Exception
      */
@@ -115,7 +115,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
     }
     
     /**
-     * Tests that the existing item types in the Purchase Order match with the "BELOW_THE_LINE_ITEM_TYPES" System Parameter.
+     * Tests that the existing item types in the Purchase Order match with the "ADDITIONAL_CHARGES_ITEM_TYPES" System Parameter.
      * 
      * @throws Exception
      */
@@ -171,7 +171,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
     }
     
     /**
-     * Tests that the existing item types in the Payment Request match with the "BELOW_THE_LINE_ITEM_TYPES" System Parameter.
+     * Tests that the existing item types in the Payment Request match with the "ADDITIONAL_CHARGES_ITEM_TYPES" System Parameter.
      * 
      * @throws Exception
      */
@@ -231,7 +231,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
     }
     
     /**
-     * Tests that the existing item types in the CreditMemo match with the "BELOW_THE_LINE_ITEM_TYPES" System Parameter.
+     * Tests that the existing item types in the CreditMemo match with the "ADDITIONAL_CHARGES_ITEM_TYPES" System Parameter.
      * 
      * @throws Exception
      */
@@ -292,7 +292,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
     }
     
     /**
-     * Verifies that the existing item types in the documents match with the "BELOW_THE_LINE_ITEM_TYPES" as 
+     * Verifies that the existing item types in the documents match with the "ADDITIONAL_CHARGES_ITEM_TYPES" as 
      * specified in the System Parameter and does not contain any other item types that aren't specified in
      * the System Parameter. It will loop through the list of items from the validDocument and assertTrue
      * on each of the item's type, then it will loop through the list of items from the invalidDocument and
@@ -305,7 +305,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testExistingItemTypesAreValid(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
 
-        List<String> validTypes = parameterService.getParameterValues(documentClass, "BELOW_THE_LINE_ITEM_TYPES");
+        List<String> validTypes = parameterService.getParameterValues(documentClass, "ADDITIONAL_CHARGES_ITEM_TYPES");
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             String theItemType = theItem.getItemTypeCode();

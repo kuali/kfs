@@ -473,7 +473,7 @@ public class PurapConstants extends JstlConstants {
         public static final String VENDOR_POSTAL_CODE = "Postal Code";
     }
 
-    public static final String BELOW_THE_LINES_PARAMETER = "BELOW_THE_LINE_ITEM_TYPES";
+    public static final String BELOW_THE_LINES_PARAMETER = "ADDITIONAL_CHARGES_ITEM_TYPES";
     public static final String ITEM_ALLOWS_ZERO = "ITEM_TYPES_ALLOWING_ZERO";
     public static final String ITEM_ALLOWS_POSITIVE = "ITEM_TYPES_ALLOWING_POSITIVE";
     public static final String ITEM_ALLOWS_NEGATIVE = "ITEM_TYPES_ALLOWING_NEGATIVE";

@@ -17,7 +17,9 @@ package org.kuali.module.cams.rules;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * AssetRule for Asset edit.
@@ -27,30 +29,33 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private Asset newAsset;
     private Asset copyAsset;
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        Asset asset = (Asset) document.getDocumentBusinessObject();
+        PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+        paymentSummaryService.calculateAndSetPaymentSummary(asset);
         boolean valid = processValidation(document);
         return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
 
     /**
-     * Validates Asset 
+     * Validates Asset
      * 
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
     private boolean processValidation(MaintenanceDocument document) {
         boolean valid = true;
-       
+
         valid &= processAssetValidation(document);
-        
+
         return valid;
     }
-   
+
     /**
      * Validates Asset document.
      * 
@@ -61,20 +66,20 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         valid &= validateCampusLocation(asset);
-     
-       
+
+
         return valid;
     }
-    
+
     /**
      * Validates Asset On Campus loaction information
      * 
      * @param asset the Asset object to be validated
-     * @return boolean false if the on campus location information is invalid 
+     * @return boolean false if the on campus location information is invalid
      */
     private boolean validateCampusLocation(Asset asset) {
-        boolean valid = true; 
-        //TODO: Amanda add the validation code here by using service methods.
+        boolean valid = true;
+        // TODO: Amanda add the validation code here by using service methods.
         return valid;
     }
 }

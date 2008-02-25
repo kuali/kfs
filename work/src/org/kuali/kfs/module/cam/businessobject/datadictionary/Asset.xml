@@ -944,6 +944,10 @@
 				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
 				sourceAttributeName="warrantyText">
 			</attributeReference>
+			<attributeReference name="assetWarranty.versionNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="versionNumber">
+			</attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -156,7 +156,10 @@
         </property>
     </bean>
     
-    <bean id="depreciationCalculatorService" class="org.kuali.module.cams.service.impl.DepreciationCalculatorServiceImpl" />
-    <bean id="paymentCalculatorService" class="org.kuali.module.cams.service.impl.PaymentCalculatorServiceImpl" />
-
+    <bean id="paymentSummaryService"
+    	class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
+    	<property name="optionsService">
+    		<ref bean="optionsService" />
+    	</property>
+    </bean>
 </beans>

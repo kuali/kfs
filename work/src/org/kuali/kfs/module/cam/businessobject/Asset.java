@@ -102,6 +102,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private String organizationTagNumber;
     private List<AssetRepairHistory> assetRepairHistory;
     private AssetWarranty assetWarranty;
+    private List<AssetComponent> assetComponents;
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private KualiDecimal federalContributionAmount;
@@ -112,6 +113,15 @@ public class Asset extends PersistableBusinessObjectBase {
     private KualiDecimal prevYearDepreciation;
     private KualiDecimal yearToDateDepreciation;
     private KualiDecimal currentMonthDepreciation;
+
+    /**
+     * Default constructor.
+     */
+    public Asset() {
+        assetPayments = new TypedArrayList(AssetPayment.class);
+        this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
+        this.assetComponents = new TypedArrayList(AssetComponent.class);
+    }
 
     public KualiDecimal getCurrentMonthDepreciation() {
         return currentMonthDepreciation;
@@ -159,14 +169,6 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setYearToDateDepreciation(KualiDecimal yearToDateDepreciation) {
         this.yearToDateDepreciation = yearToDateDepreciation;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public Asset() {
-        assetPayments = new TypedArrayList(AssetPayment.class);
-        this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
     }
 
 
@@ -1679,6 +1681,14 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
         this.paymentTotalCost = paymentTotalCost;
+    }
+
+    public List<AssetComponent> getAssetComponents() {
+        return assetComponents;
+    }
+
+    public void setAssetComponents(List<AssetComponent> assetComponents) {
+        this.assetComponents = assetComponents;
     }
 
 }

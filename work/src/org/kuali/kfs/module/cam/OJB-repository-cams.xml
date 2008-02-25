@@ -226,6 +226,9 @@
 	<collection-descriptor name="assetRepairHistory" element-class-ref="org.kuali.module.cams.bo.AssetRepairHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
+	<collection-descriptor name="assetComponents" element-class-ref="org.kuali.module.cams.bo.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="capitalAssetNumber" />
+	</collection-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_MULT_AST_DOC_T">

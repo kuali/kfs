@@ -76,8 +76,7 @@
                     <maintainableField name="financialDocumentPostingPeriodCode" readOnly="true" />
                     <maintainableField name="capitalAssetInServiceDate" />
                     <maintainableField name="totalCostAmount" readOnly="true" />
-                    <maintainableField name="versionNumber" />
-					
+                    <maintainableField name="versionNumber" />					
 					<subSectionHeader name="Asset Location - On Campus" />
 					<maintainableField name="campusCode" required="true" />
 					<maintainableField name="buildingCode" required="true" />
@@ -209,8 +208,8 @@
           			name="assetWarranty.warrantyBeginningDate" />
           		<maintainableField
           			name="assetWarranty.warrantyEndingDate" />
-          		<maintainableField name="assetWarranty.warrantyText" />
-          		<maintainableField name="assetWarranty.versionNumber" />
+          		<maintainableField name="assetWarranty.warrantyText" /> 
+          		<maintainableField name="assetWarranty.versionNumber" />         		
           	</maintainableItems>
           </maintainableSection>
           <maintainableSection title="Repair History ">
@@ -239,6 +238,67 @@
           				readOnlyAfterAdd="true" />
           			<maintainableField name="versionNumber" />
           			<maintainableField name="newCollectionRecord" />
+          		</maintainableCollection>
+          	</maintainableItems>
+          </maintainableSection>
+          <maintainableSection title="Components">
+          	<maintainableItems>
+          		<maintainableCollection name="assetComponents"
+          			businessObjectClass="org.kuali.module.cams.bo.AssetComponent"
+          			sourceClassName="org.kuali.module.cams.bo.Asset"
+          			sourceAttributeName="assetComponents">
+          			<maintainableField name="componentNumber"
+          				readOnlyAfterAdd="true"/>
+          			<maintainableField name="componentDescription"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentContactPhoneNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="componentConditionCode"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentEstimatedLifetimeLimit"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentManufacturerName" readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentManufacturerModelNumber"
+          				readOnlyAfterAdd="true" />          			          			
+          			<maintainableField name="componentSerialNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentOrganizationTagNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentOrganizationText" readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentReplacementAmount" readOnlyAfterAdd="true" />
+          			<maintainableField name="componentVendorName"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="componentWarrantyNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentWarrantyPhoneNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentWarrantyContactName"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentWarrantyPurchaseOrderNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentWarrantyBeginningDate"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="componentWarrantyEndingDate"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="componentWarrantyText"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="governmentTagNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="nationalStockNumber"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="versionNumber" />
           		</maintainableCollection>
           	</maintainableItems>
           </maintainableSection>

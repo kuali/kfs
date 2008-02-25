@@ -352,6 +352,7 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>	
+	<field-descriptor name="invoiceItemTaxAmount" column="AR_INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
 	<reference-descriptor name="accountsReceivableSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear" />

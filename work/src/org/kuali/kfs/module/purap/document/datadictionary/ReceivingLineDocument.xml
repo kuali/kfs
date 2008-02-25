@@ -26,8 +26,8 @@
         <attributes>
 
             <attribute name="carrierCode" forceUppercase="true">
-                <label>Carrier Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Carrier</label>
+                <shortLabel>Carrier</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -198,8 +198,8 @@
 			</attribute>
 
             <attribute name="shipmentBillOfLadingNumber" forceUppercase="true">
-                <label>Shipment Bill Of Lading Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Bill Of Lading #</label>
+                <shortLabel>Bill Of Lading #</shortLabel>
 
                 <maxLength>45</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -213,8 +213,8 @@
 			</attribute>
 
             <attribute name="shipmentPackingSlipNumber" forceUppercase="true">
-                <label>Shipment Packing Slip Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Packing Slip #</label>
+                <shortLabel>Packing Slip #</shortLabel>
 
                 <maxLength>45</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -228,8 +228,8 @@
 			</attribute>
 
             <attribute name="shipmentReceivedDate" forceUppercase="true">
-                <label>Shipment Received Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Vendor Date</label>
+                <shortLabel>Vendor Date</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
@@ -243,8 +243,8 @@
 			</attribute>
 
             <attribute name="shipmentReferenceNumber" forceUppercase="true">
-                <label>Shipment Reference Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Reference #</label>
+                <shortLabel>Reference #</shortLabel>
 
                 <maxLength>45</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -299,8 +299,6 @@
 			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address"/>
 
 			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode"/>
-
-			<attributeReference name="vendorAddressInternationalProvinceName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="internationalProvinceName"/>
 
 			<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode"/>
             

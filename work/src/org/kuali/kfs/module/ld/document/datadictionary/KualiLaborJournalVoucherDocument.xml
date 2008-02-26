@@ -67,7 +67,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>The date when the Kuali Financial System (KFS) will automatically reverse the Labor Ledger entries entered on the document.  The reversal date entered must be greater than or equal to today’s date. Use the calendar icon to select and format the Reversal Date.</description>
+                <description>The date when the Kuali Financial System (KFS) will automatically reverse the Labor Ledger entries entered on the document.  The reversal date entered must be greater than or equal to today's date. Use the calendar icon to select and format the Reversal Date.</description>
             </attributeReference>
 
             <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">

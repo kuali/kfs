@@ -84,7 +84,7 @@
 
             <lookupFields>
 	            <lookupField attributeName="campusTagNumber" required="false" />
-	            <lookupField attributeName="capitalAssetNumber" required="false" />
+	            <lookupField attributeName="capitalAssetNumber" required="false" noLookup="true" />
 	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
 	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
 	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
@@ -816,38 +816,18 @@
                 <shortLabel>Total Cost</shortLabel>
             </attributeReference>
             
-			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate">
-			</attributeReference>
-			
-			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText">
-			</attributeReference>
-			<attributeReference name="assetWarranty.versionNumber"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="versionNumber">
-			</attributeReference>
-			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
-			</attributeReference>
-			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate">
-			</attributeReference>
-			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
-			</attributeReference>
-			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate">
-			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber" />
+			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" />
+			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" />
+			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber" />
+			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate" />
+			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate"/>
+			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText"/>
+			<attributeReference name="assetWarranty.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="versionNumber"/>
+			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
+			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
+			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
+			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

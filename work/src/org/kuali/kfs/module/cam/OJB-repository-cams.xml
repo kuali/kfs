@@ -228,7 +228,7 @@
 	</collection-descriptor>
 	<collection-descriptor name="assetComponents" element-class-ref="org.kuali.module.cams.bo.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
-	</collection-descriptor>
+	</collection-descriptor>	
 	<collection-descriptor name="assetDisposition" element-class-ref="org.kuali.module.cams.bo.AssetDisposition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
@@ -404,9 +404,6 @@
     <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentPostingYear" />
     </reference-descriptor>
-    
-    
-    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetOrganization" table="CM_AST_ORG_T">
@@ -766,6 +763,11 @@
 	<reference-descriptor name="componentCondition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="componentConditionCode" />
 	</reference-descriptor>
+	
+	<collection-descriptor name="componentRepairHistory" element-class-ref="org.kuali.module.cams.bo.ComponentRepairHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="capitalAssetNumber" />
+		<inverse-foreignkey field-ref="componentNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetWarranty" table="CM_AST_WRNTY_T">
@@ -985,5 +987,6 @@
 		<foreignkey field-ref="capitalAssetNumber" />
 		<foreignkey field-ref="componentNumber" />
 	</reference-descriptor>
+	
 </class-descriptor>
 </descriptor-repository>

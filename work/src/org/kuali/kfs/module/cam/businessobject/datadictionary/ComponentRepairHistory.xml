@@ -3,223 +3,191 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.ComponentRepairHistory">
- 
-        <inquiry>
-            <title>Component Repair History Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="componentEstimatedRepairDate" />
-                        <field attributeName="componentIncidentDate" />
-                        <field attributeName="componentNumber" />
-                        <field attributeName="componentProblemDescription" />
-                        <field attributeName="componentRepairAmount" />
-                        <field attributeName="componentRepairContactName" />
-                        <field attributeName="componentRepairDate" />
-                        <field attributeName="componentRepairNoteText" />
-                        <field attributeName="componentRepairSolutionDescription" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+	<businessObject
+		businessObjectClass="org.kuali.module.cams.bo.ComponentRepairHistory">
+		<inquiry>
+			<title>Component Repair History Inquiry</title>
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="capitalAssetNumber" />
+						<field
+							attributeName="componentEstimatedRepairDate" />
+						<field attributeName="componentIncidentDate" />
+						<field attributeName="componentNumber" />
+						<field
+							attributeName="componentProblemDescription" />
+						<field attributeName="componentRepairAmount" />
+						<field
+							attributeName="componentRepairContactName" />
+						<field attributeName="componentRepairDate" />
+						<field attributeName="componentRepairNoteText" />
+						<field
+							attributeName="componentRepairSolutionDescription" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
 
-        <lookup>
-            <title>Component Repair History Lookup</title>
-
-            <instructions>Look up a Component Repair History</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                    <sortAttribute attributeName="componentNumber" />
-                    <sortAttribute attributeName="componentIncidentDate" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="componentEstimatedRepairDate" required="false" />
-                <lookupField attributeName="componentIncidentDate" required="false" />
-                <lookupField attributeName="componentNumber" required="false" />
-                <lookupField attributeName="componentProblemDescription" required="false" />
-                <lookupField attributeName="componentRepairAmount" required="false" />
-                <lookupField attributeName="componentRepairContactName" required="false" />
-                <lookupField attributeName="componentRepairDate" required="false" />
-                <lookupField attributeName="componentRepairNoteText" required="false" />
-                <lookupField attributeName="componentRepairSolutionDescription" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="componentEstimatedRepairDate" />
-                <field attributeName="componentIncidentDate" />
-                <field attributeName="componentNumber" />
-                <field attributeName="componentProblemDescription" />
-                <field attributeName="componentRepairAmount" />
-                <field attributeName="componentRepairContactName" />
-                <field attributeName="componentRepairDate" />
-                <field attributeName="componentRepairNoteText" />
-                <field attributeName="componentRepairSolutionDescription" />
-            </resultFields>
-        </lookup>
-
-        <attributes>
-
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
+		<lookup>
+			<title>Component Repair History Lookup</title>
+			<instructions>
+				Look up a Component Repair History
+			</instructions>
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="capitalAssetNumber" />
+					<sortAttribute attributeName="componentNumber" />
+					<sortAttribute
+						attributeName="componentIncidentDate" />
+				</sortAttributes>
+			</defaultSort>
+			<lookupFields>
+				<lookupField attributeName="capitalAssetNumber"
+					required="false" />
+				<lookupField
+					attributeName="componentEstimatedRepairDate" required="false" />
+				<lookupField attributeName="componentIncidentDate"
+					required="false" />
+				<lookupField attributeName="componentNumber"
+					required="false" />
+				<lookupField attributeName="componentProblemDescription"
+					required="false" />
+				<lookupField attributeName="componentRepairAmount"
+					required="false" />
+				<lookupField attributeName="componentRepairContactName"
+					required="false" />
+				<lookupField attributeName="componentRepairDate"
+					required="false" />
+				<lookupField attributeName="componentRepairNoteText"
+					required="false" />
+				<lookupField
+					attributeName="componentRepairSolutionDescription"
+					required="false" />
+			</lookupFields>
+			<resultFields>
+				<field attributeName="capitalAssetNumber" />
+				<field attributeName="componentEstimatedRepairDate" />
+				<field attributeName="componentIncidentDate" />
+				<field attributeName="componentNumber" />
+				<field attributeName="componentProblemDescription" />
+				<field attributeName="componentRepairAmount" />
+				<field attributeName="componentRepairContactName" />
+				<field attributeName="componentRepairDate" />
+				<field attributeName="componentRepairNoteText" />
+				<field
+					attributeName="componentRepairSolutionDescription" />
+			</resultFields>
+		</lookup>
+		<attributes>
+			<attributeReference name="capitalAssetNumber"
+				sourceClassName="org.kuali.module.cams.bo.Asset"
+				sourceAttributeName="capitalAssetNumber" />
+				
+			<attributeReference name="componentNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetComponent"
+				sourceAttributeName="componentNumber" />
+				
+			<attributeReference name="componentIncidentDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Incident Date</label>
+				<shortLabel>Date</shortLabel>
+			</attributeReference>
+			
+			<attributeReference name="componentEstimatedRepairDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Estimated Repair Date Date</label>
+				<shortLabel>Date</shortLabel>
+			</attributeReference>
+			
+			<attribute name="componentProblemDescription"
+				forceUppercase="true">
+				<label>Component Problem Description</label>
+				<shortLabel>Description</shortLabel>
+				<maxLength>255</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
+				<control>
+					<textarea rows="5" cols="80" />
+				</control>
+				<summary>componentProblemDescription</summary>
+				<description>
+					componentProblemDescription description...
+				</description>
 			</attribute>
 
-            <attribute name="componentEstimatedRepairDate" forceUppercase="true">
-                <label>Component Estimated Repair Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>componentEstimatedRepairDate</summary>
-                <description>componentEstimatedRepairDate description...</description>
+			<attributeReference name="componentRepairAmount"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericAmount">
+				<label>Repair Amount</label>
+				<shortLabel>Amount</shortLabel>
+			</attributeReference>
+			
+			<attribute name="componentRepairContactName"
+				forceUppercase="true">
+				<label>Component Repair Contact Name</label>
+				<shortLabel>Name</shortLabel>
+				<maxLength>40</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
+				<control>
+					<text size="42" />
+				</control>
+				<summary>componentRepairContactName</summary>
+				<description>
+					componentRepairContactName description...
+				</description>
+			</attribute>
+			
+			<attributeReference name="componentRepairDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Repair Date Date</label>
+				<shortLabel>Date</shortLabel>
+			</attributeReference>
+			
+			<attribute name="componentRepairNoteText"
+				forceUppercase="true">
+				<label>Component Repair Note Text</label>
+				<shortLabel>Text</shortLabel>
+				<maxLength>255</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
+				<control>
+					<textarea rows="5" cols="80" />
+				</control>
+				<summary>componentRepairNoteText</summary>
+				<description>
+					componentRepairNoteText description...
+				</description>
 			</attribute>
 
-            <attribute name="componentIncidentDate" forceUppercase="true">
-                <label>Component Incident Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>componentIncidentDate</summary>
-                <description>componentIncidentDate description...</description>
+			<attribute name="componentRepairSolutionDescription"
+				forceUppercase="true">
+				<label>Component Repair Solution Description</label>
+				<shortLabel>Description</shortLabel>
+				<maxLength>255</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
+				<control>
+					<textarea rows="5" cols="80" />
+				</control>
+				<summary>componentRepairSolutionDescription</summary>
+				<description>
+					componentRepairSolutionDescription description...
+				</description>
 			</attribute>
+			
+			<attributeReference name="versionNumber"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="versionNumber" />
 
-            <attribute name="componentNumber" forceUppercase="true">
-                <label>Component Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>componentNumber</summary>
-                <description>componentNumber description...</description>
-			</attribute>
-
-            <attribute name="componentProblemDescription" forceUppercase="true">
-                <label>Component Problem Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>componentProblemDescription</summary>
-                <description>componentProblemDescription description...</description>
-			</attribute>
-
-            <attribute name="componentRepairAmount" forceUppercase="true">
-                <label>Component Repair Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>componentRepairAmount</summary>
-                <description>componentRepairAmount description...</description>
-			</attribute>
-
-            <attribute name="componentRepairContactName" forceUppercase="true">
-                <label>Component Repair Contact Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="42" />
-                </control>
-
-                <summary>componentRepairContactName</summary>
-                <description>componentRepairContactName description...</description>
-			</attribute>
-
-            <attribute name="componentRepairDate" forceUppercase="true">
-                <label>Component Repair Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>componentRepairDate</summary>
-                <description>componentRepairDate description...</description>
-			</attribute>
-
-            <attribute name="componentRepairNoteText" forceUppercase="true">
-                <label>Component Repair Note Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>componentRepairNoteText</summary>
-                <description>componentRepairNoteText description...</description>
-			</attribute>
-
-            <attribute name="componentRepairSolutionDescription" forceUppercase="true">
-                <label>Component Repair Solution Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>componentRepairSolutionDescription</summary>
-                <description>componentRepairSolutionDescription description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
+		</attributes>
+	</businessObject>
 </dictionaryEntry>

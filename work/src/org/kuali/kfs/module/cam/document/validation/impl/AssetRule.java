@@ -15,11 +15,15 @@
  */
 package org.kuali.module.cams.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.PaymentSummaryService;
+
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 /**
  * AssetRule for Asset edit.
@@ -39,6 +43,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
         boolean valid = processValidation(document);
+        valid &= validateWarrantyInformation(asset);
         return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
 
@@ -81,5 +86,26 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         // TODO: Amanda add the validation code here by using service methods.
         return valid;
+    }
+
+
+    /**
+     * Validate warranty information if user enters value
+     * 
+     * @param asset Asset
+     * @return validation result
+     */
+    private boolean validateWarrantyInformation(Asset asset) {
+        AssetWarranty warranty = asset.getAssetWarranty();
+        if (warranty != null) {
+            if (!StringUtils.isEmpty(warranty.getWarrantyContactName()) || !StringUtils.isEmpty(warranty.getWarrantyPhoneNumber()) || !StringUtils.isEmpty(warranty.getWarrantyText()) || warranty.getWarrantyBeginningDate() != null || warranty.getWarrantyEndingDate() != null) {
+                if (StringUtils.isEmpty(warranty.getWarrantyNumber())) {
+                    // warranty number is mandatory when any other related info is known
+                    putFieldError("assetWarranty.warrantyNumber", "error.invalid.asset.warranty.no");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

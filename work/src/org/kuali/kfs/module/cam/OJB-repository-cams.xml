@@ -401,6 +401,9 @@
     <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentPostingYear" />
     </reference-descriptor>
+    
+    
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetOrganization" table="CM_AST_ORG_T">

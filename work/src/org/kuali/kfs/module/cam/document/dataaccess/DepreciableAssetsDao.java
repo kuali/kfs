@@ -23,15 +23,11 @@ import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.DepreciableAssets;
 
 public interface DepreciableAssetsDao {
-    public void initDepreciation(Integer fiscalYear, Integer fiscalMonth);
+    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth);
     
-    public Collection<DepreciableAssets> getListOfDepreciableAssets();
+    public void updateAssetPayments(List<DepreciableAssets> assetsInDepreciation, Integer fiscalYear, Integer fiscalMonth);
     
-    public void updateAssetPayments(List<DepreciableAssets> assetsInDepreciation);
-    
-    public Collection<AssetObjectCode> getObjectCodes();
-
-    public void checkSum(boolean beforeDepreciationReport);
+    public void checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth);
     
     public List<String[]> getReportLine();
 }

@@ -32,7 +32,7 @@ import org.kuali.module.cams.bo.DepreciableAssets;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
-@ConfigureContext
+@ConfigureContext(session = KHUNTLEY)
 //@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
 public class AssetDepreciationServiceTest extends KualiTestBase {
     private AssetDepreciationService camsAssetDepreciationService;
@@ -48,7 +48,7 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
     
     
     public void testRunDepreciation() {
-//        camsAssetDepreciationService.runDepreciation();
+        camsAssetDepreciationService.runDepreciation();
         assertEquals(1, 1);
     }
 }

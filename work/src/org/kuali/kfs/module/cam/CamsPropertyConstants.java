@@ -49,6 +49,11 @@ public class CamsPropertyConstants {
         public static final String PAYMENT_SEQ_NUMBER               ="paymentSequenceNumber";
         public static final String TRANSACTION_DC_CODE              ="transactionDebitCreditCode";
     }
+
+    public static class AssetHeader {    
+        public static final String DOCUMENT_NUMBER     = "documentNumber";
+        public static final String CAPITAL_ASSET_NUMBER= "capitalAssetNumber";        
+    }
     
     public static class AssetObject {
         public static final String UNIVERSITY_FISCAL_YEAR           ="universityFiscalYear";

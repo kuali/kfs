@@ -95,8 +95,10 @@
 			<ref bean="generalLedgerPendingEntryService" />
 		</property>                		
     </bean>
-    
-	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb" />    
+
+    <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />   
+     
+	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb"/>
 
 <!-- *********  End of depreciation batch beans ********** -->
 
@@ -153,6 +155,126 @@
     <bean id="assetLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
         </property>
     </bean>
     

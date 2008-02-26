@@ -16,57 +16,45 @@
 package org.kuali.module.cams.service.impl;
 
 import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.cams.batch.AssetDepreciationStep;
+import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.bo.AssetDepreciationTransaction;
 import org.kuali.module.cams.bo.DepreciableAssets;
-import org.kuali.module.cams.bo.DepreciationTransaction;
 import org.kuali.module.cams.dao.DepreciableAssetsDao;
+import org.kuali.module.cams.document.AssetDepreciationDocument;
 import org.kuali.module.cams.service.AssetDepreciationService;
 import org.kuali.module.cams.service.ReportService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.kfs.KFSConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import sun.util.calendar.BaseCalendar.Date;
 
 @Transactional
 public class AssetDepreciationServiceImpl implements AssetDepreciationService {
@@ -78,11 +66,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
-
+    private String documentNumber;
+    
     private int paymentsElibigleForDepreciationProcessed=0;
-
-    private KualiDecimal debits  = new KualiDecimal(0);
-    private KualiDecimal credits = new KualiDecimal(0);
 
     private List<String[]> reportLog = new ArrayList<String[]>();
     private String errorMsg="";
@@ -91,8 +77,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     public static final String ERROR_WHEN_CALCULATING_BASE_AMOUNT        ="An error occurred when calculating assets base amount";        
     public static final String ERROR_WHEN_CALCULATING_DEPRECIATION       ="An error occurred when calculating assets depreciation";
     public static final String ERROR_WHEN_GENERATING_TRANSACTIONS        ="An error occurred when generating transactions";
-    public static final String ERROR_WHEN_UPDATING_GL_PENDING_ENTRY_TABLE="An error occurred when updating general pending entry table";
-        
+    public static final String ERROR_WHEN_UPDATING_GL_PENDING_ENTRY_TABLE="An error occurred when updating general pending entry table";    
+    public static final String TRANSACTION_DESCRIPTION                   ="Batch Depreciation Asset "; 
+/**
+ * 
+ * @see org.kuali.module.cams.service.AssetDepreciationService#runDepreciation()
+ */       
     public void runDepreciation(){
         boolean error=false;
         try { 
@@ -100,22 +90,16 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             this.fiscalYear = universityDate.getUniversityFiscalYear();
             this.fiscalMonth= new Integer(universityDate.getUniversityFiscalAccountingPeriod());            
 
-            //this.fiscalYear = new Integer(2007);
-            //this.fiscalMonth= new Integer(10);
+            depreciableAssetsDao.checkSum(true,"",fiscalYear,fiscalMonth);
 
-            LOG.info("*****Year:"+this.fiscalYear);
-            LOG.info("*****month:"+this.fiscalMonth);
-
-            depreciableAssetsDao.initDepreciation(this.fiscalYear,this.fiscalMonth);
-
-            Collection<DepreciableAssets> depreciableAssetsCollection = depreciableAssetsDao.getListOfDepreciableAssets();
+            Collection<DepreciableAssets> depreciableAssetsCollection = depreciableAssetsDao.getListOfDepreciableAssets(this.fiscalYear,this.fiscalMonth);
 
             List<DepreciableAssets> data = new ArrayList<DepreciableAssets>();
 
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
                 data = this.calculateDepreciation(depreciableAssetsCollection);             
-                Map<Object,DepreciationTransaction> depreciationTransactions=this.generateDepreciationTransaction(data);
-                depreciableAssetsDao.updateAssetPayments(data);
+                Map<Object,AssetDepreciationTransaction> depreciationTransactions=this.generateDepreciationTransaction(data);
+                depreciableAssetsDao.updateAssetPayments(data,fiscalYear,fiscalMonth);
                 processGeneralLedgerPendingEntry(depreciationTransactions);                
             } else {
                 throw new RuntimeException(NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND); 
@@ -127,7 +111,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             throw new RuntimeException(errorMsg);             
         } finally {
             if (!error)
-                depreciableAssetsDao.checkSum(false);
+                depreciableAssetsDao.checkSum(false,this.documentNumber,fiscalYear,fiscalMonth);
             
             this.reportLog.addAll(depreciableAssetsDao.getReportLine());
             reportService.generateDepreciationReport(reportLog,errorMsg);       
@@ -171,7 +155,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * 
-     * This method ...
+     * This method calculates the depreciation of each asset payment and gets the right plant account for each asset payment
+     * depreciation 
      * @param depreciableAssetsCollection
      */
     private List<DepreciableAssets> calculateDepreciation(Collection<DepreciableAssets> depreciableAssetsCollection) {
@@ -221,31 +206,21 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 monthsElapsed = new Double((diffDays / 30) + 1);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");             
-                LOG.info("%:"+monthsElapsed.doubleValue()/assetLifeInMonths.doubleValue()+"****life in Months:"+assetLifeInMonths + " - Month Elapsed:"+monthsElapsed+" Service Date:"+sdf.format(d.getCapitalAssetInServiceDate())+" d.getPrimaryDepreciationBaseAmount():"+d.getPrimaryDepreciationBaseAmount()+" Accum Depre:"+d.getAccumulatedPrimaryDepreciationAmount());
+                //LOG.info("%:"+monthsElapsed.doubleValue()/assetLifeInMonths.doubleValue()+"****life in Months:"+assetLifeInMonths + " - Month Elapsed:"+monthsElapsed+" Service Date:"+sdf.format(d.getCapitalAssetInServiceDate())+" d.getPrimaryDepreciationBaseAmount():"+d.getPrimaryDepreciationBaseAmount()+" Accum Depre:"+d.getAccumulatedPrimaryDepreciationAmount());
 
-                //**************************
-                // DELETE THESE LINES!!!!
-                //************************
-                //monthsElapsed = new Double(98);
-                //d.setPrimaryDepreciationMethodCode("SV");
-                //********************************************
                 if (monthsElapsed.compareTo(assetLifeInMonths) >= 0) {
                     if (d.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE)) {
-                        //LOG.info("***SV-1");                    
                         acummulatedDepreciationAmount = d.getPrimaryDepreciationBaseAmount();                    
                     } else if (d.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE)) {
-                        //LOG.info("***SL-2");                    
                         acummulatedDepreciationAmount = d.getPrimaryDepreciationBaseAmount().subtract( (d.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(d.getSalvageAmount()));                    
                     }
                 } else {
                     if (d.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE)){
-                        //LOG.info("***SL-1");
                         acummulatedDepreciationAmount = new KualiDecimal( (monthsElapsed.doubleValue()/assetLifeInMonths.doubleValue()) * d.getPrimaryDepreciationBaseAmount().doubleValue());
                     } else if (d.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE)) {
                         acummulatedDepreciationAmount = new KualiDecimal( 
                                 (monthsElapsed.doubleValue()/assetLifeInMonths.doubleValue()) * 
                                 ( d.getPrimaryDepreciationBaseAmount().subtract( ( d.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(d.getSalvageAmount()))).doubleValue());
-                        //LOG.info("***SL-2");
                     }
                 }
                 //LOG.info("**** Accum Depreciation Amount:"+acummulatedDepreciationAmount);
@@ -256,9 +231,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 if (d.getTransactionAmount().compareTo(new KualiDecimal(0)) == -1){
                     d.setTransactionType(KFSConstants.GL_CREDIT_CODE);
                     d.setTransactionAmount(d.getTransactionAmount().abs());
-                    this.credits.add(d.getTransactionAmount());
+                    //this.credits.add(d.getTransactionAmount());
                 } else {
-                    this.debits.add(d.getTransactionAmount());
+                    //this.debits.add(d.getTransactionAmount());
                 }
 
                 //plant accounts
@@ -286,14 +261,14 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * @param assetsInDepreciation
      * @return
      */
-    private Map<Object,DepreciationTransaction> generateDepreciationTransaction(List<DepreciableAssets> assetsInDepreciation) {
+    private Map<Object,AssetDepreciationTransaction> generateDepreciationTransaction(List<DepreciableAssets> assetsInDepreciation) {
         LOG.debug("generateDepreciationTransaction() - start");        
-        Map <Object,DepreciationTransaction> depreciationTransactionSummary = new HashMap<Object,DepreciationTransaction>();
-        DepreciationTransaction depreciationTransaction = new DepreciationTransaction();
+        Map <Object,AssetDepreciationTransaction> depreciationTransactionSummary = new HashMap<Object,AssetDepreciationTransaction>();
+        AssetDepreciationTransaction depreciationTransaction = new AssetDepreciationTransaction();
 
         try {
             for (DepreciableAssets d : assetsInDepreciation) {
-                depreciationTransaction = new DepreciationTransaction();
+                depreciationTransaction = new AssetDepreciationTransaction();
 
                 for (int x=1;x<=2;x++) {
                     if (d.getTransactionType().equals(KFSConstants.GL_CREDIT_CODE)) 
@@ -314,7 +289,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     depreciationTransaction.setProjectCode                   (d.getProjectCode());
 
                     depreciationTransaction.setTransactionAmount             (d.getTransactionAmount());
-                    depreciationTransaction.setTransactionLedgerEntryDescription("Batch Depreciation Asset " + d.getCapitalAssetNumber());
+                    depreciationTransaction.setTransactionLedgerEntryDescription(TRANSACTION_DESCRIPTION + d.getCapitalAssetNumber());
 
                     String sKey = depreciationTransaction.getKey();
 
@@ -322,7 +297,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         depreciationTransaction =depreciationTransactionSummary.get(sKey);
                         depreciationTransaction.setTransactionAmount(depreciationTransaction.getTransactionAmount().add(d.getTransactionAmount()));
                     }
-                    depreciationTransactionSummary.put(sKey, (DepreciationTransaction)depreciationTransaction.clone());
+                    depreciationTransactionSummary.put(sKey, (AssetDepreciationTransaction)depreciationTransaction.clone());
 
                     if (x == 1) {
                         if (d.getTransactionType().equals(KFSConstants.GL_CREDIT_CODE))
@@ -330,42 +305,69 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         else
                             d.setTransactionType(KFSConstants.GL_CREDIT_CODE);
                     } // end if
-
                 } // end for           
-            }   
-            for(DepreciationTransaction d:depreciationTransactionSummary.values()) {
-                LOG.info("*****CAMS Transaction:"+d.toString());
             }
+            
+            //for(DepreciationTransaction d:depreciationTransactionSummary.values()) {
+            //    LOG.info("*****CAMS Transaction:"+d.toString());
+            //}
+            
         } catch (Exception e) {
             throw new RuntimeException( ERROR_WHEN_GENERATING_TRANSACTIONS+" :"+e.getLocalizedMessage());
         }
         return depreciationTransactionSummary;        
     }
 
-    /**
-     * 
-     * This method...
-     * @param trans
-     */
-    private void processGeneralLedgerPendingEntry(Map<Object,DepreciationTransaction> trans) {
+/**
+ * 
+ * This method ...
+ * @param trans
+ */
+    private void processGeneralLedgerPendingEntry(Map<Object,AssetDepreciationTransaction> trans) {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
-        try {
+        String documentTypeCode;
+        try {            
+            KualiWorkflowDocument workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument("AssetDepreciationDocument", GlobalVariables.getUserSession().getUniversalUser());
+                
+            //**************************************************************************************************
+            // Create a new document header object
+            //**************************************************************************************************
+            DocumentHeader documentHeader = new DocumentHeader();
+            documentHeader.setWorkflowDocument              (workflowDocument);
+            documentHeader.setDocumentNumber                (workflowDocument.getRouteHeaderId().toString());
+            documentHeader.setFinancialDocumentStatusCode   (KFSConstants.DocumentStatusCodes.APPROVED);
+            documentHeader.setFinancialDocumentDescription  (TRANSACTION_DESCRIPTION);
+            documentHeader.setExplanation                   (TRANSACTION_DESCRIPTION);
+            SpringContext.getBean(BusinessObjectService.class).save(documentHeader);
+            //**************************************************************************************************          
+                        
+            LOG.info("*****************************");
+            LOG.info("*** DOCUMENT #:"+documentHeader.getDocumentNumber());
+            LOG.info("*****************************");
+            
+            this.documentNumber = documentHeader.getDocumentNumber();
+            
+            //LOG.info("*****************************"+SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName("AssetDepreciationDocument"));
+            
+            documentTypeCode=SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(AssetDepreciationDocument.class);
+            
             Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
 
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();        
-            for(Object key : trans.keySet()){    
-                DepreciationTransaction t = trans.get(key);
+            for(Object key : trans.keySet()){
+                AssetDepreciationTransaction t = trans.get(key);
 
                 GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
                 explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
-                //LOG.debug("Document Number:"+explicitEntry.getaccountingLine.getDocumentNumber();
-                explicitEntry.setDocumentNumber("1000");
+                explicitEntry.setDocumentNumber(documentHeader.getDocumentNumber());
                 explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
 
                 sequenceHelper.increment();
-
+                
+                //LOG.info("XXXX Sequence Counter:"+sequenceHelper.getSequenceCounter());
+                
                 explicitEntry.setChartOfAccountsCode     (t.getChartOfAccountsCode());
                 explicitEntry.setAccountNumber           (t.getAccountNumber());
                 explicitEntry.setSubAccountNumber        (t.getSubAccountNumber());
@@ -380,13 +382,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 explicitEntry.setTransactionLedgerEntryAmount     (t.getTransactionAmount());
                 explicitEntry.setTransactionDebitCreditCode       (t.getTransactionType());
                 explicitEntry.setTransactionDate                  (new java.sql.Date(transactionTimestamp.getTime()));
-                explicitEntry.setFinancialDocumentTypeCode        ("DEPR");
-                //SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(accountingDocument.getClass()));
+                explicitEntry.setFinancialDocumentTypeCode        (documentTypeCode);
                 explicitEntry.setFinancialDocumentApprovedCode    (GENERAL_LEDGER_PENDING_ENTRY_CODE.YES);
                 explicitEntry.setVersionNumber                    (new Long(1));
 
-                //explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
-                //generalLedgerPendingEntryService.save(explicitEntry);
+                explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
+                generalLedgerPendingEntryService.save(explicitEntry);
             }
         }catch (Exception e) {
             throw new RuntimeException( ERROR_WHEN_UPDATING_GL_PENDING_ENTRY_TABLE+" :"+e.getMessage());
@@ -412,5 +413,4 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }    
-
 }

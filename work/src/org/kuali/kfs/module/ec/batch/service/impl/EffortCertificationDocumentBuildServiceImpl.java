@@ -90,7 +90,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
             detailLine.setEffortCertificationBuildNumber(document.getEffortCertificationBuildNumber());
 
             payrollAmountHolder.setPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
-            calculatePayrollPercent(payrollAmountHolder);
+            PayrollAmountHolder.calculatePayrollPercent(payrollAmountHolder);
 
             detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
             detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
@@ -137,32 +137,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         return ledgerBalanceGroups;
     }
 
-    /**
-     * calculate the payroll percentage based on the given information in payroll amount holder
-     * 
-     * @param payrollAmountHolder the given payroll amount holder containing relating information
-     */
-    private void calculatePayrollPercent(PayrollAmountHolder payrollAmountHolder) {
-        KualiDecimal totalAmount = payrollAmountHolder.getTotalAmount();
-        if (totalAmount.isZero()) {
-            return;
-        }
-
-        KualiDecimal payrollAmount = payrollAmountHolder.getPayrollAmount();
-        KualiDecimal accumulatedAmount = payrollAmountHolder.getAccumulatedAmount();
-        accumulatedAmount = accumulatedAmount.add(payrollAmount);
-
-        int accumulatedPercent = payrollAmountHolder.getAccumulatedPercent();
-        int quotientOne = Math.round(payrollAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
-        accumulatedPercent = accumulatedPercent + quotientOne;
-
-        int quotientTwo = Math.round(accumulatedAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
-        quotientTwo = quotientTwo - accumulatedPercent;
-
-        payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
-        payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
-        payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
-    }
+    
 
     /**
      * update the given detail line if the given detail line is in the list; otherwise, add the given line into the list

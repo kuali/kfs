@@ -219,7 +219,9 @@ public class EffortCertificationDocumentRuleUtil {
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
         hasValidReference &= accountingLineRuleUtil.isValidAccount(detailLine.getAccount(), dataDictionary);
         hasValidReference &= accountingLineRuleUtil.isValidChart(detailLine.getChartOfAccounts(), dataDictionary);
-        hasValidReference &= accountingLineRuleUtil.isValidSubAccount(detailLine.getSubAccount(), dataDictionary);
+        if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber())){
+            hasValidReference &= accountingLineRuleUtil.isValidSubAccount(detailLine.getSubAccount(), dataDictionary);
+        }
 
         return hasValidReference;
     }

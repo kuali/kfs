@@ -133,4 +133,31 @@ public class PayrollAmountHolder {
     public void setAccumulatedPercent(Integer accumulatedPercent) {
         this.accumulatedPercent = accumulatedPercent;
     }
+    
+    /**
+     * calculate the payroll percentage based on the given information in payroll amount holder
+     * 
+     * @param payrollAmountHolder the given payroll amount holder containing relating information
+     */
+    public static void calculatePayrollPercent(PayrollAmountHolder payrollAmountHolder) {
+        KualiDecimal totalAmount = payrollAmountHolder.getTotalAmount();
+        if (totalAmount.isZero()) {
+            return;
+        }
+
+        KualiDecimal payrollAmount = payrollAmountHolder.getPayrollAmount();
+        KualiDecimal accumulatedAmount = payrollAmountHolder.getAccumulatedAmount();
+        accumulatedAmount = accumulatedAmount.add(payrollAmount);
+
+        int accumulatedPercent = payrollAmountHolder.getAccumulatedPercent();
+        int quotientOne = Math.round(payrollAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
+        accumulatedPercent = accumulatedPercent + quotientOne;
+
+        int quotientTwo = Math.round(accumulatedAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
+        quotientTwo = quotientTwo - accumulatedPercent;
+
+        payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
+        payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
+        payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
+    }
 }

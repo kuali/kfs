@@ -604,5 +604,29 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
             }
         }
     }
-
+    
+    public String getDefaultPositionNumber() {
+        EffortCertificationDetail maxEffortLine = getMaxEffortLine();
+        
+        return maxEffortLine.getPositionNumber();
+    }
+    
+    public String getDefaultObjectCode() {
+        EffortCertificationDetail maxEffortLine = getMaxEffortLine();
+        
+        return maxEffortLine.getFinancialObjectCode();
+    }
+    
+    private EffortCertificationDetail getMaxEffortLine() {
+        Integer maxEffort = 0;
+        EffortCertificationDetail maxLine = null;
+        List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : detailLines) {
+            if (detailLine.getEffortCertificationUpdatedOverallPercent() > maxEffort) {
+                maxEffort = detailLine.getEffortCertificationUpdatedOverallPercent();
+                maxLine = detailLine;
+            }
+        }
+        return maxLine;
+    }
 }

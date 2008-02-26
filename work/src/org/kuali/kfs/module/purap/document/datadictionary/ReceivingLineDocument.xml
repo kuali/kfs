@@ -306,7 +306,6 @@
 
         </attributes>
 
-		<help parameterNamespace="KFS-PA" parameterDetailType="ReceivingLine" parameterName="RECEIVING_LINE" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

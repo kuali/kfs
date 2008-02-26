@@ -49,6 +49,9 @@ public class CamsConstants {
     public static final String DEPRECIATION_ORIGINATION_CODE="01";
     
     public static final String[] MONTHS = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+    
+    public static final String COMPONENT_NUMBER = "componentNumber";
+    public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
 
     
 }

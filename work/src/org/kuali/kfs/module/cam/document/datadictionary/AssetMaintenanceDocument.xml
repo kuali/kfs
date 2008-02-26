@@ -247,7 +247,7 @@
           			sourceClassName="org.kuali.module.cams.bo.Asset"
           			sourceAttributeName="assetComponents">
           			<maintainableField name="componentNumber"
-          				readOnlyAfterAdd="true" required="true" />
+          				readOnlyAfterAdd="true" required="false" readOnly="true"/>
           			<maintainableField name="componentDescription"
           				readOnlyAfterAdd="true" />
           			<maintainableField

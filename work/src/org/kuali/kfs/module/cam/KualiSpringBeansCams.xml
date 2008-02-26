@@ -173,10 +173,18 @@
         </property>
     </bean> 
     
-    <bean id="paymentSummaryService"
-    	class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
+    <bean id="paymentSummaryService" class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
     	<property name="optionsService">
     		<ref bean="optionsService" />
     	</property>
     </bean>
+    
+    <bean id="assetComponentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetComponentDaoOjb"/>
+    
+    <bean id="assetComponentService" class="org.kuali.module.cams.service.impl.AssetComponentServiceImpl">
+    	<property name="assetComponentDao">
+    		<ref bean="assetComponentDao" />
+    	</property>
+    </bean>
+    
 </beans>

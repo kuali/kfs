@@ -15,12 +15,16 @@
  */
 package org.kuali.module.cams.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetWarranty;
+import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 
 import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
@@ -40,11 +44,28 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         Asset asset = (Asset) document.getDocumentBusinessObject();
+        setAssetComponentNumbers(asset);
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
         boolean valid = processValidation(document);
         valid &= validateWarrantyInformation(asset);
+
         return valid & super.processCustomSaveDocumentBusinessRules(document);
+    }
+
+    private void setAssetComponentNumbers(Asset asset) {
+        AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
+        List<AssetComponent> assetComponents = asset.getAssetComponents();
+        Integer maxNo = null;
+        for (AssetComponent assetComponent : assetComponents) {
+            assetComponent.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+            if (maxNo == null) {
+                maxNo = assetComponentService.getMaxSequenceNumber(assetComponent);
+            }
+            if (assetComponent.getComponentNumber() == null) {
+                assetComponent.setComponentNumber(++maxNo);
+            }
+        }
     }
 
     /**

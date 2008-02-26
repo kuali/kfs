@@ -32,7 +32,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -58,7 +57,6 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
@@ -127,6 +125,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean paymentRequestPositiveApprovalIndicator;
     private Date purchaseOrderQuoteInitDate;
     private Date purchaseOrderQuoteAwardDate;
+    private Date purchaseOrderQuoteInitializationDate;
+    private Date purchaseOrderQuoteAwardedDate;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -943,6 +943,38 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setPurchaseOrderQuoteAwardDate(Date purchaseOrderQuoteAwardDate) {
         this.purchaseOrderQuoteAwardDate = purchaseOrderQuoteAwardDate;
+    }
+
+    /**
+     * Gets the purchaseOrderQuoteAwardedDate attribute. 
+     * @return Returns the purchaseOrderQuoteAwardedDate.
+     */
+    public Date getPurchaseOrderQuoteAwardedDate() {
+        return purchaseOrderQuoteAwardedDate;
+    }
+
+    /**
+     * Sets the purchaseOrderQuoteAwardedDate attribute value.
+     * @param purchaseOrderQuoteAwardedDate The purchaseOrderQuoteAwardedDate to set.
+     */
+    public void setPurchaseOrderQuoteAwardedDate(Date purchaseOrderQuoteAwardedDate) {
+        this.purchaseOrderQuoteAwardedDate = purchaseOrderQuoteAwardedDate;
+    }
+
+    /**
+     * Gets the purchaseOrderQuoteInitializationDate attribute. 
+     * @return Returns the purchaseOrderQuoteInitializationDate.
+     */
+    public Date getPurchaseOrderQuoteInitializationDate() {
+        return purchaseOrderQuoteInitializationDate;
+    }
+
+    /**
+     * Sets the purchaseOrderQuoteInitializationDate attribute value.
+     * @param purchaseOrderQuoteInitializationDate The purchaseOrderQuoteInitializationDate to set.
+     */
+    public void setPurchaseOrderQuoteInitializationDate(Date purchaseOrderQuoteInitializationDate) {
+        this.purchaseOrderQuoteInitializationDate = purchaseOrderQuoteInitializationDate;
     }
 
     /**

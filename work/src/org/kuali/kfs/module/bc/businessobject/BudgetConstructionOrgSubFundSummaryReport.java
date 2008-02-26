@@ -30,7 +30,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCConstants;
 
 /**
- * Budget Construction Organization Account Summary Report Business Object.
+ * Budget Construction Organization SubFund Summary Report Business Object.
  */
 public class BudgetConstructionOrgSubFundSummaryReport {
 
@@ -58,9 +58,6 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private String header6;
 
     // Body parts
-    /*private String accountNumber;
-    private String subAccountNumber;
-    private String accountNameAndSubAccountName;*/
     private String incExpDesc;
     private BigDecimal baseAmount;
     private BigDecimal reqAmount;
@@ -97,47 +94,6 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private BigDecimal revExpDifferenceReqAmount = BigDecimal.ZERO;
     private BigDecimal revExpDifferenceAmountChange = BigDecimal.ZERO;
     private BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;
-
-    
-
-    private Integer tempFiscalYear = new Integer(2008);
-
-
-  /*  *//**
-     * Gets the accountNameAndSubAccountName
-     * 
-     * @return Returns the accountNameAndSubAccountName.
-     *//*
-    public String getAccountNameAndSubAccountName() {
-        return accountNameAndSubAccountName;
-    }
-
-    *//**
-     * Sets the accountNameAndSubAccountName
-     * 
-     * @param accountNameAndSubAccountName The accountNameAndSubAccountName to set.
-     *//*
-    public void setAccountNameAndSubAccountName(String accountNameAndSubAccountName) {
-        this.accountNameAndSubAccountName = accountNameAndSubAccountName;
-    }
-
-    *//**
-     * Gets the accountNumber
-     * 
-     * @return Returns the accountNumber.
-     *//*
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    *//**
-     * Sets the accountNumber
-     * 
-     * @param accountNumber The accountNumber to set.
-     *//*
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }*/
 
     /**
      * Gets the amountChange
@@ -534,24 +490,6 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     public void setRevExpDifferenceReqAmount(BigDecimal revExpDifferenceReqAmount) {
         this.revExpDifferenceReqAmount = revExpDifferenceReqAmount;
     }
-
-    /**
-     * Gets the subAccountNumber
-     * 
-     * @return Returns the subAccountNumber.
-     *//*
-    public String getSubAccountNumber() {
-        return subAccountNumber;
-    }
-
-    *//**
-     * Sets the subAccountNumber
-     * 
-     * @param subAccountNumber The subAccountNumber to set.
-     *//*
-    public void setSubAccountNumber(String subAccountNumber) {
-        this.subAccountNumber = subAccountNumber;
-    }*/
 
     /**
      * Gets the subFundGroupCode
@@ -967,34 +905,74 @@ public class BudgetConstructionOrgSubFundSummaryReport {
         this.orgChartOfAccountsCode = orgChartOfAccountsCode;
     }
 
+    /**
+     * Gets the subFundTotalRevenueAmountChange
+     * 
+     * @return Returns the subFundTotalRevenueAmountChange.
+     */
     public BigDecimal getSubFundTotalRevenueAmountChange() {
         return subFundTotalRevenueAmountChange;
     }
 
+    /**
+     * Sets the subFundTotalRevenueAmountChange
+     * 
+     * @param subFundTotalRevenueAmountChange The subFundTotalRevenueAmountChange to set.
+     */
     public void setSubFundTotalRevenueAmountChange(BigDecimal subFundTotalRevenueAmountChange) {
         this.subFundTotalRevenueAmountChange = subFundTotalRevenueAmountChange;
     }
 
+    /**
+     * Gets the subFundTotalRevenueBaseAmount
+     * 
+     * @return Returns the subFundTotalRevenueBaseAmount.
+     */
     public BigDecimal getSubFundTotalRevenueBaseAmount() {
         return subFundTotalRevenueBaseAmount;
     }
 
+    /**
+     * Sets the subFundTotalRevenueBaseAmount
+     * 
+     * @param subFundTotalRevenueBaseAmount The subFundTotalRevenueBaseAmount to set.
+     */
     public void setSubFundTotalRevenueBaseAmount(BigDecimal subFundTotalRevenueBaseAmount) {
         this.subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount;
     }
 
+    /**
+     * Gets the subFundTotalRevenuePercentChange
+     * 
+     * @return Returns the subFundTotalRevenuePercentChange.
+     */
     public BigDecimal getSubFundTotalRevenuePercentChange() {
         return subFundTotalRevenuePercentChange;
     }
 
+    /**
+     * Sets the subFundTotalRevenuePercentChange
+     * 
+     * @param subFundTotalRevenuePercentChange The subFundTotalRevenuePercentChange to set.
+     */
     public void setSubFundTotalRevenuePercentChange(BigDecimal subFundTotalRevenuePercentChange) {
         this.subFundTotalRevenuePercentChange = subFundTotalRevenuePercentChange;
     }
 
+    /**
+     * Gets the subFundTotalRevenueReqAmount
+     * 
+     * @return Returns the subFundTotalRevenueReqAmount.
+     */
     public BigDecimal getSubFundTotalRevenueReqAmount() {
         return subFundTotalRevenueReqAmount;
     }
 
+    /**
+     * Sets the subFundTotalRevenueReqAmount
+     * 
+     * @param subFundTotalRevenueReqAmount The subFundTotalRevenueReqAmount to set.
+     */
     public void setSubFundTotalRevenueReqAmount(BigDecimal subFundTotalRevenueReqAmount) {
         this.subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount;
     }

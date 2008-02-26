@@ -18,7 +18,7 @@ package org.kuali.module.budget.bo;
 import java.math.BigDecimal;
 
 /**
- * Total Part of Budget Construction Organization Account Summary Report Business Object.
+ * Total Part of Budget Construction Organization SubFund Summary Report Business Object.
  */
 public class BudgetConstructionOrgSubFundSummaryReportTotal {
     BudgetConstructionAccountSummary bcas;
@@ -204,19 +204,38 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
         this.bcas = bcas;
     }
 
+    /**
+     * Gets the subFundTotalRevenueBaseAmount
+     * 
+     * @return Returns the bcas.
+     */
     public BigDecimal getSubFundTotalRevenueBaseAmount() {
         return subFundTotalRevenueBaseAmount;
     }
 
+    /**
+     * Sets the subFundTotalRevenueBaseAmount
+     * 
+     * @param bcas The subFundTotalRevenueBaseAmount to set.
+     */
     public void setSubFundTotalRevenueBaseAmount(BigDecimal subFundTotalRevenueBaseAmount) {
         this.subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount;
     }
 
-
+    /**
+     * Gets the subFundTotalRevenueReqAmount
+     * 
+     * @return Returns the bcas.
+     */
     public BigDecimal getSubFundTotalRevenueReqAmount() {
         return subFundTotalRevenueReqAmount;
     }
 
+    /**
+     * Sets the subFundTotalRevenueReqAmount
+     * 
+     * @param bcas The subFundTotalRevenueReqAmount to set.
+     */
     public void setSubFundTotalRevenueReqAmount(BigDecimal subFundTotalRevenueReqAmount) {
         this.subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount;
     }

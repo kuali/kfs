@@ -22,18 +22,25 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 
 /**
- * This class defines methods that 
+ * This interface defines the methods for BudgetConstructionOrgSubFundSummaryReports
  */
 public interface BudgetConstructionSubFundSummaryReportService {
 
     /**
-     * updates acount summary table for SubFundSummaryReport.
+     * updates account summary table for SubFundSummaryReport.
      * 
      * @param personUserIdentifier
      * @return
      */
     public void updateSubFundSummaryReport(String personUserIdentifier);
-
+    
+    /**
+     * builds BudgetConstructionOrgSubFundSummaryReports
+     * 
+     * @param universityFiscalYear
+     * @param accountSummaryList
+     * @return
+     */
     public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList);
 
 }

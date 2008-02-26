@@ -61,14 +61,17 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
 
+    /**
+     * sets budgetConstructionAccountSummaryReportDao
+     * 
+     * @param budgetConstructionAccountSummaryReportDao
+     */
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
         this.budgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
     }
 
     /**
-     * builds a report
-     * 
-     * @param Collection<BudgetConstructionAccountSummary> list
+     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer, java.util.Collection)
      */
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
@@ -347,9 +350,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
                     }
                 }
             }
-
             BudgetConstructionOrgAccountSummaryReportTotal bcoasrTotal = new BudgetConstructionOrgAccountSummaryReportTotal();
-
             bcoasrTotal.setBcas(simpleBcasEntry);
             bcoasrTotal.setTotalGrossBaseAmount(totalGrossBaseAmount);
             bcoasrTotal.setTotalGrossReqAmount(totalGrossReqAmount);
@@ -417,7 +418,4 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
         return returnList;
     }
-
-    
-    
 }

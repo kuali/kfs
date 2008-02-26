@@ -49,11 +49,9 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(personUserIdentifier);
     }
 
-
     /**
-     * builds a report
      * 
-     * @param Collection<BudgetConstructionAccountSummary> list
+     * @see org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService#buildReports(java.lang.Integer, java.util.Collection)
      */
     public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> subFundSummaryList) {
         Collection<BudgetConstructionOrgSubFundSummaryReport> reportSet = new ArrayList();
@@ -79,7 +77,9 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
     /**
      * builds report Header
      * 
-     * @param BudgetConstructionAccountSummary bcas
+     * @param universityFiscalYear
+     * @param orgSubFundSummaryReportEntry
+     * @param subFundSummaryList
      */
     public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummaryList) {
         String orgChartDesc = subFundSummaryList.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
@@ -91,14 +91,12 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         Integer prevFiscalyear = universityFiscalYear - 1;
         orgSubFundSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setOrgChartOfAccountsCode(subFundSummaryList.getOrganizationChartOfAccountsCode());
-
         if (orgChartDesc == null) {
             orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
         }
         else {
             orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
         }
-
         orgSubFundSummaryReportEntry.setOrganizationCode(subFundSummaryList.getOrganizationCode());
         if (orgName == null) {
             orgSubFundSummaryReportEntry.setOrganizationName(BCConstants.Report.ERROR_GETTING_ORGANIZATION_NAME);
@@ -106,7 +104,6 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         else {
             orgSubFundSummaryReportEntry.setOrganizationName(orgName);
         }
-
         orgSubFundSummaryReportEntry.setChartOfAccountsCode(subFundSummaryList.getChartOfAccountsCode());
         if (chartDesc == null) {
             orgSubFundSummaryReportEntry.setChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
@@ -114,7 +111,6 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         else {
             orgSubFundSummaryReportEntry.setChartOfAccountDescription(chartDesc);
         }
-
         orgSubFundSummaryReportEntry.setFundGroupCode(subFundSummaryList.getFundGroupCode());
         if (subFundGroupName == null) {
             orgSubFundSummaryReportEntry.setFundGroupName(BCConstants.Report.ERROR_GETTING_FUNDGROUP_NAME);
@@ -122,7 +118,6 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         else {
             orgSubFundSummaryReportEntry.setFundGroupName(subFundGroupName);
         }
-
         orgSubFundSummaryReportEntry.setSubFundGroupCode(subFundSummaryList.getSubFundGroupCode());
         if (subFundGroupName == null) {
             orgSubFundSummaryReportEntry.setSubFundGroupDescription(BCConstants.Report.ERROR_GETTING_SUBFUNDGROUP_DESCRIPTION);
@@ -130,7 +125,6 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         else {
             orgSubFundSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
         }
-
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgSubFundSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
@@ -146,23 +140,11 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
     /**
      * builds report body
      * 
-     * @param BudgetConstructionAccountSummary bcas
+     * @param orgSubFundSummaryReportEntry
+     * @param subFundSummary
      */
     public void buildReportsBody(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummary) {
         boolean trExist = false;
-
-        /*
-         * orgSubFundSummaryReportEntry.setAccountNumber(subFundSummary.getAccountNumber());
-         * orgSubFundSummaryReportEntry.setSubAccountNumber(subFundSummary.getSubAccountNumber()); if
-         * (subFundSummary.getSubAccountNumber().equals("-----")) { if (subFundSummary.getAccount().getAccountName() == null) {
-         * orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_ACCOUNT_DESCRIPTION); }
-         * else orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(subFundSummary.getAccount().getAccountName()); } else { //
-         * TODO check when the subAccountNumber is not "-----" try { if (subFundSummary.getSubAccount().getSubAccountName() == null) {
-         * orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION); }
-         * else orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(subFundSummary.getSubAccount().getSubAccountName()); }
-         * catch (PersistenceBrokerException e) {
-         * orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION); } }
-         */
 
         // build income expense description
         if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
@@ -194,7 +176,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         if (subFundSummary.getFinancialBeginningBalanceLineAmount() != null) {
             accountLineAnnualBalAmt = subFundSummary.getAccountLineAnnualBalanceAmount().bigDecimalValue();
         }
-
+        
         orgSubFundSummaryReportEntry.setBaseAmount(beginingBalanceLineAmt);
         orgSubFundSummaryReportEntry.setReqAmount(accountLineAnnualBalAmt);
         orgSubFundSummaryReportEntry.setAmountChange(accountLineAnnualBalAmt.subtract(beginingBalanceLineAmt));
@@ -207,8 +189,9 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
     /**
      * builds report total
      * 
-     * @param BudgetConstructionAccountSummary bcas
-     * @param List reportTotalList
+     * @param orgSubFundSummaryReportEntry
+     * @param subFundSummaryList
+     * @param reportTotalList
      */
     public void buildReportsTotal(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummaryList, List reportTotalList) {
         Iterator totalListIter = reportTotalList.iterator();
@@ -218,8 +201,8 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueBaseAmount(subFundTotalEntry.getSubFundTotalRevenueBaseAmount());
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueReqAmount(subFundTotalEntry.getSubFundTotalRevenueReqAmount());
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueAmountChange(subFundTotalEntry.getSubFundTotalRevenueReqAmount().subtract(subFundTotalEntry.getSubFundTotalRevenueBaseAmount()));
-                
-                if (!orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount().equals(BigDecimal.ZERO)){
+
+                if (!orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount().equals(BigDecimal.ZERO)) {
                     orgSubFundSummaryReportEntry.setSubFundTotalRevenuePercentChange(orgSubFundSummaryReportEntry.getSubFundTotalRevenueAmountChange().divide(orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
 
@@ -276,7 +259,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
         BigDecimal subFundTotalRevenueBaseAmount = BigDecimal.ZERO;
         BigDecimal subFundTotalRevenueReqAmount = BigDecimal.ZERO;
-    
+
         BigDecimal totalRevenueBaseAmount = BigDecimal.ZERO;
         BigDecimal totalGrossBaseAmount = BigDecimal.ZERO;
         BigDecimal totalTransferInBaseAmount = BigDecimal.ZERO;
@@ -293,11 +276,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         BigDecimal totalGrossPercentChange = BigDecimal.ZERO;
         BigDecimal totalTransferInPercentChange = BigDecimal.ZERO;
         BigDecimal totalNetTransferPercentChange = BigDecimal.ZERO;
-        /*BigDecimal revExpDifferenceBaseAmount = BigDecimal.ZERO;
-        BigDecimal revExpDifferenceReqAmount = BigDecimal.ZERO;
-        BigDecimal revExpDifferenceAmountChange = BigDecimal.ZERO;
-        BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;*/
-
+  
         List returnList = new ArrayList();
         Iterator simpleListIterator = simpleList.iterator();
         while (simpleListIterator.hasNext()) {
@@ -335,13 +314,9 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
                     bcSubFundTotal.setSubFundTotalRevenueReqAmount(subFundTotalRevenueReqAmount);
                     subFundTotalRevenueBaseAmount = BigDecimal.ZERO;
                     subFundTotalRevenueReqAmount = BigDecimal.ZERO;
-                
+
                 }
             }
-
-            
-
-            
             bcSubFundTotal.setTotalGrossBaseAmount(totalGrossBaseAmount);
             bcSubFundTotal.setTotalGrossReqAmount(totalGrossReqAmount);
             bcSubFundTotal.setTotalNetTransferBaseAmount(totalNetTransferBaseAmount);
@@ -395,7 +370,6 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             return false;
     }
 
-
     /**
      * Deletes duplicated entry from list
      * 
@@ -426,9 +400,12 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         return returnList;
     }
 
+    /**
+     * sets budgetConstructionAccountSummaryReportDao
+     * 
+     * @param budgetConstructionAccountSummaryReportDao
+     */
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
         this.budgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
     }
-
-
 }

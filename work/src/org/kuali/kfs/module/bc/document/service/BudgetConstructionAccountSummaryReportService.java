@@ -21,12 +21,12 @@ import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
 import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
 
 /**
- * This class defines methods that 
+ * This interface defines the methods for BudgetConstructionAccountSummaryReports
  */
 public interface BudgetConstructionAccountSummaryReportService {
 
     /**
-     * updates acount summary table.
+     * updates account summary table.
      * 
      * @param personUserIdentifier
      * @return
@@ -34,13 +34,21 @@ public interface BudgetConstructionAccountSummaryReportService {
     public void updateReportsAccountSummaryTable(String personUserIdentifier);
 
     /**
-     * updates acount summary table when users choose consolidation.
+     * updates account summary table when users choose consolidation.
      * 
      * @param personUserIdentifier
      * @return
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier);
 
+    /**
+     * 
+     * builds BudgetConstructionAccountSummaryReports
+     * 
+     * @param universityFiscalYear
+     * @param accountSummaryList
+     * @return Collection
+     */
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList);
     
 }

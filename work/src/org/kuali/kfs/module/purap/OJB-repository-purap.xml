@@ -2718,7 +2718,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="purchaseOrderQuoteStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderQuoteStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="statusCode" />
+        <foreignkey field-ref="purchaseOrderQuoteStatusCode" />
     </reference-descriptor>
     <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorCountryCode" />

@@ -3,77 +3,68 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationConvention">
- 
-        <inquiry>
-            <title>Asset Depreciation Convention Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="depreciationConventionCode" />
-                        <field attributeName="financialObjectSubTypeCode" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+	<businessObject businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationConvention">
 
-        <lookup>
-            <title>Asset Depreciation Convention Lookup</title>
+		<inquiry>
+			<title>Asset Depreciation Convention Inquiry</title>
 
-            <instructions>Look up an Asset Depreciation Convention</instructions>
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="financialObjectSubTypeCode" />
+						<field attributeName="depreciationConventionCode" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="financialObjectSubTypeCode" />
-                </sortAttributes>
-            </defaultSort>
+		<lookup>
+			<title>Asset Depreciation Convention Lookup</title>
 
-            <lookupFields>
-                <lookupField attributeName="depreciationConventionCode" required="false" />
-                <lookupField attributeName="financialObjectSubTypeCode" required="false" />
-            </lookupFields>
+			<instructions>Look up an Asset Depreciation Convention</instructions>
 
-            <resultFields>
-                <field attributeName="depreciationConventionCode" />
-                <field attributeName="financialObjectSubTypeCode" />
-            </resultFields>
-        </lookup>
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="financialObjectSubTypeCode" />
+				</sortAttributes>
+			</defaultSort>
 
-        <attributes>
+			<lookupFields>
+				<lookupField attributeName="financialObjectSubTypeCode" required="false" />
+				<lookupField attributeName="depreciationConventionCode" required="false" />
+			</lookupFields>
 
-            <attribute name="depreciationConventionCode" forceUppercase="true">
-                <label>Depreciation Convention Code</label>
-                <shortLabel>Code</shortLabel>
+			<resultFields>
+				<field attributeName="financialObjectSubTypeCode" />
+				<field attributeName="depreciationConventionCode" />
+			</resultFields>
+		</lookup>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+		<attributes>
 
-                <control>
-                    <text size="4" />
-                </control>
+			<attributeReference name="financialObjectSubTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjSubTyp" sourceAttributeName="code">
+				<label>Financial Object Sub Type Code</label>
+				<shortLabel>Code</shortLabel>
+				<required>true</required>
+			</attributeReference>
 
-                <summary>depreciationConventionCode</summary>
-                <description>depreciationConventionCode description...</description>
+			<attribute name="depreciationConventionCode" forceUppercase="true">
+				<label>Depreciation Convention Code</label>
+				<shortLabel>Code</shortLabel>
+
+				<maxLength>2</maxLength>
+				<required>true</required>
+
+				<control>
+					<select valuesFinderClass="org.kuali.module.cams.lookup.keyvalues.AssetDepreciationConventionValuesFinder" />
+				</control>
+
+				<summary>depreciationConventionCode</summary>
+				<description>depreciationConventionCode description...</description>
 			</attribute>
 
-            <attribute name="financialObjectSubTypeCode" forceUppercase="true">
-                <label>Financial Object Sub Type Code</label>
-                <shortLabel>Code</shortLabel>
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialObjectSubTypeCode</summary>
-                <description>financialObjectSubTypeCode description...</description>
-			</attribute>
-
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
-    </businessObject>
+		</attributes>
+	</businessObject>
 </dictionaryEntry>

@@ -36,6 +36,11 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
+				title="Asset Depreciation Convention"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetDepreciationConvention&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
 				title="Asset Depreciation Method"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetDepreciationMethod&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

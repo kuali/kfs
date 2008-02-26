@@ -149,9 +149,6 @@
 	<field-descriptor name="entryDate" column="AR_ENTRY_DT" jdbc-type="DATE"/>
 	<field-descriptor name="financialDocumentExplanationText" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="cashControl" class-ref="org.kuali.module.ar.document.CashControlDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
@@ -246,7 +243,7 @@
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <collection-descriptor name="cashControlDetails" element-class-ref="org.kuali.module.ar.bo.CashControlDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="cashControlDetails" element-class-ref="org.kuali.module.ar.bo.CashControlDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="referenceFinancialDocumentNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -265,10 +262,8 @@
 
 	<reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.module.ar.document.PaymentApplicationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="referenceFinancialDocumentNumber" />
+		
 	</reference-descriptor>
-	<reference-descriptor name="cashControlDocument" class-ref="org.kuali.module.ar.document.CashControlDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>

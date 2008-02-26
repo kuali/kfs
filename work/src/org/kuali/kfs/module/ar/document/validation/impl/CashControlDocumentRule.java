@@ -103,7 +103,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = true;
 
         if (detail.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
+            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.CashControl.LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
         else if (detail.getFinancialDocumentLineAmount().isNegative() && document.isHasNegativeCashControlDetail()) {
@@ -119,7 +119,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
     
     private boolean checkPaymentMedium(CashControlDocument document) {
-        boolean isValid = false;
+        boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         String paymentMedium = document.getCustomerPaymentMediumCode();

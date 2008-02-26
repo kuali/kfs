@@ -83,6 +83,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument document = cashControlDocForm.getCashControlDocument();
         
+        
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
      
@@ -94,6 +95,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             PaymentApplicationDocument doc = (PaymentApplicationDocument)KNSServiceLocator.getDocumentService().getNewDocument("PaymentApplicationDocument");
             newCashControlDetail.setReferenceFinancialDocument(doc);
             newCashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+            newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
 
             // add customer invoice detail
             document.addCashControlDetail(newCashControlDetail);
@@ -122,7 +124,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
         
 //      TODO delete these lines
-        document.setReferenceFinancialDocumentNumber("846584546748");
+        document.setReferenceFinancialDocumentNumber("258508");
         
         //PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
         //PaymentMedium medium = service.getPaymentMedium(paymentMediumCode);

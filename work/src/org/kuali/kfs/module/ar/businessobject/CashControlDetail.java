@@ -22,6 +22,9 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private String customerPaymentDescription;
 	private String customerNumber;
 	private Date customerPaymentDate;
+    
+    //
+    private String status;
 
     private PaymentApplicationDocument referenceFinancialDocument;
     private CashControlDocument cashControlDocument;
@@ -33,11 +36,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 */
 	public CashControlDetail() {
         financialDocumentLineAmount = new KualiDecimal(0);
-
-//        referenceFinancialDocument = new PaymentApplicationDocument();
-//        customer = new Customer();
-     //   nonAppliedHolding = new NonAppliedHolding();
-
 	}
 
 	/**
@@ -75,7 +73,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * Sets the referenceFinancialDocumentNumber attribute.
 	 * 
 	 * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
-	 * 
 	 */
 	public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
 		this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
@@ -263,15 +260,11 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
     }
     
     public String getStatus() {
-        String retVal = "";
-        if (referenceFinancialDocument != null) {
-            KualiWorkflowDocument doc = referenceFinancialDocument.getDocumentHeader().getWorkflowDocument();
-            retVal = doc.getStatusDisplayValue();
-        }
-        return retVal;
+        return status;
     }
+    
     public void setStatus(String status)
     {
-        
+        this.status = status;
     }
 }

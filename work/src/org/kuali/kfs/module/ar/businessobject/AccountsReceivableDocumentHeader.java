@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 

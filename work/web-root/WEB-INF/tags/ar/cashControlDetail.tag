@@ -38,6 +38,7 @@
 		<html:hidden property="${propertyName}.documentNumber" />
 		<html:hidden property="${propertyName}.versionNumber" />
 		<html:hidden property="${propertyName}.objectId" />
+		<html:hidden property="${propertyName}.referenceFinancialDocumentNumber" />
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
@@ -60,7 +61,7 @@
 			property="${propertyName}.customerNumber" />
 		&nbsp;
 		<kul:lookup boClassName="org.kuali.module.ar.bo.Customer"
-			fieldConversions="customer:${propertyName}.customerNumber" />
+			fieldConversions="customerNumber:${propertyName}.customerNumber" />
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute

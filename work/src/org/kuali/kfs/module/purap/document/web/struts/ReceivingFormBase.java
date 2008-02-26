@@ -15,7 +15,9 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
-public class ReceivingFormBase extends PurchasingAccountsPayableFormBase {
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+
+public class ReceivingFormBase extends KualiTransactionalDocumentFormBase {
 
     public ReceivingFormBase(){
         super();

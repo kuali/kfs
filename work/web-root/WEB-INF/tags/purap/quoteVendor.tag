@@ -47,6 +47,10 @@
             </th>
             <td align=left valign=middle class="datacell">
             	<c:if test="${not isSysVendor}">N/A</c:if>
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorNumber" />
+		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" />
+		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" />
+
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />-
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>

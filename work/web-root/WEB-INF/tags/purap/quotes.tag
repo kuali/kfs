@@ -76,9 +76,7 @@
 				<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 					<span class="subhead-right">
 						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.purap.bo.PurchaseOrderQuoteList!!).(((purchaseOrderQuoteListIdentifier:document.purchaseOrderQuoteListIdentifier)))"
-						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
-						<input type="image" name="methodToCall.performLookup.(!!org.kuali.module.vendor.bo.VendorDetail!!).(((vendorHeaderGeneratedIdentifier:document.newQuoteVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.newQuoteVendorDetailAssignedIdentifier)))"
-						   src="${ConfigProperties.externalizable.images.url}tinybutton-searchvend.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Vendor" title="Search for a Vendor" />
+						   src="${ConfigProperties.externalizable.images.url}tinybutton-selquolist.gif" border="0" class="tinybutton" valign="middle" alt="Search for a Quote List" title="Search for a Quote List" />
 					</span>
 				</c:if>
 			</td>
@@ -96,12 +94,17 @@
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="newPurchaseOrderVendorQuote.vendorName" />
+                    <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
+                    lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
+                    fieldConversions="vendorName:newPurchaseOrderVendorQuote.vendorName,vendorHeaderGeneratedIdentifier:newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier,defaultAddressLine1:newPurchaseOrderVendorQuote.vendorLine1Address,defaultAddressLine2:newPurchaseOrderVendorQuote.vendorLine2Address,defaultAddressCity:newPurchaseOrderVendorQuote.vendorCityName,defaultAddressPostalCode:newPurchaseOrderVendorQuote.vendorPostalCode,defaultAddressStateCode:newPurchaseOrderVendorQuote.vendorStateCode"/>
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="newPurchaseOrderVendorQuote.vendorNumber" />
+		        <html:hidden property="newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier" />
+		        <html:hidden property="newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier" />
             </td>
             <td rowspan="8"><html:image
 	property="methodToCall.addVendor"

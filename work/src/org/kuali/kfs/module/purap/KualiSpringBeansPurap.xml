@@ -375,12 +375,6 @@
         </property>
     </bean>
 
-    <bean id="createFullDocumentSuiteStep" class="org.kuali.module.purap.batch.CreateFullDocumentSuiteStep" parent="step">
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-    </bean>
-
 	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
 		<property name="processPdpCancelPaidService">
 			<ref bean="processPdpCancelPaidService"/>

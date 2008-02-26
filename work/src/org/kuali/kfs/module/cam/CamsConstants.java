@@ -20,6 +20,8 @@ package org.kuali.module.cams;
  * Global constancts for cams.
  */
 public class CamsConstants {
+    //public static final String SYSTEM_NAME = "Capital Assets Management System";
+    
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE   ="SV";
     public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE   ="SL"; 
     public static final String TRANSFER_PAYMENT_CODE_N = "N";
@@ -42,11 +44,18 @@ public class CamsConstants {
         public static final String NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES="NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";                
     }    
 
-    public static final String CAMS = "Capital Assets Management System"; 
-       
-    public static final String DEPRECIATION_REPORT_SUBTITLE = "Asset Depreciation Report - Statistics";
-           
-    public static final String DEPRECIATION_ORIGINATION_CODE="01";
+    public static class Report {
+        public static final String REPORT_EXTENSION ="PDF";
+        public static final String FILE_PREFIX = "CAMS";        
+        public static final String DEPRECIATION_REPORT_TITLE = "Asset Depreciation Report - Statistics";        
+    }
+    
+    public static class Depreciation {
+        public static final String DEPRECIATION_ORIGINATION_CODE="01";
+        public static final String TRANSACTION_DESCRIPTION      = "Batch Depreciation Asset ";
+        public static final String DOCUMENT_DESCRIPTION         = "Batch Depreciation Entry";        
+    }
+
     
     public static final String[] MONTHS = {"January","February","March","April","May","June","July","August","September","October","November","December"};
     

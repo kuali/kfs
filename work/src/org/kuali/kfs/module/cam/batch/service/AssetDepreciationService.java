@@ -16,7 +16,10 @@
 package org.kuali.module.cams.service;
 
 public interface AssetDepreciationService {
-
+    /**
+     * 
+     * This method runs depreciation process
+     */
     public void runDepreciation();
     
 }

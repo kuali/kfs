@@ -189,7 +189,7 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     public String getKey() {
         return (this.getCapitalAssetNumber().toString()+this.getFinancialSystemOriginationCode()+this.getChartOfAccountsCode()+
                 this.getAccountNumber()+this.getSubAccountNumber()+this.getFinancialObjectCode()+this.getFinancialSubObjectCode()+this.getFinancialObjectTypeCode()+
-                this.getTransactionType()+this.getProjectCode());
+                this.getProjectCode()+this.getTransactionType());
     }
 
     public String getTransactionLedgerEntryDescription() {

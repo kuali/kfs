@@ -18,7 +18,14 @@ package org.kuali.module.cams.service;
 import java.util.List;
 
 public interface ReportService {
-    
+    /**
+     * 
+     * This method invokes generateReport method from DepreciationReport class in order to generate a
+     * depreciation report on a PDF format
+     *  
+     * @param reportLog
+     * @param errorMsg
+     */
     public void generateDepreciationReport(List<String[]> reportLog, String errorMsg);
 
 }

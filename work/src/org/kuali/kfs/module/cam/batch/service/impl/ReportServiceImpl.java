@@ -22,10 +22,12 @@ import org.kuali.module.cams.report.DepreciationReport;
 import org.kuali.module.cams.service.ReportService;
 
 public class ReportServiceImpl implements ReportService {
+    /**
+     * 
+     * @see org.kuali.module.cams.service.ReportService#generateDepreciationReport(java.util.List, java.lang.String)
+     */
     public void generateDepreciationReport(List<String[]> reportLog, String errorMsg) {
         DepreciationReport dr = new DepreciationReport();
         dr.generateReport(reportLog, errorMsg);
-        // TODO Auto-generated method stub
-
     }
 }

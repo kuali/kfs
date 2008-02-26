@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetDisposition;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.PaymentSummaryService;
 
@@ -54,7 +56,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
             throw new RuntimeException(e);
         }
     }
-
+    public static final String ASSET_DISCOMPOSTION_CODE_MERGE = "M";
+    public static final String ASSET_DISCOMPOSTION_CODE_SEPARATE = "S";
+    
     private OptionsService optionsService;
 
 
@@ -67,6 +71,8 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     public void calculateAndSetPaymentSummary(Asset asset) {
         asset.setPaymentTotalCost(calculatePaymentTotalCost(asset));
+        asset.setAssetMergeHistory(getMergeHistroty(asset));
+        asset.setAssetSeparateHistory(getSeparateHistroty(asset));
         asset.setAccumulatedDepreciation(calculatePrimaryAccumulatedDepreciation(asset));
         asset.setBaseAmount(calculatePrimaryBaseAmount(asset));
         asset.setBookValue(calculatePrimaryBookValue(asset));
@@ -75,6 +81,28 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
     }
 
+    private AssetDisposition getMergeHistroty(Asset asset) {
+        List<AssetDisposition> assetDispositon = asset.getAssetDisposition();
+        
+        for (AssetDisposition disposition : assetDispositon) {
+            if (disposition.getDispositionCode().toUpperCase().equals(ASSET_DISCOMPOSTION_CODE_MERGE)) {
+                return disposition;
+            }
+        } 
+        return null;
+    }
+    
+    private AssetDisposition getSeparateHistroty(Asset asset) {
+        List<AssetDisposition> assetDispositon = asset.getAssetDisposition();
+        
+        for (AssetDisposition disposition : assetDispositon) {
+            if (disposition.getDispositionCode().toUpperCase().equals(ASSET_DISCOMPOSTION_CODE_SEPARATE)) {
+                return disposition;
+            }
+        } 
+        return null;
+    }
+    
     private KualiDecimal calculatePaymentTotalCost(Asset asset) {
         List<AssetPayment> payments = asset.getAssetPayments();
         KualiDecimal totalCost = new KualiDecimal(0);

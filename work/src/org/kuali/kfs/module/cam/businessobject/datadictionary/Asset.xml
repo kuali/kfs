@@ -103,7 +103,6 @@
                 <lookupField attributeName="manufacturerModelNumber" required="false" />
                 <lookupField attributeName="serialNumber" required="false" />
                 <lookupField attributeName="nationalStockNumber" required="false" />
-                <lookupField attributeName="capitalAssetInServiceDate" required="false" />
                 <lookupField attributeName="createDate" required="false" />
                 <lookupField attributeName="oldTagNumber" required="false" />
                 <lookupField attributeName="assetOrganization.organizationTagNumber" required="false" noLookup="true" />
@@ -117,12 +116,10 @@
                 <field attributeName="campusTagNumber" />
                 <field attributeName="organizationOwnerAccount.organizationCode" />
                 <field attributeName="buildingCode" />
-                
-                <!-- need double check inventoryStatusCode or inventoryStatus.inventoryStatusName?? -->
                 <field attributeName="inventoryStatusCode" />
-                
                 <field attributeName="capitalAssetDescription" />
                 <field attributeName="capitalAssetTypeCode" />
+                <field attributeName="capitalAssetInServiceDate" />
                 <field attributeName="createDate" />
                 <field attributeName="agencyNumber" />
             </resultFields>
@@ -266,20 +263,12 @@
 
             </attributeReference>
 
-            <attribute name="estimatedSellingPrice" forceUppercase="true">
+            <attributeReference name="estimatedSellingPrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
                 <label>Estimated Selling Price</label>
                 <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>estimatedSellingPrice</summary>
                 <description>estimatedSellingPrice description...</description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="expectedReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Expected Return Date</label>
@@ -287,20 +276,12 @@
 
             </attributeReference>
 
-            <attribute name="fabricationEstimatedTotalAmount" forceUppercase="true">
+            <attributeReference name="fabricationEstimatedTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
                 <label>Fabrication Estimated Total Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>fabricationEstimatedTotalAmount</summary>
                 <description>fabricationEstimatedTotalAmount description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
                 <label>Financial Document Posting Period Code</label>
@@ -317,20 +298,12 @@
                 <description>financialDocumentPostingPeriodCode description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Financial Document Posting Year</label>
                 <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
                 <summary>financialDocumentPostingYear</summary>
                 <description>financialDocumentPostingYear description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
                 <label>Insurance Charge Account Number</label>
@@ -525,20 +498,12 @@
 
             </attributeReference>
             
-            <attribute name="replacementAmount" forceUppercase="true">
+            <attributeReference name="replacementAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Replacement Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>replacementAmount</summary>
                 <description>replacementAmount description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="retirementAccountNumber" forceUppercase="true">
                 <label>Retirement Account Number</label>
@@ -615,35 +580,19 @@
                 <description>retirementReasonCode description...</description>
 			</attribute>
 
-            <attribute name="salePrice" forceUppercase="true">
+            <attributeReference name="salePrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Sale Price</label>
                 <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>salePrice</summary>
                 <description>salePrice description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="salvageAmount" forceUppercase="true">
+            <attributeReference name="salvageAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Salvage Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>salvageAmount</summary>
                 <description>salvageAmount description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="secondaryDepreciationMethodCode" forceUppercase="true">
                 <label>Secondary Depreciation Method Code</label>
@@ -690,20 +639,12 @@
                 <description>signatureCode description...</description>
 			</attribute>
 
-            <attribute name="totalCostAmount" forceUppercase="true">
-                <label>Total Cost Amount</label>
+            <attributeReference name="totalCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
+                <label>Asset Total Cost</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>totalCostAmount</summary>
                 <description>totalCostAmount description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
                 <label>Transfer Of Funds Financial Document Number</label>
@@ -761,7 +702,7 @@
 			</attributeReference>
 			
 			<attributeReference name="representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier" >
-				<label>Asset Representative User ID</label>
+				<label>Asset Representative</label>
 			</attributeReference>
 			
 			<attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode" >
@@ -828,125 +769,84 @@
                 <description>Land parcel number.</description>
 			</attribute>
 			
-			<attribute name="accumulatedDepreciation"
-				forceUppercase="false">
+			<attributeReference name="accumulatedDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Accumulated Depreciation</label>
 				<shortLabel>Accumulated</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Accumulated Depreciation</summary>
-				<description>
-					Accumulated Depreciation Amount
-				</description>
-			</attribute>
-			<attribute name="baseAmount" forceUppercase="false">
+				<description>Accumulated Depreciation Amount</description>
+			</attributeReference>
+			
+			<attributeReference name="baseAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Base Amount</label>
 				<shortLabel>Base</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Base Amount</summary>
 				<description>Base Amount</description>
-			</attribute>
-			<attribute name="bookValue" forceUppercase="false">
+			</attributeReference>
+			
+			<attributeReference name="bookValue" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Book Value</label>
 				<shortLabel>Book Value</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Book Value</summary>
 				<description>Book Value</description>
-			</attribute>
-			<attribute name="prevYearDepreciation"
-				forceUppercase="false">
+			</attributeReference>
+			
+			<attributeReference name="prevYearDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Previous Year Depreciation</label>
 				<shortLabel>Previous Year</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Previous Year Depreciation</summary>
 				<description>Previous Year Depreciation</description>
-			</attribute>
-			<attribute name="yearToDateDepreciation"
-				forceUppercase="false">
+			</attributeReference>
+			
+			<attributeReference name="yearToDateDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Year To Date Depreciation</label>
 				<shortLabel>Year To Date Depreciation</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Year To Date Depreciation</summary>
 				<description>Year To Date Depreciation</description>
-			</attribute>
-			<attribute name="currentMonthDepreciation"
-				forceUppercase="false">
+			</attributeReference>
+			
+			<attributeReference name="currentMonthDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
 				<label>Current Month Depreciation</label>
 				<shortLabel>Current Month Depreciation</shortLabel>
-				<maxLength>19</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="19" />
-				</control>
 				<summary>Current Month Depreciation</summary>
 				<description>Current Month Depreciation</description>
-			</attribute>
+			</attributeReference>
+			
 			<attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Display Total Cost</label>
                 <shortLabel>Total Cost</shortLabel>
             </attributeReference>
-			<attributeReference name="assetWarranty.warrantyNumber"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyNumber">
+            
+			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyContactName"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyContactName">
+			
+			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyPhoneNumber"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyPhoneNumber">
+			
+			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyPurchaseOrderNumber">
+			
+			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyBeginningDate"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyBeginningDate">
+			
+			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyEndingDate"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyEndingDate">
+			
+			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate">
 			</attributeReference>
-			<attributeReference name="assetWarranty.warrantyText"
-				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
-				sourceAttributeName="warrantyText">
+			
+			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText">
 			</attributeReference>
 			<attributeReference name="assetWarranty.versionNumber"
 				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
 				sourceAttributeName="versionNumber">
+			</attributeReference>
+			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
+			</attributeReference>
+			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate">
+			</attributeReference>
+			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
+			</attributeReference>
+			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate">
 			</attributeReference>
         </attributes>
     </businessObject>

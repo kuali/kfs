@@ -103,9 +103,12 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRepairHistory> assetRepairHistory;
     private AssetWarranty assetWarranty;
     private List<AssetComponent> assetComponents;
+    private List<AssetDisposition> assetDisposition;
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private KualiDecimal federalContributionAmount;
+    private AssetDisposition assetMergeHistory;
+    private AssetDisposition assetSeparateHistory;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -118,9 +121,10 @@ public class Asset extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public Asset() {
-        assetPayments = new TypedArrayList(AssetPayment.class);
+        this.assetPayments = new TypedArrayList(AssetPayment.class);
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
+        this.assetDisposition = new TypedArrayList(AssetDisposition.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -170,6 +174,7 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setYearToDateDepreciation(KualiDecimal yearToDateDepreciation) {
         this.yearToDateDepreciation = yearToDateDepreciation;
     }
+
 
 
     /**
@@ -1641,10 +1646,20 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetOrganization = assetOrganization;
     }
 
+    /**
+     * Gets the organizationTagNumber attribute.
+     * 
+     * @return Returns the organizationTagNumber.
+     */
     public String getOrganizationTagNumber() {
         return organizationTagNumber;
     }
 
+    /**
+     * Sets the organizationTagNumber attribute value.
+     * 
+     * @param organizationTagNumber The organizationTagNumber to set.
+     */
     public void setOrganizationTagNumber(String organizationTagNumber) {
         this.organizationTagNumber = organizationTagNumber;
     }
@@ -1675,14 +1690,14 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the paymentTotalCost attribute value
+     * Sets the paymentTotalCost attribute value.
      * 
      * @param paymentTotalCost The paymentTotalCost to set.
      */
     public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
         this.paymentTotalCost = paymentTotalCost;
     }
-
+    
     public List<AssetComponent> getAssetComponents() {
         return assetComponents;
     }
@@ -1691,4 +1706,59 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetComponents = assetComponents;
     }
 
+    /**
+     * Gets the assetDisposition attribute.
+     * 
+     * @return Returns the assetDisposition.
+     */
+    public List<AssetDisposition> getAssetDisposition() {
+        return assetDisposition;
+    }
+
+    /**
+     * Sets the assetDisposition attribute value.
+     * 
+     * @param assetDisposition The assetDisposition to set.
+     */
+    public void setAssetDisposition(List<AssetDisposition> assetDisposition) {
+        this.assetDisposition = assetDisposition;
+    }
+
+    /**
+     * Gets the assetMergeHistory attribute.
+     * 
+     * @return Returns the assetMergeHistory.
+     */
+    public AssetDisposition getAssetMergeHistory() {
+        return assetMergeHistory;
+    }
+    
+    /**
+     * Sets the assetMergeHistory attribute value.
+     * 
+     * @param assetMergeHistory The assetMergeHistory to set.
+     */
+    public void setAssetMergeHistory(AssetDisposition assetMergeHistory) {
+        this.assetMergeHistory = assetMergeHistory;
+    }
+
+    /**
+     * Gets the assetSeparateHistory attribute.
+     * 
+     * @return Returns the assetSeparateHistory.
+     */
+    public AssetDisposition getAssetSeparateHistory() {
+        return assetSeparateHistory;
+    }
+
+    /**
+     * Sets the assetSeparateHistory attribute value.
+     * 
+     * @param assetSeparateHistory The assetSeparateHistory to set.
+     */
+    public void setAssetSeparateHistory(AssetDisposition assetSeparateHistory) {
+        this.assetSeparateHistory = assetSeparateHistory;
+    }
+
+    
 }

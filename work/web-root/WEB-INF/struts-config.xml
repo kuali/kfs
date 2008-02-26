@@ -302,6 +302,8 @@
             <forward name="retransmitPurchaseOrderPDF" path="/jsp/modules/purap/RetransmitForward.jsp" redirect="false" />
         </action>
 
+        <action path="/purapPrint" type="org.kuali.module.purap.web.struts.action.PrintAction" scope="request" />
+
         <action path="/cg*" name="{1}Form" input="/jsp/modules/cg/{1}.jsp" type="org.kuali.module.cg.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/cg/{1}.jsp" />

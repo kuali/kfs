@@ -99,10 +99,10 @@
                     fieldConversions="vendorName:newPurchaseOrderVendorQuote.vendorName,vendorHeaderGeneratedIdentifier:newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier,defaultAddressLine1:newPurchaseOrderVendorQuote.vendorLine1Address,defaultAddressLine2:newPurchaseOrderVendorQuote.vendorLine2Address,defaultAddressCity:newPurchaseOrderVendorQuote.vendorCityName,defaultAddressPostalCode:newPurchaseOrderVendorQuote.vendorPostalCode,defaultAddressStateCode:newPurchaseOrderVendorQuote.vendorStateCode"/>
             </td>
             <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorNumber}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="newPurchaseOrderVendorQuote.vendorNumber" />
+            	<c:out value="${newPurchaseOrderVendorQuote.vendorNumber}" />
 		        <html:hidden property="newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier" />
 		        <html:hidden property="newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier" />
             </td>

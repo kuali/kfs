@@ -201,6 +201,8 @@
 				<required>true</required>
 			</attributeReference>                 							
 
+			<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber" />         							
+
 			<attributeReference name="vendorHeaderGeneratedIdentifier" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorDetail" 
 				sourceAttributeName="vendorHeaderGeneratedIdentifier" >

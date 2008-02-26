@@ -43,16 +43,13 @@
 			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].versionNumber" />
             </td>
             <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" /></div>
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorNumber}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
             	<c:if test="${not isSysVendor}">N/A</c:if>
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorNumber" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorNumber" readOnly="true" />
 		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" />
 		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" />
-
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" readOnly="true" />-
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorHeaderGeneratedIdentifier}" property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" readOnly="true" />
             </td>
            	<c:if test="${!isPurchaseOrderAwarded && !isTrasnmitted && preRouteChangeMode}">
    	         <td rowspan="9">
@@ -136,20 +133,10 @@
 	alt="transmit quote" title="transmit quote" 
 	styleClass="tinybutton" />
 					<c:if test="${isTransmitPrintDisplayed}">
-							<!-- html:image
-			property="methodToCall.printPoQuote.line${ctr}"
-			src="${ConfigProperties.externalizable.images.url}tinybutton-downldtransquoreq.gif"
-			alt="print quote request" title="print quote request" 
-			styleClass="tinybutton" / -->
-						<input type="hidden" name="methodToCall.printPoQuote.line<c:out value="${ctr}" />.x" value="1" />
-						<input type="hidden" name="methodToCall.printPoQuote.line<c:out value="${ctr}" />.y" value="1" />
-						 <SCRIPT language="JavaScript">
-						function printPOQuote() {
-							var kualiForm = document.forms['KualiForm'];
-							kualiForm.submit();
-	  					}
-	  					window.onload = printPOQuote;
-						</SCRIPT>
+						Transmit information saved.
+						<a href="purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}" target="_BLANK">
+							Click here to print Quote.
+						</a>
 					</c:if>
 				</c:if>
             </td>

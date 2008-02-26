@@ -123,6 +123,10 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
         return vendorNumber;
     }
 
+    public void setVendorNumber(String vendorNumber) {
+        // do nothing
+    }
+
     public String getVendorName() {
         return vendorName;
     }

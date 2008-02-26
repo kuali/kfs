@@ -92,11 +92,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private BigDecimal revExpDifferenceAmountChange = BigDecimal.ZERO;
     private BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;
 
-    
-
-    private Integer tempFiscalYear = new Integer(2008);
-
-
     /**
      * Gets the accountNameAndSubAccountName
      * 

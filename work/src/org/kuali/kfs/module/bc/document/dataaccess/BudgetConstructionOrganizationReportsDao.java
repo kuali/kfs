@@ -22,12 +22,33 @@ import java.util.Map;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 
 public interface BudgetConstructionOrganizationReportsDao {
-
+    /**
+     * gets a BudgetConstructionOrganizationReports object with PrimaryId
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
-
+    
+    /**
+     * gets Collection with searchCriteria
+     * 
+     * @param cls
+     * @param searchCriteria
+     * @return
+     */
     public Collection getBySearchCriteria(Class cls, Map searchCriteria);
     
-    public Collection getBySearchCriteriaByList(Class cls, Map searchCriteria, List<String> orderList);
+    /**
+     * gets Collection with searchCriteria and OrderByList
+     * 
+     * @param cls
+     * @param searchCriteria
+     * @param orderList
+     * @return
+     */
+    public Collection getBySearchCriteriaWithOrderByList(Class cls, Map searchCriteria, List<String> orderList);
     
     /**
      * This method returns active organizations that report to the passed in organization.

@@ -76,6 +76,12 @@ public class OrganizationReportSelectionForm extends KualiForm {
         this.bcSubFunds = bcSubFunds;
     }
     
+    /**
+     * Keeps bcSubFundList in the form.
+     * 
+     * @param index
+     * @return
+     */
     public BudgetConstructionSubFundPick getBcSubFund(int index) {
         while (getBcSubFunds().size() <= index) {
             getBcSubFunds().add(new BudgetConstructionSubFundPick());
@@ -175,37 +181,75 @@ public class OrganizationReportSelectionForm extends KualiForm {
         this.docFormKey = docFormKey;
     }
 
+    /**
+     * Gets the buildControlList
+     * 
+     * @return Returns the buildControlList
+     */
     public boolean isBuildControlList() {
         return buildControlList;
     }
 
+    /**
+     * Sets the buildControlList
+     * 
+     * @param docFormKey The docFormKey to set.
+     */
     public void setBuildControlList(boolean buildControlList) {
         this.buildControlList = buildControlList;
     }
 
+    /**
+     * Gets the reportConsolidation
+     * 
+     * @return Returns the reportConsolidation
+     */
     public boolean isReportConsolidation() {
         return reportConsolidation;
     }
 
+    /**
+     * Sets the reportConsolidation
+     * 
+     * @param reportConsolidation The reportConsolidation to set.
+     */
     public void setReportConsolidation(boolean reportConsolidation) {
         this.reportConsolidation = reportConsolidation;
     }
 
+    /**
+     * Gets the reportMode
+     * 
+     * @return Returns the reportMode
+     */
     public String getReportMode() {
         return reportMode;
     }
 
+    /**
+     * Sets the reportMode
+     * 
+     * @param reportMode The reportMode to set.
+     */
     public void setReportMode(String reportMode) {
         this.reportMode = reportMode;
     }
 
+    /**
+     * Gets the refreshSubFundList
+     * 
+     * @return Returns the refreshSubFundList
+     */
     public boolean isRefreshListFlag() {
         return refreshSubFundList;
     }
 
+    /**
+     * Sets the refreshSubFundList
+     * 
+     * @param refreshSubFundList The refreshSubFundList to set.
+     */
     public void setRefreshListFlag(boolean refreshSubFundList) {
         this.refreshSubFundList = refreshSubFundList;
     }
-
-
 }

@@ -34,6 +34,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     @RawSQL
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
         
+        //builds and updates AccountSummaryReports
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append("  ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
@@ -126,6 +127,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         updateReportsAccountSummaryTable[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
+        //builds and updates AccountSummaryReports with consolidation
         sqlText.append("INSERT INTO ld_bcn_acct_summ_t (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
@@ -224,7 +226,8 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
 
         updateReportsAccountSummaryTableWithConsolidation[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-        
+
+        //builds and updates SubFundSummaryReports
         sqlText.append("INSERT INTO ld_bcn_acct_summ_t(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,  \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
@@ -301,9 +304,6 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         
         updateSubFundSummaryReport[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-        
-        
-        
     }
     
     /**
@@ -336,6 +336,4 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         getSimpleJdbcTemplate().update(updateSubFundSummaryReport[0], personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
 
     }
-
-    
 }

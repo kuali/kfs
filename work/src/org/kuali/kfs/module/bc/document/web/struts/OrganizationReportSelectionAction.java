@@ -50,13 +50,32 @@ import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
  */
 public class OrganizationReportSelectionAction extends KualiAction {
 
+    /**
+     * Return to previous screen, Organization Selection screen.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
         String backUrl = organizationReportSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + organizationReportSelectionForm.getDocFormKey();
         return new ActionForward(backUrl, true);
     }
 
-
+    /**
+     * default method when the jsp page loads.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
@@ -84,7 +103,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
 
 
     /**
-     * submits user's selection and generate report.
+     * generates AccountSummaryReports with user's selection
      * 
      * @param mapping
      * @param form
@@ -123,7 +142,16 @@ public class OrganizationReportSelectionAction extends KualiAction {
         return null;
     }
 
-
+    /**
+     *  generates SubFundSummaryReports with user's selection
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performSubFundSummaryReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
         organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);

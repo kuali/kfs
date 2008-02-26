@@ -52,7 +52,7 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     }
   
     public Collection getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList) {
-        return budgetConstructionOrganizationReportsDao.getBySearchCriteriaByList(cls, searchCriteria, orderList);
+        return budgetConstructionOrganizationReportsDao.getBySearchCriteriaWithOrderByList(cls, searchCriteria, orderList);
     }
  
     /**

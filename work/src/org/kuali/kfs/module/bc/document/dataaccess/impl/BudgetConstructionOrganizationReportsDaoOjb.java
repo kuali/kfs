@@ -41,33 +41,24 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
      * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
 
+    /**
+     * @see BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
+     */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
 
         QueryByCriteria qbc = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria);
-        // String groupBy = "subFundGroupCode";
-
-        /*
-         * qbc.addOrderByAscending("organizationChartOfAccountsCode"); qbc.addOrderByAscending("organizationCode");
-         * qbc.addOrderByAscending("chartOfAccountsCode"); qbc.addOrderByAscending("fundGroupCode");
-         */
-        // qbc.addOrderByAscending("subFundGroupCode");
-        // qbc.addGroupBy(groupBy);
-        /*
-         * qbc.addOrderByAscending("accountNumber"); qbc.addOrderByAscending("subAccountNumber");
-         * qbc.addOrderByAscending("incomeExpenseCode");
-         */
-
-        // Changed from (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+       
         // Since using primaryId, getObject should be better than collection.
         return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
-
+    
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getBySearchCriteria(java.lang.Class, java.util.Map)
+     */
     public Collection getBySearchCriteria(Class cls, Map searchCriteria) {
-
         Criteria criteria = new Criteria();
         for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
             String element = (String) iter.next();
@@ -75,14 +66,13 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         }
 
         QueryByCriteria qbc = QueryFactory.newQuery(cls, criteria);
-
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-
     }
-
-
-    public Collection getBySearchCriteriaByList(Class cls, Map searchCriteria, List<String> list) {
-
+    
+    /**
+     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getBySearchCriteriaWithOrderByList(java.lang.Class, java.util.Map, java.util.List)
+     */
+    public Collection getBySearchCriteriaWithOrderByList(Class cls, Map searchCriteria, List<String> list) {
         Criteria criteria = new Criteria();
         for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
             String element = (String) iter.next();
@@ -90,7 +80,6 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         }
 
         QueryByCriteria qbc = QueryFactory.newQuery(cls, criteria);
-
         for (String orderAttribute : list) {
             qbc.addOrderByAscending(orderAttribute);
         }
@@ -102,9 +91,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
      *      java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
-
         List orgs = new ArrayList();
-
         Criteria cycleCheckCriteria = new Criteria();
         cycleCheckCriteria.addEqualToField("chartOfAccountsCode", "reportsToChartOfAccountsCode");
         cycleCheckCriteria.addEqualToField("organizationCode", "reportsToOrganizationCode");
@@ -116,7 +103,6 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
         criteria.addAndCriteria(cycleCheckCriteria);
         criteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
-
         orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
 
         if (orgs.isEmpty() || orgs.size() == 0) {

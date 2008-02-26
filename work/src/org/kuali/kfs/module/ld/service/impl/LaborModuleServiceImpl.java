@@ -102,6 +102,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * @see org.kuali.kfs.service.LaborModuleService#hasPendingSalaryExpenseTransferDocument(java.lang.String)
+     */
+    public boolean hasPendingSalaryExpenseTransferDocument(String emplid) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
      * @see org.kuali.module.effort.service.LaborEffortCertificationService#findEmployeesWithPayType(java.util.Map, java.util.List,
      *      java.util.Map)
      */

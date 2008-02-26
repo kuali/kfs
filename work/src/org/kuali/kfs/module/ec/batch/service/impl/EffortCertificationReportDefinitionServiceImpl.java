@@ -147,7 +147,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#existsPendingEffortCertification(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */
-    public boolean existsPendingEffortCertification(EffortCertificationReportDefinition reportDefinition) {
+    public boolean hasPendingEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
         fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());
@@ -157,7 +157,8 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
             return true;
         }
         
-        List<String> pendingStatusCodes = Arrays.asList(KFSConstants.DocumentStatusCodes.INITIATED, KFSConstants.DocumentStatusCodes.ENROUTE);
+        List<String> pendingStatusCodes = Arrays.asList(KFSConstants.DocumentStatusCodes.ENROUTE);
+        fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, pendingStatusCodes);    
         numOfPendingDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
         if(numOfPendingDocuments > 0) {

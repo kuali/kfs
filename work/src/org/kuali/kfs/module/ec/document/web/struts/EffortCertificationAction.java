@@ -130,19 +130,7 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
         
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
- 
-    /**
-     * load the detail lines with the given information 
-     */
-    public ActionForward loadDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EffortCertificationForm effortCertificationForm = (EffortCertificationForm) form;
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) effortCertificationForm.getDocument();
-        
-        //boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));   
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }  
+    } 
     
     /**
      * execute the rules associated with the given event

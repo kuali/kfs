@@ -220,6 +220,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         LOG.info("processLoadDetailLineRules() start");
         
         boolean isValid = true;
+        String emplid = effortCertificationDocument.getEmplid();
+        
 
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
@@ -243,7 +245,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        isValid = !effortCertificationReportDefinitionService.existsPendingEffortCertification(reportDefinition);
+        isValid = !effortCertificationReportDefinitionService.hasPendingEffortCertification(emplid, reportDefinition);
         if (!isValid) {
             LOG.info("====>existsPendingEffortCertification");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
@@ -257,9 +259,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(effortCertificationDocument.getEmplid(), reportDefinition);
+        isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(emplid, reportDefinition);
         if (!isValid) {
-            LOG.info("====>isEmployeeEligibleForEffortCertification" + effortCertificationDocument.getEmplid());
+            LOG.info("====>isEmployeeEligibleForEffortCertification" + emplid);
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
@@ -332,7 +334,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
         
-        boolean success = effortCertificationDocumentService.populateEffortCertificationDocument(effortCertificationDocument, documentBuild);        
+        boolean success = effortCertificationDocumentService.populateEffortCertificationDocument(effortCertificationDocument, documentBuild);  
 
         if(effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(emplid, reportDefinition)) {
             effortCertificationDocument.setEffortCertificationDocumentCode(EffortConstants.DEFAULT_DOCUMENT_CODE_Y);

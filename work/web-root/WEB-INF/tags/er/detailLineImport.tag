@@ -19,6 +19,8 @@
 
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 			  description="The DataDictionary entry containing attributes for the line fields."%> 
+			  
+<html:hidden property="document.effortCertificationDocumentCode" />			  
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
 

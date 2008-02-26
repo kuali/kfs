@@ -97,6 +97,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         // populcate the detail line of the document
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        detailLines.clear();
+        
         List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
         for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
             detailLines.add(new EffortCertificationDetail(detailLineBuild));

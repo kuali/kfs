@@ -33,19 +33,11 @@ public class CertificationRecreateForm extends EffortCertificationForm {
 
     private Inquirable inquirable = SpringContext.getBean(Inquirable.class);
 
-    List<EffortCertificationDetail> detailLines;
-
     /**
      * Constructs a CertificationRecreateForm.java.
      */
     public CertificationRecreateForm() {
         super();
-        
-        DocumentActionFlags  documentActionFlags = this.getDocumentActionFlags();
-        documentActionFlags.setCanClose(false);
-        documentActionFlags.setCanBlanketApprove(false);
-        
-        detailLines = ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
     }
 
     /**
@@ -56,7 +48,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
         List<Map<String, String>> inquiryURL = new ArrayList<Map<String, String>>();
 
-        for (EffortCertificationDetail detailLine : detailLines) {
+        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
             detailLine.refreshNonUpdateableReferences();
             Map<String, String> inquiryURLForAttribute = new HashMap<String, String>();
 
@@ -94,7 +86,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     public List<Map<String, String>> getFieldInfo() {
         List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
 
-        for (EffortCertificationDetail detailLine : detailLines) {
+        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
             detailLine.refreshNonUpdateableReferences();
             
             Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
@@ -116,5 +108,22 @@ public class CertificationRecreateForm extends EffortCertificationForm {
         return fieldInfo;
     }
 
-    
+    /**
+     * @return DocumentActionFlags instance indicating what actions the current user can take on this document
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags() {
+        documentActionFlags.setCanClose(false);
+        documentActionFlags.setCanBlanketApprove(false);
+        
+        return documentActionFlags;
+    }
+
+    /**
+     * Gets the detailLines attribute. 
+     * @return Returns the detailLines.
+     */
+    public List<EffortCertificationDetail> getDetailLines() {
+        return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
+    }   
 }

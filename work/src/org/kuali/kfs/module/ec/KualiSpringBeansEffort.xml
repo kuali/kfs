@@ -152,11 +152,7 @@
 		</property>					
 	</bean>
 			
-	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" >
-		<property name="laborModuleService">
-			<ref bean="laborModuleService" />
-		</property>
-	</bean>
+	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" />
 	
 	<bean id="effortCertificationDocumentService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentServiceImpl" >
 		<property name="laborModuleService">

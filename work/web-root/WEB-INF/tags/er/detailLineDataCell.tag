@@ -55,5 +55,7 @@
 			</c:if>
 		</span><br/>
     	<div id="${fieldFormName}${index}" class="fineprint">${fieldInfo}</div>
+    	
+    	<html:hidden write="false" property="${fieldFormName}" style="${textStyle}" />
 		
 </kul:htmlControlAttribute>          

@@ -19,7 +19,7 @@
 <c:set var="documentAttributes"	value="${DataDictionary.EffortCertificationDocument.attributes}" />
 <c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
 
-<c:set var="detailLines" value="${KualiForm.document.effortCertificationDetailLines}"/>
+<c:set var="detailLines" value="${KualiForm.detailLines}"/>
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
@@ -43,6 +43,7 @@
 			
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationCalculatedOverallPercent"
+				hiddenFieldNames="financialDocumentPostingYear"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"/>
 		</div>		

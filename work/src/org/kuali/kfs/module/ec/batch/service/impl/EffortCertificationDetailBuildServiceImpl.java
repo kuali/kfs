@@ -39,8 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EffortCertificationDetailBuildServiceImpl implements EffortCertificationDetailBuildService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDetailBuildServiceImpl.class);
-    
-    private LaborModuleService laborModuleService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
@@ -119,13 +117,5 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
             LOG.debug(npe);
         }
         return a21SubAccount;
-    }
-
-    /**
-     * Sets the laborModuleService attribute value.
-     * @param laborModuleService The laborModuleService to set.
-     */
-    public void setLaborModuleService(LaborModuleService laborModuleService) {
-        this.laborModuleService = laborModuleService;
     }
 }

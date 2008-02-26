@@ -24,6 +24,8 @@
 			  description="The DataDictionary entry containing attributes for the line fields."%>              
 <%@ attribute name="detailFieldNames" required="true"
               description="the names of the fields that will be displayed" %>
+<%@ attribute name="hiddenFieldNames" required="false"
+              description="the names of the fields that can be editable" %> 
 <%@ attribute name="editableFieldNames" required="false"
               description="the names of the fields that can be editable" %>  
 <%@ attribute name="inquirableUrl" required="false" type="java.util.List"
@@ -46,8 +48,12 @@
 	<!-- populate the table with the given deatil lines -->
 	<c:forEach var="detailLine" items="${detailLines}" varStatus="status">
 		<tr>
-			<kul:htmlAttributeHeaderCell literalLabel="${status.index + 1}"/>	
-
+			<kul:htmlAttributeHeaderCell literalLabel="${status.index + 1}">
+			<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">
+					<html:hidden property="document.effortCertificationDetailLines[${status.index}].${fieldName}" />
+			</c:forTokens>
+			</kul:htmlAttributeHeaderCell>
+			
 			<c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
 				<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
 				

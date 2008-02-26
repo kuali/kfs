@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-public class ReceivingBaseAction extends PurchasingAccountsPayableActionBase {
+import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+
+public class ReceivingBaseAction extends KualiTransactionalDocumentActionBase {
 
 }

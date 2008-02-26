@@ -55,7 +55,6 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToRecalculateIndex = getLineToDelete(request);
-        System.out.println("lineToRecalculateIndex = " + lineToRecalculateIndex);
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
@@ -63,7 +62,6 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
 
         PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(effortDocument.getTotalOriginalPayrollAmount(), new KualiDecimal(0), 0);
         payrollAmountHolder.setPayrollAmount(lineToRecalculate.getEffortCertificationPayrollAmount());
-        System.out.println("lineToRecalculate.getEffortCertificationPayrollAmount() = " + lineToRecalculate.getEffortCertificationPayrollAmount());
         PayrollAmountHolder.calculatePayrollPercent(payrollAmountHolder);
         lineToRecalculate.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
         

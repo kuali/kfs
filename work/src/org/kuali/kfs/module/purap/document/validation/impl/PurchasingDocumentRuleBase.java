@@ -584,6 +584,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
         
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
+            // Because of ObjectCodeCurrent, we had to refresh this.
+            accountingLine.refreshReferenceObject("objectCode");
             ObjectCode objectCode = accountingLine.getObjectCode();
             String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
             capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.

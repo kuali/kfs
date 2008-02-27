@@ -187,4 +187,6 @@
     	</property>
     </bean>
     
+    <bean id="assetDiscompositionService" class="org.kuali.module.cams.service.impl.AssetDiscompositionServiceImpl" />
+    
 </beans>

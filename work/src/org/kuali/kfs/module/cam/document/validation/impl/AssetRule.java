@@ -28,13 +28,13 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
+import org.kuali.module.cams.service.AssetDiscompositionService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * AssetRule for Asset edit.
  */
 public class AssetRule extends MaintenanceDocumentRuleBase {
-
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
 
     private Asset newAsset;
@@ -47,13 +47,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         Asset asset = (Asset) document.getDocumentBusinessObject();
         setAssetComponentNumbers(asset);
+        
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
+        
+        AssetDiscompositionService assetDispService = SpringContext.getBean(AssetDiscompositionService.class);
+        assetDispService.setAssetDiscompositionHistory(asset);
+        
         boolean valid = processValidation(document);
         valid &= validateWarrantyInformation(asset);
-
         return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
+
 
     private void setAssetComponentNumbers(Asset asset) {
         AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
@@ -70,6 +75,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
     }
 
+        
     /**
      * Validates Asset
      * 
@@ -94,7 +100,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         valid &= validateCampusLocation(asset);
-
+        
 
         return valid;
     }
@@ -107,7 +113,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateCampusLocation(Asset asset) {
         boolean valid = true;
-        // TODO: Amanda add the validation code here by using service methods.
+        // TODO: set the validation in the AssetMaintenanceDocument.xml
+        /*if (ObjectUtils.isNull(asset.getCampus())) {
+            putFieldError("campusCode", CamsKeyConstants.ERROR_CAMPUS_CODE);
+            valid &= false;
+        }*/
         return valid;
     }
 

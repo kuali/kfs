@@ -229,7 +229,7 @@
 	<collection-descriptor name="assetComponents" element-class-ref="org.kuali.module.cams.bo.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>	
-	<collection-descriptor name="assetDisposition" element-class-ref="org.kuali.module.cams.bo.AssetDisposition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<collection-descriptor name="assetDispositions" element-class-ref="org.kuali.module.cams.bo.AssetDisposition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
 </class-descriptor>

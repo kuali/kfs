@@ -816,6 +816,11 @@
                 <shortLabel>Total Cost</shortLabel>
             </attributeReference>
             
+            <attributeReference name="federalContribution" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Federal Contribution</label>
+                <shortLabel>Contribution</shortLabel>
+            </attributeReference>
+            
 			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber" />
 			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" />
 			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" />

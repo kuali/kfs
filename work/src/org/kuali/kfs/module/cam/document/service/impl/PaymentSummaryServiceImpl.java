@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.service.OptionsService;
@@ -56,8 +57,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
             throw new RuntimeException(e);
         }
     }
-    public static final String ASSET_DISCOMPOSTION_CODE_MERGE = "M";
-    public static final String ASSET_DISCOMPOSTION_CODE_SEPARATE = "S";
+
+    //TODO:replaced by system parameter
+    public static final String FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES = "BF,CF,CO,LF,UF,UO";
     
     private OptionsService optionsService;
 
@@ -70,9 +72,8 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     }
 
     public void calculateAndSetPaymentSummary(Asset asset) {
+        asset.setFederalContribution(calculateFederalContribution(asset));
         asset.setPaymentTotalCost(calculatePaymentTotalCost(asset));
-        asset.setAssetMergeHistory(getMergeHistroty(asset));
-        asset.setAssetSeparateHistory(getSeparateHistroty(asset));
         asset.setAccumulatedDepreciation(calculatePrimaryAccumulatedDepreciation(asset));
         asset.setBaseAmount(calculatePrimaryBaseAmount(asset));
         asset.setBookValue(calculatePrimaryBookValue(asset));
@@ -81,28 +82,18 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
     }
 
-    private AssetDisposition getMergeHistroty(Asset asset) {
-        List<AssetDisposition> assetDispositon = asset.getAssetDisposition();
+    private KualiDecimal calculateFederalContribution(Asset asset) {
+        KualiDecimal amount = new KualiDecimal(0);
+        List<AssetPayment> assetPayments = asset.getAssetPayments();
         
-        for (AssetDisposition disposition : assetDispositon) {
-            if (disposition.getDispositionCode().toUpperCase().equals(ASSET_DISCOMPOSTION_CODE_MERGE)) {
-                return disposition;
+        for (AssetPayment payment : assetPayments) {
+            if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES,payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+                amount = addAmount(amount, payment.getAccountChargeAmount());
             }
-        } 
-        return null;
+        }
+        return amount;
     }
-    
-    private AssetDisposition getSeparateHistroty(Asset asset) {
-        List<AssetDisposition> assetDispositon = asset.getAssetDisposition();
-        
-        for (AssetDisposition disposition : assetDispositon) {
-            if (disposition.getDispositionCode().toUpperCase().equals(ASSET_DISCOMPOSTION_CODE_SEPARATE)) {
-                return disposition;
-            }
-        } 
-        return null;
-    }
-    
+
     private KualiDecimal calculatePaymentTotalCost(Asset asset) {
         List<AssetPayment> payments = asset.getAssetPayments();
         KualiDecimal totalCost = new KualiDecimal(0);

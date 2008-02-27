@@ -46,6 +46,12 @@
         
         <allowsNewOrCopy>false</allowsNewOrCopy>
         
+        <defaultExistenceChecks>
+			<reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
+			<reference attributeName="building" attributeToHighlightOnFail="buildingCode" />
+			<reference attributeName="buildingRoom" attributeToHighlightOnFail="buildingRoomNumber" />
+		</defaultExistenceChecks>
+        
         <maintainableSections>
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems> 
@@ -76,6 +82,7 @@
                     <maintainableField name="financialDocumentPostingPeriodCode" readOnly="true" />
                     <maintainableField name="capitalAssetInServiceDate" />
                     <maintainableField name="totalCostAmount" readOnly="true" />
+                    <maintainableField name="federalContribution" readOnly="true" />
                     <maintainableField name="versionNumber" />					
 					<subSectionHeader name="Asset Location - On Campus" />
 					<maintainableField name="campusCode" required="true" />
@@ -179,7 +186,8 @@
           	</maintainableItems>
           </maintainableSection>
 
-          <maintainableSection title="View Equipment Loan Information   ">              	
+          <maintainableSection title="View Equipment Loan Information   ">
+              	
               	<maintainableItems>
             		<maintainableField name="loanDate" />	
 					<maintainableField name="expectedReturnDate" />

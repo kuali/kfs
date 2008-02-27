@@ -103,12 +103,12 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRepairHistory> assetRepairHistory;
     private AssetWarranty assetWarranty;
     private List<AssetComponent> assetComponents;
-    private List<AssetDisposition> assetDisposition;
+    private List<AssetDisposition> assetDispositions;
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
-    private KualiDecimal federalContributionAmount;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
+    private KualiDecimal federalContribution;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -124,7 +124,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetPayments = new TypedArrayList(AssetPayment.class);
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
-        this.assetDisposition = new TypedArrayList(AssetDisposition.class);
+        this.assetDispositions = new TypedArrayList(AssetDisposition.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -1592,24 +1592,6 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the federalContributionAmount attribute.
-     * 
-     * @return Returns the federalContributionAmount.
-     */
-    public KualiDecimal getFederalContributionAmount() {
-        return federalContributionAmount;
-    }
-
-    /**
-     * Sets the federalContributionAmount attribute value.
-     * 
-     * @param federalContributionAmount The federalContributionAmount to set.
-     */
-    public void setFederalContributionAmount(KualiDecimal federalContributionAmount) {
-        this.federalContributionAmount = federalContributionAmount;
-    }
-
-    /**
      * Gets the assetRepresentative attribute.
      * 
      * @return Returns the assetRepresentative.
@@ -1707,21 +1689,21 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the assetDisposition attribute.
+     * Gets the assetDispositions attribute.
      * 
-     * @return Returns the assetDisposition.
+     * @return Returns the assetDispositions.
      */
-    public List<AssetDisposition> getAssetDisposition() {
-        return assetDisposition;
+    public List<AssetDisposition> getAssetDispositions() {
+        return assetDispositions;
     }
 
     /**
-     * Sets the assetDisposition attribute value.
+     * Sets the assetDispositions attribute value.
      * 
-     * @param assetDisposition The assetDisposition to set.
+     * @param assetDispositions The assetDispositions to set.
      */
-    public void setAssetDisposition(List<AssetDisposition> assetDisposition) {
-        this.assetDisposition = assetDisposition;
+    public void setAssetDispositions(List<AssetDisposition> assetDispositions) {
+        this.assetDispositions = assetDispositions;
     }
 
     /**
@@ -1758,6 +1740,24 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setAssetSeparateHistory(AssetDisposition assetSeparateHistory) {
         this.assetSeparateHistory = assetSeparateHistory;
+    }
+
+    /**
+     * Gets the federalContribution attribute.
+     * 
+     * @return Returns the federalContribution.
+     */
+    public KualiDecimal getFederalContribution() {
+        return federalContribution;
+    }
+
+    /**
+     * Sets the federalContribution attribute value.
+     * 
+     * @param federalContribution The federalContribution to set.
+     */
+    public void setFederalContribution(KualiDecimal federalContribution) {
+        this.federalContribution = federalContribution;
     }
 
     

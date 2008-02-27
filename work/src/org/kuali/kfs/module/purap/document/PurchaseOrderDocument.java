@@ -1159,8 +1159,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @return true if this Purchase Order contains unpaid items in the Payment Request or Credie Memo.
      */
     public boolean getContainsUnpaidPaymentRequestsOrCreditMemos() {
-        if (getRelatedPaymentRequestViews() != null) {
-            for (PaymentRequestView element : getRelatedPaymentRequestViews()) {
+        if (getRelatedViews().getRelatedPaymentRequestViews() != null) {
+            for (PaymentRequestView element : getRelatedViews().getRelatedPaymentRequestViews()) {
                 // If the PREQ is neither cancelled nor voided, check whether the PREQ has been paid.
                 // If it has not been paid, then this method will return true.
                 if (!PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(element.getStatusCode())) {
@@ -1170,8 +1170,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
                 }
             }// endfor
         }
-        if (getRelatedCreditMemoViews() != null) {
-            for (CreditMemoView element : getRelatedCreditMemoViews()) {
+        if (getRelatedViews().getRelatedCreditMemoViews() != null) {
+            for (CreditMemoView element : getRelatedViews().getRelatedCreditMemoViews()) {
                 // If the CM is cancelled, check whether the CM has been paid.
                 // If it has not been paid, then this method will return true.
                 if (!CreditMemoStatuses.CANCELLED_STATUSES.contains(element.getCreditMemoStatusCode())) {

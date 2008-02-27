@@ -146,34 +146,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      */
     public void templateVendorAddress(VendorAddress vendorAddress);
 
-    /**
-     * Gets the related Requisition Views for this document.
-     * 
-     * @return the list of related Requisition Views.
-     */
-    public List<RequisitionView> getRelatedRequisitionViews();
-
-    /**
-     * Gets the related Purchase Order Views for this document.
-     * 
-     * @return the list of related Purchase Order Views.
-     */
-    public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
-
-    /**
-     * Gets the related Payment Request Views for this document.
-     * 
-     * @return the list of related Payment Request Views.
-     */
-    public List<PaymentRequestView> getRelatedPaymentRequestViews();
-
-    /**
-     * Gets the related Credit Memo Views for this document.
-     * 
-     * @return the list of related Credit Memo Views.
-     */
-    public List<CreditMemoView> getRelatedCreditMemoViews();
-
     public Country getVendorCountry();
 
     public Status getStatus();

@@ -474,10 +474,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
     }
 
-    public List<RequisitionView> getRelatedRequisitionViews() {
-        return null;
-    }
-
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */

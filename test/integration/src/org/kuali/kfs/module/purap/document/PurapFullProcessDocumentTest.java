@@ -74,7 +74,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         AssignContractManagerDocumentTest acmDocTest = new AssignContractManagerDocumentTest();
         String reqNumber = acmDocTest.testRouteDocument2();
         RequisitionDocument reqDoc = (RequisitionDocument) documentService.getByDocumentHeaderId(reqNumber);
-        String poNumber = reqDoc.getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
+        String poNumber = reqDoc.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument poDoc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poNumber);
         // approve the PO
         poDoc.setPurchaseOrderVendorChoiceCode("LPRC");

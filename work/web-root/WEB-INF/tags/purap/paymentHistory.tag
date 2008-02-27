@@ -25,7 +25,7 @@
         </div>
 		<br />
 
-	   	<logic:notEmpty name="KualiForm" property="document.paymentHistoryPaymentRequestViews">
+	   	<logic:notEmpty name="KualiForm" property="document.relatedViews.paymentHistoryPaymentRequestViews">
 		    <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment History">
 				<tr>
 					<kul:htmlAttributeHeaderCell scope="col">PREQ #</kul:htmlAttributeHeaderCell>
@@ -41,7 +41,7 @@
 					<kul:htmlAttributeHeaderCell scope="col">PDP Extract Date</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Paid?</kul:htmlAttributeHeaderCell>
 	        	</tr>
-				<logic:iterate id="preqHistory" name="KualiForm" property="document.paymentHistoryPaymentRequestViews" indexId="ctr">
+				<logic:iterate id="preqHistory" name="KualiForm" property="document.relatedViews.paymentHistoryPaymentRequestViews" indexId="ctr">
 	        		<tr>
 	        			<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${preqHistory.purapDocumentIdentifier}" />
@@ -99,7 +99,7 @@
 		    <br />
 		    <br />
 		</logic:notEmpty>
-        <logic:empty name="KualiForm" property="document.paymentHistoryPaymentRequestViews">
+        <logic:empty name="KualiForm" property="document.relatedViews.paymentHistoryPaymentRequestViews">
 	        <h3>No Payment Requests</h3>
         </logic:empty>
 
@@ -108,7 +108,7 @@
         </div>
 		<br />
 
-	   	<logic:notEmpty name="KualiForm" property="document.paymentHistoryCreditMemoViews">
+	   	<logic:notEmpty name="KualiForm" property="document.relatedViews.paymentHistoryCreditMemoViews">
 		    <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment History">
 				<tr>
 					<kul:htmlAttributeHeaderCell scope="col">CM #</kul:htmlAttributeHeaderCell>
@@ -124,7 +124,7 @@
 					<kul:htmlAttributeHeaderCell scope="col">PDP Extract Date</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Paid?</kul:htmlAttributeHeaderCell>
 	        	</tr>
-				<logic:iterate id="cmHistory" name="KualiForm" property="document.paymentHistoryCreditMemoViews" indexId="ctr">
+				<logic:iterate id="cmHistory" name="KualiForm" property="document.relatedViews.paymentHistoryCreditMemoViews" indexId="ctr">
 	        		<tr>
 	        			<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${cmHistory.purapDocumentIdentifier}" />
@@ -179,7 +179,7 @@
 		    <br />
 		    <br />
 		</logic:notEmpty>
-        <logic:empty name="KualiForm" property="document.paymentHistoryCreditMemoViews">
+        <logic:empty name="KualiForm" property="document.relatedViews.paymentHistoryCreditMemoViews">
 	        <h3>No Credit Memos</h3>
         </logic:empty>
     </div>

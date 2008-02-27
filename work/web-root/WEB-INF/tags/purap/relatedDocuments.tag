@@ -26,19 +26,19 @@
 		<br />
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedRequisitionViews"
+			viewList="document.relatedViews.relatedRequisitionViews"
 			documentTypeLabel="Requisitions" /> 
 		
 		<purap:relatedPurchaseOrderDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedPurchaseOrderViews"
+			viewList="document.relatedViews.relatedPurchaseOrderViews"
 			documentTypeLabel="Purchase Order" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedPaymentRequestViews"
+			viewList="document.relatedViews.relatedPaymentRequestViews"
 			documentTypeLabel="Payment Request" /> 
 
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedCreditMemoViews"
+			viewList="document.relatedViews.relatedCreditMemoViews"
 			documentTypeLabel="Credit Memo" /> 
 
     </div>

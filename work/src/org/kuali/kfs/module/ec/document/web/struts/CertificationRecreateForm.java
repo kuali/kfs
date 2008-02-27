@@ -38,6 +38,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      */
     public CertificationRecreateForm() {
         super();
+        this.getDocument().refreshNonUpdateableReferences();
     }
 
     /**
@@ -115,6 +116,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     public DocumentActionFlags getDocumentActionFlags() {
         documentActionFlags.setCanClose(false);
         documentActionFlags.setCanBlanketApprove(false);
+        documentActionFlags.setHasAmountTotal(true);
         
         return documentActionFlags;
     }

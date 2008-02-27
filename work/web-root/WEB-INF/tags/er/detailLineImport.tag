@@ -18,7 +18,9 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="attributes" required="true" type="java.util.Map"
-			  description="The DataDictionary entry containing attributes for the line fields."%> 
+			  description="The DataDictionary entry containing attributes for the line fields."%>
+<%@ attribute name="readOnly" required="false"
+			  description="determine whether the widgets in the tag are read-only or not"%> 
 			  
 <html:hidden property="document.effortCertificationDocumentCode" />			  
 
@@ -36,11 +38,13 @@
 		<td>                  
 			<kul:htmlControlAttribute 
 				 attributeEntry="${DataDictionary['UniversalUser'].attributes.personPayrollIdentifier}"
-				 property="document.emplid"/>
-				
+				 property="document.emplid" readOnly="${readOnly}" />
+			
+			<c:if test="${!readOnly}" >	
 			<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
                  fieldConversions="personPayrollIdentifier:document.emplid"
                  lookupParameters="document.emplid:personPayrollIdentifier"/>
+            </c:if>
 		</td>
 	</tr>
 	
@@ -55,12 +59,14 @@
 		<td class="datacell-nowrap">	
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.universityFiscalYear}"
-				property="document.universityFiscalYear" />
-				 
+				property="document.universityFiscalYear" readOnly="${readOnly}" />
+			
+			<c:if test="${!readOnly}" >	 
 			<kul:lookup boClassName="org.kuali.kfs.bo.Options"
 				fieldConversions="universityFiscalYear:document.universityFiscalYear"
 				lookupParameters="document.universityFiscalYear:universityFiscalYear"
 				fieldLabel="${attributes.universityFiscalYear.label}" />
+			</c:if>
 		</td>
 	</tr>
 	
@@ -75,16 +81,19 @@
 		<td class="datacell-nowrap">
 			<kul:htmlControlAttribute
 				attributeEntry="${attributes.effortCertificationReportNumber}"
-				property="document.effortCertificationReportNumber" />
-			 
+				property="document.effortCertificationReportNumber" readOnly="${readOnly}" />
+			
+			<c:if test="${!readOnly}" > 
 			<kul:lookup
 				boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition"
 				fieldConversions="universityFiscalYear:document.universityFiscalYear,effortCertificationReportNumber:document.effortCertificationReportNumber"
 				lookupParameters="document.universityFiscalYear:universityFiscalYear,document.effortCertificationReportNumber:effortCertificationReportNumber"
 				fieldLabel="${attributes.effortCertificationReportNumber.label}" />
+			</c:if>
 		</td>
 	</tr>
 	
+	<c:if test="${!readOnly}" >
 	<tr>
 		<td height="30" class="infoline">&nbsp;</td>
         <td height="30" class="infoline">
@@ -92,5 +101,6 @@
 			   src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif" 
 			   alt="Import Detail Lines" title="Import Detail Lines" border="0" class="tinybutton" valign="middle"/>
         </td>
-	</tr>	
+	</tr>
+	</c:if>	
 </table>

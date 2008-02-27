@@ -116,7 +116,8 @@
         <!-- Effort Certification Bean Definitions -->
         <form-bean name="EffortCertificationForm" type="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />
         <form-bean name="CertificationRecreateForm" type="org.kuali.module.effort.web.struts.form.CertificationRecreateForm" />
-        
+        <form-bean name="CertificationReportForm" type="org.kuali.module.effort.web.struts.form.CertificationReportForm" />
+                
     </form-beans>
 
     <global-exceptions>

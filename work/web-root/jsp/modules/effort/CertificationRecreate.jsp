@@ -23,6 +23,8 @@
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+
 <kul:documentPage showDocumentInfo="true" documentTypeName="${documentTypeName}"
 	htmlFormAction="${htmlFormAction}" renderMultipart="true"
     showTabButtons="true">
@@ -35,7 +37,7 @@
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Retrieve Data</h2></div>
 			
-			<er:detailLineImport attributes="${documentAttributes}"/>
+			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}"/>
 		</div>
 		
 		<div class="tab-container" align=center>

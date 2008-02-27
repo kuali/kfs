@@ -13,37 +13,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true"
-	htmlFormAction="effortEffortCertification"
-	documentTypeName="EffortCertificationDocument" renderMultipart="true"
-	showTabButtons="true">
-	
-	<html:hidden property="document.effortCertificationReportNumber" />
-    <html:hidden property="document.effortCertificationDocumentCode" />
-    <html:hidden property="document.universityFiscalYear" />
-    <html:hidden property="document.emplid" />
-		 		
-	<kul:hiddenDocumentFields isFinancialDocument="false" />
-		
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	
-	<er:reportInformation />
-	
-	<er:effortSummary />
-	
-	<er:effortDetail />
-	
-	<kul:notes />
-	
-	<kul:adHocRecipients />
-	
-	<kul:routeLog />
-	
-	<kul:panelFooter />
-	
-	<kul:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
-
-</kul:documentPage>
+<c:choose>
+	<c:when test="${KualiForm.document.documentHeader.financialDocumentStatusCode == KFSConstants.DocumentStatusCodes.INITIATED}">
+		<c:set value="/effortCertificationRecreate.do" var="url"/>
+	</c:when>
+	<c:otherwise>
+		<c:set value="/effortCertificationReport.do" var="url"/>
+	</c:otherwise>
+</c:choose>
+  
+<c:redirect url="${url}">
+	<c:forEach var="parameter" items="${paramValues}"> 
+		<c:forEach var="value" items="${parameter.value}">
+			<c:param name="${parameter.key}" value="${value}"/>
+		</c:forEach>
+	</c:forEach>
+</c:redirect>

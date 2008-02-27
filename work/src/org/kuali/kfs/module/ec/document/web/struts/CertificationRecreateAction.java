@@ -15,32 +15,18 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.RiceKeyConstants;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
 import org.kuali.module.effort.web.struts.form.CertificationRecreateForm;
-import org.kuali.rice.KNSServiceLocator;
 
-public class CertificationRecreateAction extends KualiTransactionalDocumentActionBase {
+public class CertificationRecreateAction extends EffortCertificationAction {
 
     /**
      * load the detail lines with the given information
@@ -52,15 +38,5 @@ public class CertificationRecreateAction extends KualiTransactionalDocumentActio
         boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * execute the rules associated with the given event
-     * 
-     * @param event the event that just occured
-     * @return true if the rules associated with the given event pass; otherwise, fals
-     */
-    private boolean invokeRules(KualiDocumentEvent event) {
-        return SpringContext.getBean(KualiRuleService.class).applyRules(event);
     }
 }

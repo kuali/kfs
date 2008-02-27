@@ -23,28 +23,32 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
  * Action form for Effort Certification Document.
  */
 public class EffortCertificationForm extends KualiTransactionalDocumentFormBase {
-    private EffortCertificationDetail newDetailLine;
     
+    private EffortCertificationDetail newDetailLine;
+
+    /**
+     * Constructs a EffortCertificationForm.java.
+     */
     public EffortCertificationForm() {
         super();
         
         newDetailLine = new EffortCertificationDetail();
         setDocument(new EffortCertificationDocument());
     }
-    
+
     /**
      * @return new detail line
      */
     public EffortCertificationDetail getNewDetailLine() {
         return newDetailLine;
     }
-    
+
     /**
      * Sets the new detail line
+     * 
      * @param newDetailLine
      */
     public void setNewDetailLine(EffortCertificationDetail newDetailLine) {
         this.newDetailLine = newDetailLine;
     }
-  
 }

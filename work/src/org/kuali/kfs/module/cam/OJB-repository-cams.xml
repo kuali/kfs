@@ -241,6 +241,9 @@
 	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="conditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="landCountyName" column="CPTL_AST_LAND_CNTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
+	<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
 	
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
@@ -988,5 +991,27 @@
 		<foreignkey field-ref="componentNumber" />
 	</reference-descriptor>
 	
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.MultipleAssetHeader" table="CM_MULT_AST_HDR_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nextCapitalAssetPaymentLineNumber" column="NXT_AST_PMT_LN_NBR" jdbc-type="INTEGER"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="organizationOwnerAccountNumber" />
+	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

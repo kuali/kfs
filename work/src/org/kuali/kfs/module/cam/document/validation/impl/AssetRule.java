@@ -15,6 +15,9 @@
  */
 package org.kuali.module.cams.rules;
 
+import static org.kuali.module.cams.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
+import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,12 +30,11 @@ import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
-
 /**
  * AssetRule for Asset edit.
  */
 public class AssetRule extends MaintenanceDocumentRuleBase {
+
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
 
     private Asset newAsset;
@@ -122,7 +124,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             if (!StringUtils.isEmpty(warranty.getWarrantyContactName()) || !StringUtils.isEmpty(warranty.getWarrantyPhoneNumber()) || !StringUtils.isEmpty(warranty.getWarrantyText()) || warranty.getWarrantyBeginningDate() != null || warranty.getWarrantyEndingDate() != null) {
                 if (StringUtils.isEmpty(warranty.getWarrantyNumber())) {
                     // warranty number is mandatory when any other related info is known
-                    putFieldError("assetWarranty.warrantyNumber", "error.invalid.asset.warranty.no");
+                    putFieldError(ASSET_WARRANTY_WARRANTY_NUMBER, ERROR_INVALID_ASSET_WARRANTY_NO);
                     return false;
                 }
             }

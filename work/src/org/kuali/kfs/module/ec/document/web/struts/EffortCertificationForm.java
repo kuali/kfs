@@ -23,7 +23,9 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
  * Action form for Effort Certification Document.
  */
 public class EffortCertificationForm extends KualiTransactionalDocumentFormBase {
-    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
+
+    private EffortCertificationDocument effortCertificationDocument;
     private EffortCertificationDetail newDetailLine;
 
     /**
@@ -31,9 +33,11 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      */
     public EffortCertificationForm() {
         super();
-        
+
+        this.setEffortCertificationDocument(new EffortCertificationDocument());
+        this.setDocument(this.getEffortCertificationDocument());
+
         newDetailLine = new EffortCertificationDetail();
-        setDocument(new EffortCertificationDocument());
     }
 
     /**
@@ -50,5 +54,23 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      */
     public void setNewDetailLine(EffortCertificationDetail newDetailLine) {
         this.newDetailLine = newDetailLine;
+    }
+
+    /**
+     * Gets the effortCertificationDocument attribute.
+     * 
+     * @return Returns the effortCertificationDocument.
+     */
+    public EffortCertificationDocument getEffortCertificationDocument() {
+        return effortCertificationDocument;
+    }
+
+    /**
+     * Sets the effortCertificationDocument attribute value.
+     * 
+     * @param effortCertificationDocument The effortCertificationDocument to set.
+     */
+    public void setEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
+        this.effortCertificationDocument = effortCertificationDocument;
     }
 }

@@ -21,7 +21,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * This class handles Actions for EffortCertification.
+ * To define Actions for EffortCertification document.
  */
 public class EffortCertificationAction extends KualiTransactionalDocumentActionBase {
      

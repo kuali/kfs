@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.bo.AbstractRelatedView;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
@@ -41,19 +42,25 @@ public class PurApRelatedViews {
         this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
     }
 
+    public List updateRelatedView(Class<?> clazz, List<? extends AbstractRelatedView> relatedList, boolean removeCurrentDocument) {
+        if (relatedList == null) {
+            relatedList = SpringContext.getBean(PurapService.class).getRelatedViews(clazz, accountsPayablePurchasingDocumentLinkIdentifier);
+            if (removeCurrentDocument) {
+                for (AbstractRelatedView view : relatedList) {
+                    if (documentNumber.equals(view.getDocumentNumber())) {
+                        relatedList.remove(view);
+                    }
+                }
+            }
+        }
+        return relatedList;
+    }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
     public List<RequisitionView> getRelatedRequisitionViews() {
-        if (relatedRequisitionViews == null) {
-            relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
-            List<RequisitionView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (RequisitionView view : tmpViews) {
-                if (!documentNumber.equals(view.getDocumentNumber())) {
-                    relatedRequisitionViews.add(view);
-                }
-            }
-        }
+        relatedRequisitionViews = updateRelatedView(RequisitionView.class, relatedRequisitionViews, true);
         return relatedRequisitionViews;
     }
 
@@ -61,22 +68,7 @@ public class PurApRelatedViews {
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPurchaseOrderViews()
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        if (relatedPurchaseOrderViews == null) {
-            relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
-            List<PurchaseOrderView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (PurchaseOrderView view : tmpViews) {
-                if (!documentNumber.equals(view.getDocumentNumber())) {
-                    if (view.getPurchaseOrderCurrentIndicator()) {
-                        // If this is the current purchase order, we'll add it at the front of the List
-                        relatedPurchaseOrderViews.add(0, view);
-                    }
-                    else {
-                        // If this is not the current purchase order, we'll just add it to the List
-                        relatedPurchaseOrderViews.add(view);
-                    }
-                }
-            }
-        }
+        relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
         return relatedPurchaseOrderViews;
     }
 
@@ -84,15 +76,7 @@ public class PurApRelatedViews {
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPaymentRequestViews()
      */
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
-        if (relatedPaymentRequestViews == null) {
-            relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (PaymentRequestView view : tmpViews) {
-                if (!documentNumber.equals(view.getDocumentNumber())) {
-                    relatedPaymentRequestViews.add(view);
-                }
-            }
-        }
+        relatedPaymentRequestViews = updateRelatedView(PaymentRequestView.class, relatedPaymentRequestViews, true);
         return relatedPaymentRequestViews;
     }
 
@@ -100,13 +84,7 @@ public class PurApRelatedViews {
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getRelatedCreditMemoViews()
      */
     public List<CreditMemoView> getRelatedCreditMemoViews() {
-        relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-        List<CreditMemoView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        for (CreditMemoView view : tmpViews) {
-            if (!this.documentNumber.equals(view.getDocumentNumber())) {
-                relatedCreditMemoViews.add(view);
-            }
-        }
+        relatedCreditMemoViews = updateRelatedView(CreditMemoView.class, relatedCreditMemoViews, true);
         return relatedCreditMemoViews;
     }
 
@@ -116,13 +94,7 @@ public class PurApRelatedViews {
      * @return the list of Payment History Payment Request Views.
      */
     public List<PaymentRequestView> getPaymentHistoryPaymentRequestViews() {
-        if (paymentHistoryPaymentRequestViews == null) {
-            paymentHistoryPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (PaymentRequestView view : tmpViews) {
-                paymentHistoryPaymentRequestViews.add(view);
-            }
-        }
+        paymentHistoryPaymentRequestViews = updateRelatedView(PaymentRequestView.class, paymentHistoryPaymentRequestViews, false);
         return paymentHistoryPaymentRequestViews;
     }
 
@@ -132,13 +104,7 @@ public class PurApRelatedViews {
      * @return the list of Payment History Credit Memo Views.
      */
     public List<CreditMemoView> getPaymentHistoryCreditMemoViews() {
-        if (paymentHistoryCreditMemoViews == null) {
-            paymentHistoryCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = SpringContext.getBean(PurapService.class).getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (CreditMemoView view : tmpViews) {
-                paymentHistoryCreditMemoViews.add(view);
-            }
-        }
+        paymentHistoryCreditMemoViews = updateRelatedView(CreditMemoView.class, paymentHistoryCreditMemoViews, false);
         return paymentHistoryCreditMemoViews;
     }
 

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	htmlFormAction="effortEffortCertification"
+	htmlFormAction="effortCertificationReport"
 	documentTypeName="EffortCertificationDocument" renderMultipart="true"
 	showTabButtons="true">
 	

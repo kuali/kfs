@@ -41,7 +41,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/oscache-2.3.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/saaj-1.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.6.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/struts-1.2.9.jar"/>

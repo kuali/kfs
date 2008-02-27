@@ -52,16 +52,16 @@
 		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" />
             </td>
            	<c:if test="${!isPurchaseOrderAwarded && !isTrasnmitted && preRouteChangeMode}">
-   	         <td rowspan="9">
+   	         <td rowspan="10">
    	        	<html:image
-	property="methodToCall.deleteVendor.line${ctr}"
-	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
-	alt="delete vendor" title="delete vendor"
-	styleClass="tinybutton" />&nbsp;
+					property="methodToCall.deleteVendor.line${ctr}"
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+					alt="delete vendor" title="delete vendor"
+					styleClass="tinybutton" />&nbsp;
 				</td>
 			</c:if>
            	<c:if test="${isPurchaseOrderAwarded || isTrasnmitted || !preRouteChangeMode}">
-   	         <td rowspan="9">
+   	         <td rowspan="10">
 			 	&nbsp;
 			 </td>
 			</c:if>
@@ -114,10 +114,13 @@
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" />
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" />/
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" />
             </th>
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorPostalCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorPostalCode" 
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
             </td>
             <th align=right valign=middle class="bord-l-b">
@@ -128,10 +131,10 @@
                 readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
             	<c:if test="${!isPurchaseOrderAwarded && preRouteChangeMode}">
 					<html:image
-	property="methodToCall.transmitPurchaseOrderQuote.line${ctr}"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
-	alt="transmit quote" title="transmit quote" 
-	styleClass="tinybutton" />
+						property="methodToCall.transmitPurchaseOrderQuote.line${ctr}"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-transmit.gif"
+						alt="transmit quote" title="transmit quote" 
+						styleClass="tinybutton" />
 					<c:if test="${isTransmitPrintDisplayed}">
 						Transmit information saved.
 						<a href="purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}" target="_BLANK">
@@ -140,16 +143,6 @@
 					</c:if>
 				</c:if>
             </td>
-        </tr>
-        <tr>
-            <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" />
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
-                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
-            </td>
-            <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">

@@ -258,11 +258,14 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      */
     public void checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth) {
         LOG.debug("CamsDepreciableAssetsDaoOjb.checkSum(boolean beforeDepreciationReport) -  started");
-
+        
+        boolean processAlreadyRan=false;
+        
         NumberFormat usdFormat = NumberFormat.getCurrencyInstance(Locale.US);
         KualiDecimal amount = new KualiDecimal(0);
         String[] columns = new String[2];
-
+        
+        
         columns[1] = "******************";
         if (beforeDepreciationReport)
             columns[0] = REPORT_GROUP[0];
@@ -323,6 +326,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         columns[1] = (usdFormat.format((BigDecimal) data[3]));
         reportLine.add(columns.clone());
 
+        processAlreadyRan = false;
+        if ( ((BigDecimal)data[ 3 + fiscalMonth]).compareTo(new BigDecimal(0)) != 0)
+            processAlreadyRan = true;
+            
+            
         // Adding monthly depreciation amounts
         int fiscalStartMonth = Integer.parseInt(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYearStartMo());
         boolean isJanuaryTheFirstFiscalMonth = (fiscalStartMonth == 1);
@@ -332,6 +340,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[0] = CamsConstants.MONTHS[currentMonth] + " Depreciation amount";
             columns[1] = (usdFormat.format((BigDecimal) data[col]));
             reportLine.add(columns.clone());
+                        
             col++;
 
             if (!isJanuaryTheFirstFiscalMonth) {
@@ -453,8 +462,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[0] = "Total Debits - Total Credits";
             columns[1] = usdFormat.format(debits.subtract(credits));
             reportLine.add(columns.clone());
-        }
+        }        
         LOG.debug("CamsDepreciableAssetsDaoOjb.checkSum(boolean beforeDepreciationReport) -  ended");
+
+        if (processAlreadyRan)
+            throw new RuntimeException("Depreciation batch process already ran for the current depreciation date.");
     }
 
     /**
@@ -635,6 +647,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return criteria;
     }
 
+    
+    
+    
+    
 } // end of class
 
 /*

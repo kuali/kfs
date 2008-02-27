@@ -113,7 +113,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         catch (Exception e) {
             error = true;
             this.errorMsg = "Depreciation process ran unsucessfuly.\nReason:" + e.getMessage();
-            throw new RuntimeException(errorMsg);
+            //throw new RuntimeException(errorMsg);
         }
         finally {
             if (!error)
@@ -277,17 +277,17 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     else
                         d.setFinancialObjectCode(d.getDepreciationExpenseFinancialObjectCode());
 
-                    depreciationTransaction.setCapitalAssetNumber(d.getCapitalAssetNumber());
+                    depreciationTransaction.setCapitalAssetNumber            (d.getCapitalAssetNumber());
                     depreciationTransaction.setFinancialSystemOriginationCode(d.getFinancialSystemOriginationCode());
-                    depreciationTransaction.setDocumentNumber(d.getDocumentNumber());
-                    depreciationTransaction.setChartOfAccountsCode(d.getPlantCOA());
-                    depreciationTransaction.setAccountNumber(d.getPlantAccount());
-                    depreciationTransaction.setSubAccountNumber(d.getSubAccountNumber());
-                    depreciationTransaction.setFinancialObjectCode(d.getFinancialObjectCode());
-                    depreciationTransaction.setFinancialSubObjectCode(d.getFinancialSubObjectCode());
-                    depreciationTransaction.setFinancialObjectTypeCode(d.getFinancialObjectTypeCode());
-                    depreciationTransaction.setTransactionType(d.getTransactionType());
-                    depreciationTransaction.setProjectCode(d.getProjectCode());
+                    depreciationTransaction.setDocumentNumber                (d.getDocumentNumber());
+                    depreciationTransaction.setChartOfAccountsCode           (d.getPlantCOA());
+                    depreciationTransaction.setAccountNumber                 (d.getPlantAccount());
+                    depreciationTransaction.setSubAccountNumber              (d.getSubAccountNumber());
+                    depreciationTransaction.setFinancialObjectCode           (d.getFinancialObjectCode());
+                    depreciationTransaction.setFinancialSubObjectCode        (d.getFinancialSubObjectCode());
+                    depreciationTransaction.setFinancialObjectTypeCode       (d.getFinancialObjectTypeCode());
+                    depreciationTransaction.setTransactionType               (d.getTransactionType());
+                    depreciationTransaction.setProjectCode                   (d.getProjectCode());
 
                     depreciationTransaction.setTransactionAmount(d.getTransactionAmount());
                     depreciationTransaction.setTransactionLedgerEntryDescription(CamsConstants.Depreciation.TRANSACTION_DESCRIPTION + d.getCapitalAssetNumber());

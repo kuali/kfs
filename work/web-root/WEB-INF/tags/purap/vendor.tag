@@ -124,7 +124,7 @@
                     <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly}">
                         <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorAddress" 
                         readOnlyFields="active, vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
-                        lookupParameters="'Y': active,document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
+                        lookupParameters="'Y':active,document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" 
                         fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
                     </c:if>
                 </td>

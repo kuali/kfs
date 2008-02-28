@@ -55,6 +55,253 @@
                 <description>receivingLineDocumentNumber description...</description>
 			</attribute>
 
+            <attribute name="carrierCode" forceUppercase="true">
+                <label>Carrier</label>
+                <shortLabel>Carrier</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>carrierCode</summary>
+                <description>carrierCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingCode" forceUppercase="true">
+                <label>Delivery Building Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>deliveryBuildingCode</summary>
+                <description>deliveryBuildingCode description...</description>
+			</attribute>
+
+			<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
+			    <required>true</required>
+			</attributeReference>
+			
+			<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address">
+			</attributeReference>
+
+			<attribute name="deliveryBuildingName">
+			    <label>Building</label>
+			    <shortLabel>Building</shortLabel>
+			
+			    <maxLength>45</maxLength>
+			    <validationPattern>
+			        <anyCharacter allowWhitespace="true"/>
+			    </validationPattern>
+			    <required>true</required>
+			
+			    <control>
+			        <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"/>
+			    </control>
+			</attribute>
+
+			<attribute name="deliveryBuildingOther">
+				<label>Other Building</label>
+				<shortLabel>Other Bldg.</shortLabel>
+				
+				<maxLength>4</maxLength>
+				
+				<control>
+					<checkbox />
+				</control>
+			</attribute>
+
+			<attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
+			    <label>Room</label>
+			    <shortLabel>Room</shortLabel>
+			
+			    <maxLength>8</maxLength>
+			    <validationPattern>
+			        <anyCharacter />
+			    </validationPattern>
+			    <required>true</required>
+			
+			    <control>
+			        <text size="10" />
+			    </control>
+			
+			</attribute>
+
+			<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
+			    <label>Delivery Campus</label>
+			    <shortLabel>Delivery Campus</shortLabel>
+			    <required>true</required>
+			    <control>
+			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CampusNoBlankValuesFinder"/>
+			    </control>
+			</attributeReference>
+
+			<attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
+			    <required>true</required>			
+			</attributeReference>
+
+			<attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">			
+			</attributeReference>
+
+			<attribute name="deliveryInstructionText">
+			    <label>Delivery Instructions</label>
+			    <shortLabel>Instructions</shortLabel>
+			
+			    <maxLength>125</maxLength>
+			    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			
+			    <control>
+			        <textarea rows="3" cols="50" />
+			    </control>
+			
+			</attribute>
+
+			<attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode">
+				<required>true</required>
+			</attributeReference>
+
+			<attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+			    <label>Date Required</label>
+			    <shortLabel>Date Required</shortLabel>			
+			</attributeReference>
+
+			<attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
+			    <label>Date Required Reason</label>
+			    <shortLabel>Date Reason</shortLabel>
+			    <control>
+					<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
+				</control>    			
+			</attributeReference>
+
+			<attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
+				<required>true</required>
+			</attributeReference>
+
+			<attributeReference name="deliveryToEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
+			    <required>false</required>			
+			</attributeReference>
+
+			<attributeReference name="deliveryToName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName">
+			    <label>Delivery To</label>
+			    <shortLabel>To</shortLabel>
+			    <required>true</required>
+			</attributeReference>
+
+			<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
+			</attributeReference>
+
+            <attribute name="shipmentBillOfLadingNumber" forceUppercase="true">
+                <label>Bill Of Lading #</label>
+                <shortLabel>Bill Of Lading #</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>shipmentBillOfLadingNumber</summary>
+                <description>shipmentBillOfLadingNumber description...</description>
+			</attribute>
+
+            <attribute name="shipmentPackingSlipNumber" forceUppercase="true">
+                <label>Packing Slip #</label>
+                <shortLabel>Packing Slip #</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>shipmentPackingSlipNumber</summary>
+                <description>shipmentPackingSlipNumber description...</description>
+			</attribute>
+
+            <attribute name="shipmentReceivedDate" forceUppercase="true">
+                <label>Vendor Date</label>
+                <shortLabel>Vendor Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>shipmentReceivedDate</summary>
+                <description>shipmentReceivedDate description...</description>
+			</attribute>
+
+            <attribute name="shipmentReferenceNumber" forceUppercase="true">
+                <label>Reference #</label>
+                <shortLabel>Reference #</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>shipmentReferenceNumber</summary>
+                <description>shipmentReferenceNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Header Generated Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorHeaderGeneratedIdentifier</summary>
+                <description>vendorHeaderGeneratedIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
+                <label>Vendor</label>
+                <shortLabel>Vendor</shortLabel>
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber" />
+
+			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
+			    <required>false</required>
+			</attributeReference>
+
+            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
+                <required>true</required>
+            </attributeReference>
+            
+            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
+                <required>true</required>
+            </attributeReference>
+
+			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address"/>
+
+			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode"/>
+
+			<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode"/>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

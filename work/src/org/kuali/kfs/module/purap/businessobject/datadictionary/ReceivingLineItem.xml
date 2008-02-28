@@ -165,6 +165,36 @@
                 <description>itemOrderedQuantity description...</description>
 			</attribute>
 
+            <attribute name="itemReceivedPriorQuantity" forceUppercase="true">
+                <label>Prior Qty Received</label>
+                <shortLabel>Prior Qty Received</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemReceivedPriorQuantity</summary>
+                <description>itemReceivedPriorQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemReceivedToBeQuantity" forceUppercase="true">
+                <label>To be Received</label>
+                <shortLabel>To be Received</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemReceivedToBeQuantity</summary>
+                <description>itemReceivedToBeQuantity description...</description>
+			</attribute>
+
             <attribute name="itemReasonAddedCode" forceUppercase="true">
                 <label>Item Reason Added Code</label>
                 <shortLabel>Addition Reason</shortLabel>

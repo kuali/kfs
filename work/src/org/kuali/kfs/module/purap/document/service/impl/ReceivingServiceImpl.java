@@ -33,58 +33,19 @@ public class ReceivingServiceImpl implements ReceivingService {
         this.purchaseOrderService = purchaseOrderService;
     }
 
-    public void populateReceivingLine(ReceivingLineDocument rlDoc, String poDocId) {
+    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId) {
         
         if(rlDoc == null){
             rlDoc = new ReceivingLineDocument();
         }
-                        
+                             
         //retrieve po by doc id
-        PurchaseOrderDocument poDoc = new PurchaseOrderDocument();
+        PurchaseOrderDocument poDoc = null;
         poDoc = purchaseOrderService.getPurchaseOrderByDocumentNumber(poDocId);
-        
-        //populate receiving line document from purchase order
-        //copy vendor
-        rlDoc.setVendorName( poDoc.getVendorName() );
-        rlDoc.setVendorNumber( poDoc.getVendorNumber() );
-        rlDoc.setVendorLine1Address( poDoc.getVendorLine1Address() );
-        rlDoc.setVendorLine2Address( poDoc.getVendorLine2Address() );
-        rlDoc.setVendorCityName( poDoc.getVendorCityName() );
-        rlDoc.setVendorStateCode( poDoc.getVendorStateCode() );
-        rlDoc.setVendorPostalCode( poDoc.getVendorPostalCode() );
-        rlDoc.setVendorCountryCode( poDoc.getVendorCountryCode() );
-        rlDoc.setVendorAddressGeneratedIdentifier( poDoc.getVendorAddressGeneratedIdentifier() );
-        rlDoc.setVendorDetailAssignedIdentifier( poDoc.getVendorDetailAssignedIdentifier() );
-        rlDoc.setVendorHeaderGeneratedIdentifier( poDoc.getVendorHeaderGeneratedIdentifier() );
-        
-        //copy alternate vendor
-        rlDoc.setAlternateVendorName( poDoc.getAlternateVendorName() );
-        rlDoc.setAlternateVendorNumber( poDoc.getAlternateVendorNumber() );
-        rlDoc.setAlternateVendorDetailAssignedIdentifier( poDoc.getAlternateVendorDetailAssignedIdentifier() );
-        rlDoc.setAlternateVendorHeaderGeneratedIdentifier( poDoc.getAlternateVendorHeaderGeneratedIdentifier() );
-        
-        //copy delivery
-        rlDoc.setDeliveryBuildingCode( poDoc.getDeliveryBuildingCode() );
-        rlDoc.setDeliveryBuildingLine1Address( poDoc.getDeliveryBuildingLine1Address() );
-        rlDoc.setDeliveryBuildingLine2Address( poDoc.getDeliveryBuildingLine2Address() );
-        rlDoc.setDeliveryBuildingName( poDoc.getDeliveryBuildingName() );        
-        rlDoc.setDeliveryBuildingRoomNumber( poDoc.getDeliveryBuildingRoomNumber() );
-        rlDoc.setDeliveryCampusCode( poDoc.getDeliveryCampusCode() );
-        rlDoc.setDeliveryCityName( poDoc.getDeliveryCityName() );
-        rlDoc.setDeliveryCountryCode( poDoc.getDeliveryCountryCode() );
-        rlDoc.setDeliveryInstructionText( poDoc.getDeliveryInstructionText() );
-        rlDoc.setDeliveryPostalCode( poDoc.getDeliveryPostalCode() );
-        rlDoc.setDeliveryRequiredDate( poDoc.getDeliveryRequiredDate() );
-        rlDoc.setDeliveryRequiredDateReasonCode( poDoc.getDeliveryRequiredDateReasonCode() );
-        rlDoc.setDeliveryStateCode( poDoc.getDeliveryStateCode() );
-        rlDoc.setDeliveryToEmailAddress( poDoc.getDeliveryToEmailAddress() );
-        rlDoc.setDeliveryToName( poDoc.getDeliveryToName() );
-        rlDoc.setDeliveryToPhoneNumber( poDoc.getDeliveryToPhoneNumber() );
-                
-        //copy purchase order items
-        /*for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) poDoc.getItems()) {
-            rlDoc.getItems().add(new ReceivingLineItem(poi, this));
-        }*/
+
+        if(poDoc != null){
+            rlDoc.populateReceivingLineFromPurchaseOrder(poDoc);
+        }                
         
     }
 

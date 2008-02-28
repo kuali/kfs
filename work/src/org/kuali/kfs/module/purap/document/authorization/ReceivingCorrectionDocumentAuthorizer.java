@@ -88,7 +88,7 @@ public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAut
         editModeMap.put(editMode, "TRUE");
         
         //lock vendor input
-        //editModeMap.put(PurapAuthorizationConstants.ReceivingCorrectionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
+        editModeMap.put(PurapAuthorizationConstants.ReceivingCorrectionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         
         return editModeMap;
     }

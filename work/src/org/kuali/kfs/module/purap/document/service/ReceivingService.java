@@ -25,6 +25,6 @@ public interface ReceivingService {
      * @param rlDoc
      * @param poDocId
      */
-    public void populateReceivingLine(ReceivingLineDocument rlDoc, String poDocId);
+    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId);
     
 }

@@ -1,49 +1,28 @@
 package org.kuali.module.purap.document;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.purap.bo.ReceivingCorrectionItem;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingCorrectionDocument extends PurchasingAccountsPayableDocumentBase {
+public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
 
-    private String documentNumber;
     private String receivingLineDocumentNumber;
 
+    //Collections
+    private List<ReceivingCorrectionItem> items;
+    
     private ReceivingLineDocument receivingLineDocument;
-    private DocumentHeader documentHeader;
-
     
     /**
      * Default constructor.
      */
     public ReceivingCorrectionDocument() {
-
+        super();
     }
-
-    /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber
-     * 
-     */
-    public String getDocumentNumber() { 
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute.
-     * 
-     * @param documentNumber The documentNumber to set.
-     * 
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
 
     /**
      * Gets the receivingLineDocumentNumber attribute.
@@ -63,23 +42,6 @@ public class ReceivingCorrectionDocument extends PurchasingAccountsPayableDocume
      */
     public void setReceivingLineDocumentNumber(String receivingLineDocumentNumber) {
         this.receivingLineDocumentNumber = receivingLineDocumentNumber;
-    }
-
-    /**
-     * Gets the documentHeader attribute. 
-     * @return Returns the documentHeader.
-     */
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
-     * Sets the documentHeader attribute value.
-     * @param documentHeader The documentHeader to set.
-     * @deprecated
-     */
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
     }
 
     /**
@@ -111,24 +73,20 @@ public class ReceivingCorrectionDocument extends PurchasingAccountsPayableDocume
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
-    @Override
     public Class getItemClass() {
         return ReceivingCorrectionItem.class;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
-     */
-    @Override
-    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
-        return null;
+    public List getItems() {
+        return items;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
-     */
-    public String getPurApSourceDocumentLabelIfPossible() {
-        return null;
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public ReceivingCorrectionItem getItem(int pos) {
+        return (ReceivingCorrectionItem) items.get(pos);
     }
 
 }

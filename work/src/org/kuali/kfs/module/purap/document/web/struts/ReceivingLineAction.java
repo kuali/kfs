@@ -48,7 +48,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         String poDocId = rlf.getPurchaseOrderDocId();
             
         //populate Receiving Line Document from Purchase Order
-        SpringContext.getBean(ReceivingService.class).populateReceivingLine(rlDoc, poDocId);
+        SpringContext.getBean(ReceivingService.class).populateReceivingLineFromPurchaseOrder(rlDoc, poDocId);
         
     }
 
@@ -65,7 +65,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingCorrection);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingCorrectionDocument");        
-        parameters.put("receivingLineDocId", document.getDocumentNumber() );
+        parameters.put("receivingLineDocId", document.getDocumentHeader().getDocumentNumber() );
         
         //create url
         String receivingCorrectionUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingCorrection.do", parameters);

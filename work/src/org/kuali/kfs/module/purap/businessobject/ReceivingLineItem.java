@@ -25,6 +25,10 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
 	private KualiDecimal itemDamagedTotalQuantity;
 	private String itemReasonAddedCode;
 
+    //not stored in db
+    private KualiDecimal itemReceivedPriorQuantity;
+    private KualiDecimal itemReceivedToBeQuantity;
+
     private ReceivingLineDocument receivingLineDocument;
     private ItemReasonAdded itemReasonAdded;
     private ItemType itemType;
@@ -38,6 +42,24 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
 
 	}
 
+    public ReceivingLineItem(PurchaseOrderItem poi, ReceivingLineDocument rld){
+        
+        this.setDocumentNumber( rld.getDocumentNumber() );        
+        this.setItemTypeCode( poi.getItemTypeCode() );
+        
+        this.setItemLineNumber( poi.getItemLineNumber() );
+        this.setItemCatalogNumber( poi.getItemCatalogNumber() );
+        this.setItemDescription( poi.getItemDescription() );
+        //this.setItemOrderedQuantity(  )
+        this.setItemUnitOfMeasureCode( poi.getItemUnitOfMeasureCode() );
+        this.setItemReceivedPriorQuantity( poi.getItemReceivedTotalQuantity() );
+        //this.setItemReceivedToBeQuantity()        
+        //this.setItemReceivedTotalQuantity()
+        //this.setItemReturnedTotalQuantity()
+        //this.setItemDamagedTotalQuantity()                                
+        //this.setItemReasonAddedCode()
+    }
+    
 	/**
 	 * Gets the receivingLineItemIdentifier attribute.
 	 * 
@@ -377,6 +399,22 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
         this.itemUnitOfMeasure = itemUnitOfMeasure;
     }
 
+    public KualiDecimal getItemReceivedPriorQuantity() {
+        return itemReceivedPriorQuantity;
+    }
+
+    public void setItemReceivedPriorQuantity(KualiDecimal itemReceivedPriorQuantity) {
+        this.itemReceivedPriorQuantity = itemReceivedPriorQuantity;
+    }
+
+    public KualiDecimal getItemReceivedToBeQuantity() {
+        return itemReceivedToBeQuantity;
+    }
+
+    public void setItemReceivedToBeQuantity(KualiDecimal itemReceivedToBeQuantity) {
+        this.itemReceivedToBeQuantity = itemReceivedToBeQuantity;
+    }
+
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -387,4 +425,5 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
         }
 	    return m;
     }
+
 }

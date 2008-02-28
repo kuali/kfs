@@ -25,6 +25,36 @@
  
         <attributes>
 
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
+                <label>Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderIdentifier</summary>
+                <description>purchaseOrderIdentifier description...</description>
+			</attribute>
+
             <attribute name="carrierCode" forceUppercase="true">
                 <label>Carrier</label>
                 <shortLabel>Carrier</shortLabel>
@@ -166,36 +196,6 @@
 
 			<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
 			</attributeReference>
-
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
-			</attribute>
 
             <attribute name="shipmentBillOfLadingNumber" forceUppercase="true">
                 <label>Bill Of Lading #</label>

@@ -24,9 +24,11 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.kuali.core.lookup.LookupResultsServiceImpl;
+import org.kuali.core.service.impl.BusinessObjectServiceImpl;
 import org.kuali.core.service.impl.KeyValuesServiceImpl;
 import org.kuali.core.service.impl.KualiModuleUserPropertyServiceImpl;
 import org.kuali.core.service.impl.LookupServiceImpl;
+import org.kuali.core.service.impl.PersistenceServiceImpl;
 import org.kuali.core.service.impl.PostDataLoadEncryptionServiceImpl;
 import org.kuali.core.service.impl.SequenceAccessorServiceImpl;
 import org.kuali.kfs.service.impl.AccountingLineServiceImpl;
@@ -88,6 +90,8 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     public void setUp() throws Exception {
         super.setUp();
         excludedClasses = new ArrayList<Class>();
+        excludedClasses.add( BusinessObjectServiceImpl.class );
+        excludedClasses.add( PersistenceServiceImpl.class );
         excludedClasses.add( SubFundGroupServiceImpl.class );
         excludedClasses.add( AccountingLineServiceImpl.class );
         excludedClasses.add( HomeOriginationServiceImpl.class );

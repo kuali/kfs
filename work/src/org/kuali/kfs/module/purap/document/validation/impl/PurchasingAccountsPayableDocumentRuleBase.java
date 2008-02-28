@@ -127,7 +127,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
         valid &= processDocumentOverviewValidation(purapDocument);
         valid &= processVendorValidation(purapDocument);
         valid &= processItemValidation(purapDocument);
-        valid &= newProcessItemValidation(purapDocument);
+//        valid &= newProcessItemValidation(purapDocument);
         return valid;
     }
 

@@ -26,20 +26,22 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
 
-public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
+public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
 
     private CustomerInvoiceDocument customerInvoiceDocument = null;
@@ -52,7 +54,6 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
         boolean success = true;
         customerInvoiceDocument = (CustomerInvoiceDocument) approveEvent.getDocument();
         success &= defaultExistenceChecks(customerInvoiceDocument);
-        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
 
@@ -64,7 +65,6 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
         boolean success = true;
         customerInvoiceDocument = (CustomerInvoiceDocument) doc;
         success &= defaultExistenceChecks(customerInvoiceDocument);
-        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
 
@@ -76,29 +76,85 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
         boolean success = true;
         customerInvoiceDocument = (CustomerInvoiceDocument) doc;
         success &= defaultExistenceChecks(customerInvoiceDocument);
-        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
-
-
+    
     /**
      * This method returns true if default existence checks for general customer invoice information is true
+     * 
      * @param doc
      * @return
      */
     private boolean defaultExistenceChecks(CustomerInvoiceDocument doc) {
         boolean success = true;
 
-        success &= isValidCustomerNumber(doc);
+        success &= isValidAndActiveCustomerNumber(doc);
         success &= isValidBilledByChartOfAccountsCode(doc);
         success &= isValidBilledByOrganizationCode(doc);
         success &= isValidInvoiceDueDate(doc);
         return success;
+    }    
+
+    /**
+     * Validate information specific to customerInvoiceDetail
+     * 
+     * @param financialDocument
+     * @param accountingLine
+     * @return boolean
+     */
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        LOG.debug("processCustomAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
+
+        boolean success = true;
+
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) accountingLine;
+
+        //success &= isCustomerInvoiceItemCodeValid(customerInvoiceDetail);
+        success &= isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(customerInvoiceDetail);
+        success &= isCustomerInvoiceDetailItemQuantityGreaterThanZero(customerInvoiceDetail);
+        success &= isValidUnitOfMeasure(customerInvoiceDetail);
+
+        LOG.debug("processCustomAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - end");
+
+        return success;
+
     }
 
-    protected boolean isValidCustomerNumber(CustomerInvoiceDocument doc) {
+    /**
+     * This method returns true if invoice code is provided and is valid.
+     * @param customerInvoiceDetail
+     * @return
+     */
+    private boolean isCustomerInvoiceItemCodeValid(CustomerInvoiceDocument doc, CustomerInvoiceDetail customerInvoiceDetail) {
+
         boolean success = true;
-        // TODO: probably have to do some kind of customer lookup here, if it isn't a reference in OJB
+        
+        CustomerInvoiceItemCode customerInvoiceItemCode = SpringContext.getBean(CustomerInvoiceItemCodeService.class).getByPrimaryKey(customerInvoiceDetail.getInvoiceItemCode(), doc.getBillByChartOfAccountCode(), doc.getBilledByOrganizationCode());
+        if ( ObjectUtils.isNotNull(customerInvoiceDetail)){
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceItemCode", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
+            success &= false;
+        }
+        
+        return success;
+    }
+
+
+    /**
+     * This method returns true the customer number provided is valid and active
+     * 
+     * @param doc
+     * @return
+     */
+    protected boolean isValidAndActiveCustomerNumber(CustomerInvoiceDocument doc) {
+        boolean success = true;
+
+        doc.getAccountsReceivableDocumentHeader().refreshReferenceObject("customer");
+        Customer customer = doc.getAccountsReceivableDocumentHeader().getCustomer();
+        if (ObjectUtils.isNull(customer) || !customer.isCustomerActiveIndicator()) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "accountsReceivableDocumentHeader.customerNumber", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
+            success &= false;
+        }
+
         return success;
     }
 
@@ -111,12 +167,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
      */
     protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc) {
         boolean success = true;
+        // TODO need to check if "invoice date" is the creation date or the invoice print date
 
-        // if invoice due date is provided
-        if (doc.getInvoiceDueDate() != null) {
-            Timestamp invoiceDueDateTime = new Timestamp(doc.getInvoiceDueDate().getTime());
-            Timestamp todayTime = new Timestamp(new Date().getTime());
-            success = DateUtils.getDifferenceInDays(todayTime, invoiceDueDateTime) <= ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE;
+        Timestamp invoiceDueDateTime = new Timestamp(doc.getInvoiceDueDate().getTime());
+        Timestamp todayTime = new Timestamp(new Date().getTime());
+
+        // TODO should the # of valid days be a system parameter?
+        if (DateUtils.getDifferenceInDays(todayTime, invoiceDueDateTime) > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE);
         }
 
         return success;
@@ -124,7 +182,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
     }
 
     /**
-     * This method returns true if organization code is valid.  Assumes that both billed by chart of accounts code and billed by organization are provided
+     * This method returns true if organization code is valid. Assumes that both billed by chart of accounts code and billed by
+     * organization are provided
+     * 
      * @param customerInvoiceDocument
      * @return
      */
@@ -132,25 +192,26 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
         boolean success = true;
 
         customerInvoiceDocument.refreshReferenceObject("billedByOrganization");
-        if (customerInvoiceDocument.getBilledByOrganizationCode() != null) {
+        if (ObjectUtils.isNull(customerInvoiceDocument.getBilledByOrganizationCode())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "billedByOrganizationCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_ORGANIZATION_CODE);
             success = false;
         }
-      
+
         return success;
     }
-    
-    
+
+
     /**
-     * This method returns true if billed by chart of accounts code is valid.  Assumes that chart of accounts code is provided.
+     * This method returns true if billed by chart of accounts code is valid. Assumes that chart of accounts code is provided.
+     * 
      * @param customerInvoiceDocument
      * @return
      */
     protected boolean isValidBilledByChartOfAccountsCode(CustomerInvoiceDocument customerInvoiceDocument) {
         boolean success = true;
-        
+
         customerInvoiceDocument.refreshReferenceObject("billByChartOfAccount");
-        if (customerInvoiceDocument.getBillByChartOfAccount() != null) {
+        if (ObjectUtils.isNull(customerInvoiceDocument.getBillByChartOfAccount())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "billByChartOfAccountCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_CHART_OF_ACCOUNTS_CODE);
             success = false;
         }
@@ -159,58 +220,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
     }
 
     /**
-     * This method returns true if all customer invoice details are valid
-     * 
-     * @param customerInvoiceDocument
-     * @return
-     */
-    protected boolean validateCustomerInvoiceDetails(CustomerInvoiceDocument customerInvoiceDocument) {
-        boolean success = true; 
-        
-        /*
-        for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetails() ){
-            processAddCustomerInvoiceDetailBusinessRules( customerInvoiceDocument, customerInvoiceDetail );
-        }*/
-        
-        return success;
-    }
-
-    /**
-     * This method returns true if customer invoice detail (excluding accounting information) has no errors.
-     * 
-     * @return
-     */
-    protected boolean validateCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
-        boolean success = true;
-        
-        
-        int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
-        
-        if (customerInvoiceDetail.getInvoiceItemQuantity() == null) {
-            // rule failure
-            
-            success &= false;
-        }
-       
-        if (customerInvoiceDetail.getInvoiceItemQuantity() != null && customerInvoiceDetail.getInvoiceItemQuantity().compareTo(new BigDecimal(1)) < 0) {
-            // also fail
-            success &= false;
-        }
-       
-        if (customerInvoiceDetail.getInvoiceItemUnitPrice() != null && customerInvoiceDetail.getInvoiceItemUnitPrice().compareTo(new KualiDecimal(1)) < 0) {
-            // rule failure
-            success &= false;
-        }
-
-        success &= isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(customerInvoiceDetail);
-        success &= isValidUnitOfMeasure(customerInvoiceDetail);
-        
-        return success;
-    }
-
-
-    /**
      * This method validates that the unit of measure for a customer invoice detail line is a valid UOM.
+     * 
      * @param detail
      * @return
      */
@@ -224,69 +235,55 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase{
     }
 
     /**
-     * @see org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule#processAddCustomerInvoiceBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.ar.bo.CustomerInvoiceDetail)
-     */
-    public boolean processAddCustomerInvoiceDetailBusinessRules(AccountingDocument financialDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
-        
-        //use existing accounting line rule validation to validate accounting information (in addition to doing data dictionary related validation).
-        boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(ArConstants.NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX, financialDocument, customerInvoiceDetail));
-        
-        //validate the rest of the customer invoice detail
-        isValid &= validateCustomerInvoiceDetail(customerInvoiceDetail);
-
-        return isValid;
-    }
-    
-    /**
      * Overriding AccountingDocumentRuleBase.isValid() because the error message doesn't make sense for the CustomerInvoiceDocument.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
 
         KualiDecimal amount = accountingLine.getAmount();
-        
+
         if (ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
-            LOG.info("failing isAmountValid - less than or equal to 0");
             return false;
         }
 
         return true;
-    }    
-    
+    }
+
     /**
      * This method returns true if invoice detail unit price is greater than zero
+     * 
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean isCustomerInvoiceDetailItemUnitPriceGreaterThanZero( CustomerInvoiceDetail customerInvoiceDetail ){
+    public boolean isCustomerInvoiceDetailItemUnitPriceGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail) {
         KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice();
-        
+
         if (ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceItemUnitPrice", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         return true;
     }
-    
+
     /**
      * This method returns true if invoice detail unit price is greater than zero
+     * 
      * @param customerInvoiceDetail
      * @return
      */
-    public boolean isCustomerInvoiceDetailItemQuantityGreaterThanZero( CustomerInvoiceDetail customerInvoiceDetail ){
-        BigDecimal amount = customerInvoiceDetail.getInvoiceItemQuantity();
+    public boolean isCustomerInvoiceDetailItemQuantityGreaterThanZero(CustomerInvoiceDetail customerInvoiceDetail) {
         
-        if (ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
+        BigDecimal amount = customerInvoiceDetail.getInvoiceItemQuantity();
+
+        if (BigDecimal.ZERO.compareTo(amount) == 0 || BigDecimal.ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceItemQuantity", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         return true;
-    }    
-    
-    
+    }
 }

@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule;
+package org.kuali.module.ar.dao;
 
-/**
- * Parent rule class for customer invoice detail-related rules
- */
-public interface CustomerInvoiceDetailRule {
+import org.kuali.module.ar.bo.Customer;
+
+public interface CustomerDao {
+    
+    /**
+     * This method returns a Customer with the provided customerNumber 
+     * 
+     * @param customerNumber
+     * @return
+     */
+    public Customer getByPrimaryId( String customerNumber );
 
 }

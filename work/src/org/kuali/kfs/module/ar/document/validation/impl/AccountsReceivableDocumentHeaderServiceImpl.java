@@ -35,8 +35,10 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
         
         OrganizationOptions organizationOptions = organizationOptionsService.getByPrimaryKey(chartOfAccountsCode, organizationCode);
-        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(organizationOptions.getProcessingChartOfAccountCode());
-        accountsReceivableDocumentHeader.setProcessingOrganizationCode(organizationOptions.getProcessingOrganizationCode());
+        if( organizationOptions != null ){
+            accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(organizationOptions.getProcessingChartOfAccountCode());
+            accountsReceivableDocumentHeader.setProcessingOrganizationCode(organizationOptions.getProcessingOrganizationCode());
+        }
 
         return accountsReceivableDocumentHeader;
     }

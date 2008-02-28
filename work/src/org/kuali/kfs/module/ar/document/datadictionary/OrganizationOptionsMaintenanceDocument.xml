@@ -79,7 +79,9 @@
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="organizationMessageText" required="false" />
-                    <maintainableField name="organizationPaymentTermsText" required="false" />
+                    <maintainableField name="organizationPaymentTermsText" required="false">
+                    	<defaultValue>NET 30 DAYS</defaultValue>
+                    </maintainableField>
                     <maintainableField name="organizationRemitToAddressName" required="true" />
                     <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />
                     <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />

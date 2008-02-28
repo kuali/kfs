@@ -49,11 +49,14 @@
 		</property>
 	</bean>
 
-	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
-	
+	<!--  AR DAOs  -->
 	<bean id="organizationAccountingDefaultDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationAccountingDefaultDaoOjb" />
-	
 	<bean id="organizationOptionsDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationOptionsDaoOjb" />
+	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
+	<bean id="customerInvoiceItemCodeDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceItemCodeDaoOjb" />
+	
+	<!--  AR Services  -->
+	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
 
 	<bean id="organizationAccountingDefaultService" class="org.kuali.module.ar.service.impl.OrganizationAccountingDefaultServiceImpl">
 		<property name="organizationAccountingDefaultDao">
@@ -84,5 +87,17 @@
 			<ref bean="organizationOptionsService" />
 		</property>					
 	</bean>	
+	
+	<bean id="customerService" class="org.kuali.module.ar.service.impl.CustomerServiceImpl">
+		<property name="customerDao">
+			<ref bean="customerDao" />
+		</property>
+	</bean>	
+	
+	<bean id="customerInvoiceItemCodeService" class="org.kuali.module.ar.service.impl.CustomerInvoiceItemCodeServiceImpl">
+		<property name="customerInvoiceItemCodeDao">
+			<ref bean="customerInvoiceItemCodeDao" />
+		</property>
+	</bean>		
 	
 </beans>

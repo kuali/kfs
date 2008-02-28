@@ -27,19 +27,14 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.ar.rule.event.AddCustomerInvoiceDetailEvent;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
-import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -70,60 +65,42 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         customerInvoiceDocumentForm.setNewSourceLine(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
     }
     
-    /**
-     * Adds a CustomerInvoiceDetail instance created from the current "new customer invoice detail" line to the document
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    /*
-    public ActionForward addCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
-        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
-
-        CustomerInvoiceDetail newCustomerInvoiceDetail = customerInvoiceDocumentForm.getNewCustomerInvoiceDetail();
-        newCustomerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
-        newCustomerInvoiceDetail.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-        
-        //Reusing accounting line validation from AddAccountingLineEvent 
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCustomerInvoiceDetailEvent(ArConstants.NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX, customerInvoiceDocument, newCustomerInvoiceDetail));
-        if (rulePassed) {
-            // add customer invoice detail
-            customerInvoiceDocument.addCustomerInvoiceDetail(newCustomerInvoiceDetail);
-
-            //set up the default values for customer invoice detail add line
-            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }*/
     
     /**
-     * Deletes the selected customer invoice detail line from the document
+     * This method is the action for refreshing the added source line (or customer invoice detail) based off a provided invoice item code.
+     * If not 
+     *  
      * 
      * @param mapping
      * @param form
      * @param request
      * @param response
-     * @return ActionForward
+     * @return
      * @throws Exception
      */
-    /*
-    public ActionForward deleteCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
-        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+    public ActionForward refreshAddCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        int indexOfLineToDelete = getLineToDelete(request);
-        // delete customer invoice detail with specific line
-        customerInvoiceDocument.deleteCustomerInvoiceDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }*/ 
+    }    
+    
+    
+    /**
+     * This method is the action for recalculating a added line
+     *  
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }     
     
 
     /**

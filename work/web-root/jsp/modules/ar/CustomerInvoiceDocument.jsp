@@ -36,10 +36,20 @@
     <ar:customerInvoice
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />
         
+        
+    <%--
 	<ar:customerInvoiceDetails
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"
         customerInvoiceDetailAttributes="${DataDictionary.CustomerInvoiceDetail.attributes}"
-        readOnly="${readOnly}" />        
+        readOnly="${readOnly}" />
+     --%>
+     
+	<fin:accountingLines
+	    editingMode="${KualiForm.editingMode}"
+	    editableAccounts="${KualiForm.editableAccounts}"
+	    optionalFields="invoiceItemNumber,invoiceItemQuantity,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,invoiceItemServiceDate,invoiceItemCode,invoiceItemDescription"
+	    isOptionalFieldsInNewRow="true"
+	    sourceAccountingLinesOnly="true" />
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 

@@ -18,10 +18,8 @@ package org.kuali.module.ar.rule.event;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
-import org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule;
 
 public final class AddCashControlDetailEvent extends CashControlDetailEventBase {
 

@@ -1,19 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd"
-    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
+    "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerInvoiceDetail">
 
         <attributes>
 			
-			&accountingLineBaseAttributes;
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+			    <required>true</required>
+			    <description>The code that identifies the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search.</description>
+			</attributeReference>
+
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+			    <required>true</required>
+			</attributeReference>
+
+			<attribute name="organizationReferenceId" forceUppercase="true">
+			    <label>Organization Reference Id</label>
+			    <shortLabel>Org Ref Id</shortLabel>
+			
+			    <maxLength>8</maxLength>
+			
+			    <validationPattern>
+			        <anyCharacter />
+			    </validationPattern>
+			    <required>false</required>
+			    <control>
+			        <text size="10" />
+			    </control>
+			
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>The identifier of an Organization which has been associated with the Account Line.</description>
+			</attribute>
+
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+			    <required>true</required>
+			    <control>
+			        <!-- text size="2" /-->
+			        <!-- If we want to go back to the drop-down list, then use this:-->
+			        <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder" />
+			    </control>
+			
+			    <description>The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts.</description>
+			
+			</attributeReference>
+
+			<attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+			    <required>true</required>
+			</attributeReference>
+
+
+			<attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+			    <required>true</required>
+			    <description>The total dollar amount of check or batch of checks.</description>
+			</attributeReference>
+
+			<attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+			    <label>Sub-Account Code</label>
+			    <shortLabel>Sub-Account</shortLabel>
+			    <required>false</required>
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>The identifier to further partition the financial activity of an Account, expressed as a 5-character code</description>
+			</attributeReference>
+
+
+			<attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
+			    <required>false</required>
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>The title of the project.</description>
+			
+			</attributeReference>
+
+			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+			    <required>false</required>
+			    <description>The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType.</description>
+			</attributeReference>
+
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber">
+			    <required>false</required>
+			</attributeReference>
+
+			<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
+			    <required>false</required>
+			</attributeReference>
 
             <attributeReference name="accountsReceivableObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Accounts Receivable Object Code</label>
                 <shortLabel>AR Object Code</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <summary>accountsReceivableObjectCode</summary>
                 <description>accountsReceivableObjectCode description...</description>
 			</attributeReference>

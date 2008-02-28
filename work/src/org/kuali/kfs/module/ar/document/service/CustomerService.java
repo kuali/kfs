@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule.event;
+package org.kuali.module.ar.service;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.Customer;
 
-/**
- * Defines methods for all events related to checks
- */
-public interface CustomerInvoiceDetailEvent extends KualiDocumentEvent {
+public interface CustomerService {
 
     /**
-     * This method returns the customer invoice related to the event
-     * @return CustomerInvoiceDetail
+     * Return customer by customerNumber
+     * @param customerNumber
+     * @return
      */
-    public CustomerInvoiceDetail getCustomerInvoiceDetail();
+    public Customer getByPrimaryKey(String customerNumber);
 }

@@ -388,6 +388,7 @@
 	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="projectCode" />
 	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.CustomerProcessingType" table="AR_CUST_PRCS_TYP_T">

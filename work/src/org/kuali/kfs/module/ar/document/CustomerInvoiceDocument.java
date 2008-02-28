@@ -10,10 +10,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
@@ -24,6 +32,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 
 /**
@@ -756,4 +765,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     public Class getSourceAccountingLineClass() {
         return CustomerInvoiceDetail.class;
     }
+    
+    /**
+     * Still need implement.
+     * 
+     * @param financialDocument submitted financial document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @return true if there are no issues creating GLPE's
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        //TODO Still need to implement.
+    }    
 }

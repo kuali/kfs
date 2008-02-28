@@ -15,14 +15,19 @@
  */
 package org.kuali.module.ar.web.struts.form;
 
+import java.util.Map;
+
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 
@@ -71,5 +76,21 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         catch (Exception e) {
             throw new InfrastructureException("unable to create a new source accounting line", e);
         }
+    }    
+    
+    
+    /**
+     * Configure lookup for Invoice Item Code source accounting line
+     * 
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#getForcedLookupOptionalFields()
+     */
+    @Override
+    public Map getForcedLookupOptionalFields() {
+        Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
+
+        String lookupField = ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY;
+        forcedLookupOptionalFields.put(lookupField, lookupField + ";" + CustomerInvoiceItemCode.class.getName());
+
+        return forcedLookupOptionalFields;
     }    
 }

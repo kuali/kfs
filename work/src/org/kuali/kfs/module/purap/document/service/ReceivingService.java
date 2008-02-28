@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
 public interface ReceivingService {
@@ -26,5 +27,13 @@ public interface ReceivingService {
      * @param poDocId
      */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId);
+ 
+    /**
+     * Performs a threshold check on the purchase order to determine if any attribute on the purchase order
+     * falls within a defined threshold. This check is only perfromed if the receiving required flag is set to N.
+     * 
+     * @param po
+     */
+    public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po);
     
 }

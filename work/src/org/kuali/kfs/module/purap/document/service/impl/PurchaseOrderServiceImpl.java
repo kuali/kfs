@@ -69,6 +69,7 @@ import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -94,7 +95,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiRuleService kualiRuleService;
     private VendorService vendorService;
     private RequisitionService requisitionService;
-
+    private ReceivingService receivingService;
+    
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -141,6 +143,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
+    }
+
+    public void setReceivingService(ReceivingService receivingService) {
+        this.receivingService = receivingService;
     }
 
     /**
@@ -719,6 +725,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
+        
+        //check thresholds to see if receiving is required for purchase order
+        receivingService.setReceivingRequiredIndicatorForPurchaseOrder(po);
     }
 
     /**

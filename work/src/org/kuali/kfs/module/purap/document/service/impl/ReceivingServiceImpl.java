@@ -33,6 +33,10 @@ public class ReceivingServiceImpl implements ReceivingService {
         this.purchaseOrderService = purchaseOrderService;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.module.purap.document.ReceivingLineDocument, java.lang.String)
+     */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId) {
         
         if(rlDoc == null){
@@ -47,6 +51,14 @@ public class ReceivingServiceImpl implements ReceivingService {
             rlDoc.populateReceivingLineFromPurchaseOrder(poDoc);
         }                
         
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.ReceivingService#setReceivingRequiredIndicatorForPurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po) {
+        //TODO: Add threshold check and set receiving required indicator if necessary
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.AddDetailLineEvent;
@@ -79,7 +81,15 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail newDetailLine = effortForm.getNewDetailLine();
-
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        
+        //TODO: need to set subaccount reference in order for rules validations to work (hasA21SubAccount in particular)
+        HashMap primaryKeys = new HashMap();
+        primaryKeys.put("chartOfAccountsCode", newDetailLine.getChartOfAccountsCode());
+        primaryKeys.put("accountNumber", newDetailLine.getAccountNumber());
+        primaryKeys.put("subAccountNumber", newDetailLine.getSubAccountNumber());
+        newDetailLine.setSubAccount((SubAccount)businessObjectService.findByPrimaryKey(SubAccount.class, primaryKeys));
+        
         // TODO: should required fields be checked for null values?
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());

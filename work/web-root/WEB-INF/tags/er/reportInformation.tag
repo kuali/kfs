@@ -26,13 +26,27 @@
 	  <table summary="" cellpadding="0" cellspacing="0">
             <tbody><tr>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}"/></div></th>
-              <td><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/></a></td>
+              <td>
+              	<kul:inquiry 
+					boClassName="org.kuali.core.bo.user.UniversalUser" 
+					keyValues="personPayrollIdentifier=${documentObject.emplid}&personUniversalIdentifier=${documentObject.employee.personUniversalIdentifier}" 
+					render="true">
+              		<kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/>
+              	</kul:inquiry>
+              </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}"/></th>
               <td><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" property="document.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear" readOnly="true"/></td>
             </tr>
             <tr>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes.effortCertificationReportNumber}"/></div></th>
-              <td><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/></a></td>
+              <td>
+              	<kul:inquiry 
+					boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" 
+					keyValues="universityFiscalYear=${documentObject.effortCertificationReportDefinition.universityFiscalYear}&effortCertificationReportNumber=${documentObject.effortCertificationReportDefinition.effortCertificationReportNumber}" 
+					render="true">
+              		<kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/>
+              	</kul:inquiry>
+              </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}"/></div></th>
               <td><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" property="document.effortCertificationReportDefinition.reportEndFiscalYear.universityFiscalYear" readOnly="true"/></td>
             </tr>

@@ -127,7 +127,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
         valid &= processDocumentOverviewValidation(purapDocument);
         valid &= processVendorValidation(purapDocument);
         valid &= processItemValidation(purapDocument);
-
+        valid &= newProcessItemValidation(purapDocument);
         return valid;
     }
 
@@ -212,6 +212,75 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
 
         return valid;
     }
+    
+    /**
+     * Performs any validation for the Item tab. For each item, it will invoke the data dictionary validations. If the item is
+     * considered entered, if the item type is above the line item, then also invoke the validatBelowTheLineValues. If the document
+     * requires account validation on all entered items or if the item contains accounting line, then call the
+     * processAccountValidation for all of the item's accounting line.
+     * 
+     * @param purapDocument The PurchasingAccountsPayable document to be validated.
+     * @return boolean true if it passes all of the validations.
+     */
+    public boolean newProcessItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+
+        //Fetch the business rules that are common to the below the line items on all purap documents
+        String documentTypeClassName = purapDocument.getClass().getName();
+        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
+        String documentType = documentTypeArray[documentTypeArray.length - 1];
+
+        boolean requiresAccountValidationOnAllEnteredItems = requiresAccountValidationOnAllEnteredItems(purapDocument);
+        
+        //iterate over all the items
+        int i = 0;
+        for (PurApItem item : purapDocument.getItems()) {
+        
+            getDictionaryValidationService().validateBusinessObject(item);
+            
+            //check to see if we need to call rules on a specific item (hook?)
+            if (isItemConsideredEntered(item)) {
+                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+              //if true call hook to process item validation
+                valid = newIndividualItemValidation(valid, documentType, item);
+                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+
+            }
+            
+            //hook method to check if account validation is required(should this be set at top or checked per item)
+            //if true call account validation
+            if (requiresAccountValidationOnAllEnteredItems || (!item.getSourceAccountingLines().isEmpty())) {
+                processAccountValidation(purapDocument, item.getSourceAccountingLines(), item.getItemIdentifierString());
+            }
+            i++;
+        }
+
+        return valid;
+    }
+
+    /**
+     * This method does any document specific item checks
+     * @param valid
+     * @param documentType
+     * @param item
+     * @return
+     */
+    public boolean newIndividualItemValidation(boolean valid, String documentType, PurApItem item) {
+        if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            valid &= validateBelowTheLineValues(documentType, item);
+        }
+        return valid;
+    }
+
+    /**
+     * This method...
+     * @param item
+     * @return
+     */
+    protected boolean isItemConsideredEntered(PurApItem item) {
+        return item.isConsideredEntered();
+    }
+
 
     /**
      * Performs validations for below the line items. If the unit price is zero, and the system parameter indicates that the item

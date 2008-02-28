@@ -105,9 +105,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
             GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            String identifierString = item.getItemIdentifierString();
             valid &= validateItemUnitPrice(item);
-            valid &= validateUnitOfMeasure(item, identifierString);
+            
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);                
@@ -146,6 +146,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
         return valid;
     }
+
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.module.purap.bo.PurApItem)
+     */
+    @Override
+    public boolean newIndividualItemValidation(boolean valid, String documentType, PurApItem item) {
+        super.newIndividualItemValidation(valid, documentType, item);
+        return validateUnitOfMeasure(item);
+    }
+
 
     /**
      * Validates that if the item unit price is null and the source accounting lines is not empty, add error message and return
@@ -281,7 +291,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item the item to be validated
      * @return boolean false if the item type is quantity based and the unit of measure is empty.
      */
-    private boolean validateUnitOfMeasure(PurApItem item, String identifierString) {
+    private boolean validateUnitOfMeasure(PurApItem item) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         // Validations for quantity based item type
@@ -289,7 +299,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             String uomCode = purItem.getItemUnitOfMeasureCode();
             if (StringUtils.isEmpty(uomCode)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_OF_MEASURE + " in " + identifierString);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_OF_MEASURE + " in " + item.getItemIdentifierString());
             }
         }
 

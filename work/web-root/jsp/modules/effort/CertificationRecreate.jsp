@@ -37,7 +37,9 @@
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Retrieve Data</h2></div>
 			
-			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}"/>
+			<er:detailLineImport readOnly="${readOnly}" 
+				attributes="${documentAttributes}" 
+				hiddenFieldNames="document.effortCertificationDocumentCode" />
 		</div>
 		
 		<div class="tab-container" align=center>

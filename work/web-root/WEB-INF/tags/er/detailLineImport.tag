@@ -21,8 +21,11 @@
 			  description="The DataDictionary entry containing attributes for the line fields."%>
 <%@ attribute name="readOnly" required="false"
 			  description="determine whether the widgets in the tag are read-only or not"%> 
-			  
-<html:hidden property="document.effortCertificationDocumentCode" />	
+<%@ attribute name="hiddenFieldNames" required="false" description="the line fields willbe hidden"%>			  
+
+<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">			  
+	<html:hidden property="${fieldName}" />
+</c:forTokens>	
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
 	
@@ -39,9 +42,9 @@
 			</div>
 		</th>
 			
-		<td>                  
+		<td>			                  
 			<kul:htmlControlAttribute 
-				 attributeEntry="${DataDictionary['UniversalUser'].attributes.personPayrollIdentifier}"
+				 attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
 				 property="document.emplid" readOnly="${readOnly}" />
 			
 			<c:if test="${!readOnly}" >	

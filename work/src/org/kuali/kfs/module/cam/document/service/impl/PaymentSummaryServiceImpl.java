@@ -58,9 +58,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         }
     }
 
-    //TODO:replaced by system parameter
+    // TODO:replaced by system parameter
     public static final String FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES = "BF,CF,CO,LF,UF,UO";
-    
+
     private OptionsService optionsService;
 
 
@@ -85,9 +85,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     private KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
-        
+
         for (AssetPayment payment : assetPayments) {
-            if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES,payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES, payment.getFinancialSubObjectCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }

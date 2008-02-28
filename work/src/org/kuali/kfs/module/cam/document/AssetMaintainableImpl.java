@@ -43,4 +43,5 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         
         super.processAfterEdit(document, parameters);
     }
+    
 }

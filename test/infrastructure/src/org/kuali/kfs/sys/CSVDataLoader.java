@@ -19,21 +19,35 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.kuali.core.util.DateUtils;
+import org.kuali.core.util.KualiDecimal;
 
 public class CSVDataLoader {
     private Map<String, String[]> dataMap = new HashMap<String, String[]>();
 
     private Map<String, Integer> headerMap = new HashMap<String, Integer>();
 
+    public boolean getBoolean(int pos, String column) {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            return false;
+        }
+        return Boolean.valueOf(columnData);
+    }
+
     public int getColumnCount() {
         return this.headerMap.size();
     }
 
-    public String getColumnData(int recordPos, String columnName) {
+    private String getColumnData(int recordPos, String columnName) {
         String[] dataCols = dataMap.get(String.valueOf(recordPos));
         Integer headerPos = headerMap.get(columnName.trim().toUpperCase());
         if (dataCols != null && headerPos != null) {
@@ -47,8 +61,52 @@ public class CSVDataLoader {
         return this.headerMap.keySet();
     }
 
+    public Date getDate(int pos, String column) throws ParseException {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            return null;
+        }
+        return new Date(DateUtils.parseDate(columnData, new String[] { "MM/dd/yyyy hh:mm:ss a", "MM/dd/yyyy" }).getTime());
+    }
+
+    public Integer getInteger(int pos, String column) {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            return null;
+        }
+        return Integer.valueOf(columnData);
+    }
+
+    public KualiDecimal getKualiDecimal(int pos, String column) {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            columnData = "0";
+        }
+        return new KualiDecimal(columnData);
+    }
+
+    public Long getLong(int pos, String column) {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            return null;
+        }
+        return Long.valueOf(columnData);
+    }
+
     public int getRowCount() {
         return this.dataMap.size();
+    }
+
+    public String getString(int recordPos, String columnName) {
+        return getColumnData(recordPos, columnName);
+    }
+
+    public Timestamp getTimestamp(int pos, String column) throws ParseException {
+        String columnData = getColumnData(pos, column);
+        if (columnData == null || columnData.trim().length() == 0) {
+            return null;
+        }
+        return new Timestamp(DateUtils.parseDate(columnData, new String[] { "MM/dd/yyyy hh:mm:ss a", "MM/dd/yyyy" }).getTime());
     }
 
     public void loadData(String resourceName, boolean quoted) {

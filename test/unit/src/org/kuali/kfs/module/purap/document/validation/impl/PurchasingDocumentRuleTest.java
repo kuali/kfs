@@ -443,6 +443,10 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     
     // Tests of validateCapitalAssetTransactionTypeVersusRecurrence
     
+    /**
+     * Tests that, if the rule is given a recurring payment type and a nonrecurring tran type,
+     * the rule will fail.
+     */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
@@ -450,6 +454,9 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }
     
+    /**
+     * Tests that, if the rule is given no payment type, and a nonrecurring tran type, the rule will pass.
+     */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranTypeAndNoRecurringPaymentType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
         CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();

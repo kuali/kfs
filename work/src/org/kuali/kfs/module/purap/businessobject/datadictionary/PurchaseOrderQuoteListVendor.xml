@@ -53,66 +53,23 @@
                 <field attributeName="vendorHeaderGeneratedIdentifier" />
             </resultFields>
         </lookup>
-
+        
         <attributes>
 
-            <attribute name="purchaseOrderQuoteListIdentifier" forceUppercase="true">
-                <label>Purchase Order Quote List Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+			<attributeReference name="purchaseOrderQuoteListIdentifier" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderQuoteList" sourceAttributeName="purchaseOrderQuoteListIdentifier" />
 
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
-                <label>Vendor Detail Assigned Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-			</attribute>
-
-            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
-                <label>Vendor Header Generated Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <hidden />
-                </control>
-
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-			</attribute>
+			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
+			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
 
 			<attributeReference name="vendorDetail.vendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
 				<control>
 					<lookupReadonly />
 				</control>
 			</attributeReference>
+
+			<attributeReference name="vendorDetail.activeIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="activeIndicator" />
+
+      <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

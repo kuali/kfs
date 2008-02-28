@@ -51,6 +51,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>purchaseOrderQuoteListName</titleAttribute>
+
         <attributes>
 			
             <attribute name="purchaseOrderQuoteListIdentifier" forceUppercase="true">
@@ -61,7 +63,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="11" />
+                    <hidden />
                 </control>
 
 			</attribute>

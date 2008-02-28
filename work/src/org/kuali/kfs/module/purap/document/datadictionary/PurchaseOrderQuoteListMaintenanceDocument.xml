@@ -45,6 +45,7 @@
         <maintainableSections>
             <maintainableSection title="Edit Quote List">
                 <maintainableItems>
+                    <maintainableField name="purchaseOrderQuoteListIdentifier" required="false" />
                     <maintainableField name="purchaseOrderQuoteListName" required="true" />
                     <maintainableField name="contractManagerCode" required="true" />
                     <maintainableField name="versionNumber" />
@@ -53,7 +54,8 @@
 			<maintainableSection title="Vendors">
 				<maintainableItems>
 					<maintainableCollection name="quoteListVendors" businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="quoteListVendors" summaryTitle="Vendor" >
-						<maintainableField name="vendorDetail.vendorName" template="vendorName" readOnlyAfterAdd="true" />
+						<maintainableField name="vendorDetail.vendorName" template="vendorName" readOnlyAfterAdd="true" /> 
+						<maintainableField name="vendorDetail.activeIndicator" readOnlyAfterAdd="true" />
 						<!-- Hidden Fields -->
 						<maintainableField name="vendorHeaderGeneratedIdentifier" template="vendorHeaderGeneratedIdentifier" />
 						<maintainableField name="vendorDetailAssignedIdentifier" template="vendorDetailAssignedIdentifier" />

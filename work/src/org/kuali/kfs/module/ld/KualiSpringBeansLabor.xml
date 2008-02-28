@@ -78,6 +78,12 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>				
 		
 		<property name="laborLedgerBalanceClass" value="org.kuali.module.labor.bo.LedgerBalance"/>
 		<property name="laborLedgerEntryClass" value="org.kuali.module.labor.bo.LedgerEntry"/>

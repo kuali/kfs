@@ -16,16 +16,20 @@
 package org.kuali.module.labor.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
@@ -34,6 +38,7 @@ import org.kuali.kfs.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
@@ -53,8 +58,11 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private LaborBenefitsCalculationService laborBenefitsCalculationService;
     private LaborLedgerEntryService laborLedgerEntryService;
     private LaborLedgerBalanceService laborLedgerBalanceService;
+
     private DocumentService documentService;
+    private DocumentTypeService documentTypeService;
     private UniversityDateService universityDateService;
+    private BusinessObjectService businessObjectService;
 
     private Class<? extends LaborLedgerBalance> laborLedgerBalanceClass;
     private Class<? extends LaborLedgerEntry> laborLedgerEntryClass;
@@ -102,11 +110,20 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.service.LaborModuleService#hasPendingSalaryExpenseTransferDocument(java.lang.String)
+     * @see org.kuali.kfs.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
-    public boolean hasPendingSalaryExpenseTransferDocument(String emplid) {
-        // TODO Auto-generated method stub
-        return false;
+    public int countPendingSalaryExpenseTransfer(String emplid) {
+        String documentTypeCode = documentTypeService.getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
+
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
+        positiveFieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
+
+        List<String> approvedCodes = Arrays.asList(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+        Map<String, Object> negativeFieldValues = new HashMap<String, Object>();
+        negativeFieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, approvedCodes);
+
+        return businessObjectService.countMatching(LaborLedgerPendingEntry.class, positiveFieldValues, negativeFieldValues);
     }
 
     /**
@@ -289,5 +306,23 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public void setExpenseTransferTargetAccountingLineClass(Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass) {
         this.expenseTransferTargetAccountingLineClass = expenseTransferTargetAccountingLineClass;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

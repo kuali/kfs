@@ -45,6 +45,7 @@ public class EffortKeyConstants {
     public static final String ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED = "error.effort.noteRequiredWhenEffortChanged";
     public static final String ERROR_PAYROLL_AMOUNT_OVERCHANGED = "error.effort.payrollAmountOverchanged";
     public static final String ERROR_PENDING_EFFORT_CERTIFICATION_EXIST = "error.effort.pendingEffortCertificationExist";
+    public static final String ERROR_PENDING_SALARAY_EXPENSE_TRANSFER_EXIST = "error.effort.pendingSalaryExpenseTranferExist";
     public static final String ERROR_REPORT_DEFINITION_INACTIVE = "error.effort.reportDefinitionInactive";
     public static final String ERROR_REPORT_DEFINITION_NOT_EXIST = "error.effort.reportDefinitionNotExist";
     public static final String ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED = "error.effort.reportDefinitionPeriodNotOpened";    

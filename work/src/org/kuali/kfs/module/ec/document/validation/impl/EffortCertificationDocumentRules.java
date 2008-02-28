@@ -30,6 +30,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -55,7 +56,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
     private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService = SpringContext.getBean(EffortCertificationReportDefinitionService.class);
     private EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
-    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);;
+    
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);;
 
     /**
      * Constructs a EffortCertificationDocumentRules.java.
@@ -271,7 +274,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        // TODO: cannot have any pending salary expense transfer document
+        int countOfPendingSalaryExpenseTransfer = laborModuleService.countPendingSalaryExpenseTransfer(emplid);
+        if (countOfPendingSalaryExpenseTransfer > 0) {
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_PENDING_SALARAY_EXPENSE_TRANSFER_EXIST, emplid, Integer.toString(countOfPendingSalaryExpenseTransfer));
+            return false;
+        }        
 
         return this.populateEffortCertificationDocument(effortCertificationDocument);
     }

@@ -166,14 +166,25 @@ public class CertificationRecreateForm extends EffortCertificationForm {
 
         Map<String, String> fieldValues = this.getImportingFieldValues();
         for (String fieldName : fieldValues.keySet()) {
-            String fieldLabel = dataDictionaryService.getAttributeLabel(EffortCertificationDocument.class, fieldName);
             String fieldValue = fieldValues.get(fieldName);
+            
+            String fieldLabel = dataDictionaryService.getAttributeLabel(EffortCertificationDocument.class, fieldName);
+            boolean isRequired = dataDictionaryService.isAttributeRequired(EffortCertificationDocument.class, fieldName);            
 
-            if (StringUtils.isBlank(fieldValue)) {
+            if (isRequired && StringUtils.isBlank(fieldValue)) {
                 GlobalVariables.getErrorMap().putError(EffortConstants.DOCUMENT_PREFIX + fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel);
             }
         }
         
         return GlobalVariables.getErrorMap().isEmpty();
+    }
+    
+    /**
+     * force the input data as upper case
+     */
+    public void forceInputAsUpperCase() {
+        
+        String reportNumber = this.getEffortCertificationDocument().getEffortCertificationReportNumber();
+        this.getEffortCertificationDocument().setEffortCertificationReportNumber(StringUtils.upperCase(reportNumber));
     }
 }

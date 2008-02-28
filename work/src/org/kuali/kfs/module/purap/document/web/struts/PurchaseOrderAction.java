@@ -1307,7 +1307,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         for (PurchaseOrderVendorQuote quotedVendors : document.getPurchaseOrderVendorQuotes()) {
             if (quotedVendors.getPurchaseOrderQuoteTransmitDate() != null) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUOTE_TRANSMITTED, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_ALREADY_TRASNMITTED);
 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }

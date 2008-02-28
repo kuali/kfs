@@ -98,6 +98,7 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE = "purchaseOrder.route.message.confirm.cancel.quote.text";
     public static final String PURCHASE_ORDER_QUESTION_OVERRIDE_NOT_TO_EXCEED = "purchaseOrder.question.notToExceed.override";
     public static final String PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT = "purchaseOrder.route.message.cancel.note.text";
+    public static final String ERROR_PURCHASE_ORDER_QUOTE_ALREADY_TRASNMITTED = "error.transmit.purchaseOrder.already.transmitted";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED = "error.transmit.purchaseOrder.noVendorAwarded";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED = "error.transmit.purchaseOrder.notTransmitted";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS = "error.purchaseOrder.quote.notInProcess";

@@ -58,6 +58,7 @@ import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.UnitOfMeasure;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
@@ -66,7 +67,7 @@ import org.kuali.module.vendor.service.VendorService;
 /**
  * Business rule(s) applicable to Purchasing document.
  */
-public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ValidateCapitalAssestsForAutomaticPurchaseOrderRule<PurchasingAccountsPayableDocument> {
 
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add validations for Payment Info and Delivery tabs.
@@ -1002,6 +1003,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         
         return objectCodeSubtypesInTable;
+    }
+
+    public boolean processCapitalAssestsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

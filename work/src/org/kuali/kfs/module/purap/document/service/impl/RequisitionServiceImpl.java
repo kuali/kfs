@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
@@ -29,12 +30,15 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.rule.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+
+
 
 /**
  * Implementation of RequisitionService
@@ -47,6 +51,9 @@ public class RequisitionServiceImpl implements RequisitionService {
     private DocumentService documentService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
+    private KualiRuleService ruleService;
+
+
 
     /**
      * @see org.kuali.module.purap.service.RequisitionService#saveDocumentWithoutValidation(org.kuali.module.purap.document.RequisitionDocument)
@@ -192,6 +199,8 @@ public class RequisitionServiceImpl implements RequisitionService {
 
             return "Requisition contains alternate vendor names.";
         }
+        
+        boolean rulePassed = ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition));
 
         return "";
     }
@@ -212,4 +221,12 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.purapService = purapService;
     }
 
+    
+    public KualiRuleService getRuleService() {
+        return ruleService;
+    }
+
+    public void setRuleService(KualiRuleService ruleService) {
+        this.ruleService = ruleService;
+    }
 }

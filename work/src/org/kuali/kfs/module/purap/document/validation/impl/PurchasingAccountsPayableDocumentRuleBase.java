@@ -242,7 +242,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
             if (isItemConsideredEntered(item)) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
               //if true call hook to process item validation
-                valid = newIndividualItemValidation(valid, documentType, item);
+                valid &= newIndividualItemValidation(documentType, item);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
 
             }
@@ -265,11 +265,11 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
      * @param item
      * @return
      */
-    public boolean newIndividualItemValidation(boolean valid, String documentType, PurApItem item) {
+    public boolean newIndividualItemValidation(String documentType, PurApItem item) {
         if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-            valid &= validateBelowTheLineValues(documentType, item);
+            return validateBelowTheLineValues(documentType, item);
         }
-        return valid;
+        return true;
     }
 
     /**

@@ -151,9 +151,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.module.purap.bo.PurApItem)
      */
     @Override
-    public boolean newIndividualItemValidation(boolean valid, String documentType, PurApItem item) {
-        super.newIndividualItemValidation(valid, documentType, item);
-        return validateUnitOfMeasure(item);
+    public boolean newIndividualItemValidation(String documentType, PurApItem item) {
+        boolean valid = true;
+        valid &=  super.newIndividualItemValidation(documentType, item);
+        valid &=  validateUnitOfMeasure(item);
+        return valid;
     }
 
 

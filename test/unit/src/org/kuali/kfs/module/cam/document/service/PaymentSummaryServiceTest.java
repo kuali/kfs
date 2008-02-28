@@ -15,6 +15,13 @@
  */
 package org.kuali.module.cams.service;
 
+
+import static org.kuali.module.cams.fixture.AssetFixture.BASIC_ASSET;
+import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT1;
+import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT2;
+import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT3;
+import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT4;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +32,6 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.fixture.AssetFixture;
-import org.kuali.module.cams.fixture.AssetPaymentFixture;
 import org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl;
 import org.kuali.test.util.CSVDataLoader;
 
@@ -37,14 +42,13 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
 
     @Override
     protected void setUp() throws Exception {
-        asset = AssetFixture.BASIC_ASSET.getAsset();
+        asset = BASIC_ASSET.getAsset();
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
-        assetPayments.add(AssetPaymentFixture.PAYMENT1.getAssetPayment());
-        assetPayments.add(AssetPaymentFixture.PAYMENT2.getAssetPayment());
-        assetPayments.add(AssetPaymentFixture.PAYMENT3.getAssetPayment());
-        assetPayments.add(AssetPaymentFixture.PAYMENT4.getAssetPayment());
+        assetPayments.add(PAYMENT1.getAssetPayment());
+        assetPayments.add(PAYMENT2.getAssetPayment());
+        assetPayments.add(PAYMENT3.getAssetPayment());
+        assetPayments.add(PAYMENT4.getAssetPayment());
         asset.setAssetPayments(assetPayments);
-        
         paymentSummaryService = new PaymentSummaryServiceImpl();
         OptionsService optionsService = new OptionsService() {
             public Options getCurrentYearOptions() {

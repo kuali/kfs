@@ -50,7 +50,6 @@
 						<field attributeName="itemTypeCode" />
 						<field attributeName="itemUnitOfMeasureCode" />
 						<field attributeName="itemUnitPrice" />
-						<field attributeName="purchaseOrderCommodityCd" />
 						<field attributeName="itemIdentifier" />
 					</inquiryFields>
 				</inquirySection>
@@ -88,7 +87,6 @@
 				<lookupField attributeName="itemTypeCode" required="false" />
 				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
 				<lookupField attributeName="itemUnitPrice" required="false" />
-				<lookupField attributeName="purchaseOrderCommodityCd" required="false" />
 				<lookupField attributeName="itemIdentifier" required="false" />
 			</lookupFields>
 
@@ -112,7 +110,6 @@
 				<field attributeName="itemTypeCode" />
 				<field attributeName="itemUnitOfMeasureCode" />
 				<field attributeName="itemUnitPrice" />
-				<field attributeName="purchaseOrderCommodityCd" />
 				<field attributeName="itemIdentifier" />
 			</resultFields>
 		</lookup>
@@ -163,21 +160,6 @@
 				<shortLabel>Received Total Quantity</shortLabel>
 
 			</attributeReference>
-
-			<attribute name="purchaseOrderCommodityCd" forceUppercase="true">
-				<label>Purchase Order Commodity Cd</label>
-				<shortLabel>Purchase Order Commodity Cd</shortLabel>
-
-				<maxLength>11</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-
-				<control>
-					<text size="13" />
-				</control>
-
-			</attribute>
 
 			<attribute name="itemSelectedForRetransmitIndicator" forceUppercase="true">
 				<label>Item Selected For Retransmit Indicator</label>

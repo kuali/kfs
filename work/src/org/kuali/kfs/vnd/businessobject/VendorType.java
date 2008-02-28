@@ -35,7 +35,8 @@ public class VendorType extends PersistableBusinessObjectBase {
     private boolean vendorContractAllowedIndicator;
     private boolean vendorShowReviewIndicator;
     private String vendorReviewText;
-
+    private boolean commodityRequiredIndicator;
+    
     private AddressType addressType;
 
     /**
@@ -124,6 +125,22 @@ public class VendorType extends PersistableBusinessObjectBase {
 
     public void setVendorShowReviewIndicator(boolean vendorShowReviewIndicator) {
         this.vendorShowReviewIndicator = vendorShowReviewIndicator;
+    }
+
+    /**
+     * Gets the commodityRequiredIndicator attribute. 
+     * @return Returns the commodityRequiredIndicator.
+     */
+    public boolean isCommodityRequiredIndicator() {
+        return commodityRequiredIndicator;
+    }
+
+    /**
+     * Sets the commodityRequiredIndicator attribute value.
+     * @param commodityRequiredIndicator The commodityRequiredIndicator to set.
+     */
+    public void setCommodityRequiredIndicator(boolean commodityRequiredIndicator) {
+        this.commodityRequiredIndicator = commodityRequiredIndicator;
     }
 
     public AddressType getAddressType() {

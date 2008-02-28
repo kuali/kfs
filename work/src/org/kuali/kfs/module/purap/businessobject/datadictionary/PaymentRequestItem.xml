@@ -41,7 +41,6 @@
 						<field attributeName="itemUnitPrice" />
 						<field attributeName="purapDocumentIdentifier" />
 						<field attributeName="itemIdentifier" />
-						<field attributeName="purchaseOrderCommodityCode" />
 						<field attributeName="purchaseOrderItemUnitPrice" />
 						<field attributeName="itemOutstandingInvoiceQuantity" />
 						<field attributeName="itemOutstandingInvoiceAmount" />
@@ -75,7 +74,6 @@
 				<lookupField attributeName="itemUnitPrice" required="false" />
 				<lookupField attributeName="purapDocumentIdentifier" required="false" />
 				<lookupField attributeName="itemIdentifier" required="false" />
-				<lookupField attributeName="purchaseOrderCommodityCode" required="false" />
 				<lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
 				<lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingInvoiceAmount" required="false" />
@@ -95,7 +93,6 @@
 				<field attributeName="itemUnitPrice" />
 				<field attributeName="purapDocumentIdentifier" />
 				<field attributeName="itemIdentifier" />
-				<field attributeName="purchaseOrderCommodityCode" />
 				<field attributeName="purchaseOrderItemUnitPrice" />
 				<field attributeName="itemOutstandingInvoiceQuantity" />
 				<field attributeName="itemOutstandingInvoiceAmount" />
@@ -105,21 +102,6 @@
 		<attributes>
 
 			&purApItemBaseAttributes;
-
-			<attribute name="purchaseOrderCommodityCode" forceUppercase="true">
-				<label>Purchase Order Commodity Code</label>
-				<shortLabel>Code</shortLabel>
-
-				<maxLength>11</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-
-				<control>
-					<text size="13" />
-				</control>
-
-			</attribute>
 
 			<attributeReference name="purchaseOrderItemUnitPrice" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
 				<label>Purchase Order Item Unit Price</label>

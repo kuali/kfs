@@ -220,7 +220,7 @@ public enum PurchaseOrderItemFixture {
         item.setItemOutstandingEncumberedQuantity(itemOutstandingEncumberedQuantity);
         item.setItemOutstandingEncumberedAmount(itemOutstandingEncumberedAmount);
         item.setItemActiveIndicator(itemActiveIndicator);
-        item.setPurchaseOrderCommodityCd(purchaseOrderCommodityCd);
+//        item.setPurchaseOrderCommodityCd(purchaseOrderCommodityCd);
 
         return item;
     }

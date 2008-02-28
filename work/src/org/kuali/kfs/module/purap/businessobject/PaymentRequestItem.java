@@ -44,7 +44,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestItem.class);
 
     private BigDecimal purchaseOrderItemUnitPrice;
-    private String purchaseOrderCommodityCode;
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
 
@@ -106,7 +105,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         // copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
-        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
+//        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
 
         // set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
@@ -211,14 +210,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     public void setPurchaseOrderItemUnitPrice(BigDecimal purchaseOrderItemUnitPrice) {
         this.purchaseOrderItemUnitPrice = purchaseOrderItemUnitPrice;
-    }
-
-    public String getPurchaseOrderCommodityCode() {
-        return purchaseOrderCommodityCode;
-    }
-
-    public void setPurchaseOrderCommodityCode(String purchaseOrderCommodityCode) {
-        this.purchaseOrderCommodityCode = purchaseOrderCommodityCode;
     }
 
     public KualiDecimal getItemOutstandingInvoiceAmount() {

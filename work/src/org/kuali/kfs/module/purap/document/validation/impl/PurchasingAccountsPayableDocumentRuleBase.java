@@ -127,7 +127,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
         valid &= processDocumentOverviewValidation(purapDocument);
         valid &= processVendorValidation(purapDocument);
         valid &= processItemValidation(purapDocument);
-//        valid &= newProcessItemValidation(purapDocument);
+        valid &= newProcessItemValidation(purapDocument);
         return valid;
     }
 
@@ -244,14 +244,14 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
               //if true call hook to process item validation
                 valid &= newIndividualItemValidation(documentType, item);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
-
+                //hook method to check if account validation is required(should this be set at top or checked per item)
+                //if true call account validation
+                if (requiresAccountValidationOnAllEnteredItems || (!item.getSourceAccountingLines().isEmpty())) {
+                    processAccountValidation(purapDocument, item.getSourceAccountingLines(), item.getItemIdentifierString());
+                }
             }
             
-            //hook method to check if account validation is required(should this be set at top or checked per item)
-            //if true call account validation
-            if (requiresAccountValidationOnAllEnteredItems || (!item.getSourceAccountingLines().isEmpty())) {
-                processAccountValidation(purapDocument, item.getSourceAccountingLines(), item.getItemIdentifierString());
-            }
+
             i++;
         }
 

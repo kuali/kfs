@@ -17,13 +17,22 @@ package org.kuali.module.effort.web.struts.form;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.inquiry.Inquirable;
+import org.kuali.core.service.BusinessObjectDictionaryService;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 
@@ -46,7 +55,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
     public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
-        Inquirable inquirable = SpringContext.getBean(Inquirable.class);        
+        Inquirable inquirable = SpringContext.getBean(Inquirable.class);
         List<Map<String, String>> inquiryURL = new ArrayList<Map<String, String>>();
 
         for (EffortCertificationDetail detailLine : this.getDetailLines()) {
@@ -77,6 +86,23 @@ public class CertificationRecreateForm extends EffortCertificationForm {
         inquirableFieldNames.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         return inquirableFieldNames;
+    }
+
+    /**
+     * Gets the inquirableFieldNames attribute.
+     * 
+     * @return Returns the inquirableFieldNames.
+     */
+    public Map<String, String> getImportingFieldValues() {
+        EffortCertificationDocument document = this.getEffortCertificationDocument();
+        String yearAsString = document.getUniversityFiscalYear() == null ? null : document.getUniversityFiscalYear().toString();
+
+        Map<String, String> importingFieldValues = new HashMap<String, String>();
+        importingFieldValues.put(KFSPropertyConstants.EMPLID, document.getEmplid());
+        importingFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, yearAsString);
+        importingFieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, document.getEffortCertificationReportNumber());
+
+        return importingFieldValues;
     }
 
     /**
@@ -128,5 +154,26 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      */
     public List<EffortCertificationDetail> getDetailLines() {
         return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
+    }
+
+    /**
+     * validate the importing field values
+     * 
+     * @return true if the importing field values are valid; otherwsie, add errors into error map and return false
+     */
+    public boolean validateImporingFieldValues() {
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+
+        Map<String, String> fieldValues = this.getImportingFieldValues();
+        for (String fieldName : fieldValues.keySet()) {
+            String fieldLabel = dataDictionaryService.getAttributeLabel(EffortCertificationDocument.class, fieldName);
+            String fieldValue = fieldValues.get(fieldName);
+
+            if (StringUtils.isBlank(fieldValue)) {
+                GlobalVariables.getErrorMap().putError(EffortConstants.DOCUMENT_PREFIX + fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel);
+            }
+        }
+        
+        return GlobalVariables.getErrorMap().isEmpty();
     }
 }

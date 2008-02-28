@@ -92,4 +92,6 @@ public class EffortConstants extends JstlConstants {
     public static final String DEFAULT_DOCUMENT_CODE_Y = "Y";
     
     public static final String EFFORT_DETAIL_IMPORT_ERRORS = "effortDetailImportError";
+    public static final String REQUIRED_IMPORT_FIELDS_ERRORS = "requiredImportFieldError";
+    public static final String DOCUMENT_PREFIX = "document.";
 }

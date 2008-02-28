@@ -26,6 +26,7 @@ import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -193,9 +194,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(effortCertificationDocument)) {
-            List<Note> notes = effortCertificationDocument.getBoNotes();
+            List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
             if (notes == null || notes.isEmpty()) {
-                GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_NOTES_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
                 return false;
             }
         }
@@ -205,9 +206,20 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (EffortCertificationDocumentRuleUtil.isTotalEffortPercentageAs100(effortCertificationDocument)) {
+        if (!EffortCertificationDocumentRuleUtil.isTotalEffortPercentageAs100(effortCertificationDocument)) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
+        }
+        
+        String emplid = effortCertificationDocument.getEmplid();
+        effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
+        if (effortCertificationReportDefinitionService.hasApprovedEffortCertification(emplid, reportDefinition)){
+            List<Note> notes =  effortCertificationDocument.getDocumentHeader().getBoNotes();
+            if (notes == null || notes.isEmpty()) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_NOTES_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
+                return false;
+            }
         }
 
         return true;
@@ -222,47 +234,40 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         boolean isValid = true;
         String emplid = effortCertificationDocument.getEmplid();
         
-
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
 
         if (reportDefinition == null) {
-            LOG.info("===>reportDefinition == null");
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_NOT_EXIST);
             return false;
         }
 
         if (!reportDefinition.isActive()) {
-            LOG.info("===>!reportDefinition.isActive()");
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE);
             return false;
         }
 
         isValid = StringUtils.equals(EffortConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
         if (!isValid) {
-            LOG.info("====>EffortConstants.PeriodStatusCodes.OPEN");
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED);
             return false;
         }
 
         isValid = !effortCertificationReportDefinitionService.hasPendingEffortCertification(emplid, reportDefinition);
         if (!isValid) {
-            LOG.info("====>existsPendingEffortCertification");
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_PENDING_EFFORT_CERTIFICATION_EXIST);
             return false;
         }
 
         isValid = effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(reportDefinition);
         if (!isValid) {
-            LOG.info("====>hasBeenUsedForEffortCertificationGeneration");
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_CREATE_PROCESS_HAS_NOT_BEEN_COMPLETED);
             return false;
         }
 
         isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(emplid, reportDefinition);
         if (!isValid) {
-            LOG.info("====>isEmployeeEligibleForEffortCertification" + emplid);
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_EMPLOYEE_NOT_ELIGIBLE, emplid);
             return false;
         }
 
@@ -330,10 +335,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         EffortCertificationDocumentBuild documentBuild = effortCertificationExtractService.extract(emplid, reportDefinition);
 
         if (documentBuild == null) {
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            GlobalVariables.getErrorMap().putError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_EMPLOYEE_NO_ELIGIBLE_LABOR_BALANCE, emplid);
             return false;
         }
         
+        effortCertificationDocumentService.removeEffortCertificationDetailLines(effortCertificationDocument);
         boolean success = effortCertificationDocumentService.populateEffortCertificationDocument(effortCertificationDocument, documentBuild);  
 
         if(effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(emplid, reportDefinition)) {

@@ -92,4 +92,13 @@ public interface EffortCertificationReportDefinitionService {
      * @return true if there is any pending/temporary effort certification waiting for process; otherwise, false
      */
     public boolean hasPendingEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition);
+    
+    /**
+     * determine whether there is any approved effort certification for the given report definition and employee
+     * 
+     * @param emplid the given employee id
+     * @param reportDefinition the given report definition
+     * @return true if there is any approved effort certification for the employee; otherwise, false
+     */
+    public boolean hasApprovedEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition);
 }

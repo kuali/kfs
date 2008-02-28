@@ -160,7 +160,10 @@
 		</property>	
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>			
+		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>	
 		
 	<!-- DAO declarations -->		

@@ -17,12 +17,12 @@ package org.kuali.module.effort.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +34,7 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortKeyConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
@@ -83,9 +84,10 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         return true;
     }
-    
+
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument, org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument,
+     *      org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
      */
     @Logged
     public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
@@ -98,19 +100,30 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         // populcate the detail line of the document
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         detailLines.clear();
-        
+
         List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
         for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
             detailLines.add(new EffortCertificationDetail(detailLineBuild));
         }
-        
+
         // populate the document header of the document
         DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
         documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
         documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
-        
+
         return true;
-    }    
+    }
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.module.effort.document.EffortCertificationDocument)
+     */
+    @Logged
+    public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, effortCertificationDocument.getDocumentNumber());
+        
+        businessObjectService.deleteMatching(EffortCertificationDetail.class, fieldValues);
+    }
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
@@ -250,5 +263,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

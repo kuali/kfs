@@ -35,7 +35,7 @@ public interface EffortCertificationDocumentService {
     /**
      * create an effort certification document from the given document build record, and route it for approval
      * 
-     * @param documentBuild the given effort certification document build
+     * @param effortCertificationDocumentBuild the given effort certification document build
      */
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild);
 
@@ -57,5 +57,11 @@ public interface EffortCertificationDocumentService {
      * @return true if the generation is complete successfully; otherwise, return false
      */
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument);
-
+    
+    /**
+     * delete the detail lines associated with the given effort certification document if they have been persisted
+     * 
+     * @param effortCertificationDocument the given effort certification document
+     */
+    public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument);    
 }

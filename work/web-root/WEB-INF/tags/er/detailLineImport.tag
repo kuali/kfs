@@ -22,9 +22,13 @@
 <%@ attribute name="readOnly" required="false"
 			  description="determine whether the widgets in the tag are read-only or not"%> 
 			  
-<html:hidden property="document.effortCertificationDocumentCode" />			  
+<html:hidden property="document.effortCertificationDocumentCode" />	
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
+	
+	<tr>
+		<td colspan="2"><kul:errors keyMatch="${EffortConstants.DOCUMENT_PREFIX}*" errorTitle="Errors found in Importing Criteria:" /></td>
+	</tr>
 
 	<tr>
 		<th width="35%" class="bord-l-b">

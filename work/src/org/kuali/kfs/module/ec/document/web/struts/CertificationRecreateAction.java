@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
-import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
+import org.kuali.module.effort.web.struts.form.CertificationRecreateForm;
 
 public class CertificationRecreateAction extends EffortCertificationAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateAction.class);
@@ -33,10 +33,12 @@ public class CertificationRecreateAction extends EffortCertificationAction {
      * load the detail lines with the given information
      */
     public ActionForward loadDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        EffortCertificationForm recreateForm = (EffortCertificationForm) form;
+        CertificationRecreateForm recreateForm = (CertificationRecreateForm) form;
         EffortCertificationDocument effortCertificationDocument = recreateForm.getEffortCertificationDocument();
 
-        boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
+        if (recreateForm.validateImporingFieldValues()) {
+            boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -190,32 +190,24 @@
                 <description>costShareSourceSubAccountNumber description...</description>
 			</attribute>
 			
-			<attribute name="originalFringeBenefitAmount" forceUppercase="true">
+			<attributeReference name="originalFringeBenefitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>F-Ben Orig </label>
                 <shortLabel>F-Ben Orig </shortLabel>
-                
-                <maxLength>5</maxLength>
-                <control>
-                    <text size="5" />
-                </control>
-                
+
                 <summary>F-Ben Orig </summary>
                 <description>F-Ben Orig </description>
-			</attribute>
-			
-			<attribute name="fringeBenefitAmount" forceUppercase="true">
-                <label>F-Ben </label>
-                <shortLabel>F-Ben </shortLabel>
-                
-                <maxLength>5</maxLength>
-                <control>
-                    <text size="5" />
-                </control>
-                
-                <summary>F-Ben </summary>
-                <description>F-Ben </description>
-			</attribute>
-			
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+			</attributeReference>
+
+			<attributeReference name="fringeBenefitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>F-Ben</label>
+                <shortLabel>F-Ben</shortLabel>
+
+                <summary>F-Ben</summary>
+                <description>F-Ben</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+			</attributeReference>			
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
     </businessObject>

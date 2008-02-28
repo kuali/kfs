@@ -79,7 +79,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
         // check if there exists the given report definition
         effortCertificationReportDefinition = (EffortCertificationReportDefinition)businessObjectService.retrieve(effortCertificationReportDefinition);
         if (effortCertificationReportDefinition == null) {
-            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID, combinedFieldValues).getMessage();
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_NOT_EXIST, combinedFieldValues).getMessage();
         }
 
         // check if the given report definition is still active
@@ -160,12 +160,21 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
         List<String> pendingStatusCodes = Arrays.asList(KFSConstants.DocumentStatusCodes.ENROUTE);
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, pendingStatusCodes);    
-        numOfPendingDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
-        if(numOfPendingDocuments > 0) {
-            return true;
-        }
+        
+        return businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues) > 0;
+    }
+    
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationReportDefinitionService#hasApprovedEffortCertification(java.lang.String, org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public boolean hasApprovedEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();        
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
+        fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());
+        fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);    
 
-        return false;
+        return businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues) > 0;
     }
 
     /**

@@ -32,7 +32,7 @@
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
  
-	<kul:tab tabTitle="Effort Detail Importing" defaultOpen="true"
+	<kul:tab tabTitle="Effort Detail" defaultOpen="true"
 		tabErrorKey="${EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS}">
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Retrieve Data</h2></div>
@@ -45,7 +45,7 @@
 			
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationCalculatedOverallPercent"
-				hiddenFieldNames="financialDocumentPostingYear"
+				hiddenFieldNames="financialDocumentPostingYear,effortCertificationOriginalPayrollAmount,effortCertificationUpdatedOverallPercent,costShareSourceSubAccountNumber,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"/>
 		</div>		

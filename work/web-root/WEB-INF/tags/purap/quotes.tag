@@ -198,7 +198,11 @@
         </tr>
 		</c:if>
 
+		<c:set var="isAnyQuoteTransmitted" value="false" />
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.purchaseOrderVendorQuotes" id="quoteLine">
+			<c:if test="${not empty quoteLine.purchaseOrderQuoteTransmitDate}">
+				<c:set var="isAnyQuoteTransmitted" value="true" />
+			</c:if>
 		    <purap:quoteVendor
 		        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
 		        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
@@ -219,11 +223,13 @@
 	src="${ConfigProperties.externalizable.images.url}tinybutton-completequote.gif"
 	alt="complete quote" title="complete quote"
 	styleClass="tinybutton" />
+					<c:if test="${not isAnyQuoteTransmitted}">
 					<html:image
 	property="methodToCall.cancelQuote"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-cancelquote.gif"
 	alt="cancel quote" title="cancel quote"
 	styleClass="tinybutton" />
+					</c:if>
 				</div>
 			</td>
 		</tr>

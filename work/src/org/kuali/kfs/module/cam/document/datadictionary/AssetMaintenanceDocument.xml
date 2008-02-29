@@ -163,6 +163,7 @@
           
             <maintainableSection title="View Asset History">
             	<maintainableItems>
+               	 	<maintainableField name="assetDispositions.versionNumber" readOnly="true" />
                 	<subSectionHeader name="View Merge History" />
                 	 	<maintainableField name="assetMergeHistory.originalCapitalAssetNumber" readOnly="true" />
                 		<maintainableField name="assetMergeHistory.dispositionDate" readOnly="true" />

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.cams.bo.Asset;
@@ -85,8 +86,11 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     private KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
-
+        
         for (AssetPayment payment : assetPayments) {
+            if (ObjectUtils.isNull(payment.getFinancialObject())) {
+                payment.refreshReferenceObject("financialObject");
+            }
             if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }

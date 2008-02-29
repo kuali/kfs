@@ -46,6 +46,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         Asset asset = (Asset) document.getDocumentBusinessObject();
+        
         setAssetComponentNumbers(asset);
         
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);

@@ -833,6 +833,7 @@
 			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
 			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
 			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
+			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

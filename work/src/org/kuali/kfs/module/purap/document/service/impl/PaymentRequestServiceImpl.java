@@ -260,6 +260,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return false;
         }
 
+        // Change to not auto approve if positive approval required indicator set to Yes
+        if (document.isPaymentRequestPositiveApprovalIndicator()){
+            return false;
+        }
+        
         // This minimum will be set to the minimum limit derived from all
         // accounting lines on the document. If no limit is determined, the
         // default will be used.
@@ -283,6 +288,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             minimumAmount = getMinimumLimitAmount(negativePaymentRequestApprovalLimitService.findByChartAndOrganization(line.getChartOfAccountsCode(), line.getOrganizationReferenceId()), minimumAmount);
         }
 
+        // If Receiving required is set, it's not needed to check the negative payment request approval limit
+        if (document.isReceivingDocumentRequiredIndicator()){
+            return true;
+        }
+        
         // If no limit was found or the default is less than the limit, the default limit is used.
         if (ObjectUtils.isNull(minimumAmount) || defaultMinimumLimit.compareTo(minimumAmount) < 0) {
             minimumAmount = defaultMinimumLimit;

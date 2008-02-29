@@ -196,4 +196,38 @@
             <ref bean="universalUserService" />
         </property>		
 	</bean> 
+
+	<bean id="effortLedgerBalanceLookupableHelperService" class="org.kuali.module.effort.lookup.EffortLedgerBalanceLookupableHelperServiceImpl" singleton="false">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>
+		<property name="effortCertificationReportDefinitionService">
+			<ref bean="effortCertificationReportDefinitionService" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
+				
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>		
+	</bean> 
 </beans>

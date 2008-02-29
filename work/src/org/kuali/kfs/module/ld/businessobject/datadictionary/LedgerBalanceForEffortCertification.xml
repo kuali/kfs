@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.labor.bo.LedgerBalanceForEffortCertification">
+
+        <inquiry>
+            <title>Labor Ledger A21 View</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="accountLineAnnualBalanceAmount" />
+                <field attributeName="accountNumber" />
+                <field attributeName="financialBeginningBalanceLineAmount" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="emplid" />
+                <field attributeName="financialBalanceTypeCode" />
+                <field attributeName="contractsGrantsBeginningBalanceAmount" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialObjectTypeCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="month10Amount" />
+                <field attributeName="month11Amount" />
+                <field attributeName="month12Amount" />
+                <field attributeName="month13Amount" />
+                <field attributeName="month1Amount" />
+                <field attributeName="month2Amount" />
+                <field attributeName="month3Amount" />
+                <field attributeName="month4Amount" />
+                <field attributeName="month5Amount" />
+                <field attributeName="month6Amount" />
+                <field attributeName="month7Amount" />
+                <field attributeName="month8Amount" />
+                <field attributeName="month9Amount" />
+                <field attributeName="positionNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="transactionDateTimeStamp" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+	        <lookupableID>laborLedgerBalanceForEffortCertificationLookupable</lookupableID>	        
+            <title>Effort Labor Ledger View</title>
+
+            <instructions>Look up a Ledger Balance</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="subAccountNumber" />
+                	<sortAttribute attributeName="financialObjectCode" />
+                	<sortAttribute attributeName="positionNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="true" />
+                <lookupField attributeName="emplid" required="true" />
+                <lookupField attributeName="financialBalanceTypeCode" required="false"/>
+				<lookupField attributeName="effortCertificationReportNumber" required="true" />
+                
+                <!-- the hidden fields -->
+                <lookupField attributeName="chartOfAccountsCode" />
+                <lookupField attributeName="accountNumber" />
+                <lookupField attributeName="subAccountNumber" />
+                <lookupField attributeName="financialObjectCode" />
+                <lookupField attributeName="financialSubObjectCode" />
+                <lookupField attributeName="positionNumber" />
+			</lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />                                
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialBalanceTypeCode" />
+                <field attributeName="positionNumber" />
+                <field attributeName="financialObjectTypeCode" />
+                <field attributeName="ledgerPerson.personName" />
+
+                <field attributeName="financialBeginningBalanceLineAmount" />                            
+                <field attributeName="contractsGrantsBeginningBalanceAmount" />                
+				<field attributeName="accountLineAnnualBalanceAmount" />
+
+                <field attributeName="month1Amount" />
+                <field attributeName="month2Amount" />
+                <field attributeName="month3Amount" />
+                <field attributeName="month4Amount" />
+                <field attributeName="month5Amount" />
+                <field attributeName="month6Amount" />
+                <field attributeName="month7Amount" />
+                <field attributeName="month8Amount" />
+                <field attributeName="month9Amount" />
+                <field attributeName="month10Amount" />
+                <field attributeName="month11Amount" />
+                <field attributeName="month12Amount" />
+                <field attributeName="month13Amount" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+             <attribute name="effortCertificationReportNumber" forceUppercase="true">
+                <label>Effort Certification Report Number</label>
+                <shortLabel>Report Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification ReportNumber</summary>
+                <description>Effort Certification ReportNumber description...</description>
+			</attribute>
+
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+
+            <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
+                <label>Employee Univ ID</label>
+                <shortLabel>EmplUnvId</shortLabel>
+                <displayLabelAttribute>ledgerPerson.personUserIdentifier</displayLabelAttribute>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+                        
+            <attributeReference name="ledgerPerson.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Employee User ID</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="ledgerPerson.personUniversalIdentifier" userIdAttributeName="ledgerPerson.personUserIdentifier" personNameAttributeName="ledgerPerson.personName" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Employee Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber">
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>
+
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+            </attributeReference>
+
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" >
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>          
+
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>
+			
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference> 
+
+			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+                <control>
+                    <radio valuesFinderClass="org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder" />
+                </control>
+			</attributeReference>
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" >
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>
+			
+			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" >
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>
+			
+			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" >
+            	<control>
+					<hidden />
+				</control>
+			</attributeReference>
+
+            <attributeReference name="accountLineAnnualBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Account Line Annual Balance Amount</label>
+                <shortLabel>Account Line Annual Balance Amount</shortLabel>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Beginning Balance Line Amount</label>
+                <shortLabel>Beginning Balance Line Amount</shortLabel>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="contractsGrantsBeginningBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Contracts Grants Beginning Balance Amount</label>
+                <shortLabel>CG Amount</shortLabel>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>July</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month2Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>August</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month3Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>September</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month4Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>October</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month5Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>November</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month6Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>December</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month7Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>January</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month8Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>February</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month9Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>March</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month10Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>April</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month11Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>May</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month12Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>June</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="month13Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Year End</label>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="transactionDateTimeStamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Transaction Entry Processed</label>
+                <shortLabel>Entry Processed</shortLabel>
+            </attributeReference>
+        </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="ledgerPerson" >
+                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
+				<supportAttribute sourceName="ledgerPerson.personUserIdentifier" targetName="personUserIdentifier" identifier="true"/>
+				<supportAttribute sourceName="ledgerPerson.personName" targetName="personName" />
+            </relationship>
+            <relationship objectAttributeName="laborObject" >
+                <primitiveAttribute sourceName="laborObject.chartOfAccountsCode" targetName="chartOfAccountsCode" />
+				<supportAttribute sourceName="laborObject.financialObjectFringeOrSalaryCode" targetName="financialObjectFringeOrSalaryCode"/>
+				<supportAttribute sourceName="laborObject.financialObjectCode" targetName="financialObjectCode" identifier="true"/>
+				<supportAttribute sourceName="laborObject.universityFiscalYear" targetName="universityFiscalYear" />
+            </relationship>
+        </relationships>
+    </businessObject>
+</dictionaryEntry>

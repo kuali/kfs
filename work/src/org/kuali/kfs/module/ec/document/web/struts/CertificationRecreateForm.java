@@ -84,6 +84,13 @@ public class CertificationRecreateForm extends EffortCertificationForm {
         inquirableFieldNames.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         inquirableFieldNames.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         inquirableFieldNames.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        inquirableFieldNames.add(KFSPropertyConstants.POSITION_NUMBER);
+        
+        inquirableFieldNames.add(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE);
+        inquirableFieldNames.add(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER);
+        inquirableFieldNames.add(EffortPropertyConstants.COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER);
+        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT);
+        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT);
 
         return inquirableFieldNames;
     }

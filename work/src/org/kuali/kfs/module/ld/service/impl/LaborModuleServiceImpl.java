@@ -71,6 +71,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferSourceAccountingLineClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass;
+    private Class<? extends LaborLedgerBalance> laborLedgerBalanceForEffortCertificationClass;
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(org.kuali.kfs.bo.LaborLedgerObject,
@@ -189,6 +190,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
         return this.laborLedgerPositionObjectGroupClass;
+    }
+    
+    /**
+     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
+     */
+    public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass() {
+        return laborLedgerBalanceForEffortCertificationClass;
     }
 
     /**
@@ -324,5 +332,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the laborLedgerBalanceForEffortCertificationClass attribute value.
+     * @param laborLedgerBalanceForEffortCertificationClass The laborLedgerBalanceForEffortCertificationClass to set.
+     */
+    public void setLaborLedgerBalanceForEffortCertificationClass(Class<? extends LaborLedgerBalance> laborLedgerBalanceForEffortCertificationClass) {
+        this.laborLedgerBalanceForEffortCertificationClass = laborLedgerBalanceForEffortCertificationClass;
     }
 }

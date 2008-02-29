@@ -86,6 +86,7 @@
 		</property>				
 		
 		<property name="laborLedgerBalanceClass" value="org.kuali.module.labor.bo.LedgerBalance"/>
+		<property name="laborLedgerBalanceForEffortCertificationClass" value="org.kuali.module.labor.bo.LedgerBalanceForEffortCertification"/>
 		<property name="laborLedgerEntryClass" value="org.kuali.module.labor.bo.LedgerEntry"/>
 		<property name="laborLedgerObjectClass" value="org.kuali.module.labor.bo.LaborObject"/>
 		<property name="laborLedgerPositionObjectGroupClass" value="org.kuali.module.labor.bo.PositionObjectGroup"/>
@@ -976,4 +977,12 @@
 	</bean>	
 	
 	<bean id="laborLedgerGeneralLedgerPostingHelper" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerPostingHelper" />
+			
+	<bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborLedgerBalanceForEffortCertificationLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl" autowire="byName" singleton="false"/>	 
 </beans>

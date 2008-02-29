@@ -13,7 +13,8 @@ import org.kuali.module.purap.bo.ReceivingLineItem;
 public class ReceivingLineDocument extends ReceivingDocumentBase {
 
     private Integer purchaseOrderIdentifier;
-        
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
     //Collections
     private List<ReceivingLineItem> items;
      
@@ -98,6 +99,14 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }    
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -11,7 +11,8 @@ import org.kuali.module.purap.bo.ReceivingCorrectionItem;
 public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
 
     private String receivingLineDocumentNumber;
-
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
     //Collections
     private List<ReceivingCorrectionItem> items;
     
@@ -33,7 +34,7 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
     public String getReceivingLineDocumentNumber() { 
         return receivingLineDocumentNumber;
     }
-
+    
     /**
      * Sets the receivingLineDocumentNumber attribute.
      * 
@@ -44,6 +45,14 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         this.receivingLineDocumentNumber = receivingLineDocumentNumber;
     }
 
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    } 
+    
     /**
      * Gets the receivingLineDocument attribute. 
      * @return Returns the receivingLineDocument.

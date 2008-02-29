@@ -1014,4 +1014,27 @@
 		<foreignkey field-ref="organizationOwnerAccountNumber" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetLocation" table="CM_AST_LOC_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="assetLocationTypeCode" column="AST_LOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="assetLocationContactName" column="AST_LOC_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationContactIdentifier" column="AST_LOC_CNTCT_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationInstitutionName" column="AST_LOC_INST_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationPhoneNumber" column="AST_LOC_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationStreetAddress" column="AST_LOC_STRT_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationCityName" column="AST_LOC_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationStateCode" column="AST_LOC_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationCountryCode" column="AST_LOC_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetLocationZipCode" column="AST_LOC_ZIP_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="assetLocationType" class-ref="org.kuali.module.cams.bo.AssetLocationType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="assetLocationTypeCode" />
+	</reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

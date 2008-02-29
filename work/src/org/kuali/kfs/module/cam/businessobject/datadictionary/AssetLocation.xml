@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetLocation">
+ 
+        <inquiry>
+            <title>Asset Location Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="assetLocationCityName" />
+                        <field attributeName="assetLocationContactIdentifier" />
+                        <field attributeName="assetLocationContactName" />
+                        <field attributeName="assetLocationCountryCode" />
+                        <field attributeName="assetLocationInstitutionName" />
+                        <field attributeName="assetLocationPhoneNumber" />
+                        <field attributeName="assetLocationStateCode" />
+                        <field attributeName="assetLocationStreetAddress" />
+                        <field attributeName="assetLocationTypeCode" />
+                        <field attributeName="assetLocationZipCode" />
+                        <field attributeName="capitalAssetNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Location Lookup</title>
+
+            <instructions>Look up an Asset Location</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                    <sortAttribute attributeName="assetLocationTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="assetLocationCityName" required="false" />
+                <lookupField attributeName="assetLocationContactIdentifier" required="false" />
+                <lookupField attributeName="assetLocationContactName" required="false" />
+                <lookupField attributeName="assetLocationCountryCode" required="false" />
+                <lookupField attributeName="assetLocationInstitutionName" required="false" />
+                <lookupField attributeName="assetLocationPhoneNumber" required="false" />
+                <lookupField attributeName="assetLocationStateCode" required="false" />
+                <lookupField attributeName="assetLocationStreetAddress" required="false" />
+                <lookupField attributeName="assetLocationTypeCode" required="false" />
+                <lookupField attributeName="assetLocationZipCode" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="assetLocationCityName" />
+                <field attributeName="assetLocationContactIdentifier" />
+                <field attributeName="assetLocationContactName" />
+                <field attributeName="assetLocationCountryCode" />
+                <field attributeName="assetLocationInstitutionName" />
+                <field attributeName="assetLocationPhoneNumber" />
+                <field attributeName="assetLocationStateCode" />
+                <field attributeName="assetLocationStreetAddress" />
+                <field attributeName="assetLocationTypeCode" />
+                <field attributeName="assetLocationZipCode" />
+                <field attributeName="capitalAssetNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="assetLocationCityName" forceUppercase="true">
+                <label>Asset Location City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>assetLocationCityName</summary>
+                <description>assetLocationCityName description...</description>
+			</attribute>
+
+            <attribute name="assetLocationContactIdentifier" forceUppercase="true">
+                <label>Asset Location Contact Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>assetLocationContactIdentifier</summary>
+                <description>assetLocationContactIdentifier description...</description>
+			</attribute>
+
+            <attribute name="assetLocationContactName" forceUppercase="true">
+                <label>Asset Location Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>assetLocationContactName</summary>
+                <description>assetLocationContactName description...</description>
+			</attribute>
+
+            <attribute name="assetLocationCountryCode" forceUppercase="true">
+                <label>Asset Location Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>assetLocationCountryCode</summary>
+                <description>assetLocationCountryCode description...</description>
+			</attribute>
+
+            <attribute name="assetLocationInstitutionName" forceUppercase="true">
+                <label>Asset Location Institution Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>assetLocationInstitutionName</summary>
+                <description>assetLocationInstitutionName description...</description>
+			</attribute>
+
+            <attribute name="assetLocationPhoneNumber" forceUppercase="true">
+                <label>Asset Location Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>assetLocationPhoneNumber</summary>
+                <description>assetLocationPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="assetLocationStateCode" forceUppercase="true">
+                <label>Asset Location State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>assetLocationStateCode</summary>
+                <description>assetLocationStateCode description...</description>
+			</attribute>
+
+            <attribute name="assetLocationStreetAddress" forceUppercase="true">
+                <label>Asset Location Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>assetLocationStreetAddress</summary>
+                <description>assetLocationStreetAddress description...</description>
+			</attribute>
+
+            <attribute name="assetLocationTypeCode" forceUppercase="true">
+                <label>Asset Location Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>assetLocationTypeCode</summary>
+                <description>assetLocationTypeCode description...</description>
+			</attribute>
+
+            <attribute name="assetLocationZipCode" forceUppercase="true">
+                <label>Asset Location Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>assetLocationZipCode</summary>
+                <description>assetLocationZipCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

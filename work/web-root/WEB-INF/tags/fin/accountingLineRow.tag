@@ -418,8 +418,9 @@
 					accountingAddLineIndex="${accountingAddLineIndex}"
 					accountingLineIndex="${accountingLineIndex}"
 					decorator="${decorator}" 
-            		customActions="${customActions}" 
-            		nestedIndex="${nestedIndex}" />
+          customActions="${customActions}" 
+          newLineCustomActions="${newLineCustomActions}"
+          nestedIndex="${nestedIndex}" />
 			</c:if>
 		</tr>
 	</c:forEach>
@@ -512,6 +513,8 @@
 				accountingAddLineIndex="${accountingAddLineIndex}"
 				accountingLineIndex="${accountingLineIndex}"
 				decorator="${decorator}"
+        customActions="${customActions}" 
+        newLineCustomActions="${newLineCustomActions}"
 				nestedIndex="${nestedIndex}" />
 		</c:if>
 	</tr>
@@ -541,6 +544,8 @@
 			actionInfix="${actionInfix}"
 			accountingAddLineIndex="${accountingAddLineIndex}"
 			accountingLineIndex="${accountingLineIndex}"
+      customActions="${customActions}" 
+      newLineCustomActions="${newLineCustomActions}"
 			decorator="${decorator}"
 			nestedIndex="${nestedIndex}" />
 	</c:if>

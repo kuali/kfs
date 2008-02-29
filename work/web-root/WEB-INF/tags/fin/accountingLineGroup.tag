@@ -104,7 +104,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on existing accounting lines" %>
 <%@ attribute name="newLineCustomActions" required="false" fragment="true"
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
-
+<%@ attribute name="readOnly" required="false" description="Whether this group of accounting line should be read only" %>
 		  
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
@@ -229,7 +229,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         <tr></tr>
     </c:otherwise>
 </c:choose>
-<c:if test="${empty editingMode['viewOnly']}">
+<c:if test="${empty editingMode['viewOnly'] && !readOnly}">
     <c:choose>
       <c:when test="${isSource}">
         <c:set var="valuesMap" value="${KualiForm.newSourceLine.valuesMap}"/>
@@ -334,7 +334,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="normal"
-        readOnly="${!accountIsEditable}"
+        readOnly="${!accountIsEditable || readOnly}"
         editableFields="${editableFields}"
         debitCreditAmount="${debitCreditAmount}"
         currentBaseAmount="${currentBaseAmount}"

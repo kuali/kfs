@@ -97,6 +97,8 @@
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on existing accounting lines" %>
 <%@ attribute name="newLineCustomActions" required="false" fragment="true"
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
+<%@ attribute name="sourceLinesReadOnly" required="false" description="Whether the source lines this tag renders should be rendered as read only" %>
+<%@ attribute name="targetLinesReadOnly" required="false" description="Whether the target lines this tag renders should be rendered as read only" %>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -168,6 +170,7 @@
           accountingAddLineIndex="${accountingAddLineIndex}"
           customActions="${customActions}"
           newLineCustomActions="${newLineCustomActions}"
+          readOnly="${sourceLinesReadOnly}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -194,6 +197,7 @@
             hideFields="${hideFields}"
             customActions="${customActions}"
             newLineCustomActions="${newLineCustomActions}"
+            readOnly="${targetLinesReadOnly}"
             />
       </c:if>
     </table>

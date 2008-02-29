@@ -120,6 +120,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
+    
+    private boolean receivingDocumentRequiredIndicator;
+    private boolean paymentRequestPositiveApprovalIndicator;
 
     /**
      * Default Constructor.
@@ -802,4 +805,27 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.requisitionSource = requisitionSource;
     }
 
+    /**
+     * Gets the receivingDocumentRequiredIndicator attribute. 
+     * @return Returns the receivingDocumentRequiredIndicator.
+     */
+    public boolean isReceivingDocumentRequiredIndicator() {
+        return receivingDocumentRequiredIndicator;
+    }
+    
+    /**
+     * Sets the receivingDocumentRequiredIndicator attribute value.
+     * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
+     */
+    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
+        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+    }
+
+    public boolean isPaymentRequestPositiveApprovalIndicator() {
+        return paymentRequestPositiveApprovalIndicator;
+    }
+
+    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
+        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+    }
 }

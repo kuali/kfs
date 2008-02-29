@@ -121,8 +121,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
     private Integer contractManagerCode;
-    private boolean receivingDocumentRequiredIndicator;
-    private boolean paymentRequestPositiveApprovalIndicator;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
     
@@ -894,39 +892,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     public void setPurchaseOrderFirstTransmissionDate(Date purchaseOrderFirstTransmissionDate) {
         this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
     }
-
-    /**
-     * Gets the paymentRequestPositiveApprovalIndicator attribute. 
-     * @return Returns the paymentRequestPositiveApprovalIndicator.
-     */
-    public boolean isPaymentRequestPositiveApprovalIndicator() {
-        return paymentRequestPositiveApprovalIndicator;
-    }
-
-    /**
-     * Sets the paymentRequestPositiveApprovalIndicator attribute value.
-     * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
-     */
-    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
-        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
-    }
-
-    /**
-     * Gets the receivingDocumentRequiredIndicator attribute. 
-     * @return Returns the receivingDocumentRequiredIndicator.
-     */
-    public boolean isReceivingDocumentRequiredIndicator() {
-        return receivingDocumentRequiredIndicator;
-    }
-
-    /**
-     * Sets the receivingDocumentRequiredIndicator attribute value.
-     * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
-     */
-    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
-        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
-    }
-
+    
     /**
      * Gets the purchaseOrderQuoteAwardedDate attribute. 
      * @return Returns the purchaseOrderQuoteAwardedDate.

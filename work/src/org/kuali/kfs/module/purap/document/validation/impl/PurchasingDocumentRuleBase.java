@@ -56,6 +56,7 @@ import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.UnitOfMeasure;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
@@ -100,6 +101,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
+        boolean isNonQuantityItemFound = false;
+        
         for (PurApItem item : itemList) {
             // Refresh the item type for validation.
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
@@ -119,7 +122,23 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
             GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
             i++;
+            
+            /**
+             * Receiving required can not be set in on a req/po with all non-qty based items
+             */
+            if (!isNonQuantityItemFound){
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    if (((PurchasingDocument)purapDocument).isReceivingDocumentRequiredIndicator()){
+                        if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
+                            valid &= false;
+                            isNonQuantityItemFound = true; 
+                        }
+                    }
+                }    
+            }
         }
+        
         valid &= validateTotalCost((PurchasingDocument) purapDocument);
         valid &= validateContainsAtLeastOneItem((PurchasingDocument) purapDocument);
 

@@ -84,8 +84,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate4VendorName;
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    private boolean receivingDocumentRequiredIndicator;
-    private boolean paymentRequestPositiveApprovalIndicator;
     
     private final static String REQUESITION_GL_POSTING_HELPER_BEAN_ID = "requisitionGeneralLedgerPostingHelper";
     
@@ -440,38 +438,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
-    }
-
-    /**
-     * Gets the paymentRequestPositiveApprovalIndicator attribute. 
-     * @return Returns the paymentRequestPositiveApprovalIndicator.
-     */
-    public boolean isPaymentRequestPositiveApprovalIndicator() {
-        return paymentRequestPositiveApprovalIndicator;
-    }
-
-    /**
-     * Sets the paymentRequestPositiveApprovalIndicator attribute value.
-     * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
-     */
-    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
-        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
-    }
-
-    /**
-     * Gets the receivingDocumentRequiredIndicator attribute. 
-     * @return Returns the receivingDocumentRequiredIndicator.
-     */
-    public boolean isReceivingDocumentRequiredIndicator() {
-        return receivingDocumentRequiredIndicator;
-    }
-
-    /**
-     * Sets the receivingDocumentRequiredIndicator attribute value.
-     * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
-     */
-    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
-        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
     }
 
     /**

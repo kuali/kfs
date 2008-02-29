@@ -203,6 +203,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_NO_TRAN_TYPE = "errors.item.capitalAsset.no.tranType";
     public static final String ERROR_ITEM_TRAN_TYPE_REQUIRES_ASSET_NUMBER = "errors.item.capitalAsset.tranType.requires.assetNumber";
     public static final String WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL = "warnings.item.capitalAsset.threshold.objectCodeLevel";
+    public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
 
     // Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";

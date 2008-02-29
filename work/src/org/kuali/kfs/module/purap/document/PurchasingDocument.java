@@ -428,4 +428,13 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @param billingAddress the specified Billing Address.
      */
     public void templateBillingAddress(BillingAddress billingAddress);
+    
+    public boolean isReceivingDocumentRequiredIndicator() ;
+
+    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator);
+    
+    public boolean isPaymentRequestPositiveApprovalIndicator();
+    
+    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator);
+    
 }

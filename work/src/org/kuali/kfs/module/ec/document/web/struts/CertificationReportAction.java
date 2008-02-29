@@ -63,7 +63,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         PayrollAmountHolder.calculatePayrollPercent(payrollAmountHolder);
         lineToRecalculate.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return refresh(mapping, form, request, response);
     }
 
     /**
@@ -105,7 +105,7 @@ public class CertificationReportAction extends EffortCertificationAction {
             detailLines.add(newDetailLine);
         }
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return refresh(mapping, form, request, response);
     }
 
     /**
@@ -127,7 +127,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         detailLines.remove(lineToDeleteIndex);
 
 
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return refresh(mapping, form, request, response);
     }
 
     /**
@@ -153,6 +153,23 @@ public class CertificationReportAction extends EffortCertificationAction {
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
 
+        return refresh(mapping, form, request, response);
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EffortCertificationForm effortForm = (EffortCertificationForm) form;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
+        List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        
+        for (EffortCertificationDetail detailLine : detailLines) {
+            detailLine.refresh();
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

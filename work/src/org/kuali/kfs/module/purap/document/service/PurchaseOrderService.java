@@ -249,4 +249,12 @@ public interface PurchaseOrderService {
      * @param po The PurchaseOrderDocument to be saved.
      */
     public void savePurchaseOrderRestrictedMaterial(PurchaseOrderDocument po);
+    
+    /**
+     * Performs a threshold check on the purchase order to determine if any attribute on the purchase order
+     * falls within a defined threshold. This check is only perfromed if the receiving required flag is set to N.
+     * 
+     * @param po
+     */
+    public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po);
 }

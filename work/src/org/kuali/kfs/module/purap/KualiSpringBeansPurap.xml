@@ -313,9 +313,6 @@
         <property name="vendorService">
             <ref bean="vendorService" />
         </property>
-         <property name="receivingService">
-            <ref bean="receivingService" />
-        </property>	        
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

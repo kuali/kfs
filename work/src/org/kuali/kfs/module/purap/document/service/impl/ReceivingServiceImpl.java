@@ -53,12 +53,4 @@ public class ReceivingServiceImpl implements ReceivingService {
         
     }
 
-    /**
-     * 
-     * @see org.kuali.module.purap.service.ReceivingService#setReceivingRequiredIndicatorForPurchaseOrder(org.kuali.module.purap.document.PurchaseOrderDocument)
-     */
-    public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po) {
-        //TODO: Add threshold check and set receiving required indicator if necessary
-    }
-
 }

@@ -63,7 +63,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         PayrollAmountHolder.calculatePayrollPercent(payrollAmountHolder);
         lineToRecalculate.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
 
-        return refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -105,7 +105,7 @@ public class CertificationReportAction extends EffortCertificationAction {
             detailLines.add(newDetailLine);
         }
 
-        return refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -127,7 +127,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         detailLines.remove(lineToDeleteIndex);
 
 
-        return refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -153,7 +153,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
 
-        return refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -171,5 +171,17 @@ public class CertificationReportAction extends EffortCertificationAction {
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        refresh(mapping, form, request, response);
+        
+        return super.execute(mapping, form, request, response);
+        
     }
 }

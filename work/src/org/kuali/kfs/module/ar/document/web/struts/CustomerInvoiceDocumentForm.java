@@ -54,7 +54,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      */
     @Override
     public KeyLabelPair getAdditionalDocInfo2() {
-        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.invoiceTotalAmount", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getInvoiceTotalAmount()));
+        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
     }
     
     

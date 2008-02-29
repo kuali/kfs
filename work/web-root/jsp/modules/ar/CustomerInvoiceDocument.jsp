@@ -47,7 +47,7 @@
 	<fin:accountingLines
 	    editingMode="${KualiForm.editingMode}"
 	    editableAccounts="${KualiForm.editableAccounts}"
-	    optionalFields="invoiceItemNumber,invoiceItemQuantity,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,invoiceItemServiceDate,invoiceItemCode,invoiceItemDescription"
+	    optionalFields="invoiceItemQuantity,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,invoiceItemServiceDate,invoiceItemCode,invoiceItemDescription"
 	    isOptionalFieldsInNewRow="true"
 	    sourceAccountingLinesOnly="true" />
 		            

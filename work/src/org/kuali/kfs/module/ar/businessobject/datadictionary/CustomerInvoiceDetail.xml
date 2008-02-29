@@ -137,21 +137,6 @@
                 <description>invoiceItemDescription description...</description>
 			</attribute>
 
-            <attribute name="invoiceItemNumber" forceUppercase="true">
-                <label>Invoice Item Number</label>
-                <shortLabel>Item Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>invoiceItemNumber</summary>
-                <description>invoiceItemNumber description...</description>
-			</attribute>
-
             <attribute name="invoiceItemQuantity" forceUppercase="true">
                 <label>Invoice Item Quantity</label>
                 <shortLabel>Quantity</shortLabel>

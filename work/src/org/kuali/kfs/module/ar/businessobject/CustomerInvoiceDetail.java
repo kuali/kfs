@@ -22,7 +22,7 @@ import org.kuali.module.chart.bo.SubObjCd;
  */
 public class CustomerInvoiceDetail extends SourceAccountingLine {
 
-	private Integer invoiceItemNumber;
+	//private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
 	private BigDecimal invoiceItemQuantity;
 	private String invoiceItemUnitOfMeasureCode;
 	private KualiDecimal invoiceItemUnitPrice;
@@ -42,27 +42,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
 	 */
 	public CustomerInvoiceDetail() {
 	    super();
-	}
-
-
-	/**
-	 * Gets the invoiceItemNumber attribute.
-	 * 
-	 * @return Returns the invoiceItemNumber
-	 * 
-	 */
-	public Integer getInvoiceItemNumber() { 
-		return invoiceItemNumber;
-	}
-
-	/**
-	 * Sets the invoiceItemNumber attribute.
-	 * 
-	 * @param invoiceItemNumber The invoiceItemNumber to set.
-	 * 
-	 */
-	public void setInvoiceItemNumber(Integer invoiceItemNumber) {
-		this.invoiceItemNumber = invoiceItemNumber;
 	}
 
 
@@ -295,8 +274,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", getDocumentNumber());
-        if (this.invoiceItemNumber != null) {
-            m.put("invoiceItemNumber", this.invoiceItemNumber.toString());
+        if (this.getSequenceNumber() != null) {
+            m.put("invoiceItemNumber", this.getSequenceNumber().toString());
         }
 	    return m;
     }

@@ -371,9 +371,9 @@
                 <description>Indicates if there is already an open invoice for this customer</description>
             </attribute>
 			
-			<attributeReference name="invoiceTotalAmount"
+			<attributeReference name="sourceTotal"
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="totalDollarAmount">
+				sourceAttributeName="genericAmount">
 			    <label>Invoice Total Amount</label> 
 			    <shortLabel>Invoice Total Amount</shortLabel> 
 			</attributeReference> 			

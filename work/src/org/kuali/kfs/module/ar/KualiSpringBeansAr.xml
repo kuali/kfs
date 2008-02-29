@@ -100,4 +100,7 @@
 		</property>
 	</bean>		
 	
+	
+	<bean id="customerInvoiceDocumentGeneralLedgerPostingHelper" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentGeneralLedgerPostingHelperImpl" />
+	
 </beans>

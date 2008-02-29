@@ -3,25 +3,18 @@ package org.kuali.module.ar.document;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
@@ -32,8 +25,6 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
-import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -733,20 +724,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     public void setNextInvoiceItemNumber(Integer nextInvoiceItemNumber) {
         this.nextInvoiceItemNumber = nextInvoiceItemNumber;
     }
-    
-    /**
-     * Returns the total amount of all customer invoice detail amounts.
-     * @return
-     */
-    public KualiDecimal getInvoiceTotalAmount(){
-        KualiDecimal invoiceTotalAmount = new KualiDecimal(0);
-        CustomerInvoiceDetail customerInvoiceDetail;
-        for ( Iterator iter = getSourceAccountingLines().iterator(); iter.hasNext();  ){
-            customerInvoiceDetail = (CustomerInvoiceDetail)iter.next();
-            invoiceTotalAmount = invoiceTotalAmount.add( customerInvoiceDetail.getAmount() );
-        }
-        return invoiceTotalAmount;
-    }
+   
     
     /**
      * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
@@ -767,15 +745,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     }
     
     /**
-     * Still need implement.
-     * 
-     * @param financialDocument submitted financial document
-     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
-     * @return true if there are no issues creating GLPE's
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * Returns an instance of org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl;
+     *  
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
      */
     @Override
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        //TODO Still need to implement.
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(ArConstants.CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID);
     }    
 }

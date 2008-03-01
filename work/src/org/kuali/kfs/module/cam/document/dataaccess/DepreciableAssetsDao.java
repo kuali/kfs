@@ -15,6 +15,7 @@
  */
 package org.kuali.module.cams.dao;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,11 +24,32 @@ import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.DepreciableAssets;
 
 public interface DepreciableAssetsDao {
-    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth);
+    /**
+     * 
+     * This method gets a list of assets eligible for depreciation
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @return collection 
+     */
+    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
     
+    /**
+     * 
+     * This method updates the asset payment table fields with the calculated depreciation for each asset
+     * @param assetsInDepreciation
+     * @param fiscalYear
+     * @param fiscalMonth
+     */    
     public void updateAssetPayments(List<DepreciableAssets> assetsInDepreciation, Integer fiscalYear, Integer fiscalMonth);
     
-    public void checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth);
-    
-    public List<String[]> getReportLine();
+    /**
+     * 
+     * This method generates a report log of the depreciation process 
+     * @param beforeDepreciationReport
+     * @param documentNumber
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @return
+     */
+    public List<String[]> checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
 }

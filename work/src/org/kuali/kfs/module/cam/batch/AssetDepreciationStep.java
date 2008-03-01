@@ -18,9 +18,9 @@ package org.kuali.module.cams.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.cams.service.AssetDepreciationService;
 
-public abstract class AssetDepreciationStep extends AbstractStep{
+public class AssetDepreciationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDepreciationStep.class);
-    private AssetDepreciationService camsAssetDepreciationService;
+    private AssetDepreciationService assetDepreciationService;
 
     /**
      * Executes the method that forwards the balance
@@ -30,11 +30,11 @@ public abstract class AssetDepreciationStep extends AbstractStep{
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName)  {
-        camsAssetDepreciationService.runDepreciation();
+        assetDepreciationService.runDepreciation();
         return true;
     }
 
-    public void setCamsAssetDepreciationService(AssetDepreciationService camsAssetDepreciationService) {
-        this.camsAssetDepreciationService = camsAssetDepreciationService;
+    public void setAssetDepreciationService(AssetDepreciationService assetDepreciationService) {
+        this.assetDepreciationService = assetDepreciationService;
     }
 }

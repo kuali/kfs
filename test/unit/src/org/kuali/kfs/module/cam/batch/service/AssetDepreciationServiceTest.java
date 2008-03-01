@@ -45,10 +45,9 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
         camsAssetDepreciationService      = SpringContext.getBean(AssetDepreciationService.class);
     }
 
-    
-    
+        
     public void testRunDepreciation() {
-        //camsAssetDepreciationService.runDepreciation();
+        camsAssetDepreciationService.runDepreciation();
         assertEquals(1, 1);
     }
 }

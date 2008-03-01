@@ -7,6 +7,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -14,11 +15,11 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
-
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
+ * This class...
  */
-public class PaymentDocument extends PersistableBusinessObjectBase {
+public class AssetPaymentDetail extends SourceAccountingLine  {
 
 	private String documentNumber;
 	private Integer financialDocumentLineNumber;
@@ -58,7 +59,7 @@ public class PaymentDocument extends PersistableBusinessObjectBase {
 	/**
 	 * Default constructor.
 	 */
-	public PaymentDocument() {
+	public AssetPaymentDetail() {
 
 	}
 

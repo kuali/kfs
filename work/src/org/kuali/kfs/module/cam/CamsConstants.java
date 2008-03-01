@@ -38,24 +38,30 @@ public class CamsConstants {
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class Parameters {
+        public static final String DEPRECIATION_DATE_PARAMETER                            ="DEPRECIATION_DATE";
         public static final String NON_DEPRECIABLE_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES     ="NON_DEPRECIABLE_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPE"; 
-        public static final String NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES      ="NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES";
-        public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES       ="NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
+        public static final String NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES       ="NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES";
+        public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES        ="NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
         public static final String NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES="NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";                
     }    
 
     public static class Report {
-        public static final String REPORT_EXTENSION ="PDF";
-        public static final String FILE_PREFIX = "CAMS";        
-        public static final String DEPRECIATION_REPORT_TITLE = "Asset Depreciation Report - Statistics";        
+        public static final String REPORT_EXTENSION          = "PDF";
+        public static final String FILE_PREFIX               = "CAMS";                
     }
     
     public static class Depreciation {
-        public static final String DEPRECIATION_ORIGINATION_CODE="01";
+        public static final String DEPRECIATION_ORIGINATION_CODE="01"; // 01 -> Transaction Processing
         public static final String TRANSACTION_DESCRIPTION      = "Batch Depreciation Asset ";
-        public static final String DOCUMENT_DESCRIPTION         = "Batch Depreciation Entry";        
+        public static final String DOCUMENT_DESCRIPTION         = "Batch Depreciation Entry";
+        public static final String REPORT_FILE_NAME             = "DEPRECIATION_REPORT";
+        public static final String DEPRECIATION_REPORT_TITLE = "Asset Depreciation Report - Statistics";        
     }
 
+    public static class NotPendingDocumentStatuses {
+        public static final String APPROVED = "A";
+        public static final String CANCELED = "C";        
+    }
     
     public static final String[] MONTHS = {"January","February","March","April","May","June","July","August","September","October","November","December"};
     

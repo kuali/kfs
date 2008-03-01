@@ -13,19 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cams.service;
+package org.kuali.module.cams.document.authorization;
 
-import java.util.List;
+import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
-public interface ReportService {
-    /**
-     * 
-     * This method invokes generateReport method from DepreciationReport class in order to generate a
-     * depreciation report on a PDF format
-     *  
-     * @param reportLog
-     * @param errorMsg
-     */
-    public void generateDepreciationReport(List<String[]> reportLog, String errorMsg, String sDepreciationDate);
+
+public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
 }

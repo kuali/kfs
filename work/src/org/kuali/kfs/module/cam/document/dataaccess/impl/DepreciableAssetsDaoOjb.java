@@ -20,7 +20,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -56,29 +55,28 @@ import org.kuali.module.chart.bo.Org;
 
 public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements DepreciableAssetsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciableAssetsDaoOjb.class);
-    
+
     Collection<DepreciableAssets> depreciableAssetsCollection = new ArrayList<DepreciableAssets>();
-    
+
     private Criteria        assetCriteria   = new Criteria();
-    private List<String[]>  reportLine      = new ArrayList<String[]>();
     private String          errorMsg        = new String();
 
     private final static String PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR    = "asset.";
     private final static String PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR   = "financialObject.";
     private final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
     private final static String[] REPORT_GROUP = {"*** BEFORE RUNNING DEPRECIATION PROCESS ****","*** AFTER RUNNING DEPRECIATION PROCESS ****"};
+    private final static String DEPRECIATION_ALREADY_RAN_MSG="Depreciation batch process already ran for the current depreciation date.";
     
     /**
      * 
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#getListOfDepreciableAssets()
      */
-    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth) {
+    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("CamsDepreciableAssetsDaoOjb.getListOfDepreciableAssets() -  started");
 
         Collection<AssetObjectCode> objectCodes = SpringContext.getBean(AssetObjectCodeDaoOjb.class).getAssetObjectCodes(fiscalYear);
 
-        QueryByCriteria q = QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth)); // ,
-                                                                                                                                // this.assetCriteria);
+        QueryByCriteria q = QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate)); 
         q.addOrderByAscending(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
         q.addOrderByAscending(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE);
         q.addOrderByAscending(CamsPropertyConstants.AssetPayment.ACCOUNT_NUMBER);
@@ -94,67 +92,55 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         for (AssetPayment assetPayment : iter) {
             Asset asset = assetPayment.getAsset();
 
-            AssetType assetType = asset.getCapitalAssetType();
-            Account account = assetPayment.getAccount();
-            Org org = account.getOrganization();
-            ObjectCode financialObject = assetPayment.getFinancialObject();
+            AssetType   assetType        = asset.getCapitalAssetType();
+            Account     account          = assetPayment.getAccount();
+            Org         org              = account.getOrganization();
+            ObjectCode  financialObject  = assetPayment.getFinancialObject();
 
             depreciableAssets = new DepreciableAssets();
 
-            depreciableAssets.setInventoryStatusCode(asset.getInventoryStatusCode());
-            depreciableAssets.setCapitalAssetNumber(asset.getCapitalAssetNumber());
-            depreciableAssets.setCapitalAssetTypeCode(asset.getCapitalAssetTypeCode());
+            depreciableAssets.setInventoryStatusCode            (asset.getInventoryStatusCode());
+            depreciableAssets.setCapitalAssetNumber             (asset.getCapitalAssetNumber());
+            depreciableAssets.setCapitalAssetTypeCode           (asset.getCapitalAssetTypeCode());
 
-            depreciableAssets.setPrimaryDepreciationMethodCode(asset.getPrimaryDepreciationMethodCode());
-            depreciableAssets.setCapitalAssetInServiceDate(asset.getCapitalAssetInServiceDate());
-            depreciableAssets.setSalvageAmount(asset.getSalvageAmount());
-            depreciableAssets.setDepreciableLifeLimit(assetType.getDepreciableLifeLimit());
+            depreciableAssets.setPrimaryDepreciationMethodCode  (asset.getPrimaryDepreciationMethodCode());
+            depreciableAssets.setCapitalAssetInServiceDate      (asset.getCapitalAssetInServiceDate());
+            depreciableAssets.setSalvageAmount                  (asset.getSalvageAmount());
+            depreciableAssets.setDepreciableLifeLimit           (assetType.getDepreciableLifeLimit());
 
-            depreciableAssets.setTransferPaymentCode(assetPayment.getTransferPaymentCode());
-            depreciableAssets.setFinancialSystemOriginationCode(assetPayment.getFinancialSystemOriginationCode());
+            depreciableAssets.setTransferPaymentCode            (assetPayment.getTransferPaymentCode());
+            depreciableAssets.setFinancialSystemOriginationCode (assetPayment.getFinancialSystemOriginationCode());
 
-            depreciableAssets.setPaymentSequenceNumber(assetPayment.getPaymentSequenceNumber());
-            depreciableAssets.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
-            depreciableAssets.setAccountNumber(assetPayment.getAccountNumber());
-            depreciableAssets.setSubAccountNumber(assetPayment.getSubAccountNumber());
-            depreciableAssets.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
-            depreciableAssets.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
-            depreciableAssets.setPrimaryDepreciationBaseAmount(assetPayment.getPrimaryDepreciationBaseAmount());
+            depreciableAssets.setPaymentSequenceNumber          (assetPayment.getPaymentSequenceNumber());
+            depreciableAssets.setChartOfAccountsCode            (assetPayment.getChartOfAccountsCode());
+            depreciableAssets.setAccountNumber                  (assetPayment.getAccountNumber());
+            depreciableAssets.setSubAccountNumber               (assetPayment.getSubAccountNumber());
+            depreciableAssets.setFinancialObjectCode            (assetPayment.getFinancialObjectCode());
+            depreciableAssets.setFinancialSubObjectCode         (assetPayment.getFinancialSubObjectCode());
+            depreciableAssets.setPrimaryDepreciationBaseAmount  (assetPayment.getPrimaryDepreciationBaseAmount());
 
-            depreciableAssets.setAccumulatedPrimaryDepreciationAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
-            depreciableAssets.setPreviousYearPrimaryDepreciationAmount(assetPayment.getPreviousYearPrimaryDepreciationAmount());
-
-            depreciableAssets.setPeriod1Depreciation1Amount(assetPayment.getPeriod1Depreciation1Amount());
-            depreciableAssets.setPeriod2Depreciation1Amount(assetPayment.getPeriod2Depreciation1Amount());
-            depreciableAssets.setPeriod3Depreciation1Amount(assetPayment.getPeriod3Depreciation1Amount());
-            depreciableAssets.setPeriod4Depreciation1Amount(assetPayment.getPeriod4Depreciation1Amount());
-            depreciableAssets.setPeriod5Depreciation1Amount(assetPayment.getPeriod5Depreciation1Amount());
-            depreciableAssets.setPeriod6Depreciation1Amount(assetPayment.getPeriod6Depreciation1Amount());
-            depreciableAssets.setPeriod7Depreciation1Amount(assetPayment.getPeriod7Depreciation1Amount());
-            depreciableAssets.setPeriod8Depreciation1Amount(assetPayment.getPeriod8Depreciation1Amount());
-            depreciableAssets.setPeriod9Depreciation1Amount(assetPayment.getPeriod9Depreciation1Amount());
-            depreciableAssets.setPeriod10Depreciation1Amount(assetPayment.getPeriod10Depreciation1Amount());
-            depreciableAssets.setPeriod11Depreciation1Amount(assetPayment.getPeriod11Depreciation1Amount());
-            depreciableAssets.setPeriod12Depreciation1Amount(assetPayment.getPeriod12Depreciation1Amount());
-            depreciableAssets.setProjectCode(assetPayment.getProjectCode());
+            depreciableAssets.setAccumulatedPrimaryDepreciationAmount   (assetPayment.getAccumulatedPrimaryDepreciationAmount());
+            depreciableAssets.setPreviousYearPrimaryDepreciationAmount  (assetPayment.getPreviousYearPrimaryDepreciationAmount());
+            
+            depreciableAssets.setProjectCode   (assetPayment.getProjectCode());
             depreciableAssets.setDocumentNumber(assetPayment.getDocumentNumber());
 
-            depreciableAssets.setFinancialObjectSubTypeCode(financialObject.getFinancialObjectSubTypeCode());
-            depreciableAssets.setFinancialObjectTypeCode(financialObject.getFinancialObjectTypeCode());
+            depreciableAssets.setFinancialObjectSubTypeCode (financialObject.getFinancialObjectSubTypeCode());
+            depreciableAssets.setFinancialObjectTypeCode    (financialObject.getFinancialObjectTypeCode());
 
-            depreciableAssets.setOrganizationPlantChartCode(org.getOrganizationPlantChartCode());
-            depreciableAssets.setOrganizationPlantAccountNumber(org.getOrganizationPlantAccountNumber());
-            depreciableAssets.setCampusPlantAccountNumber(org.getCampusPlantAccountNumber());
-            depreciableAssets.setCampusPlantChartCode(org.getCampusPlantChartCode());
+            depreciableAssets.setOrganizationPlantChartCode     (org.getOrganizationPlantChartCode());
+            depreciableAssets.setOrganizationPlantAccountNumber (org.getOrganizationPlantAccountNumber());
+            depreciableAssets.setCampusPlantAccountNumber       (org.getCampusPlantAccountNumber());
+            depreciableAssets.setCampusPlantChartCode           (org.getCampusPlantChartCode());
 
             for (AssetObjectCode assetObjectCodes : objectCodes) {
                 boolean found = false;
                 List<ObjectCode> objectCodesList = assetObjectCodes.getObjectCode();
                 for (ObjectCode oc : objectCodesList) {
                     if (oc.getFinancialObjectCode().equals(assetPayment.getFinancialObjectCode())) {
-                        depreciableAssets.setCapitalizationFinancialObjectCode(assetObjectCodes.getCapitalizationFinancialObjectCode());
-                        depreciableAssets.setAccumulatedDepreciationFinancialObjectCode(assetObjectCodes.getAccumulatedDepreciationFinancialObjectCode());
-                        depreciableAssets.setDepreciationExpenseFinancialObjectCode(assetObjectCodes.getDepreciationExpenseFinancialObjectCode());
+                        depreciableAssets.setCapitalizationFinancialObjectCode          (assetObjectCodes.getCapitalizationFinancialObjectCode());
+                        depreciableAssets.setAccumulatedDepreciationFinancialObjectCode (assetObjectCodes.getAccumulatedDepreciationFinancialObjectCode());
+                        depreciableAssets.setDepreciationExpenseFinancialObjectCode     (assetObjectCodes.getDepreciationExpenseFinancialObjectCode());
                         found = true;
                         break;
                     }
@@ -216,10 +202,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
             AssetPayment assetPayment = (AssetPayment) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(AssetPayment.class, criteria));
 
-            // UNCOMMENT THIS LINE!!!!!!
             assetPayment.setAccumulatedPrimaryDepreciationAmount(d.getAccumulatedDepreciation());
-            //***************************************************************************************
-            
+
             if (fiscalMonth == 1)
                 assetPayment.setPeriod1Depreciation1Amount(d.getTransactionAmount());
             else if (fiscalMonth == 2)
@@ -256,16 +240,17 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#checkSum(boolean)
      */
-    public void checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth) {
+    public List<String[]> checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("CamsDepreciableAssetsDaoOjb.checkSum(boolean beforeDepreciationReport) -  started");
-        
+
+        List<String[]>  reportLine = new ArrayList<String[]>();
         boolean processAlreadyRan=false;
-        
+
         NumberFormat usdFormat = NumberFormat.getCurrencyInstance(Locale.US);
         KualiDecimal amount = new KualiDecimal(0);
         String[] columns = new String[2];
-        
-        
+
+
         columns[1] = "******************";
         if (beforeDepreciationReport)
             columns[0] = REPORT_GROUP[0];
@@ -326,11 +311,18 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         columns[1] = (usdFormat.format((BigDecimal) data[3]));
         reportLine.add(columns.clone());
 
+        /*
+         * Here I'm getting the column of total depreciation for the current fiscal month. The idea here is to prevent the process from
+         * running a second time for the same fiscal month.
+         * 3 + fiscalMonth (variable)  => current fiscal month depreciation column in the array.
+         * So if the current fiscal month depreciation column > 0 then depreciation was already ran. Therefore, it should be stop but,
+         * not until part of the pdf report List is populated so it can be written.
+         */
         processAlreadyRan = false;
         if ( ((BigDecimal)data[ 3 + fiscalMonth]).compareTo(new BigDecimal(0)) != 0)
             processAlreadyRan = true;
-            
-            
+        //*******************************************************************************************************************************    
+
         // Adding monthly depreciation amounts
         int fiscalStartMonth = Integer.parseInt(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getUniversityFiscalYearStartMo());
         boolean isJanuaryTheFirstFiscalMonth = (fiscalStartMonth == 1);
@@ -340,7 +332,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[0] = CamsConstants.MONTHS[currentMonth] + " Depreciation amount";
             columns[1] = (usdFormat.format((BigDecimal) data[col]));
             reportLine.add(columns.clone());
-                        
+
             col++;
 
             if (!isJanuaryTheFirstFiscalMonth) {
@@ -350,7 +342,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
 
         if (beforeDepreciationReport) {
-            q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth));
+            q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate));
             q.setAttributes(new String[] { "count(distinct capitalAssetNumber)", "count(*)" });
 
             i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
@@ -371,10 +363,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         if (!beforeDepreciationReport) {
             // Generating a list of depreciation expense object codes.
             List<String> depreExpObjCodes = SpringContext.getBean(AssetObjectCodeDaoOjb.class).getExpenseObjectCodes(fiscalYear);
-            
+
             //Generating a list of accumulated depreciation object codes.
             List<String> accumulatedDepreciationObjCodes = SpringContext.getBean(AssetObjectCodeDaoOjb.class).getAccumulatedDepreciationObjectCodes(fiscalYear);
-            
+
             KualiDecimal debits = new KualiDecimal(0);
             KualiDecimal credits = new KualiDecimal(0);
 
@@ -382,7 +374,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[0] = "Document#";
             columns[1] = documentNumber;
             reportLine.add(columns.clone());
-            
+
 
             // Expense Debit
             criteria = new Criteria();
@@ -465,17 +457,12 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }        
         LOG.debug("CamsDepreciableAssetsDaoOjb.checkSum(boolean beforeDepreciationReport) -  ended");
 
-        if (processAlreadyRan)
-            throw new RuntimeException("Depreciation batch process already ran for the current depreciation date.");
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.cams.dao.DepreciableAssetsDao#getReportLine()
-     */
-    public List<String[]> getReportLine() {
+        if (processAlreadyRan && beforeDepreciationReport)
+            throw new RuntimeException(DEPRECIATION_ALREADY_RAN_MSG);
+        
         return reportLine;
     }
+
 
     /**
      * 
@@ -500,9 +487,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return
      */
     private ReportQueryByCriteria getPendingAssetDocumentSubquery() {
-        List notPendingDocStatuses = new ArrayList();
-        notPendingDocStatuses.add("A");
-        notPendingDocStatuses.add("C");
+        List<String> notPendingDocStatuses = new ArrayList<String>();
+        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
+        notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
 
         List<String> excludedAssets = new ArrayList<String>();
 
@@ -540,7 +527,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalMonth
      * @return Criteria
      */
-    private Criteria getDepreciationCriteria(Integer fiscalYear, Integer fiscalMonth) {
+    private Criteria getDepreciationCriteria(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("CamsDepreciableAssetsDaoOjb.createDepreciationCriteria() -  started");
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -550,7 +537,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         List<String> federallyOwnedObjectSybTypes = new ArrayList<String>();
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
 
-        assetTransferCode.add("N");
+        assetTransferCode.add(CamsConstants.TRANSFER_PAYMENT_CODE_N);
         assetTransferCode.add(" ");
 
         depreciationMethodList.add(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
@@ -562,16 +549,13 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         if (parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
             notAcceptedAssetStatus = parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
         }
-        Calendar depreciationDate = new GregorianCalendar();
 
         Criteria criteria = new Criteria();
         Criteria criteriaB = new Criteria();
         Criteria criteriaC = new Criteria();
 
 
-        criteria.addEqualTo(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE, CamsConstants.Depreciation.DEPRECIATION_ORIGINATION_CODE); // 01 -
-                                                                                                                                // Transaction
-                                                                                                                                // Processing
+        criteria.addEqualTo(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE, CamsConstants.Depreciation.DEPRECIATION_ORIGINATION_CODE);         
 
         // Begin ************
         criteriaB = new Criteria();
@@ -646,11 +630,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("CamsDepreciableAssetsDaoOjb.createDepreciationCriteria() -  ended");
         return criteria;
     }
-
-    
-    
-    
-    
 } // end of class
 
 /*

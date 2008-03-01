@@ -26,8 +26,8 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @see org.kuali.module.cams.service.ReportService#generateDepreciationReport(java.util.List, java.lang.String)
      */
-    public void generateDepreciationReport(List<String[]> reportLog, String errorMsg) {
+    public void generateDepreciationReport(List<String[]> reportLog, String errorMsg, String sDepreciationDate) {
         DepreciationReport dr = new DepreciationReport();
-        dr.generateReport(reportLog, errorMsg);
+        dr.generateReport(reportLog, errorMsg, sDepreciationDate);
     }
 }

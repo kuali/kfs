@@ -53,12 +53,12 @@ public class DepreciationReport {
 
     /**
      * 
-     * This method...
+     * This method creates the report file and invokes the methods that write the data
      * 
      * @param reportLog
      * @param errorMsg
      */
-    public void generateReport(List<String[]> reportLog, String errorMsg) {
+    public void generateReport(List<String[]> reportLog, String errorMsg, String sDepreciationDate) {
         try {
             LOG.debug("createReport() started");
             this.document = new Document();
@@ -68,14 +68,14 @@ public class DepreciationReport {
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_"+sdf.format(date) + "." + CamsConstants.Report.REPORT_EXTENSION;
+            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_"+sdf.format(date) + "." + CamsConstants.Report.REPORT_EXTENSION;
             
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
 
             PageHelper helper = new PageHelper();
             helper.runDate      = date;
             helper.headerFont   = headerFont;
-            helper.title        = CamsConstants.Report.DEPRECIATION_REPORT_TITLE;
+            helper.title        = CamsConstants.Depreciation.DEPRECIATION_REPORT_TITLE;
             
             writer = PdfWriter.getInstance(this.document, new FileOutputStream(filename));
             writer.setPageEvent(helper);
@@ -83,6 +83,7 @@ public class DepreciationReport {
             this.document.open();
 
             // Generate body of document.
+            this.generateDepreciationDateLabel(sDepreciationDate);            
             this.generateReportLogBody(reportLog);
             this.generateReportErrorLog(errorMsg);
 
@@ -99,7 +100,7 @@ public class DepreciationReport {
 
     /**
      * 
-     * This method...
+     * This method adds the log lines into the report
      * 
      * @param reportLog
      */
@@ -210,6 +211,36 @@ public class DepreciationReport {
         }
         catch (Exception e) {
             throw new RuntimeException("DepreciationReport.generateErrorColumnHeaders() - Error: " + e.getMessage());
+        }
+    }
+
+    private void generateDepreciationDateLabel(String sDepreciationDate) {
+        try {
+            int headerwidths[] = { 100 };
+
+            Table aTable = new Table(1, 1); // 1 columns, 1 rows.
+
+            aTable.setAutoFillEmptyCells(true);
+            aTable.setPadding(3);
+            aTable.setWidths(headerwidths);
+            aTable.setWidth(100);
+            aTable.setBorder(0);
+            
+            Cell cell;
+
+            Font font = FontFactory.getFont(FontFactory.HELVETICA, 11, Font.NORMAL);
+
+            cell = new Cell(new Phrase("Depreciation Date: "+sDepreciationDate, font));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setVerticalAlignment(Element.ALIGN_CENTER);
+            cell.setBorder(0);
+            aTable.addCell(cell);
+
+            this.document.add(aTable);
+
+        }
+        catch (Exception e) {
+            throw new RuntimeException("DepreciationReport.generateDepreciationDateLabel() - Error: " + e.getMessage());
         }
     }
 

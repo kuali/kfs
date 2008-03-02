@@ -18,11 +18,15 @@ package org.kuali.module.purap.service;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
  * This interface is a non spring managed interface that is implemented by both PaymentRequestService and CreditMemoService
  */
 public interface AccountsPayableDocumentSpecificService {
+    
+    public void saveDocumentWithoutValidation(AccountsPayableDocument apDoc);
+    
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc);
 
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc);

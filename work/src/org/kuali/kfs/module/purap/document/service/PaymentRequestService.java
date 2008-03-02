@@ -35,13 +35,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public interface PaymentRequestService extends AccountsPayableDocumentSpecificService {
 
     /**
-     * Persists the payment request without business rule checks.
-     * 
-     * @param paymentRequestDocument - payment request document to save.
-     */
-    public void saveDocumentWithoutValidation(PaymentRequestDocument paymentRequestDocument);
-
-    /**
      * Obtains a list of payment request documents given the purchase order id.
      * 
      * @param poDocId  The purchase order id to be used to obtain a list of payment request documents.

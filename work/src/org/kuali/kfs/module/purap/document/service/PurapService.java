@@ -22,6 +22,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -130,13 +131,6 @@ public interface PurapService {
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
-     * Performs all the actions on an update document.
-     * 
-     * @param purapDocument PurchasingAccountsPayableDocument
-     */
-    public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
-
-    /**
      * Create a close or reopen purchase order document.
      * 
      * @param purapDocument PurchasingAccountsPayableDocument
@@ -162,4 +156,12 @@ public interface PurapService {
      * @param document  PurchasingAccountsPayableDocument to be sorted
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document);
+    
+    /**
+     * Remove items that have not been "entered" which means no data has been added to them so no more processing needs to continue
+     * on these items.
+     * 
+     * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
+     */
+    public void deleteUnenteredItems(AccountsPayableDocument apDocument);
 }

@@ -482,7 +482,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
-    public void saveDocumentWithoutValidation(PaymentRequestDocument document) {
+    public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
         }

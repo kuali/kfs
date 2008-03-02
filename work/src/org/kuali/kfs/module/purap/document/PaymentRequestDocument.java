@@ -454,7 +454,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setReceivingDocumentRequiredIndicator(po.isReceivingDocumentRequiredIndicator());
         this.setPaymentRequestPositiveApprovalIndicator(po.isPaymentRequestPositiveApprovalIndicator());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
-        
         if (po.getPurchaseOrderCostSource() != null) {
             this.setPaymentRequestCostSource(po.getPurchaseOrderCostSource());
             this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
@@ -695,7 +694,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             return false;
         }
         if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
-            SpringContext.getBean(PurapService.class).performLogicForFullEntryCompleted(this);
+            SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
         else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());

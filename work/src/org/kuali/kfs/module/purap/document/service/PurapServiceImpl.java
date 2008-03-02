@@ -351,43 +351,6 @@ public class PurapServiceImpl implements PurapService {
         return value;
     }
 
-    /**
-     * @see org.kuali.module.purap.service.PurapService#performLogicForFullEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
-     */
-    public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
-        LOG.debug("performLogicForFullEntryCompleted() started");
-
-        // below code preferable to run in post processing
-        if (purapDocument instanceof PaymentRequestDocument) {
-            PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
-            // eliminate unentered items
-            deleteUnenteredItems(paymentRequest);
-            // change PREQ accounts from percents to dollars
-            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
-            // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
-
-            SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
-        }
-        // below code preferable to run in post processing
-        else if (purapDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
-            // eliminate unentered items
-            deleteUnenteredItems(creditMemo);
-            // update amounts
-            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
-            // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
-
-            // if reopen po indicator set then reopen po
-            if (creditMemo.isReopenPurchaseOrderIndicator()) {
-                performLogicForCloseReopenPO(creditMemo);
-            }
-        }
-        else {
-            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
-        }
-    }
 
     /**
      * Main hook point for close/Reopen PO.
@@ -429,7 +392,7 @@ public class PurapServiceImpl implements PurapService {
      * 
      * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
      */
-    private void deleteUnenteredItems(AccountsPayableDocument apDocument) {
+    public void deleteUnenteredItems(AccountsPayableDocument apDocument) {
         LOG.debug("deleteUnenteredItems() started");
         
         List<AccountsPayableItem> deletionList = new ArrayList<AccountsPayableItem>();

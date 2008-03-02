@@ -237,7 +237,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
         if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
-            SpringContext.getBean(PurapService.class).performLogicForFullEntryCompleted(this);
+            SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
         else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
             setAccountsPayableApprovalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());

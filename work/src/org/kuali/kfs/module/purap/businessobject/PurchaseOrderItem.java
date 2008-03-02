@@ -40,12 +40,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private KualiDecimal itemDamagedTotalQuantity;
-    private String commodityCode;
     
     private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
     private PurchaseOrderDocument purchaseOrder;
-    private Commodity commodity;
     
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
@@ -196,39 +194,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     public void setPurchaseOrderItemCapitalAssets(List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets) {
         this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
-    }
-
-    /**
-     * Gets the commodityCode attribute. 
-     * @return Returns the commodityCode.
-     */
-    public String getCommodityCode() {
-        return commodityCode;
-    }
-
-    /**
-     * Sets the commodityCode attribute value.
-     * @param commodityCode The commodityCode to set.
-     */
-    public void setCommodityCode(String commodityCode) {
-        this.commodityCode = commodityCode;
-    }
-
-    /**
-     * Gets the commodity attribute. 
-     * @return Returns the commodity.
-     */
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    /**
-     * Sets the commodity attribute value.
-     * @param commodity The commodity to set.
-     * @deprecated
-     */
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
     }
 
     /**

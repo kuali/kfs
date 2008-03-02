@@ -268,7 +268,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * 
      * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
-    public void saveDocumentWithoutValidation(CreditMemoDocument document) {
+    public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
 

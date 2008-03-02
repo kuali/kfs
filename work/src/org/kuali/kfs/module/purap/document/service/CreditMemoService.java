@@ -91,13 +91,6 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
     public List<PurchaseOrderItem> getPOInvoicedItems(PurchaseOrderDocument poDocument);
 
     /**
-     * Persists the credit memo without business rule checks.
-     * 
-     * @param creditMemoDocument - credit memo document to save.
-     */
-    public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument);
-
-    /**
      * Persists the credit memo with business rule checks.
      * 
      * @param creditMemoDocument - credit memo document to save.

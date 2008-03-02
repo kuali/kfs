@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.vendor.bo.Commodity;
 
 /**
  * Requisition Item Business Object.
@@ -28,9 +29,7 @@ public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
     private RequisitionDocument requisition;
-    private String commodityCode;
-    
-    private Commodity commodity;
+
     
     /**
      * Default constructor.
@@ -52,39 +51,6 @@ public class RequisitionItem extends PurchasingItemBase {
 
     public void setRequisition(RequisitionDocument requisition) {
         this.requisition = requisition;
-    }
-
-    /**
-     * Gets the commodityCode attribute. 
-     * @return Returns the commodityCode.
-     */
-    public String getCommodityCode() {
-        return commodityCode;
-    }
-
-    /**
-     * Sets the commodityCode attribute value.
-     * @param commodityCode The commodityCode to set.
-     */
-    public void setCommodityCode(String commodityCode) {
-        this.commodityCode = commodityCode;
-    }
-
-    /**
-     * Gets the commodity attribute. 
-     * @return Returns the commodity.
-     */
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    /**
-     * Sets the commodity attribute value.
-     * @param commodity The commodity to set.
-     * @deprecated
-     */
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
     }
 
     /**

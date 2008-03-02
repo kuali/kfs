@@ -19,6 +19,7 @@
 <div class="body">
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Address Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.vendor.bo.AddressType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Commodity Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.vendor.bo.Commodity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Contact Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.vendor.bo.ContactType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Contract Manager" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.vendor.bo.ContractManager&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Cost Source" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.vendor.bo.PurchaseOrderCostSource&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

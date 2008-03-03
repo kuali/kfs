@@ -42,6 +42,7 @@
 						<field attributeName="purapDocumentIdentifier" />
 						<field attributeName="itemIdentifier" />
 						<field attributeName="purchaseOrderItemUnitPrice" />
+						<field attributeName="originalAmountfromPO" />
 						<field attributeName="itemOutstandingInvoiceQuantity" />
 						<field attributeName="itemOutstandingInvoiceAmount" />
 					</inquiryFields>
@@ -75,6 +76,7 @@
 				<lookupField attributeName="purapDocumentIdentifier" required="false" />
 				<lookupField attributeName="itemIdentifier" required="false" />
 				<lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
+				<lookupField attributeName="originalAmountfromPO" required="false" />
 				<lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingInvoiceAmount" required="false" />
 			</lookupFields>
@@ -94,6 +96,7 @@
 				<field attributeName="purapDocumentIdentifier" />
 				<field attributeName="itemIdentifier" />
 				<field attributeName="purchaseOrderItemUnitPrice" />
+				<field attributeName="originalAmountfromPO" />
 				<field attributeName="itemOutstandingInvoiceQuantity" />
 				<field attributeName="itemOutstandingInvoiceAmount" />
 			</resultFields>
@@ -106,6 +109,12 @@
 			<attributeReference name="purchaseOrderItemUnitPrice" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
 				<label>Purchase Order Item Unit Price</label>
 				<shortLabel>PO Unit/Ext Price</shortLabel>
+
+			</attributeReference>
+			
+			<attributeReference name="originalAmountfromPO" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
+				<label>Original Amount from Purchase Order</label>
+				<shortLabel>Original Amount from PO</shortLabel>
 
 			</attributeReference>
 

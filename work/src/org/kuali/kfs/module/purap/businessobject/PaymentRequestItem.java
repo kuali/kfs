@@ -207,6 +207,14 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public BigDecimal getPurchaseOrderItemUnitPrice() {
         return purchaseOrderItemUnitPrice;
     }
+    
+    public BigDecimal getOriginalAmountfromPO() {
+        return purchaseOrderItemUnitPrice;
+    }
+    
+    public void setOriginalAmountfromPO(BigDecimal purchaseOrderItemUnitPrice) {
+        // Do nothing
+    }
 
     public void setPurchaseOrderItemUnitPrice(BigDecimal purchaseOrderItemUnitPrice) {
         this.purchaseOrderItemUnitPrice = purchaseOrderItemUnitPrice;

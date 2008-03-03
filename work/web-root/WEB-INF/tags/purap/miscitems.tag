@@ -111,7 +111,7 @@
 	
 	<c:if test="${showInvoiced}">
 		<kul:htmlAttributeHeaderCell colspan="1"
-			attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" />
+			attributeEntry="${itemAttributes.originalAmountfromPO}" />
 		<kul:htmlAttributeHeaderCell colspan="1"
 			attributeEntry="${itemAttributes.poOutstandingAmount}" />
 	</c:if>

@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.DepreciableAssets;
 
@@ -52,4 +53,11 @@ public interface DepreciableAssetsDao {
      * @return
      */
     public List<String[]> checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
+    
+    /**
+     * 
+     * This method..
+     * @param kcs
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kcs);    
 }

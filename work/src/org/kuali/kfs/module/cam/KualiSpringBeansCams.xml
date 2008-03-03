@@ -86,8 +86,13 @@
 		</property>                		
     </bean>
 
-    <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />        
-	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb"/>
+    <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />
+            
+	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>                
+	</bean>	
 
     <bean id="assetDepreciationStep" class="org.kuali.module.cams.batch.AssetDepreciationStep" parent="step">
 		<property name="assetDepreciationService">
@@ -95,18 +100,18 @@
 		</property>
 	</bean>
 
-	<bean id="assetDepreciationBatchJob" parent="scheduledJobDescriptor">
+	<!-- bean id="assetDepreciationBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="assetDepreciationStep"/>
 			</list>
 		</property>
-	</bean>
+	</bean-->
 
-	<bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
+	<!-- bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="assetDepreciationBatchJob" />
 		<property name="cronExpression" value="00 00 14 * * ?" />
-	</bean>
+	</bean-->
 
 
 <!-- *********  End of depreciation batch beans ********** -->

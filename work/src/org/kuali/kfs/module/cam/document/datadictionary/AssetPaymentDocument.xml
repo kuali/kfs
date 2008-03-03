@@ -23,7 +23,7 @@
         <documentClass>org.kuali.module.cams.document.AssetPaymentDocument</documentClass>
 		<businessRulesClass>org.kuali.module.cams.rules.AssetPaymentDocumentRule</businessRulesClass>
 		
-        <documentAuthorizerClass>org.kuali.module.labor.document.authorization.AssetPaymentDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetPaymentDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

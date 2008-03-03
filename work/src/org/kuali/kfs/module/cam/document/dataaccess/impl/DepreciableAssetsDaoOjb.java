@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -39,6 +40,7 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
@@ -55,7 +57,8 @@ import org.kuali.module.chart.bo.Org;
 
 public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements DepreciableAssetsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciableAssetsDaoOjb.class);
-
+    private KualiConfigurationService           kualiConfigurationService;
+    
     Collection<DepreciableAssets> depreciableAssetsCollection = new ArrayList<DepreciableAssets>();
 
     private Criteria        assetCriteria   = new Criteria();
@@ -65,7 +68,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private final static String PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR   = "financialObject.";
     private final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
     private final static String[] REPORT_GROUP = {"*** BEFORE RUNNING DEPRECIATION PROCESS ****","*** AFTER RUNNING DEPRECIATION PROCESS ****"};
-    private final static String DEPRECIATION_ALREADY_RAN_MSG="Depreciation batch process already ran for the current depreciation date.";
     
     /**
      * 
@@ -86,7 +88,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         q.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_TYPE_CODE);
         q.addOrderByAscending(CamsPropertyConstants.AssetPayment.PROJECT_CODE);
         Collection<AssetPayment> iter = getPersistenceBrokerTemplate().getCollectionByQuery(q);
-
+        
         DepreciableAssets depreciableAssets;
 
         for (AssetPayment assetPayment : iter) {
@@ -148,7 +150,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 if (found)
                     break;
             }
-            depreciableAssetsCollection.add(depreciableAssets);
+            depreciableAssetsCollection.add(depreciableAssets); 
         }
         LOG.debug("CamsDepreciableAssetsDaoOjb.getListOfDepreciableAssets() -  ended");
         return depreciableAssetsCollection;
@@ -457,9 +459,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }        
         LOG.debug("CamsDepreciableAssetsDaoOjb.checkSum(boolean beforeDepreciationReport) -  ended");
 
-        if (processAlreadyRan && beforeDepreciationReport)
-            throw new RuntimeException(DEPRECIATION_ALREADY_RAN_MSG);
-        
+        if (processAlreadyRan && beforeDepreciationReport) {
+            throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.DEPRECIATION_ALREADY_RAN_MSG));
+        }
         return reportLine;
     }
 
@@ -630,6 +632,16 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("CamsDepreciableAssetsDaoOjb.createDepreciationCriteria() -  ended");
         return criteria;
     }
+    
+    
+    
+    
+    
+    
+    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+        kualiConfigurationService = kcs;
+    }
+    
 } // end of class
 
 /*

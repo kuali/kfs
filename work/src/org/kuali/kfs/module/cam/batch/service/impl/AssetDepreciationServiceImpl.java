@@ -86,8 +86,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         UniversityDateDao universityDateDao = SpringContext.getBean(UniversityDateDao.class);
         UniversityDate universityDate;
         
-        Calendar depreciationDate = Calendar.getInstance();
-        Calendar currentDate = Calendar.getInstance();
+        Calendar depreciationDate   = Calendar.getInstance();
+        Calendar currentDate        = Calendar.getInstance();
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
@@ -100,7 +100,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.DEPRECIATION_DATE_PARAMETER_NOT_FOUND));
             }*/
 
-            //sDepreciationDate = "2008-02-29";
+            sDepreciationDate = "2008-03-04";
             if (sDepreciationDate != null && !sDepreciationDate.trim().equals("")) {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 try {

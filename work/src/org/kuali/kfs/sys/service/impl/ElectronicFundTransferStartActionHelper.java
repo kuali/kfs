@@ -71,8 +71,9 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
     protected Properties getCommonLookupProperties(ElectronicFundTransferForm form) {
         Properties props = new Properties();
         props.put(RiceConstants.SUPPRESS_ACTIONS, Boolean.toString(true));
-        props.put(RiceConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        props.put(RiceConstants.DOC_FORM_KEY, "88888888");
         props.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ElectronicPaymentClaim.class.getName());
+        props.put(RiceConstants.METHOD_TO_CALL_ATTRIBUTE, "start");
         return props;
     }
     

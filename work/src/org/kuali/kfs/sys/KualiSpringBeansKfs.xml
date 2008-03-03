@@ -347,27 +347,8 @@
     
     <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferCancelActionHelper" />
     
-    <bean id="electronicPaymentClaimLookupableHelperService" class="org.kuali.kfs.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl">
+    <bean id="electronicPaymentClaimLookupableHelperService" class="org.kuali.kfs.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     	<property name="lookupDao"><ref bean="lookupDao" /></property>
-    	<property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="lookupService">
-            <ref bean="lookupService" />
-        </property>
-        <property name="businessObjectMetaDataService">
-            <ref bean="businessObjectMetaDataService" />
-        </property>
-        <property name="businessObjectDictionaryService">
-            <ref bean="businessObjectDictionaryService" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
-        </property>
-        <property name="lookupResultsService"><ref bean="lookupResultsService" /></property>
     </bean>
     
     <bean id="electronicPaymentClaimLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

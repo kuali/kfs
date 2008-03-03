@@ -60,6 +60,17 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     }
 
     /**
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        // grab the backLocation and the docFormKey
+        this.setDocFormKey((String)fieldValues.get("docFormKey"));
+        this.setBackLocation((String)fieldValues.get("backLocation"));
+        super.validateSearchParameters(fieldValues);
+    }
+
+    /**
      * Sets the lookupDao attribute value.
      * @param lookupDao The lookupDao to set.
      */

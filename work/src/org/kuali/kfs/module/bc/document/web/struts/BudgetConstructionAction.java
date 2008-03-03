@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
@@ -44,6 +45,7 @@ import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.budget.rule.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.module.budget.service.BudgetDocumentService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
 
@@ -219,6 +221,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
+        // and calc benefits flag checking and calc benefits if needed
         bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
         documentService.updateDocument(bcDocument);
 
@@ -417,9 +420,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewRevenueLine();
 
-        // TODO check business rules here
+        // TODO still need to flesh out business rules
         // this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
+
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_REVENUE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, true));
 
         if (rulePassed) {
             // TODO this should not be needed since ref objects are retrieved in populate
@@ -454,16 +459,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewExpenditureLine();
 
-        // TODO check business rules here
+        // TODO still need to flesh out business rules
         // this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
 
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_EXPENDITURE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, false));
+                
         if (rulePassed) {
             // TODO this should not be needed since ref objects are retrieved in populate
             // this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
             // but it looks like this would circumvent business rules checks
             // SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
-
+            
             // add PBGLLine
             insertPBGLLine(false, budgetConstructionForm, line);
 
@@ -482,9 +489,17 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param line
      */
     protected void insertPBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, PendingBudgetConstructionGeneralLedger line) {
-        // TODO create and init a decorator if determined to be needed
 
+        // TODO create and init a decorator if determined to be needed
+        // is this needed??
         BudgetConstructionDocument tdoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+
+        // null subobj must be set to dashes
+        if (StringUtils.isBlank(line.getFinancialSubObjectCode())) {
+            line.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
+
+        // add the line in the proper order - assumes already exists check is done in rules
         tdoc.addPBGLLine(line, isRevenue);
 
         // TODO add the decorator, if determined to be needed
@@ -648,6 +663,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
+        
+        // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after calculation is performed
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

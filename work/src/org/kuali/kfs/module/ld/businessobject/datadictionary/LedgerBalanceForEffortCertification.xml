@@ -56,7 +56,7 @@
 
         <lookup>
 	        <lookupableID>laborLedgerBalanceForEffortCertificationLookupable</lookupableID>	        
-            <title>Effort Labor Ledger View</title>
+            <title>Labor Ledger View for Effort Certification</title>
 
             <instructions>Look up a Ledger Balance</instructions>
 
@@ -73,16 +73,16 @@
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true" />
                 <lookupField attributeName="emplid" required="true" />
-                <lookupField attributeName="financialBalanceTypeCode" required="false"/>
 				<lookupField attributeName="effortCertificationReportNumber" required="true" />
                 
-                <!-- the hidden fields -->
-                <lookupField attributeName="chartOfAccountsCode" />
-                <lookupField attributeName="accountNumber" />
-                <lookupField attributeName="subAccountNumber" />
-                <lookupField attributeName="financialObjectCode" />
-                <lookupField attributeName="financialSubObjectCode" />
-                <lookupField attributeName="positionNumber" />
+                <lookupField attributeName="chartOfAccountsCode" required="true"/>
+                <lookupField attributeName="accountNumber" required="true"/>
+                <lookupField attributeName="subAccountNumber" required="true"/>
+                <lookupField attributeName="financialObjectCode" required="true"/>                
+                <lookupField attributeName="positionNumber" required="true"/>
+                
+                <lookupField attributeName="financialBalanceTypeCode" required="false"/>
+                <lookupField attributeName="financialObjectTypeCode" required="false"/>
 			</lookupFields>
 
             <resultFields>
@@ -163,57 +163,21 @@
                 </control>
             </attributeReference>
 
-            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber">
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
 
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
             </attributeReference>
 
-            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" >
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>          
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />          
 
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>
-			
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference> 
-
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <control>
-                    <radio valuesFinderClass="org.kuali.module.labor.web.optionfinder.BalanceTypeCodeOptionFinder" />
-                </control>
-			</attributeReference>
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" >
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>
-			
-			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" >
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>
-			
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" >
-            	<control>
-					<hidden />
-				</control>
-			</attributeReference>
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />			
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/> 
+			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code"/>
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />			
+			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />			
+			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />
 
             <attributeReference name="accountLineAnnualBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Account Line Annual Balance Amount</label>

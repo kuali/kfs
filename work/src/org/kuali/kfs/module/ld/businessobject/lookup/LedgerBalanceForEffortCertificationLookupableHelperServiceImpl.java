@@ -15,12 +15,15 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupableHelperService;
+import org.kuali.module.labor.bo.LedgerBalanceForEffortCertification;
 
 public class LedgerBalanceForEffortCertificationLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
@@ -30,8 +33,13 @@ public class LedgerBalanceForEffortCertificationLookupableHelperServiceImpl exte
      * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
-        return effortLedgerBalanceLookupableHelperService.getSearchResults(fieldValues);
+        List<LedgerBalanceForEffortCertification> searchResults = effortLedgerBalanceLookupableHelperService.getSearchResults(fieldValues);
+        
+        return searchResults;
     }
 
     /**

@@ -114,7 +114,7 @@ public class LedgerBalanceFieldValidator {
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
 
         if (!totalAmount.isPositive()) {
-            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, totalAmount.toString());
         }
         return null;
     }

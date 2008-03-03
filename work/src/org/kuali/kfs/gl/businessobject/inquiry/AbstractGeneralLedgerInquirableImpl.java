@@ -46,6 +46,14 @@ import org.kuali.module.gl.web.Constant;
  */
 public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);
+    
+    /**
+     * @see org.kuali.kfs.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String, boolean)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+        return this.getInquiryUrl(businessObject, attributeName);
+    }
 
     /**
      * Helper method to build an inquiry url for a result field.

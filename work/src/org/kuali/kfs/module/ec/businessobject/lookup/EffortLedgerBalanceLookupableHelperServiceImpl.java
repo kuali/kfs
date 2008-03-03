@@ -45,12 +45,12 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {        
         Map<String, Object> searchFieldValues = this.getSearchFieldValues(fieldValues);
         List<String> defaultSortColumns = this.getDefaultSortColumns();
-
-        List<? extends BusinessObject> searchResults = (List<? extends BusinessObject>) getLookupService().findCollectionBySearch(getBusinessObjectClass(), searchFieldValues);
-
+        
+        List<? extends BusinessObject> searchResults = (List<? extends BusinessObject>)getLookupService().findCollectionBySearch(getBusinessObjectClass(), searchFieldValues);
+        
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }

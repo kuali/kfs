@@ -47,7 +47,7 @@
       	
       	<span class="${styleClass}">
 			<c:if test="${inquirable}">
-	    		<a href="${ConfigProperties.kr.url}/${inquirableUrl}" target="_blank">${fieldValue}</a>
+	    		<a href="${inquirableUrl}" target="_blank">${fieldValue}</a>
 			</c:if>
 			
 			<c:if test="${!inquirable}">

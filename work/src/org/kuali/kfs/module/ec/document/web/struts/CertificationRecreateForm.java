@@ -17,24 +17,27 @@ package org.kuali.module.effort.web.struts.form;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.inquiry.Inquirable;
-import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
 
 /**
  * To define an action form for effrot certification recreate process
@@ -47,52 +50,6 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      */
     public CertificationRecreateForm() {
         super();
-    }
-
-    /**
-     * Gets the inquiryUrl attribute.
-     * 
-     * @return Returns the inquiryUrl for the detail lines in the document.
-     */
-    public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
-        Inquirable inquirable = SpringContext.getBean(Inquirable.class);
-        List<Map<String, String>> inquiryURL = new ArrayList<Map<String, String>>();
-
-        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
-            detailLine.refreshNonUpdateableReferences();
-            Map<String, String> inquiryURLForAttribute = new HashMap<String, String>();
-
-            for (String attributeName : this.getInquirableFieldNames()) {
-                String url = inquirable.getInquiryUrl(detailLine, attributeName, false);
-                inquiryURLForAttribute.put(attributeName, url);
-            }
-
-            inquiryURL.add(inquiryURLForAttribute);
-        }
-
-        return inquiryURL;
-    }
-
-    /**
-     * Gets the inquirableFieldNames attribute.
-     * 
-     * @return Returns the inquirableFieldNames.
-     */
-    public List<String> getInquirableFieldNames() {
-        List<String> inquirableFieldNames = new ArrayList<String>();
-        inquirableFieldNames.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        inquirableFieldNames.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        inquirableFieldNames.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        inquirableFieldNames.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        inquirableFieldNames.add(KFSPropertyConstants.POSITION_NUMBER);
-        
-        inquirableFieldNames.add(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE);
-        inquirableFieldNames.add(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER);
-        inquirableFieldNames.add(EffortPropertyConstants.COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT);
-        inquirableFieldNames.add(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT);
-
-        return inquirableFieldNames;
     }
 
     /**
@@ -127,13 +84,25 @@ public class CertificationRecreateForm extends EffortCertificationForm {
 
             fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
             fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
-
-            if (detailLine.getSubAccount() != null) {
-                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, detailLine.getSubAccount().getSubAccountName());
+            
+            SubAccount subAccount = detailLine.getSubAccount();
+            if (subAccount != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
             }
 
-            if (detailLine.getFinancialObject() != null) {
-                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, detailLine.getFinancialObject().getFinancialObjectCodeName());
+            ObjectCode objectCode = detailLine.getFinancialObject();
+            if (objectCode != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
+            }
+            
+            Account sourceAccount = detailLine.getSourceAccount();
+            if ( sourceAccount != null) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
+            }
+            
+            Chart sourceChart = detailLine.getSourceChartOfAccounts();
+            if (sourceChart != null) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
 
             fieldInfo.add(fieldInfoForAttribute);
@@ -155,15 +124,6 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     }
 
     /**
-     * Gets the detailLines attribute.
-     * 
-     * @return Returns the detailLines.
-     */
-    public List<EffortCertificationDetail> getDetailLines() {
-        return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
-    }
-
-    /**
      * validate the importing field values
      * 
      * @return true if the importing field values are valid; otherwsie, add errors into error map and return false
@@ -174,23 +134,23 @@ public class CertificationRecreateForm extends EffortCertificationForm {
         Map<String, String> fieldValues = this.getImportingFieldValues();
         for (String fieldName : fieldValues.keySet()) {
             String fieldValue = fieldValues.get(fieldName);
-            
+
             String fieldLabel = dataDictionaryService.getAttributeLabel(EffortCertificationDocument.class, fieldName);
-            boolean isRequired = dataDictionaryService.isAttributeRequired(EffortCertificationDocument.class, fieldName);            
+            boolean isRequired = dataDictionaryService.isAttributeRequired(EffortCertificationDocument.class, fieldName);
 
             if (isRequired && StringUtils.isBlank(fieldValue)) {
                 GlobalVariables.getErrorMap().putError(EffortConstants.DOCUMENT_PREFIX + fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel);
             }
         }
-        
+
         return GlobalVariables.getErrorMap().isEmpty();
     }
-    
+
     /**
      * force the input data as upper case
      */
     public void forceInputAsUpperCase() {
-        
+
         String reportNumber = this.getEffortCertificationDocument().getEffortCertificationReportNumber();
         this.getEffortCertificationDocument().setEffortCertificationReportNumber(StringUtils.upperCase(reportNumber));
     }

@@ -230,4 +230,6 @@
             <ref bean="universalUserService" />
         </property>		
 	</bean> 
+	
+	<bean id="effortLedgerBalanceInquirable" class="org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>
 </beans>

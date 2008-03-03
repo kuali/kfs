@@ -15,12 +15,15 @@
  */
 package org.kuali.module.labor.web.inquirable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
@@ -72,6 +75,30 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
         return PositionData.class;
     }
 
+    /**
+     * Returns the position value with the greatest effective date
+     * 
+     * @see org.kuali.core.inquiry.Inquirable#getBusinessObject(java.util.Map)
+     */
+    @Override
+    public BusinessObject getBusinessObject(Map fieldValues) {
+        List<PositionData> positionList = new ArrayList<PositionData>(getLookupService().findCollectionBySearch(getBusinessObjectClass(), fieldValues));
+        SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy");
+        Date today = formatter.getCalendar().getInstance().getTime();
+        Date maxEffectiveDate = null;
+        PositionData lookupValue = null;
+        
+        for (PositionData position : positionList) {
+            Date effectiveDate = position.getEffectiveDate();
+            if (effectiveDate.compareTo(today) <= 0 && (maxEffectiveDate == null || effectiveDate.compareTo(maxEffectiveDate) > 0)) {
+                maxEffectiveDate = effectiveDate;
+                lookupValue = position;
+            }
+        }
+        
+        return lookupValue;
+    }
+    
     /**
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#getKeyName(java.lang.String)
      */

@@ -22,7 +22,7 @@
  
         <inquiry>
             <title>Position Data Inquiry</title>
-             
+            <inquirableClass>org.kuali.module.labor.web.inquirable.PositionDataDetailsInquirableImpl</inquirableClass> 
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
@@ -45,7 +45,7 @@
                         <field attributeName="statusDate" />
                     </inquiryFields>
                 </inquirySection>
-            </inquirySections>  
+            </inquirySections>
         </inquiry>
 
         <lookup>

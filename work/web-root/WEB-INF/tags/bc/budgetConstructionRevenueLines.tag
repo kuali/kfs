@@ -32,7 +32,7 @@
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
+<kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

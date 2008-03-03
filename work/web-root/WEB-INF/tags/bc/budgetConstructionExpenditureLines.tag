@@ -35,7 +35,7 @@
 <c:set var="benecalcDisabled" value="${KualiForm.benefitsCalculationDisabled}" />
 
 
-<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${KFSConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
+<kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">

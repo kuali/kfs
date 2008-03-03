@@ -83,10 +83,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // and only affect fields where xml attribute has forceUppercase="true"
                 SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(revLine);
 
-                // null subobj must be set to dashes
-                if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())) {
-                    revLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-                }
                 populateRevenueLine(bcDoc, this.getNewRevenueLine());
 
             }
@@ -99,10 +95,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // and only affect fields where xml attribute has forceUppercase="true"
                 SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(expLine);
 
-                // null subobj must be set to dashes
-                if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())) {
-                    expLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-                }
                 populateExpenditureLine(bcDoc, this.getNewExpenditureLine());
 
             }
@@ -177,7 +169,12 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
         // final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject",
         // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly" }));
+        final List REFRESH_FIELDS;
+        if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())){
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly" }));
+        } else {
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "budgetConstructionMonthly" }));
+        }
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
 
@@ -251,6 +248,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         line.setSubAccountNumber(tdoc.getSubAccountNumber());
         line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
         line.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
+        line.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
 
         if (isRevenue) {
             line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);

@@ -26,6 +26,16 @@ import org.kuali.kfs.KFSPropertyConstants;
 
 public class BCConstants extends JstlConstants {
 
+    // screen tab error keys
+    public static final String BUDGET_CONSTRUCTION_SALARY_SETTING_TAB_ERRORS = "document.budgetConstructionSalarySetting*";
+    public static final String BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerRevenueLines*,newRevenueLine*";
+    public static final String BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerExpenditureLines*,newExpenditureLine*";
+    public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "document.budgetConstructionMonthlyBudget*";
+    
+    public static final String NEW_EXPENDITURE_LINE_PROPERTY_NAME = "newExpenditureLine";
+    public static final String NEW_REVENUE_LINE_PROPERTY_NAME = "newRevenueLine";
+
+    
     public static final String DISABLE_SALARY_SETTING_FLAG = "DISABLE_SALARY_SETTING_FLAG";
     public static final String DISABLE_BENEFITS_CALCULATION_FLAG = "DISABLE_BENEFITS_CALCULATION_FLAG";
 
@@ -37,7 +47,7 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
     public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
-
+    
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }

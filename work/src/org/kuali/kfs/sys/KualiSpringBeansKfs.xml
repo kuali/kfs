@@ -322,4 +322,57 @@
     <bean id="accountingLineRuleHelperService" class="org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl">
     	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
     </bean>
+    
+    <bean id="electronicPaymentClaimingService" class="org.kuali.kfs.service.impl.ElectronicPaymentClaimingServiceImpl">
+    	<property name="documentService"><ref bean="documentService" /></property>
+    	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+    	<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+    	<property name="parameterService"><ref bean="parameterService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferStartAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferStartActionHelper">
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferRefreshAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferRefreshActionHelper">
+    	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferClaimAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferClaimActionHelper">
+    	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferCancelActionHelper" />
+    
+    <bean id="electronicPaymentClaimLookupableHelperService" class="org.kuali.kfs.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl">
+    	<property name="lookupDao"><ref bean="lookupDao" /></property>
+    	<property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="lookupResultsService"><ref bean="lookupResultsService" /></property>
+    </bean>
+    
+    <bean id="electronicPaymentClaimLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="electronicPaymentClaimLookupableHelperService" />
+        </property>
+    </bean>
 </beans>

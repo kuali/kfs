@@ -297,12 +297,12 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
                 }
                 AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
                 bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
-                getGeneralLedgerPendingEntries().add(bankOffsetEntry);
+                addPendingEntry(bankOffsetEntry);
                 sequenceHelper.increment();
 
-                GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
+                GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
                 success &= glPostingHelper.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                getGeneralLedgerPendingEntries().add(offsetEntry);
+                addPendingEntry(offsetEntry);
                 sequenceHelper.increment();
             }
         }

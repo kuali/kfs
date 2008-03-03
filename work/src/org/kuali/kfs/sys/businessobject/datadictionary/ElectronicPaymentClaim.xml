@@ -27,6 +27,8 @@
     				<inquiryFields>
     					<field attributeName="documentNumber" />
     					<field attributeName="financialDocumentLineNumber" />
+    					<field attributeName="generatingAccountingLine.financialDocumentLineDescription" />
+		    			<field attributeName="generatingAccountingLine.amount" />
     					<field attributeName="referenceFinancialDocumentNumber" />
     					<field attributeName="financialDocumentPostingYear" />
     					<field attributeName="financialDocumentPostingPeriodCode" />
@@ -35,6 +37,8 @@
     		</inquirySections>
     	</inquiry>
     	<lookup>
+    		<lookupableID>electronicPaymentClaimLookupable</lookupableID>
+    	
     		<title>Electronic Payment Claim Lookup</title>
     		
     		<instructions>Look up Electronic Payment Claims.  Click "Return Results" to claim them.</instructions>
@@ -42,11 +46,14 @@
     		<lookupFields>
     			<lookupField attributeName="financialDocumentPostingPeriodCode" />
     			<lookupField attributeName="financialDocumentPostingYear" />
+    			<lookupField attributeName="claimingStatus" />
     		</lookupFields>
     			
     		<resultFields>
     			<field attributeName="documentNumber" />
     			<field attributeName="financialDocumentLineNumber" />
+    			<field attributeName="generatingAccountingLine.financialDocumentLineDescription" />
+    			<field attributeName="generatingAccountingLine.amount" />
     			<field attributeName="referenceFinancialDocumentNumber" />
     			<field attributeName="financialDocumentPostingYear" />
     			<field attributeName="financialDocumentPostingPeriodCode" />
@@ -54,11 +61,17 @@
     	</lookup>
     	
     	<attributes>
-    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
+    			<label>Generating Document Number</label>
+    			<shortLabel>Genenerating Doc #</shortLabel>
+    		</attributeReference>
     		
     		<attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
     		
-    		<attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+    		<attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
+    			<label>Claiming Document</label>
+    			<shortLabel>Claiming Doc #</shortLabel>
+    		</attributeReference>
     		
     		<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
                 <label>Financial Document Fiscal Period</label>
@@ -76,6 +89,25 @@
                 <shortLabel>Fiscal Year</shortLabel>
                 <description>The fiscal year when the document that generated this electronic payment claim was generated.</description>
             </attributeReference>
+            
+            <attribute name="claimingStatus">
+            	<label>Electronic Payment Claiming Status</label>
+            	<shortLabel>Claiming Status</shortLabel>
+            	<maxLength>1</maxLength>
+            	<control>
+            		<radio valuesFinderClass="org.kuali.kfs.lookup.keyvalues.ElectronicPaymentClaimClaimingStatusValuesFinder" />
+            	</control>
+            	<summary>Whether this electronic payment record is claimed or unclaimed.</summary>
+            	<description>Whether this electronic payment record is claimed or unclaimed.</description>
+            </attribute>
+            
+            <attributeReference name="generatingAccountingLine.financialDocumentLineDescription" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="financialDocumentLineDescription">
+            	<shortLabel>Line Desc</shortLabel>
+            </attributeReference>
+            
+            <attributeReference name="generatingAccountingLine.amount" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="amount" />
     	</attributes>
+    	
+    	<objectLabel>Electronic Payment</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -20,14 +20,14 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPostable;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.document.ElectronicPaymentClaiming;
 
 
 /**
  * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd
  * version and the non-yearEnd version of a document is the glpe's generation.
  */
-public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling {
+public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling, ElectronicPaymentClaiming {
 
     /**
      * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.

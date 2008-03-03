@@ -26,7 +26,8 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" />
+		editableAccounts="${KualiForm.editableAccounts}"
+    sourceLinesReadOnly="${fn:length(document.electronicPaymentClaims) > 0}"/>
 
 	<gl:generalLedgerPendingEntries />
 

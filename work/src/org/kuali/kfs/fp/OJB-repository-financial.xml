@@ -238,6 +238,10 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <collection-descriptor name="electronicPaymentClaims" proxy="true" element-class-ref="org.kuali.kfs.bo.ElectronicPaymentClaim" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
+    </collection-descriptor>
     <!--  object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
@@ -273,6 +277,10 @@
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="electronicPaymentClaims" proxy="true" element-class-ref="org.kuali.kfs.bo.ElectronicPaymentClaim" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
     </collection-descriptor>
     <!--  object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

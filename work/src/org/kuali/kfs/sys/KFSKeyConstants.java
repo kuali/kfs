@@ -511,6 +511,11 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";
     public static final String ERROR_BA_AMOUNT_ZERO = "error.document.ba.amount.zero";
     public static final String ERROR_BA_AMOUNT_NEGATIVE = "error.document.ba.amount.negative";
+    
+    public static final class ElectronicPaymentClaim {
+        public static final String ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.no.chosen.claiming.doctype";
+        public static final String MESSAGE_EFT_CLAIMING_DOCUMENTATION = "message.bo.eft.claimant.documentation";
+    }
 
     public static final String MESSAGE_RELOADED = "message.document.reloaded";
     public static final String MESSAGE_ROUTE_SUCCESSFUL = "message.route.successful";

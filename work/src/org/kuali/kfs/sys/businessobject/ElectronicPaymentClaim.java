@@ -18,15 +18,24 @@ package org.kuali.kfs.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is used to represent an electronic payment claim.
  */
 public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
+    
+    public final static String CLAIMED_CLAIMING_STATUS = "C";
+    public final static String UNCLAIMED_CLAIMING_STATUS = "A";
 
     private String documentNumber;
     private Integer financialDocumentLineNumber;
@@ -34,6 +43,8 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private String financialDocumentPostingPeriodCode;
     private AdvanceDepositDocument generatingDocument;
+    private AccountingPeriod financialDocumentPostingPeriod;
+    private DocumentHeader generatingDocumentHeader;
 
     /**
      * Default constructor.  It constructs.
@@ -138,27 +149,38 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * Gets the generatingDocument attribute. 
      * @return Returns the generatingDocument.
      */
-    public AdvanceDepositDocument getGeneratingDocument() {
-        return generatingDocument;
+    public AdvanceDepositDocument getGeneratingDocument() throws WorkflowException {
+        if (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber)) {
+            generatingDocument = (AdvanceDepositDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+        }
+        return this.generatingDocument;
+    }
+    
+    /**
+     * Gets the generatingDocumentHeader attribute. 
+     * @return Returns the generatingDocumentHeader.
+     */
+    public DocumentHeader getGeneratingDocumentHeader() {
+        return generatingDocumentHeader;
     }
 
     /**
-     * Sets the generatingDocument attribute value.
-     * @param generatingDocument The generatingDocument to set.
+     * Sets the generatingDocumentHeader attribute value.
+     * @param generatingDocumentHeader The generatingDocumentHeader to set.
      * @deprecated
      */
-    public void setGeneratingDocument(AdvanceDepositDocument generatingDocument) {
-        this.generatingDocument = generatingDocument;
+    public void setGeneratingDocumentHeader(DocumentHeader generatingDocumentHeader) {
+        this.generatingDocumentHeader = generatingDocumentHeader;
     }
-    
+
     /**
      * Returns the accounting line on the generating Advance Deposit document for the transaction which generated this record
      * @return the accounting line that describes the transaction responsible for the creation of this record
      */
-    public SourceAccountingLine getGeneratingAccountingLine() {
+    public SourceAccountingLine getGeneratingAccountingLine() throws WorkflowException {
         AdvanceDepositDocument generatingDocument = getGeneratingDocument();
         if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
-            return generatingDocument.getSourceAccountingLine(financialDocumentLineNumber);
+            return generatingDocument.getSourceAccountingLine(financialDocumentLineNumber.intValue() - 1);
         }
         return null;
     }
@@ -167,12 +189,35 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * Returns the AdvanceDepositDetail on the generating Advance Deposit document for the transaction which generated this record
      * @return the advance deposit detail that describes the transaction responsible for the creation of this record
      */
-    public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() {
+    public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() throws WorkflowException {
         AdvanceDepositDocument generatingDocument = getGeneratingDocument();
         if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
-            return generatingDocument.getAdvanceDepositDetail(financialDocumentLineNumber);
+            return generatingDocument.getAdvanceDepositDetail(financialDocumentLineNumber.intValue() - 1);
         }
         return null;
+    }
+
+    /**
+     * Gets the financialDocumentPostingPeriod attribute. 
+     * @return Returns the financialDocumentPostingPeriod.
+     */
+    public AccountingPeriod getFinancialDocumentPostingPeriod() {
+        return financialDocumentPostingPeriod;
+    }
+
+    /**
+     * Sets the financialDocumentPostingPeriod attribute value.
+     * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
+     */
+    public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
+        this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
+    }
+    
+    /**
+     * @return the status of this ElectronicPaymentClaim record
+     */
+    public String getClaimingStatus() {
+        return (this.referenceFinancialDocumentNumber != null) ? ElectronicPaymentClaim.CLAIMED_CLAIMING_STATUS : ElectronicPaymentClaim.UNCLAIMED_CLAIMING_STATUS;
     }
 
     /**

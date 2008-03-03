@@ -24,6 +24,7 @@
         <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm" />
         <form-bean name="KualiBatchInputFileForm" type="org.kuali.kfs.web.struts.form.KualiBatchInputFileForm" />
         <form-bean name="KualiBatchInputFileSetForm" type="org.kuali.kfs.web.struts.form.KualiBatchInputFileSetForm" />
+        <form-bean name="ElectronicFundTransferForm" type="org.kuali.kfs.web.struts.form.ElectronicFundTransferForm" />
         
         <!--  Financial Module Bean Definitions -->
         <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
@@ -184,6 +185,12 @@
 		<action path="/batchModify" name="KualiForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchJobModifyAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/kfs/KualiBatchJobModify.jsp" />
+        </action>
+        
+        <!-- EFT Action Mapping -->
+        <action path="/electronicFundTransfer" name="ElectronicFundTransferForm"  scope="request" parameter="methodToCall" attribute="KualiForm" type="org.kuali.kfs.web.struts.action.ElectronicFundTransferAction">
+        	<set-property property="cancellable" value="false" />
+        	<forward name="basic" path="/jsp/kfs/ElectronicFundTransfer.jsp" />
         </action>
 
         <!--  Module Action Mappings -->

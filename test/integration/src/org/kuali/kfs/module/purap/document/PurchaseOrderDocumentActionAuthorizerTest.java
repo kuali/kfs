@@ -33,6 +33,8 @@ import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 /**
@@ -76,6 +78,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
     public final void testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
@@ -101,6 +104,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
     public final void testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();

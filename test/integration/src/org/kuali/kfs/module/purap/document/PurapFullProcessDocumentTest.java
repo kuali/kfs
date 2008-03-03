@@ -38,6 +38,8 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -67,7 +69,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     * CM
     * Close PO
      */
-    
+    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO

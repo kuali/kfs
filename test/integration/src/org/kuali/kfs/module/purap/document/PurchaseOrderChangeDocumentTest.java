@@ -118,6 +118,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
     }
     
+    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(
@@ -151,6 +152,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCancelAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(

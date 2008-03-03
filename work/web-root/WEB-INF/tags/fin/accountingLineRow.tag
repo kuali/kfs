@@ -411,7 +411,7 @@
 			</c:choose>
 			</c:forTokens>
 			
-			<c:if test="${(currentRowCount == (numOfNewRows - 1)) && empty extraRowFields}">
+			<c:if test="${(currentRowCount == (numOfNewRows - 1)) && empty extraRowFields && !readOnly}">
 				<fin:accountingLineActionDataCell
 					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
 					actionInfix="${actionInfix}"

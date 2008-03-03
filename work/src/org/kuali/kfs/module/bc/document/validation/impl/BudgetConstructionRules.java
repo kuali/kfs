@@ -118,8 +118,10 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
                     // line must use matching expenditure-revenue object type
                     if (parameterService.parameterExists(budgetConstructionDocument.getClass(),BCParameterConstants.REVENUE_OBJECT_TYPES)){
                         List paramValues = parameterService.getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.REVENUE_OBJECT_TYPES); 
-                        isValid &= isObjectTypeAllowed(pendingBudgetConstructionGeneralLedger, paramValues);
-                        errors.putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+                        if (!isObjectTypeAllowed(pendingBudgetConstructionGeneralLedger, paramValues)){
+                            isValid &= false;
+                            errors.putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+                        }
                     } else {
                         isValid &= false;
                         LOG.info("Can't find system parameter "+BCParameterConstants.REVENUE_OBJECT_TYPES);
@@ -137,8 +139,10 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
                     // line must use matching expenditure-revenue object type
                     if (parameterService.parameterExists(budgetConstructionDocument.getClass(),BCParameterConstants.EXPENDITURE_OBJECT_TYPES)){
                         List paramValues = parameterService.getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.EXPENDITURE_OBJECT_TYPES); 
-                        isValid &= isObjectTypeAllowed(pendingBudgetConstructionGeneralLedger, paramValues);
-                        errors.putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_INCOME_ON_EXPENSE_SIDE, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+                        if (!isObjectTypeAllowed(pendingBudgetConstructionGeneralLedger, paramValues)){
+                            isValid &= false;
+                            errors.putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_INCOME_ON_EXPENSE_SIDE, pendingBudgetConstructionGeneralLedger.getFinancialObjectCode());
+                        }
                     } else {
                         isValid &= false;
                         LOG.info("Can't find system parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES);

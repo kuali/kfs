@@ -21,6 +21,7 @@
 <dictionaryEntry>
     <transactionalDocument>
         <documentClass>org.kuali.module.budget.document.BudgetConstructionDocument</documentClass>
+        <businessRulesClass>org.kuali.module.budget.rules.BudgetConstructionRules</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>

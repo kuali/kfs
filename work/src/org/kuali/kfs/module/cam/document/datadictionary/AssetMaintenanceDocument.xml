@@ -171,11 +171,12 @@
                 		<maintainableField name="assetSeparateHistory.originalCapitalAssetNumber" readOnly="true" />
                 		<maintainableField name="assetSeparateHistory.dispositionDate" readOnly="true" />
             	</maintainableItems>
-            </maintainableSection>
-            
+            </maintainableSection>            
           <maintainableSection title="View Retirement Information">
           	<maintainableItems>
+          		<maintainableField name="retirementInfo.documentNumber" readOnly="true" />
           		<maintainableField name="retirementReasonCode" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementDate" readOnly="true" />
           		<subSectionHeader name="Sale" />
           		<maintainableField name="salePrice" readOnly="true" />
           		<maintainableField name="estimatedSellingPrice" readOnly="true" />
@@ -184,11 +185,18 @@
           		<maintainableField name="retirementAccountNumber" readOnly="true" />
           		<subSectionHeader name="Stolen" />
           		<maintainableField name="campusPoliceDepartmentCaseNumber" readOnly="true" />
+          		<subSectionHeader name="External Transfer/Gift" />
+          		<maintainableField name="retirementInfo.retirementContactName" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementInstitutionName" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementStreetAddress" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementCityName" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementStateCode" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementZipCode" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementCountryCode" readOnly="true" />
+          		<maintainableField name="retirementInfo.retirementPhoneNumber" readOnly="true" />          		
           	</maintainableItems>
           </maintainableSection>
-
-          <maintainableSection title="View Equipment Loan Information   ">
-              	
+          <maintainableSection title="View Equipment Loan Information">              	
               	<maintainableItems>
             		<maintainableField name="loanDate" />	
 					<maintainableField name="expectedReturnDate" />

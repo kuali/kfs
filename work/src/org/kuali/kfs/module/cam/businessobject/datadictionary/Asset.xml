@@ -832,8 +832,18 @@
 			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
 			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
 			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
-			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
+			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>			
 			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
+			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="documentNumber"/>
+			<attributeReference name="retirementInfo.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementDate"/>
+			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementContactName"/>
+			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementInstitutionName"/>
+			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStreetAddress"/>
+			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCityName"/>
+			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStateCode"/>
+			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementZipCode"/>
+			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode"/>
+			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

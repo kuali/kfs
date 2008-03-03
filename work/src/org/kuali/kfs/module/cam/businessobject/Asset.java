@@ -104,11 +104,13 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetWarranty assetWarranty;
     private List<AssetComponent> assetComponents;
     private List<AssetDisposition> assetDispositions;
+    private List<AssetHeader> assetHeaders;
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
     private KualiDecimal federalContribution;
+    private AssetRetirementDocument retirementInfo;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -125,6 +127,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
         this.assetDispositions = new TypedArrayList(AssetDisposition.class);
+        this.assetHeaders = new TypedArrayList(AssetHeader.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -174,7 +177,6 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setYearToDateDepreciation(KualiDecimal yearToDateDepreciation) {
         this.yearToDateDepreciation = yearToDateDepreciation;
     }
-
 
 
     /**
@@ -1679,7 +1681,7 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
         this.paymentTotalCost = paymentTotalCost;
     }
-    
+
     public List<AssetComponent> getAssetComponents() {
         return assetComponents;
     }
@@ -1714,7 +1716,7 @@ public class Asset extends PersistableBusinessObjectBase {
     public AssetDisposition getAssetMergeHistory() {
         return assetMergeHistory;
     }
-    
+
     /**
      * Sets the assetMergeHistory attribute value.
      * 
@@ -1760,5 +1762,21 @@ public class Asset extends PersistableBusinessObjectBase {
         this.federalContribution = federalContribution;
     }
 
+    public List<AssetHeader> getAssetHeaders() {
+        return assetHeaders;
+    }
+
+    public void setAssetHeaders(List<AssetHeader> assetHeaders) {
+        this.assetHeaders = assetHeaders;
+    }
+
+    public AssetRetirementDocument getRetirementInfo() {
+        return retirementInfo;
+    }
+
+    public void setRetirementInfo(AssetRetirementDocument retirementInfo) {
+        this.retirementInfo = retirementInfo;
+    }
+    
     
 }

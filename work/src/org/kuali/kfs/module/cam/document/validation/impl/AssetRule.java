@@ -30,6 +30,7 @@ import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDiscompositionService;
 import org.kuali.module.cams.service.PaymentSummaryService;
+import org.kuali.module.cams.service.RetirementInfoService;
 
 /**
  * AssetRule for Asset edit.
@@ -46,15 +47,17 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        
         setAssetComponentNumbers(asset);
-        
+
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
-        
+
         AssetDiscompositionService assetDispService = SpringContext.getBean(AssetDiscompositionService.class);
         assetDispService.setAssetDiscompositionHistory(asset);
-        
+
+        RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
+        retirementInfoService.setRetirementInfo(asset);
+
         boolean valid = processValidation(document);
         valid &= validateWarrantyInformation(asset);
         return valid & super.processCustomSaveDocumentBusinessRules(document);
@@ -76,7 +79,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
     }
 
-        
+
     /**
      * Validates Asset
      * 
@@ -101,7 +104,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         valid &= validateCampusLocation(asset);
-        
+
 
         return valid;
     }
@@ -115,10 +118,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateCampusLocation(Asset asset) {
         boolean valid = true;
         // TODO: set the validation in the AssetMaintenanceDocument.xml
-        /*if (ObjectUtils.isNull(asset.getCampus())) {
-            putFieldError("campusCode", CamsKeyConstants.ERROR_CAMPUS_CODE);
-            valid &= false;
-        }*/
+        /*
+         * if (ObjectUtils.isNull(asset.getCampus())) { putFieldError("campusCode", CamsKeyConstants.ERROR_CAMPUS_CODE); valid &=
+         * false; }
+         */
         return valid;
     }
 

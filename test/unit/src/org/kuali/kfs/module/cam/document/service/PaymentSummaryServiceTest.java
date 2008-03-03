@@ -23,6 +23,8 @@ import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT3;
 import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT4;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
@@ -34,6 +36,8 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl;
 import org.kuali.test.util.CSVDataLoader;
+
+import sun.util.calendar.Gregorian;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
 
@@ -52,8 +56,10 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         paymentSummaryService = new PaymentSummaryServiceImpl();
         OptionsService optionsService = new OptionsService() {
             public Options getCurrentYearOptions() {
+                //computes fiscal year month to get current period as "5" always
+                int univFiscalMonth = ((12 + GregorianCalendar.getInstance().get(Calendar.MONTH) - 4) % 12) + 1;
                 Options options = new Options();
-                options.setUniversityFiscalYearStartMo("10");
+                options.setUniversityFiscalYearStartMo(String.valueOf(univFiscalMonth));
                 return options;
             }
 

@@ -18,7 +18,9 @@ package org.kuali.module.cams.service.impl;
 import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.dao.AssetComponentDao;
 import org.kuali.module.cams.service.AssetComponentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class AssetComponentServiceImpl implements AssetComponentService {
     AssetComponentDao assetComponentDao;
 

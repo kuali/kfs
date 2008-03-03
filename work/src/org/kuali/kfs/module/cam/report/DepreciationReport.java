@@ -47,7 +47,7 @@ public class DepreciationReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryReport.class);
     private int pageNumber = 0;
     private int line = 0;
-    private int linesPerPage = 30;
+    private int linesPerPage = 28;
     private Document document;
     private PdfWriter writer;
 
@@ -83,7 +83,7 @@ public class DepreciationReport {
             this.document.open();
 
             // Generate body of document.
-            this.generateDepreciationDateLabel(sDepreciationDate);            
+            //this.generateDepreciationDateLabel(sDepreciationDate);            
             this.generateReportLogBody(reportLog);
             this.generateReportErrorLog(errorMsg);
 
@@ -213,7 +213,11 @@ public class DepreciationReport {
             throw new RuntimeException("DepreciationReport.generateErrorColumnHeaders() - Error: " + e.getMessage());
         }
     }
-
+/**
+ * 
+ * This method inserts the depreciation date on the report
+ * @param sDepreciationDate
+ *
     private void generateDepreciationDateLabel(String sDepreciationDate) {
         try {
             int headerwidths[] = { 100 };
@@ -242,7 +246,7 @@ public class DepreciationReport {
         catch (Exception e) {
             throw new RuntimeException("DepreciationReport.generateDepreciationDateLabel() - Error: " + e.getMessage());
         }
-    }
+    }*/
 
     /**
      * 
@@ -325,9 +329,7 @@ public class DepreciationReport {
 
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
                 head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-
-                head.writeSelectedRows(1, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-
+                //head.writeSelectedRows(1, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
             }
             catch (Exception e) {
                 throw new ExceptionConverter(e);

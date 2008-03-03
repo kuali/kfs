@@ -22,7 +22,7 @@ import org.kuali.core.util.KualiDecimal;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase implements Cloneable {
     private Long capitalAssetNumber;
-    private String financialSystemOriginationCode;
+    //private String financialSystemOriginationCode;
     private String documentNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -76,7 +76,7 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
-
+/*
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
     }
@@ -85,7 +85,7 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
     }
-
+*/
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -187,9 +187,13 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     }
     
     public String getKey() {
-        return (this.getCapitalAssetNumber().toString()+this.getFinancialSystemOriginationCode()+this.getChartOfAccountsCode()+
+/*        return (this.getCapitalAssetNumber().toString()+this.getFinancialSystemOriginationCode()+this.getChartOfAccountsCode()+
                 this.getAccountNumber()+this.getSubAccountNumber()+this.getFinancialObjectCode()+this.getFinancialSubObjectCode()+this.getFinancialObjectTypeCode()+
-                this.getProjectCode()+this.getTransactionType());
+                this.getProjectCode()+this.getTransactionType());*/
+        return (this.getCapitalAssetNumber().toString()+this.getChartOfAccountsCode()+
+        this.getAccountNumber()+this.getSubAccountNumber()+this.getFinancialObjectCode()+this.getFinancialSubObjectCode()+this.getFinancialObjectTypeCode()+
+        this.getProjectCode()+this.getTransactionType());
+        
     }
 
     public String getTransactionLedgerEntryDescription() {

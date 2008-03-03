@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -110,8 +111,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             depreciableAssets.setSalvageAmount                  (asset.getSalvageAmount());
             depreciableAssets.setDepreciableLifeLimit           (assetType.getDepreciableLifeLimit());
 
-            depreciableAssets.setTransferPaymentCode            (assetPayment.getTransferPaymentCode());
-            depreciableAssets.setFinancialSystemOriginationCode (assetPayment.getFinancialSystemOriginationCode());
+            //depreciableAssets.setTransferPaymentCode            (assetPayment.getTransferPaymentCode());
+            //depreciableAssets.setFinancialSystemOriginationCode (assetPayment.getFinancialSystemOriginationCode());
 
             depreciableAssets.setPaymentSequenceNumber          (assetPayment.getPaymentSequenceNumber());
             depreciableAssets.setChartOfAccountsCode            (assetPayment.getChartOfAccountsCode());
@@ -140,7 +141,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 List<ObjectCode> objectCodesList = assetObjectCodes.getObjectCode();
                 for (ObjectCode oc : objectCodesList) {
                     if (oc.getFinancialObjectCode().equals(assetPayment.getFinancialObjectCode())) {
-                        depreciableAssets.setCapitalizationFinancialObjectCode          (assetObjectCodes.getCapitalizationFinancialObjectCode());
+                        //depreciableAssets.setCapitalizationFinancialObjectCode          (assetObjectCodes.getCapitalizationFinancialObjectCode());
                         depreciableAssets.setAccumulatedDepreciationFinancialObjectCode (assetObjectCodes.getAccumulatedDepreciationFinancialObjectCode());
                         depreciableAssets.setDepreciationExpenseFinancialObjectCode     (assetObjectCodes.getDepreciationExpenseFinancialObjectCode());
                         found = true;
@@ -258,9 +259,13 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[0] = REPORT_GROUP[0];
         else
             columns[0] = REPORT_GROUP[1];
-
+        
         reportLine.add(columns.clone());
 
+        columns[0] = "Depreciation Date";
+        columns[1] = (SpringContext.getBean(DateTimeService.class).toDateString(depreciationDate.getTime()));        
+        reportLine.add(columns.clone());
+       
         Criteria criteria = new Criteria();
         ReportQueryByCriteria q = QueryFactory.newReportQuery(DocumentHeader.class, new Criteria());
         q.setAttributes(new String[] { "count(*)" });
@@ -474,6 +479,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return
      */
     private String convertCountValueToString(Object fieldValue) {
+//        if (fieldValue == null)
+//            fieldValue = new BigDecimal(0);
+        
         if (fieldValue instanceof BigDecimal) {
             return ((BigDecimal) fieldValue).toString();
         }
@@ -632,11 +640,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("CamsDepreciableAssetsDaoOjb.createDepreciationCriteria() -  ended");
         return criteria;
     }
-    
-    
-    
-    
-    
     
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;

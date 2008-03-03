@@ -21,4 +21,5 @@ package org.kuali.module.budget;
 public class BCKeyConstants {
     public static final String MESSAGE_BUDGET_SUCCESSFUL_CLOSE = "message.budget.successfulClose";
     public static final String ERROR_BUDGET_ORG_NOT_SELECTED = "error.budget.orgNotSelected";
+    public static final String ERROR_BUDGET_LINE_EXISTS = "error.budget.lineExists";
 }

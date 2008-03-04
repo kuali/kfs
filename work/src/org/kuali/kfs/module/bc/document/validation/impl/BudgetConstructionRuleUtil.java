@@ -20,11 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.module.chart.service.ObjectTypeService;
 
 /**
  * Common Budget Construction rule utilities
@@ -39,9 +36,14 @@ public class BudgetConstructionRuleUtil {
      * @param comparableFields
      * @return
      */
-    public static boolean hasExistingPBGLLine(List<PendingBudgetConstructionGeneralLedger> existingLines, PendingBudgetConstructionGeneralLedger newLine, List<String> comparableFields) {
+    public static boolean hasExistingPBGLLine(List<PendingBudgetConstructionGeneralLedger> existingLines, PendingBudgetConstructionGeneralLedger newLine) {
 
         boolean isFound = false;
+
+        // fields used to check for unique line below
+        List<String> comparableFields = new ArrayList<String>();
+        comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        comparableFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
         if (newLine.getFinancialSubObjectCode() == null){
             newLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());

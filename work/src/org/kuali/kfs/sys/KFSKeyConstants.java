@@ -100,7 +100,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE = "error.document.incorrectObjCodeWithSubType";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_LEVEL = "error.document.incorrectObjCodeWithObjLevel";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_CONSOLIDATED_OBJ_CODE = "error.document.incorrectObjCodeWithConsObjCode";
-    public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_BUDGET_AGGREGATION = "error.document.incorrect.ObjCodeWithBudgetAggregation";
+    public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_BUDGET_AGGREGATION = "error.document.incorrectObjCodeWithBudgetAggregation";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_ON_CANDG_ACCT = "error.document.incorrectObjCodeWithSubTypeOnCandGAcct";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE = "error.document.incorrectObjCodeWithSubTypeObjLevelAndObjType";
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_SUB_TYPE = "error.document.incorrectObjSubType";

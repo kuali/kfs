@@ -39,7 +39,9 @@
                 <lookupField attributeName="depreciableLifeLimit" required="false" />
                 <lookupField attributeName="movingIndicator" required="false" />
                 <lookupField attributeName="requiredBuildingIndicator" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

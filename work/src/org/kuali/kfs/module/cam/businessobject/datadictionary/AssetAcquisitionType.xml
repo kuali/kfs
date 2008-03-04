@@ -35,7 +35,9 @@
                 <lookupField attributeName="acquisitionTypeCode" required="false" />
                 <lookupField attributeName="acquisitionTypeName" required="false" />
                 <lookupField attributeName="incomeAssetObjectCode" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

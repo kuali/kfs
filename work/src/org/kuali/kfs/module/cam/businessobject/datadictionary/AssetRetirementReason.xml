@@ -35,7 +35,9 @@
                 <lookupField attributeName="retirementReasonCode" required="false" />
                 <lookupField attributeName="retirementReasonName" required="false" />
                 <lookupField attributeName="retirementReasonRestrictionIndicator" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false" >
+                   <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

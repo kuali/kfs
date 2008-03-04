@@ -238,24 +238,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
             }
-        }
-        
-        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-            /* TODO need to move this into a separate validation method, or into validateUnitOfMeasure.
-               Look for the UOM Code in the table, if not there the code is invalid.
-               This checking is needed only for imported items, 
-               since items added from new line could only choose existing UOM from dropdown list.
-               Also the errors shall show in the top part of item tab instead of on each field, 
-               since we don't display items to be imported on the screen before they are added. */
-            String uomCode = item.getItemUnitOfMeasureCode();
-            Map fieldValues = new HashMap();
-            fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, uomCode);
-            if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
-                String[] errorParams = { uomCode, "" + item.getItemLineNumber() };
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE, errorParams);
-                valid = false;
-            }                
-        }
+        }        
 
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
             if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
@@ -292,6 +275,25 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     /**
+     * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add invocation to validateItemUnitPrice.
+     * 
+     * @param financialDocument the purchasing document to be validated
+     * @param item the item to be validated
+     * @return boolean false if there is any fail validation
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.module.purap.bo.PurApItem)
+     */
+    public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
+        boolean valid = super.processImportItemBusinessRules(financialDocument, item);
+        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+        valid &= validateItemUnitPrice(item);
+        valid &= validateUnitOfMeasureCode(item);
+        GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+
+        return valid;
+    }
+    
+    /**
      * Validates that the total cost must be greater or equal to zero
      * 
      * @param purDocument the purchasing document to be validated
@@ -323,6 +325,31 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_OF_MEASURE + " in " + item.getItemIdentifierString());
             }
+        }
+
+        return valid;
+    }
+    
+    /**
+     * Validates that if the item type is quantity based, the unit of measure code is valid.
+     * 
+     * @param item the item to be validated
+     * @return boolean false if the item type is quantity based and the unit of measure code is invalid.
+     */
+    private boolean validateUnitOfMeasureCode(PurApItem item) {
+        boolean valid = true;
+        
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            /* Look for the UOM Code in the table, if not there the code is invalid. This checking is needed only for imported items,
+             * since items added from new line could only choose existing UOM from dropdown list. */
+            String uomCode = item.getItemUnitOfMeasureCode();
+            Map fieldValues = new HashMap();
+            fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, uomCode);
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
+                String[] errorParams = { uomCode, "" + item.getItemLineNumber() };
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE, errorParams);
+                valid = false;
+            }  
         }
 
         return valid;
@@ -655,21 +682,20 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
             }
             
-            // Do the checks involving capital asset transaction type.            
+            // Do the checks involving capital asset transaction type.
             if (StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
                 valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
             }
-            else {                
+            else {
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
                 valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
             }
         }
         // These checks do not depend on Accounting Line information, but do depend on Tran Type.
         if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-            valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
-            valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
-            
-        }       
+                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
+                valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
+            }
         return valid;
     }
     

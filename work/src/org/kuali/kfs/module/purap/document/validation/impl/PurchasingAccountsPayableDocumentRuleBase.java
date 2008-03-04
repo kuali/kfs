@@ -42,13 +42,14 @@ import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
+import org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Business rule(s) applicable to Purchasing Accounts Payable Documents.
  */
-public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
+public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule, ImportPurchasingAccountsPayableItemRule {
 
     /**
      * Overrides the method in PurapAccountingDocumentRuleBase to perform processValidation for PurchasingAccountsPayableDocument.
@@ -173,9 +174,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
 
     /**
      * Performs any validation for the Item tab. For each item, it will invoke the data dictionary validations. If the item is
-     * considered entered, if the item type is above the line item, then also invoke the validatBelowTheLineValues. If the document
+     * considered entered, if the item type is below the line item, then also invoke the validatBelowTheLineValues. If the document
      * requires account validation on all entered items or if the item contains accounting line, then call the
-     * processAccountValidation for all of the item's accounting line.
+     * processAccountValidation for all of the item's accounting lines.
      * 
      * @param purapDocument The PurchasingAccountsPayable document to be validated.
      * @param needAccountValidation boolean that indicates whether we need account validation.
@@ -218,9 +219,9 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
     
     /**
      * Performs any validation for the Item tab. For each item, it will invoke the data dictionary validations. If the item is
-     * considered entered, if the item type is above the line item, then also invoke the validatBelowTheLineValues. If the document
+     * considered entered, if the item type is below the line item, then also invoke the validatBelowTheLineValues. If the document
      * requires account validation on all entered items or if the item contains accounting line, then call the
-     * processAccountValidation for all of the item's accounting line.
+     * processAccountValidation for all of the item's accounting lines.
      * 
      * @param purapDocument The PurchasingAccountsPayable document to be validated.
      * @return boolean true if it passes all of the validations.
@@ -245,7 +246,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
             //check to see if we need to call rules on a specific item (hook?)
             if (isItemConsideredEntered(item)) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-                //if true call hook to process item validation
+              //if true call hook to process item validation
                 valid &= newIndividualItemValidation(documentType, item, recurringPaymentType);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
                 //hook method to check if account validation is required(should this be set at top or checked per item)
@@ -355,6 +356,21 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
         return getDictionaryValidationService().isBusinessObjectValid(item, PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
     }
 
+
+    /**
+     * Performs the data dictionary validation to validate whether the item is a valid business object.
+     * 
+     * @param financialDocument The document containing the item to be validated.
+     * @param item The item to be validated.
+     * @return boolean true if it passes the validation.
+     * @see org.kuali.module.purap.rule.ImportPurchasingAccountsPayableItemRule#processImportItemBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.module.purap.bo.PurApItem)
+     */
+    public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
+
+        return getDictionaryValidationService().isBusinessObjectValid(item, PurapConstants.ITEM_TAB_ERROR_PROPERTY);
+    }
+    
     /**
      * A helper method for determining the route levels for a given document.
      * 
@@ -499,5 +515,4 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
 
         return true;
     }
-    
 }

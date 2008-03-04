@@ -49,8 +49,8 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.exceptions.ItemParserException;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
+import org.kuali.module.purap.rule.event.ImportPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.util.ItemParser;
-import org.kuali.module.purap.util.ItemParserBase;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -254,17 +254,20 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         List<PurApItem> importedItems = null;
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;   
         ItemParser itemParser = purDocument.getItemParser();
-        int itemLinePosition = purDocument.getItemLinePosition();
+        int itemLinePosition = purDocument.getItemLinePosition(); // starting position of the imported items, equals the # of existing above-the-line items.
             
         try {
             importedItems = itemParser.importItems( itemFile, itemClass, documentNumber );
             // validate imported items
             boolean allPassed = true;
-            int itemLineNumber = itemLinePosition + 1;
+            int itemLineNumber = 0;
             for (PurApItem item : importedItems ) {
-                // It's important to set the item line number before the validation, since the error message will use line number.
-                item.setItemLineNumber(itemLineNumber++);
-                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item)); 
+                // Before the validation, set the item line number to the same as the line number in the import file (starting from 1)
+                // so that the error message will use the correct line number if there're errors for the current item line.
+                item.setItemLineNumber(++itemLineNumber);
+                allPassed &=  SpringContext.getBean(KualiRuleService.class).applyRules(new ImportPurchasingAccountsPayableItemEvent("", purDocument, item)); 
+                // After the validation, set the item line number to the correct value as if it's added to the item list.
+                item.setItemLineNumber(itemLineNumber+itemLinePosition);
             }        
             if (allPassed) {
                 purDocument.getItems().addAll(itemLinePosition, importedItems);            

@@ -44,12 +44,38 @@
         readOnly="${readOnly}" />
      --%>
      
+	<c:set var="actionInfixVar" value="" scope="request" />
+	<c:set var="accountingLineIndexVar" value="" scope="request" />     
 	<fin:accountingLines
 	    editingMode="${KualiForm.editingMode}"
 	    editableAccounts="${KualiForm.editableAccounts}"
 	    optionalFields="invoiceItemQuantity,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,invoiceItemServiceDate,invoiceItemCode,invoiceItemDescription"
 	    isOptionalFieldsInNewRow="true"
-	    sourceAccountingLinesOnly="true" />
+	    sourceAccountingLinesOnly="true"
+	    forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
+	    >
+	    
+	    <jsp:attribute name="newLineCustomActions">
+			<c:set var="refreshMethod"
+				value="refreshNewSourceLine"
+				scope="request" />
+			<html:image
+				property="methodToCall.${refreshMethod}"
+				src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif" title="Refresh New Source Line"
+				alt="Refresh New Source Line" styleClass="tinybutton" />
+		</jsp:attribute>		    
+		
+		<jsp:attribute name="customActions">
+			<c:set var="recalculateMethod"
+				value="recalculateSourceLine.line${accountingLineIndexVar}"
+				scope="request" />
+			<html:image
+				property="methodToCall.${recalculateMethod}.anchoraccounting${actionInfixVar}Anchor"
+				src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate a Source Accounting Line"
+				alt="Recalculate Source Accounting Line" styleClass="tinybutton" />			
+		</jsp:attribute>
+
+	</fin:accountingLines>
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 

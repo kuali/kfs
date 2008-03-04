@@ -39,5 +39,22 @@ public interface CustomerInvoiceDetailService {
      * @return
      */
     public CustomerInvoiceDetail getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
+    
+    
+    
+    /**
+     * This method returns a customer invoice detail with values populated from the specified invoice item code, chart of accounts code, and organization code
+     * @param invoiceItemCode
+     * @return
+     */
+    public CustomerInvoiceDetail getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCode( String invoiceItemCode, String chartOfAccountsCode, String organizationCode );
+    
+    
+    /**
+     * This method returns a customer invoice detail with values populated from the specified invoice item code for current user
+     * @param invoiceItemCode
+     * @return
+     */
+    public CustomerInvoiceDetail getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser( String invoiceItemCode );
 
 }

@@ -93,4 +93,16 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
 
         return forcedLookupOptionalFields;
     }    
+    
+    /**
+     * Make amount and sales tax read only
+     * 
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyFields() {
+        Map map = super.getForcedReadOnlyFields();
+        map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
+        return map;
+    }
 }

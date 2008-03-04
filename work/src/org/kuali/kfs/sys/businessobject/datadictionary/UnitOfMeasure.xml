@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.UnitOfMeasure">
+    <businessObject businessObjectClass="org.kuali.kfs.bo.UnitOfMeasure">
  
         <inquiry>
             <title>Unit Of Measure Inquiry</title>

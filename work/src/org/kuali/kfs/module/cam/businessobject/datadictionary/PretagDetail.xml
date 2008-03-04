@@ -77,7 +77,7 @@
 
 
             <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Campus Tag Number</label>
+                <label>Tag Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>8</maxLength>

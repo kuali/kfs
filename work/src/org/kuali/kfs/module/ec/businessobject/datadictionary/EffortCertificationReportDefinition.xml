@@ -102,7 +102,7 @@
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
 
             <attribute name="effortCertificationReportNumber" forceUppercase="true">
-                <label>Effort Certification Report Number</label>
+                <label>Report Number</label>
                 <shortLabel>Report Number</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -112,12 +112,12 @@
                     <text size="5" />
                 </control>
 
-                <summary>Effort Certification ReportNumber</summary>
+                <summary>Effort Certification Report Number</summary>
                 <description>Effort Certification ReportNumber description...</description>
 			</attribute>
 
             <attribute name="effortCertificationReportPeriodTitle" forceUppercase="true">
-                <label>Effort Certification Report Period Title</label>
+                <label>Report Period Title</label>
                 <shortLabel>Report Title</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -132,22 +132,25 @@
 			</attribute>
 
             <attributeReference name="effortCertificationReportReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Effort Certification Report Return Date</label>
+                <label>Report Return Date</label>
                 <shortLabel>Report Return Date</shortLabel>
 
                 <summary>Effort Certification ReportReturnDate</summary>
                 <description>Effort Certification ReportReturnDate description...</description>
 			</attributeReference>
 
-            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode" />
+            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode" >
+            	<label>Report Type Code</label>
+            </attributeReference>
             <attributeReference name="effortCertificationReportPeriodStatusCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" sourceAttributeName="effortCertificationReportPeriodStatusCode" >
+            	<label>Report Period Status Code</label>
             	<control>
 					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PeriodStatusCodeValuesFinder" />
 				</control>
 			</attributeReference>
 
             <attributeReference name="effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Effort Certification Report Begin Fiscal Year</label>
+                <label>Report Begin Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
 
                 <summary>Effort Certification ReportBeginFiscalYear</summary>
@@ -155,7 +158,7 @@
 			</attributeReference>
 
             <attributeReference name="effortCertificationReportBeginPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Effort Certification Report Begin Period Code</label>
+                <label>Report Begin Period Code</label>
                 <shortLabel>Begin Period Code</shortLabel>
 				<control>
 					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
@@ -165,15 +168,15 @@
 			</attributeReference>
 
             <attributeReference name="effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Effort Certification Report End Fiscal Year</label>
+                <label>Report End Fiscal Year</label>
                 <shortLabel>End Fiscal Year</shortLabel>
 
-                <summary>Effort Certification ReportEndFiscalYear</summary>
-                <description>Effort Certification ReportEndFiscalYear description...</description>
+                <summary>Effort Certification Report End Fiscal Year</summary>
+                <description>Effort Certification Report End Fiscal Year description...</description>
 			</attributeReference>
 
             <attributeReference name="effortCertificationReportEndPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
-                <label>Effort Certification Report End Period Code</label>
+                <label>Report End Period Code</label>
                 <shortLabel>End Period Code</shortLabel>
 				<control>
 					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
@@ -193,13 +196,5 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-        <collections>
-        	<collection name="effortCertificationReportPositions" >
-                <label>Effort Certification Report Positions</label>
-                <shortLabel>Effort Certification Report Positions</shortLabel>
-                <elementLabel>PositionObjectGroup</elementLabel>
-			</collection>
-        </collections>
-        
     </businessObject>
 </dictionaryEntry>

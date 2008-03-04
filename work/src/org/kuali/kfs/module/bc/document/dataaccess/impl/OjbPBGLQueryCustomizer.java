@@ -17,6 +17,7 @@ package org.kuali.module.budget.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -25,6 +26,10 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
 
 /**
  * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger so as to fetch expenditure or revenue lines
@@ -65,17 +70,17 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
      *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
+        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) arg0;
+        
+        List paramValues; 
 
         if ("TRUE".equals(getAttribute(revenueAttributeName))) {
-            revObjs.add("IN");
-            revObjs.add("IC");
-            revObjs.add("CH");
+            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.REVENUE_OBJECT_TYPES);
         }
         else {
-            revObjs.add("EE");
-            revObjs.add("EX");
-            revObjs.add("ES");
+            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.EXPENDITURE_OBJECT_TYPES);
         }
+        revObjs.addAll(paramValues);
         arg3.getCriteria().addIn(objectCodeTypeField, revObjs);
         return arg3;
     }

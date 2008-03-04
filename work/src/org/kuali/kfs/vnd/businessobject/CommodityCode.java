@@ -29,7 +29,7 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private String commodityDescription;
     private boolean salesTaxIndicator;
     private boolean restrictedItemsIndicator;
-    private boolean restrictedMaterialCode;
+    private String restrictedMaterialCode;
     private boolean active;
     
     private RestrictedMaterial restrictedMaterial;
@@ -65,15 +65,15 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     public void setRestrictedItemsIndicator(boolean restrictedItemsIndicator) {
         this.restrictedItemsIndicator = restrictedItemsIndicator;
     }
-
-    public boolean isRestrictedMaterialCode() {
+    
+    public String getRestrictedMaterialCode() {
         return restrictedMaterialCode;
     }
 
-    public void setRestrictedMaterialCode(boolean restrictedMaterialCode) {
+    public void setRestrictedMaterialCode(String restrictedMaterialCode) {
         this.restrictedMaterialCode = restrictedMaterialCode;
     }
-    
+
     public RestrictedMaterial getRestrictedMaterial() {
         return restrictedMaterial;
     }

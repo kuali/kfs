@@ -41,8 +41,6 @@
             <field attributeName="purchasingCommodityCode" />
         </lockingKeys>
         
-        <allowsNewOrCopy>false</allowsNewOrCopy>
-        
         <maintainableSections>
            <maintainableSection title="Commodity Code">
                 <maintainableItems>

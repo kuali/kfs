@@ -545,7 +545,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="commodityDescription" column="PUR_COMM_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salesTaxIndicator" column="PUR_SALES_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="itemRestrictedIndicator" column="ITM_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="restrictedItemsIndicator" column="ITM_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="restrictedMaterialCode" column="RSTRC_MTRL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <reference-descriptor name="restrictedMaterial" class-ref="org.kuali.module.purap.bo.RestrictedMaterial" auto-retrieve="true" auto-update="none" auto-delete="none">

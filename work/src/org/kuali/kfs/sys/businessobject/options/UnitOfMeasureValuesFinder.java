@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.bo.UnitOfMeasure;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.UnitOfMeasure;
 
 /**
  * Value Finder for Units Of Measure.

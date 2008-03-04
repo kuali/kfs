@@ -33,7 +33,6 @@ import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.AddDetailLineEvent;
 import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
-import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
 
 /**
@@ -57,12 +56,18 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail lineToRecalculate = detailLines.get(lineToRecalculateIndex);
-
-        PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(effortDocument.getTotalOriginalPayrollAmount(), new KualiDecimal(0), 0);
-        payrollAmountHolder.setPayrollAmount(lineToRecalculate.getEffortCertificationPayrollAmount());
-        PayrollAmountHolder.calculatePayrollPercent(payrollAmountHolder);
-        lineToRecalculate.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
-
+        
+        //TODO: should the new salary default to the calculated salary value from the form or zero? right now it's default value is zero
+        KualiDecimal newSalary = KualiDecimal.ZERO;
+        KualiDecimal convertedPercent = (new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent()).divide(new KualiDecimal(100)));
+        
+        if (lineToRecalculate.isFederalOrFederalPassThroughIndicator()) {
+            newSalary = convertedPercent.multiply(effortDocument.getSalaryOrigFederalTotal());
+        } else {
+            newSalary = convertedPercent.multiply(effortDocument.getSalaryOrigOtherTotal());
+        }
+        lineToRecalculate.setEffortCertificationPayrollAmount(newSalary);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.vendor.bo.Commodity;
+import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
  * Requisition Item Business Object.

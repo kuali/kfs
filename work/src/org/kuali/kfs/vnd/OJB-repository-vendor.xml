@@ -539,8 +539,8 @@
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.vendor.bo.Commodity" table="PUR_COMM_T">
-	<field-descriptor name="commodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.module.vendor.bo.CommodityCode" table="PUR_COMM_T">
+	<field-descriptor name="purchasingCommodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="commodityDescription" column="PUR_COMM_DESC" jdbc-type="VARCHAR"/>
@@ -573,8 +573,8 @@
 	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="commodity" class-ref="org.kuali.module.vendor.bo.Commodity" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="commodityCode" />
+	<reference-descriptor name="commodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="campusCode" />

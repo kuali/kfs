@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.vendor.bo.Commodity;
+import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
  * Purchasing Item Base Business Object.
@@ -30,9 +30,9 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     
     private static List<PurchasingItemCapitalAsset> purchasingItemCapitalAssets;
     private String addCapitalAssetNumber;
-    private String commodityCode;
+    private String purchasingCommodityCode;
     
-    private Commodity commodity;
+    private CommodityCode commodityCode;
     
     /**
      * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
@@ -93,22 +93,19 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         this.addCapitalAssetNumber = addCapitalAssetNumber;
     }
 
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
-    }
-
-    public String getCommodityCode() {
+    public CommodityCode getCommodityCode() {
         return commodityCode;
     }
 
-    public void setCommodityCode(String commodityCode) {
+    public void setCommodityCode(CommodityCode commodityCode) {
         this.commodityCode = commodityCode;
     }
-    
 
+    public String getPurchasingCommodityCode() {
+        return purchasingCommodityCode;
+    }
 
+    public void setPurchasingCommodityCode(String purchasingCommodityCode) {
+        this.purchasingCommodityCode = purchasingCommodityCode;
+    }
 }

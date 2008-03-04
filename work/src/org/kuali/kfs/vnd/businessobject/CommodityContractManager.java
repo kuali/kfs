@@ -10,12 +10,12 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class CommodityContractManager extends PersistableBusinessObjectBase {
 
-	private String commodityCode;
+	private String purchasingCommodityCode;
 	private String campusCode;
 	private Integer contractManagerCode;
 
     private Campus campus;
-    private Commodity commodity;
+    private CommodityCode commodity;
     private ContractManager contractManager;
     
 	/**
@@ -26,23 +26,23 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * Gets the commodityCode attribute.
+	 * Gets the purchasingCommodityCode attribute.
 	 * 
-	 * @return Returns the commodityCode
+	 * @return Returns the purchasingCommodityCode
 	 * 
 	 */
-	public String getCommodityCode() { 
-		return commodityCode;
+	public String getPurchasingCommodityCode() { 
+		return purchasingCommodityCode;
 	}
 
 	/**
-	 * Sets the commodityCode attribute.
+	 * Sets the purchasingCommodityCode attribute.
 	 * 
-	 * @param commodityCode The commodityCode to set.
+	 * @param purchasingCommodityCode The purchasingCommodityCode to set.
 	 * 
 	 */
-	public void setCommodityCode(String commodityCode) {
-		this.commodityCode = commodityCode;
+	public void setPurchasingCommodityCode(String purchasingCommodityCode) {
+		this.purchasingCommodityCode = purchasingCommodityCode;
 	}
 
 
@@ -112,7 +112,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
      * Gets the commodity attribute. 
      * @return Returns the commodity.
      */
-    public Commodity getCommodity() {
+    public CommodityCode getCommodity() {
         return commodity;
     }
 
@@ -121,7 +121,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
      * @param commodity The commodity to set.
      * @deprecated
      */
-    public void setCommodity(Commodity commodity) {
+    public void setCommodity(CommodityCode commodity) {
         this.commodity = commodity;
     }
 
@@ -147,7 +147,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("commodityCode", this.commodityCode);
+        m.put("purchasingCommodityCode", this.purchasingCommodityCode);
         m.put("campusCode", this.campusCode);
         if (this.contractManagerCode != null) {
             m.put("contractManagerCode", this.contractManagerCode.toString());

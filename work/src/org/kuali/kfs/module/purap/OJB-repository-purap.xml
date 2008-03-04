@@ -89,7 +89,7 @@
     <field-descriptor name="itemOutstandingEncumberedAmount" column="ITM_OSTND_ENC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemAuxiliaryPartIdentifier" column="ITM_AUX_PART_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemActiveIndicator" column="ITM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="commodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingCommodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bProductReferenceNumber" column="EXT_ORG_B2B_PROD_REF_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bProductTypeName" column="EXT_ORG_B2B_PROD_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -104,8 +104,8 @@
     <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor>
-	<reference-descriptor name="commodity" class-ref="org.kuali.module.vendor.bo.Commodity" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="commodityCode" />
+	<reference-descriptor name="purchasingCommodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
     
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -207,7 +207,7 @@
     <field-descriptor name="externalOrganizationB2bProductReferenceNumber" column="EXT_ORG_B2B_PROD_REF_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bProductTypeName" column="EXT_ORG_B2B_PROD_TYP_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="commodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="purchasingCommodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
@@ -218,8 +218,8 @@
     <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-	<reference-descriptor name="commodity" class-ref="org.kuali.module.vendor.bo.Commodity" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="commodityCode" />
+	<reference-descriptor name="commodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />

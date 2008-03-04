@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.CommodityCode">
+
+        <inquiry>
+            <title>Commodity Code Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="purchasingCommodityCode" />
+                <field attributeName="commodityDescription" />
+                <field attributeName="salesTaxIndicator" />
+                <field attributeName="restrictedItemsIndicator" />
+                <field attributeName="restrictedMaterialCode" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Commodity Code Lookup</title>
+
+            <instructions>Lookup a Commodity Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchasingCommodityCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="purchasingCommodityCode" required="false" />
+                <lookupField attributeName="commodityDescription" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="purchasingCommodityCode" />
+                <field attributeName="commodityDescription" />
+ 				<field attributeName="salesTaxIndicator" />
+				<field attributeName="restrictedItemsIndicator" />
+				<field attributeName="restrictedMaterialCode" />               
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>commodityCode</titleAttribute>
+
+        <attributes>
+        	<attribute name="purchasingCommodityCode" forceUppercase="true">
+        		<label>Commodity Code</label>
+        		<shortLabel>Comm Code</shortLabel>
+        		
+        		<maxLength>25</maxLength>
+        		<validationPattern><anyCharacter/></validationPattern>
+        		
+        		<control>
+        			<text size="27"/>
+        		</control>       		
+        	</attribute>
+        	
+        	<attribute name="commodityDescription">
+        		<label>Commodity Description</label>
+        		<shortLabel>Comm Desc</shortLabel>
+        		
+        		<maxLength>45</maxLength>
+        		<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+        		
+        		<control>
+        			<text size="47"/>
+        		</control>       		
+        	</attribute>
+        	
+            <attribute name="salesTaxIndicator" forceUppercase="true">
+                <label>Sales Tax Indicator</label>
+                <shortLabel>Sales Tax</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+            </attribute>
+            
+            <attribute name="restrictedItemsIndicator" forceUppercase="true">
+                <label>Restricted Items Indicator</label>
+                <shortLabel>Restricted Items</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+            </attribute>
+            
+            <attribute name="restrictedMaterialCode" forceUppercase="true">
+                <label>Restricted Material Code</label>
+                <shortLabel>Restricted Material Cd</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6"/>
+                </control>
+            </attribute>                      	
+        	
+        	<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        	
+        </attributes>
+        
+        <objectLabel>Commodity Code</objectLabel>
+    </businessObject>
+</dictionaryEntry>        

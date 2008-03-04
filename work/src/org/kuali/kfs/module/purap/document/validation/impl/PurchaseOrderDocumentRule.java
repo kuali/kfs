@@ -98,22 +98,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
-        int i = 0;
-        for (PurApItem item : purapDocument.getItems()) {            
-            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());            
-            
-            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
+        for (PurApItem item : purapDocument.getItems()) {                   
+            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, item.getItemIdentifierString());
             if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                valid &= validateItemForAmendment((PurchaseOrderItem) item, identifierString);
+                valid &= validateItemForAmendment((PurchaseOrderItem) item, item.getItemIdentifierString());
             }
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-                PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-                valid &= validateItemCapitalAssetWithErrors(purchasingItem, recurringPaymentType, identifierString);
-                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");                
-            }
-            i++;
         }
         valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument) purapDocument);
 

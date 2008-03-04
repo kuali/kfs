@@ -37,7 +37,10 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -224,6 +227,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
      */
     public boolean newProcessItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
+        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
 
         //Fetch the business rules that are common to the below the line items on all purap documents
         String documentTypeClassName = purapDocument.getClass().getName();
@@ -241,8 +245,8 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
             //check to see if we need to call rules on a specific item (hook?)
             if (isItemConsideredEntered(item)) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-              //if true call hook to process item validation
-                valid &= newIndividualItemValidation(documentType, item);
+                //if true call hook to process item validation
+                valid &= newIndividualItemValidation(documentType, item, recurringPaymentType);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
                 //hook method to check if account validation is required(should this be set at top or checked per item)
                 //if true call account validation
@@ -259,15 +263,19 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
     }
 
     /**
-     * This method does any document specific item checks
+     * This method does any document specific item checks.
+     * 
      * @param valid
      * @param documentType
      * @param item
+     * @param recurringPaymentType  Needed by overriding methods in child classes
      * @return
      */
-    public boolean newIndividualItemValidation(String documentType, PurApItem item) {
+    public boolean newIndividualItemValidation(String documentType, PurApItem item, RecurringPaymentType recurringPaymentType) {
+        boolean valid = true;
         if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-            return validateBelowTheLineValues(documentType, item);
+            valid &= validateBelowTheLineValues(documentType, item);
+            return valid;
         }
         return true;
     }
@@ -491,4 +499,5 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
 
         return true;
     }
+    
 }

@@ -64,7 +64,10 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" property="document.items[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" 
+            	property="document.items[${ctr}].capitalAssetTransactionTypeCode"
+            	extraReadOnlyProperty="document.items[${ctr}].capitalAssetTransactionType.capitalAssetTransactionTypeDescription" 
+            	readOnly="${not (fullEntryMode or amendmentEntry)}" />
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.addCapitalAssetNumber}" /></div>

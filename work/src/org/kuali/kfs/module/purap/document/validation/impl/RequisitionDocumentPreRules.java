@@ -129,7 +129,7 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      */
     public boolean capitalAssetWarningConditionsExist(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String identifierString) {
         PurchasingDocumentRuleBase ruleBase = new PurchasingDocumentRuleBase();
-        return !ruleBase.validateItemCapitalAssetWithWarnings(item, recurringPaymentType, identifierString);        
+        return !ruleBase.validateItemCapitalAssetWithWarnings(item, recurringPaymentType);        
     }
     
 }

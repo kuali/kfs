@@ -170,9 +170,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.module.purap.bo.PurApItem)
      */
     @Override
-    public boolean newIndividualItemValidation(String documentType, PurApItem item) {
+    public boolean newIndividualItemValidation(String documentType, PurApItem item, RecurringPaymentType recurringPaymentType) {
         boolean valid = true;
-        valid &=  super.newIndividualItemValidation(documentType, item);
+        valid &=  super.newIndividualItemValidation(documentType, item, recurringPaymentType);
+        valid &=  validateItemCapitalAssetWithErrors(item, recurringPaymentType);
         valid &=  validateUnitOfMeasure(item);
         return valid;
     }
@@ -569,6 +570,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
+     * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    public boolean processCapitalAssestsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+        List<PurApItem> itemList = purapDocument.getItems();
+        for (PurApItem item : itemList) {
+            valid &= validateItemCapitalAssetWithErrors(item,recurringPaymentType);
+        }
+        // We don't actually need the error messages for the purposes of the APO.
+        GlobalVariables.getErrorMap().clear();
+        return valid;
+    }
+    
+    /**
      * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that 
      * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
      * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
@@ -579,8 +595,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithErrors(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
-        return validateItemCapitalAsset(item, recurringPaymentType, false, itemIdentifier);
+    public boolean validateItemCapitalAssetWithErrors(PurApItem item, RecurringPaymentType recurringPaymentType) {
+        PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+        return validateItemCapitalAsset(purchasingItem, recurringPaymentType, false, purchasingItem.getItemIdentifierString());
     }
     
     /**
@@ -594,8 +611,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithWarnings(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
-        return validateItemCapitalAsset(item, recurringPaymentType, true, itemIdentifier);
+    public boolean validateItemCapitalAssetWithWarnings(PurApItem item, RecurringPaymentType recurringPaymentType) {
+        PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+        return validateItemCapitalAsset(purchasingItem, recurringPaymentType, true, purchasingItem.getItemIdentifierString());
     }
     
     /**
@@ -615,6 +633,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         KualiDecimal itemQuantity = item.getItemQuantity();       
         HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
         
+        String capitalAssetTransactionTypeCode = item.getCapitalAssetTransactionTypeCode();
+        CapitalAssetTransactionType capitalAssetTransactionType = null;
+        if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
+            capitalAssetTransactionType = item.getCapitalAssetTransactionType();
+        }
+        // Do the checks that depend on Accounting Line information.
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
             // Because of ObjectCodeCurrent, we had to refresh this.
             accountingLine.refreshReferenceObject("objectCode");
@@ -630,23 +655,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
             }
             
-            // Do the checks involving capital asset transaction type.
-            String capitalAssetTransactionTypeCode = item.getCapitalAssetTransactionTypeCode();
+            // Do the checks involving capital asset transaction type.            
             if (StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
                 valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
             }
-            else {
-                item.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
-                CapitalAssetTransactionType capitalAssetTransactionType = item.getCapitalAssetTransactionType();
-                
+            else {                
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
                 valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
-                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
-                valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
             }
         }
-        
-        
+        // These checks do not depend on Accounting Line information, but do depend on Tran Type.
+        if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+            valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
+            valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
+            
+        }       
         return valid;
     }
     
@@ -1034,11 +1057,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         
         return objectCodeSubtypesInTable;
-    }
-
-    public boolean processCapitalAssestsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
 }

@@ -28,8 +28,13 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSKeyConstants.InvoiceItemCode;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.context.SpringContext.*;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.module.financial.service.UniversityDateService;
+
 
 public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     
@@ -49,6 +54,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         success = validateItemDefaultPrice(newInvoiceItemCode);
         success &= validateItemDefaultQuantity(newInvoiceItemCode);
         success &= validateExistenceOfOrganizationOption(newInvoiceItemCode);
+        success &= isCustomerInvoiceItemCodeObjectValid(newInvoiceItemCode);
 
         return success;
     }
@@ -110,4 +116,29 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         
         return isValid;
     }
+    
+    /**
+    *
+    * This method checks to see if the customer invoice item object code is of type Income
+    *
+    * @return true if it is an income object
+    */
+      protected boolean isCustomerInvoiceItemCodeObjectValid(CustomerInvoiceItemCode customerInvoiceItemCode) {
+       boolean success = true;
+
+           Integer universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+           ObjectCode defaultInvoiceItemCodeObject = customerInvoiceItemCode.getDefaultInvoiceFinancialObject();
+
+           if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(defaultInvoiceItemCodeObject)) {
+               ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+               success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceItemCodeObject.getFinancialObjectTypeCode());
+
+               if (!success) {
+                   // RE-USE this OrgAccDef error because it applies here
+                   putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceItemCodeObject.getCode());                
+               }
+           }
+       
+       return success;
+   }
 }

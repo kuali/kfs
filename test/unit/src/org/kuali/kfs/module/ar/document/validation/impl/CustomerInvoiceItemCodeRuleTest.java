@@ -21,6 +21,8 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
     private static String POSITIVE_VALUE = "1";
     private static String NON_POSITIVE_VALUE = "0";
     private static boolean ACTIVE_INDEX = true;
+    private static String INCOME_OBJECT_CODE = "0110"; // BALANCE FORWARD has type INCOME
+    private static String EXPENSE_OBJECT_CODE = "2000"; // ACADEMIC SALARY  has type EXPENSE
    
     @Override
     protected void setUp() throws Exception {
@@ -33,7 +35,34 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
         customerInvoiceItemCode.setInvoiceItemDescription(INVOICE_ITEM_DESCRIPTION);
         customerInvoiceItemCode.setActive(ACTIVE_INDEX);
     }
-    
+    /**
+     * This method tests if the isCustomerInvoiceItemCodeObjectValid rule returns true when default invoice financial object is set to an income object code
+     */
+    public void testIsCustomerInvoiceItemCodeObjectValid_True(){
+
+        customerInvoiceItemCode.setDefaultInvoiceFinancialObjectCode(INCOME_OBJECT_CODE);
+        customerInvoiceItemCode.setDefaultInvoiceChartOfAccountsCode(CHART_CODE);
+        customerInvoiceItemCode.refreshReferenceObject("defaultInvoiceFinancialObject");
+        CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
+
+        boolean result = rule.isCustomerInvoiceItemCodeObjectValid(customerInvoiceItemCode);
+        assertEquals( "When default invoice financial  is " + INCOME_OBJECT_CODE + ", isDefaultInvoiceFinancialObjectValidIncome should return true. ", true, result );
+
+    }
+    /**
+     * This method tests if the isCustomerInvoiceItemCodeObjectValid rule returns true when default invoice financial object is set to an income object code
+     */
+    public void testIsCustomerInvoiceItemCodeObjectValid_False(){
+
+        customerInvoiceItemCode.setDefaultInvoiceFinancialObjectCode(EXPENSE_OBJECT_CODE);
+        customerInvoiceItemCode.setDefaultInvoiceChartOfAccountsCode(CHART_CODE);
+        customerInvoiceItemCode.refreshReferenceObject("defaultInvoiceFinancialObject");
+        CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
+
+        boolean result = rule.isCustomerInvoiceItemCodeObjectValid(customerInvoiceItemCode);
+        assertEquals( "When default invoice financial  is " + EXPENSE_OBJECT_CODE + ", isDefaultInvoiceFinancialObjectValidIncome should return false. ", false, result );
+
+    }
     /**
      * This method tests if the validateItemDefaultPrice rule returns true when itemDefaultPrice is positive.
      */
@@ -81,6 +110,8 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
         assertEquals( "When item default quantity is " + NON_POSITIVE_VALUE + ", validateItemDefaultQuantity should return false. ", false, result );  
         
     }
+    
+
 
 }
 

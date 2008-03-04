@@ -31,7 +31,7 @@
                 </workgroups>
             </authorization>
         </authorizations>
-        <documentTypeName>KualiAssetPaymentDocument</documentTypeName>
+        <documentTypeName>AssetPaymentDocument</documentTypeName>
         <documentTypeCode>MPAY</documentTypeCode>
         <label>Asset Payments</label>
         

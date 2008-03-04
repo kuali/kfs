@@ -3535,7 +3535,7 @@
     <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.module.purap.bo.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.kfs.bo.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemUnitOfMeasureCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -3581,7 +3581,7 @@
     <reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.module.purap.bo.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="itemUnitOfMeasure" class-ref="org.kuali.kfs.bo.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemUnitOfMeasureCode" />
     </reference-descriptor>
 </class-descriptor>

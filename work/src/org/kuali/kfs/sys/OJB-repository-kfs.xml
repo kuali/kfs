@@ -526,6 +526,7 @@
     <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="paymentClaimStatusCode" column="PMT_CLM_STAT_CD" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="generatingDocumentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="documentNumber" />

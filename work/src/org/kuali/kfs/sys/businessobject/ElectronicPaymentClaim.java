@@ -42,6 +42,8 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     private String referenceFinancialDocumentNumber;
     private Integer financialDocumentPostingYear;
     private String financialDocumentPostingPeriodCode;
+    private String paymentClaimStatusCode;
+    
     private AdvanceDepositDocument generatingDocument;
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentHeader generatingDocumentHeader;
@@ -143,6 +145,22 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      */
     public void setFinancialDocumentPostingPeriodCode(String financialDocumentPostingPeriodCode) {
         this.financialDocumentPostingPeriodCode = financialDocumentPostingPeriodCode;
+    }
+
+    /**
+     * Gets the paymentClaimStatusCode attribute. 
+     * @return Returns the paymentClaimStatusCode.
+     */
+    public String getPaymentClaimStatusCode() {
+        return paymentClaimStatusCode;
+    }
+
+    /**
+     * Sets the paymentClaimStatusCode attribute value.
+     * @param paymentClaimStatusCode The paymentClaimStatusCode to set.
+     */
+    public void setPaymentClaimStatusCode(String paymentClaimStatusCode) {
+        this.paymentClaimStatusCode = paymentClaimStatusCode;
     }
 
     /**

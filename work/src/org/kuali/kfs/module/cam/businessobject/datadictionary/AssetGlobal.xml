@@ -29,14 +29,12 @@
                         <field attributeName="organizationOwnerChartOfAccountsCode" />
                         <field attributeName="organizationOwnerAccountNumber" />
                         <!-- org. owner -->
-                        <field attributeName="organizationOwnerAccount.organizationCode" />
                         <field attributeName="agencyNumber" />
                         <field attributeName="acquisitionTypeCode" />
                         <field attributeName="inventoryStatusCode" />
                         <field attributeName="conditionCode" />
                         <field attributeName="capitalAssetTypeCode" />
                         <!-- asset rep -->
-                        <field attributeName="assetRepresentative.personName" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -61,20 +59,16 @@
             <lookupFields>
                 <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false"/>
                 <lookupField attributeName="organizationOwnerAccountNumber" required="false"/>
-                <!-- org. owner -->
-                <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
                 <lookupField attributeName="agencyNumber" required="false"/>
                 <lookupField attributeName="acquisitionTypeCode" required="false"/>
-                <lookupField attributeName="inventoryStatusCode" required="false"/>
-                <!-- asset rep -->
-                <lookupField attributeName="assetRepresentative.personName" required="false" />
+                <lookupField attributeName="inventoryStatusCode" required="false"/>               
             </lookupFields>
             
             <resultFields>
                 <field attributeName="organizationOwnerChartOfAccountsCode" />
                 <field attributeName="organizationOwnerAccountNumber" />
-                <!-- org. owner -->
-                <field attributeName="organizationOwnerAccount.organizationCode" />
+                <!-- asset rep -->
+                <field attributeName="leoOrganizationOwner" />
                 <field attributeName="agencyNumber" />
                 <field attributeName="acquisitionTypeCode" />
                 <field attributeName="inventoryStatusCode" />
@@ -85,7 +79,7 @@
 				<field attributeName="manufacturerName" />
 				<field attributeName="manufacturerModelNumber" />
 				<!-- asset rep -->
-				<field attributeName="assetRepresentative.personName" />
+				<field attributeName="leoAssetRepresentitive" />
 				<field attributeName="organizationText" />
 				<field attributeName="lastInventoryDate" />
 				<field attributeName="createDate" />
@@ -99,15 +93,32 @@
 
         <attributes>
 <!--  ### Asset Detail Information ### -->
-            <attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.MultipleAssetHeader" sourceAttributeName="organizationOwnerChartOfAccountsCode">
+            <attributeReference name="assetGlobalHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Owner Chart</label>
+                <shortLabel>Number</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="assetGlobalHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Owner Account Number</label>
+                <shortLabel>Code</shortLabel>
+                <required>false</required>
+			</attributeReference>
+			
+			<attributeReference name="assetGlobalHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Asset Representitive</label>
+                <required>false</required>
+			</attributeReference>			
+			
+            <attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode">
             	<label>Owner Chart</label>
 			</attributeReference>
 			
-			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.MultipleAssetHeader" sourceAttributeName="organizationOwnerAccountNumber">
+			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccountNumber">
 				<label>Owner Account Number</label>
 			</attributeReference>
 			
-			<!-- org. owner
+			<!-- org. owner -->
 			<attribute name="leoOrganizationOwner" forceUppercase="true">
                 <label>Organization Owner</label>
                 <shortLabel>Need More Info</shortLabel>
@@ -119,11 +130,6 @@
                 <summary>leoOrganizationOwner</summary>
                 <description>leoOrganizationOwner....</description>
 			</attribute>
-			-->
-			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
-				<label>Organization Owner Organization Code</label>
-			</attributeReference>
 			
 			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="agencyNumber">
 				<label>Owner</label>
@@ -189,7 +195,7 @@
 				<label>Organization Text</label>
 			</attributeReference>
 			
-			<!-- asset rep
+			<!-- asset rep -->
 			<attribute name="leoAssetRepresentitive" forceUppercase="true">
                 <label>Asset Representitive</label>
                 <shortLabel>Need More Info</shortLabel>
@@ -201,12 +207,7 @@
                 <summary>leoAssetRepresentitive</summary>
                 <description>leoAssetRepresentitive....</description>
 			</attribute>
-			-->
 			
-			<attributeReference name="assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
-				<label>Asset Representative</label>
-			</attributeReference>
-
 			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>Last Inventory Date</label>
 			</attributeReference>

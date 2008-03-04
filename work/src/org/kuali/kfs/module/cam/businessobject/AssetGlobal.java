@@ -11,7 +11,6 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
@@ -23,13 +22,12 @@ import org.kuali.module.chart.bo.Chart;
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     /* misc. */
-    private MultipleAssetHeader assetGlobalHeader;
     private String documentNumber;
     
     /* asset detail infomation (Asset / CM_CPTLAST_T) */
     private String organizationOwnerChartOfAccountsCode;
     private String organizationOwnerAccountNumber;
-    private Account organizationOwnerAccount;
+    private String leoOrganizationOwner; //org. owner
     private String agencyNumber;
     private String acquisitionTypeCode;
     private String inventoryStatusCode;
@@ -40,7 +38,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String manufacturerName;
     private String manufacturerModelNumber;
     private String organizationText; // (AssetOrganization / CM_AST_ORG_T)
-    private UniversalUser assetRepresentative;
+    private String leoAssetRepresentitive; //asset rep.
     private Timestamp lastInventoryDate;
     private Date createDate;
     private int financialDocumentPostingYear;
@@ -57,7 +55,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String leoNationalStockNbr; //national stock number
     private String organizationInventoryName;
     private String organizationAssetTypeIdentifier; // (AssetOrganization / CM_AST_ORG_T)
-    
+
     /* location - on/off campus (AssetGlobalDetail / CM_MULT_AST_DTL_T) */
     private List<AssetGlobalDetail> assetGlobalDetails; 
 
@@ -86,25 +84,46 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /* lookup */
     private Chart organizationOwnerChartOfAccounts;
-    // org. owner - see "organizationOwnerAccount" attribute above
-    private Asset agency;
-    private Asset acquisitionType;
-    private Asset inventoryStatus;
-    private Asset condition;
-    private Asset capitalAssetType;
-    // asset rep. - see "assetRepresentative" attribute above
-    private Asset lastInventory;
-    private Asset create;
-    private Asset financialDocumentPostingYr;
-    private Asset financialDocumentPostingPeriod;
-    private Asset capitalAssetInService;
+    private Account organizationOwnerAccount;
+    //org. owner
+    // Commented below out... can't type fields to "Asset" that arn't of object type Asset.
+//    private Asset agency;
+//    private Asset acquisitionType;
+//    private Asset inventoryStatus;
+    private AssetCondition condition;
+    private AssetType capitalAssetType;
+//    //asset rep.
+//    private Asset lastInventory;
+//    private Asset create;
+//    private Asset financialDocumentPostingYr;
+//    private Asset financialDocumentPostingPeriod;
+//    private Asset capitalAssetInService;
     //deprec. date
+    
+    private MultipleAssetHeader assetGlobalHeader;
+    private List<AssetPaymentDetail> assetPaymentDetails; 
     
     /**
      * Default constructor.
      */
     public AssetGlobal() {
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
+    }     
+    
+    /**
+     * Gets the leoAssetRepresentitive attribute. 
+     * @return Returns the leoAssetRepresentitive.
+     */
+    public String getLeoAssetRepresentitive() {
+        return leoAssetRepresentitive;
+    }
+
+    /**
+     * Sets the leoAssetRepresentitive attribute value.
+     * @param leoAssetRepresentitive The leoAssetRepresentitive to set.
+     */
+    public void setLeoAssetRepresentitive(String leoAssetRepresentitive) {
+        this.leoAssetRepresentitive = leoAssetRepresentitive;
     }
 
     /**
@@ -121,6 +140,22 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setLeoDeprecationDate(Date leoDeprecationDate) {
         this.leoDeprecationDate = leoDeprecationDate;
+    }
+
+    /**
+     * Gets the leoOrganizationOwner attribute. 
+     * @return Returns the leoOrganizationOwner.
+     */
+    public String getLeoOrganizationOwner() {
+        return leoOrganizationOwner;
+    }
+
+    /**
+     * Sets the leoOrganizationOwner attribute value.
+     * @param leoOrganizationOwner The leoOrganizationOwner to set.
+     */
+    public void setLeoOrganizationOwner(String leoOrganizationOwner) {
+        this.leoOrganizationOwner = leoOrganizationOwner;
     }
 
     /**
@@ -408,38 +443,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the acquisitionType attribute. 
-     * @return Returns the acquisitionType.
-     */
-    public Asset getAcquisitionType() {
-        return acquisitionType;
-    }
-
-    /**
-     * Sets the acquisitionType attribute value.
-     * @param acquisitionType The acquisitionType to set.
-     */
-    public void setAcquisitionType(Asset acquisitionTypeCodeObject) {
-        this.acquisitionType = acquisitionTypeCodeObject;
-    }
-
-    /**
-     * Gets the agency attribute. 
-     * @return Returns the agency.
-     */
-    public Asset getAgency() {
-        return agency;
-    }
-
-    /**
-     * Sets the agency attribute value.
-     * @param agency The agency to set.
-     */
-    public void setAgency(Asset agencyNumberObject) {
-        this.agency = agencyNumberObject;
-    }
-
-    /**
      * Gets the organizationOwnerAccount attribute. 
      * @return Returns the organizationOwnerAccount.
      */
@@ -469,54 +472,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccountsCodeObject) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccountsCodeObject;
-    }
-
-    /**
-     * Gets the inventoryStatus attribute. 
-     * @return Returns the inventoryStatus.
-     */
-    public Asset getInventoryStatus() {
-        return inventoryStatus;
-    }
-
-    /**
-     * Sets the inventoryStatus attribute value.
-     * @param inventoryStatus The inventoryStatus to set.
-     */
-    public void setInventoryStatus(Asset inventoryStatusCodeObject) {
-        this.inventoryStatus = inventoryStatusCodeObject;
-    }
-
-    /**
-     * Gets the condition attribute. 
-     * @return Returns the condition.
-     */
-    public Asset getCondition() {
-        return condition;
-    }
-
-    /**
-     * Sets the condition attribute value.
-     * @param condition The condition to set.
-     */
-    public void setCondition(Asset conditionCodeObject) {
-        this.condition = conditionCodeObject;
-    }
-    
-    /**
-     * Gets the capitalAssetType attribute. 
-     * @return Returns the capitalAssetType.
-     */
-    public Asset getCapitalAssetType() {
-        return capitalAssetType;
-    }
-
-    /**
-     * Sets the capitalAssetType attribute value.
-     * @param capitalAssetType The capitalAssetType to set.
-     */
-    public void setCapitalAssetType(Asset capitalAssetTypeCodeObject) {
-        this.capitalAssetType = capitalAssetTypeCodeObject;
     }
 
     /**
@@ -600,22 +555,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the capitalAssetInService attribute. 
-     * @return Returns the capitalAssetInService.
-     */
-    public Asset getCapitalAssetInService() {
-        return capitalAssetInService;
-    }
-
-    /**
-     * Sets the capitalAssetInService attribute value.
-     * @param capitalAssetInService The capitalAssetInService to set.
-     */
-    public void setCapitalAssetInService(Asset capitalAssetInServiceDateObject) {
-        this.capitalAssetInService = capitalAssetInServiceDateObject;
-    }
-
-    /**
      * Gets the createDate attribute. 
      * @return Returns the createDate.
      */
@@ -629,22 +568,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
-    }
-
-    /**
-     * Gets the create attribute. 
-     * @return Returns the create.
-     */
-    public Asset getCreate() {
-        return create;
-    }
-
-    /**
-     * Sets the create attribute value.
-     * @param create The create to set.
-     */
-    public void setCreate(Asset createDateObject) {
-        this.create = createDateObject;
     }
 
     /**
@@ -664,22 +587,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the financialDocumentPostingPeriod attribute. 
-     * @return Returns the financialDocumentPostingPeriod.
-     */
-    public Asset getFinancialDocumentPostingPeriod() {
-        return financialDocumentPostingPeriod;
-    }
-
-    /**
-     * Sets the financialDocumentPostingPeriod attribute value.
-     * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
-     */
-    public void setFinancialDocumentPostingPeriod(Asset financialDocumentPostingPeriodCodeObject) {
-        this.financialDocumentPostingPeriod = financialDocumentPostingPeriodCodeObject;
-    }
-
-    /**
      * Gets the financialDocumentPostingYear attribute. 
      * @return Returns the financialDocumentPostingYear.
      */
@@ -696,22 +603,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the financialDocumentPostingYr attribute. 
-     * @return Returns the financialDocumentPostingYr.
-     */
-    public Asset getFinancialDocumentPostingYr() {
-        return financialDocumentPostingYr;
-    }
-
-    /**
-     * Sets the financialDocumentPostingYr attribute value.
-     * @param financialDocumentPostingYr The financialDocumentPostingYr to set.
-     */
-    public void setFinancialDocumentPostingYr(Asset financialDocumentPostingYearObject) {
-        this.financialDocumentPostingYr = financialDocumentPostingYearObject;
-    }
-
-    /**
      * Gets the lastInventoryDate attribute. 
      * @return Returns the lastInventoryDate.
      */
@@ -725,22 +616,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setLastInventoryDate(Timestamp lastInventoryDate) {
         this.lastInventoryDate = lastInventoryDate;
-    }
-
-    /**
-     * Gets the lastInventory attribute. 
-     * @return Returns the lastInventory.
-     */
-    public Asset getLastInventory() {
-        return lastInventory;
-    }
-
-    /**
-     * Sets the lastInventory attribute value.
-     * @param lastInventory The lastInventory to set.
-     */
-    public void setLastInventory(Asset lastInventoryDateObject) {
-        this.lastInventory = lastInventoryDateObject;
     }
 
     /**
@@ -1128,22 +1003,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the assetRepresentative attribute. 
-     * @return Returns the assetRepresentative.
-     */
-    public UniversalUser getAssetRepresentative() {
-        return assetRepresentative;
-    }
-
-    /**
-     * Sets the assetRepresentative attribute value.
-     * @param assetRepresentative The assetRepresentative to set.
-     */
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
-        this.assetRepresentative = assetRepresentative;
-    }
-
-    /**
      * Gets the assetGlobalHeader attribute. 
      * @return Returns the assetGlobalHeader.
      */
@@ -1157,5 +1016,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setAssetGlobalHeader(MultipleAssetHeader assetGlobalHeader) {
         this.assetGlobalHeader = assetGlobalHeader;
+    }
+
+    /**
+     * Gets the assetPaymentDetails attribute. 
+     * @return Returns the assetPaymentDetails.
+     */
+    public List<AssetPaymentDetail> getAssetPaymentDetails() {
+        return assetPaymentDetails;
+    }
+
+    /**
+     * Sets the assetPaymentDetails attribute value.
+     * @param assetPaymentDetails The assetPaymentDetails to set.
+     */
+    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
+        this.assetPaymentDetails = assetPaymentDetails;
     }
 }

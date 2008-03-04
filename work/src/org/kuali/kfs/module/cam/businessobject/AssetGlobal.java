@@ -11,6 +11,7 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
@@ -22,12 +23,13 @@ import org.kuali.module.chart.bo.Chart;
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     /* misc. */
+    private MultipleAssetHeader assetGlobalHeader;
     private String documentNumber;
     
     /* asset detail infomation (Asset / CM_CPTLAST_T) */
     private String organizationOwnerChartOfAccountsCode;
     private String organizationOwnerAccountNumber;
-    private String leoOrganizationOwner; //org. owner
+    private Account organizationOwnerAccount;
     private String agencyNumber;
     private String acquisitionTypeCode;
     private String inventoryStatusCode;
@@ -38,7 +40,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String manufacturerName;
     private String manufacturerModelNumber;
     private String organizationText; // (AssetOrganization / CM_AST_ORG_T)
-    private String leoAssetRepresentitive; //asset rep.
+    private UniversalUser assetRepresentative;
     private Timestamp lastInventoryDate;
     private Date createDate;
     private int financialDocumentPostingYear;
@@ -55,6 +57,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String leoNationalStockNbr; //national stock number
     private String organizationInventoryName;
     private String organizationAssetTypeIdentifier; // (AssetOrganization / CM_AST_ORG_T)
+    
     /* location - on/off campus (AssetGlobalDetail / CM_MULT_AST_DTL_T) */
     private List<AssetGlobalDetail> assetGlobalDetails; 
 
@@ -83,14 +86,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /* lookup */
     private Chart organizationOwnerChartOfAccounts;
-    private Account organizationOwnerAccount;
-    //org. owner
+    // org. owner - see "organizationOwnerAccount" attribute above
     private Asset agency;
     private Asset acquisitionType;
     private Asset inventoryStatus;
     private Asset condition;
     private Asset capitalAssetType;
-    //asset rep.
+    // asset rep. - see "assetRepresentative" attribute above
     private Asset lastInventory;
     private Asset create;
     private Asset financialDocumentPostingYr;
@@ -103,22 +105,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public AssetGlobal() {
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
-    }     
-    
-    /**
-     * Gets the leoAssetRepresentitive attribute. 
-     * @return Returns the leoAssetRepresentitive.
-     */
-    public String getLeoAssetRepresentitive() {
-        return leoAssetRepresentitive;
-    }
-
-    /**
-     * Sets the leoAssetRepresentitive attribute value.
-     * @param leoAssetRepresentitive The leoAssetRepresentitive to set.
-     */
-    public void setLeoAssetRepresentitive(String leoAssetRepresentitive) {
-        this.leoAssetRepresentitive = leoAssetRepresentitive;
     }
 
     /**
@@ -135,22 +121,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setLeoDeprecationDate(Date leoDeprecationDate) {
         this.leoDeprecationDate = leoDeprecationDate;
-    }
-
-    /**
-     * Gets the leoOrganizationOwner attribute. 
-     * @return Returns the leoOrganizationOwner.
-     */
-    public String getLeoOrganizationOwner() {
-        return leoOrganizationOwner;
-    }
-
-    /**
-     * Sets the leoOrganizationOwner attribute value.
-     * @param leoOrganizationOwner The leoOrganizationOwner to set.
-     */
-    public void setLeoOrganizationOwner(String leoOrganizationOwner) {
-        this.leoOrganizationOwner = leoOrganizationOwner;
     }
 
     /**
@@ -1155,5 +1125,37 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
+     * Gets the assetRepresentative attribute. 
+     * @return Returns the assetRepresentative.
+     */
+    public UniversalUser getAssetRepresentative() {
+        return assetRepresentative;
+    }
+
+    /**
+     * Sets the assetRepresentative attribute value.
+     * @param assetRepresentative The assetRepresentative to set.
+     */
+    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+        this.assetRepresentative = assetRepresentative;
+    }
+
+    /**
+     * Gets the assetGlobalHeader attribute. 
+     * @return Returns the assetGlobalHeader.
+     */
+    public MultipleAssetHeader getAssetGlobalHeader() {
+        return assetGlobalHeader;
+    }
+
+    /**
+     * Sets the assetGlobalHeader attribute value.
+     * @param assetGlobalHeader The assetGlobalHeader to set.
+     */
+    public void setAssetGlobalHeader(MultipleAssetHeader assetGlobalHeader) {
+        this.assetGlobalHeader = assetGlobalHeader;
     }
 }

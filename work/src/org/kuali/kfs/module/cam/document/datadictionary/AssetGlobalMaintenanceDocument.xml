@@ -70,7 +70,7 @@
 					<maintainableField name="organizationOwnerChartOfAccountsCode" required="true" />
 					<maintainableField name="organizationOwnerAccountNumber" required="true" />
 					<!-- org. owner -->
-					<maintainableField name="leoOrganizationOwner" readOnly="true"/>
+					<maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
 					<maintainableField name="agencyNumber" />
 					<maintainableField name="acquisitionTypeCode" required="true" />
 					<maintainableField name="inventoryStatusCode" required="true" />
@@ -82,7 +82,7 @@
 					<maintainableField name="manufacturerModelNumber" />
 					<maintainableField name="organizationText" />
 					<!-- asset rep. -->
-					<maintainableField name="leoAssetRepresentitive" readOnly="true"/>
+					<maintainableField name="assetRepresentative.personName" required="true" />
 					<maintainableField name="lastInventoryDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>

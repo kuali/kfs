@@ -111,6 +111,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetDisposition assetSeparateHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementDocument retirementInfo;
+    private EquipmentLoanOrReturn loanOrReturnInfo;
+    
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -1777,6 +1779,13 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setRetirementInfo(AssetRetirementDocument retirementInfo) {
         this.retirementInfo = retirementInfo;
     }
-    
-    
+
+    public EquipmentLoanOrReturn getLoanOrReturnInfo() {
+        return loanOrReturnInfo;
+    }
+
+    public void setLoanOrReturnInfo(EquipmentLoanOrReturn loanOrReturnInfo) {
+        this.loanOrReturnInfo = loanOrReturnInfo;
+    }      
+
 }

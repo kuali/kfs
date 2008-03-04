@@ -198,9 +198,24 @@
           </maintainableSection>
           <maintainableSection title="View Equipment Loan Information">              	
               	<maintainableItems>
-            		<maintainableField name="loanDate" />	
-					<maintainableField name="expectedReturnDate" />
-					<maintainableField name="loanReturnDate" />
+            		<maintainableField name="loanDate" readOnly="true" />	
+					<maintainableField name="expectedReturnDate" readOnly="true" />
+					<maintainableField name="loanReturnDate" readOnly="true" />
+					<subSectionHeader name="Borrower Address" />
+					<maintainableField name="loanOrReturnInfo.borrowerUniversalUser.personName" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerAddress" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerCityName" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStateCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerZipCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerCountryCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerPhoneNumber" readOnly="true" />
+					<subSectionHeader name="Stored at Address" />
+					<maintainableField name="loanOrReturnInfo.borrowerStorageAddress" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStorageCityName" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStorageStateCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStorageZipCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStorageCountryCode" readOnly="true" />
+					<maintainableField name="loanOrReturnInfo.borrowerStoragePhoneNumber" readOnly="true" />
                 </maintainableItems>
             </maintainableSection>
 

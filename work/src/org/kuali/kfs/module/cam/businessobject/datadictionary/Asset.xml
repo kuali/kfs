@@ -820,7 +820,7 @@
                 <label>Federal Contribution</label>
                 <shortLabel>Contribution</shortLabel>
             </attributeReference>
-            
+            <!-- Warranty -->
 			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber" />
 			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" />
 			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" />
@@ -834,6 +834,7 @@
 			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
 			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>			
 			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
+			<!-- Retirement Information -->
 			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="documentNumber"/>
 			<attributeReference name="retirementInfo.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementDate"/>
 			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementContactName"/>
@@ -844,6 +845,20 @@
 			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementZipCode"/>
 			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode"/>
 			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber"/>
+			<!-- Loan Info -->
+			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+			<attributeReference name="loanOrReturnInfo.borrowerAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerAddress" />
+			<attributeReference name="loanOrReturnInfo.borrowerCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCityName" />
+			<attributeReference name="loanOrReturnInfo.borrowerStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStateCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerZipCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCountryCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerPhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerPhoneNumber" />
+			<attributeReference name="loanOrReturnInfo.borrowerStorageAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageAddress" />
+			<attributeReference name="loanOrReturnInfo.borrowerStorageCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCityName" />
+			<attributeReference name="loanOrReturnInfo.borrowerStorageStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageStateCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerStorageZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageZipCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerStorageCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCountryCode" />
+			<attributeReference name="loanOrReturnInfo.borrowerStoragePhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStoragePhoneNumber" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

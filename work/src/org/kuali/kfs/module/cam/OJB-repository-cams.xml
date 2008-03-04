@@ -906,6 +906,12 @@
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
+    <reference-descriptor name="retirementDocument" class-ref="org.kuali.module.cams.bo.AssetRetirementDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="equipmentLoanOrReturn" class-ref="org.kuali.module.cams.bo.EquipmentLoanOrReturn" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
@@ -1012,6 +1018,9 @@
     </reference-descriptor>
     <reference-descriptor name="borrowerStorageCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="borrowerStorageCountryCode" />
+    </reference-descriptor>
+    <reference-descriptor name="borrowerUniversalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="borrowerUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
 

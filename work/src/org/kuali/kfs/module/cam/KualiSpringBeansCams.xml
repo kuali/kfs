@@ -204,4 +204,7 @@
     <bean id="assetDiscompositionService" class="org.kuali.module.cams.service.impl.AssetDiscompositionServiceImpl" />
     
     <bean id="retirementInfoService" class="org.kuali.module.cams.service.impl.RetirementInfoServiceImpl" />
+    
+    <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl" />    
+    
 </beans>

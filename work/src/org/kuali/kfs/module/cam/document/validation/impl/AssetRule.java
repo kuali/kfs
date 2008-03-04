@@ -29,6 +29,7 @@ import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDiscompositionService;
+import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
 
@@ -57,6 +58,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(asset);
+
+        EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
+        equipmentLoanInfoService.setEquipmentLoanInfo(asset);
 
         boolean valid = processValidation(document);
         valid &= validateWarrantyInformation(asset);

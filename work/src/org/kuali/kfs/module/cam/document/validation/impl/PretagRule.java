@@ -161,7 +161,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method ensures that each {@link pretagDetail} tag number does not exist in Asset table
+     * This method ensures that total {@link pretagDetail} tag details does excees in quantity invoiced
      * 
      * @param dtl
      * @return true if the detail tag doesn't exist in Asset
@@ -175,8 +175,8 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         else {
-            if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) == 0) {
-                GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getPretagDetails().size() + "" });
+            if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) <= 0) {
+                GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] {pretag.getQuantityInvoiced().toString() + "" });
                 success &= false;
             }
         }
@@ -197,7 +197,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(dtl.getCampusTagNumber())) {
             Map tagMap = new HashMap();
             tagMap.put("campusTagNumber", dtl.getCampusTagNumber());
-            if (getBoService().countMatching(Asset.class, tagMap) != 0) {
+            if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (getBoService().countMatching(PretagDetail.class, tagMap) != 0)) {
                 GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
                 success &= false;
             }

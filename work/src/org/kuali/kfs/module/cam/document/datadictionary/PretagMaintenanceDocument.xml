@@ -62,14 +62,14 @@
                     <maintainableField name="manufacturerName" required="true" />
                     <maintainableField name="manufacturerModelNumber" required="false" />
                     <maintainableField name="vendorName" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="organizationCode" required="false" />
                     <maintainableField name="organizationDescription" required="false" />
-                    <maintainableField name="organizationInventoryName" required="true" />
+                    <maintainableField name="organizationInventoryName" required="false" />
                     <maintainableField name="personUniversal.personUserIdentifier" required="false" />
                     <maintainableField name="personUniversal.personName" required="false" readOnly="true" />
-                    <maintainableField name="organizationText" required="true" />
+                    <maintainableField name="organizationText" required="false" />
                     <maintainableField name="assetTopsDescription" required="true" />
-                    <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="pretagCreateDate" required="false" >
   						<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
 					</maintainableField>

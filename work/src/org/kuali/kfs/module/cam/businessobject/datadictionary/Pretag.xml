@@ -139,7 +139,7 @@
             </attributeReference>
 
             <attribute name="assetTopsDescription">
-                <label>Asset Tops Description</label>
+                <label>Purchase Order Line Item Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>2000</maxLength>

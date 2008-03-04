@@ -143,6 +143,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String DOCUMENT_PROPERTY_NAME = "document";
     public static final String DOCUMENT_TYPE_NAME = "docTypeName";
     public static final String EDIT_PREFIX = "edit";
+    public static final String DASH = "-";
     public static final String EMPTY_STRING = "";
     public static final String ENCUMBRANCE = "Encumbrance";
     public static final String EXPENSE = "Expense";

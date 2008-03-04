@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.inquiry;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
@@ -27,19 +28,21 @@ import org.kuali.kfs.KFSConstants;
 public class KfsInquirableImpl extends KualiInquirableImpl {
 
     /**
-     * Helper method to build an inquiry url for a result field. Special implementation to not build
-     * an inquiry link if the value is all dashes.
+     * Helper method to build an inquiry url for a result field. Special implementation to not build an inquiry link if the value is
+     * all dashes.
      * 
      * @param bo the business object instance to build the urls for
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
-        Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
-        String fieldValue = objFieldValue == null ? "" : objFieldValue.toString();
-        
-        if (StringUtils.containsOnly(fieldValue, "-")) {
-            return "";
+        if (PropertyUtils.isReadable(businessObject, attributeName)) {
+            Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
+            String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
+
+            if (StringUtils.containsOnly(fieldValue, KFSConstants.DASH)) {
+                return KFSConstants.EMPTY_STRING;
+            }
         }
 
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);

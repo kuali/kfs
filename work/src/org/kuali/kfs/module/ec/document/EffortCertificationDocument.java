@@ -28,6 +28,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -628,5 +629,136 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
             }
         }
         return maxLine;
+    }
+    
+    /**
+     * Gets Currency Formatted TotalPayrollAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalPayrollAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalPayrollAmount());
+    }
+    
+    /**
+     * Gets Currency Formatted TotalOriginalPayrollAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalOriginalPayrollAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalOriginalPayrollAmount());
+    }    
+    
+    /**
+     * Gets Currency FormattedSalaryFederalTotal
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedSalaryFederalTotal() {
+        
+        return getCurrencyFormattedTotal(getSalaryFederalTotal());
+    }
+    
+    /**
+     * Gets Currency Formatted SalaryOrigFederalTotal
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedSalaryOrigFederalTotal() {
+        
+        return getCurrencyFormattedTotal(getSalaryOrigFederalTotal());
+    }
+    
+    /**
+     * Gets Currency Formatted SalaryOrigOtherTotal
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedSalaryOrigOtherTotal() {
+        
+        return getCurrencyFormattedTotal(getSalaryOrigOtherTotal());
+    }
+    
+    /**
+     * Gets Currency Formatted SalaryOtherTotal
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedSalaryOtherTotal() {
+        
+        return getCurrencyFormattedTotal(getSalaryOtherTotal());
+    }
+    
+    /**
+     * Get Currency Formatted TotalOriginalBenefitFederalAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalOriginalBenefitFederalAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalOriginalBenefitFederalAmount());
+    }
+
+    /**
+     * Get Currency Formatted TotalOriginalBenefitOtherAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalOriginalBenefitOtherAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalOriginalBenefitOtherAmount());
+    }
+    
+    /**
+     * Gets Currency Formatted TotalOriginalBenefitAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalOriginalBenefitAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalOriginalBenefitAmount());
+    }
+    
+    /**
+     * Gets Currency Formatted TotalUpdatedBenefitAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalUpdatedBenefitAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalUpdatedBenefitAmount());
+    }
+    
+    /**
+     * Gets Currency Formatted TotalUpdatedBenefitFederalAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalUpdatedBenefitFederalAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalUpdatedBenefitFederalAmount());
+    }
+    
+    /**
+     * Get Currency Formatted TotalUpdatedBenefitOtherAmount
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalUpdatedBenefitOtherAmount() {
+        
+        return getCurrencyFormattedTotal(getTotalUpdatedBenefitOtherAmount());
+    }
+    
+    /**
+     * Returns a currency formatted string
+     * 
+     * @param unformattedTotal
+     * @return
+     */
+    private String getCurrencyFormattedTotal(KualiDecimal unformattedTotal) {
+        
+        return (String) new CurrencyFormatter().format(unformattedTotal);
     }
 }

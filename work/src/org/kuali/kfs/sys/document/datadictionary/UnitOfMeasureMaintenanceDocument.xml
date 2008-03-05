@@ -36,7 +36,7 @@
         <documentTypeCode>PMUM</documentTypeCode>
 
         <label>Unit Of Measure</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="UnitOfMeasure" parameterName="UNIT_OF_MEASURE" />
+        <help parameterNamespace="KFS-SY" parameterDetailType="UnitOfMeasure" parameterName="UNIT_OF_MEASURE" />
 
         <lockingKeys>
             <field attributeName="itemUnitOfMeasureCode" />

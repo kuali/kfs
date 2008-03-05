@@ -51,8 +51,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private KualiDecimal effortCertificationOriginalPayrollAmount;
     private Integer effortCertificationCalculatedOverallPercent;
     private Integer effortCertificationUpdatedOverallPercent;
-    private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
+    
+    private Integer financialDocumentPostingYear;
+    private Integer universityFiscalYear; // hold the same value as financialDocumentPostingYear, but serve for a special purpose
 
     private KualiDecimal originalFringeBenefitAmount;
 
@@ -602,6 +604,21 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.originalFringeBenefitAmount = originalFringeBenefitAmount;
     }
 
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return this.getFinancialDocumentPostingYear();
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
 
     /**
      * Gets the persistedPayrollAmount attribute.
@@ -640,5 +657,4 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return map;
     }
-
 }

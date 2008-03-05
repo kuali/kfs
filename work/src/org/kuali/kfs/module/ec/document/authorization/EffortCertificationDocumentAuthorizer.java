@@ -36,6 +36,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         
         TransactionalDocumentActionFlags documentActionFlags = (TransactionalDocumentActionFlags) flags;
         
+        // if the status code is intitiated, then the document should be a recreate document that has not been submitted 
         boolean initiated = KFSConstants.DocumentStatusCodes.INITIATED.equals(document.getDocumentHeader().getFinancialDocumentStatusCode());
         if(initiated) {
             documentActionFlags.setCanClose(false);

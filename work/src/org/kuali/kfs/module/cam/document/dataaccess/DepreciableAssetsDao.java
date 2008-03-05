@@ -21,7 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cams.bo.AssetObjectCode;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.DepreciableAssets;
 
 public interface DepreciableAssetsDao {
@@ -32,16 +34,17 @@ public interface DepreciableAssetsDao {
      * @param fiscalMonth
      * @return collection 
      */
-    public Collection<DepreciableAssets> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
+    public Collection<AssetPayment> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
     
     /**
      * 
      * This method updates the asset payment table fields with the calculated depreciation for each asset
+     * 
      * @param assetsInDepreciation
      * @param fiscalYear
      * @param fiscalMonth
      */    
-    public void updateAssetPayments(List<DepreciableAssets> assetsInDepreciation, Integer fiscalYear, Integer fiscalMonth);
+    public void updateAssetPayments(String capitalAssetNumber, String paymentSequenceNumber, KualiDecimal transactionAmount, KualiDecimal accumulatedDepreciationAmount, Integer fiscalMonth);
     
     /**
      * 
@@ -53,6 +56,16 @@ public interface DepreciableAssetsDao {
      * @return
      */
     public List<String[]> checkSum(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
+
+
+    /**
+     * 
+     * This method adds the depreciation amount of each month and stores it in the PreviousYearPrimaryDepreciationAmount field then,
+     * each depreciation month field is initialized with a value equals to cero
+     *   
+     * @param fiscalMonth
+     */
+    public void initializeAssetPayment(Integer fiscalMonth);
     
     /**
      * 
@@ -60,4 +73,5 @@ public interface DepreciableAssetsDao {
      * @param kcs
      */
     public void setKualiConfigurationService(KualiConfigurationService kcs);    
+    
 }

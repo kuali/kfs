@@ -72,4 +72,13 @@ public class CamsConstants {
         public static final String ASSET_DISCOMPOSTION_CODE_MERGE = "M";
         public static final String ASSET_DISCOMPOSTION_CODE_SEPARATE = "S";
     }
+
+    public static class AssetPaymentErrors {
+        public static final String INFORMATION_TAB_ERRORS = "AssetInfoErrors,document.capitalAssetNumber,document.organizationOwnerChartOfAccountsCode,document.campusCode,"+
+                                                                  "document.representativeUniversalIdentifier";
+        
+    }
+    
+    
+    
 }

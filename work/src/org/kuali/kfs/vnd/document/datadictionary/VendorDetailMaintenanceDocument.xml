@@ -247,8 +247,8 @@
 					
             <maintainableSection title="Vendor Commodity Codes">
                 <maintainableItems>
-                     <maintainableCollection name="vendorCommodities" businessObjectClass="org.kuali.module.vendor.bo.VendorCommodity" summaryTitle="Vendor Commodity Code">
-                        <maintainableField name="commodityCode" required="false" />
+                     <maintainableCollection name="vendorCommodities" businessObjectClass="org.kuali.module.vendor.bo.VendorCommodityCode" summaryTitle="Vendor Commodity Code">
+                        <maintainableField name="purchasingCommodityCode" required="false" />
                         <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
                         <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
                         <maintainableField name="commodityDefaultIndicator">
@@ -259,7 +259,7 @@
                             <defaultValue>true</defaultValue>
                         </maintainableField>
                         <summaryFields>
-                            <summaryField name="commodityCode" />
+                            <summaryField name="purchasingCommodityCode" />
                         </summaryFields>                        
                      </maintainableCollection>
                 </maintainableItems>

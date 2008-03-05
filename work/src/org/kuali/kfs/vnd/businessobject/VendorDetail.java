@@ -79,7 +79,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private List<VendorCustomerNumber> vendorCustomerNumbers;
     private List<VendorPhoneNumber> vendorPhoneNumbers;
     private List<VendorShippingSpecialCondition> vendorShippingSpecialConditions;
-    private List<VendorCommodity> vendorCommodities;
+    private List<VendorCommodityCode> vendorCommodities;
     
     private VendorHeader vendorHeader;
     private VendorInactiveReason vendorInactiveReason;
@@ -109,7 +109,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         vendorCustomerNumbers = new TypedArrayList(VendorCustomerNumber.class);
         vendorPhoneNumbers = new TypedArrayList(VendorPhoneNumber.class);
         vendorShippingSpecialConditions = new TypedArrayList(VendorShippingSpecialCondition.class);
-        vendorCommodities = new TypedArrayList(VendorCommodity.class);
+        vendorCommodities = new TypedArrayList(VendorCommodityCode.class);
         vendorParentIndicator = true;
 
     }
@@ -550,11 +550,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         this.vendorShippingSpecialConditions = vendorShippingSpecialConditions;
     }
 
-    public List<VendorCommodity> getVendorCommodities() {
+    public List<VendorCommodityCode> getVendorCommodities() {
         return vendorCommodities;
     }
 
-    public void setVendorCommodities(List<VendorCommodity> vendorCommodities) {
+    public void setVendorCommodities(List<VendorCommodityCode> vendorCommodities) {
         this.vendorCommodities = vendorCommodities;
     }
 

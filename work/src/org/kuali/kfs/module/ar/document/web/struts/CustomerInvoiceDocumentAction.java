@@ -121,20 +121,16 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         int index = getSelectedLine(request);
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(index);
 
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-        String propertyName = "sourceAccountingLine[" + index + "]";
-        GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+        //document.sourceAccountingLine[0].invoiceItemUnitPrice
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "sourceAccountingLine[" + index + "]";
 
         boolean rulePassed = true;
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent("document.sourceAccountingLine", customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
         if (rulePassed) {
             // recalculate the amount for the accounting line
             KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
             customerInvoiceDetail.setAmount(amount);
         }
-        
-        GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -104,7 +104,7 @@
     <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.module.purap.bo.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor>
-	<reference-descriptor name="purchasingCommodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="commodityCode" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
     

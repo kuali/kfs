@@ -846,7 +846,9 @@
 			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode"/>
 			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber"/>
 			<!-- Loan Info -->
-			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerUniversalUser.personName" >
+				<label>Borrower Name</label>
+			</attributeReference>
 			<attributeReference name="loanOrReturnInfo.borrowerAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerAddress" />
 			<attributeReference name="loanOrReturnInfo.borrowerCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCityName" />
 			<attributeReference name="loanOrReturnInfo.borrowerStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStateCode" />

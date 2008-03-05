@@ -269,22 +269,6 @@
                 <summary>borrowerStorageZipCode</summary>
                 <description>borrowerStorageZipCode description...</description>
 			</attribute>
-
-            <attribute name="borrowerUniversalIdentifier" forceUppercase="true">
-                <label>Borrower Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>borrowerUniversalIdentifier</summary>
-                <description>borrowerUniversalIdentifier description...</description>
-			</attribute>
-
             <attribute name="borrowerZipCode" forceUppercase="true">
                 <label>Borrower Zip Code</label>
                 <shortLabel>Code</shortLabel>
@@ -450,8 +434,26 @@
                 <description>signatureCode description...</description>
 			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+			<attributeReference name="borrowerUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
+                <label>Borrower Person Identifier</label>
+                <shortLabel>Borrower Person ID</shortLabel>
+                <displayLabelAttribute>borrowerUniversalUser.personUserIdentifier</displayLabelAttribute>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+            <attributeReference name="borrowerUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Borrowed Person Name</label>
+                <shortLabel>Borrowed Person Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="borrowerUniversalIdentifier" userIdAttributeName="borrowerUniversalUser.personUserIdentifier" personNameAttributeName="borrowerUniversalUser.personName"/>
+                </control>
+            </attributeReference>
 
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -195,7 +195,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         boolean success = true;
 
         customerInvoiceDocument.refreshReferenceObject("billedByOrganization");
-        if (ObjectUtils.isNull(customerInvoiceDocument.getBilledByOrganizationCode())) {
+        if (ObjectUtils.isNull(customerInvoiceDocument.getBilledByOrganization())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "billedByOrganizationCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_ORGANIZATION_CODE);
             success = false;
         }

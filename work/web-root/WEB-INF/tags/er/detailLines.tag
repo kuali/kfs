@@ -19,7 +19,7 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="detailLines" required="true" type="java.util.List"
-              description="the detail lines being displayed" %>
+              description="the detail lines being displayed" %>             
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 			  description="The DataDictionary entry containing attributes for the line fields."%>              
 <%@ attribute name="detailFieldNames" required="true"
@@ -32,42 +32,45 @@
               description="the names of the fields that can be inquirable" %>  
 <%@ attribute name="fieldInfo" required="false" type="java.util.List"
               description="the information of the fields in the detail lines" %>
+<%@ attribute name="primaryKeysOfDetailLineFields" required="false" type="java.util.Map"
+			  description="The DataDictionary entry containing attributes for the line fields."%>               
+              
+<%@ attribute name="onblurForEditableFieldNames" required="false"
+              description="the funation names that retrives the information of the given editable fields" %> 
+<%@ attribute name="onblurableInfoFieldNames" required="false"
+              description="the names of the fields that can be editable" %> 
+<%@ attribute name="hasActions" required="false"
+              description="determine if a user can tak an action on the given line" %>
 
 <c:set var="numericFormatter" value="org.kuali.core.web.format.CurrencyFormatter, org.kuali.core.web.format.IntegerFormatter"/>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
-		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
-		
-		<!-- render the header of the detail line table -->
-		<c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
-			<kul:htmlAttributeHeaderCell attributeEntry="${attributes[fieldName]}"/>
-		</c:forTokens>
+		<er:detailLineHeader attributes="${attributes}"
+			detailFieldNames="${detailFieldNames}"
+			hasActions="${hasActions}"/>
 	</tr> 
 
 	<!-- populate the table with the given deatil lines -->
 	<c:forEach var="detailLine" items="${detailLines}" varStatus="status">
 		<tr>
 			<kul:htmlAttributeHeaderCell literalLabel="${status.index + 1}">
-			<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">
+				<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">
 					<html:hidden property="document.effortCertificationDetailLines[${status.index}].${fieldName}" />
-			</c:forTokens>
+				</c:forTokens>
 			</kul:htmlAttributeHeaderCell>
 			
-			<c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
-				<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
-				
-				<td class="datacell-nowrap">
-					<er:detailLineDataCell
-						index="${status.index}" 
-						fieldValue="${detailLine[fieldName]}${percent}"
-						fieldFormName="document.effortCertificationDetailLines[${status.index}].${fieldName}"
-				        attributeEntry="${attributes[fieldName]}"
-				        inquirableUrl="${inquirableUrl[status.index][fieldName]}"
-				        fieldInfo="${fieldInfo[status.index][fieldName]}"
-				        readOnly="true" />
-			    </td>
-			</c:forTokens>
+			<er:detailLine detailLine="${detailLine}" 
+				detailLineFormName="document.effortCertificationDetailLines[${status.index}]"
+				attributes="${attributes}"
+				detailFieldNames="${detailFieldNames}"
+				hiddenFieldNames="${hiddenFieldNames}"
+				editableFieldNames="${editableFieldNames}"
+				onblurForEditableFieldNames="${onblurForEditableFieldNames}"
+				onblurableInfoFieldNames="${onblurableInfoFieldNames}"
+				inquirableUrl="${inquirableUrl[status.index]}"
+				fieldInfo="${fieldInfo[status.index]}" 
+				primaryKeysOfDetailLineFields="${primaryKeysOfDetailLineFields}" />			
 		</tr>
 	</c:forEach>	
 </table>       

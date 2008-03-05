@@ -27,6 +27,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
@@ -104,6 +105,13 @@ public class CertificationRecreateForm extends EffortCertificationForm {
             if (sourceChart != null) {
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
+            
+            KualiDecimal totalAmount = this.getEffortCertificationDocument().getTotalOriginalPayrollAmount();
+            KualiDecimal actualPercent = KualiDecimal.ZERO;
+            if(totalAmount.isNonZero()) {
+                actualPercent = detailLine.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(100)).divide(totalAmount);
+            }
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualPercent.toString()+"%");
 
             fieldInfo.add(fieldInfoForAttribute);
         }

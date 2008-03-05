@@ -20,6 +20,8 @@
 <c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
 
 <c:set var="detailLines" value="${KualiForm.detailLines}"/>
+<c:set var="newDetailLine" value="${KualiForm.newDetailLine}"/>
+
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
@@ -34,6 +36,7 @@
  
 	<kul:tab tabTitle="Effort Detail" defaultOpen="true"
 		tabErrorKey="${EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS}">
+		
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Retrieve Data</h2></div>
 			
@@ -49,7 +52,8 @@
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationCalculatedOverallPercent"
 				hiddenFieldNames="financialDocumentPostingYear,effortCertificationOriginalPayrollAmount,effortCertificationUpdatedOverallPercent,costShareSourceSubAccountNumber,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
-				fieldInfo="${KualiForm.fieldInfo}"/>
+				fieldInfo="${KualiForm.fieldInfo}"
+				primaryKeysOfDetailLineFields="${KualiForm.primaryKeysOfDetailLineFields}" />
 		</div>		
 	</kul:tab>
 	

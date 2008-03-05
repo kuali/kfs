@@ -22,16 +22,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.DataDictionary;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -45,7 +41,7 @@ import org.kuali.module.financial.service.UniversityDateService;
  * the specified requirements.
  */
 public class EffortCertificationDocumentRuleUtil {
-    
+
     public static KualiDecimal ONE_HUNDRED = new KualiDecimal(100);
 
     /**
@@ -204,26 +200,6 @@ public class EffortCertificationDocumentRuleUtil {
         int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
 
         return currentErrorCount == originalErrorCount;
-    }
-
-    /**
-     * determine if the certain attributes of the given detail line have valid references
-     * 
-     * @param detailLine the given detail line
-     * @return true if the certain attributes of the given detail line have valid references; otherwise, false
-     */
-    public static boolean hasValidReferences(EffortCertificationDetail detailLine) {
-        DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-
-        boolean hasValidReference = true;
-        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
-        hasValidReference &= accountingLineRuleUtil.isValidAccount(detailLine.getAccount(), dataDictionary);
-        hasValidReference &= accountingLineRuleUtil.isValidChart(detailLine.getChartOfAccounts(), dataDictionary);
-        if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber())){
-            hasValidReference &= accountingLineRuleUtil.isValidSubAccount(detailLine.getSubAccount(), dataDictionary);
-        }
-
-        return hasValidReference;
     }
 
     /**

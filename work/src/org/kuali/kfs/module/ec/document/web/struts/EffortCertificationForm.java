@@ -22,8 +22,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.Inquirable;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -32,6 +35,7 @@ import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.module.effort.util.PrimaryKeyFieldHolder;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -98,7 +102,29 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     public List<EffortCertificationDetail> getDetailLines() {
         return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
     }
-    
+
+    public Map<String, PrimaryKeyFieldHolder> getPrimaryKeysOfDetailLineFields() {
+        PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
+
+        Map<String, PrimaryKeyFieldHolder> primaryKeyFields = new HashMap<String, PrimaryKeyFieldHolder>();
+        for (String attributeName : this.getInquirableFieldNames()) {
+            PrimaryKeyFieldHolder primaryKeyFieldHolder = new PrimaryKeyFieldHolder();
+            Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
+            
+            if (primitiveReference != null && !primitiveReference.isEmpty()) {
+                String attributeRef = primitiveReference.keySet().iterator().next();                
+                Class<? extends BusinessObject> businessObjectClass = primitiveReference.get(attributeRef);
+                
+                primaryKeyFieldHolder.setBusinessObjectClass(businessObjectClass);
+                primaryKeyFieldHolder.setPrimaryKeyFields(persistenceStructureService.listPrimaryKeyFieldNames(businessObjectClass));
+                
+                primaryKeyFields.put(attributeName, primaryKeyFieldHolder);
+            }
+        }
+
+        return primaryKeyFields;
+    }
+
     /**
      * Gets the inquiryUrl attribute.
      * 
@@ -130,7 +156,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         return inquiryURL;
     }
-    
+
     /**
      * get the inquiry URL for the specified attribute
      * 
@@ -139,9 +165,9 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      * @return the inquiry URL for the specified attribute
      */
     protected String getCustomizedInquiryUrl(EffortCertificationDetail detailLine, String attributeName) {
-        String baseURL = getInquirable().getInquiryUrl(detailLine, attributeName, false);       
+        String baseURL = getInquirable().getInquiryUrl(detailLine, attributeName, false);
         String inquiryURL = this.getCompleteURL(baseURL);
-                
+
         return inquiryURL;
     }
 
@@ -171,9 +197,9 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * get the inquirable field names that need to be handled specially 
+     * get the inquirable field names that need to be handled specially
      * 
-     * @return the inquirable field names that need to be handled specially 
+     * @return the inquirable field names that need to be handled specially
      */
     public List<String> getCustomizedInquirableFieldNames() {
         List<String> inquirableFieldNames = new ArrayList<String>();
@@ -185,11 +211,12 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         return inquirableFieldNames;
     }
-    
+
     /**
      * append the extract query string into the given base URL
+     * 
      * @param baseURL the given base URL. If the parameter is blank, the base URL won't be changed
-     * @return the complete URL built from the given base URL and extra query strings 
+     * @return the complete URL built from the given base URL and extra query strings
      */
     protected String getCompleteURL(String baseURL) {
         if (StringUtils.isBlank(baseURL)) {
@@ -211,9 +238,10 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         return completeURL.concat(queryString.toString());
     }
-    
+
     /**
      * get the inquirable implmentation
+     * 
      * @return the inquirable implmentation
      */
     private Inquirable getInquirable() {

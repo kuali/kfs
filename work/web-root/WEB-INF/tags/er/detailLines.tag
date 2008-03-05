@@ -42,8 +42,6 @@
 <%@ attribute name="hasActions" required="false"
               description="determine if a user can tak an action on the given line" %>
 
-<c:set var="numericFormatter" value="org.kuali.core.web.format.CurrencyFormatter, org.kuali.core.web.format.IntegerFormatter"/>
-
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
 		<er:detailLineHeader attributes="${attributes}"
@@ -70,7 +68,8 @@
 				onblurableInfoFieldNames="${onblurableInfoFieldNames}"
 				inquirableUrl="${inquirableUrl[status.index]}"
 				fieldInfo="${fieldInfo[status.index]}" 
-				primaryKeysOfDetailLineFields="${primaryKeysOfDetailLineFields}" />			
+				primaryKeysOfDetailLineFields="${primaryKeysOfDetailLineFields}" 
+				hasActions="${hasActions}"/>			
 		</tr>
 	</c:forEach>	
 </table>       

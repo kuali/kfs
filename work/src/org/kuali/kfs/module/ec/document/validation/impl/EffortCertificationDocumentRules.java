@@ -95,8 +95,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddDetailLineRules() start");
+        
+        document.refreshNonUpdateableReferences();
+        detailLine.refreshNonUpdateableReferences();
 
-        // TODO: push up to presentation layer
         EffortCertificationDocumentRuleUtil.applyDefaultvalues(detailLine);
         
         if(!this.checkRequiredAttributes(detailLine) || !this.checkDetailLineAttributes(detailLine)) {
@@ -295,7 +297,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private boolean checkRequiredAttributes(EffortCertificationDetail detailLine) {
         boolean isValid = true;
         
-
         if (StringUtils.isBlank(detailLine.getAccountNumber())) {
             reportError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MISSING);
             isValid = false;
@@ -320,7 +321,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         LOG.debug("checkDetailLine() start");
 
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        detailLine.refreshNonUpdateableReferences();
 
         // check if the fields in the detail line are in the correct formats defined in the data dictionary
         boolean hasValidFormat = EffortCertificationDocumentRuleUtil.hasValidFormat(detailLine);

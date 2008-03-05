@@ -120,18 +120,6 @@ public class CertificationRecreateForm extends EffortCertificationForm {
     }
 
     /**
-     * @return DocumentActionFlags instance indicating what actions the current user can take on this document
-     */
-    @Override
-    public DocumentActionFlags getDocumentActionFlags() {
-        documentActionFlags.setCanClose(false);
-        documentActionFlags.setCanBlanketApprove(false);
-        documentActionFlags.setHasAmountTotal(true);
-
-        return documentActionFlags;
-    }
-
-    /**
      * validate the importing field values
      * 
      * @return true if the importing field values are valid; otherwsie, add errors into error map and return false

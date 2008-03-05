@@ -20,19 +20,31 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * Document Authorizer for the Effort Certification document.
  */
 public class EffortCertificationDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
+    /**
+     * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         
-        TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
-        tflags.setCanErrorCorrect(false); 
-
+        TransactionalDocumentActionFlags documentActionFlags = (TransactionalDocumentActionFlags) flags;
+        
+        boolean initiated = KFSConstants.DocumentStatusCodes.INITIATED.equals(document.getDocumentHeader().getFinancialDocumentStatusCode());
+        if(initiated) {
+            documentActionFlags.setCanClose(false);
+            documentActionFlags.setCanBlanketApprove(false);
+            documentActionFlags.setHasAmountTotal(true);
+        }
+        else {
+            documentActionFlags.setCanErrorCorrect(false);
+        }
         return flags;
     }
     

@@ -527,5 +527,15 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
         m.put("organizationCode", this.organizationCode);
 	    return m;
     }
+    
+    /**
+     * This method (a hack by any other name...) returns a string so that an organization options can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Organization Options"
+     */
+    public String getOrganizationOptionsViewer() {
+        return "View Organization Options";
+    }
 
 }

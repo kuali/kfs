@@ -56,6 +56,7 @@
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="organizationOptionsViewer" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="processingChartOfAccountCode" />
@@ -78,7 +79,16 @@
             </resultFields>
         </lookup>
 
+		<titleAttribute>organizationOptionsViewer</titleAttribute>
+
         <attributes>
+
+        	<attribute name="organizationOptionsViewer">
+        		<label>View</label>
+        		<maxLength>100</maxLength>
+        		<required>false</required>
+        		<control><hidden /></control>
+        	</attribute>
 
            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
            </attributeReference>

@@ -50,14 +50,15 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
 
     @Override
     protected void setUp() throws Exception {
-        asset = BASIC_ASSET.getAsset();
+        asset = BASIC_ASSET.newAsset();
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
-        assetPayments.add(PAYMENT1.getAssetPayment());
-        assetPayments.add(PAYMENT2.getAssetPayment());
-        assetPayments.add(PAYMENT3.getAssetPayment());
-        assetPayments.add(PAYMENT4.getAssetPayment());
+        assetPayments.add(PAYMENT1.newAssetPayment());
+        assetPayments.add(PAYMENT2.newAssetPayment());
+        assetPayments.add(PAYMENT3.newAssetPayment());
+        assetPayments.add(PAYMENT4.newAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
+        
         UniversityDateService universityDateService = new UniversityDateServiceImpl() {
             public UniversityDate getCurrentUniversityDate() {
                 return new UniversityDate() {

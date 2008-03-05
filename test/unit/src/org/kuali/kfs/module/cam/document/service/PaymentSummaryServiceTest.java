@@ -58,7 +58,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assetPayments.add(PAYMENT4.newAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
-        
+
         UniversityDateService universityDateService = new UniversityDateServiceImpl() {
             public UniversityDate getCurrentUniversityDate() {
                 return new UniversityDate() {
@@ -71,35 +71,6 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
             }
         };
         paymentSummaryService.setUniversityDateService(universityDateService);
-    }
-
-    private AssetPayment createAssetPayment(CSVDataLoader loader, int rowPos) {
-        AssetPayment assetPayment = new AssetPayment();
-        assetPayment.setAccountChargeAmount(loader.getKualiDecimal(rowPos, "ACCT_CHARGE_AMT"));
-        assetPayment.setAccumulatedPrimaryDepreciationAmount(loader.getKualiDecimal(rowPos, "AST_ACUM_DEPR1_AMT"));
-        assetPayment.setPrimaryDepreciationBaseAmount(loader.getKualiDecimal(rowPos, "AST_DEPR1_BASE_AMT"));
-        assetPayment.setPreviousYearPrimaryDepreciationAmount(loader.getKualiDecimal(rowPos, "AST_PRVYRDEPR1_AMT"));
-        assetPayment.setPeriod1Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD1_DEPR1_AMT"));
-        assetPayment.setPeriod2Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD2_DEPR1_AMT"));
-        assetPayment.setPeriod3Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD3_DEPR1_AMT"));
-        assetPayment.setPeriod4Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD4_DEPR1_AMT"));
-        assetPayment.setPeriod5Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD5_DEPR1_AMT"));
-        assetPayment.setPeriod6Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD6_DEPR1_AMT"));
-        assetPayment.setPeriod7Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD7_DEPR1_AMT"));
-        assetPayment.setPeriod8Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD8_DEPR1_AMT"));
-        assetPayment.setPeriod9Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD9_DEPR1_AMT"));
-        assetPayment.setPeriod10Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD10_DEPR1_AMT"));
-        assetPayment.setPeriod11Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD11_DEPR1_AMT"));
-        assetPayment.setPeriod12Depreciation1Amount(loader.getKualiDecimal(rowPos, "AST_PRD12_DEPR1_AMT"));
-        return assetPayment;
-    }
-
-    private Asset createAsset(CSVDataLoader loader, int rowPos) {
-        Asset asset = new Asset();
-        asset.setCapitalAssetNumber(Long.valueOf(loader.getString(rowPos, "CPTLAST_NBR")));
-        asset.setPrimaryDepreciationMethodCode(loader.getString(rowPos, "CM_AST_DEPR_MTHD1_CD"));
-        asset.setSalvageAmount(loader.getKualiDecimal(rowPos, "CPTLAST_SALVAG_AMT"));
-        return asset;
     }
 
     public void testCalculateAndSetPaymentSummary_SL() throws Exception {

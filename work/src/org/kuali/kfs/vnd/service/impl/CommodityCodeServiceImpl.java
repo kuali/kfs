@@ -21,7 +21,8 @@ import org.kuali.module.vendor.service.CommodityCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
+ * This class is the service implementation for the CommodityCodeService. 
+ * This is the default, Kuali delivered implementation. It's currently used for dwr.
  */
 @Transactional
 public class CommodityCodeServiceImpl implements CommodityCodeService {

@@ -22,10 +22,11 @@ import org.kuali.module.vendor.bo.CommodityCode;
  */
 public interface CommodityCodeService {
     /**
-     * Retrieves a commodity code object by its primary key - the chart code.
+     * Retrieves a commodity code object by its primary key - the purchasing commodity code.
      * 
-     * @param purchasingCommodityCode
-     * @return
+     * @param  purchasingCommodityCode
+     * @return CommodityCode the commodity code object which has the purchasingCommodityCode
+     *         in the input parameter to match its the primary key.
      */
     public CommodityCode getByPrimaryId(String purchasingCommodityCode);
 

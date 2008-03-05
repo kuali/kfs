@@ -42,6 +42,11 @@
 				<value>org/kuali/module/vendor/datadictionary</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+            <list>
+                <value>org/kuali/module/vendor/dwr-vendor.xml</value>
+            </list>
+        </property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/module/vendor/OJB-repository-vendor.xml</value>
@@ -248,4 +253,9 @@
         </property>
     </bean>
    
+    <bean id="commodityCodeService" class="org.kuali.module.vendor.service.impl.CommodityCodeServiceImpl">
+         <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property> 
+    </bean>
 </beans>

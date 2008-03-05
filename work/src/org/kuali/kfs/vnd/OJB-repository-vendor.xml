@@ -136,6 +136,10 @@
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
+    <collection-descriptor name="vendorCommodities" proxy="true" element-class-ref="org.kuali.module.vendor.bo.VendorCommodity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.vendor.bo.VendorAddress" table="PUR_VNDR_ADDR_T">
@@ -564,6 +568,9 @@
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="commodity" class-ref="org.kuali.module.vendor.bo.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="commodityCode" />
     </reference-descriptor>
 </class-descriptor>
 

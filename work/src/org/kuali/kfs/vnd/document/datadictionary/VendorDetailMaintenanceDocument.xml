@@ -244,7 +244,27 @@
                      </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
-						
+					
+            <maintainableSection title="Vendor Commodity Codes">
+                <maintainableItems>
+                     <maintainableCollection name="vendorCommodities" businessObjectClass="org.kuali.module.vendor.bo.VendorCommodity" summaryTitle="Vendor Commodity Code">
+                        <maintainableField name="commodityCode" required="false" />
+                        <maintainableField name="vendorHeaderGeneratedIdentifier"  readOnly="true" />
+                        <maintainableField name="vendorDetailAssignedIdentifier"  readOnly="true" />
+                        <maintainableField name="commodityDefaultIndicator">
+                            <defaultValue>true</defaultValue>
+                        </maintainableField>
+                        <maintainableField name="versionNumber" />
+                        <maintainableField name="active">
+                            <defaultValue>true</defaultValue>
+                        </maintainableField>
+                        <summaryFields>
+                            <summaryField name="commodityCode" />
+                        </summaryFields>                        
+                     </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+            						
             <maintainableSection title="Search Alias">
                 <maintainableItems>
                      <maintainableCollection name="vendorAliases" businessObjectClass="org.kuali.module.vendor.bo.VendorAlias">

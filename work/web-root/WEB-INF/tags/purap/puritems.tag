@@ -23,6 +23,9 @@
               description="A comma seperated list of names to be added to the list of normally hidden fields
               for the existing misc items." %>
 
+<script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
+
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="amendmentEntryWithUnpaidPreqOrCM" value="${(amendmentEntry && (KualiForm.document.containsUnpaidPaymentRequestsOrCreditMemos))}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
@@ -93,6 +96,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
@@ -121,6 +125,19 @@
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
 			    </td>
+			    <td class="infoline">
+			        <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
+			        <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
+                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.commodityCode}" 
+                        property="${commodityCodeField}" 
+                        onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
+                    <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                            fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"/>   
+                            
+                    <div id="newPurchasingItemLine.commodityCode.commodityDescription.div">
+                        <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
+                    </div>         
+                </td>
 				<td class="infoline">
 				    <div align="right">
 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="newPurchasingItemLine.itemUnitPrice" />
@@ -176,6 +193,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
@@ -333,6 +351,16 @@
 						    property="document.item[${ctr}].itemDescription"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 					</td>
+					<td class="infoline">
+                        <kul:htmlControlAttribute 
+                            attributeEntry="${itemAttributes.commodityCode}" 
+                            property="document.item[${ctr}].purchasingCommodityCode"
+                            onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
+                            readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                            fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"/>    
+                        <div id="document.item[${ctr}].commodityCode.commodityDescription.div" />
+                    </td>
 					<td class="infoline">
 					    <div align="right">
 					        <kul:htmlControlAttribute

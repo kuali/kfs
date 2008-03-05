@@ -24,6 +24,7 @@ import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT4;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -35,6 +36,9 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl;
+import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.financial.service.impl.UniversityDateServiceImpl;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.test.util.CSVDataLoader;
 
 import sun.util.calendar.Gregorian;
@@ -54,20 +58,18 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assetPayments.add(PAYMENT4.getAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
-        OptionsService optionsService = new OptionsService() {
-            public Options getCurrentYearOptions() {
-                //computes fiscal year month to get current period as "5" always
-                int univFiscalMonth = ((12 + GregorianCalendar.getInstance().get(Calendar.MONTH) - 4) % 12) + 1;
-                Options options = new Options();
-                options.setUniversityFiscalYearStartMo(String.valueOf(univFiscalMonth));
-                return options;
-            }
+        UniversityDateService universityDateService = new UniversityDateServiceImpl() {
+            public UniversityDate getCurrentUniversityDate() {
+                return new UniversityDate() {
+                    @Override
+                    public String getUniversityFiscalAccountingPeriod() {
+                        return "5";
+                    }
 
-            public Options getOptions(Integer universityFiscalYear) {
-                return null;
+                };
             }
         };
-        paymentSummaryService.setOptionsService(optionsService);
+        paymentSummaryService.setUniversityDateService(universityDateService);
     }
 
     private AssetPayment createAssetPayment(CSVDataLoader loader, int rowPos) {

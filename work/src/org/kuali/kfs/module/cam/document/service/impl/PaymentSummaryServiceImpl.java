@@ -33,26 +33,27 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetDisposition;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.PaymentSummaryService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     private static final int TOTAL_MONTHS = 12;
-    private static Map<String, Method> DEPR_AMT_FIELDS = new HashMap<String, Method>();
+    private static Map<Integer, Method> DEPR_AMT_FIELDS = new HashMap<Integer, Method>();
     static {
         try {
             Class<?>[] emptyParams = new Class[] {};
-            DEPR_AMT_FIELDS.put("1", AssetPayment.class.getMethod("getPeriod1Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("2", AssetPayment.class.getMethod("getPeriod2Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("3", AssetPayment.class.getMethod("getPeriod3Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("4", AssetPayment.class.getMethod("getPeriod4Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("5", AssetPayment.class.getMethod("getPeriod5Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("6", AssetPayment.class.getMethod("getPeriod6Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("7", AssetPayment.class.getMethod("getPeriod7Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("8", AssetPayment.class.getMethod("getPeriod8Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("9", AssetPayment.class.getMethod("getPeriod9Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("10", AssetPayment.class.getMethod("getPeriod10Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("11", AssetPayment.class.getMethod("getPeriod11Depreciation1Amount", emptyParams));
-            DEPR_AMT_FIELDS.put("12", AssetPayment.class.getMethod("getPeriod12Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(1, AssetPayment.class.getMethod("getPeriod1Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(2, AssetPayment.class.getMethod("getPeriod2Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(3, AssetPayment.class.getMethod("getPeriod3Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(4, AssetPayment.class.getMethod("getPeriod4Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(5, AssetPayment.class.getMethod("getPeriod5Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(6, AssetPayment.class.getMethod("getPeriod6Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(7, AssetPayment.class.getMethod("getPeriod7Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(8, AssetPayment.class.getMethod("getPeriod8Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(9, AssetPayment.class.getMethod("getPeriod9Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(10, AssetPayment.class.getMethod("getPeriod10Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(11, AssetPayment.class.getMethod("getPeriod11Depreciation1Amount", emptyParams));
+            DEPR_AMT_FIELDS.put(12, AssetPayment.class.getMethod("getPeriod12Depreciation1Amount", emptyParams));
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -62,8 +63,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     // TODO:replaced by system parameter
     public static final String FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES = "BF,CF,CO,LF,UF,UO";
 
-    private OptionsService optionsService;
-
+    private UniversityDateService universityDateService;
 
     private KualiDecimal addAmount(KualiDecimal amount, KualiDecimal addend) {
         if (addend != null) {
@@ -86,7 +86,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     private KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
-        
+
         for (AssetPayment payment : assetPayments) {
             if (ObjectUtils.isNull(payment.getFinancialObject())) {
                 payment.refreshReferenceObject("financialObject");
@@ -190,13 +190,10 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     private KualiDecimal getCurrentMonthDepreciationAmount(AssetPayment assetPayment) {
         Object[] emptyParams = new Object[] {};
-        int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
-        int currPeriod = ((TOTAL_MONTHS + GregorianCalendar.getInstance().get(Calendar.MONTH) + 1 - fiscalStartMonth) % 12) + 1;
-
+        Integer currPeriod = Integer.valueOf(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
         KualiDecimal amount = null;
-
         try {
-            amount = (KualiDecimal) (DEPR_AMT_FIELDS.get(String.valueOf(currPeriod)).invoke(assetPayment, emptyParams));
+            amount = (KualiDecimal) (DEPR_AMT_FIELDS.get(currPeriod).invoke(assetPayment, emptyParams));
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -204,12 +201,11 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         return amount;
     }
 
-    public OptionsService getOptionsService() {
-        return optionsService;
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
     }
 
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
-
 }

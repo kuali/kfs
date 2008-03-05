@@ -173,7 +173,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         // reset name field for positions that only have deleted funding associated
         // note that this overwrites any actual names except for Inactives
         sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
-        sqlText.append("SET p.person_nm = 'NOT FUNDED' \n");
+        sqlText.append("SET person_nm = 'NOT FUNDED' \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("  AND p.person_nm != 'INACTIVE POS.' \n");
         sqlText.append("  AND NOT EXISTS \n");

@@ -54,8 +54,10 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
             customerInvoiceDetail.setFinancialObjectCode(organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode());
             customerInvoiceDetail.setFinancialSubObjectCode(organizationAccountingDefault.getDefaultInvoiceFinancialSubObjectCode());
             customerInvoiceDetail.setProjectCode(organizationAccountingDefault.getDefaultInvoiceProjectCode());
+            customerInvoiceDetail.setOrganizationReferenceId(organizationAccountingDefault.getDefaultInvoiceOrganizationReferenceIdentifier());
         }
         
+        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.00));
         customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
         customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT);
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
@@ -93,14 +95,20 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
             customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceItemCode.getItemDefaultPrice());
             customerInvoiceDetail.setInvoiceItemUnitOfMeasureCode(customerInvoiceItemCode.getDefaultUnitOfMeasureCode());
             customerInvoiceDetail.setInvoiceItemQuantity(customerInvoiceItemCode.getItemDefaultQuantity());
+            
+            customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
+            
+            //TODO set sales tax accordingly
+            customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.00));
+            
+            //set amount = unit price * quantity
+            customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+            
+        } else {
+           Integer universityFiscalYear =  universityDateService.getCurrentFiscalYear();
+           customerInvoiceDetail = getAddLineCustomerInvoiceDetail(universityFiscalYear, chartOfAccountsCode, organizationCode);
         }
-        
-        customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
-        
-        //set amount = unit price * quantity
-        KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
-        customerInvoiceDetail.setAmount(amount);
-        
+
         return customerInvoiceDetail;
     }
     

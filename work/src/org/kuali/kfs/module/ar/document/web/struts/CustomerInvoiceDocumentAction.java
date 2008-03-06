@@ -67,10 +67,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         customerInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-        // set up the default values for customer invoice detail add line
-        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        customerInvoiceDocumentForm.setNewSourceLine(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear());
     }
 
 
@@ -90,14 +86,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         CustomerInvoiceDetail newCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
-        String invoiceItemCode = newCustomerInvoiceDetail.getInvoiceItemCode();
-
-        if (StringUtils.isNotEmpty(invoiceItemCode)) {
-
-            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(invoiceItemCode);
-            customerInvoiceDocumentForm.setNewSourceLine(loadedCustomerInvoiceDetail);
-        }
+        
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
+        customerInvoiceDocumentForm.setNewSourceLine(loadedCustomerInvoiceDetail);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -148,6 +140,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
+        
+        //make sure amount is up to date
+        customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
+        
         boolean rulePassed = true;
         // check any business rules
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));

@@ -71,7 +71,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         try {
 
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            return (SourceAccountingLine) customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
+            //TODO Check if we want do do this on document load...
+            //return (SourceAccountingLine) customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
+            return new CustomerInvoiceDetail();
         }
         catch (Exception e) {
             throw new InfrastructureException("unable to create a new source accounting line", e);
@@ -103,6 +105,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
+        map.put("invoiceItemTaxAmount", Boolean.TRUE);
         return map;
     }
 }

@@ -195,6 +195,13 @@
                 <summary>invoiceItemUnitPrice</summary>
                 <description>invoiceItemUnitPrice description...</description>
 			</attribute>
+			
+			<attributeReference name="invoiceItemTaxAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Tax Amount</label>
+                <shortLabel>Tax Amount</shortLabel>			    
+			    <required>true</required>
+			    <description>The salesTax amount</description>
+			</attributeReference>		
 
         </attributes>
     </businessObject>

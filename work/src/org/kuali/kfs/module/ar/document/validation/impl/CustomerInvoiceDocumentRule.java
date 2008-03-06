@@ -94,7 +94,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= isValidAndActiveCustomerNumber(doc);
         success &= isValidBilledByChartOfAccountsCode(doc);
         success &= isValidBilledByOrganizationCode(doc);
-        success &= isValidInvoiceDueDate(doc);
+        success &= isValidInvoiceDueDate(doc, doc.getDocumentHeader().getWorkflowDocument().getCreateDate());
         return success;
     }    
 
@@ -129,16 +129,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     private boolean isCustomerInvoiceItemCodeValid(CustomerInvoiceDocument doc, CustomerInvoiceDetail customerInvoiceDetail) {
-
-        boolean success = true;
         
         CustomerInvoiceItemCode customerInvoiceItemCode = SpringContext.getBean(CustomerInvoiceItemCodeService.class).getByPrimaryKey(customerInvoiceDetail.getInvoiceItemCode(), doc.getBillByChartOfAccountCode(), doc.getBilledByOrganizationCode());
         if ( ObjectUtils.isNotNull(customerInvoiceDetail)){
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceItemCode", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
-            success &= false;
+            return false;
         }
         
-        return success;
+        return true;
     }
 
 
@@ -149,16 +147,15 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     protected boolean isValidAndActiveCustomerNumber(CustomerInvoiceDocument doc) {
-        boolean success = true;
 
         doc.getAccountsReceivableDocumentHeader().refreshReferenceObject("customer");
         Customer customer = doc.getAccountsReceivableDocumentHeader().getCustomer();
         if (ObjectUtils.isNull(customer) || !customer.isCustomerActiveIndicator()) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "accountsReceivableDocumentHeader.customerNumber", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
-            success &= false;
+            return false;
         }
 
-        return success;
+        return true;
     }
 
     /**
@@ -166,21 +163,22 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * cannot be more than 90 days from invoice creation date
      * 
      * @param doc
+     * @param creationDate passing creationDate
      * @return true if invoice due date is less than or equal to 90 days from today's date
      */
-    protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc) {
-        boolean success = true;
+    protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc, Timestamp creationDate) {
         // TODO need to check if "invoice date" is the creation date or the invoice print date
 
         Timestamp invoiceDueDateTime = new Timestamp(doc.getInvoiceDueDate().getTime());
-        Timestamp todayTime = new Timestamp(new Date().getTime());
-
+        
         // TODO should the # of valid days be a system parameter?
-        if (DateUtils.getDifferenceInDays(todayTime, invoiceDueDateTime) > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
+        double diffInDays = DateUtils.getDifferenceInDays(creationDate, invoiceDueDateTime);
+        if (diffInDays > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE);
+            return false;
         }
 
-        return success;
+        return true;
 
     }
 
@@ -192,15 +190,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     protected boolean isValidBilledByOrganizationCode(CustomerInvoiceDocument customerInvoiceDocument) {
-        boolean success = true;
-
+        
         customerInvoiceDocument.refreshReferenceObject("billedByOrganization");
         if (ObjectUtils.isNull(customerInvoiceDocument.getBilledByOrganization())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "billedByOrganizationCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_ORGANIZATION_CODE);
-            success = false;
+            return false;
         }
 
-        return success;
+        return true;
     }
 
 
@@ -211,15 +208,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     protected boolean isValidBilledByChartOfAccountsCode(CustomerInvoiceDocument customerInvoiceDocument) {
-        boolean success = true;
 
         customerInvoiceDocument.refreshReferenceObject("billByChartOfAccount");
         if (ObjectUtils.isNull(customerInvoiceDocument.getBillByChartOfAccount())) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + "billByChartOfAccountCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_CHART_OF_ACCOUNTS_CODE);
-            success = false;
+            return false;
         }
 
-        return success;
+        return true;
     }
 
     /**

@@ -35,7 +35,7 @@
               	</kul:inquiry>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" noColon="true" /></th>
-              <td><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" property="document.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear" readOnly="true"/></td>
+              <td><c:out value="${KualiForm.formattedStartDate}" /></td>
             </tr>
             <tr>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes.effortCertificationReportNumber}" noColon="true" /></div></th>
@@ -44,11 +44,11 @@
 					boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" 
 					keyValues="universityFiscalYear=${documentObject.effortCertificationReportDefinition.universityFiscalYear}&effortCertificationReportNumber=${documentObject.effortCertificationReportDefinition.effortCertificationReportNumber}" 
 					render="true">
-              		<kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/>
+              		<kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" property="document.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear" readOnly="true"/>-<kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/>
               	</kul:inquiry>
               </td>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" noColon="true" /></div></th>
-              <td><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" property="document.effortCertificationReportDefinition.reportEndFiscalYear.universityFiscalYear" readOnly="true"/></td>
+              <td><c:out value="${KualiForm.formattedEndDate}" /></td>
             </tr>
          </tbody>
       </table>

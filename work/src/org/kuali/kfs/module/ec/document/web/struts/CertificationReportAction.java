@@ -86,27 +86,22 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail newDetailLine = effortForm.getNewDetailLine();
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        
-        //TODO: need to set subaccount reference in order for rules validations to work (hasA21SubAccount in particular)
-        HashMap primaryKeys = new HashMap();
-        primaryKeys.put("chartOfAccountsCode", newDetailLine.getChartOfAccountsCode());
-        primaryKeys.put("accountNumber", newDetailLine.getAccountNumber());
-        primaryKeys.put("subAccountNumber", newDetailLine.getSubAccountNumber());
-        newDetailLine.setSubAccount((SubAccount)businessObjectService.findByPrimaryKey(SubAccount.class, primaryKeys));
         
         // TODO: should required fields be checked for null values?
+        newDetailLine.refresh();
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
-        EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
-        if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
-            EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
-        }
-
+        newDetailLine.setEffortCertificationOriginalPayrollAmount(newDetailLine.getEffortCertificationPayrollAmount());
+        
         // check business rules
         boolean isValid = this.invokeRules(new AddDetailLineEvent("", "newDetailLine", effortDocument, effortForm.getNewDetailLine()));
         if (isValid) {
+            
+            EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
+            if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
+                EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
+            }
             detailLines.add(newDetailLine);
         }
 

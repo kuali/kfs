@@ -406,7 +406,7 @@
 						 accountingLine="${accountingLine}"
 					     baselineAccountingLine="${baselineAccountingLine}"
 						 field="${currentField}" attributes="${accountingLineAttributes}"
-						 readOnly="${readOnly}" displayHidden="${displayHidden}" />
+						 readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
 				  </c:otherwise>
 			</c:choose>
 			</c:forTokens>

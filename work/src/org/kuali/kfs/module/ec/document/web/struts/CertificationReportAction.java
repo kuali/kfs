@@ -99,7 +99,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
-        EffortCertificationDocumentRuleUtil.applyDefaultvalues(newDetailLine);
+        EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
         if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
             EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
         }

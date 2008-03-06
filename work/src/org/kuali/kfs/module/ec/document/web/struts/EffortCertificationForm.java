@@ -103,35 +103,47 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     public List<EffortCertificationDetail> getDetailLines() {
         return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
     }
-    
+
+    /**
+     * get the relationship metadata for the detail line fields
+     * 
+     * @return the relationship metadata for the detail line fields
+     */
     public Map<String, BusinessObjectRelationship> getRelationshipMetadata() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        Map<String, BusinessObjectRelationship> primaryKeyFields = new HashMap<String, BusinessObjectRelationship>();
+        Map<String, BusinessObjectRelationship> RelationshipMetadata = new HashMap<String, BusinessObjectRelationship>();
         for (String attributeName : this.getInquirableFieldNames()) {
             Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
-            
-            if (primitiveReference != null && !primitiveReference.isEmpty()) {            
+
+            if (primitiveReference != null && !primitiveReference.isEmpty()) {
                 BusinessObjectRelationship primitiveRelationship = this.getPrimitiveBusinessObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
-                primaryKeyFields.put(attributeName, primitiveRelationship);
+                RelationshipMetadata.put(attributeName, primitiveRelationship);
             }
         }
 
-        return primaryKeyFields;
+        return RelationshipMetadata;
     }
 
+    /**
+     * pick up the primitive relationship for an attribute from a set of relationships. Generally, the primitive relationship is
+     * that has the minimum number of primary keys.
+     * 
+     * @param relationshipMetadata the relationship metadata that contains the primitive relationship
+     * @return the primitive relationship for an attribute from a set of relationships.
+     */
     private BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
         int minCountOfKeys = Integer.MAX_VALUE;
         BusinessObjectRelationship primitiveRelationship = null;
-        
-        for(String attribute : relationshipMetadata.keySet()) {
+
+        for (String attribute : relationshipMetadata.keySet()) {
             BusinessObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
-            
-            Map<String,String> parentToChildReferences = currentRelationship.getParentToChildReferences();
-            if(parentToChildReferences.size() < minCountOfKeys) {
+
+            Map<String, String> parentToChildReferences = currentRelationship.getParentToChildReferences();
+            if (parentToChildReferences.size() < minCountOfKeys) {
                 minCountOfKeys = parentToChildReferences.size();
                 primitiveRelationship = currentRelationship;
-            }            
+            }
         }
         return primitiveRelationship;
     }

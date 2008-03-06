@@ -48,7 +48,6 @@ import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
-import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -95,13 +94,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddDetailLineRules() start");
-        
+
         document.refreshNonUpdateableReferences();
         detailLine.refreshNonUpdateableReferences();
 
-        EffortCertificationDocumentRuleUtil.applyDefaultvalues(detailLine);
-        
-        if(!this.checkRequiredAttributes(detailLine) || !this.checkDetailLineAttributes(detailLine)) {
+        if (!this.checkRequiredAttributes(detailLine) || !this.checkDetailLineAttributes(detailLine)) {
             return false;
         }
 
@@ -130,16 +127,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(detailLine)) {
-            List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
-            if (!EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes)) {
-                reportError(KFSPropertyConstants.SUB_ACCOUNT, EffortKeyConstants.ERROR_NOT_COST_SHARE_SUB_ACCOUNT);
-                return false;
-            }
-
-            EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(detailLine);
-        }
-
         return true;
     }
 
@@ -149,6 +136,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddLineBusinessRules() start");
+
+        if (!this.processAddDetailLineRules(document, detailLine)) {
+            return false;
+        }
 
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
             reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
@@ -185,6 +176,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         for (EffortCertificationDetail detailLine : effortCertificationDocument.getEffortCertificationDetailLines()) {
             valid &= this.processUpdateDetailLineRules(effortCertificationDocument, detailLine);
         }
+
+        valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
 
         return valid;
     }
@@ -296,7 +289,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     private boolean checkRequiredAttributes(EffortCertificationDetail detailLine) {
         boolean isValid = true;
-        
+
         if (StringUtils.isBlank(detailLine.getAccountNumber())) {
             reportError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MISSING);
             isValid = false;

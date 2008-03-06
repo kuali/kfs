@@ -49,7 +49,7 @@ public class EffortCertificationDocumentRuleUtil {
      * 
      * @param detailLine the given detail line
      */
-    public static void applyDefaultvalues(EffortCertificationDetail detailLine) {
+    public static void applyDefaultValues(EffortCertificationDetail detailLine) {
         if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }

@@ -66,12 +66,12 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
     }
 
     public void testApplyDefaultvalues() throws Exception {
-        String testTarget = "applyDefaultvalues.";
+        String testTarget = "applyDefaultValues.";
         EffortCertificationDocument document = this.loadEffortCertificationDocument(testTarget);
 
         List<EffortCertificationDetail> details = document.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : details) {
-            EffortCertificationDocumentRuleUtil.applyDefaultvalues(detailLine);
+            EffortCertificationDocumentRuleUtil.applyDefaultValues(detailLine);
         }
 
         int numberOfExpectedDetails = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_DETAILS)));

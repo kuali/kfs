@@ -32,8 +32,9 @@
               description="the names of the fields that can be inquirable" %>  
 <%@ attribute name="fieldInfo" required="false" type="java.util.List"
               description="the information of the fields in the detail lines" %>
-<%@ attribute name="primaryKeysOfDetailLineFields" required="false" type="java.util.Map"
-			  description="The DataDictionary entry containing attributes for the line fields."%>               
+<%@ attribute name="relationshipMetadata" required="false"
+	type="java.util.Map"
+	description="This is a Map that holds a property name list of the primary key of the referenced class for each eligible field. The value of the attribute is used to build quick finder for the eligible fields."%>				                 
               
 <%@ attribute name="onblurForEditableFieldNames" required="false"
               description="the funation names that retrives the information of the given editable fields" %> 
@@ -67,8 +68,8 @@
 				onblurForEditableFieldNames="${onblurForEditableFieldNames}"
 				onblurableInfoFieldNames="${onblurableInfoFieldNames}"
 				inquirableUrl="${inquirableUrl[status.index]}"
-				fieldInfo="${fieldInfo[status.index]}" 
-				primaryKeysOfDetailLineFields="${primaryKeysOfDetailLineFields}" 
+				fieldInfo="${fieldInfo[status.index]}"
+				relationshipMetadata ="${relationshipMetadata}" 
 				hasActions="${hasActions}"/>			
 		</tr>
 	</c:forEach>	

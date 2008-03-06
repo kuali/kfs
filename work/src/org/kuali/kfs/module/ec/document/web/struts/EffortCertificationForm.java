@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.BusinessObjectRelationship;
 import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DataDictionaryService;
@@ -102,27 +103,37 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     public List<EffortCertificationDetail> getDetailLines() {
         return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
     }
-
-    public Map<String, PrimaryKeyFieldHolder> getPrimaryKeysOfDetailLineFields() {
+    
+    public Map<String, BusinessObjectRelationship> getRelationshipMetadata() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        Map<String, PrimaryKeyFieldHolder> primaryKeyFields = new HashMap<String, PrimaryKeyFieldHolder>();
+        Map<String, BusinessObjectRelationship> primaryKeyFields = new HashMap<String, BusinessObjectRelationship>();
         for (String attributeName : this.getInquirableFieldNames()) {
-            PrimaryKeyFieldHolder primaryKeyFieldHolder = new PrimaryKeyFieldHolder();
             Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
             
-            if (primitiveReference != null && !primitiveReference.isEmpty()) {
-                String attributeRef = primitiveReference.keySet().iterator().next();                
-                Class<? extends BusinessObject> businessObjectClass = primitiveReference.get(attributeRef);
-                
-                primaryKeyFieldHolder.setBusinessObjectClass(businessObjectClass);
-                primaryKeyFieldHolder.setPrimaryKeyFields(persistenceStructureService.listPrimaryKeyFieldNames(businessObjectClass));
-                
-                primaryKeyFields.put(attributeName, primaryKeyFieldHolder);
+            if (primitiveReference != null && !primitiveReference.isEmpty()) {            
+                BusinessObjectRelationship primitiveRelationship = this.getPrimitiveBusinessObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
+                primaryKeyFields.put(attributeName, primitiveRelationship);
             }
         }
 
         return primaryKeyFields;
+    }
+
+    private BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
+        int minCountOfKeys = Integer.MAX_VALUE;
+        BusinessObjectRelationship primitiveRelationship = null;
+        
+        for(String attribute : relationshipMetadata.keySet()) {
+            BusinessObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
+            
+            Map<String,String> parentToChildReferences = currentRelationship.getParentToChildReferences();
+            if(parentToChildReferences.size() < minCountOfKeys) {
+                minCountOfKeys = parentToChildReferences.size();
+                primitiveRelationship = currentRelationship;
+            }            
+        }
+        return primitiveRelationship;
     }
 
     /**

@@ -41,8 +41,8 @@
 
 <%@ attribute name="fieldFormNamePrefix" required="true"
               description="the form name of the field" %>              
-<%@ attribute name="primaryKeys" required="false" type="java.lang.Object"
-			  description="The DataDictionary entry containing attributes for the line fields."%>
+<%@ attribute name="relationshipMetadata" required="false" type="java.lang.Object"
+			  description="The DataDictionary entry containing attributes for the line fields."%>			  
 			                
 <%@ attribute name="readOnly" required="false"
               description="determine if the field woulb be rendered as read-only or not" %>   
@@ -94,21 +94,21 @@
 		
 </kul:htmlControlAttribute>  
 
-<c:if test="${!readOnly && not empty primaryKeys}">
-	<c:forEach var="field" items="${primaryKeys.primaryKeyFields}" varStatus="status">
+<c:if test="${!readOnly && not empty relationshipMetadata}">
+	<c:forEach var="field" items="${relationshipMetadata.parentToChildReferences}" varStatus="status">
 		<c:choose>
 			<c:when test="${status.index == 0}">
-				<c:set var="fieldConversions" value="${field}:${fieldFormNamePrefix}.${field}" />
-				<c:set var="lookupParameters" value="${fieldFormNamePrefix}.${field}:${field}" />
+				<c:set var="fieldConversions" value="${field.value}:${fieldFormNamePrefix}.${field.key}" />
+				<c:set var="lookupParameters" value="${fieldFormNamePrefix}.${field.key}:${field.value}" />
 			</c:when>
 			<c:otherwise>			
-				<c:set var="fieldConversions" value="${field}:${fieldFormNamePrefix}.${field},${fieldConversions}" />
-				<c:set var="lookupParameters" value="${fieldFormNamePrefix}.${field}:${field},${lookupParameters}" />
+				<c:set var="fieldConversions" value="${field.value}:${fieldFormNamePrefix}.${field.key},${fieldConversions}" />
+				<c:set var="lookupParameters" value="${fieldFormNamePrefix}.${field.key}:${field.value},${lookupParameters}" />
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>
 	
-	<kul:lookup boClassName="${primaryKeys.businessObjectClass.name}"
+	<kul:lookup boClassName="${relationshipMetadata.relatedClass.name}"
 				fieldConversions="${fieldConversions}"
 				lookupParameters="${lookupParameters}"
 				fieldLabel="${attributeEntry.label}" /> 

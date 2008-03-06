@@ -248,7 +248,7 @@
 	<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
 	<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
 	
-	<reference-descriptor name="assetGlobalHeader" class-ref="org.kuali.module.cams.bo.MultipleAssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+	<reference-descriptor name="assetGlobalHeader" class-ref="org.kuali.module.cams.bo.AssetGlobalHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 	
@@ -654,8 +654,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-
-
 <class-descriptor class="org.kuali.module.cams.bo.PendingPurchaseOrder" table="CB_PND_PO_T">
 	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -1054,7 +1052,7 @@
 	
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.MultipleAssetHeader" table="CM_MULT_AST_HDR_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetGlobalHeader" table="CM_MULT_AST_HDR_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

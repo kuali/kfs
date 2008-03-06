@@ -49,8 +49,8 @@
         </lockingKeys>
 
         <defaultExistenceChecks>
-            <reference attributeName="organizationOwnerChartOfAccounts" attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
-            <reference attributeName="organizationOwnerAccount" attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+            <reference attributeName="assetGlobalHeader.organizationOwnerChartOfAccounts.chartOfAccountsCode" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerChartOfAccountsCode" />
+            <reference attributeName="assetGlobalHeader.organizationOwnerAccount.accountNumber" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerAccountNumber" />
         </defaultExistenceChecks>
  
         <maintainableSections>

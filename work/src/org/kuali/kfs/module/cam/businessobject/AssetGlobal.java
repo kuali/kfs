@@ -23,6 +23,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /* misc. */
     private String documentNumber;
+    private BigDecimal leoAddPaymentsTotalCost;
     
     /* asset detail infomation (Asset / CM_CPTLAST_T) */
     private String organizationOwnerChartOfAccountsCode;
@@ -80,27 +81,26 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private int leoFinancialDocumentPostingYear ;  // dup/exists?
     private String leoFinancialDocumentPostingPeriodCode; // dup/exists?
     private BigDecimal accountChargeAmount;
-    private BigDecimal leoAddPaymentsTotalCost;
 
     /* lookup */
-    private Chart organizationOwnerChartOfAccounts;
-    private Account organizationOwnerAccount;
+    //private Chart organizationOwnerChartOfAccounts;
+    //private Account organizationOwnerAccount;
     //org. owner
     // Commented below out... can't type fields to "Asset" that arn't of object type Asset.
-//    private Asset agency;
-//    private Asset acquisitionType;
-//    private Asset inventoryStatus;
+    //private Asset agency;
+    //private Asset acquisitionType;
+    //private Asset inventoryStatus;
     private AssetCondition condition;
     private AssetType capitalAssetType;
-//    //asset rep.
-//    private Asset lastInventory;
-//    private Asset create;
-//    private Asset financialDocumentPostingYr;
-//    private Asset financialDocumentPostingPeriod;
-//    private Asset capitalAssetInService;
+     //asset rep.
+    //private Asset lastInventory;
+    //private Asset create;
+    //private Asset financialDocumentPostingYr;
+    //private Asset financialDocumentPostingPeriod;
+    //private Asset capitalAssetInService;
     //deprec. date
     
-    private MultipleAssetHeader assetGlobalHeader;
+    private AssetGlobalHeader assetGlobalHeader;
     private List<AssetPaymentDetail> assetPaymentDetails; 
     
     /**
@@ -268,6 +268,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * This returns a list of Object Codes to Update and/or Add
      * 
      * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * becomes an asset
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistables = new ArrayList();
@@ -440,38 +441,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
         this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
-    }
-
-    /**
-     * Gets the organizationOwnerAccount attribute. 
-     * @return Returns the organizationOwnerAccount.
-     */
-    public Account getOrganizationOwnerAccount() {
-        return organizationOwnerAccount;
-    }
-
-    /**
-     * Sets the organizationOwnerAccount attribute value.
-     * @param organizationOwnerAccount The organizationOwnerAccount to set.
-     */
-    public void setOrganizationOwnerAccount(Account organizationOwnerAccountNumberObject) {
-        this.organizationOwnerAccount = organizationOwnerAccountNumberObject;
-    }
-
-    /**
-     * Gets the organizationOwnerChartOfAccounts attribute. 
-     * @return Returns the organizationOwnerChartOfAccounts.
-     */
-    public Chart getOrganizationOwnerChartOfAccounts() {
-        return organizationOwnerChartOfAccounts;
-    }
-
-    /**
-     * Sets the organizationOwnerChartOfAccounts attribute value.
-     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
-     */
-    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccountsCodeObject) {
-        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccountsCodeObject;
     }
 
     /**
@@ -1006,7 +975,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Gets the assetGlobalHeader attribute. 
      * @return Returns the assetGlobalHeader.
      */
-    public MultipleAssetHeader getAssetGlobalHeader() {
+    public AssetGlobalHeader getAssetGlobalHeader() {
         return assetGlobalHeader;
     }
 
@@ -1014,7 +983,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Sets the assetGlobalHeader attribute value.
      * @param assetGlobalHeader The assetGlobalHeader to set.
      */
-    public void setAssetGlobalHeader(MultipleAssetHeader assetGlobalHeader) {
+    public void setAssetGlobalHeader(AssetGlobalHeader assetGlobalHeader) {
         this.assetGlobalHeader = assetGlobalHeader;
     }
 

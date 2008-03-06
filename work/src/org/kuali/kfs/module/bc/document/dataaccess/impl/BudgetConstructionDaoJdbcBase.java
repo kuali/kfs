@@ -19,7 +19,7 @@ import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.core.dbplatform.RawSQL;
 
 /**
- * This class...
+ * create methods for building SQL useful to all extenders
  */
 public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 
@@ -31,6 +31,31 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
     @RawSQL
     protected void clearTempTableBySesId(String tableName, String SesIdColumn, String sessionId) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId);
+    }
+    
+    /**
+     * 
+     * build a string of placeholders for a parameterized java.sql IN clause
+     * @param parameterCount the number of parameters in the IN clause
+     * @return the String (?,?,?) with the correct nubmer of parameters
+     */       
+    @RawSQL
+    protected String inString(Integer parameterCount)
+    {
+        // there should be at least one parameter in the IN string
+        // but allow people to screw up and have an IN condition which is never satisfied
+        if (parameterCount == 0)
+        {
+            return new String("('')");
+        }
+        StringBuilder sb = new StringBuilder(20);
+        sb = sb.append("(?");
+        for (int i = 1; i < parameterCount; i++)
+        {
+            sb.append(",?");
+        }
+        sb.append(")");
+        return sb.toString();
     }
 
 }

@@ -35,7 +35,7 @@ import org.kuali.module.financial.bo.SalesTax;
  * documents will use this business object inherently. Specific accounting line business rules should exist not in this
  * implementation, but rather in the document business object that uses it.
  */
-public interface AccountingLine extends PersistableBusinessObject, GeneralLedgerPostable {
+public interface AccountingLine extends PersistableBusinessObject, GeneralLedgerPendingEntrySourceDetail {
 
     /**
      * @param account The account to set.

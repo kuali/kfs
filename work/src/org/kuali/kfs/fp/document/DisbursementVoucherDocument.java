@@ -46,13 +46,14 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ChartUser;
@@ -1008,7 +1009,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // disallow error corrections
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
@@ -1031,7 +1032,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry) {
 
         /* change document type based on payment method to pick up different offsets */
         if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK.equals(getDisbVchrPaymentMethodCode())) {
@@ -1054,7 +1055,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (getGeneralLedgerPendingEntries() == null || getGeneralLedgerPendingEntries().size() < 2) {
             LOG.warn("No gl entries for accounting lines.");
             // throw new RuntimeException("No gl entries for accounting lines.");
@@ -1115,8 +1116,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         sequenceHelper.increment();
 
         // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        getGeneralLedgerPostingHelper().populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
 
         getGeneralLedgerPendingEntries().add(offsetEntry);
 
@@ -1168,7 +1170,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         // handle the offset entry
         GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-        getGeneralLedgerPostingHelper().populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
 
         addPendingEntry(offsetEntry);
     }

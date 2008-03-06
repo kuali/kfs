@@ -24,7 +24,7 @@ import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.document.ElectronicPaymentClaiming;
@@ -73,7 +73,7 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         return isDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, (AccountingLine)postable);
     }

@@ -32,7 +32,7 @@ import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -44,14 +44,14 @@ import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.service.AccountingLineService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Base implementation class for financial edocs.
  */
-public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPoster {
+public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
 
     protected Integer nextSourceLineNumber;
@@ -298,26 +298,26 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         return this.getTargetAccountingLineClass().getName();
     }
     
-    public List<GeneralLedgerPostable> getGeneralLedgerPostables() {
-        List<GeneralLedgerPostable> accountingLines = new ArrayList<GeneralLedgerPostable>();
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+        List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         if (getSourceAccountingLines() != null) {
             Iterator iter = getSourceAccountingLines().iterator();
             while (iter.hasNext()) {
-                accountingLines.add((GeneralLedgerPostable)iter.next());
+                accountingLines.add((GeneralLedgerPendingEntrySourceDetail)iter.next());
             }
         }
         if (getTargetAccountingLines() != null) {
             Iterator iter = getTargetAccountingLines().iterator();
             while (iter.hasNext()) {
-                accountingLines.add((GeneralLedgerPostable)iter.next());
+                accountingLines.add((GeneralLedgerPendingEntrySourceDetail)iter.next());
             }
         }
         return accountingLines;
     }
     
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {}
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {}
     
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         return true;
     }
 
@@ -552,23 +552,36 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     /**
-     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public abstract boolean isDebit(GeneralLedgerPostable postable);
+    public abstract boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable);
 
     /**
      * Most accounting documents don't need to generate document level GLPE's, so don't do anything in the default implementation
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {}
+    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {}
 
     /**
-     * Returns an instance of org.kuali.kfs.service.impl.GenericGeneralLedgerPostingHelperImpl; this will suffice for most accounting documents 
-     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     * Returns an instance of org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl; this will suffice for most accounting documents 
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
      */
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(AccountingDocumentBase.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
     
+    /**
+     * GLPE amounts are ALWAYS positive, so just take the absolute value of the accounting line's amount.
+     * 
+     * @param accountingLine
+     * @return KualiDecimal The amount that will be used to populate the GLPE.
+     */
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
+
+        KualiDecimal returnKualiDecimal = postable.getAmount().abs();
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
+        return returnKualiDecimal;
+    }
 }

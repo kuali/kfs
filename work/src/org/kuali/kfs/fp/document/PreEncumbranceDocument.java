@@ -28,7 +28,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -122,7 +122,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
         // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
@@ -146,7 +146,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_PRE_ENCUMBRANCE);
         AccountingLine accountingLine = (AccountingLine)postable;
 

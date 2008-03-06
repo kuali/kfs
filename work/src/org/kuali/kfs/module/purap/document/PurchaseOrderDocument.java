@@ -41,7 +41,7 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.ParameterService;
@@ -1262,7 +1262,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);

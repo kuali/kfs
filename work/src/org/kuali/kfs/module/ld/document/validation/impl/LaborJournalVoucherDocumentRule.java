@@ -35,7 +35,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.LaborConstants;
@@ -145,9 +146,9 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
             // populate the explicit entry
             ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
-            Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
-            GeneralLedgerPostingHelper helper = glPostingHelpers.get(LaborJournalVoucherDocumentRule.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
-            helper.populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
+            Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
+            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+            glpeService.populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
 
             // apply the labor JV specific information
             laborJournalVoucherDocument.customizeExplicitGeneralLedgerPendingEntry(accountingLine, pendingLedgerEntry);

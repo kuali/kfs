@@ -17,7 +17,7 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;

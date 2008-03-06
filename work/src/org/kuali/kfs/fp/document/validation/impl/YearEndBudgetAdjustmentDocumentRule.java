@@ -20,7 +20,7 @@ import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConsta
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;

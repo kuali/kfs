@@ -25,7 +25,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -82,7 +82,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine)postable);
     }
@@ -102,7 +102,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
 
         // Clearing fields that are already handled by the parent algorithm - we don't actually want
@@ -121,7 +121,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @param line The accounting line that will be used for populating the transaction ledger entry description.
      * @return The description to be applied to the transaction ledger entry.
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPostable postable) {
+    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail postable) {
         String description = "";
         if (StringUtils.isBlank(postable.getReferenceNumber())) {
             throw new IllegalStateException("Reference Document Number is required and should be validated before this point.");

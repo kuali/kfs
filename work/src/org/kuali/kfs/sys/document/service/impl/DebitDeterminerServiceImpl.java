@@ -20,10 +20,10 @@ import org.apache.log4j.Logger;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.document.GeneralLedgerPoster;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.kfs.service.OptionsService;
@@ -41,9 +41,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     private OptionsService optionsService;
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#disallowErrorCorrectionDocumentCheck(org.kuali.kfs.document.GeneralLedgerPoster)
+     * @see org.kuali.kfs.service.DebitDeterminerService#disallowErrorCorrectionDocumentCheck(org.kuali.kfs.document.GeneralLedgerPendingEntrySource)
      */
-    public void disallowErrorCorrectionDocumentCheck(GeneralLedgerPoster poster) {
+    public void disallowErrorCorrectionDocumentCheck(GeneralLedgerPendingEntrySource poster) {
         LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - start");
 
         if (isErrorCorrection(poster)) {
@@ -54,9 +54,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isAsset(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isAsset(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isAsset(GeneralLedgerPostable postable) {
+    public boolean isAsset(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isAsset(AccountingLine) - start");
 
         boolean returnboolean = isAssetTypeCode(accountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(postable));
@@ -87,9 +87,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isDebitConsideringNothingPositiveOnly(org.kuali.kfs.document.GeneralLedgerPoster, org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isDebitConsideringNothingPositiveOnly(org.kuali.kfs.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPoster poster, GeneralLedgerPostable postable) {
+    public boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
         boolean isDebit = false;
@@ -201,9 +201,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isDebitConsideringType(org.kuali.kfs.document.GeneralLedgerPoster, org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isDebitConsideringType(org.kuali.kfs.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isDebitConsideringType(GeneralLedgerPoster poster, GeneralLedgerPostable postable) {
+    public boolean isDebitConsideringType(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringType(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
         KualiDecimal amount = postable.getAmount();
@@ -233,16 +233,16 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isErrorCorrection(org.kuali.kfs.document.GeneralLedgerPoster)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isErrorCorrection(org.kuali.kfs.document.GeneralLedgerPendingEntrySource)
      */
-    public boolean isErrorCorrection(GeneralLedgerPoster poster) {
+    public boolean isErrorCorrection(GeneralLedgerPendingEntrySource poster) {
         return StringUtils.isNotBlank(poster.getDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isExpense(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isExpense(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isExpense(GeneralLedgerPostable postable) {
+    public boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isExpense(AccountingLine) - start");
 
         boolean returnboolean = accountingDocumentRuleUtil.isExpense(postable);
@@ -251,9 +251,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isExpenseOrAsset(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isExpenseOrAsset(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isExpenseOrAsset(GeneralLedgerPostable postable) {
+    public boolean isExpenseOrAsset(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isExpenseOrAsset(AccountingLine) - start");
 
         boolean returnboolean = isAsset(postable) || isExpense(postable);
@@ -262,9 +262,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isIncome(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isIncome(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isIncome(GeneralLedgerPostable postable) {
+    public boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isIncome(AccountingLine) - start");
 
         boolean returnboolean = accountingDocumentRuleUtil.isIncome(postable);
@@ -273,9 +273,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isIncomeOrLiability(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isIncomeOrLiability(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isIncomeOrLiability(GeneralLedgerPostable postable) {
+    public boolean isIncomeOrLiability(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isIncomeOrLiability(AccountingLine) - start");
 
         boolean returnboolean = isLiability(postable) || isIncome(postable);
@@ -284,9 +284,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isLiability(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isLiability(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isLiability(GeneralLedgerPostable postable) {
+    public boolean isLiability(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isLiability(AccountingLine) - start");
 
         boolean returnboolean = isLiabilityTypeCode(accountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(postable));
@@ -306,9 +306,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     }
 
     /**
-     * @see org.kuali.kfs.service.DebitDeterminerService#isRevenue(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.DebitDeterminerService#isRevenue(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isRevenue(GeneralLedgerPostable postable) {
+    public boolean isRevenue(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isRevenue(AccountingLine) - start");
 
         boolean returnboolean = !isExpense(postable);

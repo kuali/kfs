@@ -23,9 +23,9 @@ import java.util.Map;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.document.GeneralLedgerPoster;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.gl.bo.Balance;
@@ -108,7 +108,7 @@ public interface GeneralLedgerPendingEntryService {
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPoster document);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySource document);
 
     /**
      * The fiscal year and period is null in quite a few glpe's. This will put in a sensible default.
@@ -225,4 +225,40 @@ public interface GeneralLedgerPendingEntryService {
      * @return
      */
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
+    
+    /**
+     * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
+     * 
+     * @param accountingDocument
+     * @param accountingLine
+     * @param sequenceHelper
+     * @param explicitEntry
+     */
+    public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry);
+    
+    /**
+     * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in
+     * the explicit entry that it was cloned from. Note that the entries do not contain BOs now.
+     * 
+     * @param universityFiscalYear
+     * @param explicitEntry
+     * @param sequenceHelper
+     * @param offsetEntry Cloned from the explicit entry
+     */
+    public boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry);
+    
+    /**
+     * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
+     * posted as a side-effect if the given BankAccount has not defined the necessary bank offset relations.
+     * 
+     * @param bankAccount
+     * @param depositAmount
+     * @param financialDocument
+     * @param universityFiscalYear
+     * @param sequenceHelper
+     * @param bankOffsetEntry
+     * @param errorPropertyName
+     */
+    public boolean populateBankOffsetGeneralLedgerPendingEntry(BankAccount bankAccount, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName);
+
 }

@@ -26,7 +26,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -187,7 +187,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // error corrections are not allowed
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
@@ -205,7 +205,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = postable.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(accountingLineDescription)) {
             explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);

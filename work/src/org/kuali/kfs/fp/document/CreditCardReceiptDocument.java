@@ -36,7 +36,8 @@ import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
@@ -244,11 +245,11 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         if (isBankCashOffsetEnabled()) {
             KualiDecimal depositTotal = calculateCreditCardReceiptTotal();
-            GeneralLedgerPostingHelper glPostingHelper = getGeneralLedgerPostingHelper();
+            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             // todo: what if the total is 0? e.g., 5 minus 5, should we generate a 0 amount GLPE and offset? I think the other rules
             // combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
@@ -258,7 +259,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
                 GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE, new String[] { KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT });
             }
             else {
-                success &= glPostingHelper.populateBankOffsetGeneralLedgerPendingEntry(offsetBankAccount, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+                success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBankAccount, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
                 // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
                 // successful.
                 if (success) {
@@ -268,7 +269,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
                     sequenceHelper.increment();
 
                     GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-                    success &= glPostingHelper.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+                    success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
                     // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe
                     // neither
                     // should?)

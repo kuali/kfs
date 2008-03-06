@@ -22,7 +22,7 @@ import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -128,7 +128,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         AccountingLine accountingLine = (AccountingLine)postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         if (!(accountingLine.isSourceAccountingLine() && isDebitUtils.isExpense(accountingLine)) && !(accountingLine.isTargetAccountingLine() && isDebitUtils.isIncome(accountingLine))) {

@@ -19,7 +19,7 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.chart.bo.Account;
@@ -43,11 +43,11 @@ public class AssetPaymentDocument extends AccountingDocumentBase {
 
     
     /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
-     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
     }

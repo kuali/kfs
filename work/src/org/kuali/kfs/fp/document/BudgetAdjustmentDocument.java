@@ -42,7 +42,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -50,7 +50,8 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
@@ -97,9 +98,9 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         BudgetAdjustmentDocument copiedBa = (BudgetAdjustmentDocument) ObjectUtils.deepCopy(this);
         copiedBa.getGeneralLedgerPendingEntries().clear();
-        GeneralLedgerPostingHelper glPostingHelper = getGeneralLedgerPostingHelper();
+        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = getGeneralLedgerPostingHelper();
         for (BudgetAdjustmentAccountingLine fromLine : (List<BudgetAdjustmentAccountingLine>) copiedBa.getSourceAccountingLines()) {
-            glPostingHelper.processGenerateGeneralLedgerPendingEntries(copiedBa, fromLine, glpeSequenceHelper);
+            glPostingHelper.generateGeneralLedgerPendingEntries(copiedBa, fromLine, glpeSequenceHelper);
         }
 
 
@@ -576,7 +577,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         try {
             DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
             return isDebitUtils.isDebitConsideringType(this, (AccountingLine)postable);
@@ -592,8 +593,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
      */
     @Override
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(BudgetAdjustmentDocument.BUDGET_ADJUSTMENT_GL_POSTING_HELPER_BEAN_ID);
     }
 
@@ -609,7 +610,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
         // check on-off tof flag
@@ -617,11 +618,12 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         String transferObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetAdjustmentDocument.class, BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM);
         Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         
-        GeneralLedgerPostingHelper glPostingHelper = getGeneralLedgerPostingHelper();
+        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = getGeneralLedgerPostingHelper();
 
         if (generateTransfer) {
             // map of income chart/accounts with balance as value
             Map incomeStreamMap = buildIncomeStreamBalanceMap();
+            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             for (Iterator iter = incomeStreamMap.keySet().iterator(); iter.hasNext();) {
                 String chartAccount = (String) iter.next();
                 KualiDecimal streamAmount = (KualiDecimal) incomeStreamMap.get(chartAccount);
@@ -646,7 +648,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
                     // ////////////////// first create current budget entry/////////////////////////////////////////
                     GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-                    glPostingHelper.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, explicitEntry);
+                    glpeService.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to income */
                     Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
@@ -675,7 +677,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
                     /* set amount in line so Debit/Credit code can be set correctly */
                     accountingLine.setAmount(streamAmount);
                     explicitEntry = new GeneralLedgerPendingEntry();
-                    glPostingHelper.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, explicitEntry);
+                    glpeService.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to transfer */
                     explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
@@ -698,7 +700,9 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
                     // ////////////////// now create actual TOF offset //////////////////////////////////////////////
                     GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-                    success &= glPostingHelper.processOffsetGeneralLedgerPendingEntry(this, sequenceHelper, accountingLine, explicitEntry, offsetEntry);
+                    glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+                    customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+                    addPendingEntry(offsetEntry);
 
                     // increment the sequence counter
                     sequenceHelper.increment();

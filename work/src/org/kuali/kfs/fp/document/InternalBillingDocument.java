@@ -27,7 +27,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.DebitDeterminerService;
@@ -171,7 +171,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
     }

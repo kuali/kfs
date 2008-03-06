@@ -27,11 +27,12 @@ import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
@@ -89,14 +90,14 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 
     public static boolean testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(AccountingDocument document, AccountingLine line, GeneralLedgerPendingEntryFixture expectedExplicitFixture, GeneralLedgerPendingEntryFixture expectedOffsetFixture) throws Exception {
         assertEquals(0, document.getGeneralLedgerPendingEntries().size());
-        GeneralLedgerPostingHelper glPostingHelper = document.getGeneralLedgerPostingHelper();
-        boolean result = glPostingHelper.processGenerateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
+        GeneralLedgerPendingEntryGenerationProcess glPostingHelper = document.getGeneralLedgerPostingHelper();
+        glPostingHelper.generateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
         assertEquals(expectedOffsetFixture == null ? 1 : 2, document.getGeneralLedgerPendingEntries().size());
         assertSparselyEqualBean(expectedExplicitFixture.createGeneralLedgerPendingEntry(), document.getGeneralLedgerPendingEntry(0));
         if (expectedOffsetFixture != null) {
             assertSparselyEqualBean(expectedOffsetFixture.createGeneralLedgerPendingEntry(), document.getGeneralLedgerPendingEntry(1));
         }
-        return result;
+        return (document.getGeneralLedgerPendingEntries().size() > 0);
     }
 
 

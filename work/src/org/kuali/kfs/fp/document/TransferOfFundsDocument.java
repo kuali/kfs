@@ -23,7 +23,7 @@ import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -83,7 +83,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         return true;
     }
@@ -99,8 +99,8 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable generalLedgerPostable, GeneralLedgerPendingEntry explicitEntry) {
-        AccountingLine accountingLine = (AccountingLine)generalLedgerPostable;
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail, GeneralLedgerPendingEntry explicitEntry) {
+        AccountingLine accountingLine = (AccountingLine)generalLedgerPendingEntrySourceDetail;
         Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
@@ -134,7 +134,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
         // only allow income or expense
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);

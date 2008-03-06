@@ -35,12 +35,13 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
 import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
@@ -311,7 +312,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      *      org.kuali.core.bo.AccountingLine)
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitCode(String)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         AccountingLine accountingLine = (AccountingLine)postable;
         String debitCreditCode = accountingLine.getDebitCreditCode();
 
@@ -334,7 +335,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         AccountingLine accountingLine = (AccountingLine)postable;
 
         // set the appropriate accounting period values according to the values chosen by the user
@@ -369,9 +370,28 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
      */
     @Override
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(JournalVoucherDocument.JOURNAL_VOUCHER_GL_POSTING_HELPER_BEAN_ID);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail accountingLine) {
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
+        KualiDecimal returnKualiDecimal;
+
+        String budgetCodes = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear()).getBudgetCheckingBalanceTypeCd();
+        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) {
+            returnKualiDecimal = accountingLine.getAmount();
+        }
+        else {
+            returnKualiDecimal = accountingLine.getAmount().abs();
+        }
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
+        return returnKualiDecimal;
+    }
 }

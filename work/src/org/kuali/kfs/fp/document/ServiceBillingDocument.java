@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.DebitDeterminerService;
@@ -53,7 +53,7 @@ public class ServiceBillingDocument extends InternalBillingDocument {
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
@@ -75,7 +75,7 @@ public class ServiceBillingDocument extends InternalBillingDocument {
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         String description = postable.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);

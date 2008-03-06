@@ -25,7 +25,7 @@ import org.kuali.core.document.Correctable;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -104,7 +104,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         return isDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, (AccountingLine)postable);
     }
@@ -121,7 +121,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(postable));
 
         // Clearing fields that are already handled by the parent algorithm - we don't actually want
@@ -140,7 +140,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      * @param transactionalDocument submitted accounting document 
      * @return String formatted string to be used for transaction ledger entry description
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPostable line) {
+    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
         String description = "";
         description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
 

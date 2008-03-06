@@ -16,9 +16,9 @@
 package org.kuali.kfs.service;
 
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.document.GeneralLedgerPoster;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 
 /**
  * A collection of methods that help accounting docs determine whether an accounting line represents a debit or not
@@ -56,7 +56,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean
      */
-    public abstract boolean isDebitConsideringType(GeneralLedgerPoster poster, GeneralLedgerPostable postable);
+    public abstract boolean isDebitConsideringType(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * <ol>
@@ -82,7 +82,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean
      */
-    public abstract boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPoster poster, GeneralLedgerPostable postable);
+    public abstract boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * <ol>
@@ -149,7 +149,7 @@ public interface DebitDeterminerService {
      * @param rule
      * @param accountingDocument
      */
-    public abstract void disallowErrorCorrectionDocumentCheck(GeneralLedgerPoster poster);
+    public abstract void disallowErrorCorrectionDocumentCheck(GeneralLedgerPendingEntrySource poster);
     
     /**
      * Convience method for determine if a document is an error correction document.
@@ -157,7 +157,7 @@ public interface DebitDeterminerService {
      * @param accountingDocument
      * @return true if document is an error correct
      */
-    public abstract boolean isErrorCorrection(GeneralLedgerPoster poster);
+    public abstract boolean isErrorCorrection(GeneralLedgerPendingEntrySource poster);
     
     /**
      * Determines whether an accounting line is an asset line.
@@ -165,7 +165,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean True if a line is an asset line.
      */
-    public abstract boolean isAsset(GeneralLedgerPostable postable);
+    public abstract boolean isAsset(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Determines whether an accounting line is a liability line.
@@ -173,7 +173,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean True if the line is a liability line.
      */
-    public abstract boolean isLiability(GeneralLedgerPostable postable);
+    public abstract boolean isLiability(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Determines whether an accounting line is an income line or not. This goes agains the configurable object type code list in
@@ -182,7 +182,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean True if the line is an income line.
      */
-    public abstract boolean isIncome(GeneralLedgerPostable postable);
+    public abstract boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Check object code type to determine whether the accounting line is expense.
@@ -190,7 +190,7 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean True if the line is an expense line.
      */
-    public abstract boolean isExpense(GeneralLedgerPostable postable);
+    public abstract boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Determines whether an accounting line is an expense or asset.
@@ -198,7 +198,7 @@ public interface DebitDeterminerService {
      * @param line
      * @return boolean True if it's an expense or asset.
      */
-    public abstract boolean isExpenseOrAsset(GeneralLedgerPostable postable);
+    public abstract boolean isExpenseOrAsset(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Determines whether an accounting line is an income or liability line.
@@ -206,7 +206,7 @@ public interface DebitDeterminerService {
      * @param line
      * @return boolean True if the line is an income or liability line.
      */
-    public abstract boolean isIncomeOrLiability(GeneralLedgerPostable postable);
+    public abstract boolean isIncomeOrLiability(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Check object code type to determine whether the accounting line is revenue.
@@ -214,7 +214,7 @@ public interface DebitDeterminerService {
      * @param line
      * @return boolean True if the line is a revenue line.
      */
-    public abstract boolean isRevenue(GeneralLedgerPostable postable);
+    public abstract boolean isRevenue(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Determines whether the <code>objectTypeCode</code> is an asset.

@@ -18,12 +18,12 @@ package org.kuali.module.cams.document;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
 
 
 public class AssetDepreciationDocument extends AccountingDocumentBase  {
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
     }
 }

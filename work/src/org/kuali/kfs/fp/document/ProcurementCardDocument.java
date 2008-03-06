@@ -27,7 +27,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -239,7 +239,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         // disallow error correction
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);

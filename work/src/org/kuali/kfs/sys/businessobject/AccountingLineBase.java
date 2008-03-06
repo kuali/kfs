@@ -46,7 +46,7 @@ import org.kuali.module.financial.service.UniversityDateService;
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
  * items necessary to create a pending entry to the G/L. All transaction documents will use this business object inherently.
  */
-public abstract class AccountingLineBase extends PersistableBusinessObjectBase implements Serializable, AccountingLine, GeneralLedgerPostable {
+public abstract class AccountingLineBase extends PersistableBusinessObjectBase implements Serializable, AccountingLine, GeneralLedgerPendingEntrySourceDetail {
     private static Logger LOG = Logger.getLogger(AccountingLineBase.class);
 
     private String documentNumber;

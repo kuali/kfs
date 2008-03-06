@@ -39,13 +39,13 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.service.DebitDeterminerService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.service.AccountingPeriodService;
@@ -314,7 +314,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         String debitCreditCode = ((AccountingLine)postable).getDebitCreditCode();
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         if (StringUtils.isBlank(debitCreditCode)) {
@@ -337,7 +337,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
 
         java.sql.Date reversalDate = getReversalDate();
         if (reversalDate != null) {
@@ -367,7 +367,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         // set the document type to that of a Distrib. Of Income and Expense if it's a recode
         if (isRecodeType()) {
             offsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
@@ -413,7 +413,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @return object type from a accounting line ((either financial object type code, financial object type not expenditure code,
      *         or financial object type income not cash code))
      */
-    protected String getObjectTypeCode(GeneralLedgerPostable line) {
+    protected String getObjectTypeCode(GeneralLedgerPendingEntrySourceDetail line) {
         Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
 
@@ -440,8 +440,8 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
      */
     @Override
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glpeHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glpeHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glpeHelpers.get(AuxiliaryVoucherDocument.AUXILIARY_VOUCHER_GL_POSTER_HELPER_BEAN_ID);
     }
     

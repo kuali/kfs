@@ -38,11 +38,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
@@ -760,17 +760,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
 
         return false;
     }
     
     /**
      * Returns an instance of org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl; this will suffice for most purap documents 
-     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     * @see org.kuali.kfs.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostingHelper()
      */
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(PurchasingAccountsPayableDocumentBase.PURCHASING_ACCOUNTS_PAYABLE_GL_POSTING_HELPER_BEAN_ID);
     }
 

@@ -19,7 +19,7 @@ package org.kuali.module.financial.document;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 
 /**
  * This is the business object that represents the <code>{@link YearEndDocument}</code> version of
@@ -52,7 +52,7 @@ public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectio
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry);
     }

@@ -387,11 +387,11 @@
 
 	<bean id="disbursementVoucherDao" class="org.kuali.module.financial.dao.ojb.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
 	
-	<bean id="auxiliaryVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.AuxiliaryVoucherGeneralLedgerPostingHelperImpl" />
+	<bean id="auxiliaryVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.AuxiliaryVoucherGeneralLedgerPostingHelperImpl" parent="kfsGenericGeneralLedgerPostingHelper" />
 	
-	<bean id="budgetAdjustmentGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.BudgetAdjustmentGeneralLedgerPostingHelperImpl" />
+	<bean id="budgetAdjustmentGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.BudgetAdjustmentGeneralLedgerPostingHelperImpl" parent="kfsGenericGeneralLedgerPostingHelper" />
 	
-	<bean id="journalVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.JournalVoucherGeneralLedgerPostingHelperImpl" />
+	<bean id="journalVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.JournalVoucherGeneralLedgerPostingHelperImpl" parent="kfsGenericGeneralLedgerPostingHelper" />
 	
 	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.module.financial.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>

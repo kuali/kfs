@@ -28,7 +28,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -43,9 +43,9 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     private ObjectTypeService objectTypeService;
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isExpense(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isExpense(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isExpense(GeneralLedgerPostable postable) {
+    public boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable) {
         // return SpringContext.getBean(KualiConfigurationService.class).succeedsRule(KFSConstants.FINANCIAL_NAMESPACE,
         // KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES,
         // getObjectCodeTypeCodeWithoutSideEffects(accountingLine) );
@@ -54,9 +54,9 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     }
 
     /**
-     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isIncome(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * @see org.kuali.kfs.service.AccountingDocumentRuleHelperService#isIncome(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
-    public boolean isIncome(GeneralLedgerPostable postable) {
+    public boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable) {
         List<String> incomeObjectTypes = objectTypeService.getCurrentYearBasicIncomeObjectTypes();
         return incomeObjectTypes.contains(getObjectCodeTypeCodeWithoutSideEffects(postable));
     }
@@ -67,7 +67,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
      * @param accountingLine
      * @return the object type code of the object code of the given accounting line
      */
-    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPostable postable) {
+    public String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable) {
         postable.refreshReferenceObject("objectCode");
         return postable.getObjectCode().getFinancialObjectTypeCode();
     }

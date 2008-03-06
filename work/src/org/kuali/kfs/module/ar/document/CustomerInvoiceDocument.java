@@ -10,10 +10,10 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
@@ -727,11 +727,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
    
     
     /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
-     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPostable postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -750,8 +750,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
      * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
      */
     @Override
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(ArConstants.CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID);
     }    
 }

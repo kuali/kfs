@@ -974,9 +974,7 @@
 		<property name="lookupableHelperService">
 			<ref bean="laborPositionFundingLookupableHelperService" />
 		</property>
-	</bean>	
-	
-	<bean id="laborLedgerGeneralLedgerPostingHelper" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerPostingHelper" />
+	</bean>
 			
 	<bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

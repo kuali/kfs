@@ -15,6 +15,12 @@
  */
 package org.kuali.kfs.service.impl;
 
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,28 +28,49 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.exceptions.ReferentialIntegrityException;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
-import org.kuali.kfs.document.GeneralLedgerPoster;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.module.chart.service.OffsetDefinitionService;
+import org.kuali.module.financial.bo.BankAccount;
+import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.service.SufficientFundsServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -185,7 +212,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPoster poster) {
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySource poster) {
         boolean success = true;
 
         // we must clear them first before creating new ones
@@ -196,19 +223,336 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         LOG.info("generating gl pending ledger entries for document " + poster.getDocumentHeader().getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        GeneralLedgerPostingHelper postingHelper = poster.getGeneralLedgerPostingHelper();
-        for (GeneralLedgerPostable postable: poster.getGeneralLedgerPostables()) {
-            success &= postingHelper.processGenerateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
+        GeneralLedgerPendingEntryGenerationProcess postingHelper = poster.getGeneralLedgerPostingHelper();
+        List<GeneralLedgerPendingEntry> entries;
+        for (GeneralLedgerPendingEntrySourceDetail postable: poster.getGeneralLedgerPostables()) {
+            postingHelper.generateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
             sequenceHelper.increment();
         }
         
         // doc specific pending entries generation
-        poster.processGenerateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        poster.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        return success;
+    }
+    
+    /**
+     * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
+     * 
+     * @param accountingDocument
+     * @param accountingLine
+     * @param sequenceHelper
+     * @param explicitEntry
+     */
+    public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
+        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
+
+        explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(poster.getClass()));
+        explicitEntry.setVersionNumber(new Long(1));
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
+        explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
+        explicitEntry.setAccountNumber(postable.getAccountNumber());
+        if (postable.getAccount().getAccountSufficientFundsCode() == null) {
+            postable.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
+        }
+        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(postable.getObjectCode(), postable.getAccount().getAccountSufficientFundsCode()));
+        explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
+        explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
+        explicitEntry.setChartOfAccountsCode(postable.getChartOfAccountsCode());
+        explicitEntry.setTransactionDebitCreditCode(poster.isDebit(postable) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+        explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
+        explicitEntry.setDocumentNumber(postable.getDocumentNumber());
+        explicitEntry.setFinancialObjectCode(postable.getFinancialObjectCode());
+        ObjectCode objectCode = postable.getObjectCode();
+        if (ObjectUtils.isNull(objectCode)) {
+            postable.refreshReferenceObject("objectCode");
+        }
+        explicitEntry.setFinancialObjectTypeCode(postable.getObjectCode().getFinancialObjectTypeCode());
+        explicitEntry.setOrganizationDocumentNumber(poster.getDocumentHeader().getOrganizationDocumentNumber());
+        explicitEntry.setOrganizationReferenceId(postable.getOrganizationReferenceId());
+        explicitEntry.setProjectCode(getEntryValue(postable.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
+        explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(postable.getReferenceNumber(), BLANK_SPACE));
+        explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(postable.getReferenceTypeCode(), BLANK_SPACE));
+        explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(postable.getReferenceOriginCode(), BLANK_SPACE));
+        explicitEntry.setSubAccountNumber(getEntryValue(postable.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        explicitEntry.setFinancialSubObjectCode(getEntryValue(postable.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
+        explicitEntry.setTransactionEntryOffsetIndicator(false);
+        explicitEntry.setTransactionLedgerEntryAmount(poster.getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(postable));
+        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(postable.getFinancialDocumentLineDescription(), poster.getDocumentHeader().getFinancialDocumentDescription()));
+        explicitEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
+        // classes
+        explicitEntry.setUniversityFiscalYear(poster.getPostingYear());
+        // TODO wait for core budget year data structures to be put in place
+        // explicitEntry.setBudgetYear(accountingLine.getBudgetYear());
+        // explicitEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
+
+        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
+    }
+    
+    /**
+     * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in
+     * the explicit entry that it was cloned from. Note that the entries do not contain BOs now.
+     * 
+     * @param universityFiscalYear
+     * @param explicitEntry
+     * @param sequenceHelper
+     * @param offsetEntry Cloned from the explicit entry
+     * @return whether the offset generation is successful
+     */
+    public boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
+        LOG.debug("populateOffsetGeneralLedgerPendingEntry(Integer, GeneralLedgerPendingEntry, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
+
+        boolean success = true;
+
+        // lookup offset object info
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(universityFiscalYear, explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
+        if (ObjectUtils.isNull(offsetDefinition)) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION, universityFiscalYear.toString(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
+        }
+        else {
+            OffsetAccount flexibleOffsetAccount = SpringContext.getBean(FlexibleOffsetAccountService.class).getByPrimaryIdIfEnabled(explicitEntry.getChartOfAccountsCode(), explicitEntry.getAccountNumber(), getOffsetFinancialObjectCode(offsetDefinition));
+            flexOffsetAccountIfNecessary(flexibleOffsetAccount, offsetEntry);
+        }
+
+        // update offset entry fields that are different from the explicit entry that it was created from
+        offsetEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        offsetEntry.setTransactionDebitCreditCode(getOffsetEntryDebitCreditCode(explicitEntry));
+
+        String offsetObjectCode = getOffsetFinancialObjectCode(offsetDefinition);
+        offsetEntry.setFinancialObjectCode(offsetObjectCode);
+        if (offsetObjectCode.equals(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode())) {
+            // no BO, so punt
+            offsetEntry.setAcctSufficientFundsFinObjCd(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode());
+        }
+        else {
+            // Need current ObjectCode and Account BOs to get sufficient funds code. (Entries originally have no BOs.)
+            // todo: private or other methods to get these BOs, instead of using the entry and leaving some BOs filled in?
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+            ObjectCode financialObject = offsetEntry.getFinancialObject();
+            // The ObjectCode reference may be invalid because a flexible offset account changed its chart code.
+            if (ObjectUtils.isNull(financialObject)) {
+                throw new ReferentialIntegrityException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
+            }
+            offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, offsetEntry.getAccount().getAccountSufficientFundsCode()));
+        }
+
+        offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));
+        offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        offsetEntry.setTransactionEntryOffsetIndicator(true);
+        offsetEntry.setTransactionLedgerEntryDescription(KFSConstants.GL_PE_OFFSET_STRING);
+
+        LOG.debug("populateOffsetGeneralLedgerPendingEntry(Integer, GeneralLedgerPendingEntry, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
         return success;
     }
 
     /**
-     * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#save(org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * Applies the given flexible offset account to the given offset entry. Does nothing if flexibleOffsetAccount is null or its COA
+     * and account number are the same as the offset entry's.
+     * 
+     * @param flexibleOffsetAccount may be null
+     * @param offsetEntry may be modified
+     */
+    private void flexOffsetAccountIfNecessary(OffsetAccount flexibleOffsetAccount, GeneralLedgerPendingEntry offsetEntry) {
+        LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - start");
+
+        if (flexibleOffsetAccount == null) {
+            LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - end");
+            return; // They are not required and may also be disabled.
+        }
+        String flexCoa = flexibleOffsetAccount.getFinancialOffsetChartOfAccountCode();
+        String flexAccountNumber = flexibleOffsetAccount.getFinancialOffsetAccountNumber();
+        if (flexCoa.equals(offsetEntry.getChartOfAccountsCode()) && flexAccountNumber.equals(offsetEntry.getAccountNumber())) {
+            LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - end");
+            return; // no change, so leave sub-account as is
+        }
+        if (ObjectUtils.isNull(flexibleOffsetAccount.getFinancialOffsetAccount())) {
+            throw new ReferentialIntegrityException("flexible offset account " + flexCoa + "-" + flexAccountNumber);
+        }
+        offsetEntry.setChartOfAccountsCode(flexCoa);
+        offsetEntry.setAccountNumber(flexAccountNumber);
+        // COA and account number are part of the sub-account's key, so the original sub-account would be invalid.
+        offsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+
+        LOG.debug("flexOffsetAccountIfNecessary(OffsetAccount, GeneralLedgerPendingEntry) - end");
+    }
+    
+    /**
+     * Helper method that determines the offset entry's financial object type code.
+     * 
+     * @param offsetDefinition
+     * @return String
+     */
+    protected String getOffsetFinancialObjectTypeCode(OffsetDefinition offsetDefinition) {
+        LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - start");
+
+        if (null != offsetDefinition && null != offsetDefinition.getFinancialObject()) {
+            String returnString = getEntryValue(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode(), AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType());
+            LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
+            return returnString;
+        }
+        else {
+            LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
+            return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType();
+        }
+
+    }
+
+    /**
+     * Helper method that determines the debit/credit code for the offset entry. If the explicit was a debit, the offset is a
+     * credit. Otherwise, it's opposite.
+     * 
+     * @param explicitEntry
+     * @return String
+     */
+    protected String getOffsetEntryDebitCreditCode(GeneralLedgerPendingEntry explicitEntry) {
+        LOG.debug("getOffsetEntryDebitCreditCode(GeneralLedgerPendingEntry) - start");
+
+        String offsetDebitCreditCode = KFSConstants.GL_BUDGET_CODE;
+        if (KFSConstants.GL_DEBIT_CODE.equals(explicitEntry.getTransactionDebitCreditCode())) {
+            offsetDebitCreditCode = KFSConstants.GL_CREDIT_CODE;
+        }
+        else if (KFSConstants.GL_CREDIT_CODE.equals(explicitEntry.getTransactionDebitCreditCode())) {
+            offsetDebitCreditCode = KFSConstants.GL_DEBIT_CODE;
+        }
+
+        LOG.debug("getOffsetEntryDebitCreditCode(GeneralLedgerPendingEntry) - end");
+        return offsetDebitCreditCode;
+    }
+
+    /**
+     * Helper method that determines the offset entry's financial object code.
+     * 
+     * @param offsetDefinition
+     * @return String
+     */
+    protected String getOffsetFinancialObjectCode(OffsetDefinition offsetDefinition) {
+        LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - start");
+
+        if (null != offsetDefinition) {
+            String returnString = getEntryValue(offsetDefinition.getFinancialObjectCode(), AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode());
+            LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
+            return returnString;
+        }
+        else {
+            LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
+            return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode();
+        }
+
+    }
+    
+    /**
+     * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
+     * posted as a side-effect if the given BankAccount has not defined the necessary bank offset relations.
+     * 
+     * @param bankAccount
+     * @param depositAmount
+     * @param financialDocument
+     * @param universityFiscalYear
+     * @param sequenceHelper
+     * @param bankOffsetEntry
+     * @param errorPropertyName
+     * @return whether the entry was populated successfully
+     */
+    public boolean populateBankOffsetGeneralLedgerPendingEntry(BankAccount bankAccount, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
+        bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(financialDocument.getClass()));
+        bankOffsetEntry.setVersionNumber(1L);
+        bankOffsetEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
+        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        bankOffsetEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
+        bankOffsetEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
+        Account cashOffsetAccount = bankAccount.getCashOffsetAccount();
+        if (ObjectUtils.isNull(cashOffsetAccount)) {
+            // Bank account offsets are optional, so a BankAccount might not have the necessary relations. Validate them here where
+            // they are used so the need is clear.
+            // todo: put() varargs, revisit this in phase 2 when error reporting is discussed. -Leo
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
+            return false;
+        }
+        if (cashOffsetAccount.isAccountClosedIndicator()) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
+            return false;
+        }
+        if (cashOffsetAccount.isExpired()) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_EXPIRED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
+            return false;
+        }
+        bankOffsetEntry.setChartOfAccountsCode(bankAccount.getCashOffsetFinancialChartOfAccountCode());
+        bankOffsetEntry.setAccountNumber(bankAccount.getCashOffsetAccountNumber());
+        bankOffsetEntry.setFinancialDocumentApprovedCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
+        bankOffsetEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
+        bankOffsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
+        bankOffsetEntry.setTransactionDebitCreditCode(depositAmount.isPositive() ? GL_DEBIT_CODE : GL_CREDIT_CODE);
+        bankOffsetEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
+        bankOffsetEntry.setDocumentNumber(financialDocument.getDocumentNumber());
+        ObjectCode cashOffsetObject = bankAccount.getCashOffsetObject();
+        if (ObjectUtils.isNull(cashOffsetObject)) {
+            // Bank account offsets are optional, so a BankAccount might not have the necessary relations. Validate them here where
+            // they are used so the need is clear.
+            // todo: put() varargs, revisit this in phase 2 when error reporting is discussed. -Leo
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_OBJECT_CODE, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
+            return false;
+        }
+        if (!cashOffsetObject.isFinancialObjectActiveCode()) {
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_OBJECT_CODE, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetObject.getFinancialObjectCode() });
+            return false;
+        }
+        bankOffsetEntry.setFinancialObjectCode(bankAccount.getCashOffsetObjectCode());
+        bankOffsetEntry.setFinancialObjectTypeCode(bankAccount.getCashOffsetObject().getFinancialObjectTypeCode());
+        bankOffsetEntry.setOrganizationDocumentNumber(financialDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        bankOffsetEntry.setOrganizationReferenceId(null);
+        bankOffsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
+        bankOffsetEntry.setReferenceFinancialDocumentNumber(null);
+        bankOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
+        bankOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
+        if (StringUtils.isBlank(bankAccount.getCashOffsetSubAccountNumber())) {
+            bankOffsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+        else {
+            SubAccount cashOffsetSubAccount = bankAccount.getCashOffsetSubAccount();
+            if (ObjectUtils.isNull(cashOffsetSubAccount)) {
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
+                return false;
+            }
+            if (!cashOffsetSubAccount.isSubAccountActiveIndicator()) {
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
+                return false;
+            }
+            bankOffsetEntry.setSubAccountNumber(bankAccount.getCashOffsetSubAccountNumber());
+        }
+        if (StringUtils.isBlank(bankAccount.getCashOffsetSubObjectCode())) {
+            bankOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
+        else {
+            SubObjCd cashOffsetSubObject = bankAccount.getCashOffsetSubObject();
+            if (ObjectUtils.isNull(cashOffsetSubObject)) {
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
+                return false;
+            }
+            if (!cashOffsetSubObject.isFinancialSubObjectActiveIndicator()) {
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
+                return false;
+            }
+            bankOffsetEntry.setFinancialSubObjectCode(bankAccount.getCashOffsetSubObjectCode());
+        }
+        bankOffsetEntry.setFinancialSubObjectCode(getEntryValue(bankAccount.getCashOffsetSubObjectCode(), KFSConstants.getDashFinancialSubObjectCode()));
+        bankOffsetEntry.setTransactionEntryOffsetIndicator(true);
+        bankOffsetEntry.setTransactionLedgerEntryAmount(depositAmount.abs());
+        bankOffsetEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
+        // classes
+        bankOffsetEntry.setUniversityFiscalYear(universityFiscalYear);
+        // TODO wait for core budget year data structures to be put in place
+        // bankOffsetEntry.setBudgetYear(accountingLine.getBudgetYear());
+        // bankOffsetEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
+        bankOffsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.service.GeneralLedgerPendingEntryService#save(org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
         LOG.debug("save() started");

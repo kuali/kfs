@@ -19,7 +19,7 @@ package org.kuali.module.financial.document;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocument;
 
 
@@ -50,7 +50,7 @@ public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument impl
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
         AccountingLine accountingLine = (AccountingLine)postable;
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, accountingLine, explicitEntry);
@@ -72,7 +72,7 @@ public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument impl
      *      GeneralLedgerPendingEntry)
      */
     @Override
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         boolean success = super.customizeOffsetGeneralLedgerPendingEntry(postable, explicitEntry, offsetEntry);
         AccountingLine accountingLine = (AccountingLine)postable;
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, accountingLine, explicitEntry);

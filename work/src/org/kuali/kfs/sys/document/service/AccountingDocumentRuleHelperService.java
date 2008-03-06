@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.service;
 
-import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
@@ -72,7 +72,7 @@ public interface AccountingDocumentRuleHelperService {
      * @param accountingLine
      * @return boolean True if the line is an income line.
      */
-    public abstract boolean isIncome(GeneralLedgerPostable postable);
+    public abstract boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Check object code type to determine whether the accounting line is expense.
@@ -80,7 +80,7 @@ public interface AccountingDocumentRuleHelperService {
      * @param accountingLine
      * @return boolean True if the line is an expense line.
      */
-    public abstract boolean isExpense(GeneralLedgerPostable postable);
+    public abstract boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Makes sure that the objectCode attribute is fully populated b/c we are using proxying in our persistence layer.
@@ -88,7 +88,7 @@ public interface AccountingDocumentRuleHelperService {
      * @param accountingLine
      * @return the object type code of the object code of the given accounting line
      */
-    public abstract String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPostable postable);
+    public abstract String getObjectCodeTypeCodeWithoutSideEffects(GeneralLedgerPendingEntrySourceDetail postable);
     
     /**
      * Gets the named property from KualiConfigurationService (i.e., from ApplicationResources.properties) and formats it with the

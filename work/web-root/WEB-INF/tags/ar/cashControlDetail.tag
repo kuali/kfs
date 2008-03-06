@@ -78,7 +78,7 @@
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
-			property="${propertyName}.financialDocumentLineAmount" styleClass="right" disabled="${not addLine}"/>
+			property="${propertyName}.financialDocumentLineAmount" styleClass="right" />
 	</td>
 	<c:if test="${not readOnly}">
 		<td class="${cssClass}" rowspan="2">

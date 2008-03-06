@@ -18,6 +18,8 @@ package org.kuali.module.ar.rules;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
@@ -34,10 +36,14 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
     private CustomerInvoiceDocumentRule rule;
     private CustomerInvoiceDocument document;
     
-    private final String INVALID_CHART_OF_ACCOUNTS_CODE = "XX";
-    private final String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
-    private final String INVALID_ORGANIZATION_CODE = "XXXX";
-    private final String VALID_ORGANIZATION_CODE = "VPIT";
+    private static final String INVALID_CHART_OF_ACCOUNTS_CODE = "XX";
+    private static final String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
+    private static final String INVALID_ORGANIZATION_CODE = "XXXX";
+    private static final String VALID_ORGANIZATION_CODE = "VPIT";
+    private static final String INVOICE_CREATION_DATE = "2008-01-01";
+    private static final String VALID_INVOICE_DUE_DATE_STRING = "2008-03-31";
+    private static final String INVALID_INVOICE_DUE_DATE_STRING = "2008-04-02";
+    private static final String CUSTOMER_INVOICE_DOCUMENT_TYPE = "CustomerInvoiceDocument";
     
     @Override
     protected void setUp() throws Exception {
@@ -115,21 +121,23 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
     
     
     /**
-     * This method tests if isValidInvoiceDueDate will return true when passed a valid invoice due date (i.e a due date equal to or less 30 days from the creation date)
+     * This method tests if isValidInvoiceDueDate will return true when passed a valid invoice due date (i.e a due date equal to or less 90 days from the creation date)
      */
     public void testIsValidInvoiceDueDate_True() {
         
-        //TODO Write this test
-        assertTrue(true);
+        Date creationDate = Date.valueOf(INVOICE_CREATION_DATE);
+        document.setInvoiceDueDate( Date.valueOf(VALID_INVOICE_DUE_DATE_STRING));
+        assertTrue(rule.isValidInvoiceDueDate(document, new Timestamp( creationDate.getTime() ) ) );
     }
     
     /**
-     * This method tests if isValidInvoiceDueDate will return false when passed a invalid invoice due date (i.e a due date 30 days greater than the creation date)
+     * This method tests if isValidInvoiceDueDate will return false when passed a invalid invoice due date (i.e a due date 90 days greater than the creation date)
      */    
     public void testIsValidInvoiceDueDate_False() {
         
-        //TODO Write this test
-        assertFalse(false);
+        Date creationDate = Date.valueOf(INVOICE_CREATION_DATE);
+        document.setInvoiceDueDate( Date.valueOf(INVALID_INVOICE_DUE_DATE_STRING));
+        assertFalse(rule.isValidInvoiceDueDate(document, new Timestamp( creationDate.getTime() ) ) );
     }
 
     /**

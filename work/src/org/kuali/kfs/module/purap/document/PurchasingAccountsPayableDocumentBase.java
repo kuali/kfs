@@ -90,7 +90,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private Boolean overrideWorkflowButtons = null;
-    private PurApRelatedViews relatedViews;
+    private transient PurApRelatedViews relatedViews;
     
     // COLLECTIONS
     private List<PurApItem> items;

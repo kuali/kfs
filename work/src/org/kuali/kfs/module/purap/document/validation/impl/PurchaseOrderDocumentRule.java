@@ -88,9 +88,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Overrides the method in PurchasingDocumentRuleBase in order to call validateEmptyItemWithAccounts, validateItemForAmendment
-     * and validateTradeInAndDiscountCoexistence in addition to what the superclass method has already provided.
-     * 
      * @param purapDocument the purchase order document to be validated
      * @return boolean false when an error is found in any validation.
      * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
@@ -98,14 +95,22 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        for (PurApItem item : purapDocument.getItems()) {                   
-            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, item.getItemIdentifierString());
-            if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-                valid &= validateItemForAmendment((PurchaseOrderItem) item, item.getItemIdentifierString());
-            }
-        }
         valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument) purapDocument);
 
+        return valid;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#newIndividualItemValidation(java.lang.String, org.kuali.module.purap.bo.PurApItem, org.kuali.module.purap.bo.RecurringPaymentType)
+     */
+    @Override
+    public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
+        boolean valid = true;
+        valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, item.getItemIdentifierString());
+        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            valid &= validateItemForAmendment((PurchaseOrderItem) item, item.getItemIdentifierString());
+        }
+        
         return valid;
     }
 

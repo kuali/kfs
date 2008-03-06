@@ -260,9 +260,9 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#validateItemCapitalAssetWithErrors(org.kuali.module.purap.bo.PurchasingItemBase, org.kuali.module.purap.bo.RecurringPaymentType, java.lang.String)
      */
     @Override
-    public boolean validateItemCapitalAssetWithErrors(PurApItem item, RecurringPaymentType recurringPaymentType) {
+    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
-            return super.validateItemCapitalAssetWithErrors(item,recurringPaymentType);
+            return super.validateItemCapitalAssetWithErrors(purapDocument, item);
         }
         else {
             return true;

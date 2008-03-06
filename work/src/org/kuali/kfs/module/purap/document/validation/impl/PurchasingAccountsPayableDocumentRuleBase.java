@@ -228,7 +228,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
      */
     public boolean newProcessItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
 
         //Fetch the business rules that are common to the below the line items on all purap documents
         String documentTypeClassName = purapDocument.getClass().getName();
@@ -247,7 +246,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
             if (isItemConsideredEntered(item)) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
               //if true call hook to process item validation
-                valid &= newIndividualItemValidation(documentType, item, recurringPaymentType);
+                valid &= newIndividualItemValidation(purapDocument, documentType, item);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
                 //hook method to check if account validation is required(should this be set at top or checked per item)
                 //if true call account validation
@@ -272,7 +271,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
      * @param recurringPaymentType  Needed by overriding methods in child classes
      * @return
      */
-    public boolean newIndividualItemValidation(String documentType, PurApItem item, RecurringPaymentType recurringPaymentType) {
+    public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
         if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
             valid &= validateBelowTheLineValues(documentType, item);

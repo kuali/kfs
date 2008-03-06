@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
-import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -30,8 +29,9 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
@@ -46,10 +46,10 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
     public boolean doRules(Document document) {
         boolean preRulesOK = true;
         
-        RequisitionDocument requisitionDocument = (RequisitionDocument)document;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument)document;
         
         if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
-            preRulesOK &= confirmFixCapitalAssetWarningConditions(requisitionDocument);
+            preRulesOK &= confirmFixCapitalAssetWarningConditions(purapDocument);
         }
         
         return preRulesOK;
@@ -59,23 +59,21 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      * Analogous to similarly-named methods in Rule classes.  Loops through the items and runs validations
      * applying only to items.
      * 
-     * @param requisitionDocument
-     * @return
+     * @param purapDocument     A PurchasingAccountsPayableDocument
+     * @return  True if all item validations are passed.
      */
-    public boolean processItemValidation(RequisitionDocument requisitionDocument) {
-        boolean valid = true;                         
-        RecurringPaymentType recurringPaymentType = requisitionDocument.getRecurringPaymentType();
-              
-        List<PurchasingItemBase> itemList = requisitionDocument.getItems();    
-        for (PurchasingItemBase item : itemList) {
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;                                     
+        for (PurApItem purApItem : purapDocument.getItems()) {
+            PurchasingItemBase item = (PurchasingItemBase)purApItem;
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-                
-                if (capitalAssetWarningConditionsExist(item, recurringPaymentType, identifierString)) {
+                if (capitalAssetWarningConditionsExist(purapDocument, item)) {
+                    
                     valid &= false;
                 }
             }               
         }
+        
         return valid;
     }
     
@@ -83,17 +81,17 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      * Looks for capital asset warning conditions and asks the user for confirmation that he/she will fix the warning conditions,
      * returning to the appropriate page.
      * 
-     * @param requisitionDocument   A RequisitionDocument
+     * @param purapDocument   A PurchasingAccountsPayableDocument
      * @return  True if the user has indicated that the warnings should be fixed, or if there are no warning conditions.
      */
-    public boolean confirmFixCapitalAssetWarningConditions(RequisitionDocument requisitionDocument) {
+    public boolean confirmFixCapitalAssetWarningConditions(PurchasingAccountsPayableDocument purapDocument) {
         boolean proceed = true;
         
         if (!SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, 
                 PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
             String questionText = "";
             if (StringUtils.isBlank(event.getQuestionContext())) {
-                if (!processItemValidation(requisitionDocument)) {
+                if (!processItemValidation(purapDocument)) {
                     proceed &= false;
                     questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                             PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
@@ -124,12 +122,12 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      * Does the capital asset validations for all items, side-effecting the resulting warnings into the GlobalVariables
      * message list.  
      * 
-     * @param requisitionDocument   A RequisitionDocument
+     * @param purapDocument   A PurchasingAccountsPayableDocument
      * @return  True if capital asset warning conditions exist.
      */
-    public boolean capitalAssetWarningConditionsExist(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String identifierString) {
+    public boolean capitalAssetWarningConditionsExist(PurchasingAccountsPayableDocument purapDocument, PurchasingItemBase item) {
         PurchasingDocumentRuleBase ruleBase = new PurchasingDocumentRuleBase();
-        return !ruleBase.validateItemCapitalAssetWithWarnings(item, recurringPaymentType);        
+        return !ruleBase.validateItemCapitalAssetWithWarnings(purapDocument, item);        
     }
     
 }

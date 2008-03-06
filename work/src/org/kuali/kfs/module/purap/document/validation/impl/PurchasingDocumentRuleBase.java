@@ -35,6 +35,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.UnitOfMeasure;
 import org.kuali.kfs.context.SpringContext;
@@ -56,7 +57,6 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
@@ -170,10 +170,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#newIndividualItemValidation(boolean, java.lang.String, org.kuali.module.purap.bo.PurApItem)
      */
     @Override
-    public boolean newIndividualItemValidation(String documentType, PurApItem item, RecurringPaymentType recurringPaymentType) {
+    public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
-        valid &=  super.newIndividualItemValidation(documentType, item, recurringPaymentType);
-        valid &=  validateItemCapitalAssetWithErrors(item, recurringPaymentType);
+        valid &=  super.newIndividualItemValidation(purapDocument, documentType, item);
+        valid &=  validateItemCapitalAssetWithErrors(purapDocument, item);
         valid &=  validateUnitOfMeasure(item);
         return valid;
     }
@@ -601,10 +601,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean processCapitalAssestsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = true;
-        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
         List<PurApItem> itemList = purapDocument.getItems();
         for (PurApItem item : itemList) {
-            valid &= validateItemCapitalAssetWithErrors(item,recurringPaymentType);
+            valid &= validateItemCapitalAssetWithErrors(purapDocument, item);
         }
         // We don't actually need the error messages for the purposes of the APO.
         GlobalVariables.getErrorMap().clear();
@@ -622,9 +621,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithErrors(PurApItem item, RecurringPaymentType recurringPaymentType) {
+    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
+        PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        return validateItemCapitalAsset(purchasingItem, recurringPaymentType, false, purchasingItem.getItemIdentifierString());
+        return validateItemCapitalAsset(purDocument, purchasingItem, false);
     }
     
     /**
@@ -638,9 +638,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithWarnings(PurApItem item, RecurringPaymentType recurringPaymentType) {
+    public boolean validateItemCapitalAssetWithWarnings(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
+        PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        return validateItemCapitalAsset(purchasingItem, recurringPaymentType, true, purchasingItem.getItemIdentifierString());
+        return validateItemCapitalAsset(purDocument, purchasingItem, true);
     }
     
     /**
@@ -655,8 +656,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return  True if the item passes all Capital Asset validations
      */
-    protected boolean validateItemCapitalAsset(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
-        boolean valid = true;       
+    protected boolean validateItemCapitalAsset(PurchasingDocument purDocument, PurchasingItemBase item, boolean warn) {
+        boolean valid = true;
+        String itemIdentifier = item.getItemIdentifierString();
         KualiDecimal itemQuantity = item.getItemQuantity();       
         HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
         
@@ -669,7 +671,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         // Do the checks that depend on Accounting Line information.
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
             // Because of ObjectCodeCurrent, we had to refresh this.
-            accountingLine.refreshReferenceObject("objectCode");
+            accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             ObjectCode objectCode = accountingLine.getObjectCode();
             String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
             capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
@@ -693,6 +695,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         // These checks do not depend on Accounting Line information, but do depend on Tran Type.
         if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+                purDocument.refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);
+                RecurringPaymentType recurringPaymentType = purDocument.getRecurringPaymentType(); 
                 valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
                 valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
             }
@@ -921,14 +925,15 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @return
      */
     public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
-        boolean valid = true;
-
+        boolean valid = true;      
+        
         // If there is a tran type ...
         if ((capitalAssetTransactionType != null) &&
             (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
             String recurringTransactionTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValue(
                     ParameterConstants.PURCHASING_DOCUMENT.class, 
                     PurapParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
+            
             
             if (recurringPaymentType != null) { // If there is a recurring payment type ...                
                 if (!StringUtils.contains(recurringTransactionTypeCodes,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {

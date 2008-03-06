@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>kualiUniversalGroup</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -58,10 +58,10 @@
                 	<subSectionHeader name="Asset Detail Info" />
                 	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
-                    <maintainableField name="capitalAssetNumber"  />
-                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
+                    <maintainableField name="capitalAssetNumber" readOnly="true" />
+                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true"/>
                     <maintainableField name="organizationOwnerAccountNumber" />
-                    <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
+                    <maintainableField name="organizationOwnerAccount.organizationCode"/>
                     <maintainableField name="agencyNumber" />
                     <maintainableField name="acquisitionTypeCode" readOnly="true"/>
                     <maintainableField name="inventoryStatusCode" required="true"/>

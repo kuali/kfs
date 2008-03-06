@@ -30,10 +30,23 @@ public class CamsPropertyConstants {
         public static final String ASSET_RETIREMENT_FISCAL_MONTH = "retirementPeriodCode";
         public static final String ASSET_INVENTORY_STATUS = "inventoryStatusCode";
         public static final String ASSET_WARRANTY_WARRANTY_NUMBER = "assetWarranty.warrantyNumber";
+        public static final String NATIONAL_STOCK_NUMBER = "nationalStockNumber";
+        public static final String GOVERNMENT_TAG_NUMBER = "governmentTagNumber";
+        public static final String OLD_TAG_NUMBER = "oldTagNumber";
+        public static final String AGENCY_NUMBER = "agencyNumber";
+        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
+        public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
+        public static final String VENDOR_NAME = "vendorName";
+
     }
 
-    public static class AssetType {
-        public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
+    public static class AssetHeader {
+        public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    }
+
+    public static class AssetObject {
+        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
 
     public static class AssetPayment {
@@ -51,12 +64,7 @@ public class CamsPropertyConstants {
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
     }
 
-    public static class AssetHeader {
-        public static final String DOCUMENT_NUMBER = "documentNumber";
-        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
-    }
-
-    public static class AssetObject {
-        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+    public static class AssetType {
+        public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }
 }

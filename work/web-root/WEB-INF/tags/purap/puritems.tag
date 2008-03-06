@@ -57,7 +57,7 @@
 		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
 				<td colspan="6" class="subhead"><span class="subhead-left">Add Item</span></td>
-				<td colspan="4" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
+				<td colspan="5" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideImport() {
@@ -134,7 +134,7 @@
                     <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"/>   
                             
-                    <div id="newPurchasingItemLine.commodityCode.commodityDescription.div">
+                    <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
                         <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
                     </div>         
                 </td>
@@ -357,9 +357,13 @@
                             property="document.item[${ctr}].purchasingCommodityCode"
                             onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
                             readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-                        <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
-                            fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"/>    
-                        <div id="document.item[${ctr}].commodityCode.commodityDescription.div" />
+                        <c:if test="${fullEntryMode}">   
+                            <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
+                                fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"/>    
+                        </c:if>
+                        <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
+                            <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
+                        </div>
                     </td>
 					<td class="infoline">
 					    <div align="right">

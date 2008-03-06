@@ -25,7 +25,8 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     private Date pretagTagCreateDate;
     private String governmentTagNumber;
     private String nationalStockNumber;
-
+    private boolean active;
+    
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -260,6 +261,22 @@ public class PretagDetail extends PersistableBusinessObjectBase {
      */
     public void setNationalStockNumber(String nationalStockNumber) {
         this.nationalStockNumber = nationalStockNumber;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

@@ -601,6 +601,7 @@
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="pretagCreateDate" column="CM_PRTG_CRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
     <collection-descriptor name="pretagDetails" element-class-ref="org.kuali.module.cams.bo.PretagDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="campusTagNumber" sort="ASC" />
@@ -620,7 +621,6 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
-	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">
@@ -638,6 +638,7 @@
 	<field-descriptor name="pretagTagCreateDate" column="AST_PRTGTAG_CRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="campusCode" />

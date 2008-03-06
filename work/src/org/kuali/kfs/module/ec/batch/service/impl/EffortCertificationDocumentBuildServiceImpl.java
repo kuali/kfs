@@ -112,7 +112,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         EffortCertificationDocumentBuild document = new EffortCertificationDocumentBuild();
 
         document.setEffortCertificationBuildNumber(null);
-        document.setEffortCertificationDocumentCode(EffortConstants.DEFAULT_DOCUMENT_CODE_N);
+        document.setEffortCertificationDocumentCode(false);
 
         document.setEffortCertificationReportNumber(reportDefinition.getEffortCertificationReportNumber());
         document.setUniversityFiscalYear(reportDefinition.getUniversityFiscalYear());

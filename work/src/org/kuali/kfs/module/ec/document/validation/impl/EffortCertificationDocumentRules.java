@@ -383,7 +383,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         boolean success = effortCertificationDocumentService.populateEffortCertificationDocument(effortCertificationDocument, documentBuild);
 
         if (effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(emplid, reportDefinition)) {
-            effortCertificationDocument.setEffortCertificationDocumentCode(EffortConstants.DEFAULT_DOCUMENT_CODE_Y);
+            effortCertificationDocument.setEffortCertificationDocumentCode(true);
         }
 
         return success;

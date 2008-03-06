@@ -45,7 +45,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     private String documentNumber;
     private String effortCertificationReportNumber;
-    private String effortCertificationDocumentCode;
+    private boolean effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
 
@@ -111,7 +111,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * 
      * @return Returns the effortCertificationDocumentCode.
      */
-    public String getEffortCertificationDocumentCode() {
+    public boolean getEffortCertificationDocumentCode() {
         return effortCertificationDocumentCode;
     }
 
@@ -120,7 +120,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * 
      * @param effortCertificationDocumentCode The effortCertificationDocumentCode to set.
      */
-    public void setEffortCertificationDocumentCode(String effortCertificationDocumentCode) {
+    public void setEffortCertificationDocumentCode(boolean effortCertificationDocumentCode) {
         this.effortCertificationDocumentCode = effortCertificationDocumentCode;
     }
 

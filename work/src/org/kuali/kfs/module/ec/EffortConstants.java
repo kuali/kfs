@@ -88,9 +88,6 @@ public class EffortConstants extends JstlConstants {
     public static final double PERCENT_LIMIT_OF_LINE_SALARY_CHANGE = 0.005;
     public static final double AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE = 0.009;
     
-    public static final String DEFAULT_DOCUMENT_CODE_N = "N";
-    public static final String DEFAULT_DOCUMENT_CODE_Y = "Y";
-    
     public static final String EFFORT_DETAIL_IMPORT_ERRORS = "effortDetailImportError";
     public static final String REQUIRED_IMPORT_FIELDS_ERRORS = "requiredImportFieldError";
     public static final String DOCUMENT_PREFIX = "document.";

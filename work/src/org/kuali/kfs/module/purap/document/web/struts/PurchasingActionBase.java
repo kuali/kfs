@@ -40,6 +40,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -404,7 +405,16 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
         if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
+            
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
+                boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter( "KFS-PA", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+                
+                //If the institution's validate account distribution indicator is true and
+                //the total percentage in the distribute account list does not equal 100 % then we should display error
+                if (institutionNeedsDistributeAccountValidation && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
                 for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
                     BigDecimal zero = new BigDecimal(0);
                     boolean itemIsActive = true;
@@ -461,8 +471,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // index of item selected
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
-
-        if (itemIndex == -2) {
+        
+        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter( "KFS-PA", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+        
+        if (itemIndex == -2 && !institutionNeedsDistributeAccountValidation) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
             purchasingForm.addAccountDistributionsourceAccountingLine(line);
             success = true;

@@ -39,11 +39,10 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
+import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -138,23 +137,37 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         // index of item selected
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
-
+        
         // if custom processing of an accounting line is not done then insert a line generically.
         if (processCustomInsertAccountingLine(purapForm, request) == false) {
-
-            item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
-            PurApAccountingLine line = (PurApAccountingLine) ObjectUtils.deepCopy(item.getNewSourceLine());
-
-            String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-            boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+            String errorPrefix = null;
+            PurApAccountingLine line = null;
+            boolean rulePassed = false;
+            if (itemIndex >= 0) {
+                item = (PurApItem) ((PurchasingAccountsPayableDocument) purapForm.getDocument()).getItem((itemIndex));
+                line = (PurApAccountingLine) ObjectUtils.deepCopy(item.getNewSourceLine());
+                errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(itemIndex) + "]." + KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+            }
+            else {
+                //This is the case when we're inserting an accounting line for distribute account.
+                line = ((PurchasingFormBase)purapForm).getAccountDistributionnewSourceLine();
+                errorPrefix = "accountDistributionnewSourceLine";
+                rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(errorPrefix, purapForm.getDocument(), (AccountingLine) line));
+            }
 
             if (rulePassed) {
                 // add accountingLine
                 SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
-                insertAccountingLine(purapForm, item, line);
-
-                // clear the temp account
-                item.resetAccount();
+                if (itemIndex >=0) {
+                    insertAccountingLine(purapForm, item, line);
+                    // clear the temp account
+                    item.resetAccount();
+                }
+                else {
+                    //this is the case for distribute account
+                    ((PurchasingFormBase)purapForm).addAccountDistributionsourceAccountingLine(line);
+                }
             }
         }
 

@@ -41,10 +41,10 @@
 			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
 			</tr>     
 			<c:if test="${not readOnly}">
-				<ar:cashControlDetail propertyName="newCashControlDetail" cashControlDetailAttributes="${cashControlDetailAttributes}" readOnly="${readOnly}" rowHeading="add" cssClass="infoline" actionMethod="addCashControlDetail"  actionAlt="Add Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />				
+				<ar:cashControlDetail propertyName="newCashControlDetail" cashControlDetailAttributes="${cashControlDetailAttributes}" addLine="true" readOnly="${readOnly}" rowHeading="add" cssClass="infoline" actionMethod="addCashControlDetail"  actionAlt="Add Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />				
 			</c:if>     
 			<logic:iterate id="cashControlDetail" name="KualiForm" property="document.cashControlDetails" indexId="ctr">
-				<ar:cashControlDetail propertyName="document.cashControlDetail[${ctr}]" cashControlDetailAttributes="${cashControlDetailAttributes}" readOnly="${readOnly}" rowHeading="${ctr+1}" cssClass="datacell" actionMethod="deleteCashControlDetail.line${ctr}" actionAlt="Delete Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
+				<ar:cashControlDetail propertyName="document.cashControlDetail[${ctr}]" cashControlDetailAttributes="${cashControlDetailAttributes}" addLine="false" readOnly="${readOnly}" rowHeading="${ctr+1}" cssClass="datacell" actionMethod="deleteCashControlDetail.line${ctr}" actionAlt="Delete Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
 	        </logic:iterate> 
 	        <tr>
 	 		   <td class="total-line" colspan="6">&nbsp;</td>

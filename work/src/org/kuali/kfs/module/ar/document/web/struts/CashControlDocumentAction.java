@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -30,9 +32,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.bo.NonAppliedHolding;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
+import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
@@ -92,16 +96,38 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, document, newCashControlDetail));
         if (rulePassed) {
 
-            PaymentApplicationDocument doc = (PaymentApplicationDocument)KNSServiceLocator.getDocumentService().getNewDocument("PaymentApplicationDocument");
+           
+            
+            DocumentService documentService = KNSServiceLocator.getDocumentService();
+            PaymentApplicationDocument doc = (PaymentApplicationDocument)documentService.getNewDocument("PaymentApplicationDocument");
+            doc.getDocumentHeader().setFinancialDocumentDescription("Created by Cash Control Document");
+            //set up the default values for the AR DOC Header
+            AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+            accountsReceivableDocumentHeader.setDocumentNumber(doc.getDocumentNumber());
+            doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+            
+            NonAppliedHolding nonAppliedHolding = new NonAppliedHolding();
+            nonAppliedHolding.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+  
+            doc.setNonAppliedHolding(nonAppliedHolding);
+            doc.getDocumentHeader().setFinancialDocumentTotalAmount(newCashControlDetail.getFinancialDocumentLineAmount());
+            
+            doc.refreshNonUpdateableReferences();
+            documentService.saveDocument(doc);
+            
             newCashControlDetail.setReferenceFinancialDocument(doc);
             newCashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
             newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
+            
+
 
             // add customer invoice detail
             document.addCashControlDetail(newCashControlDetail);
             // clear the used customer invoice detail
             //set up the default values for customer invoice detail add line
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
+            
         }
         
         
@@ -129,8 +155,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         //PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
         //PaymentMedium medium = service.getPaymentMedium(paymentMediumCode);
         
-        
-        
+        cashControlDocForm.setShowGenerateBtn(false);
         return mapping.findForward(KFSConstants.MAPPING_BASIC); 
     }
     

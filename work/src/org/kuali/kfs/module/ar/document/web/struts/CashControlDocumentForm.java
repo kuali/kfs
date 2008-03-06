@@ -23,6 +23,8 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     
     private CashControlDetail newCashControlDetail;
     private String processingChartOfAccCodeAndOrgCode;
+    private boolean showGenerateBtn;
+    private boolean showReferenceNbr;
 
     /**
      * Constructs a CashControlDocumentForm.java.
@@ -31,6 +33,8 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
         super();
         setDocument(new CashControlDocument());
         setNewCashControlDetail(new CashControlDetail());
+        showGenerateBtn = true;
+        showReferenceNbr = false;
         
     }
 
@@ -64,6 +68,25 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     public void setProcessingChartOfAccCodeAndOrgCode(String processingChartOfAccCodeAndOrgCode) {
         this.processingChartOfAccCodeAndOrgCode = processingChartOfAccCodeAndOrgCode;
+    }
+
+    public boolean isShowGenerateBtn() {
+        return showGenerateBtn;
+    }
+
+    public void setShowGenerateBtn(boolean showGenerateBtn) {
+        this.showGenerateBtn = showGenerateBtn;
+    }
+
+    public boolean isShowReferenceNbr() {
+        CashControlDocument doc = getCashControlDocument();
+        showReferenceNbr = doc != null && doc.getReferenceFinancialDocumentNumber() != null && !doc.getReferenceFinancialDocumentNumber().equals("");
+
+        return showReferenceNbr;
+    }
+
+    public void setShowReferenceNbr(boolean showReferenceNbr) {
+        this.showReferenceNbr = showReferenceNbr;
     }
   
     

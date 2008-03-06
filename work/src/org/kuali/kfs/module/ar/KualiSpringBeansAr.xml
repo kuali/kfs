@@ -54,6 +54,7 @@
 	<bean id="organizationOptionsDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationOptionsDaoOjb" />
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
 	<bean id="customerInvoiceItemCodeDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceItemCodeDaoOjb" />
+	<bean id="customerPaymentMediumDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.PaymentMediumDaoOjb"/>
 	
 	<!--  AR Services  -->
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
@@ -79,7 +80,7 @@
 		</property>		
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>		
+		</property>			
 		<property name="customerInvoiceItemCodeService">
 			<ref bean="customerInvoiceItemCodeService" />
 		</property>
@@ -103,6 +104,11 @@
 		</property>
 	</bean>		
 	
+    <bean id="paymentMediumService" class="org.kuali.module.ar.service.impl.PaymentMediumServiceImpl">
+		<property name="customerPaymentMediumDao">
+			<ref bean="customerPaymentMediumDao" />
+		</property>
+	</bean>
 	
 	<bean id="customerInvoiceDocumentGeneralLedgerPostingHelper" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentGeneralLedgerPostingHelperImpl" />
 	

@@ -20,7 +20,9 @@
 	description="The DataDictionary entry containing attributes for cash control detail fields."%>
 
 <%@ attribute name="readOnly" required="true"
-	description="determines whether the check  will be displayed readonly"%>
+	description="determines whether the cash control detail will be displayed readonly"%>
+<%@ attribute name="addLine" required="true"
+	description="determines whether the displayed line is the add line or not"%>
 <%@ attribute name="rowHeading" required="true"%>
 <%@ attribute name="propertyName" required="true"
 	description="name of form property containing the customer invoice document"%>
@@ -76,7 +78,7 @@
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
-			property="${propertyName}.financialDocumentLineAmount" />
+			property="${propertyName}.financialDocumentLineAmount" styleClass="right" disabled="${not addLine}"/>
 	</td>
 	<c:if test="${not readOnly}">
 		<td class="${cssClass}" rowspan="2">

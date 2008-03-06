@@ -17,8 +17,13 @@ package org.kuali.module.ar.document;
 
 import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.NonAppliedHolding;
 
 public class PaymentApplicationDocument  extends AccountingDocumentBase {
+    
+    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    private NonAppliedHolding nonAppliedHolding;
 
     public PaymentApplicationDocument() {
         super();
@@ -32,5 +37,41 @@ public class PaymentApplicationDocument  extends AccountingDocumentBase {
     public boolean isDebit(GeneralLedgerPostable postable) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
+        return accountsReceivableDocumentHeader;
+    }
+
+    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
+    }
+    
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     * 
+     */
+    public String getDocumentNumber() { 
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     * 
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public NonAppliedHolding getNonAppliedHolding() {
+        return nonAppliedHolding;
+    }
+
+    public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
+        this.nonAppliedHolding = nonAppliedHolding;
     }
 }

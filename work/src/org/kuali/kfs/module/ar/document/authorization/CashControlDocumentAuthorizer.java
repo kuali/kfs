@@ -34,27 +34,32 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        
+
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         CashControlDocument ccDoc = (CashControlDocument) document;
 
-//        boolean atLeastOneAppDocProccessed = false;
-//
+        // Blanket Approval is not used for CashControlDocument
+        flags.setCanBlanketApprove(false);
+
+        boolean atLeastOneAppDocProccessed = false;
+
+//        // check if there is at least one Application Document processed
 //        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
 //            PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-//            KualiWorkflowDocument workflowDocument = applicationDocument != null ? applicationDocument.getDocumentHeader().getWorkflowDocument() : null;
-//            if (workflowDocument!=null && workflowDocument.stateIsProcessed()) {
+//            KualiWorkflowDocument workflowDocument = applicationDocument.getAccountsReceivableDocumentHeader().getWorkflowDocument();
+//            if (workflowDocument != null && workflowDocument.stateIsProcessed()) {
 //                atLeastOneAppDocProccessed = true;
 //                break;
 //            }
 //        }
-//
-//        if (atLeastOneAppDocProccessed) {
-//            flags.setCanDisapprove(false);
-//        }
+
+        // if at least one application document has been processed the Cash Control Document cannot be disapproved
+        if (atLeastOneAppDocProccessed) {
+            flags.setCanDisapprove(false);
+        }
 
         return flags;
-        
+
     }
 
 }

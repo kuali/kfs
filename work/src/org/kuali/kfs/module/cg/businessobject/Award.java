@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.service.AwardService;
+import org.kuali.kfs.service.ContractsAndGrantsModuleService;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**
@@ -1077,7 +1077,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * @return KualiGroup defined by workgroupName
      */
     public KualiGroup getWorkgroup() {
-        return SpringContext.getBean(AwardService.class).getKualiGroup(workgroupName);
+        return SpringContext.getBean(ContractsAndGrantsModuleService.class).getKualiGroup(workgroupName);
     }
 
     /**

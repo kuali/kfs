@@ -428,7 +428,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * @param sequenceHelper helper class to keep track of sequence of general ledger pending entries
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         if (isBankCashOffsetEnabled()) {
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
@@ -482,6 +482,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
             }
 
         }
+        return success;
     }
     
     /**

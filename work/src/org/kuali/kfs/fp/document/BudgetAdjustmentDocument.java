@@ -610,7 +610,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
         // check on-off tof flag
@@ -700,7 +700,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
                     // ////////////////// now create actual TOF offset //////////////////////////////////////////////
                     GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-                    glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+                    success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
                     customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
                     addPendingEntry(offsetEntry);
 
@@ -709,6 +709,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
                 }
             }
         }
+        return success;
     }
     
     /**

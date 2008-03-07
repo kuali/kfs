@@ -21,13 +21,13 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBea
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -89,15 +89,16 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     }
 
     public static boolean testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(AccountingDocument document, AccountingLine line, GeneralLedgerPendingEntryFixture expectedExplicitFixture, GeneralLedgerPendingEntryFixture expectedOffsetFixture) throws Exception {
+        boolean success = true;
         assertEquals(0, document.getGeneralLedgerPendingEntries().size());
         GeneralLedgerPendingEntryGenerationProcess glPostingHelper = document.getGeneralLedgerPostingHelper();
-        glPostingHelper.generateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
+        success &= glPostingHelper.generateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
         assertEquals(expectedOffsetFixture == null ? 1 : 2, document.getGeneralLedgerPendingEntries().size());
         assertSparselyEqualBean(expectedExplicitFixture.createGeneralLedgerPendingEntry(), document.getGeneralLedgerPendingEntry(0));
         if (expectedOffsetFixture != null) {
             assertSparselyEqualBean(expectedOffsetFixture.createGeneralLedgerPendingEntry(), document.getGeneralLedgerPendingEntry(1));
         }
-        return (document.getGeneralLedgerPendingEntries().size() > 0);
+        return success;
     }
 
 

@@ -245,7 +245,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         if (isBankCashOffsetEnabled()) {
             KualiDecimal depositTotal = calculateCreditCardReceiptTotal();
@@ -278,6 +278,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
                 }
             }
         }
+        return success;
     }
     
     /**

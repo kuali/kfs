@@ -48,8 +48,8 @@ import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
@@ -226,12 +226,12 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         GeneralLedgerPendingEntryGenerationProcess postingHelper = poster.getGeneralLedgerPostingHelper();
         List<GeneralLedgerPendingEntry> entries;
         for (GeneralLedgerPendingEntrySourceDetail postable: poster.getGeneralLedgerPostables()) {
-            postingHelper.generateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
+            success &= postingHelper.generateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
             sequenceHelper.increment();
         }
         
         // doc specific pending entries generation
-        poster.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        success = poster.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         return success;
     }
     

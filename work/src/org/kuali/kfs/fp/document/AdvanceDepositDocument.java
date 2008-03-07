@@ -16,13 +16,10 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
@@ -30,14 +27,12 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 
 /**
@@ -55,9 +50,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     // monetary attributes
     private KualiDecimal totalAdvanceDepositAmount = KualiDecimal.ZERO;
-    
-    // name of the electronic payment claim account parameter
-    private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
 
     /**
      * Default constructor that calls super.
@@ -201,63 +193,11 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            Map<String, List<String>> electronicFundAccounts = getElectronicFundAccounts();
-            for (Object accountingLineAsObj: getSourceAccountingLines()) {
-                AccountingLine accountingLine = (AccountingLine)accountingLineAsObj;
-                List<String> electronicFundsAccountNumbers = electronicFundAccounts.get(accountingLine.getChartOfAccountsCode());
-                if (electronicFundsAccountNumbers != null && electronicFundsAccountNumbers.contains(accountingLine.getAccountNumber())) {
-                    ElectronicPaymentClaim electronicPayment = createElectronicPayment(accountingLine);
-                    boService.save(electronicPayment);
-                }
-            }
+            SpringContext.getBean(ElectronicPaymentClaimingService.class).generateElectronicPaymentClaimRecords(this);
         }
     }
     
-    /**
-     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to create an ElectronicPaymentClaim record.
-     * @return a List of Maps, where each Map represents an account that electronic funds are posted to.  Each Map has a chart of accounts code as a key and a List of account numbers as a value.
-     */
-    private Map<String, List<String>> getElectronicFundAccounts() {
-        Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
-        String electronicPaymentAccounts = SpringContext.getBean(ParameterService.class).getParameterValue(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
-        
-        String[] chartSections = electronicPaymentAccounts.split(";");
-        for (String chartSection: chartSections) {
-            String[] chartAccountPieces = chartSection.split("=");
-            if (chartAccountPieces.length >= 2) {
-                String chartCode = chartAccountPieces[0];
-                if (chartCode != null && chartCode.length() > 0) {
-                    String[] accountNumbers = chartAccountPieces[1].split(",");
-                    List<String> accountNumbersForChart = electronicFundAccounts.get(chartCode);
-                    if (accountNumbersForChart == null) {
-                        accountNumbersForChart = new ArrayList<String>();
-                    }
-                    for (String accountNumber: accountNumbers) {
-                        if (accountNumber != null && accountNumber.length() > 0) {
-                            accountNumbersForChart.add(accountNumber);
-                        }
-                    }
-                    electronicFundAccounts.put(chartCode, accountNumbersForChart);
-                }
-            }
-        }
-        return electronicFundAccounts;
-    }
     
-    /**
-     * Creates an electronic payment claim record to match the given accounting line on the document
-     * @param accountingLine an accounting line that an electronic payment claim record should be created for
-     * @return the created ElectronicPaymentClaim business object
-     */
-    private ElectronicPaymentClaim createElectronicPayment(AccountingLine accountingLine) {
-        ElectronicPaymentClaim electronicPayment = new ElectronicPaymentClaim();
-        electronicPayment.setDocumentNumber(getDocumentNumber());
-        electronicPayment.setFinancialDocumentLineNumber(accountingLine.getSequenceNumber());
-        electronicPayment.setFinancialDocumentPostingPeriodCode(getPostingPeriodCode());
-        electronicPayment.setFinancialDocumentPostingYear(getPostingYear());
-        return electronicPayment;
-    }
 
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
@@ -281,7 +221,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         if (isBankCashOffsetEnabled()) {
             int displayedDepositNumber = 1;
@@ -306,5 +246,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
                 sequenceHelper.increment();
             }
         }
+        return success;
     }
 }

@@ -33,7 +33,7 @@ public interface GeneralLedgerPendingEntrySource {
      * Creates any GeneralLedgerPostingEntry's that are based on a document, not those based on GeneralLedgerPendingEntrySourceDetail entries 
      * @param sequenceHelper a sequence helper for the method to create more general ledger pending entries
      */
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * @return the fiscal year when this "helper" was posted
@@ -88,19 +88,19 @@ public interface GeneralLedgerPendingEntrySource {
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry);
     
     /**
-     * Adds an UNSAVED general ledger pending entry to the helper, which the helper can do with as it pleases
+     * Adds an UNSAVED general ledger pending entry to the GeneralLedgerPendingEntrySource, which the GLPESource can do with as it pleases
      * @param entry the completed entry to give back to the helper to handle
      */
     public void addPendingEntry(GeneralLedgerPendingEntry entry);
     
     /**
-     * Returns an instance of the helper that GeneralLedgerPendingEntryService should use in creating the GLPE's 
+     * Returns an instance of the helper that GeneralLedgerPendingEntryGenerationProcess should use in creating the GLPE's 
      * @return an implementation of GeneralLedgerPendingEntryGenerationProcess appropriate for this document
      */
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper();
     
     /**
-     * GLPE amounts are ALWAYS positive, so just take the absolute value of the accounting line's amount.
+     * A method to determine what the actual amount, based off of a GeneralLedgerPendingEntrySourceDetail, should be for the resultant GeneralLedgerPendingEntry
      * 
      * @param accountingLine
      * @return KualiDecimal The amount that will be used to populate the GLPE.

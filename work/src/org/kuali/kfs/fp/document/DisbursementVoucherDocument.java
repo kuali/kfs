@@ -1055,7 +1055,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (getGeneralLedgerPendingEntries() == null || getGeneralLedgerPendingEntries().size() < 2) {
             LOG.warn("No gl entries for accounting lines.");
             // throw new RuntimeException("No gl entries for accounting lines.");
@@ -1076,7 +1076,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             // generate credits
             processWireChargeCreditEntries(sequenceHelper, wireCharge, chargeEntry);
         }
-
+        return true;
     }
 
     /**

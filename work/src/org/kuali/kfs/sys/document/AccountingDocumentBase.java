@@ -559,8 +559,11 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     /**
      * Most accounting documents don't need to generate document level GLPE's, so don't do anything in the default implementation
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @return always true, because we've always successfully not generating anything
      */
-    public void generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {}
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) { 
+        return true; 
+    }
 
     /**
      * Returns an instance of org.kuali.kfs.service.impl.GenericGeneralLedgerPendingEntryGenerationProcessImpl; this will suffice for most accounting documents 

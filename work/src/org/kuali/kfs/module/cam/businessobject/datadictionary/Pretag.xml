@@ -74,7 +74,7 @@
                 <lookupField attributeName="pretagDetails.campusTagNumber" required="false" />
                 <lookupField attributeName="pretagDetails.serialNumber" required="false" />
                 <lookupField attributeName="assetTopsDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false" >
                 	<defaultValue>Y</defaultValue>
                 </lookupField>
             </lookupFields>

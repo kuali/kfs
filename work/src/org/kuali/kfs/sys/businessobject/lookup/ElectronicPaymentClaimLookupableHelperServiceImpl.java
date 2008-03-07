@@ -45,10 +45,10 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         String claimingStatus = fieldValues.remove("claimingStatus");
         Criteria additionalCriteria = new Criteria();
         if (claimingStatus != null && !claimingStatus.equals("A")) {
-            if (claimingStatus.equals(ElectronicPaymentClaim.CLAIMED_CLAIMING_STATUS)) {
-                additionalCriteria.addNotNull("referenceFinancialDocumentNumber");
+            if (claimingStatus.equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
+                additionalCriteria.addEqualTo("referenceFinancialDocumentNumber", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             } else {
-                additionalCriteria.addIsNull("referenceFinancialDocumentNumber");
+                additionalCriteria.addEqualTo("referenceFinancialDocumentNumber", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
         Collection dbResults = lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, additionalCriteria);

@@ -26,8 +26,8 @@ public class ElectronicPaymentClaimClaimingStatusValuesFinder extends KeyValuesB
 
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(ElectronicPaymentClaim.CLAIMED_CLAIMING_STATUS, "Claimed"));
-        labels.add(new KeyLabelPair(ElectronicPaymentClaim.UNCLAIMED_CLAIMING_STATUS, "Unclaimed"));
+        labels.add(new KeyLabelPair(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED, "Claimed"));
+        labels.add(new KeyLabelPair(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED, "Unclaimed"));
         labels.add(new KeyLabelPair("A", "All"));
         return labels;
     }

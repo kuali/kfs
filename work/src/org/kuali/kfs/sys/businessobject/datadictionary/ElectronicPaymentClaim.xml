@@ -66,7 +66,10 @@
     			<shortLabel>Genenerating Doc #</shortLabel>
     		</attributeReference>
     		
-    		<attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+    		<attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId">
+    			<label>Generating Document Line Number</label>
+    			<shortLabel>Line #</shortLabel>
+    		</attributeReference>
     		
     		<attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
     			<label>Claiming Document</label>

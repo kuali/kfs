@@ -30,11 +30,16 @@ import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 public class ElectronicFundTransferForm extends KualiForm {
     private List<ElectronicPaymentClaim> claims;
     private List<ElectronicPaymentClaimingDocument> availableClaimingDocuments;
+    private List<ElectronicPaymentClaimClaimedHelper> claimedByCheckboxHelpers;
     private String chosenElectronicPaymentClaimingDocumentCode;
     private String hasDocumentation;
     
+    /**
+     * Constructs a ElectronicFundTransferForm
+     */
     public ElectronicFundTransferForm() {
         claims = new ArrayList<ElectronicPaymentClaim>();
+        claimedByCheckboxHelpers = new ArrayList<ElectronicPaymentClaimClaimedHelper>();
     }
     
     /**
@@ -139,5 +144,26 @@ public class ElectronicFundTransferForm extends KualiForm {
      */
     public String getDocumentationMessageKey() {
         return KFSKeyConstants.ElectronicPaymentClaim.MESSAGE_EFT_CLAIMING_DOCUMENTATION;
+    }
+    
+    /**
+     * @return the key to the EFT document choice message
+     */
+    public String getDocumentChoiceMessageKey() {
+        return KFSKeyConstants.ElectronicPaymentClaim.MESSAGE_EFT_DOCUMENT_CHOICE;
+    }
+    
+    /**
+     * @return the key to the EFT "previously claimed" message for the table header
+     */
+    public String getPreviouslyClaimedHeaderKey() {
+        return KFSKeyConstants.ElectronicPaymentClaim.MESSAGE_EFT_PREVIOUSLY_CLAIMED_HEADER;
+    }
+    
+    /**
+     * @return the key to the EFT "claiming document number" message for the table header
+     */
+    public String getClaimingDocumentNumberHeaderKey() {
+        return KFSKeyConstants.ElectronicPaymentClaim.MESSAGE_EFT_CLAIMING_DOCUMENT_NUMBER_HEADER;
     }
 }

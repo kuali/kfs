@@ -16,7 +16,9 @@
 
 package org.kuali.kfs.bo;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -34,8 +36,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     
-    public final static String CLAIMED_CLAIMING_STATUS = "C";
-    public final static String UNCLAIMED_CLAIMING_STATUS = "A";
+    public final static class ClaimStatusCodes {
+        public final static String CLAIMED = "C";
+        public final static String UNCLAIMED = "U";
+    }
 
     private String documentNumber;
     private Integer financialDocumentLineNumber;
@@ -232,13 +236,6 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     }
     
     /**
-     * @return the status of this ElectronicPaymentClaim record
-     */
-    public String getClaimingStatus() {
-        return (this.referenceFinancialDocumentNumber != null) ? ElectronicPaymentClaim.CLAIMED_CLAIMING_STATUS : ElectronicPaymentClaim.UNCLAIMED_CLAIMING_STATUS;
-    }
-
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -248,5 +245,33 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }
         return m;
+    }
+    
+    /**
+     * Returns the String representation for an Electronic Payment Claim record, to be used by the claimed
+     * checkbox
+     * @param claim a claim to get a String representation for
+     * @return the representation in the form of "{generating document number}::{generating document accounting line sequence number}"
+     */
+    public String getElectronicPaymentClaimRepresentation(ElectronicPaymentClaim claim) {
+        StringBuilder representation = new StringBuilder();
+        representation.append(claim.getDocumentNumber());
+        representation.append("::");
+        representation.append(claim.getFinancialDocumentLineNumber());
+        return representation.toString();
+    }
+    
+    /**
+     * Turns a representation of an Electronic Payment Claim record, such as that created by
+     * KfsJspFunctions.representElectronicPaymentClaim, to a Map containing the PK for a record
+     * @param epcRepresentation a String representing an electronic payment claim
+     * @return a Map with the primary key fields of the electronic payment claim, represented by the representation
+     */
+    public Map<String, Object> parseElectronicPaymentClaimRepresentationToPK(String epcRepresentation) {
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        String[] repPieces = epcRepresentation.split("::");
+        pkMap.put("documentNumber", repPieces[0]);
+        pkMap.put("financialDocumentLineNumber", new Integer(repPieces[1]));
+        return pkMap;
     }
 }

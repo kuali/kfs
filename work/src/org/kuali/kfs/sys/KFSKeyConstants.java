@@ -516,6 +516,9 @@ public class KFSKeyConstants {
     public static final class ElectronicPaymentClaim {
         public static final String ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.no.chosen.claiming.doctype";
         public static final String MESSAGE_EFT_CLAIMING_DOCUMENTATION = "message.bo.eft.claimant.documentation";
+        public static final String MESSAGE_EFT_DOCUMENT_CHOICE = "message.bo.eft.document.choice";
+        public static final String MESSAGE_EFT_PREVIOUSLY_CLAIMED_HEADER = "message.bo.eft.previously.claimed.header";
+        public static final String MESSAGE_EFT_CLAIMING_DOCUMENT_NUMBER_HEADER = "message.bo.eft.claiming.document.number.header";
     }
 
     public static final String MESSAGE_RELOADED = "message.document.reloaded";

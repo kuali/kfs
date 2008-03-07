@@ -81,7 +81,7 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Billing Chart</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -97,7 +97,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceAccountNumber" forceUppercase="true">
-                <label>Invoice Account Number</label>
+                <label>Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -113,7 +113,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceChartOfAccountsCode" forceUppercase="true">
-                <label>Invoice Chart Of Accounts Code</label>
+                <label>Chart Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -129,7 +129,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceFinancialObjectCode" forceUppercase="true">
-                <label>Invoice Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -145,7 +145,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceFinancialSubObjectCode" forceUppercase="true">
-                <label>Invoice Sub Object Code</label>
+                <label>Sub Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -160,7 +160,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceOrganizationReferenceIdentifier" forceUppercase="true">
-                <label>Invoice Organization Reference Identifier</label>
+                <label>Organization Reference Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>8</maxLength>
@@ -175,7 +175,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceProjectCode" forceUppercase="true">
-                <label>Invoice Project Code</label>
+                <label>Project Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -190,7 +190,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceSubAccountNumber" forceUppercase="true">
-                <label>Invoice Sub Account Number</label>
+                <label>Sub Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -205,7 +205,7 @@
 			</attribute>
 
             <attribute name="defaultUnitOfMeasureCode" forceUppercase="true">
-                <label>Default Unit Of Measure Code</label>
+                <label>Item Unit Of Measure</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -220,7 +220,7 @@
 			</attribute>
 
             <attribute name="invoiceItemCode" forceUppercase="true">
-                <label>Invoice Item Code</label>
+                <label>Item Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>6</maxLength>
@@ -236,7 +236,7 @@
 			</attribute>
 
             <attribute name="invoiceItemDescription" forceUppercase="true">
-                <label>Invoice Item Description</label>
+                <label>Item Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -252,7 +252,7 @@
 			</attribute>
 
             <attribute name="itemDefaultPrice" forceUppercase="true">
-                <label>Default Price</label>
+                <label>Item Price</label>
                 <shortLabel>Price</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -267,7 +267,7 @@
 			</attribute>
 
             <attribute name="itemDefaultQuantity" forceUppercase="true">
-                <label>Default Quantity</label>
+                <label>Item Quantity</label>
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>9</maxLength>
@@ -282,7 +282,7 @@
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
+                <label>Billing Organization</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>

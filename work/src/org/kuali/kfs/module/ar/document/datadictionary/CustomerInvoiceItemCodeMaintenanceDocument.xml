@@ -70,32 +70,36 @@
                     <maintainableField name="invoiceItemCode" required="true" />
                     <maintainableField name="invoiceItemDescription" required="true" />
                     <maintainableField name="relatedStockNumber" required="false" />
+                    <maintainableField name="itemDefaultPrice" required="false" />
+                    <maintainableField name="itemDefaultQuantity" required="false" />
+                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
+                    <maintainableField name="active"/>
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+           </maintainableSection>
+           <maintainableSection title="Edit Item Code Default Account">
+               <maintainableItems>
                     <maintainableField name="defaultInvoiceChartOfAccountsCode" required="false">
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.ChartOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="defaultInvoiceAccountNumber" required="false">
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.AccountOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
                     </maintainableField>
-                    <maintainableField name="defaultInvoiceFinancialObjectCode" required="false">
-                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.ObjectOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="defaultInvoiceProjectCode" required="false">
-                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.ProjectOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="itemDefaultPrice" required="false" />
-                    <maintainableField name="itemDefaultQuantity" required="false" />
-                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
                     <maintainableField name="defaultInvoiceSubAccountNumber" required="false">
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.SubAccountOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
+                    </maintainableField>
+                    <maintainableField name="defaultInvoiceFinancialObjectCode" required="false">
+                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.ObjectOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false">
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.SubObjectOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
                     </maintainableField>
+                    <maintainableField name="defaultInvoiceProjectCode" required="false">
+                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.ProjectOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
+                    </maintainableField>
                     <maintainableField name="defaultInvoiceOrganizationReferenceIdentifier" required="false">
                     	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.OrgReferenceOrganizationAccountingDefaultValueFinder</defaultValueFinderClass>
                     </maintainableField>
-                    <maintainableField name="active"/>
-                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

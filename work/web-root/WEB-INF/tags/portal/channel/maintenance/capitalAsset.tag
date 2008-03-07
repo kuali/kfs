@@ -63,12 +63,7 @@
 			<portal:portalLink displayTitle="true"
 				title="Asset Retirement Reason"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementReason&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-        <li>
-             <portal:portalLink displayTitle="true"
-                 title="Asset Security"
-                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetSecurity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-       </li>		
+		</li>		
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Asset Status"

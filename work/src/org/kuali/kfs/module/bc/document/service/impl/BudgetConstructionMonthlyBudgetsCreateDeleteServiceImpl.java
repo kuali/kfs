@@ -18,9 +18,10 @@ package org.kuali.module.budget.service.impl;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
+import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 
 @Transactional
-public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl {
+public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements BudgetConstructionMonthlyBudgetsCreateDeleteService {
 
     private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
     

@@ -21,7 +21,7 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
-import org.kuali.kfs.document.ElectronicPaymentClaiming;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
  * A service which helps in the claiming of ElectronicPaymentClaim records
@@ -81,4 +81,11 @@ public interface ElectronicPaymentClaimingService {
      * @param docmentNumber the document number of the claiming document
      */
     public abstract void claimElectronicPayments(List<ElectronicPaymentClaim> payments, String documentNumber);
+    
+    /**
+     * Returns a list of SAVED electronic payment claims from the lines of an AdvanceDepositDocument
+     * @param doc the document that is generating electronic payment claim records
+     * @return a list of the generated electronic payment claim records
+     */
+    public abstract List<ElectronicPaymentClaim> generateElectronicPaymentClaimRecords(AdvanceDepositDocument doc);
 }

@@ -27,12 +27,14 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -48,7 +50,8 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     private static final String ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER = "ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE";
     private static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: \n";
     private static final String DI_CLAIMING_DOC_HELPER_BEAN_NAME = "distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
-    private static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper"; 
+    private static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
+    private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
 
     /**
      * 
@@ -189,6 +192,69 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         return user.isMember(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME));
     }
 
+    /**
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingService#generateElectronicPaymentClaimRecords(org.kuali.module.financial.document.AdvanceDepositDocument)
+     */
+    public List<ElectronicPaymentClaim> generateElectronicPaymentClaimRecords(AdvanceDepositDocument doc) {
+        List<ElectronicPaymentClaim> claimRecords = new ArrayList<ElectronicPaymentClaim>();
+        Map<String, List<String>> electronicFundAccounts = getElectronicFundAccounts();
+        for (Object accountingLineAsObj: doc.getSourceAccountingLines()) {
+            AccountingLine accountingLine = (AccountingLine)accountingLineAsObj;
+            List<String> electronicFundsAccountNumbers = electronicFundAccounts.get(accountingLine.getChartOfAccountsCode());
+            if (electronicFundsAccountNumbers != null && electronicFundsAccountNumbers.contains(accountingLine.getAccountNumber())) {
+                ElectronicPaymentClaim electronicPayment = createElectronicPayment(doc, accountingLine);
+                businessObjectService.save(electronicPayment);
+                claimRecords.add(electronicPayment);
+            }
+        }
+        return claimRecords;
+    }
+    /**
+     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to create an ElectronicPaymentClaim record.
+     * @return a List of Maps, where each Map represents an account that electronic funds are posted to.  Each Map has a chart of accounts code as a key and a List of account numbers as a value.
+     */
+    private Map<String, List<String>> getElectronicFundAccounts() {
+        Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
+        String electronicPaymentAccounts = SpringContext.getBean(ParameterService.class).getParameterValue(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
+        
+        String[] chartSections = electronicPaymentAccounts.split(";");
+        for (String chartSection: chartSections) {
+            String[] chartAccountPieces = chartSection.split("=");
+            if (chartAccountPieces.length >= 2) {
+                String chartCode = chartAccountPieces[0];
+                if (chartCode != null && chartCode.length() > 0) {
+                    String[] accountNumbers = chartAccountPieces[1].split(",");
+                    List<String> accountNumbersForChart = electronicFundAccounts.get(chartCode);
+                    if (accountNumbersForChart == null) {
+                        accountNumbersForChart = new ArrayList<String>();
+                    }
+                    for (String accountNumber: accountNumbers) {
+                        if (accountNumber != null && accountNumber.length() > 0) {
+                            accountNumbersForChart.add(accountNumber);
+                        }
+                    }
+                    electronicFundAccounts.put(chartCode, accountNumbersForChart);
+                }
+            }
+        }
+        return electronicFundAccounts;
+    }
+    
+    /**
+     * Creates an electronic payment claim record to match the given accounting line on the document
+     * @param accountingLine an accounting line that an electronic payment claim record should be created for
+     * @return the created ElectronicPaymentClaim business object
+     */
+    private ElectronicPaymentClaim createElectronicPayment(AdvanceDepositDocument document, AccountingLine accountingLine) {
+        ElectronicPaymentClaim electronicPayment = new ElectronicPaymentClaim();
+        electronicPayment.setDocumentNumber(document.getDocumentNumber());
+        electronicPayment.setFinancialDocumentLineNumber(accountingLine.getSequenceNumber());
+        electronicPayment.setFinancialDocumentPostingPeriodCode(document.getPostingPeriodCode());
+        electronicPayment.setFinancialDocumentPostingYear(document.getPostingYear());
+        electronicPayment.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
+        return electronicPayment;
+    }
+    
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.

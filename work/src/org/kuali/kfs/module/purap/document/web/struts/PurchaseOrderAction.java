@@ -1713,7 +1713,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward addAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument document = (PurchaseOrderDocument)poForm.getDocument();
-        PurchaseOrderItem item = (PurchaseOrderItem)document.getItemByLineNumber(getSelectedLine(request));
+        PurchaseOrderItem item = (PurchaseOrderItem)document.getItemByLineNumber(getSelectedLine(request) + 1);
         item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

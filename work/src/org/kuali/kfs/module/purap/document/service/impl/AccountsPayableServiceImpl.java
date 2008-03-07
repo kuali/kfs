@@ -348,49 +348,21 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);
     }
     
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         
-        //AccountsPayableDocument apDocument = (AccountsPayableDocument)purapDocument;
-        //AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
+        AccountsPayableDocument apDocument = (AccountsPayableDocument)purapDocument;
+        AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
         // eliminate unentered items
-        //purapService.deleteUnenteredItems(apDocument);
+        purapService.deleteUnenteredItems(apDocument);
         // change accounts from percents to dollars
-        //SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDocument);
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDocument);
         // do GL entries for document creation
-        //SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(apDocument);
-
-        //accountsPayableDocumentSpecificService.saveDocumentWithoutValidation(apDocument);
-
-        // below code preferable to run in post processing
-        if (purapDocument instanceof PaymentRequestDocument) {
-            PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
-            // eliminate unentered items
-            purapService.deleteUnenteredItems(paymentRequest);
-            // change PREQ accounts from percents to dollars
-            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(paymentRequest);
-            // do GL entries for PREQ creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
-
-            SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
-        }
-        // below code preferable to run in post processing
-        else if (purapDocument instanceof CreditMemoDocument) {
-            CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
-            // eliminate unentered items
-            purapService.deleteUnenteredItems(creditMemo);
-            // update amounts
-            SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
-            // do GL entries for CM creation
-            SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
-
-            // if reopen po indicator set then reopen po
-            if (creditMemo.isReopenPurchaseOrderIndicator()) {
-                purapService.performLogicForCloseReopenPO(creditMemo);
-            }
-        }
-        else {
-            throw new RuntimeException("Attempted to perform full entry logic for unhandled document type '" + purapDocument.getClass().getName() + "'");
-        }
+        accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
+        // save the document
+        accountsPayableDocumentSpecificService.saveDocumentWithoutValidation(apDocument);
     }
 
     /**

@@ -75,6 +75,7 @@ import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -480,7 +481,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#saveDocumentWithoutValidation(org.kuali.module.purap.document.AccountsPayableDocument)
      */
     public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
         try {
@@ -1258,6 +1259,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage);
         }
+    }
+    
+    /**
+     * The given document here actually needs to be a Payment Request.
+     * 
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
+        PaymentRequestDocument paymentRequest = (PaymentRequestDocument)apDocument;
+        SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
     }
 
 }

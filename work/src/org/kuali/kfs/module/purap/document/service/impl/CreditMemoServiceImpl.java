@@ -264,8 +264,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * Not used
-     * 
      * @see org.kuali.module.purap.service.CreditMemoService#saveDocumentWithoutValidation(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void saveDocumentWithoutValidation(AccountsPayableDocument document) {
@@ -602,6 +600,16 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
         return false;
+    }
+    
+    /**
+     * The given document here needs to be a Credit Memo.
+     * 
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
+        CreditMemoDocument creditMemo = (CreditMemoDocument)apDocument;
+        SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
     }
 
     /**

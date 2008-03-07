@@ -25,6 +25,11 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
  */
 public interface AccountsPayableDocumentSpecificService {
     
+    /**
+     * Saves the given document without validation.
+     * 
+     * @param apDoc     An AccountsPayableDocument
+     */
     public void saveDocumentWithoutValidation(AccountsPayableDocument apDoc);
     
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc);
@@ -36,4 +41,12 @@ public interface AccountsPayableDocumentSpecificService {
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc);
 
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi);
+    
+    /**
+     * Generates the general ledger entries that need to be created by an AccountsPayableDocument
+     * of the specific type of the given AP document.
+     * 
+     * @param apDoc     An AccountsPayableDocument
+     */
+    public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDoc);
 }

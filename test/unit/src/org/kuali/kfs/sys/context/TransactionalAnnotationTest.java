@@ -36,7 +36,7 @@ import org.kuali.kfs.service.impl.HomeOriginationServiceImpl;
 import org.kuali.kfs.service.impl.KualiCodeServiceImpl;
 import org.kuali.kfs.service.impl.OptionsServiceImpl;
 import org.kuali.kfs.service.impl.OriginationCodeServiceImpl;
-import org.kuali.module.cg.service.impl.AwardServiceImpl;
+import org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl;
 import org.kuali.module.cg.service.impl.CgUserServiceImpl;
 import org.kuali.module.chart.service.impl.A21SubAccountServiceImpl;
 import org.kuali.module.chart.service.impl.AccountServiceImpl;
@@ -134,7 +134,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         excludedClasses.add( A21SubAccountServiceImpl.class );
         excludedClasses.add( AccountPresenceServiceImpl.class );
         excludedClasses.add( AccountServiceImpl.class );
-        excludedClasses.add( AwardServiceImpl.class );
+        excludedClasses.add( ContractsAndGrantsModuleServiceImpl.class );
         excludedClasses.add( CgUserServiceImpl.class );
         excludedClasses.add( DisbursementVoucherTravelServiceImpl.class );
         excludedClasses.add( KraUserServiceImpl.class );

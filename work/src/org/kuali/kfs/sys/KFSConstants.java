@@ -23,6 +23,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.workflow.attribute.RoutingAccount;
+import org.kuali.workflow.attribute.OrgReviewRoutingData;
 
 /**
  * This class is used to define global constants.
@@ -983,6 +985,24 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     // next 3 variables for the enterprise feeder batch upload
     public static final String DATA_FILE_TYPE = "DATA";
     public static final String RECON_FILE_TYPE = "RECON";
+    
+    public static final class WorkflowConstants {
+        public static final String GET_GENERIC_ACCOUNTS = "//routingSet/" + RoutingAccount.class.getName();
+        public static final String GET_GENERIC_ORGS = "//routingSet/" + OrgReviewRoutingData.class.getName();
+        public static final String GET_GENERIC_CHART= "./routingChart";
+        public static final String GET_GENERIC_ACCOUNT = "./routingAccount";
+        public static final String GET_GENERIC_OVERRIDE_CD = "./routingOverrideCode";
+        public static final String GET_GENERIC_ORG = "./routingOrg";
+        public static final String GET_GENERIC_ACCOUNT_CHART = "//routingSet/" + RoutingAccount.class.getName() + "/routingChart";
+        public static final String GET_GENERIC_ACCOUNT_ACCOUNT = "//routingSet/" + RoutingAccount.class.getName() + "/routingAccount";
+        public static final String GET_GENERIC_ORG_CHART = "//routingSet/" + OrgReviewRoutingData.class.getName() + "/routingChart";
+        public static final String GET_GENERIC_ORG_ORG = "//routingSet/" + OrgReviewRoutingData.class.getName() + "/routingOrg";
+        public static final String GET_GENERIC_ACCOUNT_REPORT_PREFIX = "<generatedContent><report_for_routing_purposes><routingSet><" + RoutingAccount.class.getName() + ">";
+        public static final String GET_GENERIC_ACCOUNT_REPORT_SUFFIX = "</" + RoutingAccount.class.getName() +"></routingSet></report_for_routing_purposes></generatedContent>";
+        public static final String GET_GENERIC_ORG_REPORT_PREFIX = "<generatedContent><report_for_routing_purposes><routingSet><" + OrgReviewRoutingData.class.getName() + ">";
+        public static final String GET_GENERIC_ORG_REPORT_SUFFIX = "</" + OrgReviewRoutingData.class.getName() + "></routingSet></report_for_routing_purposes></generatedContent>";
+
+    }
 
     /**
      * The base implementation of {@link org.kuali.module.gl.util.EnterpriseFeederStatusBase} uses strings contained within

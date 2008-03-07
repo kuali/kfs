@@ -43,6 +43,7 @@ import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.iu.uis.eden.Id;
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
@@ -51,12 +52,11 @@ import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
+import edu.iu.uis.eden.user.UuId;
 import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.workgroup.GroupId;
-import edu.iu.uis.eden.workgroup.GroupNameId;
 
 
-public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
+public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
 
     static final long serialVersionUID = 101;
 
@@ -75,14 +75,15 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
     private String accountNbr;
 
     /**
-     * Constructs a KualiCGAttribute.java. This class tries to find an entry for a chart/account in the AwardAccount table. If it
-     * does, it look the Award up in the Award table and routes it to the workgroup listed.
+     * Constructs a KualiCGAttribute.java. This class tries to find an entry for a chart/account in the 
+     * AwardAccount table. If it     * does, it takes the largest value and looks up the project director 
+     * in the ProposalProjectDirector BO..
      */
 
-    public KualiCGAttribute() {
+    public KualiPDAttribute() {
     }
 
-    public KualiCGAttribute(String finCoaCd, String accountNbr) {
+    public KualiPDAttribute(String finCoaCd, String accountNbr) {
         this.finCoaCd = finCoaCd;
         this.accountNbr = accountNbr;
 
@@ -98,7 +99,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         return rows;
     }
 
-    private String getQualifiedRoleString(AwardWorkgroupRole role) {
+    private String getQualifiedRoleString(ProjectDirectorRole role) {
         return new StringBuffer(getNullSafeValue(role.roleName)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.chart)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.accountNumber)).toString();
     }
 
@@ -135,113 +136,75 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
-        Set awardWorkgroups = new HashSet();
+        //Using a set to prevent duplicates
+        Set projectDirectors = new HashSet();
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
-        List qualifiedRoleNames = new ArrayList();
         try {
-            boolean isGeneric = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("routingSet").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
 
-            if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
-                AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-                // An account doc should only have one chart/account, so no need to loop as in getAwardWorkgroupCriteria.
-                role.chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                role.accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                Set tempSet = new HashSet();
-                tempSet.add(role);
-                awardWorkgroups.addAll(tempSet);
-            }
-            else if (isGeneric){
-                NodeList lineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
-                awardWorkgroups.addAll(getGenericAwardWorkgroupCriteria(xpath, lineNodes, roleName));           
-            }
-            else {
-                if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
-                    NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                    awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, sourceLineNodes, roleName));
-                }
-                if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
-                    awardWorkgroups.addAll(getAwardWorkgroupCriteria(xpath, targetLineNodes, roleName));
-                }
-            }
+            NodeList routingNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNTS), docContent.getDocument(), XPathConstants.NODESET);
+            for (int i = 0; i < routingNodes.getLength(); i++) {
+                Node routingDataNode = routingNodes.item(i);
+                ProjectDirectorRole role = new ProjectDirectorRole(roleName);
+                role.chart = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_CHART, routingDataNode);
+                role.accountNumber = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNT, routingDataNode);
 
-            for (Iterator iterator = awardWorkgroups.iterator(); iterator.hasNext();) {
-                AwardWorkgroupRole role = (AwardWorkgroupRole) iterator.next();
-                qualifiedRoleNames.add(getQualifiedRoleString(role));
+                projectDirectors.add(getQualifiedRoleString(role));
             }
+            
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return qualifiedRoleNames;
-    }
-
-    private static Set getAwardWorkgroupCriteria(XPath xpath, NodeList routingDataNodes, String roleName) throws XPathExpressionException {
-        Set awardWorkgroups = new HashSet();
-        for (int i = 0; i < routingDataNodes.getLength(); i++) {
-            Node routingDataNode = routingDataNodes.item(i);
-            AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, routingDataNode);
-            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, routingDataNode);
-
-            awardWorkgroups.add(role);
-        }
-        return awardWorkgroups;
-    }
-    
-    private static Set getGenericAwardWorkgroupCriteria(XPath xpath, NodeList routingDataNodes, String roleName) throws XPathExpressionException {
-        Set awardWorkgroups = new HashSet();
-        for (int i = 0; i < routingDataNodes.getLength(); i++) {
-            Node routingDataNode = routingDataNodes.item(i);
-            AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-            role.chart = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_CHART, routingDataNode);
-            role.accountNumber = xpath.evaluate(KFSConstants.WorkflowConstants.GET_GENERIC_ACCOUNT, routingDataNode);
-
-            awardWorkgroups.add(role);
-        }
-        return awardWorkgroups;
+        return new ArrayList(projectDirectors);
     }
 
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         try {
-            List members = new ArrayList();
+            List<Id> members = new ArrayList();
             String annotation = "";
-            AwardWorkgroupRole role = getUnqualifiedAwardWorkgroupRole(qualifiedRole);
+            ProjectDirectorRole role = getUnqualifiedProjectDirectorRole(qualifiedRole);
             annotation = (role.accountNumber == null ? "" : "Routing to chart/account number " + role.chart + "/" + role.accountNumber);
-            GroupId awardWorkgroupName = getAwardWorkgroupId(role);
-            if (awardWorkgroupName != null) {
-                members.add(awardWorkgroupName);
+            UuId projectDirectorUniversalId = getProjectDirectorUniversalId(role);
+            if (projectDirectorUniversalId != null) {
+                members.add(projectDirectorUniversalId);
+            }
+            else {
+                throw new IllegalStateException("Project Director not found for chart/account " + role.chart + "/" + role.accountNumber);
             }
             return new ResolvedQualifiedRole(roleName, members, annotation);
         }
+        catch (IllegalStateException ise) {
+            throw ise;
+        }
         catch (Exception e) {
-            throw new RuntimeException("KualiCGAttribute encountered exception while attempting to resolve qualified role", e);
+
+            throw new RuntimeException("KualiPDAttribute encountered exception while attempting to resolve qualified role", e);
         }
     }
 
-    private static GroupId getAwardWorkgroupId(AwardWorkgroupRole role) throws Exception {// fix this
-        String routingWorkgroupName = null;
+    private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) throws Exception {// fix this
+        UuId projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            routingWorkgroupName = SpringContext.getBean(ContractsAndGrantsModuleService.class).getAwardWorkgroupForAccount(role.chart, role.accountNumber);
+            projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
         }
 
-        // if we cant find a AwardWorkgroup, log it.
-        if (StringUtils.isBlank(routingWorkgroupName)) {
-            LOG.debug(new StringBuffer("Could not locate the award workgroup for the given account ").append(role.accountNumber).toString());
+        // if we cant find a Project Director, log it.
+        if (projectDirectorUniversalId.isEmpty()) {
+            LOG.debug(new StringBuffer("Could not locate the project director for the given account ").append(role.accountNumber).toString());
             return null;
         }
 
-        return new GroupNameId(routingWorkgroupName);
+        return projectDirectorUniversalId;
 
     }
 
-    private static AwardWorkgroupRole getUnqualifiedAwardWorkgroupRole(String qualifiedRole) {
+    private static ProjectDirectorRole getUnqualifiedProjectDirectorRole(String qualifiedRole) {
         String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER, -1);
         if (values.length != 3) {
             throw new RuntimeException("Invalid qualifiedRole, expected 3 encoded values: " + qualifiedRole);
         }
-        AwardWorkgroupRole role = new AwardWorkgroupRole(values[0]);
+        ProjectDirectorRole role = new ProjectDirectorRole(values[0]);
         role.chart = getNullableString(values[1]);
         role.accountNumber = getNullableString(values[2]);
         return role;
@@ -256,7 +219,7 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
 
     public List getRoleNames() {
         List roles = new ArrayList();
-        roles.add(new Role(this.getClass(), "CG_AWARD_FINANCIAL_ROUTING_WORKGROUP", "C&G Award Financial Routing Workgroup"));
+        roles.add(new Role(this.getClass(), "EFFORT_REPORTING_PROJECT_DIRECTOR", "Effort Reporting Project Director"));
 
         return roles;
     }
@@ -306,21 +269,21 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
         return "";
     }
 
-    private static class AwardWorkgroupRole {
+    private static class ProjectDirectorRole {
         public String roleName;
 
         public String chart;
 
         public String accountNumber;
 
-        public AwardWorkgroupRole(String roleName) {
+        public ProjectDirectorRole(String roleName) {
             this.roleName = roleName;
         }
 
         @Override
         public boolean equals(Object object) {
-            if (object instanceof AwardWorkgroupRole) {
-                AwardWorkgroupRole role = (AwardWorkgroupRole) object;
+            if (object instanceof ProjectDirectorRole) {
+                ProjectDirectorRole role = (ProjectDirectorRole) object;
                 return new EqualsBuilder().append(chart, role.chart).append(accountNumber, role.accountNumber).isEquals();
             }
             return false;

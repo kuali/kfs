@@ -68,9 +68,9 @@ public class CamsConstants {
     public static final String COMPONENT_NUMBER = "componentNumber";
     public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
 
-    public static class Discompositon {
-        public static final String ASSET_DISCOMPOSTION_CODE_MERGE = "M";
-        public static final String ASSET_DISCOMPOSTION_CODE_SEPARATE = "S";
+    public static class Dispositon {
+        public static final String ASSET_MERGE_CODE = "M";
+        public static final String ASSET_SEPARATE_CODE = "S";
     }
     
     public static class AssetPaymentErrors {

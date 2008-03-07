@@ -36,10 +36,10 @@ public class AssetDispositionServiceImpl implements AssetDispositionService {
 
 
     private AssetDisposition getMergeHistroty(Asset asset) {
-        List<AssetDisposition> assetDispositon = asset.getAssetDispositions();
+        List<AssetDisposition> assetDispositons = asset.getAssetDispositions();
 
-        for (AssetDisposition disposition : assetDispositon) {
-            if (CamsConstants.Discompositon.ASSET_DISCOMPOSTION_CODE_MERGE.equals(disposition.getDispositionCode().toUpperCase())) {
+        for (AssetDisposition disposition : assetDispositons) {
+            if (CamsConstants.Dispositon.ASSET_MERGE_CODE.equalsIgnoreCase(disposition.getDispositionCode())) {
                 return disposition;
             }
         }
@@ -50,7 +50,7 @@ public class AssetDispositionServiceImpl implements AssetDispositionService {
         List<AssetDisposition> assetDispositon = asset.getAssetDispositions();
 
         for (AssetDisposition disposition : assetDispositon) {
-            if (CamsConstants.Discompositon.ASSET_DISCOMPOSTION_CODE_SEPARATE.equals(disposition.getDispositionCode().toUpperCase())) {
+            if (CamsConstants.Dispositon.ASSET_SEPARATE_CODE.equalsIgnoreCase(disposition.getDispositionCode())) {
                 return disposition;
             }
         }

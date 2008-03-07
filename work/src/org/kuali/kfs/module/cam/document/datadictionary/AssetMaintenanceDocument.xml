@@ -90,7 +90,9 @@
 					<maintainableField name="buildingSubRoomNumber" />
 					
 					<subSectionHeader name="Off Campus" />
-					<!-- maintainableField name="assetLocations.versionNumber" readOnly="true" /-->
+					<maintainableCollection name="assetLocations" businessObjectClass="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocations" includeAddLine="false" summaryTitle="Location Information">
+						<maintainableField name="versionNumber" readOnly="true" />
+					</maintainableCollection>
 					<maintainableField name="offCampusLocation.assetLocationContactName" />
 					<maintainableField name="offCampusLocation.assetLocationStreetAddress" />
 					<maintainableField name="offCampusLocation.assetLocationCityName" />
@@ -169,7 +171,10 @@
           
             <maintainableSection title="View Asset History">
             	<maintainableItems>
-               	 	<maintainableField name="assetDispositions.versionNumber" readOnly="true" />
+               	 	<!-- maintainableField name="assetDispositions.versionNumber" readOnly="true" /-->
+               	 	<maintainableCollection name="assetDispositions" businessObjectClass="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="assetDispositions" includeAddLine="false" summaryTitle="Disposition Information">
+						<maintainableField name="versionNumber" readOnly="true" />
+					</maintainableCollection>
                 	<subSectionHeader name="View Merge History" />
                 	 	<maintainableField name="assetMergeHistory.originalCapitalAssetNumber" readOnly="true" />
                 		<maintainableField name="assetMergeHistory.dispositionDate" readOnly="true" />

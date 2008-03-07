@@ -918,7 +918,6 @@
                 <summary>Asset Off Campus Country</summary>
                 <description>Asset Off Campus Country description...</description>
             </attributeReference>
-			<!-- attributeReference name="assetLocations.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="versionNumber"/-->
         </attributes>
     </businessObject>
 </dictionaryEntry>

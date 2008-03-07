@@ -18,7 +18,6 @@ package org.kuali.module.cams.rules;
 import static org.kuali.module.cams.CamsKeyConstants.ERROR_INVALID_ASSET_WARRANTY_NO;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_WARRANTY_NUMBER;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,7 +34,6 @@ import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
-import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;

@@ -23,6 +23,7 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.AssetDispositionService;
+import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
@@ -32,16 +33,27 @@ import org.kuali.module.cams.service.RetirementInfoService;
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
 
+    private Asset newAsset;
+    private Asset copyAsset;
+    
     /**
      * @see org.kuali.core.maintenance.Maintainable#processAfterEdit(org.kuali.core.document.MaintenanceDocument, java.util.Map)
      */
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         Asset asset = (Asset) this.getBusinessObject();
+        initializeAttributes(document);
+        
+        AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
+        assetlocationService.setOffCampusLocation(copyAsset);
+        assetlocationService.setOffCampusLocation(newAsset);
+        
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-        paymentSummaryService.calculateAndSetPaymentSummary(asset);
+        paymentSummaryService.calculateAndSetPaymentSummary(copyAsset);
+        paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
         
         AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-        assetDispService.setAssetDispositionHistory(asset);
+        assetDispService.setAssetDispositionHistory(copyAsset);
+        assetDispService.setAssetDispositionHistory(newAsset);
         
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(asset);
@@ -52,4 +64,13 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         super.processAfterEdit(document, parameters);
     }
     
+
+    private void initializeAttributes(MaintenanceDocument document) {
+        if (newAsset == null) {
+            newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        }
+        if (copyAsset == null ) {
+            copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
+        }
+    }
 }

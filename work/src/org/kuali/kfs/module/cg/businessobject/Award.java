@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ContractsAndGrantsModuleService;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**

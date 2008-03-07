@@ -30,13 +30,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ContractsAndGrantsModuleService;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.cg.service.CloseService;
 import org.kuali.module.cg.service.ProposalService;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 

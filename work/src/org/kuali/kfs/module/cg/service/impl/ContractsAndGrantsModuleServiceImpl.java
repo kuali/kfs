@@ -26,11 +26,11 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ContractsAndGrantsModuleService;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.dao.AwardDao;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.user.UuId;

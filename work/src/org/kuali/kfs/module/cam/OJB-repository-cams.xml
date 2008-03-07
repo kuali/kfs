@@ -621,6 +621,7 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">
@@ -653,6 +654,8 @@
         <foreignkey field-ref="buildingRoomNumber" />
     </reference-descriptor>
 </class-descriptor>
+
+
 
 <class-descriptor class="org.kuali.module.cams.bo.PendingPurchaseOrder" table="CB_PND_PO_T">
 	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1099,6 +1102,12 @@
 	</reference-descriptor>
 	<reference-descriptor name="assetLocationType" class-ref="org.kuali.module.cams.bo.AssetLocationType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="assetLocationTypeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="assetLocationState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="assetLocationStateCode" />
+	</reference-descriptor>
+	<reference-descriptor name="assetLocationCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="assetLocationCountryCode" />
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

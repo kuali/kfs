@@ -86,8 +86,8 @@
 		</property>                		
     </bean>
 
-    <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />
-            
+    <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />        
+
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
@@ -187,7 +187,7 @@
         </property>
     </bean> 
     
-    <bean id="paymentSummaryService" class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">    	
+    <bean id="paymentSummaryService" class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
     	<property name="universityDateService">
     		<ref bean="universityDateService" />
     	</property>
@@ -201,10 +201,10 @@
     	</property>
     </bean>    
     
-    <bean id="assetDiscompositionService" class="org.kuali.module.cams.service.impl.AssetDiscompositionServiceImpl" />
+    <bean id="assetDispositionService" class="org.kuali.module.cams.service.impl.AssetDispositionServiceImpl" />
     
     <bean id="retirementInfoService" class="org.kuali.module.cams.service.impl.RetirementInfoServiceImpl" />
-    
     <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl" />    
-    
+    <bean id="assetDetailInformationService" class="org.kuali.module.cams.service.impl.AssetDetailInformationServiceImpl" />
+    <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" />
 </beans>

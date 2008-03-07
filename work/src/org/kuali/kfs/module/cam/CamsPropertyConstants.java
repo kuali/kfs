@@ -37,14 +37,17 @@ public class CamsPropertyConstants {
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
         public static final String VENDOR_NAME = "vendorName";
-
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+        public static final String CAMPUS_CODE = "campusCode";
+        public static final String BUILDING_CODE = "buildingCode";
+        public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
     }
 
-    public static class AssetHeader {
+	public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
-
+    
     public static class AssetObject {
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
@@ -57,13 +60,14 @@ public class CamsPropertyConstants {
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
         public static final String OBJECT_CODE = "financialObjectCode";
+        public static final String FINANCIAL_OBJECT = "financialObject";
         public static final String SUB_OBJECT_CODE = "financialSubObjectCode";
         public static final String OBJECT_TYPE_CODE = "financialObject.financialObjectTypeCode";
         public static final String PROJECT_CODE = "projectCode";
         public static final String PAYMENT_SEQ_NUMBER = "paymentSequenceNumber";
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
     }
-
+    
     public static class AssetType {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }

@@ -22,7 +22,7 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.service.AssetDiscompositionService;
+import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
@@ -39,10 +39,10 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         Asset asset = (Asset) this.getBusinessObject();
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
-
-        AssetDiscompositionService assetDispService = SpringContext.getBean(AssetDiscompositionService.class);
-        assetDispService.setAssetDiscompositionHistory(asset);
-
+        
+        AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
+        assetDispService.setAssetDispositionHistory(asset);
+        
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(asset);
 
@@ -51,5 +51,5 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
 
         super.processAfterEdit(document, parameters);
     }
-
+    
 }

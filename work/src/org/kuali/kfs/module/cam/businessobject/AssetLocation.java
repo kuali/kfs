@@ -3,6 +3,8 @@ package org.kuali.module.cams.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.State;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -24,6 +26,8 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     private Asset asset;
     private AssetLocationType assetLocationType;
     
+    private State assetLocationState;
+    private Country assetLocationCountry;    
 	/**
 	 * Default constructor.
 	 */
@@ -309,5 +313,21 @@ public class AssetLocation extends PersistableBusinessObjectBase {
         }
         m.put("assetLocationTypeCode", this.assetLocationTypeCode);
 	    return m;
+    }
+
+    public Country getAssetLocationCountry() {
+        return assetLocationCountry;
+    }
+
+    public void setAssetLocationCountry(Country assetLocationCountry) {
+        this.assetLocationCountry = assetLocationCountry;
+    }
+
+    public State getAssetLocationState() {
+        return assetLocationState;
+    }
+
+    public void setAssetLocationState(State assetLocationState) {
+        this.assetLocationState = assetLocationState;
     }
 }

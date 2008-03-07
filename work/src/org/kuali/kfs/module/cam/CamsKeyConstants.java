@@ -29,7 +29,7 @@ public class CamsKeyConstants {
     
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
-    
+        
     public static class Depreciation {
         public static final String NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND    = "error.batch.depreciation.assetsNotFound";
         public static final String ERROR_WHEN_CALCULATING_BASE_AMOUNT           = "error.batch.depreciation.baseAmountCalculationError";
@@ -40,4 +40,14 @@ public class CamsKeyConstants {
         public static final String DEPRECIATION_ALREADY_RAN_MSG                 = "error.batch.depreciation.alreadyRan";
         public static final String ERROR_WHEN_UPDATING_DOCUMENT_HEADER_TABLE    = "error.batch.depreciation.documentHeaderUpdateError";        
     }
+    
+    public static final String ERROR_INVALID_ASSET_CAMPUS_CODE = "error.invalid.asset.campus.code";
+    public static final String ERROR_INVALID_ASSET_BUILDING_CODE = "error.invalid.asset.building.code";
+    public static final String ERROR_MANDATORY_ASSET_BUILDING_CODE = "error.mandatory.asset.building.code";
+    public static final String ERROR_INVALID_ASSET_BUILDING_ROOM_NO = "error.invalid.asset.building.room.no";
+    public static final String ERROR_MANDATORY_ASSET_BUILDING_ROOM_NO = "error.mandatory.asset.building.room.no";
+    public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
+    public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
+    public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
+    public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
 }

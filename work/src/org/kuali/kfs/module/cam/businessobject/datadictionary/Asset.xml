@@ -350,20 +350,19 @@
                 <description>inventoryScannedCode description...</description>
 			</attribute>
 
-            <attribute name="inventoryStatusCode" forceUppercase="true">
+            <attributeReference name="inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode" >
                 <label>Asset Status</label>
                 <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
                 <control>
-                    <text size="3" />
+                	<select
+                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+						businessObjectClass="org.kuali.module.cams.bo.AssetStatus"
+						keyAttribute="inventoryStatusCode"
+						labelAttribute="inventoryStatusName" includeKeyInLabel="true" />
                 </control>
-
                 <summary>inventoryStatusCode</summary>
                 <description>inventoryStatusCode description...</description>
-			</attribute>
+			</attributeReference>
 			
             <attribute name="nationalStockNumber" forceUppercase="true">
                 <label>National Stock Number</label>
@@ -829,6 +828,7 @@
 			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate"/>
 			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText"/>
 			<attributeReference name="assetWarranty.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="versionNumber"/>
+			<!-- Merge/Separate Information -->
 			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
 			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
 			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
@@ -861,6 +861,64 @@
 			<attributeReference name="loanOrReturnInfo.borrowerStorageZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageZipCode" />
 			<attributeReference name="loanOrReturnInfo.borrowerStorageCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCountryCode" />
 			<attributeReference name="loanOrReturnInfo.borrowerStoragePhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStoragePhoneNumber" />
+			
+			<!-- Off Campus Information -->
+			<attributeReference name="offCampusLocation.assetLocationContactName" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationContactName" >			
+				<label>Name</label>
+				<shortLabel>Name</shortLabel>
+				<summary>Asset Off Campus Name</summary>
+                <description>Asset Off Campus Name description...</description>
+			</attributeReference>
+			
+			<attributeReference name="offCampusLocation.assetLocationStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationStreetAddress" >			
+				<label>Address</label>
+				<shortLabel>Address</shortLabel>
+				<summary>Asset Off Campus Address</summary>
+                <description>Asset Off Campus Address description...</description>
+			</attributeReference>
+			
+			<attributeReference name="offCampusLocation.assetLocationCityName" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationCityName" >			
+				<label>City</label>
+				<shortLabel>City</shortLabel>
+				<summary>Asset Off Campus City</summary>
+                <description>Asset Off Campus City description...</description>
+			</attributeReference>
+			
+			<attributeReference name="offCampusLocation.assetLocationStateCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationStateCode">			
+				<label>State</label>
+                <shortLabel>State</shortLabel>
+                <control>
+                	<select
+                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+						businessObjectClass="org.kuali.kfs.bo.State"
+						keyAttribute="postalStateCode"
+						labelAttribute="postalStateName" includeKeyInLabel="true" />
+               	</control>
+                <summary>Asset Off Campus State</summary>
+                <description>Asset Off Campus State description...</description>
+            </attributeReference>
+            
+			<attributeReference name="offCampusLocation.assetLocationZipCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationZipCode" >
+				<label>Zip</label>
+				<shortLabel>Zip</shortLabel>
+				<summary>Asset Off Campus Zip</summary>
+                <description>Asset Off Campus Zip description...</description>
+            </attributeReference>
+            			
+			<attributeReference name="offCampusLocation.assetLocationCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationCountryCode">			
+				<label>Country</label>
+                <shortLabel>Country</shortLabel>
+                <control>
+                	<select
+                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+						businessObjectClass="org.kuali.kfs.bo.Country"
+						keyAttribute="postalCountryCode"
+						labelAttribute="postalCountryName" includeKeyInLabel="true" />
+               	</control>
+                <summary>Asset Off Campus Country</summary>
+                <description>Asset Off Campus Country description...</description>
+            </attributeReference>
+			<!-- attributeReference name="assetLocations.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="versionNumber"/-->
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -12,7 +12,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.Room;
+import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -105,6 +107,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetComponent> assetComponents;
     private List<AssetDisposition> assetDispositions;
     private List<AssetHeader> assetHeaders;
+    private List<AssetLocation> assetLocations;
+
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
@@ -112,7 +116,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private KualiDecimal federalContribution;
     private AssetRetirementDocument retirementInfo;
     private EquipmentLoanOrReturn loanOrReturnInfo;
-    
+    private AssetLocation offCampusLocation;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
     private KualiDecimal baseAmount;
@@ -130,6 +134,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetComponents = new TypedArrayList(AssetComponent.class);
         this.assetDispositions = new TypedArrayList(AssetDisposition.class);
         this.assetHeaders = new TypedArrayList(AssetHeader.class);
+        this.assetLocations = new TypedArrayList(AssetLocation.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -1786,6 +1791,21 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setLoanOrReturnInfo(EquipmentLoanOrReturn loanOrReturnInfo) {
         this.loanOrReturnInfo = loanOrReturnInfo;
-    }      
+    }
 
+    public List<AssetLocation> getAssetLocations() {
+        return assetLocations;
+    }
+
+    public void setAssetLocations(List<AssetLocation> assetLocations) {
+        this.assetLocations = assetLocations;
+    }
+
+    public AssetLocation getOffCampusLocation() {
+        return offCampusLocation;
+    }
+
+    public void setOffCampusLocation(AssetLocation offCampusLocation) {
+        this.offCampusLocation = offCampusLocation;
+    }
 }

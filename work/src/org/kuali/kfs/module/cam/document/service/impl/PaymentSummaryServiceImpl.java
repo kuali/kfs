@@ -18,8 +18,6 @@ package org.kuali.module.cams.service.impl;
 import static org.kuali.module.cams.CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE;
 
 import java.lang.reflect.Method;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +25,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.service.OptionsService;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetDisposition;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -74,6 +70,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     public void calculateAndSetPaymentSummary(Asset asset) {
         asset.setFederalContribution(calculateFederalContribution(asset));
+        setPaymentYearToDate(asset);
         asset.setPaymentTotalCost(calculatePaymentTotalCost(asset));
         asset.setAccumulatedDepreciation(calculatePrimaryAccumulatedDepreciation(asset));
         asset.setBaseAmount(calculatePrimaryBaseAmount(asset));
@@ -83,13 +80,38 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
     }
 
+    private void setPaymentYearToDate(Asset asset) {
+        Object[] emptyParams = new Object[] {};
+        List<AssetPayment> assetPayments = asset.getAssetPayments();
+
+        if (assetPayments != null) {
+            for (AssetPayment assetPayment : assetPayments) {
+                KualiDecimal yearToDate = new KualiDecimal(0);
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod1Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod2Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod3Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod4Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod5Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod6Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod7Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod8Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod9Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod10Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod11Depreciation1Amount());
+                yearToDate = addAmount(yearToDate, assetPayment.getPeriod12Depreciation1Amount());
+                assetPayment.setYearToDate(yearToDate);
+            }
+        }
+
+    }
+
     private KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
 
         for (AssetPayment payment : assetPayments) {
             if (ObjectUtils.isNull(payment.getFinancialObject())) {
-                payment.refreshReferenceObject("financialObject");
+                payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             }
             if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());

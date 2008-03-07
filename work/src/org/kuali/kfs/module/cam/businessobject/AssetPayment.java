@@ -84,6 +84,9 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private Options option;
+    
+    //  Non-persisted attributes:
+    private KualiDecimal yearToDate;
 
     /**
      * Default constructor.
@@ -1368,6 +1371,24 @@ public class AssetPayment extends PersistableBusinessObjectBase {
             m.put("paymentSequenceNumber", this.paymentSequenceNumber.toString());
         }
         return m;
+    }
+
+    /**
+     * Get the yearToDate attribute
+     * 
+     * @return Returns the yearToDate
+     */
+    public KualiDecimal getYearToDate() {
+        return yearToDate;
+    }
+
+    /**
+     * Sets the yearToDate attribute value.
+     * 
+     * @param yearToDate The yearToDate to set.
+     */
+    public void setYearToDate(KualiDecimal yearToDate) {
+        this.yearToDate = yearToDate;
     }
 
 }

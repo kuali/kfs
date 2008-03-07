@@ -46,12 +46,6 @@
         
         <allowsNewOrCopy>false</allowsNewOrCopy>
         
-        <defaultExistenceChecks>
-			<reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
-			<reference attributeName="building" attributeToHighlightOnFail="buildingCode" />
-			<reference attributeName="buildingRoom" attributeToHighlightOnFail="buildingRoomNumber" />
-		</defaultExistenceChecks>
-        
         <maintainableSections>
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems> 
@@ -59,7 +53,7 @@
                 	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
                     <maintainableField name="capitalAssetNumber" readOnly="true" />
-                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true"/>
+                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
                     <maintainableField name="organizationOwnerAccountNumber" />
                     <maintainableField name="organizationOwnerAccount.organizationCode"/>
                     <maintainableField name="agencyNumber" />
@@ -84,16 +78,27 @@
                     <maintainableField name="totalCostAmount" readOnly="true" />
                     <maintainableField name="federalContribution" readOnly="true" />
                     <maintainableField name="versionNumber" />					
-					<subSectionHeader name="Asset Location - On Campus" />
+                </maintainableItems>
+            </maintainableSection>
+            
+            <maintainableSection title="Asset Location">
+	            <maintainableItems> 
+					<subSectionHeader name="On Campus" />
 					<maintainableField name="campusCode" required="true" />
-					<maintainableField name="buildingCode" required="true" />
-					<maintainableField name="buildingRoomNumber" required="true" />
+					<maintainableField name="buildingCode" />
+					<maintainableField name="buildingRoomNumber" />
 					<maintainableField name="buildingSubRoomNumber" />
 					
-					<!--  subSectionHeader name="Location - Off Campus - Where to get the ifo for this From? Name, Address, City, State, Zip?" /-->
+					<subSectionHeader name="Off Campus" />
+					<!-- maintainableField name="assetLocations.versionNumber" readOnly="true" /-->
+					<maintainableField name="offCampusLocation.assetLocationContactName" />
+					<maintainableField name="offCampusLocation.assetLocationStreetAddress" />
+					<maintainableField name="offCampusLocation.assetLocationCityName" />
+					<maintainableField name="offCampusLocation.assetLocationStateCode" />
+					<maintainableField name="offCampusLocation.assetLocationZipCode" />
+					<maintainableField name="offCampusLocation.assetLocationCountryCode" />
 					
-					
-					</maintainableItems>
+				</maintainableItems>
             </maintainableSection>
             
             <maintainableSection title="Organization Information">
@@ -129,6 +134,7 @@
                         <maintainableField name="transferPaymentCode" readOnly="true" />
                         <maintainableField name="accountChargeAmount" readOnly="true" />
                         <maintainableField name="accumulatedPrimaryDepreciationAmount" readOnly="true" />
+                        <maintainableField name="yearToDate" readOnly="true" />
                         <maintainableField name="previousYearPrimaryDepreciationAmount" readOnly="true" />
                         <maintainableField name="period1Depreciation1Amount" readOnly="true" />
                         <maintainableField name="period2Depreciation1Amount" readOnly="true" />

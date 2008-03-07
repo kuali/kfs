@@ -1,99 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.ar.bo.OrganizationOptions</businessObjectClass>
-        <maintainableClass>org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.ar.rules.OrganizationOptionsRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.ar.rules.OrganizationOptionsPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+	<maintenanceDocument>
+		<businessObjectClass>
+			org.kuali.module.ar.bo.OrganizationOptions
+		</businessObjectClass>
+		<maintainableClass>
+			org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl
+		</maintainableClass>
+		<businessRulesClass>
+			org.kuali.module.ar.rules.OrganizationOptionsRule
+		</businessRulesClass>
+		<preRulesCheckClass>
+			org.kuali.module.ar.rules.OrganizationOptionsPreRules
+		</preRulesCheckClass>
+		<documentAuthorizerClass>
+			org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
+		</documentAuthorizerClass>
+		<authorizations>
+			<authorization action="initiate">
+				<workgroups>
+					<workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+				</workgroups>
+			</authorization>
+		</authorizations>
 
-        <documentTypeName>OrganizationOptionsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OOPT</documentTypeCode>
+		<documentTypeName>
+			OrganizationOptionsMaintenanceDocument
+		</documentTypeName>
+		<documentTypeCode>OOPT</documentTypeCode>
 
-        <label>Organization Options Maintenance Document</label>
-        <shortLabel>OrgOptionsMaintDoc</shortLabel>
+		<label>Organization Options Maintenance Document</label>
+		<shortLabel>OrgOptionsMaintDoc</shortLabel>
 
-        <summary>Organization Options maintenance document</summary>
-        <description>Document used to create or update Organization Options objects</description>
+		<summary>Organization Options maintenance document</summary>
+		<description>
+			Document used to create or update Organization Options
+			objects
+		</description>
 
-        <lockingKeys>
-            <field attributeName="chartOfAccountsCode" />
-            <field attributeName="organizationCode" />
-        </lockingKeys>
+		<lockingKeys>
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="organizationCode" />
+		</lockingKeys>
 
-        <defaultExistenceChecks>
-            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="processingChartOfAccount" attributeToHighlightOnFail="processingChartOfAccountCode" />
-            <reference attributeName="processingOrganization" attributeToHighlightOnFail="processingOrganizationCode" />
-        </defaultExistenceChecks>
+		<defaultExistenceChecks>
+			<reference attributeName="chartOfAccounts"
+				attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference attributeName="organization"
+				attributeToHighlightOnFail="organizationCode" />
+			<reference attributeName="processingChartOfAccount"
+				attributeToHighlightOnFail="processingChartOfAccountCode" />
+			<reference attributeName="processingOrganization"
+				attributeToHighlightOnFail="processingOrganizationCode" />
+		</defaultExistenceChecks>
 
-        <maintainableSections>
-            <maintainableSection title="Edit Organization Options">
-                <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true">
-                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="organizationCode" required="true">
-                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-					<maintainableField name="processingChartOfAccountCode" required="true">
-						<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder</defaultValueFinderClass>
+		<maintainableSections>
+			<maintainableSection title="Edit Organization Options">
+				<maintainableItems>
+					<maintainableField name="chartOfAccountsCode"
+						required="true">
+						<defaultValueFinderClass>
+							org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder
+						</defaultValueFinderClass>
 					</maintainableField>
-                    <maintainableField name="processingOrganizationCode" required="true">
-                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>                    
-                    </maintainableField>
-                    <maintainableField name="universityName" required="false" >
-                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>
-                    </maintainableField>      
-					<maintainableField name="printInvoiceIndicator" >
-                   		<defaultValue>Y</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="organizationCheckPayableToName" required="false" >
-                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>
-                    </maintainableField>
-                    <maintainableField name="organizationMessageText" required="false" />
-                    <maintainableField name="organizationPaymentTermsText" required="false">
-                    	<defaultValue>NET 30 DAYS</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="organizationRemitToAddressName" required="true" />
-                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />
-                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />
-                    <maintainableField name="organizationRemitToCityName" required="true" />
-                    <maintainableField name="organizationRemitToStateCode" required="true" />
-                    <maintainableField name="organizationRemitToZipCode" required="true" />
-                    <maintainableField name="organization800PhoneNumber" required="false" />
-                    <maintainableField name="organizationFaxNumber" required="false" />
-                    <maintainableField name="organizationPhoneNumber" required="true" />
-                    <maintainableField name="versionNumber" />
-                </maintainableItems>
-            </maintainableSection>
-        </maintainableSections>
-    </maintenanceDocument>
+					<maintainableField name="organizationCode"
+						required="true">
+						<defaultValueFinderClass>
+							org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+					<maintainableField
+						name="processingChartOfAccountCode" required="true">
+						<defaultValueFinderClass>
+							org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+					<maintainableField name="processingOrganizationCode"
+						required="true">
+						<defaultValueFinderClass>
+							org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+
+
+					<!--                    <maintainableField name="universityName" required="false" >-->
+					<!--                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>-->
+					<!--                    </maintainableField>      -->
+					<!--                    <maintainableField name="organizationRemitToAddressName" required="true" />-->
+					<!--                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />-->
+					<!--                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />-->
+					<!--                    <maintainableField name="organizationRemitToCityName" required="true" />-->
+					<!--                    <maintainableField name="organizationRemitToStateCode" required="true" />-->
+					<!--                    <maintainableField name="organizationRemitToZipCode" required="true" />-->
+					<!--                    <maintainableField name="organization800PhoneNumber" required="false" />-->
+					<!--                    <maintainableField name="organizationFaxNumber" required="false" />-->
+					<!--                    <maintainableField name="organizationPhoneNumber" required="true" />-->
+					<!--                    <maintainableField name="versionNumber" />-->
+				</maintainableItems>
+			</maintainableSection>
+
+			<maintainableSection title="Edit Organization Invoice Information">
+				<maintainableItems>
+
+					<maintainableField name="organizationCheckPayableToName" required="false">
+						<defaultValueFinderClass>
+							org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder
+						</defaultValueFinderClass>
+					</maintainableField>
+
+					<maintainableField name="organizationPaymentTermsText" required="false">
+						<defaultValue>NET 30 DAYS</defaultValue>
+					</maintainableField>
+
+					<maintainableField name="organizationMessageText" required="false" />
+	
+
+				<maintainableField name="printInvoiceIndicator">
+					<defaultValue>Y</defaultValue>
+				</maintainableField>
+
+
+
+
+
+
+
+				</maintainableItems>
+			</maintainableSection>
+
+		</maintainableSections>
+	</maintenanceDocument>
 </dictionaryEntry>

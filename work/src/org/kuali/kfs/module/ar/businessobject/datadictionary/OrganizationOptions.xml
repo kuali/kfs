@@ -121,7 +121,7 @@
 			</attribute>
 
             <attribute name="organizationCheckPayableToName" forceUppercase="true">
-                <label>Organization Check Payable To Name</label>
+                <label>Remit To Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -154,7 +154,7 @@
 			</attribute>
 
             <attribute name="organizationMessageText" forceUppercase="true">
-                <label>Organization Message Text</label>
+                <label>Message Text</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>80</maxLength>
@@ -170,7 +170,7 @@
 			</attribute>
 
             <attribute name="organizationPaymentTermsText" forceUppercase="true">
-                <label>Organization Payment Terms Text</label>
+                <label>Payment Terms Text</label>
                 <shortLabel>Text</shortLabel>
 
 
@@ -288,7 +288,7 @@
 			</attribute>
 
             <attribute name="printInvoiceIndicator" forceUppercase="true">
-                <label>Print Invoice Indicator</label>
+                <label>Print Options</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>

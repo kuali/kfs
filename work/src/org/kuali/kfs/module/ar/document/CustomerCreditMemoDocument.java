@@ -118,6 +118,5 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
         // TODO Auto-generated method stub
         return false;
     }
-    
->>>>>>> 1.3
+
 }

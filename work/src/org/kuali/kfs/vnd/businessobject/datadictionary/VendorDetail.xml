@@ -263,7 +263,8 @@
                 <lookupField attributeName="vendorNumber" required="false" />      
                 <lookupField attributeName="activeIndicator" required="false" />
                 <lookupField attributeName="vendorHeader.vendorTypeCode" required="false" />         
-                <lookupField attributeName="vendorAddresses.vendorStateCode" required="false" />                   
+                <lookupField attributeName="vendorAddresses.vendorStateCode" required="false" />  
+                <lookupField attributeName="vendorCommodities.purchasingCommodityCode" required="false" />                  
                 <lookupField attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" required="false" />         
             </lookupFields>
 
@@ -274,6 +275,7 @@
             	<field attributeName="activeIndicator" />
                 <field attributeName="vendorHeader.vendorTypeCode" />
                 <field attributeName="vendorStateForLookup" />
+                <field attributeName="vendorCommodities" />
                 <field attributeName="vendorHeader.vendorSupplierDiversities" />
             </resultFields>
         </lookup>
@@ -613,6 +615,8 @@
             
             <attributeReference name="vendorCustomerNumbers.vendorOrganizationCode" sourceClassName="org.kuali.module.vendor.bo.VendorCustomerNumber" sourceAttributeName="vendorOrganizationCode" />
                         
+            <attributeReference name="vendorCommodities.purchasingCommodityCode" sourceClassName="org.kuali.module.vendor.bo.VendorCommodityCode" sourceAttributeName="purchasingCommodityCode" />
+            
             <attributeReference name="vendorHeader.versionNumber" sourceClassName="org.kuali.module.vendor.bo.VendorHeader" sourceAttributeName="versionNumber" /> 
                        
             <attributeReference name="activeIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
@@ -660,7 +664,11 @@
                 <shortLabel>Notes</shortLabel>
                 <elementLabel>Notes</elementLabel>
             </collection>
-             
+            
+            <collection name="vendorCommodities">
+                <label>Vendor Commodity Codes</label>
+                <shortLabel>Commodity Codes</shortLabel>
+            </collection> 
         </collections>    
 
         <relationships>

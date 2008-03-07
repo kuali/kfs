@@ -52,6 +52,7 @@
                     <maintainableField name="vendorTypeChangeAllowedIndicator" />
                     <maintainableField name="vendorContractAllowedIndicator" />
                     <maintainableField name="vendorShowReviewIndicator" />
+                    <maintainableField name="commodityRequiredIndicator" />
                     <maintainableField name="vendorReviewText" />
                     <maintainableField name="versionNumber" />
                     <maintainableField name="active" />

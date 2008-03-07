@@ -165,4 +165,22 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase {
         m.put("purchasingCommodityCode", this.purchasingCommodityCode);
 	    return m;
     }
+	
+    /**
+     * This method overrides the superclass method to return the description of the commodity code.
+     * 
+     * @param mapper A LinkedHashMap
+     * @return A String rendition of this object.
+     */
+    @Override
+    public String toStringBuilder(LinkedHashMap mapper) {
+        if (commodityCode != null) {
+
+            return commodityCode.getCommodityDescription();
+        }
+        else {
+
+            return super.toStringBuilder(mapper);
+        }
+    }
 }

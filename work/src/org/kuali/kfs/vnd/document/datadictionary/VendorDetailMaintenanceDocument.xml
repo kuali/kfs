@@ -260,7 +260,10 @@
                         </maintainableField>
                         <summaryFields>
                             <summaryField name="purchasingCommodityCode" />
-                        </summaryFields>                        
+                        </summaryFields>       
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="purchasingCommodityCode"/>
+                        </duplicateIdentificationFields>                     
                      </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>

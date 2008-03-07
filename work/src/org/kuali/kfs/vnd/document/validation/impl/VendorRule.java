@@ -61,6 +61,7 @@ import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.AddressType;
 import org.kuali.module.vendor.bo.OwnershipType;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorCommodityCode;
 import org.kuali.module.vendor.bo.VendorContact;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorContractOrganization;
@@ -378,6 +379,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(newVendor.getVendorHeader().getVendorType())) {
             valid &= processAddressValidation(document);
             valid &= processContractValidation(document);
+            valid &= processCommodityCodeValidation(document);
         }
 
         return valid;
@@ -696,6 +698,64 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Validates commodity code related rules.
+     * 
+     * @param document MaintenanceDocument
+     * @return boolean false or true
+     */
+    boolean processCommodityCodeValidation(MaintenanceDocument document) {
+        boolean valid = true;
+        List<VendorCommodityCode> vendorCommodities = newVendor.getVendorCommodities();
+        boolean commodityCodeRequired = newVendor.getVendorHeader().getVendorType().isCommodityRequiredIndicator();
+        if (commodityCodeRequired && vendorCommodities.size() == 0) {
+            //display error that the commodity code is required for this type of vendor.
+            String propertyName = "add." + VendorPropertyConstants.VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE;
+            putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_IS_REQUIRED_FOR_THIS_VENDOR_TYPE);
+            valid = false;
+        }
+        //We only need to validate the default indicator if there is at least
+        //one commodity code for the vendor.
+        if (vendorCommodities.size() > 0) {
+            valid &= validateCommodityCodeDefaultIndicator(vendorCommodities);
+        }
+        return valid;
+    }
+    
+    /**
+     * Validates that there is one and only one default indicator selected
+     * for commodity code if the vendor contains at least one commodity code.
+     * 
+     * @param vendorCommodities the list of VendorCommodityCode to be validated
+     * @return boolean true or false
+     */
+    private boolean validateCommodityCodeDefaultIndicator(List<VendorCommodityCode> vendorCommodities) {
+        boolean valid = true;
+        
+        boolean foundDefaultIndicator = false;
+        for (int i=0; i < vendorCommodities.size(); i++) {
+            VendorCommodityCode vcc = vendorCommodities.get(i);
+            if (vcc.isCommodityDefaultIndicator()) {
+                if (!foundDefaultIndicator) {                
+                    foundDefaultIndicator = true;
+                }
+                else {
+                    //display error that there can only be 1 commodity code with default indicator = true.
+                    String propertyName = VendorPropertyConstants.VENDOR_COMMODITIES_CODE + "[" + i + "]." + VendorPropertyConstants.VENDOR_COMMODITIES_DEFAULT_INDICATOR;
+                    putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND);
+                    valid = false;
+                }
+            }
+        }
+        if (!foundDefaultIndicator && vendorCommodities.size() > 0) {
+            //display error that there must be one commodity code selected as the default commodity code for the vendor.
+            String propertyName = VendorPropertyConstants.VENDOR_COMMODITIES_CODE + "[0]." + VendorPropertyConstants.VENDOR_COMMODITIES_DEFAULT_INDICATOR;
+            putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_REQUIRE_ONE_DEFAULT_IND);
+            valid = false;
+        }
+        return valid;
+    }
+    
     /**
      * Validates vendor address fields.
      * 

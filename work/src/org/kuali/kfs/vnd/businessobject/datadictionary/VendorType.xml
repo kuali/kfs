@@ -31,6 +31,7 @@
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
                 <field attributeName="vendorContractAllowedIndicator" />
                 <field attributeName="vendorShowReviewIndicator" />
+                <field attributeName="commodityRequiredIndicator" />
                 <field attributeName="vendorReviewText" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
@@ -55,6 +56,7 @@
                 <lookupField attributeName="vendorTypeChangeAllowedIndicator" required="false" />
                 <lookupField attributeName="vendorContractAllowedIndicator" required="false" />
                 <lookupField attributeName="vendorShowReviewIndicator" />
+                <lookupField attributeName="commodityRequiredIndicator" />
                 <lookupField attributeName="vendorReviewText" />
                 <lookupField attributeName="active" required="false"/>               
             </lookupFields>
@@ -67,6 +69,7 @@
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
                 <field attributeName="vendorContractAllowedIndicator" />
                 <field attributeName="vendorShowReviewIndicator" />
+                <field attributeName="commodityRequiredIndicator" />
                 <field attributeName="vendorReviewText" />
                 <field attributeName="active" />
             </resultFields>
@@ -150,6 +153,18 @@
 
 			</attributeReference>
 
+            <attributeReference name="commodityRequiredIndicator"
+                    sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                    sourceAttributeName="oneDigitTextCode">
+                <label>Commodity Code Required</label>
+                <shortLabel>Commodity Code Required</shortLabel>
+                
+                <control>
+                    <checkbox />
+                </control>
+
+            </attributeReference>
+            
             <attribute name="vendorReviewText" forceUppercase="false">
                 <label>Vendor Review Page Text</label>
                 <shortLabel>Review Text</shortLabel>

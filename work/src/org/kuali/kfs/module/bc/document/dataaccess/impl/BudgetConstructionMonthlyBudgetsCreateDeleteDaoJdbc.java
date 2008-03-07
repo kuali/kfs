@@ -75,12 +75,12 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // this is the common part of the way we test for a benefits object class (LD_BCNSTR_MONTH_T/LD_PND_BCNSTR_GL_T)
         benefitsObjectClassesMonthly.append("AND (NOT EXISTS (SELECT 1\n");
         benefitsObjectClassesMonthly.append("                 FROM LD_BENEFITS_CALC_T\n");
-        benefitsObjectClassesMonthly.append("                 WHERE (LD_BENEFITS_CALC.UNIV_FISCAL_YR = ?)\n");
-        benefitsObjectClassesMonthly.append("                 AND (LD_BENEFITS_CALC.FIN_COA_CD = ?)\n");
+        benefitsObjectClassesMonthly.append("                 WHERE (LD_BENEFITS_CALC_T.UNIV_FISCAL_YR = ?)\n");
+        benefitsObjectClassesMonthly.append("                 AND (LD_BENEFITS_CALC_T.FIN_COA_CD = ?)\n");
         // now add the table-specific part to each pre-SQL string builder
         benefitsObjectClassesGeneralLedger.append(benefitsObjectClassesMonthly);
-        benefitsObjectClassesMonthly.append("                 AND (LD_BENEFITS_CALC.POS_FRNGBEN_OBJ_CD = LD_BCNSTR_MONTH_T.FIN_OBJECT_CD)))\n");
-        benefitsObjectClassesGeneralLedger.append("                  AND (LD_BENEFITS_CALC.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))\n");
+        benefitsObjectClassesMonthly.append("                 AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_BCNSTR_MONTH_T.FIN_OBJECT_CD)))\n");
+        benefitsObjectClassesGeneralLedger.append("                  AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))\n");
         
         // we do a COUNT(*) to decide whether any benefits expense objects occur in LD_BCNSTR_MONTH_T
         expenditureBenefitsObjectClassesCheck.append("SELECT COUNT(*)\n");
@@ -104,17 +104,17 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         allocateGeneralLedgerByMonth.append("(SELECT ?, ?, ?, ?, ?, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD,\n"); 
         allocateGeneralLedgerByMonth.append("        ROUND((acln_annl_bal_amt / 12), 0) + \n");
         allocateGeneralLedgerByMonth.append("        (acln_annl_bal_amt - (ROUND((acln_annl_bal_amt / 12), 0) * 12)),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0),\n");
-        allocateGeneralLedgerByMonth.append("        ROUND((pbgl.acln_annl_bal_amt / 12), 0)\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
+        allocateGeneralLedgerByMonth.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0)\n");
         allocateGeneralLedgerByMonth.append("        FROM ld_pnd_bcnstr_gl_t\n"); 
         allocateGeneralLedgerByMonth.append("        WHERE (fdoc_nbr = ?)\n");
         allocateGeneralLedgerByMonth.append("          AND (univ_fiscal_yr = ?)\n");
@@ -136,7 +136,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         //run the delete-all SQL with the revenue object classes
-        getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes);
+        getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes));
     }
 
     /**
@@ -149,9 +149,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes);
-        // run the create-monthly-budgets-from-GL SQL with the revenue object classes
-        getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes);
+        getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes));
 
     }
 
@@ -165,7 +163,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits with the revenue object classes
-        getSimpleJdbcTemplate().update(deleteNoBenefitsRevenueRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes, fiscalYear, chartCode);
+        getSimpleJdbcTemplate().update(deleteNoBenefitsRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes, fiscalYear, chartCode));
+        // run the create-monthly-budgets-from-GL SQL with the revenue object classes
+        getSimpleJdbcTemplate().update(allocateGeneralLedgerRevenueByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inRevenueObjectTypes));
         
     }
 
@@ -179,9 +179,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(deleteNoBenefitsExpenditureRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes, fiscalYear, chartCode);
+        getSimpleJdbcTemplate().update(deleteNoBenefitsExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes, fiscalYear, chartCode));
         // run the create-monthly-budgets-from-GL SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes);
+        getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inExpenditureObjectTypes));
     }
 
     /**
@@ -193,7 +193,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
-        Long numberOfBenefitsEligibleRows = getSimpleJdbcTemplate().queryForLong(expenditureBenefitsObjectClassesCheckSQL,documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes);
+        // build the parameter list
+        Long numberOfBenefitsEligibleRows = getSimpleJdbcTemplate().queryForLong(expenditureBenefitsObjectClassesCheckSQL,sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes));
         return (numberOfBenefitsEligibleRows != 0);
     }
     /**
@@ -220,8 +221,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         StringBuilder inClauseBuilderExpenditure = new StringBuilder(200);
         
         // get the values of the object type parameters for expenditure and revenue allowed in budget construction
-        inRevenueObjectTypes = ((ArrayList<String>) parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES)).toArray();
-        inExpenditureObjectTypes = ((ArrayList<String>) parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES)).toArray();
+        inRevenueObjectTypes = (Object[]) parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES).toArray();
+        inExpenditureObjectTypes = (Object []) parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES).toArray();
 
         // build the IN clauses (the number of object types could differ between revenue and expenditure
         inClauseBuilderRevenue.append(inString(inRevenueObjectTypes.length));
@@ -232,38 +233,63 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         StringBuilder deleteQueryCommon = new StringBuilder(1000);
         deleteQueryCommon.append(deleteBuilder);
         //     IN subclause is inserted before the last character
-        deleteQueryCommon.insert(deleteQueryCommon.length()-2,inClauseBuilderRevenue);
+        deleteQueryCommon.insert(deleteQueryCommon.length()-1,inClauseBuilderRevenue);
         deleteAllRevenueRowsSQL = deleteQueryCommon.toString();
         //  (2) delete only monthly revenue rows that do not have benefit object codes
         deleteQueryCommon.append("\n");
         deleteQueryCommon.append(benefitsObjectClassesMonthly);
-        deleteNoBenefitsRevenueRowsSQL = deleteBuilder.toString();
+        deleteNoBenefitsRevenueRowsSQL = deleteQueryCommon.toString();
 
         // build the SQL we need for the expenditure deletes
         // (1) delete all monthly revenue rows (including those with benefits object codes)
         deleteQueryCommon.delete(0,deleteQueryCommon.length());
         deleteQueryCommon.append(deleteBuilder);
         //     IN sub clause is inserted before the last character
-        deleteQueryCommon.insert(deleteQueryCommon.length()-2,inClauseBuilderExpenditure);
+        deleteQueryCommon.insert(deleteQueryCommon.length()-1,inClauseBuilderExpenditure);
         deleteAllExpenditureRowsSQL = deleteQueryCommon.toString();
         //  (2) delete only monthly revenue rows that do not have benefit object codes
         deleteQueryCommon.append("\n");
         deleteQueryCommon.append(benefitsObjectClassesMonthly);
-        deleteNoBenefitsExpenditureRowsSQL = deleteBuilder.toString();
+        deleteNoBenefitsExpenditureRowsSQL = deleteQueryCommon.toString();
         
         // build the SQL for detecting expenditure rows which require a benefits calculation
-        expenditureBenefitsObjectClassesCheck.insert(expenditureBenefitsObjectClassesCheck.length()-2,inClauseBuilderExpenditure);
+        expenditureBenefitsObjectClassesCheck.insert(expenditureBenefitsObjectClassesCheck.length()-1,inClauseBuilderExpenditure);
         expenditureBenefitsObjectClassesCheckSQL = expenditureBenefitsObjectClassesCheck.toString();
         
         // build the SQL for building monthly budgets from the annual budget in the general ledger
         // (1) revenue
         StringBuilder allocateGeneralLedgerRevenueByMonth = new StringBuilder(5500);
         allocateGeneralLedgerRevenueByMonth.append(allocateGeneralLedgerByMonth);
-        allocateGeneralLedgerRevenueByMonth.insert(allocateGeneralLedgerRevenueByMonth.length()-3,inClauseBuilderRevenue);
+        allocateGeneralLedgerRevenueByMonth.insert(allocateGeneralLedgerRevenueByMonth.length()-2,inClauseBuilderRevenue);
         allocateGeneralLedgerRevenueByMonthSQL = allocateGeneralLedgerRevenueByMonth.toString();
         //  (2) expenditure
-        allocateGeneralLedgerByMonth.insert(allocateGeneralLedgerByMonth.length()-3,inClauseBuilderExpenditure);
+        allocateGeneralLedgerByMonth.insert(allocateGeneralLedgerByMonth.length()-2,inClauseBuilderExpenditure);
         allocateGeneralLedgerExpenditureByMonthSQL = allocateGeneralLedgerByMonth.toString();
+    }
+    
+    private Object[] sqlParameters(Object... inParameters)
+    {
+        // we want preparedStatement to recognize the object classes as type String, instead of hard-coding them as constant parameters into an 
+        // IN statement with a delimiter that may not be standard over all databases.  we also apparently can't pass them in as an array of
+        // Object[] embedded in an outer Object[].  So, we have to flatten the arguments out.
+        int objectTypeListSize = (inRevenueObjectTypes.length > inExpenditureObjectTypes.length ? inRevenueObjectTypes.length-1 : inExpenditureObjectTypes.length - 1);
+        ArrayList<Object> parmList = new ArrayList<Object>(inParameters.length+objectTypeListSize);
+        for (int idx = 0; idx < inParameters.length; idx++)
+        {
+           if (inParameters[idx] instanceof Object[])
+           {
+               for (int kdx = 0; kdx < ((Object[]) inParameters[idx]).length; kdx++)
+               {
+                   parmList.add(((Object[]) inParameters[idx])[kdx]);
+               }
+           }
+           else
+           {
+               parmList.add(inParameters[idx]);
+           }
+            
+        }
+        return ((Object[]) parmList.toArray());
     }
     
     public void setParameterService(ParameterService parameterService)

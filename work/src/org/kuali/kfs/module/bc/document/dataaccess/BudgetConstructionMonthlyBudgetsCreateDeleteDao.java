@@ -20,55 +20,50 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
     /**
      * 
      * remove the existing revenue monthly budgets for this key
-     * @param originCode
      * @param documentNumber
      * @param fiscalYear
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
      */
-      public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
      /**
       * 
       * remove the existing expenditure monthly budgets for this key
-      * @param originCode
       * @param documentNumber
       * @param fiscalYear
       * @param chartCode
       * @param accountNumber
       * @param subAccountNumber
       */ 
-      public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
        * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
-       * @param originCode
        * @param documentNumber
        * @param fiscalYear
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void BudgetConstructionMonthlyBudgetsSpreadRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
        * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month 
-       * @param originCode
        * @param documentNumber
        * @param fiscalYear
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void BudgetConstructionMonthlyBudgetsSpreadExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
       /**
        * 
        * checks to see whether the key contains object codes that fund benefits
-       * @param originCode
        * @param documentNumber
        * @param fiscalYear
        * @param chartCode
@@ -76,6 +71,6 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param subAccountNumber
        * @return true if benefits are funded by this accounting key, false otherwise
        */
-      public boolean BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public boolean BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
 }

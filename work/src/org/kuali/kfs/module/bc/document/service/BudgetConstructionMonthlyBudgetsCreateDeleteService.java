@@ -20,31 +20,28 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
   /**
    * 
    * remove the existing revenue monthly budgets for this key
-   * @param originCode
    * @param documentNumber
    * @param fiscalYear
    * @param chartCode
    * @param accountNumber
    * @param subAccountNumber
    */
-    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
     
    /**
     * 
     * remove the existing expenditure monthly budgets for this key
-    * @param originCode
     * @param documentNumber
     * @param fiscalYear
     * @param chartCode
     * @param accountNumber
     * @param subAccountNumber
     */ 
-    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
     /**
      * 
      * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
-     * @param originCode
      * @param documentNumber
      * @param fiscalYear
      * @param chartCode
@@ -52,12 +49,11 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param subAccountNumber
      * @return false--no recalculation of benefits is required for revenue
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public boolean BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
     /**
      * 
      * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month 
-     * @param originCode
      * @param documentNumber
      * @param fiscalYear
      * @param chartCode
@@ -65,7 +61,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param subAccountNumber
      * @return true if benefits object classes were among those distributed (benefits recaluclation required), false otherwise
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
     
     
 }

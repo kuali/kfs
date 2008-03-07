@@ -28,8 +28,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl {
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsDeleteRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
+    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsDeleteRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
 
     }
 
@@ -37,17 +37,16 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl {
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsDeleteExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
-
+    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsDeleteExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsSpreadRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadRevenue(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
+    public boolean BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsSpreadRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         return false;
     }
 
@@ -55,9 +54,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl {
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsSpreadExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String originCode, String documentNumber, String fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsSpreadExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
+        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     public void setBudgetConstructionMonthlyBudgetsCreateDeleteDao(BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao)

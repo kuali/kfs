@@ -20,12 +20,7 @@
 <%@ attribute name="attributes" required="true" type="java.util.Map"
 			  description="The DataDictionary entry containing attributes for the line fields."%>
 <%@ attribute name="readOnly" required="false"
-			  description="determine whether the widgets in the tag are read-only or not"%> 
-<%@ attribute name="hiddenFieldNames" required="false" description="the line fields willbe hidden"%>			  
-
-<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">			  
-	<html:hidden property="${fieldName}" />
-</c:forTokens>	
+			  description="determine whether the widgets in the tag are read-only or not"%> 			  	
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
 	

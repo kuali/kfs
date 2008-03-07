@@ -39,38 +39,31 @@
 	description="The descriptive information of the readonly fields. The information is stored in a Map and prepared in Action Form class."%>
 <%@ attribute name="inquirableUrl" required="false" type="java.util.Map"
 	description="The URL Map for the inquirable fields. The inquirable fields can be defined in Action Form class. If a readonly field is inquirable, a corresponding URL will be rendered with the field."%>
-<%@ attribute name="relationshipMetadata" required="false"
-	type="java.util.Map"
+<%@ attribute name="relationshipMetadata" required="false" type="java.util.Map"
 	description="This is a Map that holds a property name list of the primary key of the referenced class for each eligible field. The value of the attribute is used to build quick finder for the eligible fields."%>	
 <%@ attribute name="hasActions" required="false"
 	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
 
 <!-- populate the table with the given deatil lines -->
-<c:forTokens var="fieldName" items="${detailFieldNames}" delims=","
-	varStatus="status">
-	<c:set var="editable"
-		value="${not empty fieldName && fn:contains(editableFieldNames, fieldName)}" />
+<c:forTokens var="fieldName" items="${detailFieldNames}" delims=","	varStatus="status">
+	<c:set var="editable" value="${not empty fieldName && fn:contains(editableFieldNames, fieldName)}" />
+	<c:set var="onblurableInfoFieldName" value="" />
+	<c:set var="onblur"	value="" />
 
-	<c:forTokens var="onblurOfInfoField"
-		items="${onblurableInfoFieldNames}" delims=","
-		varStatus="onblurInfoStatus">
+	<c:forTokens var="onblurOfInfoField" items="${onblurableInfoFieldNames}" delims=","	varStatus="onblurInfoStatus">
 		<c:if test="${status.index == onblurInfoStatus.index}">
-			<c:set var="onblurableInfoFieldName"
-				value="${detailLineFormName}.${onblurOfInfoField}" />
+			<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${onblurOfInfoField}" />
 		</c:if>
 	</c:forTokens>
 
-	<c:forTokens var="onblurOfField" items="${onblurForEditableFieldNames}"
-		delims="," varStatus="onblurStatus">
+	<c:forTokens var="onblurOfField" items="${onblurForEditableFieldNames}"	delims="," varStatus="onblurStatus">
 		<c:if test="${status.index == onblurStatus.index}">
-			<c:set var="onblur"
-				value="${onblurOfField}(this.name, '${onblurableInfoFieldName}');" />
+			<c:set var="onblur"	value="${onblurOfField}(this.name, '${onblurableInfoFieldName}');" />
 		</c:if>
 	</c:forTokens>
 
 	<td class="datacell-nowrap">
-	<c:set var="percent"
-		value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
+	<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
 
 	<er:detailLineDataCell fieldValue="${detailLine[fieldName]}${percent}"
 		fieldFormName="${detailLineFormName}.${fieldName}"
@@ -86,6 +79,6 @@
 
 <c:if test="${hasActions}">
 	<td class="datacell-nowrap">
-	<div align="center"><jsp:doBody /></div>
+		<div align="center"><jsp:doBody /></div>
 	</td>
 </c:if>

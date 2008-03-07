@@ -42,8 +42,6 @@ import org.kuali.module.financial.service.UniversityDateService;
  */
 public class EffortCertificationDocumentRuleUtil {
 
-    public static KualiDecimal ONE_HUNDRED = new KualiDecimal(100);
-
     /**
      * reset the attribute with the blank value to the default values
      * 
@@ -254,9 +252,9 @@ public class EffortCertificationDocumentRuleUtil {
     public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
         KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(ONE_HUNDRED).abs();
+        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(EffortConstants.ONE_HUNDRED).abs();
 
-        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * ONE_HUNDRED.intValue();
+        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * EffortConstants.ONE_HUNDRED.intValue();
     }
 
     /**

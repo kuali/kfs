@@ -33,16 +33,18 @@
     
     <kul:hiddenDocumentFields isTransactionalDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    
+    <c:set var="hiddenFieldNames" value="effortCertificationDocumentCode,totalOriginalPayrollAmount"/>
+	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
+		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
+	</c:forTokens>
  
 	<kul:tab tabTitle="Effort Detail" defaultOpen="true"
 		tabErrorKey="${EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS}">
-
+		
 		<div class="tab-container" align=center>
-			<div class="h2-container"><h2>Retrieve Data</h2></div>
-			
-			<er:detailLineImport readOnly="${readOnly}" 
-				attributes="${documentAttributes}" 
-				hiddenFieldNames="document.effortCertificationDocumentCode" />
+			<div class="h2-container"><h2>Retrieve Data</h2></div>			
+			<er:detailLineImport readOnly="${readOnly}" attributes="${documentAttributes}" />				
 		</div>
 		
 		<div class="tab-container" align=center>

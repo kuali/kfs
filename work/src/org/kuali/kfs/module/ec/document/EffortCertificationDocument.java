@@ -605,19 +605,19 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
             }
         }
     }
-    
+
     public String getDefaultPositionNumber() {
         EffortCertificationDetail maxEffortLine = getMaxEffortLine();
-        
+
         return maxEffortLine.getPositionNumber();
     }
-    
+
     public String getDefaultObjectCode() {
         EffortCertificationDetail maxEffortLine = getMaxEffortLine();
-        
+
         return maxEffortLine.getFinancialObjectCode();
     }
-    
+
     private EffortCertificationDetail getMaxEffortLine() {
         Integer maxEffort = 0;
         EffortCertificationDetail maxLine = null;
@@ -630,74 +630,74 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         }
         return maxLine;
     }
-    
+
     /**
      * Gets Currency Formatted TotalPayrollAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalPayrollAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalPayrollAmount());
     }
-    
+
     /**
      * Gets Currency Formatted TotalOriginalPayrollAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalOriginalPayrollAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalOriginalPayrollAmount());
-    }    
-    
+    }
+
     /**
      * Gets Currency FormattedSalaryFederalTotal
      * 
      * @return
      */
     public String getCurrencyFormattedSalaryFederalTotal() {
-        
+
         return getCurrencyFormattedTotal(getSalaryFederalTotal());
     }
-    
+
     /**
      * Gets Currency Formatted SalaryOrigFederalTotal
      * 
      * @return
      */
     public String getCurrencyFormattedSalaryOrigFederalTotal() {
-        
+
         return getCurrencyFormattedTotal(getSalaryOrigFederalTotal());
     }
-    
+
     /**
      * Gets Currency Formatted SalaryOrigOtherTotal
      * 
      * @return
      */
     public String getCurrencyFormattedSalaryOrigOtherTotal() {
-        
+
         return getCurrencyFormattedTotal(getSalaryOrigOtherTotal());
     }
-    
+
     /**
      * Gets Currency Formatted SalaryOtherTotal
      * 
      * @return
      */
     public String getCurrencyFormattedSalaryOtherTotal() {
-        
+
         return getCurrencyFormattedTotal(getSalaryOtherTotal());
     }
-    
+
     /**
      * Get Currency Formatted TotalOriginalBenefitFederalAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalOriginalBenefitFederalAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalOriginalBenefitFederalAmount());
     }
 
@@ -707,50 +707,50 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @return
      */
     public String getCurrencyFormattedTotalOriginalBenefitOtherAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalOriginalBenefitOtherAmount());
     }
-    
+
     /**
      * Gets Currency Formatted TotalOriginalBenefitAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalOriginalBenefitAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalOriginalBenefitAmount());
     }
-    
+
     /**
      * Gets Currency Formatted TotalUpdatedBenefitAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalUpdatedBenefitAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalUpdatedBenefitAmount());
     }
-    
+
     /**
      * Gets Currency Formatted TotalUpdatedBenefitFederalAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalUpdatedBenefitFederalAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalUpdatedBenefitFederalAmount());
     }
-    
+
     /**
      * Get Currency Formatted TotalUpdatedBenefitOtherAmount
      * 
      * @return
      */
     public String getCurrencyFormattedTotalUpdatedBenefitOtherAmount() {
-        
+
         return getCurrencyFormattedTotal(getTotalUpdatedBenefitOtherAmount());
     }
-    
+
     /**
      * Returns a currency formatted string
      * 
@@ -758,7 +758,15 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @return
      */
     private String getCurrencyFormattedTotal(KualiDecimal unformattedTotal) {
-        
+
         return (String) new CurrencyFormatter().format(unformattedTotal);
+    }
+
+    /**
+     * Sets the totalOriginalPayrollAmount attribute value. Actually, this method can change nothing.
+     * 
+     * @param totalOriginalPayrollAmount The totalOriginalPayrollAmount to set.
+     */
+    public void setTotalOriginalPayrollAmount(KualiDecimal totalOriginalPayrollAmount) {
     }
 }

@@ -47,6 +47,11 @@
 				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/module/effort/dwr-effort.xml</value>
+			</list>
+		</property>		
 
 		<property name="jobNames">
 			<list>

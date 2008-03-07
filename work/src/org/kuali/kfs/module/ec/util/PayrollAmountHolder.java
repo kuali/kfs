@@ -15,14 +15,16 @@
  */
 package org.kuali.module.effort.util;
 
+import java.math.BigDecimal;
+
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.effort.EffortConstants;
 
 /**
  * To hold the payroll amount and percent
  */
 public class PayrollAmountHolder {
-    public static final KualiDecimal oneHundred = new KualiDecimal(100);
-
+    
     private KualiDecimal payrollAmount;
     private Integer payrollPercent;
 
@@ -150,14 +152,46 @@ public class PayrollAmountHolder {
         accumulatedAmount = accumulatedAmount.add(payrollAmount);
 
         int accumulatedPercent = payrollAmountHolder.getAccumulatedPercent();
-        int quotientOne = Math.round(payrollAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
+        int quotientOne = Math.round(payrollAmount.multiply(EffortConstants.ONE_HUNDRED).divide(totalAmount).floatValue());
         accumulatedPercent = accumulatedPercent + quotientOne;
 
-        int quotientTwo = Math.round(accumulatedAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
+        int quotientTwo = Math.round(accumulatedAmount.multiply(EffortConstants.ONE_HUNDRED).divide(totalAmount).floatValue());
         quotientTwo = quotientTwo - accumulatedPercent;
 
         payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
+    }
+      
+    /**
+     * recalculate the payroll amount based on the given total amount and effort percent
+     * 
+     * @param totalPayrollAmount the given total amount
+     * @param effortPercent the given effort percent
+     * @return the payroll amount calculated from the given total amount and effort percent
+     */
+    public static BigDecimal recalculatePayrollAmount(Double totalPayrollAmount, Integer effortPercent) {
+        double amount = totalPayrollAmount * effortPercent/EffortConstants.ONE_HUNDRED.doubleValue();
+        
+        BigDecimal payrollAmount = new BigDecimal(amount);
+        payrollAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
+        
+        return payrollAmount;
+    }
+    
+    /**
+     * recalculate the effort percent based on the given total amount and payroll amount
+     * 
+     * @param totalPayrollAmount the given total amount
+     * @param payrollAmount the given payroll amount
+     * @return the effort percent calculated from the given total amount and payroll amount
+     */
+    public static BigDecimal recalculateEffortPercent(Double totalPayrollAmount, Double payrollAmount) {
+        Double percent = payrollAmount * EffortConstants.ONE_HUNDRED.doubleValue() / totalPayrollAmount;
+        
+        BigDecimal effortPercent = new BigDecimal(percent);
+        effortPercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+               
+        return effortPercent;
     }
 }

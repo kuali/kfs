@@ -46,13 +46,15 @@
 			                
 <%@ attribute name="readOnly" required="false"
               description="determine if the field woulb be rendered as read-only or not" %>   
-              
-<SCRIPT type="text/javascript">
-    var kualiForm = document.forms['KualiForm'];
-    var kualiElements = kualiForm.elements;
-</SCRIPT>
   
 <c:if test="${!scriptsLoaded}">
+	<SCRIPT type="text/javascript">
+	    var kualiForm = document.forms['KualiForm'];
+	    var kualiElements = kualiForm.elements;
+	</SCRIPT>
+	
+	
+	<script type='text/javascript' src="dwr/interface/CertificationRecreateForm.js"></script>
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
@@ -62,7 +64,9 @@
 	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/effort/objectInfo.js"></script>
 	<c:set var="scriptsLoaded" value="true" scope="request" />
 </c:if>              
               
@@ -115,10 +119,9 @@
 </c:if>
               	
 <c:if test="${!readOnly && not empty infoFieldFormName}">
-	<div id="${infoFieldFormName}.div" class="fineprint">
+	<div id="${infoFieldFormName}.div" name="${infoFieldFormName}.div" class="fineprint">
 		<bean:write name="KualiForm" property="${infoFieldFormName}"/>
-	</div>	
-	
+	</div>
 	<html:hidden write="false" property="${infoFieldFormName}"/>
 </c:if>
        

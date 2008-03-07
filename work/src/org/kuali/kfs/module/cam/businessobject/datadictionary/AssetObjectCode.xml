@@ -45,7 +45,9 @@
                 <lookupField attributeName="capitalizationFinancialObjectCode" required="false" />
                 <lookupField attributeName="accumulatedDepreciationFinancialObjectCode" required="false" />
                 <lookupField attributeName="depreciationExpenseFinancialObjectCode" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

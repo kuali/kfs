@@ -33,7 +33,9 @@
             <lookupFields>
                 <lookupField attributeName="inventoryStatusCode" required="false" />
                 <lookupField attributeName="inventoryStatusName" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

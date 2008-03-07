@@ -21,7 +21,11 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.Pretag</businessObjectClass>
+<!--
+        <maintainableClass>org.kuali.module.cams.maintenance.PretagMaintainableImpl</maintainableClass>
+--> 
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
          <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -73,6 +77,7 @@
                     <maintainableField name="pretagCreateDate" required="false" >
   						<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
 					</maintainableField>
+                    <maintainableField name="active" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
@@ -94,6 +99,7 @@
                         <maintainableField name="pretagTagCreateDate" >
  							<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
 						</maintainableField>
+                        <maintainableField name="active" required="false" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="campusTagNumber" />

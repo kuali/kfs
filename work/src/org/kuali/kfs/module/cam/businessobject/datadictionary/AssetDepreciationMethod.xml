@@ -33,7 +33,9 @@
             <lookupFields>
                 <lookupField attributeName="depreciationMethodCode" required="false" />
                 <lookupField attributeName="depreciationMethodName" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false">
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>

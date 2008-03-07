@@ -26,6 +26,7 @@
                         <field attributeName="assetTopsDescription" />
                         <field attributeName="chartOfAccountsCode" />
                         <field attributeName="pretagCreateDate" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
                 
@@ -42,6 +43,7 @@
                         	<field attributeName="buildingRoomNumber" />
                         	<field attributeName="buildingSubRoomNumber" />
                         	<field attributeName="pretagTagCreateDate" />
+                        	<field attributeName="active" />
                         	<inquirySummaryFields>
                                 <inquirySummaryField attributeName="campusTagNumber" />
                                 <inquirySummaryField attributeName="serialNumber" />
@@ -72,6 +74,9 @@
                 <lookupField attributeName="pretagDetails.campusTagNumber" required="false" />
                 <lookupField attributeName="pretagDetails.serialNumber" required="false" />
                 <lookupField attributeName="assetTopsDescription" required="false" />
+                <lookupField attributeName="active" required="false" />
+                	<defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
@@ -81,6 +86,7 @@
                 <field attributeName="campusTagNumbers"/>
                 <field attributeName="serialNumbers"/>
                 <field attributeName="assetTopsDescription" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -117,6 +123,7 @@
                 </control>
             </attributeReference>
 
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Chart of Accounts Code</label>

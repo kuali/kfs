@@ -32,6 +32,7 @@
     					<field attributeName="referenceFinancialDocumentNumber" />
     					<field attributeName="financialDocumentPostingYear" />
     					<field attributeName="financialDocumentPostingPeriodCode" />
+    					<field attributeName="paymentClaimStatusCode" />
     				</inquiryFields>
     			</inquirySection>
     		</inquirySections>
@@ -46,7 +47,7 @@
     		<lookupFields>
     			<lookupField attributeName="financialDocumentPostingPeriodCode" />
     			<lookupField attributeName="financialDocumentPostingYear" />
-    			<lookupField attributeName="claimingStatus" />
+    			<lookupField attributeName="paymentClaimStatusCode" />
     		</lookupFields>
     			
     		<resultFields>
@@ -93,7 +94,7 @@
                 <description>The fiscal year when the document that generated this electronic payment claim was generated.</description>
             </attributeReference>
             
-            <attribute name="claimingStatus">
+            <attribute name="paymentClaimStatusCode">
             	<label>Electronic Payment Claiming Status</label>
             	<shortLabel>Claiming Status</shortLabel>
             	<maxLength>1</maxLength>
@@ -105,6 +106,7 @@
             </attribute>
             
             <attributeReference name="generatingAccountingLine.financialDocumentLineDescription" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="financialDocumentLineDescription">
+            	<label>Line Description</label>
             	<shortLabel>Line Desc</shortLabel>
             </attributeReference>
             

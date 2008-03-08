@@ -58,9 +58,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private UniversalUser employee;
     private Options options;
 
-    // boolean to indicate to workflow the distribution of effort has changed and special routing should occur
-    private boolean effortDistributionChanged;
-
     private List<EffortCertificationDetail> effortCertificationDetailLines;
 
     /**
@@ -237,24 +234,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         this.effortCertificationDetailLines = effortCertificationDetailLines;
     }
 
-
-    /**
-     * Gets the effortDistributionChanged attribute.
-     * 
-     * @return Returns the effortDistributionChanged.
-     */
-    public boolean isEffortDistributionChanged() {
-        return effortDistributionChanged;
-    }
-
-    /**
-     * Sets the effortDistributionChanged attribute value.
-     * 
-     * @param effortDistributionChanged The effortDistributionChanged to set.
-     */
-    public void setEffortDistributionChanged(boolean effortDistributionChanged) {
-        this.effortDistributionChanged = effortDistributionChanged;
-    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -584,26 +563,18 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentRepresentationForSerialization()
+     * Checks if the effort has changed for any of the detail lines.
+     * 
+     * @return true if effort has changed, false otherwise
      */
-    @Override
-    protected Document getDocumentRepresentationForSerialization() {
-        setEffortDistributionChangedIndicator();
-
-        return super.getDocumentRepresentationForSerialization();
-    }
-
-    /**
-     * Checks if the effort has changed for any of the detail lines and sets the effortDistributionChanged boolean for routing.
-     */
-    private void setEffortDistributionChangedIndicator() {
-        effortDistributionChanged = false;
-
+    public boolean isEffortDistributionChanged() {
         for (EffortCertificationDetail detail : this.getEffortCertificationDetailLines()) {
             if (!detail.getEffortCertificationCalculatedOverallPercent().equals(detail.getEffortCertificationUpdatedOverallPercent())) {
-                effortDistributionChanged = true;
+                return true;
             }
         }
+
+        return false;
     }
 
     public String getDefaultPositionNumber() {
@@ -768,5 +739,5 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @param totalOriginalPayrollAmount The totalOriginalPayrollAmount to set.
      */
     public void setTotalOriginalPayrollAmount(KualiDecimal totalOriginalPayrollAmount) {
-    }
+}
 }

@@ -19,6 +19,7 @@ package org.kuali.module.effort.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
@@ -424,6 +425,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the account.
      */
     public Account getAccount() {
+        if (account == null && StringUtils.isNotBlank(this.getChartOfAccountsCode()) && StringUtils.isNotBlank(this.getAccountNumber())) {
+            this.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
+        
         return account;
     }
 

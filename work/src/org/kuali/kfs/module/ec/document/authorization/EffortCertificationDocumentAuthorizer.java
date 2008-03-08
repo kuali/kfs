@@ -39,13 +39,21 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         // if the status code is intitiated, then the document should be a recreate document that has not been submitted 
         boolean initiated = KFSConstants.DocumentStatusCodes.INITIATED.equals(document.getDocumentHeader().getFinancialDocumentStatusCode());
         if(initiated) {
-            documentActionFlags.setCanClose(false);
+            // disallowed actions for initial (recreate)
             documentActionFlags.setCanBlanketApprove(false);
-            documentActionFlags.setHasAmountTotal(true);
         }
         else {
-            documentActionFlags.setCanErrorCorrect(false);
+            // diallowed actions for enroute 
+            documentActionFlags.setCanDisapprove(false);
         }
+        
+        // disallowed actions for all status(s)
+        documentActionFlags.setHasAmountTotal(true);
+        documentActionFlags.setCanCancel(false);
+        documentActionFlags.setCanSave(false);
+        documentActionFlags.setCanCopy(false);
+        documentActionFlags.setCanErrorCorrect(false);
+        
         return flags;
     }
     

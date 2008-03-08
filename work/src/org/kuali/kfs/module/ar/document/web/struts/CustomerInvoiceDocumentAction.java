@@ -88,7 +88,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail newCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
         
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
+        CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getLoadedCustomerInvoiceDetailForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
         customerInvoiceDocumentForm.setNewSourceLine(loadedCustomerInvoiceDetail);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

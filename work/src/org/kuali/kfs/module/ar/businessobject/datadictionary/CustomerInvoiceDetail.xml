@@ -201,7 +201,21 @@
                 <shortLabel>Tax Amount</shortLabel>			    
 			    <required>true</required>
 			    <description>The salesTax amount</description>
-			</attributeReference>		
+			</attributeReference>	
+			
+		 	<attribute name="taxableIndicator" forceUppercase="true">
+                <label>Tax?</label>
+                <shortLabel>Tax?</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Tax indicator</summary>
+                <description>Tax indicator</description>
+			</attribute>
 
         </attributes>
     </businessObject>

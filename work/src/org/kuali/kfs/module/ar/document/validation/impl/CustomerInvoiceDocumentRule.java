@@ -18,10 +18,10 @@ package org.kuali.module.ar.rules;
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
@@ -30,8 +30,6 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
@@ -81,22 +79,6 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= defaultExistenceChecks(customerInvoiceDocument);
         return success;
     }
-    
-    /**
-     * This method returns true if default existence checks for general customer invoice information is true
-     * 
-     * @param doc
-     * @return
-     */
-    private boolean defaultExistenceChecks(CustomerInvoiceDocument doc) {
-        boolean success = true;
-
-        success &= isValidAndActiveCustomerNumber(doc);
-        success &= isValidBilledByChartOfAccountsCode(doc);
-        success &= isValidBilledByOrganizationCode(doc);
-        success &= isValidInvoiceDueDate(doc, doc.getDocumentHeader().getWorkflowDocument().getCreateDate());
-        return success;
-    }    
 
     /**
      * Validate information specific to customerInvoiceDetail
@@ -122,6 +104,38 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         return success;
 
     }
+    
+    /**
+     * This method returns true if default existence checks for general customer invoice information is true
+     * 
+     * @param doc
+     * @return
+     */
+    private boolean defaultExistenceChecks(CustomerInvoiceDocument doc) {
+        boolean success = true;
+
+        success &= isValidAndActiveCustomerNumber(doc);
+        success &= isValidBilledByChartOfAccountsCode(doc);
+        success &= isValidBilledByOrganizationCode(doc);
+        success &= isValidInvoiceDueDate(doc, doc.getDocumentHeader().getWorkflowDocument().getCreateDate());
+        success &= hasAtLeastOneCustomerInvoiceDetail(doc);
+        return success;
+    }    
+
+    /**
+     * This method returns true if there exists at least 1 customer invoice detail 
+     * @param doc
+     * @return
+     */
+    protected boolean hasAtLeastOneCustomerInvoiceDetail(CustomerInvoiceDocument doc) {
+        
+        if( doc.getSourceAccountingLines().size() == 0 ){
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS );
+            return false;
+        }
+        
+        return true;
+    }    
 
     /**
      * This method returns true if invoice code is provided and is valid.

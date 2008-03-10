@@ -19,17 +19,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReportTotal;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReportTotal;
 import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
+import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +43,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionSubFundSummaryReportServiceImpl implements BudgetConstructionSubFundSummaryReportService {
 
     BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
+    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
@@ -53,10 +58,18 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService#buildReports(java.lang.Integer, java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> subFundSummaryList) {
+    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
         Collection<BudgetConstructionOrgSubFundSummaryReport> reportSet = new ArrayList();
         List<BudgetConstructionOrgSubFundSummaryReportTotal> orgSubFundSummaryReportTotalList;
         BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry;
+        
+        // build searchCriteria
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        
+        //build order list
+        List<String> orderList = buildOrderByList();
+        Collection<BudgetConstructionAccountSummary> subFundSummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionAccountSummary.class, searchCriteria, orderList);
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List simpleList = deleteDuplicated((List) subFundSummaryList);
@@ -92,35 +105,35 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         orgSubFundSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setOrgChartOfAccountsCode(subFundSummaryList.getOrganizationChartOfAccountsCode());
         if (orgChartDesc == null) {
-            orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
         }
         orgSubFundSummaryReportEntry.setOrganizationCode(subFundSummaryList.getOrganizationCode());
         if (orgName == null) {
-            orgSubFundSummaryReportEntry.setOrganizationName(BCConstants.Report.ERROR_GETTING_ORGANIZATION_NAME);
+            orgSubFundSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgSubFundSummaryReportEntry.setOrganizationName(orgName);
         }
         orgSubFundSummaryReportEntry.setChartOfAccountsCode(subFundSummaryList.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgSubFundSummaryReportEntry.setChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgSubFundSummaryReportEntry.setChartOfAccountDescription(chartDesc);
         }
         orgSubFundSummaryReportEntry.setFundGroupCode(subFundSummaryList.getFundGroupCode());
         if (subFundGroupName == null) {
-            orgSubFundSummaryReportEntry.setFundGroupName(BCConstants.Report.ERROR_GETTING_FUNDGROUP_NAME);
+            orgSubFundSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgSubFundSummaryReportEntry.setFundGroupName(subFundGroupName);
         }
         orgSubFundSummaryReportEntry.setSubFundGroupCode(subFundSummaryList.getSubFundGroupCode());
         if (subFundGroupName == null) {
-            orgSubFundSummaryReportEntry.setSubFundGroupDescription(BCConstants.Report.ERROR_GETTING_SUBFUNDGROUP_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgSubFundSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -128,12 +141,12 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgSubFundSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
         orgSubFundSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        orgSubFundSummaryReportEntry.setHeader1(BCConstants.Report.HEADER_SUBFUND);
-        orgSubFundSummaryReportEntry.setHeader2(BCConstants.Report.HEADER_SUBFUND_DESCRIPTION);
-        orgSubFundSummaryReportEntry.setHeader3(BCConstants.Report.HEADER_BASE_AMOUNT);
-        orgSubFundSummaryReportEntry.setHeader4(BCConstants.Report.HEADER_REQ_AMOUNT);
-        orgSubFundSummaryReportEntry.setHeader5(BCConstants.Report.HEADER_CHANGE);
-        orgSubFundSummaryReportEntry.setHeader6(BCConstants.Report.HEADER_CHANGE);
+        orgSubFundSummaryReportEntry.setHeader1(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_SUBFUND));
+        orgSubFundSummaryReportEntry.setHeader2(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_SUBFUND_DESCRIPTION));
+        orgSubFundSummaryReportEntry.setHeader3(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_BASE_AMOUNT));
+        orgSubFundSummaryReportEntry.setHeader4(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_REQ_AMOUNT));
+        orgSubFundSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgSubFundSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgSubFundSummaryReportEntry.setConsHdr("");
     }
 
@@ -148,22 +161,22 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
         // build income expense description
         if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_REVENUE);
+            orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_REVENUE));
         }
         else if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_E)) {
-            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_GROSS);
+            orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXP_GROSS));
         }
         else if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_T)) {
             trExist = true;
-            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_TRNFR_IN);
+            orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_TRNFR_IN));
         }
         else {
             if (trExist) {
                 trExist = false;
-                orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_NET_TRNFR);
+                orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXP_NET_TRNFR));
             }
             else {
-                orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXPENDITURE);
+                orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE));
             }
         }
 
@@ -399,6 +412,28 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
         return returnList;
     }
+    
+    /**
+     * 
+     * builds orderByList for sort order.
+     * 
+     * @return returnList
+     */
+    public List<String> buildOrderByList(){
+        List<String> returnList = new ArrayList();
+        returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
+        returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        returnList.add(KFSPropertyConstants.SUB_FUND_SORT_CODE);
+        returnList.add(KFSPropertyConstants.FUND_GROUP_CODE);
+        returnList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
+        
+        return returnList;
+    }
+
 
     /**
      * sets budgetConstructionAccountSummaryReportDao
@@ -407,5 +442,13 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      */
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
         this.budgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
+    }
+
+    public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
+        this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

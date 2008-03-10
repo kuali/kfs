@@ -41,6 +41,6 @@ public interface BudgetConstructionSubFundSummaryReportService {
      * @param accountSummaryList
      * @return
      */
-    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList);
+    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear,  String personUserIdentifier);
 
 }

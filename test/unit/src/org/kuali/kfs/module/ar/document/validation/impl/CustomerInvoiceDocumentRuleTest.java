@@ -139,6 +139,25 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
         document.setInvoiceDueDate( Date.valueOf(INVALID_INVOICE_DUE_DATE_STRING));
         assertFalse(rule.isValidInvoiceDueDate(document, new Timestamp( creationDate.getTime() ) ) );
     }
+    
+    
+    /**
+     * This method test if hasAtLeastOneCustomerInvoiceDetail returns true when there is more than one customer invoice detail
+     */
+    public void testHasAtLeastOneCustomerInvoiceDetail_True() {
+       
+        document.addSourceAccountingLine(new CustomerInvoiceDetail());
+        assertTrue(rule.hasAtLeastOneCustomerInvoiceDetail(document));
+    }
+    
+    /**
+     * This method test if hasAtLeastOneCustomerInvoiceDetail returns true when there is more than one customer invoice detail
+     */
+    public void testHasAtLeastOneCustomerInvoiceDetail_False() {
+       
+        //by default, a customer invoice document has no lines added.
+        assertFalse(rule.hasAtLeastOneCustomerInvoiceDetail(document));
+    }    
 
     /**
      * This method tests if the isCustomerInvoiceDetailItemUnitPriceGreaterThanZero returns true when the unit price is set to 1

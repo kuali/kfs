@@ -18,6 +18,7 @@
   <package name="gl" package="org.kuali.module.gl" subpackages="include" needdeclarations="false"/>
   <package name="kfs" package="org.kuali.kfs" subpackages="include" needdeclarations="false"/>
   <package name="pdp" package="org.kuali.module.pdp" subpackages="include" needdeclarations="false"/>
+  <package name="vendor" package="org.kuali.module.vendor" subpackages="include"/>
   
   <!-- Module packages, of which all are code independent (theoretically) -->
   <package name="ar" package="org.kuali.module.ar" subpackages="include"/>
@@ -28,6 +29,5 @@
   <package name="kra" package="org.kuali.module.kra" subpackages="include"/>
   <package name="labor" package="org.kuali.module.labor" subpackages="include"/>
   <package name="purap" package="org.kuali.module.purap" subpackages="include"/>
-  <package name="vendor" package="org.kuali.module.vendor" subpackages="include"/>
 </design>
 	

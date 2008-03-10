@@ -16,9 +16,9 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +36,8 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
+import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
@@ -131,12 +133,15 @@ public class OrganizationReportSelectionAction extends KualiAction {
             budgetConstructionAccountSummaryReportService.updateReportsAccountSummaryTable(personUserIdentifier);
         }
     
-        String fileName = BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
+        Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = budgetConstructionAccountSummaryReportService.buildReports(organizationReportSelectionForm.getUniversityFiscalYear(), personUserIdentifier);
+        String reportTemplateFilePrefix = BCConstants.Report.FILE_LOCATION_JASPER + BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY;
+        File file = new File(BCConstants.Report.FILE_LOCATION_JASPER + BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY + BCConstants.Report.FILE_EXTENSION_JASPER);
     
         // Open PDF file in new window.
         BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        budgetConstructionOrganizationJasperReportsService.generateOrgAccountSummaryReport(personUserIdentifier, organizationReportSelectionForm.getUniversityFiscalYear(), baos);
+        String fileName = BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
+        budgetConstructionOrganizationJasperReportsService.generateReport(reportSet, reportTemplateFilePrefix, baos, file);
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
 
         return null;
@@ -166,12 +171,15 @@ public class OrganizationReportSelectionAction extends KualiAction {
         BudgetConstructionSubFundSummaryReportService budgetConstructionSubFundSummaryReportService = SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class);
         budgetConstructionSubFundSummaryReportService.updateSubFundSummaryReport(personUserIdentifier);
         
-        String fileName = BCConstants.Report.FILE_NAME_ORG_SUBFUND_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
+        Collection<BudgetConstructionOrgSubFundSummaryReport> reportSet = budgetConstructionSubFundSummaryReportService.buildReports(organizationReportSelectionForm.getUniversityFiscalYear(), personUserIdentifier);
+        String reportTemplateFilePrefix = BCConstants.Report.FILE_LOCATION_JASPER + BCConstants.Report.FILE_NAME_ORG_SUBFUND_SUMMARY;
+        File file = new File(BCConstants.Report.FILE_LOCATION_JASPER + BCConstants.Report.FILE_NAME_ORG_SUBFUND_SUMMARY + BCConstants.Report.FILE_EXTENSION_JASPER);
     
         // Open PDF file in new window.
         BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        budgetConstructionOrganizationJasperReportsService.generateOrgSubFundSummaryReport(personUserIdentifier, organizationReportSelectionForm.getUniversityFiscalYear(), baos);
+        String fileName = BCConstants.Report.FILE_NAME_ORG_SUBFUND_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
+        budgetConstructionOrganizationJasperReportsService.generateReport(reportSet, reportTemplateFilePrefix, baos, file);
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
 
         return null;

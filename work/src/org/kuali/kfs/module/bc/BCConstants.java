@@ -143,32 +143,10 @@ public class BCConstants extends JstlConstants {
     }
     
     public static class Report{
-        
-        
-        public final static String ERROR_GETTING_CHART_DESCRIPTION = "Error getting chart description";
-        public final static String ERROR_GETTING_ACCOUNT_DESCRIPTION = "Error getting account description";
-        public final static String ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION = "Error getting sub-account description";
-        public final static String ERROR_GETTING_ORGANIZATION_NAME = "Error getting organization name";
-        public final static String ERROR_GETTING_FUNDGROUP_NAME = "Error getting fund group name";
-        public final static String ERROR_GETTING_SUBFUNDGROUP_DESCRIPTION = "Error getting sub-fund group description";
-        public final static String HEADER_ACCOUNT_SUB = "Account/Sub";
-        public final static String HEADER_ACCOUNT_SUB_NAME = "Account/Sub name"; 
-        public final static String HEADER_BASE_AMOUNT = "Base Amount";
-        public final static String HEADER_REQ_AMOUNT = "Req. Amount";
-        public final static String HEADER_CHANGE = "Change";
         public final static String INCOME_EXP_TYPE_A = "A";
         public final static String INCOME_EXP_TYPE_E = "E";
         public final static String INCOME_EXP_TYPE_T = "T";
         public final static String INCOME_EXP_TYPE_X = "X";
-        public final static String INCOME_EXP_DESC_REVENUE = "Revenue";
-        public final static String INCOME_EXP_DESC_EXP_GROSS = "Exp.(Gross)";
-        public final static String INCOME_EXP_DESC_TRNFR_IN = "Trnfr In";
-        public final static String INCOME_EXP_DESC_EXP_NET_TRNFR = "Exp.(Net Trnfr)";
-        public final static String INCOME_EXP_DESC_EXPENDITURE = "Expenditure";
-        
-        public final static String HEADER_SUBFUND = "SubFund";
-        public final static String HEADER_SUBFUND_DESCRIPTION = "Sub-Fund Description";
-       
         
         //selection screen
         public final static String SELECTION_OPMODE_TITLE = "Sub-Fund List Selection";
@@ -176,8 +154,6 @@ public class BCConstants extends JstlConstants {
         public final static String REPORT_MODE = "reportMode";
         public final static String BUILD_CONTROL_LIST = "buildControlList";
         public final static String REPORT_CONSOLIDATION = "reportConsolidation";
-        
-        
         
         //report file name
         public final static String FILE_NAME_ORG_ACCOUNT_SUMMARY = "BudgetOrgAccountSummary";
@@ -194,7 +170,6 @@ public class BCConstants extends JstlConstants {
         
         public static final String ACCOUNT_OBJECT_DETAIL_REPORT = "accountObjectDetailReport";
         public static final String MONTH_OBJECT_SUMMARY_REPORT = "monthObjectSummaryReport"; 
-        
         
         public static final List<String> reportModeOnlySubfundCodeSelectionMapping = new ArrayList();
         static {

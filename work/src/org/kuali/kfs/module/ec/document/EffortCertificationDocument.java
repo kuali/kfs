@@ -362,7 +362,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return detailLines;
     }
-
+    
+    /**
+     * Calculates the total updated effort for all federal detail lines
+     * 
+     * @return effortFederalTotal
+     */
     public Integer getEffortFederalTotal() {
         Integer effortFederalTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -375,7 +380,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return effortFederalTotal;
     }
-
+    
+    /**
+     * Calculates the total original effort for all federal detail lines 
+     * 
+     * @return original federal total
+     */
     public Integer getEffortOrigFederalTotal() {
         Integer effortOrigFederalTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -388,7 +398,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return effortOrigFederalTotal;
     }
-
+    
+    /**
+     * Calculates the total original fringe benefit amount for federal pass through detail lines
+     * 
+     * @return total federal benefit amount
+     */
     public KualiDecimal getTotalOriginalBenefitFederalAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -401,7 +416,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return totalBenAmount;
     }
-
+    
+    /**
+     * Calculates total original fringe benenfit amount for non federal pass through detail lines
+     * 
+     * @return total non federal benefit amount
+     */
     public KualiDecimal getTotalOriginalBenefitOtherAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -414,7 +434,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return totalBenAmount;
     }
-
+    
+    /**
+     * Calculates total updated fringe benefit amount for federal pass through detail lines
+     * 
+     * @return total federal benefit amount
+     */
     public KualiDecimal getTotalUpdatedBenefitFederalAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -427,7 +452,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return totalBenAmount;
     }
-
+    
+    /**
+     * Calculates total update fringe benefit amount for non federal pass through detail lines
+     * 
+     * @return total non federal benefit amount
+     */
     public KualiDecimal getTotalUpdatedBenefitOtherAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -440,7 +470,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return totalBenAmount;
     }
-
+    
+    /**
+     * Calculates the total original effor for non federal pass through detail lines
+     * 
+     * @return original other total
+     */
     public Integer getEffortOrigOtherTotal() {
         Integer effortOrigOtherTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -453,7 +488,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return effortOrigOtherTotal;
     }
-
+    
+    /**
+     * Calculates the total updated effort for non federal pass through detail lines
+     * 
+     * @return effort total for non federal pass through accounts
+     */
     public Integer getEffortOtherTotal() {
         Integer effortOtherTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -466,7 +506,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return effortOtherTotal;
     }
-
+    
+    /**
+     * Calculates the total salary for federal detail lines
+     * 
+     * @return total salary
+     */
     public KualiDecimal getSalaryFederalTotal() {
         KualiDecimal salaryFederalTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -479,7 +524,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return salaryFederalTotal;
     }
-
+    
+    /**
+     * Calculates the total original salary for federal pass through detail lines
+     * 
+     * @return total salary
+     */
     public KualiDecimal getSalaryOrigFederalTotal() {
         KualiDecimal salaryOrigFederalTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -492,7 +542,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return salaryOrigFederalTotal;
     }
-
+    
+    /**
+     * Calculates the total original salary for non federal pass through detail lines
+     * 
+     * @return total original salary
+     */
     public KualiDecimal getSalaryOrigOtherTotal() {
         KualiDecimal salaryOrigOtherTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -505,7 +560,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return salaryOrigOtherTotal;
     }
-
+    
+    /**
+     * Calculates total updated salary for non federal pass through detail lines
+     * 
+     * @return total salary
+     */
     public KualiDecimal getSalaryOtherTotal() {
         KualiDecimal salaryOtherTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
@@ -519,7 +579,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return salaryOtherTotal;
     }
-
+    
+    /**
+     * Calculates the total original fringe benefit amount for all detail lines
+     * 
+     * @return total benefit amount
+     */
     public KualiDecimal getTotalOriginalBenefitAmount() {
         KualiDecimal fBenTotal = KualiDecimal.ZERO;
 
@@ -531,7 +596,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return fBenTotal;
     }
-
+    
+    /**
+     * Calculates total updated fringe benefit amount for all detail lines
+     * 
+     * @return total benefit amount
+     */
     public KualiDecimal getTotalUpdatedBenefitAmount() {
         KualiDecimal fBenTotal = KualiDecimal.ZERO;
 
@@ -576,19 +646,34 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         return false;
     }
-
+    
+    /**
+     * Finds the default position number for display based on the detail line with the maximum effort
+     * 
+     * @return default position number
+     */
     public String getDefaultPositionNumber() {
         EffortCertificationDetail maxEffortLine = getMaxEffortLine();
 
         return maxEffortLine.getPositionNumber();
     }
-
+    
+    /**
+     * Finds the default object code for display based on the value for the detail line with the maximum effort
+     * 
+     * @return default object code
+     */
     public String getDefaultObjectCode() {
         EffortCertificationDetail maxEffortLine = getMaxEffortLine();
 
         return maxEffortLine.getFinancialObjectCode();
     }
-
+    
+    /**
+     * Finds the detail line with the maximum effort
+     * 
+     * @return max effort line
+     */
     private EffortCertificationDetail getMaxEffortLine() {
         Integer maxEffort = 0;
         EffortCertificationDetail maxLine = null;
@@ -605,7 +690,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     /**
      * Gets Currency Formatted TotalPayrollAmount
      * 
-     * @return
+     * @return 
      */
     public String getCurrencyFormattedTotalPayrollAmount() {
 
@@ -739,5 +824,5 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @param totalOriginalPayrollAmount The totalOriginalPayrollAmount to set.
      */
     public void setTotalOriginalPayrollAmount(KualiDecimal totalOriginalPayrollAmount) {
-}
+    }
 }

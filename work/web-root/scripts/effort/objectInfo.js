@@ -18,16 +18,16 @@ var totalAmountFiledName ="document.totalOriginalPayrollAmount";
 var divSuffix = ".div"
 
 function recalculatePayrollAmount(effortPercentFieldName, payrollAmountFieldName){
-	var totalPayrollAmount = getElementValue( totalAmountFiledName );
-	var effortPercent = parseInt(getElementValue( effortPercentFieldName ));
+	var totalPayrollAmount = DWRUtil.getValue( totalAmountFiledName );
+	var effortPercent = parseInt(DWRUtil.getValue( effortPercentFieldName ));
 	
 	if(totalPayrollAmount != '' && effortPercent != ''){
 		var dwrReply = {
 			callback:function(data) {
 				var number = new Number(data).toFixed(2);
-				//DWRUtil.setValue( payrollAmountFieldName + divSuffix, number);
+				DWRUtil.setValue( payrollAmountFieldName + divSuffix, number);
 				DWRUtil.setValue( payrollAmountFieldName, number);
-				//DWRUtil.setValue( effortPercentFieldName + divSuffix, effortPercent);
+				DWRUtil.setValue( effortPercentFieldName + divSuffix, effortPercent);
 			},
 			
 			errorHandler:function( errorMessage ) { 
@@ -39,8 +39,8 @@ function recalculatePayrollAmount(effortPercentFieldName, payrollAmountFieldName
 }
 
 function recalculateEffortPercent(payrollAmountFieldName, effortPercentFieldName){
-	var totalPayrollAmount = getElementValue( totalAmountFiledName );
-	var payrollAmount = getElementValue( payrollAmountFieldName );
+	var totalPayrollAmount = DWRUtil.getValue( totalAmountFiledName );
+	var payrollAmount = DWRUtil.getValue( payrollAmountFieldName );
 	
 	if(totalPayrollAmount != '' && payrollAmount != ''){
 		var dwrReply = {
@@ -57,18 +57,4 @@ function recalculateEffortPercent(payrollAmountFieldName, effortPercentFieldName
 		
 		PayrollAmountUtil.recalculateEffortPercent(totalPayrollAmount, payrollAmount, dwrReply);
 	}
-}
-
-function addDetailLine(){
-	var dwrReply = {
-		callback:function(data) {
-			DWRUtil.setValue("newDetailLine.effortCertificationPayrollAmount", data.totalPayrollAmount);
-		},
-		
-		errorHandler:function( errorMessage ) { 
-		}
-	};
-	
-	CertificationRecreateForm.getEffortCertificationDocument(dwrReply);
-	return false;
 }

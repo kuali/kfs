@@ -53,8 +53,6 @@
 	    var kualiElements = kualiForm.elements;
 	</SCRIPT>
 	
-	
-	<script type='text/javascript' src="dwr/interface/CertificationRecreateForm.js"></script>
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>

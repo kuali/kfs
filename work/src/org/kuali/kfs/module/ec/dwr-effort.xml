@@ -22,8 +22,5 @@
 	    	<include method="recalculatePayrollAmount" />
 	    	<include method="recalculateEffortPercent" />
 	    </create>
-	    <create creator="struts" javascript="CertificationRecreateForm">
-	    	<param name="formBean" value="CertificationRecreateForm" />
-	    </create>
 	</allow>
 </dwr>

@@ -23,24 +23,23 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     
     private CashControlDetail newCashControlDetail;
     private String processingChartOfAccCodeAndOrgCode;
-    private boolean showGenerateBtn;
-    private boolean showReferenceNbr;
+    
+    private boolean hasGeneratedRefDoc;
 
     /**
      * Constructs a CashControlDocumentForm.java.
      */
     public CashControlDocumentForm() {
+        
         super();
         setDocument(new CashControlDocument());
-        setNewCashControlDetail(new CashControlDetail());
-        showGenerateBtn = true;
-        showReferenceNbr = false;
+        hasGeneratedRefDoc = false;
         
     }
 
     /**
-     * This method...
-     * @return
+     * This method gets the cash control document
+     * @return the CashControlDocument
      */
     public CashControlDocument getCashControlDocument() {
         return (CashControlDocument) getDocument();
@@ -62,32 +61,36 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
         this.newCashControlDetail = newCashControlDetail;
     }
 
+    /**
+     * This method gets the processingChartOfAccCodeAndOrgCode
+     * @return processingChartOfAccCodeAndOrgCode
+     */
     public String getProcessingChartOfAccCodeAndOrgCode() {
         return this.getCashControlDocument().getAccountsReceivableDocumentHeader().getProcessingChartOfAccCodeAndOrgCode();
     }
 
+    /**
+     * This method sets processingChartOfAccCodeAndOrgCode
+     * @param processingChartOfAccCodeAndOrgCode
+     */
     public void setProcessingChartOfAccCodeAndOrgCode(String processingChartOfAccCodeAndOrgCode) {
         this.processingChartOfAccCodeAndOrgCode = processingChartOfAccCodeAndOrgCode;
     }
 
-    public boolean isShowGenerateBtn() {
-        return showGenerateBtn;
+    /**
+     * This method gets the value for hasGeneratedRefDoc
+     * @return true if a reference document has been generated, false otherwise
+     */
+    public boolean isHasGeneratedRefDoc() {
+        return hasGeneratedRefDoc;
     }
 
-    public void setShowGenerateBtn(boolean showGenerateBtn) {
-        this.showGenerateBtn = showGenerateBtn;
+    /**
+     * This method sets hasGeneratedRefDoc value
+     * @param hasGeneratedRefDoc
+     */
+    public void setHasGeneratedRefDoc(boolean hasGeneratedRefDoc) {
+        this.hasGeneratedRefDoc = hasGeneratedRefDoc;
     }
-
-    public boolean isShowReferenceNbr() {
-        CashControlDocument doc = getCashControlDocument();
-        showReferenceNbr = doc != null && doc.getReferenceFinancialDocumentNumber() != null && !doc.getReferenceFinancialDocumentNumber().equals("");
-
-        return showReferenceNbr;
-    }
-
-    public void setShowReferenceNbr(boolean showReferenceNbr) {
-        this.showReferenceNbr = showReferenceNbr;
-    }
-  
-    
+ 
 }

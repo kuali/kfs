@@ -22,8 +22,10 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -42,6 +44,9 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
+import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>{
     
@@ -55,7 +60,6 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
-//        isValid &= checkReferenceDocument(ccDocument);
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkPaymentMedium(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
@@ -72,7 +76,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
-//        isValid &= checkReferenceDocument(ccDocument);
+        isValid &= checkReferenceDocument(ccDocument);
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkPaymentMedium(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
@@ -117,7 +121,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         }
         // there can be only one negative line amount
         else if (detail.getFinancialDocumentLineAmount().isNegative() && document.isHasNegativeCashControlDetail()) {
-            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT);
+            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
             isValid = false;
         }
 
@@ -165,21 +169,36 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true if valid, false otherwise
      */
     private boolean checkOrgDocNumber(CashControlDocument document) {
-        
+
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (paymentMedium != null && paymentMedium.equals("CA")) {
+            DocumentService documentService = KNSServiceLocator.getDocumentService();
             String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
             if (orgDocNumber == null) {
                 GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
+            else {
+                try {
+                    Document cashReceiptDoc = documentService.getByDocumentHeaderId(orgDocNumber);
+                    if (ObjectUtils.isNull(document)) {
+                        GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                        isValid = false;
+                    }
+
+                }
+                catch (WorkflowException we) {
+                    GlobalVariables.getErrorMap().putError("organizationDocumentNumber", we.getMessage());
+                    isValid = false;
+                }
+            }
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
-        
+
     }
     
     /**
@@ -227,27 +246,28 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
-        
+
     }
 
     /**
      * @see org.kuali.module.ar.rule.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.module.ar.bo.CashControlDetail)
      */
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
-        
+
         boolean success = validateCashControlDetail(transactionalDocument, cashControlDetail);
         return success;
-        
+
     }
 
     /**
      * This method validates CashControlDetail
+     * 
      * @param document CashControlDocument
      * @param cashControlDetail CashControlDetail
      * @return true if CashControlDetail is valid, false otherwise
      */
     private boolean validateCashControlDetail(CashControlDocument document, CashControlDetail cashControlDetail) {
-        
+
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
         checkLineAmount(document, cashControlDetail);
@@ -257,17 +277,17 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
 
         return isValid;
-        
+
     }
     
     /**
      * This method validates cash control document's details
+     * 
      * @param cashControlDocument CashControldocument
      * @return true if valid, false otherwise
      */
-    private boolean validateCashControlDetails(CashControlDocument cashControlDocument)
-    {
-        
+    private boolean validateCashControlDetails(CashControlDocument cashControlDocument) {
+
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
         for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
@@ -285,7 +305,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
-        
+
     }
     
 }

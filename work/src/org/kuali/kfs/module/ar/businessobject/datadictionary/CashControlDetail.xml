@@ -123,21 +123,6 @@
                 <summary>referenceFinancialDocumentNumber</summary>
                 <description>referenceFinancialDocumentNumber description...</description>
 			</attribute>
-			
-			<attribute name="status" forceUppercase="true">
-                <label>Status</label>
-                <shortLabel>Status</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>status</summary>
-                <description>status description...</description>
-			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

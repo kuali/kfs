@@ -22,9 +22,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private String customerPaymentDescription;
 	private String customerNumber;
 	private Date customerPaymentDate;
-    
-    //
-    private String status;
 
     private PaymentApplicationDocument referenceFinancialDocument;
     private CashControlDocument cashControlDocument;
@@ -259,12 +256,4 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
         this.cashControlDocument = cashControlDocument;
     }
     
-    public String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
 }

@@ -15,11 +15,13 @@
  */
 package org.kuali.module.ar.document.authorization;
 
+import org.kuali.core.bo.DocumentStatus;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
@@ -43,11 +45,12 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
 
         boolean atLeastOneAppDocProccessed = false;
 
-//        // check if there is at least one Application Document processed
+        // check if there is at least one Application Document processed
 //        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
 //            PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-//            KualiWorkflowDocument workflowDocument = applicationDocument.getAccountsReceivableDocumentHeader().getWorkflowDocument();
-//            if (workflowDocument != null && workflowDocument.stateIsProcessed()) {
+//            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+//           
+//            if (KFSConstants.DocumentStatusCodes.APPROVED.equals(docStatus)) {
 //                atLeastOneAppDocProccessed = true;
 //                break;
 //            }

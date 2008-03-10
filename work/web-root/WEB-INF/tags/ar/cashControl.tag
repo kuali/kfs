@@ -28,8 +28,9 @@
 	property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
 <html:hidden
 	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
-<html:hidden property="showReferenceNbr" />
-<html:hidden property="showGenerateBtn" />
+<html:hidden
+	property="hasGeneratedRefDoc" />
+
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
@@ -62,40 +63,36 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-						property="document.customerPaymentMediumCode" />
+						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc}"/>
 				</td>
 			</tr>
-			<c:if test="${KualiForm.showReferenceNbr}">
-				<tr>
-					<kul:htmlAttributeHeaderCell
-						attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
-						horizontal="true" />
 
-
-					<td class="datacell-nowrap">
+			<tr>
+			
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
+					horizontal="true" />
+					
+				<td class="datacell-nowrap">
+				
+					<c:if test="${KualiForm.hasGeneratedRefDoc}">
 						<kul:htmlControlAttribute
 							attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 							property="document.referenceFinancialDocumentNumber"
 							readOnly="true" />
-					</td>
+					</c:if>
+					
+					<c:if test="${not KualiForm.hasGeneratedRefDoc}">
+						<html:image property="methodToCall.generateRefDoc"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+							alt="Generate Reference Document"
+							title="Generate Reference Document" styleClass="tinybutton" />
+					</c:if>
+					
+				</td>
+				
+			</tr>
 
-				</tr>
-			</c:if>
-
-			
-		  <c:if test="${KualiForm.showGenerateBtn}"> 	
-					<tr>
-						<td class="${cssClass}" colspan="2">
-							<div align="center">
-								<html:image property="methodToCall.generateRefDoc"
-									src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-									alt="Generate Reference Document"
-									title="Generate Reference Document" styleClass="tinybutton"
-									/>
-							</div>
-						</td>
-					</tr>
-		</c:if>
-</table>
+		</table>
 	</div>
 </kul:tab>

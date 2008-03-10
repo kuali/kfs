@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -34,6 +35,7 @@ import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetComponent;
+import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.bo.AssetType;
 import org.kuali.module.cams.bo.AssetWarranty;
 import org.kuali.module.cams.service.AssetComponentService;
@@ -55,18 +57,18 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     
     private boolean isTagNumberChanged = false;
     
-    private static Map<String, String> VALID_INVENTROY_STATUS_CODE_CHANGE = new HashMap<String, String>();
+    private static Map<String, String[]> VALID_INVENTROY_STATUS_CODE_CHANGE = new HashMap<String, String[]>();
     static {
         try {
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, StringUtils.join(new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT}));
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, StringUtils.join(new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT}));
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT});
             VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT, StringUtils.join(new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE}));
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE});
             VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003);
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003});
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -101,10 +103,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         assetDispService.setAssetDispositionHistory(copyAsset);
         assetDispService.setAssetDispositionHistory(newAsset);
 
-        AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
-        assetlocationService.setOffCampusLocation(copyAsset);
-        assetlocationService.setOffCampusLocation(newAsset);
-        
+        if (isOffCampusLocationChanged()) {
+            AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
+            assetlocationService.updateOffCampusLocation(newAsset);
+        }
+
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(asset);
 
@@ -117,12 +120,24 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         if (valid) {
             AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
-            assetDetailInfoService.checkAndUpdateLastInventoryDate(copyAsset,newAsset);
+            assetDetailInfoService.checkAndUpdateLastInventoryDate(copyAsset, newAsset);
             if (isTagNumberChanged()) {
-                assetDetailInfoService.updateTagNumber(copyAsset,newAsset);
+                assetDetailInfoService.updateTagNumber(copyAsset, newAsset);
             }
         }
         return valid;
+    }
+
+
+    private boolean isOffCampusLocationChanged() {
+        boolean changed = false;
+        AssetLocation copyLocation = copyAsset.getOffCampusLocation();
+        AssetLocation newLocation = newAsset.getOffCampusLocation();
+
+        if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), copyLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), copyLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), copyLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), copyLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), copyLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), copyLocation.getAssetLocationCountryCode())) {
+            changed = true;
+        }
+        return changed;
     }
 
 
@@ -164,8 +179,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     boolean processAssetValidation(MaintenanceDocument document) {
         boolean valid = true;
-        
-
 
         // validate Inventory Status Code.
         if (!StringUtils.equalsIgnoreCase(copyAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
@@ -208,7 +221,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
         
-        if (!StringUtils.containsIgnoreCase(VALID_INVENTROY_STATUS_CODE_CHANGE.get(copyAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
+        if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(copyAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
             putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { copyAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
             valid &= false;
         }
@@ -244,12 +257,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             Map fieldValues = new HashMap();
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber());
 
-            Collection results = getBoService().findMatching(Asset.class, fieldValues);
+            Collection<Asset> results = getBoService().findMatching(Asset.class, fieldValues);
 
-            for (Iterator iter = results.iterator(); iter.hasNext();) {
-                Asset assetFound = (Asset) iter.next();
-
-                if (assetFound.getCapitalAssetNumber() != newAsset.getCapitalAssetNumber()) {
+            for (Asset asset : results) {
+                if (!asset.getCapitalAssetNumber().equals(newAsset.getCapitalAssetNumber())) {
                     anyFound = true;
                     break;
                 }

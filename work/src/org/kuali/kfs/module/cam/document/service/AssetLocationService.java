@@ -19,4 +19,6 @@ import org.kuali.module.cams.bo.Asset;
 
 public interface AssetLocationService {
     public void setOffCampusLocation(Asset asset);
+
+    public void updateOffCampusLocation(Asset newAsset);
 }

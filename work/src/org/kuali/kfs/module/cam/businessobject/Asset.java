@@ -9,12 +9,14 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.bo.State;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -1606,6 +1608,7 @@ public class Asset extends PersistableBusinessObjectBase {
      * @return Returns the assetRepresentative.
      */
     public UniversalUser getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 

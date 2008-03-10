@@ -50,8 +50,6 @@
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems> 
                 	<subSectionHeader name="Asset Detail Info" />
-                	
-                    <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
                     <maintainableField name="capitalAssetNumber" readOnly="true" />
                     <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
                     <maintainableField name="organizationOwnerAccountNumber" />
@@ -89,24 +87,22 @@
 					<maintainableField name="buildingRoomNumber" />
 					<maintainableField name="buildingSubRoomNumber" />
 					
-					<subSectionHeader name="Off Campus" />
-					<maintainableCollection name="assetLocations" businessObjectClass="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocations" includeAddLine="false" summaryTitle="Location Information">
-						<maintainableField name="versionNumber" readOnly="true" />
-					</maintainableCollection>
+					<subSectionHeader name="Off Campus" />					
 					<maintainableField name="offCampusLocation.assetLocationContactName" />
 					<maintainableField name="offCampusLocation.assetLocationStreetAddress" />
 					<maintainableField name="offCampusLocation.assetLocationCityName" />
 					<maintainableField name="offCampusLocation.assetLocationStateCode" />
 					<maintainableField name="offCampusLocation.assetLocationZipCode" />
 					<maintainableField name="offCampusLocation.assetLocationCountryCode" />
-					
+					<maintainableField name="offCampusLocation.versionNumber" />
 				</maintainableItems>
             </maintainableSection>
             
             <maintainableSection title="Organization Information">
                 <maintainableItems>
-                	<!-- Organization Tag, Asset Representative, Org Asset Type, Organization Text, Receive Date -->
                 	<maintainableField name="organizationInventoryName" />
+                	<maintainableField name="representativeUniversalIdentifier" />
+                	<maintainableField name="assetRepresentative.personUserIdentifier" />
                 	<maintainableField name="assetRepresentative.personName" />
                 	<maintainableField name="assetOrganization.organizationText" />
                 	<maintainableField name="assetOrganization.organizationTagNumber" />
@@ -171,10 +167,6 @@
           
             <maintainableSection title="View Asset History">
             	<maintainableItems>
-               	 	<!-- maintainableField name="assetDispositions.versionNumber" readOnly="true" /-->
-               	 	<maintainableCollection name="assetDispositions" businessObjectClass="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="assetDispositions" includeAddLine="false" summaryTitle="Disposition Information">
-						<maintainableField name="versionNumber" readOnly="true" />
-					</maintainableCollection>
                 	<subSectionHeader name="View Merge History" />
                 	 	<maintainableField name="assetMergeHistory.originalCapitalAssetNumber" readOnly="true" />
                 		<maintainableField name="assetMergeHistory.dispositionDate" readOnly="true" />

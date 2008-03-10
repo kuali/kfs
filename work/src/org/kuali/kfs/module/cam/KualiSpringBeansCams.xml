@@ -84,6 +84,27 @@
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
 		</property>                		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>
+		<property name="assetObjectCodeDao">
+			<ref bean="assetObjectCodeDao" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="homeOriginationService">
+			<ref bean="homeOriginationService" />
+		</property>
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
     </bean>
 
     <bean id="assetObjectCodeDao"   parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetObjectCodeDaoOjb" />        
@@ -91,7 +112,23 @@
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
-		</property>                
+		</property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+		<property name="assetObjectCodeDao">
+			<ref bean="assetObjectCodeDao" />
+		</property>
+     	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+		                				                		
 	</bean>	
 
     <bean id="assetDepreciationStep" class="org.kuali.module.cams.batch.AssetDepreciationStep" parent="step">

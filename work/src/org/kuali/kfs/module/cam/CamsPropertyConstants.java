@@ -66,6 +66,8 @@ public class CamsPropertyConstants {
         public static final String PROJECT_CODE = "projectCode";
         public static final String PAYMENT_SEQ_NUMBER = "paymentSequenceNumber";
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
+        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";
+        
     }
     
     public static class AssetType {

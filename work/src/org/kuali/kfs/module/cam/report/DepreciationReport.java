@@ -44,7 +44,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class DepreciationReport {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryReport.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciationReport.class);
     private int pageNumber = 0;
     private int line = 0;
     private int linesPerPage = 28;

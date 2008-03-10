@@ -27,8 +27,6 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.module.cams.service.AssetDepreciationService;
-//Written following LaborYearEndBalanceForwardServiceTest example
-import org.kuali.module.cams.bo.DepreciableAssets; 
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 

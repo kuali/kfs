@@ -24,7 +24,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.DepreciableAssets;
 
 public interface DepreciableAssetsDao {
     /**
@@ -73,5 +72,4 @@ public interface DepreciableAssetsDao {
      * @param kcs
      */
     public void setKualiConfigurationService(KualiConfigurationService kcs);    
-    
 }

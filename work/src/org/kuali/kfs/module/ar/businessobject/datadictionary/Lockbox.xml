@@ -193,11 +193,11 @@
                 <label>Lockbox Number</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>5</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="7" />
+                    <text size="12" />
                 </control>
 
                 <summary>lockboxNumber</summary>

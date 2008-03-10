@@ -28,6 +28,8 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private Customer customer;
     private NonAppliedHolding nonAppliedHolding;
     
+    private String status;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -254,6 +256,22 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 
     public void setCashControlDocument(CashControlDocument cashControlDocument) {
         this.cashControlDocument = cashControlDocument;
+    }
+
+    /**
+     * This method gets cash control detail status
+     * @return cash control detail status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * This method sets cash control detail status
+     * @param status
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

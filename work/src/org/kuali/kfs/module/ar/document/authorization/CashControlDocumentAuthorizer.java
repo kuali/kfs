@@ -26,6 +26,7 @@ import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
 
 public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
@@ -43,21 +44,21 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         // Blanket Approval is not used for CashControlDocument
         flags.setCanBlanketApprove(false);
 
-        boolean atLeastOneAppDocProccessed = false;
+        boolean atLeastOneAppDocApproved = false;
 
-        // check if there is at least one Application Document processed
-//        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
-//            PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-//            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-//           
-//            if (KFSConstants.DocumentStatusCodes.APPROVED.equals(docStatus)) {
-//                atLeastOneAppDocProccessed = true;
-//                break;
-//            }
-//        }
+        // check if there is at least one Application Document approved
+        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
+            PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
+            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+           
+            if (EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(docStatus)) {
+                atLeastOneAppDocApproved = true;
+                break;
+            }
+        }
 
-        // if at least one application document has been processed the Cash Control Document cannot be disapproved
-        if (atLeastOneAppDocProccessed) {
+        // if at least one application document has been approved the Cash Control Document cannot be disapproved
+        if (atLeastOneAppDocApproved) {
             flags.setCanDisapprove(false);
         }
 

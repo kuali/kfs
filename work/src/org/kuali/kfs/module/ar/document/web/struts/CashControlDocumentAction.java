@@ -25,12 +25,15 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -52,6 +55,33 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
     
     /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        
+        super.loadDocument(kualiDocumentFormBase);
+        CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
+        CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
+
+        if (cashControlDocument != null && cashControlDocument.getCashControlDetails().size() > 0) {
+            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+                String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
+                PaymentApplicationDocument doc = null;
+                doc = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+                if (doc == null) {
+                    throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
+                }
+
+                cashControlDetail.setReferenceFinancialDocument(doc);
+                KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                // KualiDocumentFormBase.populate() needs this updated in the session
+                GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+            }
+        }
+
+    }
+    
+    /**
      * Adds handling for cash control detail amount updates.
      * 
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
@@ -70,19 +100,9 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         if (ccForm.hasDocumentId()) {
             ccDoc = ccForm.getCashControlDocument();
-
-            ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc)); // recalc b/c changes to the amounts could
-            // have happened
-        }
-        
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        if(ccDoc.getCashControlDetails().size()>0)
-        {
-            for(CashControlDetail detail : ccDoc.getCashControlDetails())
-            {
-               PaymentApplicationDocument paymentDoc= (PaymentApplicationDocument)documentService.getByDocumentHeaderId(detail.getReferenceFinancialDocumentNumber());
-               detail.setReferenceFinancialDocument(paymentDoc);
-            }
+            
+            //recalc b/c changes to the amounts could have happened
+            ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
         }
 
         // proceed as usual

@@ -15,11 +15,21 @@
  */
 package org.kuali.module.ar.web.struts.form;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.kuali.core.document.Document;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
     
     private CashControlDetail newCashControlDetail;
     private String processingChartOfAccCodeAndOrgCode;
@@ -34,6 +44,45 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
         super();
         setDocument(new CashControlDocument());
         hasGeneratedRefDoc = false;
+        
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    public void populate(HttpServletRequest request) {
+        
+        super.populate(request);
+
+        CashControlDocument ccDoc = getCashControlDocument();
+
+        if (ccDoc != null && ccDoc.getCashControlDetails().size() > 0) {
+            for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
+
+                // populate workflowDocument in documentHeader, if needed
+                try {
+                    KualiWorkflowDocument workflowDocument = null;
+                    if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
+                        workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
+                    }
+                    else {
+                        // gets the workflow document from doc service, doc service will also set the workflow document in the
+                        // user's session
+                        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+                        if (retrievedDocument == null) {
+                            throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
+                        }
+                        workflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
+                    }
+
+                    cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
+                }
+                catch (WorkflowException e) {
+                    LOG.warn("Error while instantiating workflowDoc", e);
+                    throw new RuntimeException("error populating documentHeader.workflowDocument", e);
+                }
+            }
+        }
         
     }
 

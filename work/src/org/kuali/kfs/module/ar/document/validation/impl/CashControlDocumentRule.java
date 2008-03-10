@@ -34,6 +34,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.ar.service.PaymentMediumService;
@@ -46,6 +47,7 @@ import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.rice.KNSServiceLocator;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>{
@@ -93,6 +95,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument ccDocument = (CashControlDocument) approveEvent.getDocument();
 
+        isValid &= checkAllAppDocsApproved(ccDocument);
         isValid &= checkReferenceDocument(ccDocument);
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkPaymentMedium(ccDocument);
@@ -306,6 +309,40 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
+    }
+    
+    /**
+     * This method checks if all application documents are in approved or in final state
+     * @param cashControlDocument
+     * @return true if all application documents approved/final, false otherwise
+     */
+    private boolean checkAllAppDocsApproved(CashControlDocument cashControlDocument) {
+        
+        boolean allAppDocsApproved = true;
+
+        for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
+            
+            CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
+            PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
+            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+
+            if (!(EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(docStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(docStatus))) {
+                allAppDocsApproved = false;
+
+                String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
+                GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+                GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+                GlobalVariables.getErrorMap().put("status", ArConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+                GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+                GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+
+                break;
+            }
+            
+        }
+
+        return allAppDocsApproved;
+        
     }
     
 }

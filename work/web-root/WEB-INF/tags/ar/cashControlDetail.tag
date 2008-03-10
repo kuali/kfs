@@ -53,7 +53,7 @@
 	
 	<td align=left class="${cssClass}">
 	    <kul:htmlControlAttribute
-			attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
+			attributeEntry="${cashControlDetailAttributes.status}"
 			property="${propertyName}.referenceFinancialDocument.documentHeader.workflowDocument.statusDisplayValue"
 			readOnly="true" />	
 	</td>

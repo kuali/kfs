@@ -21,12 +21,14 @@ import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.service.MaintenanceDocumentDictionaryService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -34,6 +36,7 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.vendor.VendorAuthorizationConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.VendorCommodityCode;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorContractOrganization;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -100,8 +103,12 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
         }
 
-        setVendorContractFieldsAuthorization(vendor, auths, user);
+        String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);
+        
+        setVendorContractFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
 
+        setVendorCommodityCodeFieldsAuthorization(vendor, auths, user, purchasingWorkgroup);
+        
         return auths;
     }
 
@@ -150,9 +157,9 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      * @param vendor an instance of VendorDetail document
      * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
      * @param user current logged-in user
+     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
      */
-    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
-        String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);
+    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user, String purchasingWorkgroup) {
         if (!user.isMember(purchasingWorkgroup)) {
             List<VendorContract> contracts = vendor.getVendorContracts();
             int i = 0;
@@ -184,6 +191,32 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                     auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].active");
                     j++;
                 }
+                i++;
+            }
+        }
+    }
+    
+    /**
+     * Sets the vendor commodity code fields to be read only and remove the add line on the vendor commodity collection if
+     * the user is not a member of purchasing workgroup.
+     * 
+     * @param vendor an instance of VendorDetail document
+     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
+     * @param user current logged-in user
+     * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
+     */
+    private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user, String purchasingWorkgroup) {
+        //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
+        //and set the commodity default indicator and active indicator to be read only.
+        if (!user.isMember(purchasingWorkgroup)) {
+            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", "vendorCommodities");
+            collDef.setIncludeAddLine(false);
+            
+            List<VendorCommodityCode>vendorCommodities = vendor.getVendorCommodities();
+            int i = 0;
+            for (VendorCommodityCode vendorCommodityCode : vendorCommodities) {
+                auths.addReadonlyAuthField("vendorCommodities[" + i + "].commodityDefaultIndicator");
+                auths.addReadonlyAuthField("vendorCommodities[" + i + "].active");
                 i++;
             }
         }

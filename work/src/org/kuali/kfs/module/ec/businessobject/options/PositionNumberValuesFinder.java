@@ -27,7 +27,7 @@ import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 /**
  * This class...
  */
-public class ObjectCodeValuesFinder extends KeyValuesBase {
+public class PositionNumberValuesFinder extends KeyValuesBase {
     private List keyValues;
 
     /**
@@ -37,9 +37,9 @@ public class ObjectCodeValuesFinder extends KeyValuesBase {
         CertificationReportForm form = (CertificationReportForm) GlobalVariables.getKualiForm();
         EffortCertificationDocument document = (EffortCertificationDocument)form.getDocument();
         List keyValues = new ArrayList();
-        List<String> objectCodeList = document.getObjectCodeList();
-        for (String objectCode : objectCodeList) {
-            keyValues.add(new KeyLabelPair(objectCode, objectCode));
+        List<String> positionNumberList = document.getPositionList();
+        for (String positionNumber : positionNumberList) {
+            keyValues.add(new KeyLabelPair(positionNumber, positionNumber));
         }
         
         return keyValues;

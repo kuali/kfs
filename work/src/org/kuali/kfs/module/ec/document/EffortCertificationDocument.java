@@ -825,4 +825,38 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      */
     public void setTotalOriginalPayrollAmount(KualiDecimal totalOriginalPayrollAmount) {
     }
+    
+    /**
+     * Finds the list of unique object codes contained in this document
+     * 
+     * @return list of unique object codes
+     */
+    public List<String> getObjectCodeList() {
+        List<String> uniqueObjectCodeList = new ArrayList<String>();
+        List<EffortCertificationDetail> allObjectCodesList = this.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detail : allObjectCodesList) {
+            if (!uniqueObjectCodeList.contains(detail.getFinancialObjectCode())) {
+                uniqueObjectCodeList.add(detail.getFinancialObjectCode());
+            }
+        }
+        
+        return uniqueObjectCodeList;
+    }
+    
+    /**
+     * Finds the list of unique position numbers for this document
+     * 
+     * @return list of unique position numbers
+     */
+    public List<String> getPositionList() {
+        List<String> uniquePositionList = new ArrayList<String>();
+        List<EffortCertificationDetail> allPositionsList = this.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detail : allPositionsList) {
+            if (!uniquePositionList.contains(detail.getPositionNumber())) {
+                uniquePositionList.add(detail.getPositionNumber());
+            }
+        }
+        
+        return uniquePositionList;
+    }
 }

@@ -146,11 +146,17 @@
 
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
 				<label>Object Code</label>
+				<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.ObjectCodeValuesFinder" />
+				</control>
 			</attributeReference>
 
             <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" >
 				<label>Position Number</label>
 				<shortLabel>Position</shortLabel>
+				<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PositionNumberValuesFinder" />
+				</control>
 			</attributeReference>
 			
 			<attribute name="sourceAccountNumber" forceUppercase="true">

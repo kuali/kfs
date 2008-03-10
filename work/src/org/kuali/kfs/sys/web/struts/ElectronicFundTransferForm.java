@@ -166,4 +166,43 @@ public class ElectronicFundTransferForm extends KualiForm {
     public String getClaimingDocumentNumberHeaderKey() {
         return KFSKeyConstants.ElectronicPaymentClaim.MESSAGE_EFT_CLAIMING_DOCUMENT_NUMBER_HEADER;
     }
+
+    /**
+     * Gets the claimedByCheckboxHelpers attribute. 
+     * @return Returns the claimedByCheckboxHelpers.
+     */
+    public List<ElectronicPaymentClaimClaimedHelper> getClaimedByCheckboxHelpers() {
+        return claimedByCheckboxHelpers;
+    }
+
+    /**
+     * Sets the claimedByCheckboxHelpers attribute value.
+     * @param claimedByCheckboxHelpers The claimedByCheckboxHelpers to set.
+     */
+    public void setClaimedByCheckboxHelpers(List<ElectronicPaymentClaimClaimedHelper> claimedByCheckboxHelpers) {
+        this.claimedByCheckboxHelpers = claimedByCheckboxHelpers;
+    }
+    
+    /**
+     * Sets the claimedHelper at the given index
+     * @param claimedHelper the claimedCheckboxHelper to set
+     * @param index where in the list it belongs
+     */
+    public void setClaimedByCheckboxHelper(ElectronicPaymentClaimClaimedHelper claimedHelper, int index) {
+        while (claimedByCheckboxHelpers.size() <= index) {
+            claimedByCheckboxHelpers.add(new ElectronicPaymentClaimClaimedHelper());
+        }
+        claimedByCheckboxHelpers.set(index, claimedHelper);
+    }
+    
+    /**
+     * @param index location in the list of ElectronicPaymentClaimClaimedHelpers to return the helper at
+     * @return the ElectronicPaymentClaimClaimedHelper at the given location
+     */
+    public ElectronicPaymentClaimClaimedHelper getClaimedByCheckboxHelper(int index) {
+        while (claimedByCheckboxHelpers.size() <= index) {
+            claimedByCheckboxHelpers.add(new ElectronicPaymentClaimClaimedHelper());
+        }
+        return claimedByCheckboxHelpers.get(index);
+    }
 }

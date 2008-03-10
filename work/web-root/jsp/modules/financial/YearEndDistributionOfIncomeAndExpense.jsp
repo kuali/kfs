@@ -27,7 +27,7 @@
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
-    sourceLinesReadOnly="${fn:length(document.electronicPaymentClaims) > 0}"/>
+    sourceLinesReadOnly="${fn:length(KualiForm.document.electronicPaymentClaims) > 0}"/>
 
 	<gl:generalLedgerPendingEntries />
 

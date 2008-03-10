@@ -16,8 +16,10 @@
 package org.kuali.kfs.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
@@ -26,6 +28,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
@@ -33,6 +36,7 @@ import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
+import org.kuali.kfs.web.struts.form.ElectronicPaymentClaimClaimedHelper;
 
 /**
  * An Electronic Funds Transfer action which claims the electronic payment claims in a form and redirects
@@ -42,9 +46,12 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private DataDictionaryService ddService;
     private BusinessObjectService boService;
+    private DocumentService documentService;
     
     private static final String ACTION_NAME = "claim";
     private static final String CHOSEN_DOCUMENT_PROPERTY = "chosenElectronicPaymentClaimingDocumentCode";
+    private static final String CLAIM_PROPERTY = "claims";
+    private static final String HAS_DOCUMENTATION_PROPERTY = "hasDocumentation";
     private static final String BASIC_FORWARD = "basic";
     private static final String PORTAL_FORWARD = "portal";
 
@@ -58,18 +65,31 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
             throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }
+        
+        // did the user say they have documentation?  If not, give an error...
+        boolean continueClaiming = true;
+        continueClaiming = handleDocumentationForClaim(form.getHasDocumentation());
+        
+        // process admin's pre-claimed records
+        List<ElectronicPaymentClaim> claims = form.getClaims();
+        if (electronicPaymentClaimingService.isElectronicPaymentAdministrator(currentUser)) {
+            claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()));
+            if (GlobalVariables.getErrorMap().size() > 0) {
+                // if there were any errors, we'll need to redirect to the page again
+                return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
+            }
+            else if (claims.size() == 0) {
+                // no more claims to process...so don't make a document, just redirect to the portal
+                return mapping.findForward(PORTAL_FORWARD);
+            }
+        }
+        
+        // put any remaining claims into a claiming doc
         String chosenDoc = form.getChosenElectronicPaymentClaimingDocumentCode();
-        boolean continueClaiming = checkChosenDocumentType(chosenDoc);
+        continueClaiming &= checkChosenDocumentType(chosenDoc);
         // get the requested document claiming helper
         if (continueClaiming) {
-            List<ElectronicPaymentClaim> claims = form.getClaims();
-            if (electronicPaymentClaimingService.isElectronicPaymentAdministrator(currentUser)) {
-                claims = handlePreClaimedRecords(claims);
-                if (claims.size() == 0) {
-                    // no more claims to process...so don't make a document, just redirect to the portal
-                    return mapping.findForward(PORTAL_FORWARD);
-                }
-            }
+            
             ElectronicPaymentClaimingDocument documentCreationHelper = getRequestedClaimingHelper(form.getChosenElectronicPaymentClaimingDocumentCode(), form.getAvailableClaimingDocuments(), currentUser);
             // take the claims from the form, create a document, and redirect to the given URL...which is easy
             String redirectURL = electronicPaymentClaimingService.createPaymentClaimingDocument(form.getClaims(), documentCreationHelper, currentUser);
@@ -123,18 +143,59 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param claims the list of electronic payment claims 
      * @return the list of electronic payment claims with all pre-claimed records removed
      */
-    private List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims) {
+    private List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox) {
         List<ElectronicPaymentClaim> stillToClaim = new ArrayList<ElectronicPaymentClaim>();
+        int count = 0;
         for (ElectronicPaymentClaim claim: claims) {
-            if (StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())) {
-                // not claimed, add to stillToClaim list
+            if (StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber()) && !preClaimedByCheckbox.contains(claim.getElectronicPaymentClaimRepresentation())) {
+                // not claimed by any mechanism, add to stillToClaim list
                 stillToClaim.add(claim);
             } else {
-                // save that record
-                boService.save(claim);
+                boolean savePreClaimed = true;
+                if (StringUtils.isNotBlank(claim.getReferenceFinancialDocumentNumber())) {
+                    // check that the document exists
+                    if (!documentService.documentExists(claim.getReferenceFinancialDocumentNumber())) {
+                        GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]", KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
+                        savePreClaimed = false;
+                    }
+                }
+                if (savePreClaimed) {
+                    claim.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
+                    // save that record
+                    boService.save(claim);
+                }
             }
+            count += 1;
         }
         return stillToClaim;
+    }
+    
+    /**
+     * Uses the list of checked pre-claimed checkbox helpers to create a Set of representations of electronic payment claim records that were marked as "pre-claimed"
+     * @param checkboxHelpers the list of checked ElectronicPaymentClaimClaimedHelpers from the form
+     * @return a Set of electronic payment claim representations for records that have been reclaimed
+     */
+    private Set<String> generatePreClaimedByCheckboxSet(List<ElectronicPaymentClaimClaimedHelper> checkboxHelpers) {
+        Set<String> claimedByCheckboxRepresentations = new HashSet<String>();
+        for (ElectronicPaymentClaimClaimedHelper helper: checkboxHelpers) {
+            claimedByCheckboxRepresentations.add(helper.getElectronicPaymentClaimRepresentation());
+        }
+        return claimedByCheckboxRepresentations;
+    }
+    
+    /**
+     * Checks that the user was able to answer the "has documentation?" question correctly
+     * @param hasDocumentation the user's response to the "has documentation" question
+     * @return true if the user was able to successfully answer this question, false otherwise
+     */
+    private boolean handleDocumentationForClaim(String hasDocumentation) {
+        boolean success = true;
+        if (StringUtils.isBlank(hasDocumentation) || !hasDocumentation.equalsIgnoreCase("yep")) {
+            GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
+            success = false;
+        }
+        
+        return success;
     }
 
     /**
@@ -159,6 +220,14 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      */
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.boService = boService;
+    }
+
+    /**
+     * Sets the documentService attribute value.
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
     
 }

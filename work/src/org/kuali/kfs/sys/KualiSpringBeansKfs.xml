@@ -347,6 +347,7 @@
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+    	<property name="documentService" ref="documentService" />
     </bean>
     
     <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.service.impl.ElectronicFundTransferCancelActionHelper" />

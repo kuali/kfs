@@ -21,9 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
         String claimingStatus = fieldValues.remove("claimingStatus");
         Criteria additionalCriteria = new Criteria();
@@ -51,12 +52,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
                 additionalCriteria.addEqualTo("referenceFinancialDocumentNumber", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
-        Collection dbResults = lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, additionalCriteria);
-        List<ElectronicPaymentClaim> results = new ArrayList<ElectronicPaymentClaim>();
-        for (Object claimAsObj: dbResults) {
-            results.add((ElectronicPaymentClaim)claimAsObj);
-        }
-        return results;
+        return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, additionalCriteria);
     }
 
     /**

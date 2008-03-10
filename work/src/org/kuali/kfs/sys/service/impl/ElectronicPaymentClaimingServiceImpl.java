@@ -160,6 +160,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     public void claimElectronicPayments(List<ElectronicPaymentClaim> payments, String documentNumber) {
         for (ElectronicPaymentClaim payment: payments) {
             payment.setReferenceFinancialDocumentNumber(documentNumber);
+            payment.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             businessObjectService.save(payment);
         }
     }
@@ -174,6 +175,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         for (Object claimAsObject: claimsAsObjects) {
             ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsObject;
             claim.setReferenceFinancialDocumentNumber(null);
+            claim.setPaymentClaimStatusCode(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             businessObjectService.save(claim);
         }
     }

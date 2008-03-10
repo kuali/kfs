@@ -253,25 +253,11 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * @param claim a claim to get a String representation for
      * @return the representation in the form of "{generating document number}::{generating document accounting line sequence number}"
      */
-    public String getElectronicPaymentClaimRepresentation(ElectronicPaymentClaim claim) {
+    public String getElectronicPaymentClaimRepresentation() {
         StringBuilder representation = new StringBuilder();
-        representation.append(claim.getDocumentNumber());
+        representation.append(getDocumentNumber());
         representation.append("::");
-        representation.append(claim.getFinancialDocumentLineNumber());
+        representation.append(getFinancialDocumentLineNumber());
         return representation.toString();
-    }
-    
-    /**
-     * Turns a representation of an Electronic Payment Claim record, such as that created by
-     * KfsJspFunctions.representElectronicPaymentClaim, to a Map containing the PK for a record
-     * @param epcRepresentation a String representing an electronic payment claim
-     * @return a Map with the primary key fields of the electronic payment claim, represented by the representation
-     */
-    public Map<String, Object> parseElectronicPaymentClaimRepresentationToPK(String epcRepresentation) {
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-        String[] repPieces = epcRepresentation.split("::");
-        pkMap.put("documentNumber", repPieces[0]);
-        pkMap.put("financialDocumentLineNumber", new Integer(repPieces[1]));
-        return pkMap;
     }
 }

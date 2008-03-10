@@ -84,10 +84,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         
         // we do a COUNT(*) to decide whether any benefits expense objects occur in LD_BCNSTR_MONTH_T
         expenditureBenefitsObjectClassesCheck.append("SELECT COUNT(*)\n");
-        expenditureBenefitsObjectClassesCheck.append("FROM (LD_BCNSTR_MONTH_T INNER JOIN LD_LBR_OBJ_BENE_T)\n");
+        expenditureBenefitsObjectClassesCheck.append("FROM (LD_BCNSTR_MONTH_T INNER JOIN LD_LBR_OBJ_BENE_T\n");
         expenditureBenefitsObjectClassesCheck.append("  ON ((LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = LD_LBR_OBJ_BENE_T.UNIV_FISCAL_YR) AND\n");
         expenditureBenefitsObjectClassesCheck.append("      (LD_BCNSTR_MONTH_T.FIN_COA_CD = LD_LBR_OBJ_BENE_T.FIN_COA_CD) AND\n");
-        expenditureBenefitsObjectClassesCheck.append("      (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_LBR_OBJ_BENE_T.FIN_OBJECT_CD))\n");
+        expenditureBenefitsObjectClassesCheck.append("      (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_LBR_OBJ_BENE_T.FIN_OBJECT_CD)))\n");
         expenditureBenefitsObjectClassesCheck.append("WHERE (LD_BCNSTR_MONTH_T.FDOC_NBR = ?)\n");
         expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = ?)\n");
         expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.FIN_COA_CD = ?)\n");
@@ -136,7 +136,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         //run the delete-all SQL with the revenue object classes
-        getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes));
+        int returnCount = getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes));
+        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -149,7 +150,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes));
+        int returnCount = getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes));
+        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
 
     }
 
@@ -163,10 +165,11 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits with the revenue object classes
-        getSimpleJdbcTemplate().update(deleteNoBenefitsRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes, fiscalYear, chartCode));
+        int returnCount = getSimpleJdbcTemplate().update(deleteNoBenefitsRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes, fiscalYear, chartCode));
+        LOG.warn(String.format("\n RevenueSpread rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
         // run the create-monthly-budgets-from-GL SQL with the revenue object classes
-        getSimpleJdbcTemplate().update(allocateGeneralLedgerRevenueByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inRevenueObjectTypes));
-        
+        returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerRevenueByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inRevenueObjectTypes));
+        LOG.warn(String.format("\n RevenueSpread rows inserted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -179,9 +182,11 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(deleteNoBenefitsExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes, fiscalYear, chartCode));
+        int returnCount = getSimpleJdbcTemplate().update(deleteNoBenefitsExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes, fiscalYear, chartCode));
+        LOG.warn(String.format("\n ExpenditureSpread rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
         // run the create-monthly-budgets-from-GL SQL with the expenditure object classes
-        getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inExpenditureObjectTypes));
+        returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inExpenditureObjectTypes));
+        LOG.warn(String.format("\n ExpenditureSpread rows inserted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -215,7 +220,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         }
 
         //@@TODO: print for testing
-        LOG.warn("\n buildSqlInListIfNecessary is generating the final SQL strings:\n");
+        LOG.warn(String.format("\n%s\n buildSqlInListIfNecessary is generating the final SQL strings:\n",getDbPlatform().toString()));
         
         StringBuilder inClauseBuilderRevenue     = new StringBuilder(200);
         StringBuilder inClauseBuilderExpenditure = new StringBuilder(200);

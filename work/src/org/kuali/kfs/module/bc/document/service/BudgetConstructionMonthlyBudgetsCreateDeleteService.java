@@ -63,5 +63,11 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      */
     public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
     
+    /**
+     * 
+     * TODO: remove this method
+     */
+    public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+
     
 }

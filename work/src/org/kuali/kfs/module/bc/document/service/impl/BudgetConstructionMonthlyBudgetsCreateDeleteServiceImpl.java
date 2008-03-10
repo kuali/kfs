@@ -17,12 +17,17 @@ package org.kuali.module.budget.service.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import org.apache.log4j.Logger;
+
 import org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
 import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 
 @Transactional
 public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements BudgetConstructionMonthlyBudgetsCreateDeleteService {
 
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
+
+    
     private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
     
     /**
@@ -60,9 +65,33 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
         return (budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
+    /**
+     * 
+     * set method for the Dao
+     * @param budgetConstructionMonthlyBudgetsCreateDeleteDao
+     */
     public void setBudgetConstructionMonthlyBudgetsCreateDeleteDao(BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao)
     {
         this.budgetConstructionMonthlyBudgetsCreateDeleteDao = budgetConstructionMonthlyBudgetsCreateDeleteDao;
     }
     
+    /**
+     * 
+     * @@TODO remove this method
+     */
+    public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
+    {
+        
+       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsDeleteExpenditure\n\n"); 
+       BudgetConstructionMonthlyBudgetsDeleteExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsDeleteRevenue\n\n"); 
+       BudgetConstructionMonthlyBudgetsDeleteRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsSpreadRevenue\n\n"); 
+       BudgetConstructionMonthlyBudgetsSpreadRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn(String.format("\n\nBudgetConstructionMonthlyBudgetsSpreadExpenditure returned %b for (%s,%d,%s,%s,%s): ",
+                               BudgetConstructionMonthlyBudgetsSpreadExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+                               document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    }
+    
+
 }

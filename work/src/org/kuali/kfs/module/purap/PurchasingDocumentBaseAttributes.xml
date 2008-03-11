@@ -229,10 +229,10 @@
 <attributeReference name="fundingSourceCode" sourceClassName="org.kuali.module.purap.bo.FundingSource" sourceAttributeName="fundingSourceCode">
     <label>Funding Source</label>
     <shortLabel>Funding Source</shortLabel>
+    <required>true</required>
     <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
     </control>
-
 </attributeReference>
 
 <attributeReference name="institutionContactEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">

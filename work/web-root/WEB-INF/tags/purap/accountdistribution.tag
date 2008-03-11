@@ -43,6 +43,13 @@
 	alt="remove accounts from all items"
 	title="remove accounts from all items" styleClass="tinybutton" />
 	</div>
+	
+    <html:image
+    property="methodToCall.clearItemsCommodityCodes"
+    src="${ConfigProperties.externalizable.images.url}tinybutton-clear1.gif"
+    alt="clear all items commodity codes"
+    title="clear all items commodity codes" styleClass="tinybutton" />
+    </div>
 </c:if>
 	
 <c:if test="${!KualiForm.hideDistributeAccounts}">

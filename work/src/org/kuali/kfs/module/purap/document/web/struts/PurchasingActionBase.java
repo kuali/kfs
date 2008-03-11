@@ -46,6 +46,7 @@ import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.exceptions.ItemParserException;
@@ -386,6 +387,40 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
         }
 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Clear out the commodity codes from all the items.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward clearItemsCommodityCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        
+        Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+
+        if (question == null) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.QUESTION_CLEAR_ALL_COMMODITY_CODES);
+
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CLEAR_COMMODITY_CODES_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+        }
+        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+            for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+                PurchasingItemBase purItem = ((PurchasingItemBase)item);
+                purItem.setPurchasingCommodityCode(null);
+                purItem.setCommodityCode(null);
+            }
+            
+            GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODES_CLEARED);
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

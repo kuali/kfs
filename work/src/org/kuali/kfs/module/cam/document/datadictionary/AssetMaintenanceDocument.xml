@@ -113,6 +113,14 @@
                  </maintainableItems>
             </maintainableSection>
 
+			<maintainableSection title="Land Information">
+				<maintainableItems>
+					<maintainableField name="landCountyName" />
+					<maintainableField name="landAcreageSize" />
+					<maintainableField name="landParcelNumber" />
+				</maintainableItems>
+			</maintainableSection>
+			
 			<maintainableSection title="Payment Information">
                 <maintainableItems>
                     <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="assetPayments" includeAddLine="false" summaryTitle="Payment Information">
@@ -120,7 +128,7 @@
                         <maintainableField name="accountNumber" readOnly="true" />
                         <maintainableField name="subAccountNumber" readOnly="true" />
                         <maintainableField name="financialObjectCode" readOnly="true" />
-                         <maintainableField name="projectCode" readOnly="true" /> 
+                        <maintainableField name="projectCode" readOnly="true" /> 
                         <maintainableField name="organizationReferenceId" readOnly="true" />
                         <maintainableField name="documentNumber" readOnly="true" />
                         <maintainableField name="financialDocumentTypeCode" readOnly="true" />

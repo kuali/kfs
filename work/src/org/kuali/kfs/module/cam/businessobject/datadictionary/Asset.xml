@@ -175,7 +175,7 @@
 			</attribute>
 
             <attribute name="campusPoliceDepartmentCaseNumber" forceUppercase="true">
-                <label>Campus Police Department Case Number</label>
+                <label>Police Case Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -235,7 +235,7 @@
 			</attribute>
 
             <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
-                <label>Cash Receipt Financial Document Number</label>
+                <label>Cash Receipt Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -266,7 +266,7 @@
             </attributeReference>
 
             <attributeReference name="estimatedSellingPrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-                <label>Estimated Selling Price</label>
+                <label>Estimated Sale Price</label>
                 <shortLabel>Price</shortLabel>
                 <summary>estimatedSellingPrice</summary>
                 <description>estimatedSellingPrice description...</description>
@@ -409,7 +409,7 @@
             </attributeReference>
            
             <attributeReference name="loanReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Loan Return Date</label>
+                <label>Return Date</label>
                 <shortLabel>Loan Return Date</shortLabel>
 
             </attributeReference>
@@ -507,7 +507,7 @@
 			</attributeReference>
 
             <attribute name="retirementAccountNumber" forceUppercase="true">
-                <label>Retirement Account Number</label>
+                <label>Cash Receipt Account</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -522,7 +522,7 @@
 			</attribute>
 
             <attribute name="retirementChartOfAccountsCode" forceUppercase="true">
-                <label>Retirement Chart Of Accounts Code</label>
+                <label>Cash Receipt Chart</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -567,7 +567,7 @@
 			</attribute>
 
             <attribute name="retirementReasonCode" forceUppercase="true">
-                <label>Retirement Reason Code</label>
+                <label>Retirement Reason</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -812,22 +812,22 @@
 			</attributeReference>
 			
 			<attributeReference name="prevYearDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Previous Year Depreciation</label>
+				<label>Previous Year</label>
 				<shortLabel>Previous Year</shortLabel>
 				<summary>Previous Year Depreciation</summary>
 				<description>Previous Year Depreciation</description>
 			</attributeReference>
 			
 			<attributeReference name="yearToDateDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Year To Date Depreciation</label>
-				<shortLabel>Year To Date Depreciation</shortLabel>
+				<label>Year To Date</label>
+				<shortLabel>Year To Date</shortLabel>
 				<summary>Year To Date Depreciation</summary>
 				<description>Year To Date Depreciation</description>
 			</attributeReference>
 			
 			<attributeReference name="currentMonthDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
-				<label>Current Month Depreciation</label>
-				<shortLabel>Current Month Depreciation</shortLabel>
+				<label>Current Month</label>
+				<shortLabel>Current Month</shortLabel>
 				<summary>Current Month Depreciation</summary>
 				<description>Current Month Depreciation</description>
 			</attributeReference>
@@ -843,46 +843,121 @@
             </attributeReference>
             <!-- Warranty -->
 			<attributeReference name="assetWarranty.warrantyNumber"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyNumber" />
-			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" />
-			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" />
-			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber" />
-			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate" />
-			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate"/>
-			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText"/>
+			<attributeReference name="assetWarranty.warrantyContactName" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyContactName" >
+				<label>Contact Name</label>
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPhoneNumber" >
+				<label>Phone Number</label>
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyPurchaseOrderNumber" >
+				<label>Purchase Order Number</label>
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyBeginningDate" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyBeginningDate" >
+				<label>Begin Date</label>
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyEndingDate"	sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyEndingDate" >
+				<label>End Date</label>
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyText" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="warrantyText" >
+				<label>Description</label>
+			</attributeReference>
 			<attributeReference name="assetWarranty.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="versionNumber"/>
 			<!-- Merge/Separate Information -->
-			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
-			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>
-			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber"/>
-			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate"/>			
+			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
+				<label>Merged Asset Number</label>
+				<shortLabel>MergedAssetNbr</shortLabel>
+			</attributeReference>
+			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate" >
+				<label>Merge Date</label>
+				<shortLabel>MergeDate</shortLabel>
+			</attributeReference>
+			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber" >
+				<label>Original Asset Number</label>
+				<shortLabel>OrigAssetNbr</shortLabel>
+			</attributeReference>
+			<attributeReference name="assetSeparateHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate" >
+				<label>Separate Date</label>
+				<shortLabel>SeparateDate</shortLabel>
+			</attributeReference>			
 			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
 			<!-- Retirement Information -->
-			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="documentNumber"/>
+			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="documentNumber" >
+				<label>Retirement Document Number</label>
+				<shortLabel>RetireDocNbr</shortLabel>
+			</attributeReference>
 			<attributeReference name="retirementInfo.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementDate"/>
-			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementContactName"/>
-			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementInstitutionName"/>
-			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStreetAddress"/>
-			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCityName"/>
-			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStateCode"/>
-			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementZipCode"/>
-			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode"/>
-			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber"/>
+			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementContactName" >
+				<label>Contact Name</label>
+				<shortLabel>name</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementInstitutionName" >
+				<label>Institution</label>
+				<shortLabel>Institution</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStreetAddress" >
+				<label>Street</label>
+				<shortLabel>Street</shortLabel>			
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCityName" >
+				<label>City</label>
+				<shortLabel>City</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStateCode" >
+				<label>State</label>
+				<shortLabel>State</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementZipCode" >
+				<label>Zip Code</label>
+				<shortLabel>Zip</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode" >
+				<label>Country</label>
+				<shortLabel>Country</shortLabel>
+			</attributeReference>
+			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber" >
+				<label>Phone</label>
+				<shortLabel>Phone</shortLabel>
+			</attributeReference>
 			<!-- Loan Info -->
 			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerUniversalUser.personName" >
-				<label>Borrower Name</label>
+				<label>Name</label>
 			</attributeReference>
-			<attributeReference name="loanOrReturnInfo.borrowerAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerAddress" />
-			<attributeReference name="loanOrReturnInfo.borrowerCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCityName" />
-			<attributeReference name="loanOrReturnInfo.borrowerStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStateCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerZipCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCountryCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerPhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerPhoneNumber" />
-			<attributeReference name="loanOrReturnInfo.borrowerStorageAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageAddress" />
-			<attributeReference name="loanOrReturnInfo.borrowerStorageCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCityName" />
-			<attributeReference name="loanOrReturnInfo.borrowerStorageStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageStateCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerStorageZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageZipCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerStorageCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCountryCode" />
-			<attributeReference name="loanOrReturnInfo.borrowerStoragePhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStoragePhoneNumber" />
+			<attributeReference name="loanOrReturnInfo.borrowerAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerAddress" >
+				<label>Street</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCityName" >
+				<label>City</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStateCode" >
+				<label>State</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerZipCode" >
+				<label>Zip Code</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerCountryCode" >
+				<label>Country</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerPhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerPhoneNumber" >
+				<label>Phone</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStorageAddress" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageAddress" >
+				<label>Street</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStorageCityName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCityName" >
+				<label>City</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStorageStateCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageStateCode" >
+				<label>State</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStorageZipCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageZipCode" >
+				<label>Zip Code</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStorageCountryCode" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStorageCountryCode" >
+				<label>Country</label>
+			</attributeReference>
+			<attributeReference name="loanOrReturnInfo.borrowerStoragePhoneNumber" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerStoragePhoneNumber" >
+				<label>Phone</label>
+			</attributeReference>
 			
 			<!-- Off Campus Information -->
 			<attributeReference name="offCampusLocation.assetLocationContactName" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="assetLocationContactName" >			

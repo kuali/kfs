@@ -24,6 +24,7 @@ import static org.kuali.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
+import static org.kuali.module.purap.PurapPropertyConstants.ITEM_COMMODITY_CODE;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_UNIT_PRICE;
 
 import java.io.BufferedReader;
@@ -47,7 +48,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurApItem;
@@ -61,7 +61,7 @@ public class ItemParserBase implements ItemParser {
      * The default format defines the expected item property names and their order in the import file.
      * Please update this if the import file format changes (i.e. adding/deleting item properties, changing their order).
      */
-    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
+    protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_COMMODITY_CODE, ITEM_UNIT_PRICE};
     private Integer lineNo = 0;
 
     /**

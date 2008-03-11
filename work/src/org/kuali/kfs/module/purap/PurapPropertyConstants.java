@@ -35,8 +35,10 @@ public class PurapPropertyConstants {
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
     public static final String ITEM_UNIT_OF_MEASURE_DESCRIPTION = "itemUnitOfMeasureDescription";
     public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
+    public static final String ITEM_COMMODITY_CODE = "purchasingCommodityCode";
     public static final String NEW_PURCHASING_ITEM_LINE = "newPurchasingItemLine";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
+    
 
     // accounting line
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";

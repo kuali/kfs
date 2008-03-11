@@ -342,6 +342,7 @@ public class PurapConstants extends JstlConstants {
 
     //TAB ERROR KEYS
     public static final String PAYMENT_REQUEST_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.invoiceNumber,document.invoiceDate,document.vendorInvoiceAmount,document.specialHandlingInstructionLine1Text,document.specialHandlingInstructionLine2Text,document.specialHandlingInstructionLine3Text";
+    public static final String RECEIVING_LINE_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.invoiceNumber,document.invoiceDate,document.vendorInvoiceAmount,document.specialHandlingInstructionLine1Text,document.specialHandlingInstructionLine2Text,document.specialHandlingInstructionLine3Text";
     
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static final String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
@@ -353,7 +354,7 @@ public class PurapConstants extends JstlConstants {
         public static final String HOLD = "HOLD";
         public static final String REQUEST_CANCEL = "REQUEST CANCEL";
     }
-
+    
     public static final class PaymentRequestStatuses {
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";

@@ -40,6 +40,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
@@ -106,10 +107,10 @@ public class ReceivingCorrectionDocumentAuthorizer extends AccountingDocumentAut
             flags.setCanBlanketApprove(true);
         }
         
-        flags.setCanSave(true);
-        flags.setCanClose(true);
-        flags.setCanCancel(true);
         flags.setCanDisapprove(false);
+        flags.setCanApprove(false);
+        flags.setCanCancel(true);
+        flags.setCanSave(true);            
         
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
         this.setAnnotateFlag(flags);

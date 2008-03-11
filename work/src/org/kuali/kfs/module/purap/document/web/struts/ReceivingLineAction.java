@@ -23,15 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.service.impl.ReceivingServiceImpl;
+import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 
@@ -42,16 +46,32 @@ public class ReceivingLineAction extends ReceivingBaseAction {
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {       
         
         super.createDocument(kualiDocumentFormBase);
-                                                  
+
         ReceivingLineForm rlf = (ReceivingLineForm)kualiDocumentFormBase;
         ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
-        String poDocId = rlf.getPurchaseOrderDocId();
-            
-        //populate Receiving Line Document from Purchase Order
-        SpringContext.getBean(ReceivingService.class).populateReceivingLineFromPurchaseOrder(rlDoc, poDocId);
+        
+        //set identifier from form value
+        if( rlf.getPurchaseOrderDocId() != null){
+            rlDoc.setPurchaseOrderIdentifier( Integer.parseInt( rlf.getPurchaseOrderDocId()) );
+        }
+        
+        rlDoc.initiateDocument();
         
     }
 
+    public ActionForward continueReceivingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+        ReceivingLineForm rlf = (ReceivingLineForm)form;
+        ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
+        String poDocId = rlf.getPurchaseOrderDocId();
+            
+        //populate and save Receiving Line Document from Purchase Order
+        SpringContext.getBean(ReceivingService.class).populateReceivingLineFromPurchaseOrder(rlDoc, poDocId);
+        SpringContext.getBean(ReceivingService.class).saveReceivingLineDocument(rlDoc);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     public ActionForward createReceivingCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReceivingLineForm rlForm = (ReceivingLineForm) form;
         ReceivingLineDocument document = (ReceivingLineDocument) rlForm.getDocument();        
@@ -75,6 +95,14 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         
         return forward;
         
+    }
+
+    public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReceivingLineForm rlForm = (ReceivingLineForm) form;
+        ReceivingLineDocument rlDocument = (ReceivingLineDocument) rlForm.getDocument();
+        rlDocument.clearInitFields();
+
+        return super.refresh(mapping, form, request, response);
     }
 
 }

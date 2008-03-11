@@ -5,8 +5,8 @@
 <dictionaryEntry>    
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.ReceivingCorrectionDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.ReceivingCorrectionRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingCorrectionPreRules</preRulesCheckClass>
+        <businessRulesClass>org.kuali.module.purap.rules.ReceivingCorrectionDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingCorrectionDocumentPreRules</preRulesCheckClass>
 
         <documentAuthorizerClass>org.kuali.module.purap.document.authorization.ReceivingCorrectionDocumentAuthorizer</documentAuthorizerClass>
                 

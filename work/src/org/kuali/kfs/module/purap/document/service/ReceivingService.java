@@ -15,8 +15,11 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface ReceivingService {
 
@@ -28,4 +31,13 @@ public interface ReceivingService {
      */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId);
      
+    public void saveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
+    
+    /**
+     * Checks to see if there are receiving line documents currently in process for a given purchase order id.
+     * 
+     * @param poId
+     * @return
+     */
+    public boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId);
 }

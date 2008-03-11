@@ -258,8 +258,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(removeHoldButton);
         }
         
-        ExtraButton receivingButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingLine");
-        extraButtons.add(receivingButton);
+        if (auth.canCreateReceiving()){
+            ExtraButton receivingButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingLine");
+            extraButtons.add(receivingButton);
+        }
         
         return extraButtons;
     }        

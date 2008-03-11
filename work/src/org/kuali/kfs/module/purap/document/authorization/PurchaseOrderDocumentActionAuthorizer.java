@@ -38,6 +38,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.module.purap.service.ReceivingService;
 
 /**
  * This class determines permissions for a user to view the
@@ -262,6 +263,24 @@ public class PurchaseOrderDocumentActionAuthorizer {
      */
     public boolean canRemoveHold() {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Determines if a receiving document can be created for the purchase order.
+     * 
+     * @return
+     */
+    public boolean canCreateReceiving(){
+    
+        //TODO: Refactor this code and move to a service call that takes a purchase order identifer
+        if ((purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
+            purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
+            purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
+            !SpringContext.getBean(ReceivingService.class).isReceivingLineDocumentInProcessForPurchaseOrder(purchaseOrder.getPurapDocumentIdentifier())){
+            
             return true;
         }
         return false;

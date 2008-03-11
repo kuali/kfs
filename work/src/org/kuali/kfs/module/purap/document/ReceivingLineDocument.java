@@ -3,7 +3,11 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 
@@ -27,6 +31,10 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         items = new TypedArrayList(getItemClass());       
     }
 
+    public void initiateDocument(){
+        this.documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
+    }
+    
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
         
         //populate receiving line document from purchase order
@@ -72,13 +80,34 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
                 
         //copy purchase order items
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
-            if(poi.isItemActiveIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator() && poi.getItemType().isItemTypeAboveTheLineIndicator() ){
+            //TODO: Refactor this check into a service call. route FYI during submit
+            if(poi.isItemActiveIndicator() && 
+               poi.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
+               poi.getItemType().isItemTypeAboveTheLineIndicator() ){
                 this.getItems().add(new ReceivingLineItem(poi, this));
             }
         }
         
     }
-    
+
+    /**
+     * Perform logic needed to clear the initial fields on a Receiving Line Document
+     */
+    public void clearInitFields() {
+        // Clearing document overview fields
+        this.getDocumentHeader().setFinancialDocumentDescription(null);
+        this.getDocumentHeader().setExplanation(null);
+        this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        this.getDocumentHeader().setOrganizationDocumentNumber(null);
+
+        // Clearing document Init fields
+        this.setPurchaseOrderIdentifier(null);
+        this.setShipmentReceivedDate(null);
+        this.setShipmentPackingSlipNumber(null);
+        this.setShipmentBillOfLadingNumber(null);
+        this.setCarrierCode(null);        
+    }
+
     /**
      * Gets the purchaseOrderIdentifier attribute.
      * 

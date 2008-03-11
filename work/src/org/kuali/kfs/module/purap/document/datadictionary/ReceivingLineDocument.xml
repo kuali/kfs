@@ -5,8 +5,8 @@
 <dictionaryEntry>    
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.ReceivingLineDocument</documentClass>
-        <businessRulesClass>org.kuali.module.purap.rules.ReceivingLineRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingLinePreRules</preRulesCheckClass>
+        <businessRulesClass>org.kuali.module.purap.rules.ReceivingLineDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingLineDocumentPreRules</preRulesCheckClass>
         
         <documentAuthorizerClass>org.kuali.module.purap.document.authorization.ReceivingLineDocumentAuthorizer</documentAuthorizerClass>
         
@@ -62,9 +62,9 @@
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+			    <control>
+			        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.CarrierValuesFinder"/>
+			    </control>
 
                 <summary>carrierCode</summary>
                 <description>carrierCode description...</description>

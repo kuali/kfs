@@ -51,14 +51,15 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
         this.setItemLineNumber( poi.getItemLineNumber() );
         this.setItemCatalogNumber( poi.getItemCatalogNumber() );
         this.setItemDescription( poi.getItemDescription() );
-        //this.setItemOrderedQuantity(  )
+        this.setItemOrderedQuantity( poi.getItemQuantity() );
         this.setItemUnitOfMeasureCode( poi.getItemUnitOfMeasureCode() );
+        //TODO: Prior Quantity needs to be saved to DB
         this.setItemReceivedPriorQuantity( poi.getItemReceivedTotalQuantity() );
-        //this.setItemReceivedToBeQuantity()        
-        //this.setItemReceivedTotalQuantity()
-        //this.setItemReturnedTotalQuantity()
-        //this.setItemDamagedTotalQuantity()                                
-        //this.setItemReasonAddedCode()
+        //this.setItemReceivedToBeQuantity()    //derived
+
+        //TODO: These need to be calculated
+        //this.setItemReceivedTotalQuantity(  ); //qty ordered - prior qty received
+        this.setItemDamagedTotalQuantity( poi.getItemDamagedTotalQuantity() );
     }
     
 	/**

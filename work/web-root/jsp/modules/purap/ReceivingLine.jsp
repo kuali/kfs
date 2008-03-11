@@ -19,30 +19,41 @@
     documentTypeName="ReceivingLineDocument"
     htmlFormAction="purapReceivingLine" renderMultipart="true"
     showTabButtons="true">
-    		    
-    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-
-	<purap:receivingVendor
-	    documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
-
-	<purap:receivingLineItems
-		itemAttributes="${DataDictionary.ReceivingLineItem.attributes}" />
+    		 
+	<html:hidden property="purchaseOrderDocId" />
 	
-    <purap:delivery
-		documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
-	   
-
-       	
-	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
-
-    <kul:routeLog />
-    		
+    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+    	<c:set var="fullEntryMode" value="true" scope="request" />
+    </c:if>
+    
+	<c:if test="${KualiForm.editingMode['displayInitTab']}" > 
+    	<purap:receivingLineInit documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"/>
+	</c:if>
+    
+    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
+	    <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	
+		<purap:receivingVendor
+		    documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
+	
+		<purap:receivingLineItems
+			itemAttributes="${DataDictionary.ReceivingLineItem.attributes}" />
+		
+	    <purap:delivery
+			documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
+		          	
+		<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
+	
+	    <kul:routeLog />
+	</c:if>
+	    		
     <kul:panelFooter />
 	
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
   	
     <kul:documentControls 
         transactionalDocument="true" 
-        extraButtons="${extraButtons}" />
-   
+        extraButtons="${extraButtons}"
+        suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" />
+      
 </kul:documentPage>

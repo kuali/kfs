@@ -25,6 +25,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.ObjectUtils;
@@ -40,12 +41,13 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
  * Document Authorizer for the PREQ document.
  */
-public class ReceivingLineDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
@@ -66,9 +68,9 @@ public class ReceivingLineDocumentAuthorizer extends AccountingDocumentAuthorize
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
+    @Override    
+    public Map getEditMode(Document document, UniversalUser user) {
+        Map editModeMap = super.getEditMode(document, user);
 
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;        
 
@@ -79,13 +81,22 @@ public class ReceivingLineDocumentAuthorizer extends AccountingDocumentAuthorize
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            //List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             // only allow full entry if status allows it
 
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
         }
 
         editModeMap.put(editMode, "TRUE");
+
+        //display init tab
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) document;
+        if (StringUtils.equals(receivingLineDocument.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.INITIATED)) {
+            editModeMap.put(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB, "TRUE");
+        }
+        else {
+            editModeMap.put(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB, "FALSE");
+        }
 
         return editModeMap;
     }
@@ -103,10 +114,19 @@ public class ReceivingLineDocumentAuthorizer extends AccountingDocumentAuthorize
             flags.setCanBlanketApprove(true);
         }
         
-        flags.setCanSave(true);
-        flags.setCanClose(true);
-        flags.setCanCancel(true);
-        flags.setCanDisapprove(false);
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) document;
+        if (StringUtils.equals(receivingLineDocument.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.INITIATED)) {
+            flags.setCanSave(false);
+            flags.setCanClose(true);
+            flags.setCanCancel(false);
+            flags.setCanDisapprove(false);
+        }
+        else {
+            flags.setCanDisapprove(false);
+            flags.setCanApprove(false);
+            flags.setCanCancel(true);
+            flags.setCanSave(true);            
+        }
         
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
         this.setAnnotateFlag(flags);

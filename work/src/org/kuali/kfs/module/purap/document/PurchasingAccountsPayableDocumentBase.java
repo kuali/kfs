@@ -312,7 +312,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
             itemLinePosition = item.getItemLineNumber().intValue() - 1;
         }
-        item.refreshReferenceObject("commodityCode");
         items.add(itemLinePosition, item);
         renumberItems(itemLinePosition);
     }

@@ -27,6 +27,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
@@ -183,6 +184,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
     }
 
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#addItem(org.kuali.module.purap.bo.PurApItem)
+     */
+    @Override
+    public void addItem(PurApItem item) {
+        item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
+        super.addItem(item);
+    }
+    
     // GETTERS AND SETTERS
 
     /**

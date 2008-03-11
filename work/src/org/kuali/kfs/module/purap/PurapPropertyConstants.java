@@ -71,6 +71,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER = "purchaseOrder";
     public static final String PURCHASE_ORDER_COST_SOURCE = "purchaseOrderCostSource";
     public static final String DELIVERY_REQUIRED_DATE = "deliveryRequiredDate";
+    public static final String COMMODITY_CODE = "commodityCode";
     
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";

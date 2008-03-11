@@ -81,28 +81,49 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private int leoFinancialDocumentPostingYear ;  // dup/exists?
     private String leoFinancialDocumentPostingPeriodCode; // dup/exists?
     private BigDecimal accountChargeAmount;
+    
 
-    /* lookup */
-    //private Chart organizationOwnerChartOfAccounts;
-    //private Account organizationOwnerAccount;
-    //org. owner
-    // Commented below out... can't type fields to "Asset" that arn't of object type Asset.
-    //private Asset agency;
-    //private Asset acquisitionType;
-    //private Asset inventoryStatus;
     private AssetCondition condition;
     private AssetType capitalAssetType;
-     //asset rep.
-    //private Asset lastInventory;
-    //private Asset create;
-    //private Asset financialDocumentPostingYr;
-    //private Asset financialDocumentPostingPeriod;
-    //private Asset capitalAssetInService;
-    //deprec. date
-    
     private AssetGlobalHeader assetGlobalHeader;
-    private List<AssetPaymentDetail> assetPaymentDetails; 
+    private List<AssetPaymentDetail> assetPaymentDetails;
     
+    /* default existance checks */
+    private Chart organizationOwnerChartOfAccounts;
+    private Account organizationOwnerAccount;
+    
+    /**
+     * Gets the organizationOwnerAccount attribute. 
+     * @return Returns the organizationOwnerAccount.
+     */
+    public Account getOrganizationOwnerAccount() {
+        return organizationOwnerAccount;
+    }
+
+    /**
+     * Sets the organizationOwnerAccount attribute value.
+     * @param organizationOwnerAccount The organizationOwnerAccount to set.
+     */
+    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
+        this.organizationOwnerAccount = organizationOwnerAccount;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccounts attribute. 
+     * @return Returns the organizationOwnerChartOfAccounts.
+     */
+    public Chart getOrganizationOwnerChartOfAccounts() {
+        return organizationOwnerChartOfAccounts;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccounts attribute value.
+     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
+     */
+    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
+        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
+    }
+
     /**
      * Default constructor.
      */

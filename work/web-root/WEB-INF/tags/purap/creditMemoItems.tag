@@ -234,10 +234,8 @@
 			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 
-			accountingAddLineIndex="${ctr}" 
-			suppressCams="${true}" 
-			overrideTitle="Item Accounting Lines"/>
-	
+			accountingAddLineIndex="${ctr}"
+			ctr="${ctr}" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

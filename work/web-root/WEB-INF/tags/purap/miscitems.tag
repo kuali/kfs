@@ -221,8 +221,8 @@
 				extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				hideFields="amount" accountingAddLineIndex="${ctr}"
-				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
+				hideFields="amount" accountingAddLineIndex="${ctr}" 
+				ctr="${ctr}"/>
 		</c:if>
 		
 		<!-- KULPURAP-1500 -->
@@ -242,8 +242,8 @@
 				    extraHiddenFields="${extraHiddenFields}"
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}"
-				    suppressCams="${true}" overrideTitle="Item Accounting Lines" />
+				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
+				    ctr="${ctr}"/>
 		    </c:if>
 		</c:if>
 	</c:if>

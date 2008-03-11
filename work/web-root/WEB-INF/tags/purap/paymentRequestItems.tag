@@ -191,9 +191,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			suppressCams="${true}" 
-			overrideTitle="Item Accounting Lines"/>
-	
+			ctr="${ctr}"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

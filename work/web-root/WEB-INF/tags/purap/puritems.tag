@@ -454,7 +454,6 @@
 					</c:if>
 				</tr>
 
-<!-- TODO PHASE 2b: Remove "suppressCams" and "overrideTitle" attributes -->
                 <c:if test="${amendmentEntry}">
                     <c:choose>
 	    			    <c:when test="${(itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
@@ -469,8 +468,7 @@
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="false" overrideTitle="Item Accounting Lines" />
+						camsAttributes="${camsAttributes}" ctr="${ctr}" />
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
@@ -483,8 +481,7 @@
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="false" overrideTitle="Item Accounting Lines" />
+						camsAttributes="${camsAttributes}" ctr="${ctr}" />
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>
@@ -501,8 +498,7 @@
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="false" overrideTitle="Item Accounting Lines" />
+						camsAttributes="${camsAttributes}" ctr="${ctr}" />
 				</c:if>
 
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

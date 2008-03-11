@@ -170,13 +170,10 @@ public class PayrollAmountHolder {
      * @param effortPercent the given effort percent
      * @return the payroll amount calculated from the given total amount and effort percent
      */
-    public static BigDecimal recalculatePayrollAmount(Double totalPayrollAmount, Integer effortPercent) {
-        double amount = totalPayrollAmount * effortPercent/EffortConstants.ONE_HUNDRED.doubleValue();
+    public static KualiDecimal recalculatePayrollAmount(KualiDecimal totalPayrollAmount, Integer effortPercent) {
+        double amount = totalPayrollAmount.doubleValue() * effortPercent/EffortConstants.ONE_HUNDRED.doubleValue();
         
-        BigDecimal payrollAmount = new BigDecimal(amount);
-        payrollAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
-        
-        return payrollAmount;
+        return new KualiDecimal(amount);
     }
     
     /**
@@ -186,12 +183,9 @@ public class PayrollAmountHolder {
      * @param payrollAmount the given payroll amount
      * @return the effort percent calculated from the given total amount and payroll amount
      */
-    public static BigDecimal recalculateEffortPercent(Double totalPayrollAmount, Double payrollAmount) {
-        Double percent = payrollAmount * EffortConstants.ONE_HUNDRED.doubleValue() / totalPayrollAmount;
-        
-        BigDecimal effortPercent = new BigDecimal(percent);
-        effortPercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+    public static Double recalculateEffortPercent(KualiDecimal totalPayrollAmount, KualiDecimal payrollAmount) {
+        double percent = payrollAmount.doubleValue() * EffortConstants.ONE_HUNDRED.doubleValue() / totalPayrollAmount.doubleValue();
                
-        return effortPercent;
+        return percent;
     }
 }

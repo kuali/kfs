@@ -28,14 +28,20 @@ import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.effort.util.PrimaryKeyFieldHolder;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.kuali.rice.KNSServiceLocator;
@@ -101,7 +107,8 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      * @return Returns the detailLines.
      */
     public List<EffortCertificationDetail> getDetailLines() {
-        return ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument)this.getDocument();
+        return effortCertificationDocument.getEffortCertificationDetailLines();
     }
 
     /**
@@ -261,6 +268,60 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         return completeURL.concat(queryString.toString());
     }
+    
+
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    public List<Map<String, String>> getFieldInfo() {
+        List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument)this.getDocument();
+
+        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+            detailLine.refreshNonUpdateableReferences();
+
+            Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
+
+            fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
+            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
+            
+            SubAccount subAccount = detailLine.getSubAccount();
+            if (subAccount != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
+            }
+
+            ObjectCode objectCode = detailLine.getFinancialObject();
+            if (objectCode != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
+            }
+            
+            Account sourceAccount = detailLine.getSourceAccount();
+            if ( sourceAccount != null) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
+            }
+            
+            Chart sourceChart = detailLine.getSourceChartOfAccounts();
+            if (sourceChart != null) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
+            }
+            
+            KualiDecimal totalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
+            KualiDecimal payrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+            
+            double actualPercentAsDouble = 0;
+            if(totalPayrollAmount.isNonZero()) {
+                actualPercentAsDouble = PayrollAmountHolder.recalculateEffortPercent(totalPayrollAmount, payrollAmount);
+            }
+            String actualPercent = String.format("%.4f%s", actualPercentAsDouble, KFSConstants.PERCENTAGE_SIGN); 
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualPercent);
+
+            fieldInfo.add(fieldInfoForAttribute);
+        }
+
+        return fieldInfo;
+    }    
 
     /**
      * get the inquirable implmentation

@@ -16,9 +16,9 @@
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
 
 <dwr>
-
 	<init>
 		<creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
+		<converter id="kualinumber" class="org.kuali.kfs.dwr.converter.KualiNumberConverter"/>
 	</init>
 	<allow>
 		<convert converter="bean" match="org.kuali.kfs.bo.OriginationCode">
@@ -35,5 +35,7 @@
 			<param name="beanName" value="postalZipCodeService" />
 			<include method="getByPrimaryId" />
 		</create>
+						
+	    <convert match="org.kuali.core.util.KualiDecimal" converter="kualinumber" />
 	</allow>
 </dwr>

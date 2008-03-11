@@ -15,46 +15,97 @@
  */
 
 var totalAmountFiledName ="document.totalOriginalPayrollAmount";
-var divSuffix = ".div"
+var fringeBenefitFieldNameSuffix = ".fringeBenefitAmount"
+var fiscalYearFieldNameSuffix = ".universityFiscalYear";
+var objectCodeFieldNameSuffix = ".financialObjectCode";
+var chartOfAccountsCodeFieldNameSuffix = ".chartOfAccountsCode";
+var payrollAmountFieldNameSuffix = ".effortCertificationPayrollAmount";
+var effortPercentFieldNameSuffix = ".effortCertificationCalculatedOverallPercent";
+var divSuffix = ".div";
+var comma = ",";
+var percentageSign = "%";
 
+// recalculate the payroll amount when the effort percent is changed
 function recalculatePayrollAmount(effortPercentFieldName, payrollAmountFieldName){
-	var totalPayrollAmount = DWRUtil.getValue( totalAmountFiledName );
-	var effortPercent = parseInt(DWRUtil.getValue( effortPercentFieldName ));
+	var fieldNamePrefix = findElPrefix(payrollAmountFieldName);
+	var totalPayrollAmount = removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma);
+	var effortPercent = parseInt(removeDelimator(DWRUtil.getValue(effortPercentFieldName), comma));
+	
+	if(payrollAmountFieldName == effortPercentFieldName){
+		payrollAmountFieldName = fieldNamePrefix + payrollAmountFieldNameSuffix
+	}
 	
 	if(totalPayrollAmount != '' && effortPercent != ''){
-		var dwrReply = {
+		var updatePayrollAmount = {
 			callback:function(data) {
-				var number = new Number(data).toFixed(2);
-				DWRUtil.setValue( payrollAmountFieldName + divSuffix, number);
-				DWRUtil.setValue( payrollAmountFieldName, number);
-				DWRUtil.setValue( effortPercentFieldName + divSuffix, effortPercent);
-			},
-			
-			errorHandler:function( errorMessage ) { 
+				var amount = new Number(data).toFixed(2);
+				var percent = new Number(effortPercent).toFixed(4) + percentageSign;
+				
+				DWRUtil.setValue( payrollAmountFieldName + divSuffix, amount);
+				DWRUtil.setValue( payrollAmountFieldName, amount);
+				DWRUtil.setValue( effortPercentFieldName + divSuffix, percent);
+				
+				recalculateFringeBenefit(fieldNamePrefix, data);
 			}
 		};
 		
-		PayrollAmountUtil.recalculatePayrollAmount(totalPayrollAmount, effortPercent, dwrReply);
+		PayrollAmountUtil.recalculatePayrollAmount(totalPayrollAmount, effortPercent, updatePayrollAmount);
 	}
 }
 
+// recalculate the effort percent when the payroll amount is changed
 function recalculateEffortPercent(payrollAmountFieldName, effortPercentFieldName){
-	var totalPayrollAmount = DWRUtil.getValue( totalAmountFiledName );
-	var payrollAmount = DWRUtil.getValue( payrollAmountFieldName );
+	var fieldNamePrefix = findElPrefix(payrollAmountFieldName);
+	var totalPayrollAmount = removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma);
+	var payrollAmount = removeDelimator(DWRUtil.getValue(payrollAmountFieldName), comma);
+	
+	if(payrollAmountFieldName == effortPercentFieldName){
+		effortPercentFieldName = fieldNamePrefix + effortPercentFieldNameSuffix;
+	}
 	
 	if(totalPayrollAmount != '' && payrollAmount != ''){
-		var dwrReply = {
+		var updateEffortPercent = {
 			callback:function(data) {
-				var number = new Number(data).toFixed(2);
-				DWRUtil.setValue( payrollAmountFieldName + divSuffix, payrollAmount);
-				DWRUtil.setValue( effortPercentFieldName + divSuffix, number);
+				var amount = new Number(payrollAmount).toFixed(2);
+				var percent = new Number(data).toFixed(4) + percentageSign;
+				
+				DWRUtil.setValue( payrollAmountFieldName + divSuffix, amount);
+				DWRUtil.setValue( effortPercentFieldName + divSuffix, percent);
 				DWRUtil.setValue( effortPercentFieldName, Math.round(data));
-			},
-			
-			errorHandler:function( errorMessage ) { 
+				
+				recalculateFringeBenefit(fieldNamePrefix, payrollAmount);
 			}
 		};
 		
-		PayrollAmountUtil.recalculateEffortPercent(totalPayrollAmount, payrollAmount, dwrReply);
+		PayrollAmountUtil.recalculateEffortPercent(totalPayrollAmount, payrollAmount, updateEffortPercent);				
 	}
+}
+
+// recalculate the fringe benefit when the payroll amount is changes
+function recalculateFringeBenefit(fieldNamePrefix, payrollAmount){
+	var fiscalYear, objectCode, chartOfAccountsCode, benefitFieldName;
+	
+	try{
+		fiscalYear = DWRUtil.getValue(fieldNamePrefix + fiscalYearFieldNameSuffix);
+		objectCode = DWRUtil.getValue(fieldNamePrefix + objectCodeFieldNameSuffix);
+		chartOfAccountsCode = DWRUtil.getValue(fieldNamePrefix + chartOfAccountsCodeFieldNameSuffix);		
+		benefitFieldName = fieldNamePrefix + fringeBenefitFieldNameSuffix;
+	
+		if(fiscalYear != '' && objectCode!='' && chartOfAccountsCode != '') {				
+			var updateFringeBenefit = function(data) {				
+				var benefit = new Number(data).toFixed(2);			
+				DWRUtil.setValue( benefitFieldName, benefit);
+			};
+			
+			LaborModuleService.calculateFringeBenefit(fiscalYear, chartOfAccountsCode, objectCode, payrollAmount, updateFringeBenefit);
+		}
+			}
+	catch(err){
+  		window.status = err.description;
+	}
+}
+
+// remove the specified delimators and leading/trailing blanks from the given string
+function removeDelimator(stringObject, delimator){
+	return stringObject.replace(delimator, "").trim();
 }

@@ -189,6 +189,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";
     public static final String OVERRIDE_KEYS = "overrideKeys";
     public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[] { "LLGL" };
+    public static final String PERCENTAGE_SIGN = "%";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

@@ -28,6 +28,7 @@ import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
@@ -39,6 +40,7 @@ import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
+import org.kuali.module.effort.util.PayrollAmountHolder;
 
 /**
  * To define an action form for effrot certification recreate process
@@ -68,55 +70,6 @@ public class CertificationRecreateForm extends EffortCertificationForm {
         importingFieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, document.getEffortCertificationReportNumber());
 
         return importingFieldValues;
-    }
-
-    /**
-     * Gets the fieldInfo attribute.
-     * 
-     * @return Returns the fieldInfo.
-     */
-    public List<Map<String, String>> getFieldInfo() {
-        List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
-
-        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
-            detailLine.refreshNonUpdateableReferences();
-
-            Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
-
-            fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
-            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
-            
-            SubAccount subAccount = detailLine.getSubAccount();
-            if (subAccount != null) {
-                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
-            }
-
-            ObjectCode objectCode = detailLine.getFinancialObject();
-            if (objectCode != null) {
-                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
-            }
-            
-            Account sourceAccount = detailLine.getSourceAccount();
-            if ( sourceAccount != null) {
-                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
-            }
-            
-            Chart sourceChart = detailLine.getSourceChartOfAccounts();
-            if (sourceChart != null) {
-                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
-            }
-            
-            KualiDecimal totalAmount = this.getEffortCertificationDocument().getTotalOriginalPayrollAmount();
-            KualiDecimal actualPercent = KualiDecimal.ZERO;
-            if(totalAmount.isNonZero()) {
-                actualPercent = detailLine.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(100)).divide(totalAmount);
-            }
-            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualPercent.toString()+"%");
-
-            fieldInfo.add(fieldInfoForAttribute);
-        }
-
-        return fieldInfo;
     }
 
     /**

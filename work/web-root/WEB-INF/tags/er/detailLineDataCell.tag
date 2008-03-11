@@ -45,7 +45,9 @@
 			  description="The DataDictionary entry containing attributes for the line fields."%>			  
 			                
 <%@ attribute name="readOnly" required="false"
-              description="determine if the field woulb be rendered as read-only or not" %>   
+              description="determine if the field woulb be rendered as read-only or not" %>  
+<%@ attribute name="withHiddenForm" required="false"
+              description="determine if the field woulb be rendered with a hidden form" %>               
   
 <c:if test="${!scriptsLoaded}">
 	<SCRIPT type="text/javascript">
@@ -53,6 +55,7 @@
 	    var kualiElements = kualiForm.elements;
 	</SCRIPT>
 	
+	<script type='text/javascript' src="dwr/interface/LaborModuleService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
@@ -87,13 +90,17 @@
 			</c:if>
 			
 			<c:if test="${!inquirable}">
-	    		<c:out value="${fieldValue}"/>
+	    		<span class="${styleClass}" id="${fieldFormName}" name="${fieldFormName}">${fieldValue}</span>
 			</c:if>
 		</span><br/>
-    	<span class="${styleClass}"><div id="${fieldFormName}${index}" class="fineprint">${fieldInfo}</div></span>
-    	
-    	<html:hidden write="false" property="${fieldFormName}" style="${textStyle}" />
 		
+		<span class="${styleClass}">
+    		<div id="${fieldFormName}.div" name="${fieldFormName}.div" class="fineprint">${fieldInfo}</div>
+    	</span>
+    	
+    	<c:if test="${withHiddenForm}">
+    		<html:hidden write="false" property="${fieldFormName}"/>
+    	</c:if>		
 </kul:htmlControlAttribute>  
 
 <c:if test="${!readOnly && not empty relationshipMetadata}">
@@ -120,6 +127,9 @@
 	<div id="${infoFieldFormName}.div" name="${infoFieldFormName}.div" class="fineprint">
 		<bean:write name="KualiForm" property="${infoFieldFormName}"/>
 	</div>
-	<html:hidden write="false" property="${infoFieldFormName}"/>
+	
+	<c:if test="${not empty relationshipMetadata}">
+		<html:hidden write="false" property="${infoFieldFormName}"/>
+	</c:if>
 </c:if>
        

@@ -590,6 +590,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public KualiDecimal getFringeBenefitAmount() {
         return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationPayrollAmount());
     }
+    
+    /**
+     * Sets the fringeBenefitAmount attribute value.
+     * 
+     * @param fringeBenefitAmount The fringeBenefitAmount to set.
+     */
+    public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
+    }
 
     /**
      * Gets the originalFringeBenefitAmount attribute.

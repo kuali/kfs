@@ -107,7 +107,7 @@
 			
 			<attributeReference name="effortCertificationCalculatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
                 <label>Original Effort</label>
-                <shortLabel>Effort</shortLabel>
+                <shortLabel>Original Effort</shortLabel>
 
                 <summary>Effort Certification LaborCalculatedOverallPercent</summary>
                 <description>Effort Certification LaborCalculatedOverallPercent description...</description>

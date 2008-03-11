@@ -220,5 +220,9 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                 i++;
             }
         }
+        else {
+            MaintainableCollectionDefinition collDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("VendorDetailMaintenanceDocument", "vendorCommodities");
+            collDef.setIncludeAddLine(true);
+        }
     }
 }

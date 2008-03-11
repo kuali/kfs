@@ -666,7 +666,7 @@
             </collection>
             
             <collection name="vendorCommodities">
-                <label>Vendor Commodity Codes</label>
+                <label>Commodity Codes</label>
                 <shortLabel>Commodity Codes</shortLabel>
             </collection> 
         </collections>    

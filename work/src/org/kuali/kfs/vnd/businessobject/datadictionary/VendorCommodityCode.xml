@@ -75,7 +75,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.CommodityCodeValuesFinder" />
+                    <text size="40" />
                 </control>
 
                 <summary>commodityCode</summary>

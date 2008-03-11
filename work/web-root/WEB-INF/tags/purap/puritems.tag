@@ -133,7 +133,7 @@
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
                     <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
-                            lookupParameters="'Y':active" readOnlyFields="active"/>   
+                            lookupParameters="'Y':active"/>   
                             
                     <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
                         <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
@@ -361,7 +361,7 @@
                         <c:if test="${fullEntryMode}">   
                             <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
-                                lookupParameters="'Y':active" readOnlyFields="active"/>    
+                                lookupParameters="'Y':active"/>    
                         </c:if>
                         <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
                             <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  

@@ -17,6 +17,11 @@
 
 <channel:portalChannelTop channelTitle="Transactions" />
 <div class="body">
+	<strong>Accounts Receivable</strong><br />
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
+    </ul>
+
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AdvanceDepositDocument" /></li>

@@ -87,7 +87,7 @@ public class PurapConstants extends JstlConstants {
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
     public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
     public static final String QUESTION_CLEAR_ALL_COMMODITY_CODES = "question.document.pur.clearCommodityCodes";
-    
+
     public static final String REQ_REASON_NOT_APO = "Requisition did not become an APO because: ";
     public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
 
@@ -155,7 +155,7 @@ public class PurapConstants extends JstlConstants {
 
     // Requisition/Purchase Order Tab Errors
     public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
-    public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode";
+    public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode, document.alternateVendorName";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*,newPurchasingItemLine*,itemQuantity";
     public static final String ITEM_TAB_ERROR_PROPERTY = ITEM_TAB_ERRORS; // used to be "newPurchasingItemLine"
@@ -317,6 +317,9 @@ public class PurapConstants extends JstlConstants {
 
         public static final String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
         public static final String OPEN_STATUS = "Open";
+        
+        public static final String POSTAL_CODE = "Postal Code";
+        public static final String ALTERNATE_PAYEE_VENDOR = "Alternate Payee Vendor";
     }
 
     public static final String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,26 +29,25 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.vendor.VendorConstants.VendorTypes;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
+import org.kuali.module.vendor.service.VendorService;
 
 /**
  * Business rule(s) applicable to Purchase Order document.
@@ -226,7 +223,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.clearErrorPath();
-        errorMap.addToErrorPath(RicePropertyConstants.DOCUMENT);
+        errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
         boolean valid = super.processVendorValidation(purapDocument);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
         // check to see if the vendor exists in the database, i.e. its ID is not null
@@ -247,15 +244,36 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
             if (StringUtils.isBlank(poDocument.getVendorPostalCode())) {
                 valid = false;
-                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US);
+                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US, PODocumentsStrings.POSTAL_CODE);
             }
             else if (!zipPattern.matches(poDocument.getVendorPostalCode())) {
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
             }
         }
+               
+        
+        // Do checks for alternate payee vendor.
+        Integer alternateVendorHdrGeneratedId = poDocument.getAlternateVendorHeaderGeneratedIdentifier();
+        Integer alternateVendorHdrDetailAssignedId = poDocument.getAlternateVendorDetailAssignedIdentifier();
+        
+        VendorDetail alternateVendor = SpringContext.getBean(VendorService.class).getVendorDetail(alternateVendorHdrGeneratedId,alternateVendorHdrDetailAssignedId);
+        
+        if (alternateVendor != null) {
+            if (alternateVendor.isVendorDebarred()) {
+                errorMap.putError(PurapPropertyConstants.ALTERNATE_VENDOR_NAME,PurapKeyConstants.ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED);
+                valid &= false;
+            }
+            if (StringUtils.equals(alternateVendor.getVendorHeader().getVendorTypeCode(), VendorTypes.DISBURSEMENT_VOUCHER)) {
+                errorMap.putError(PurapPropertyConstants.ALTERNATE_VENDOR_NAME,PurapKeyConstants.ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE);
+                valid &= false;
+            }
+            if (!alternateVendor.isActiveIndicator()) {
+                errorMap.putError(PurapPropertyConstants.ALTERNATE_VENDOR_NAME,PurapKeyConstants.ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_INACTIVE,PODocumentsStrings.ALTERNATE_PAYEE_VENDOR);
+                valid &= false;
+            }
+        }
         errorMap.clearErrorPath();
-
         return valid;
     }
 

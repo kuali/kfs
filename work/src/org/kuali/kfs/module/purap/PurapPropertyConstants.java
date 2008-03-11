@@ -38,7 +38,6 @@ public class PurapPropertyConstants {
     public static final String ITEM_COMMODITY_CODE = "purchasingCommodityCode";
     public static final String NEW_PURCHASING_ITEM_LINE = "newPurchasingItemLine";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
-    
 
     // accounting line
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";
@@ -83,6 +82,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
     public static final String QUOTE_TRANSMITTED = "purchaseOrderQuoteTransmitted";
     public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
+    public static final String ALTERNATE_VENDOR_NAME = "alternateVendorName";
     
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";

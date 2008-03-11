@@ -105,6 +105,9 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED = "error.transmit.purchaseOrder.notTransmitted";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS = "error.purchaseOrder.quote.notInProcess";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED = "error.purchaseOrder.quote.transmit.type.not.selected";
+    public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_INACTIVE = "error.inactive";
+    public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE = "error.purchaseOrder.alternateVendor.dvType";
+    public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED = "error.purchaseOrder.alternateVendor.debarred";
 
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";

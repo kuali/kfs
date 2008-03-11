@@ -59,7 +59,7 @@
         <attributes>
 
            <attribute name="vendorOwnershipCategoryCode" forceUppercase="true">
-                <label>Vendor Ownership Category Code</label>
+                <label>Ownership Category Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -73,7 +73,7 @@
 			</attribute>
 
             <attribute name="vendorOwnershipCategoryDescription" forceUppercase="true">
-                <label>Vendor Ownership Category Description</label>
+                <label>Ownership Category Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>

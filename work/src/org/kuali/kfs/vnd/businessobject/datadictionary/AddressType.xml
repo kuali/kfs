@@ -62,7 +62,7 @@
         <attributes>
 
             <attribute name="vendorAddressTypeCode" forceUppercase="true">
-                <label>Vendor Address Type Code</label>
+                <label>Address Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -76,7 +76,7 @@
 			</attribute>
 
             <attribute name="vendorAddressTypeDescription" forceUppercase="true">
-                <label>Vendor Address Type Description</label>
+                <label>Address Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -90,8 +90,8 @@
 			</attribute>
 
             <attribute name="vendorDefaultIndicator" forceUppercase="false">
-                <label>Vendor Default Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Default Indicator</label>
+                <shortLabel>Default</shortLabel>
 
                 <maxLength>1</maxLength>
 

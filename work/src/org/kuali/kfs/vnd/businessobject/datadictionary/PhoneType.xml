@@ -59,7 +59,7 @@
         <attributes>
 
             <attribute name="vendorPhoneTypeCode" forceUppercase="true">
-                <label>Vendor Phone Type Code</label>
+                <label>Phone Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -72,7 +72,7 @@
 			</attribute>
 
             <attribute name="vendorPhoneTypeDescription" forceUppercase="true">
-                <label>Vendor Phone Type Description</label>
+                <label>Phone Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>

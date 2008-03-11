@@ -59,7 +59,7 @@
         <attributes>
 
             <attribute name="vendorContactTypeCode" forceUppercase="true">
-                <label>Vendor Contact Type Code</label>
+                <label>Contact Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -73,7 +73,7 @@
 			</attribute>
 
             <attribute name="vendorContactTypeDescription" forceUppercase="true">
-                <label>Vendor Contact Type Description</label>
+                <label>Contact Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>

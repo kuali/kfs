@@ -72,7 +72,7 @@
 			</attribute>
 
             <attribute name="vendorSupplierDiversityDescription" forceUppercase="true">
-                <label>Vendor Supplier Diversity Description</label>
+                <label>Supplier Diversity Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>

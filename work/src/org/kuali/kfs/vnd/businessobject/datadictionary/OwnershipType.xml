@@ -62,7 +62,7 @@
         <attributes>
 
            <attribute name="vendorOwnershipCode" forceUppercase="true">
-                <label>Vendor Ownership Code</label>
+                <label>Ownership Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -76,7 +76,7 @@
 			</attribute>
 
             <attribute name="vendorOwnershipDescription" forceUppercase="true">
-                <label>Vendor Ownership Description</label>
+                <label>Ownership Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -90,8 +90,8 @@
 			</attribute>
 
             <attribute name="vendorOwnershipCategoryAllowedIndicator" forceUppercase="true">
-                <label>Vendor Ownership Category Allowed Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Ownership Category Allowed Indicator</label>
+                <shortLabel>Ownership Category Allowed</shortLabel>
 
                 <maxLength>1</maxLength>
 

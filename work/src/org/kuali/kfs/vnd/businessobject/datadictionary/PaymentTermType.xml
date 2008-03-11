@@ -76,7 +76,7 @@
         <attributes>
 
             <attribute name="vendorDiscountDueNumber">
-                <label>Vendor Discount Due Number</label>
+                <label>Discount Due Number</label>
                 <shortLabel>Discount Due Num.</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -89,7 +89,7 @@
 			</attribute>
 
             <attribute name="vendorDiscountDueTypeDescription" >
-                <label>Vendor Discount Due Type Description</label>
+                <label>Discount Due Type Description</label>
                 <shortLabel>Discount Due Type Desc.</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -102,7 +102,7 @@
 			</attribute>
 
             <attribute name="vendorNetDueNumber">
-                <label>Vendor Net Due Number</label>
+                <label>Net Due Number</label>
                 <shortLabel>Net Due Num.</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -115,7 +115,7 @@
 			</attribute>
 
             <attribute name="vendorNetDueTypeDescription">
-                <label>Vendor Net Due Type Description</label>
+                <label>Net Due Type Description</label>
                 <shortLabel>Net Due Type Desc.</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -128,7 +128,7 @@
 			</attribute>
 
             <attribute name="vendorPaymentTermsCode" forceUppercase="true">
-                <label>Vendor Payment Terms Code</label>
+                <label>Payment Terms Code</label>
                 <shortLabel>Payment Terms Cd.</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -141,7 +141,7 @@
 			</attribute>
 
             <attribute name="vendorPaymentTermsDescription">
-                <label>Vendor Payment Terms Description</label>
+                <label>Payment Terms Description</label>
                 <shortLabel>Payment Terms Desc.</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -154,7 +154,7 @@
 			</attribute>
 
             <attribute name="vendorPaymentTermsPercent">
-                <label>Vendor Payment Terms Percent</label>
+                <label>Payment Terms Percent</label>
                 <shortLabel>Payment Terms Percent</shortLabel>
 
                 <maxLength>6</maxLength>

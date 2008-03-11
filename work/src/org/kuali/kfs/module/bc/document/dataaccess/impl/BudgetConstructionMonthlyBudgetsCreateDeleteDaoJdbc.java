@@ -131,13 +131,13 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @RawSQL
-    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         //run the delete-all SQL with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes));
-        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -145,13 +145,13 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @RawSQL
-    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes));
-        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
 
     }
 
@@ -160,16 +160,16 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @RawSQL
-    public void BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteNoBenefitsRevenueRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inRevenueObjectTypes, fiscalYear, chartCode));
-        LOG.warn(String.format("\n RevenueSpread rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n RevenueSpread rows deleted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
         // run the create-monthly-budgets-from-GL SQL with the revenue object classes
         returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerRevenueByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inRevenueObjectTypes));
-        LOG.warn(String.format("\n RevenueSpread rows inserted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n RevenueSpread rows inserted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -177,16 +177,16 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @RawSQL
-    public void BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();
         // run the delete-all-except-benefits SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteNoBenefitsExpenditureRowsSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, inExpenditureObjectTypes, fiscalYear, chartCode));
-        LOG.warn(String.format("\n ExpenditureSpread rows deleted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n ExpenditureSpread rows deleted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
         // run the create-monthly-budgets-from-GL SQL with the expenditure object classes
         returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, sqlParameters(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode, inExpenditureObjectTypes));
-        LOG.warn(String.format("\n ExpenditureSpread rows inserted for (%s,%d,%s,%s,%s) = &d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
+        LOG.warn(String.format("\n ExpenditureSpread rows inserted for (%s,%d,%s,%s,%s) = %d",documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
 
     /**
@@ -194,7 +194,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @RawSQL
-    public boolean BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public boolean budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
 
         // check to see whether we need to build the SQL from the static values initialized in the constructor
         buildSqlIfNecessary();

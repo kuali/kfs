@@ -14,63 +14,68 @@
  * limitations under the License.
  */
 package org.kuali.module.budget.dao;
-
+/**
+ * 
+ * provides the data access methods to distribute a set of budget construction general ledger amounts among tweleve monthly periods in a budget
+ * construction monthly budget row with the same key. any rounding errors are added/subtracted from the first monthly period, so the total of the
+ * monthly periods equals the original amount distributed
+ */
 public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
 
     /**
      * 
      * remove the existing revenue monthly budgets for this key
-     * @param documentNumber
-     * @param fiscalYear
+     * @param documentNumber  the budget construction document number
+     * @param fiscalYear      the fiscal year for which the budget is being built
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
      */
-      public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
      /**
       * 
       * remove the existing expenditure monthly budgets for this key
-      * @param documentNumber
-      * @param fiscalYear
+      * @param documentNumber  the budget construction document number
+      * @param fiscalYear      the fiscal year for which the budget is being built
       * @param chartCode
       * @param accountNumber
       * @param subAccountNumber
       */ 
-      public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
        * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
-       * @param documentNumber
-       * @param fiscalYear
+       * @param documentNumber  the budget construction document number
+       * @param fiscalYear      the fiscal year for which the budget is being built
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
        * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month 
-       * @param documentNumber
-       * @param fiscalYear
+       * @param documentNumber  the budget construction document number
+       * @param fiscalYear      the fiscal year for which the budget is being built
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public void spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
       /**
        * 
        * checks to see whether the key contains object codes that fund benefits
-       * @param documentNumber
-       * @param fiscalYear
+       * @param documentNumber  the budget construction document number
+       * @param fiscalYear      the fiscal year for which the budget is being built
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
        * @return true if benefits are funded by this accounting key, false otherwise
        */
-      public boolean BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public boolean budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
 }

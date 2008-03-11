@@ -22,6 +22,11 @@ import org.apache.log4j.Logger;
 import org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
 import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 
+/**
+ * 
+ * @see org.kuali.module.budget.service.BudgetConctructionMonthlyBudgetsCreateDeleteService
+ */
+
 @Transactional
 public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements BudgetConstructionMonthlyBudgetsCreateDeleteService {
 
@@ -29,40 +34,40 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
 
     
     private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
-    
+
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsDeleteRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void BudgetConstructionMonthlyBudgetsDeleteRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsDeleteRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
 
     }
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsDeleteExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void BudgetConstructionMonthlyBudgetsDeleteExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsDeleteExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsSpreadRevenue(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsSpreadRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
+    public boolean spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         return false;
     }
 
     /**
      * 
-     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#BudgetConstructionMonthlyBudgetsSpreadExpenditure(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean BudgetConstructionMonthlyBudgetsSpreadExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetsSpreadExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.BudgetConstructionMonthlyBudgetContainsBenefitsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
+        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
@@ -82,14 +87,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
     {
         
-       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsDeleteExpenditure\n\n"); 
-       BudgetConstructionMonthlyBudgetsDeleteExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsDeleteRevenue\n\n"); 
-       BudgetConstructionMonthlyBudgetsDeleteRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn("\n\nBudgetConstructionMonthlyBudgetsSpreadRevenue\n\n"); 
-       BudgetConstructionMonthlyBudgetsSpreadRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn(String.format("\n\nBudgetConstructionMonthlyBudgetsSpreadExpenditure returned %b for (%s,%d,%s,%s,%s): ",
-                               BudgetConstructionMonthlyBudgetsSpreadExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+       LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure\n\n"); 
+       deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
+       deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
+       spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %b for (%s,%d,%s,%s,%s): ",
+                               spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
                                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
     

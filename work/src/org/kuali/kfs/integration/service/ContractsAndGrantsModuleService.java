@@ -16,8 +16,7 @@
 package org.kuali.module.integration.service;
 
 import org.kuali.core.bo.user.KualiGroup;
-
-import edu.iu.uis.eden.user.UuId;
+import org.kuali.core.bo.user.UniversalUser;
 
 
 /**
@@ -29,7 +28,7 @@ public interface ContractsAndGrantsModuleService {
 
     public String getAwardWorkgroupForAccount(String chart, String account);
     
-    public UuId getProjectDirectorForAccount(String chart, String account);
+    public UniversalUser getProjectDirectorForAccount(String chart, String account);
     
     
 }

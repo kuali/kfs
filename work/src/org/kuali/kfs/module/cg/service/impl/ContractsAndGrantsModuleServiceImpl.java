@@ -15,25 +15,21 @@
  */
 package org.kuali.module.cg.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.dao.AwardDao;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.user.UuId;
 
 /**
  * This class exposes operations on Awards.
@@ -113,7 +109,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     }
     
-    public UuId getProjectDirectorForAccount(String chart, String account){
+    public UniversalUser getProjectDirectorForAccount(String chart, String account){
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Long maxProposalNumber;
         Map awardAccountMap = new HashMap();
@@ -124,7 +120,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         if (proposals != null && !proposals.isEmpty()) {
             maxProposalNumber = ((AwardAccount) proposals.iterator().next()).getProposalNumber();
             awardMap.put("proposalNumber", maxProposalNumber);
-            return new UuId(((AwardAccount) boService.findByPrimaryKey(AwardAccount.class, awardMap)).getPersonUniversalIdentifier());
+            return ((AwardAccount) boService.findByPrimaryKey(AwardAccount.class, awardMap)).getProjectDirector().getUniversalUser();
         }
         else {
             return null;

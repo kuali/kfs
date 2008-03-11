@@ -81,7 +81,10 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
         try {
             Collection selectedClaims = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPersonUniversalIdentifier());
             for (Object claimAsObj : selectedClaims) {
-                claims.add((ElectronicPaymentClaim) claimAsObj);
+                ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsObj;
+                if (!claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED) && StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())) {
+                    claims.add(claim);
+                }
             }
         }
         catch (Exception e) {

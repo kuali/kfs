@@ -57,16 +57,15 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * 
      * @see org.kuali.kfs.service.ElectronicPaymentClaimingService#constructNotesForClaims(java.util.List)
      */
-    public List<Note> constructNotesForClaims(List<ElectronicPaymentClaim> claims, UniversalUser claimingUser) {
+    public List<String> constructNoteTextsForClaims(List<ElectronicPaymentClaim> claims) {
         int summariesPerNote;
-        List<Note> notes = new ArrayList<Note>();
+        List<String> noteTexts = new ArrayList<String>();
         try {
             summariesPerNote = Integer.parseInt(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER));
             int i = 0;
             while (i < claims.size()) {
-                Note note = constructNote(claims, i, summariesPerNote);
-                note.setAuthorUniversalIdentifier(claimingUser.getPersonUniversalIdentifier());
-                notes.add(note);
+                String noteText = constructNoteText(claims, i, summariesPerNote);
+                noteTexts.add(noteText);
                 i += summariesPerNote;
             }
         } catch (NumberFormatException nfe) {
@@ -74,7 +73,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         } catch (NullPointerException npe) {
             throw new RuntimeException(npe);
         }
-        return notes;
+        return noteTexts;
     }
     
     /**
@@ -84,17 +83,14 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @param maxSummariesPerNote the number of ElectronicPaymentClaim summaries we can have on a note
      * @return a newly constructed note, that needs to have a user added
      */
-    private Note constructNote(List<ElectronicPaymentClaim> claims, int startPoint, int maxSummariesPerNote) {
-        Note note = new Note();
+    private String constructNoteText(List<ElectronicPaymentClaim> claims, int startPoint, int maxSummariesPerNote) {
         StringBuilder sb = new StringBuilder();
         sb.append(CLAIMING_NOTE_PRELUDE);
         for (int i = startPoint; i < (startPoint + maxSummariesPerNote) && i < claims.size(); i++) {
             ElectronicPaymentClaim claim = claims.get(i);
             sb.append(createSummaryLineForClaim(claim));
         }
-        note.setNoteText(sb.toString());
-        note.setNotePostedTimestamp(dateTimeService.getCurrentTimestamp());
-        return note;
+        return sb.toString();
     }
     
     /**
@@ -112,7 +108,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
             summary.append(dateTimeService.toDateTimeString(claim.getGeneratingDocument().getDocumentHeader().getDocumentFinalDate()));
             summary.append(' ');
             summary.append(claim.getGeneratingAccountingLine().getAmount());
-            summary.append('\n');
+            summary.append("\n");
         }
         catch (WorkflowException e) {
             LOG.warn("Could not find generating document "+claim.getDocumentNumber());

@@ -22,6 +22,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
+import org.kuali.core.service.NoteService;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
@@ -58,8 +59,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
         try {
             document = (DistributionOfIncomeAndExpenseDocument)documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
             addAccountingLinesToDocument(document, electronicPayments);
-            addNotesToDocument(document, electronicPayments, user);
             addDescriptionToDocument(document);
+            addNotesToDocument(document, electronicPayments, user);
             documentService.saveDocument(document);
             electronicPaymentClaimingService.claimElectronicPayments(electronicPayments, document.getDocumentNumber());
         } catch (WorkflowException we) {
@@ -92,8 +93,13 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
      * @param user the user doing the claiming
      */
     protected void addNotesToDocument(DistributionOfIncomeAndExpenseDocument claimingDoc, List<ElectronicPaymentClaim> claims, UniversalUser user) {
-        for (Note note: electronicPaymentClaimingService.constructNotesForClaims(claims, user)) {
-            claimingDoc.addNote(note);
+        for (String noteText: electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
+            try {
+                Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
+                documentService.addNoteToDocument(claimingDoc, note);
+            } catch (Exception e) {
+                LOG.error("Exception while attempting to create or add note: "+e);
+            }
         }
     }
 
@@ -161,7 +167,6 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
         newLine.setProjectCode(line.getProjectCode());
         newLine.setOrganizationReferenceId(line.getOrganizationReferenceId());
         newLine.setAmount(line.getAmount());
-        // TODO What about other fields in the accounting line class?
         return newLine;
     }
     
@@ -275,5 +280,4 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     public DocumentTypeService getDocumentTypeService() {
         return documentTypeService;
     }
-    
 }

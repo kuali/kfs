@@ -43,13 +43,13 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
-        String claimingStatus = fieldValues.remove("claimingStatus");
+        String claimingStatus = fieldValues.remove("paymentClaimStatusCode");
         Criteria additionalCriteria = new Criteria();
         if (claimingStatus != null && !claimingStatus.equals("A")) {
             if (claimingStatus.equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
-                additionalCriteria.addEqualTo("referenceFinancialDocumentNumber", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
+                additionalCriteria.addEqualTo("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             } else {
-                additionalCriteria.addEqualTo("referenceFinancialDocumentNumber", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
+                additionalCriteria.addEqualTo("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
         return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, additionalCriteria);

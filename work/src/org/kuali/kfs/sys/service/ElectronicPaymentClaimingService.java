@@ -34,7 +34,7 @@ public interface ElectronicPaymentClaimingService {
      * @param claimingUser the user who's actually claiming ElectronicPaymentClaim records
      * @return a List of Notes that will summarize that claiming.
      */
-    public abstract List<Note> constructNotesForClaims(List<ElectronicPaymentClaim> claims, UniversalUser claimingUser);
+    public abstract List<String> constructNoteTextsForClaims(List<ElectronicPaymentClaim> claims);
     
     /**
      * Returns a list of which document types the given user can claim Electronic Payment Claims with.

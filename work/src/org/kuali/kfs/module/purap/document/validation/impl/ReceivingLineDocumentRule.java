@@ -26,7 +26,7 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
 
     public boolean processContinuePurapBusinessRules(TransactionalDocument document) {
         
-        boolean valid = false;
+        boolean valid = true;
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument)document;
         
         valid &= canCreateReceivingLineDocument(receivingLineDocument);

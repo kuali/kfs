@@ -117,7 +117,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                  workflowDocument.stateIsException() ||
                  workflowDocument.stateIsFinal()) ){
                      
-                isInProcess = false;
+                isInProcess = true;
                 break;
             }
         }

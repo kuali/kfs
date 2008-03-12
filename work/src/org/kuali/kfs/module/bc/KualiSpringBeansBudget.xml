@@ -342,9 +342,7 @@
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc">
-      <property name="parameterService">
-        <ref bean="parameterService"/>
-      </property>
+      <constructor-arg><ref bean="parameterService"/></constructor-arg>
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">

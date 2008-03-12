@@ -95,6 +95,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         // In amendment, the user can set it to false when they click on
         // the inactivate button.
         this.setItemActiveIndicator(true);
+        
+        this.setPurchasingCommodityCode(ri.getPurchasingCommodityCode());
     }
 
     public boolean isItemActiveIndicator() {

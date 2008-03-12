@@ -61,6 +61,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.bo.CommodityCode;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
@@ -98,6 +99,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
+        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocument.getClass(), PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
@@ -114,6 +116,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);                
+                if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
+                    valid &= validateCommodityCodes(item, identifierString);
+                }
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -377,6 +382,27 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    private boolean validateCommodityCodes(PurApItem item, String identifierString) {
+        boolean valid = true;
+        PurchasingItemBase purItem = (PurchasingItemBase) item;
+        if (StringUtils.isBlank(purItem.getPurchasingCommodityCode())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
+        }
+        else {
+            //Find out whether the commodity code has existed in the database
+            Map fieldValues = new HashMap<String, String>();
+            fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
+                valid = false;
+                //TODO: Change this error to the correct, suitable error message about invalid commodity code
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
+            }
+        }
+        
+        return valid;
+    }
+    
     /**
      * Performs any validation for the Payment Info tab.
      * 

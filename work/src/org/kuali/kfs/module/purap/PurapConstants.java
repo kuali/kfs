@@ -485,6 +485,7 @@ public class PurapConstants extends JstlConstants {
         public static final String INVOICE_QUANTITY = "Qty Invoiced";
         public static final String OPEN_QUANTITY = "Open Qty";
         public static final String INVOICE_EXTENDED_PRICE = "Total Inv Cost";
+        public static final String COMMODITY_CODE = "Commodity Code";
     }
 
     // CREDIT MEMO DOCUMENT

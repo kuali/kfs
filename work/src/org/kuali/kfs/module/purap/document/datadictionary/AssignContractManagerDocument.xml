@@ -99,6 +99,16 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 
 			</attribute>
 
+            <attribute name="firstItemCommodityCode" >
+                <label>First Item Commodity Code</label>
+                <shortLabel>First Item Commodity Code</shortLabel>
+                <maxLength>20</maxLength>
+                <control>
+                    <text size="22" />
+                </control>
+
+            </attribute>
+            
 			<attribute name="firstObjectCode">
 				<label>First Object Code</label>
 				<shortLabel>First Object Code</shortLabel>

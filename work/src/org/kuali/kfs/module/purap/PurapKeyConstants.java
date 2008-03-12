@@ -26,7 +26,6 @@ public class PurapKeyConstants {
     public static final String PURAP_GENERAL_NO_ITEMS_TO_REMOVE_ACCOUNTS_FROM = "error.document.purap.noItemsToRemoveAccountsFrom";
     public static final String PURAP_GENERAL_ACCOUNTS_DISTRIBUTED = "message.document.purap.accountsDistributed";
     public static final String PURAP_GENERAL_ACCOUNTS_REMOVED = "message.document.purap.accountsRemoved";
-    public static final String PUR_COMMODITY_CODES_CLEARED = "message.document.pur.commodityCodesCleared";
     public static final String ERROR_INVALID_CHART_OF_ACCOUNTS_CODE = "error.document.purap.invalidChartOfAccountsCode";
     public static final String ERROR_INVALID_ORGANIZATION_CODE = "error.document.purap.invalidOrganizationCode";
 
@@ -59,6 +58,8 @@ public class PurapKeyConstants {
     public static final String ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST = "error.delivery.required.date.in.the.past";
     public static final String ERROR_AUTHORIZATION_ACM_INITIATION = "error.authorization.assignContractManagerInitiation";
     public static final String REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS = "requisition.question.fix.capitalAsset.warnings";
+    public static final String PUR_COMMODITY_CODES_CLEARED = "message.document.pur.commodityCodesCleared";
+    public static final String PUR_COMMODITY_CODE_INVALID = "error.commodity.code.invalid";
     
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";

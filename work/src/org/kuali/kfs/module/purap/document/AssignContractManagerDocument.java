@@ -56,6 +56,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private String requisitionTotalAmount;
     private String requisitionCreateDate;
     private String firstItemDescription;
+    private String firstItemCommodityCode;
     private String firstObjectCode;
 
 
@@ -213,6 +214,15 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
      */
     public String getFirstItemDescription() {
         return firstItemDescription;
+    }
+
+   /**
+    * Gets the firstItemCommodityCode attribute.
+    * 
+    * @return Returns the firstItemCommodityCode.
+    */
+    public String getFirstItemCommodityCode() {
+        return firstItemCommodityCode;
     }
 
     /**

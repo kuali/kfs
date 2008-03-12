@@ -33,4 +33,5 @@ public class PurapRuleConstants {
     public static final String RESTRICTED_OBJECT_SUB_TYPE_PARM_NM = "OBJECT_SUB_TYPES";
 
     public static final String PURAP_VENDOR_TYPE_ALLOWED_ON_REQ_AND_PO = "REQ_AND_PO_VENDOR_TYPES";
+    public static final String ITEMS_REQUIRE_COMMODITY_CODE_IND = "ITEMS_REQUIRE_COMMODITY_CODE_IND";
 }

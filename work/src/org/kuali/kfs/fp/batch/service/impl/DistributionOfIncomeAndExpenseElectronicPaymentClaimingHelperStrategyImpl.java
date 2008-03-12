@@ -23,17 +23,20 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.NoteService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
+import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ElectronicFundTransferClaimActionHelper;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocument {
+public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.class);
     private DataDictionaryService ddService;
     private DocumentService documentService;
@@ -52,7 +55,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     private final static String URL_SUFFIX = "&docId=";
     
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocument#createDocumentFromElectronicPayments(java.util.List)
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user) {
         DistributionOfIncomeAndExpenseDocument document = null;
@@ -110,13 +113,8 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
      */
     protected void addAccountingLinesToDocument(DistributionOfIncomeAndExpenseDocument document, List<ElectronicPaymentClaim> electronicPayments) {
         for (ElectronicPaymentClaim payment: electronicPayments) {
-            try {
-                SourceAccountingLine claimingAccountingLine = copyAccountingLineToNew(payment.getGeneratingAccountingLine(), createNewAccountingLineForDocument(document));
-                document.addSourceAccountingLine(claimingAccountingLine);
-            }
-            catch (WorkflowException e) {
-                LOG.warn("Could not find accounting line from document: "+payment.getDocumentNumber());
-            }
+            SourceAccountingLine claimingAccountingLine = copyAccountingLineToNew(payment.getGeneratingAccountingLine(), createNewAccountingLineForDocument(document));
+            document.addSourceAccountingLine(claimingAccountingLine);
         }
     }
     
@@ -172,7 +170,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
     
     /**
      * Returns the name DistributionOfIncomeAndExpenseDocument workflow document type
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocument#getClaimingDocumentClass()
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getClaimingDocumentClass()
      */
     public String getClaimingDocumentWorkflowDocumentType() {
         return DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.DI_WORKFLOW_DOCUMENT_TYPE;
@@ -180,7 +178,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
 
     /**
      * Uses the data dictionary to find the label for this document
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocument#getDocumentLabel()
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentLabel()
      */
     public String getDocumentLabel() {
         return ddService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getLabel();
@@ -188,17 +186,33 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl i
 
     /**
      * This always returns true if the given user in the claiming workgroup.
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocument#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.core.bo.user.UniversalUser)
      */
     public boolean userMayUseToClaim(UniversalUser claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
     }
 
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocument#getDocumentCode()
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#getDocumentCode()
      */
     public String getDocumentCode() {
         return ddService.getDataDictionary().getDocumentEntry(documentTypeService.getClassByName(getClaimingDocumentWorkflowDocumentType()).getCanonicalName()).getDocumentTypeCode();
+    }
+
+    /**
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy#isDocumentReferenceValid(java.lang.String)
+     */
+    public boolean isDocumentReferenceValid(String referenceDocumentNumber) {
+        boolean valid = false;
+        try {
+            long docNumberAsLong = Long.parseLong(referenceDocumentNumber);
+            if (docNumberAsLong > 0L) {
+                valid = documentService.documentExists(referenceDocumentNumber);
+            }
+        } catch (NumberFormatException nfe) {
+            valid = false; // the doc # can't be parsed into a Long?  Then it ain't no valid!
+        }
+        return valid;
     }
 
     /**

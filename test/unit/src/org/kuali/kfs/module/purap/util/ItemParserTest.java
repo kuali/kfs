@@ -123,7 +123,7 @@ public class ItemParserTest extends KualiTestBase {
      * Tests whether parseItem returns successfully with valid quantity-driven Requisition item line as input.
      */
     public void testParseQuantityReqItem() {
-        String itemLine = "3,BX,123,paper,6";
+        String itemLine = "3,BX,123,paper,,6";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             assertEquals(item.getItemQuantity().compareTo(new KualiDecimal(3)), 0);
@@ -148,7 +148,7 @@ public class ItemParserTest extends KualiTestBase {
         parser = purDoc.getItemParser();
         itemClass = purDoc.getItemClass();
         documentNumber = purDoc.getDocumentNumber();
-        String itemLine = ",,100,cleaning service,50";
+        String itemLine = ",,100,cleaning service,,50";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             assertEquals(item.getItemQuantity(), null);
@@ -170,20 +170,20 @@ public class ItemParserTest extends KualiTestBase {
      */
     public void testParseWrongPropertyNumberItem() {
         try {
-            String itemLine = "2.5,BX,123,paper,5.99,blahblah";
+            String itemLine = "2.5,BX,123,paper,,5.99,blahblah";
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             fail("Fail to throw ItemParserException with extra item property fields.");
         }
         catch(ItemParserException e) {
-            assertWrongPropertyNumber(e, 6);
+            assertWrongPropertyNumber(e, 7);
         }
         try {
-            String itemLine = "BX,123,paper,5.99";
+            String itemLine = "BX,123,paper,,5.99";
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             fail("Fail to throw ItemParserException with missing item property fields.");
         }
         catch(ItemParserException e) {
-            assertWrongPropertyNumber(e, 4);
+            assertWrongPropertyNumber(e, 5);
         }
     }
     
@@ -206,13 +206,13 @@ public class ItemParserTest extends KualiTestBase {
      * Tests whether parseItem catches exceptions upon invalid numeric properties values in the input item line.
      */
     public void testParseInvalidNumericItem() {
-        String itemLine = "2.5,BX,123,paper,blahblah";
+        String itemLine = "2.5,BX,123,paper,,blahblah";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
             fail("Fail to throw ItemParserException with invalid numeric values for item property fields.");
         }
         catch(ItemParserException e) {
-            assertInvalidNumericValue(e, parser.getItemFormat()[4], "blahblah");
+            assertInvalidNumericValue(e, parser.getItemFormat()[5], "blahblah");
         }
     }    
 }

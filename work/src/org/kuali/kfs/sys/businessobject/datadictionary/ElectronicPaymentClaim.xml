@@ -108,6 +108,17 @@
             	<description>Whether this electronic payment record is claimed or unclaimed.</description>
             </attribute>
             
+            <attribute name="paymentClaimStatus">
+            	<label>Electronic Payment Claiming Status</label>
+            	<shortLabel>Claiming Status</shortLabel>
+            	<maxLength>10</maxLength>
+            	<control>
+            		<text size="10" />
+            	</control>
+            	<summary>Descriptive text about whether this electronic payment record is claimed or unclaimed.</summary>
+            	<description>Descriptive text about whether this electronic payment record is claimed or unclaimed.</description>
+            </attribute>
+            
             <attributeReference name="generatingAccountingLine.financialDocumentLineDescription" sourceClassName="org.kuali.kfs.bo.SourceAccountingLine" sourceAttributeName="financialDocumentLineDescription">
             	<label>Line Description</label>
             	<shortLabel>Line Desc</shortLabel>

@@ -17,14 +17,14 @@ package org.kuali.module.financial.service.impl;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
+import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from
  * DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl.
  */
-public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocument {
+public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl extends DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private final static String YEDI_WORKFLOW_DOC_TYPE = "YearEndDistributionOfIncomeAndExpenseDocument";
 
     /**

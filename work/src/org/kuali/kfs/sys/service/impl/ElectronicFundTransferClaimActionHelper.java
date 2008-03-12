@@ -33,7 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.service.ElectronicFundTransferActionHelper;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
+import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.web.struts.form.ElectronicFundTransferForm;
 import org.kuali.kfs.web.struts.form.ElectronicPaymentClaimClaimedHelper;
@@ -73,7 +73,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         // process admin's pre-claimed records
         List<ElectronicPaymentClaim> claims = form.getClaims();
         if (electronicPaymentClaimingService.isElectronicPaymentAdministrator(currentUser)) {
-            claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()));
+            claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
             if (GlobalVariables.getErrorMap().size() > 0) {
                 // if there were any errors, we'll need to redirect to the page again
                 return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
@@ -90,7 +90,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         // get the requested document claiming helper
         if (continueClaiming) {
             
-            ElectronicPaymentClaimingDocument documentCreationHelper = getRequestedClaimingHelper(form.getChosenElectronicPaymentClaimingDocumentCode(), form.getAvailableClaimingDocuments(), currentUser);
+            ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper = getRequestedClaimingHelper(form.getChosenElectronicPaymentClaimingDocumentCode(), form.getAvailableClaimingDocumentStrategies(), currentUser);
             // take the claims from the form, create a document, and redirect to the given URL...which is easy
             String redirectURL = electronicPaymentClaimingService.createPaymentClaimingDocument(form.getClaims(), documentCreationHelper, currentUser);
             return new ActionForward(redirectURL, true);
@@ -114,18 +114,18 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     }
 
     /**
-     * Using user entered form values, determines which of the available ElectronicPaymentClaimingDocument implementations to use. 
+     * Using user entered form values, determines which of the available ElectronicPaymentClaimingDocumentGenerationStrategy implementations to use. 
      * @param chosenDoc the document type code for the doc that the user selected
-     * @param availableClaimingDocs a List of ElectronicPaymentClaimingDocument implementations that can be used by the given user
+     * @param availableClaimingDocs a List of ElectronicPaymentClaimingDocumentGenerationStrategy implementations that can be used by the given user
      * @param currentUser the currently logged in user
-     * @throws AuthorizationException thrown if the user entered an invalid or unusable ElectronicPaymentClaimingDocument code
-     * @return an ElectronicPaymentClaimingDocument helper to use to create the document
+     * @throws AuthorizationException thrown if the user entered an invalid or unusable ElectronicPaymentClaimingDocumentGenerationStrategy code
+     * @return an ElectronicPaymentClaimingDocumentGenerationStrategy helper to use to create the document
      */
-    private ElectronicPaymentClaimingDocument getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocument> availableClaimingDocs, UniversalUser currentUser) {
-        ElectronicPaymentClaimingDocument chosenDocHelper = null;
+    private ElectronicPaymentClaimingDocumentGenerationStrategy getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocs, UniversalUser currentUser) {
+        ElectronicPaymentClaimingDocumentGenerationStrategy chosenDocHelper = null;
         int count = 0;
         while (count < availableClaimingDocs.size() && chosenDocHelper == null) {
-            ElectronicPaymentClaimingDocument claimingDoc = availableClaimingDocs.get(count);
+            ElectronicPaymentClaimingDocumentGenerationStrategy claimingDoc = availableClaimingDocs.get(count);
             if (claimingDoc.getDocumentCode().equals(chosenDoc)) {
                 chosenDocHelper = claimingDoc;
             }
@@ -143,7 +143,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param claims the list of electronic payment claims 
      * @return the list of electronic payment claims with all pre-claimed records removed
      */
-    private List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox) {
+    private List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox, List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentGenerationStrategies) {
         List<ElectronicPaymentClaim> stillToClaim = new ArrayList<ElectronicPaymentClaim>();
         int count = 0;
         for (ElectronicPaymentClaim claim: claims) {
@@ -154,7 +154,13 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
                 boolean savePreClaimed = true;
                 if (StringUtils.isNotBlank(claim.getReferenceFinancialDocumentNumber())) {
                     // check that the document exists
-                    if (!documentService.documentExists(claim.getReferenceFinancialDocumentNumber())) {
+                    boolean isValidDocRef = false;
+                    int stratCount = 0;
+                    while (!isValidDocRef && stratCount < documentGenerationStrategies.size()) {
+                        isValidDocRef |= documentGenerationStrategies.get(stratCount).isDocumentReferenceValid(claim.getReferenceFinancialDocumentNumber());
+                        stratCount += 1;
+                    }
+                    if (!isValidDocRef) {
                         GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]", KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
                         savePreClaimed = false;
                     }

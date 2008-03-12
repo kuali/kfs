@@ -31,7 +31,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.ElectronicPaymentClaiming;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
+import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
@@ -90,7 +90,9 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
             ElectronicPaymentClaim claim = claims.get(i);
             sb.append(createSummaryLineForClaim(claim));
         }
-        return sb.toString();
+        // substring out the final " ; "
+        String noteText = sb.substring(0, sb.length() - 3); 
+        return noteText;
     }
     
     /**
@@ -103,23 +105,21 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         summary.append(claim.getDocumentNumber());
         summary.append('-');
         summary.append(claim.getFinancialDocumentLineNumber().toString());
-        try {
-            summary.append(' ');
-            summary.append(dateTimeService.toDateTimeString(claim.getGeneratingDocument().getDocumentHeader().getDocumentFinalDate()));
-            summary.append(' ');
-            summary.append(claim.getGeneratingAccountingLine().getAmount());
-            summary.append("\n");
-        }
-        catch (WorkflowException e) {
-            LOG.warn("Could not find generating document "+claim.getDocumentNumber());
-        }
+        summary.append(' ');
+        summary.append(dateTimeService.toDateString(claim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositDate()));
+        summary.append(' ');
+        summary.append('$');
+        summary.append(claim.getGeneratingAccountingLine().getAmount());
+        summary.append(' ');
+        summary.append(';');
+        summary.append(' ');
         return summary.toString();
     }
 
     /**
-     * @see org.kuali.kfs.service.ElectronicPaymentClaimingService#createPaymentClaimingDocument(java.util.List, org.kuali.kfs.service.ElectronicPaymentClaimingDocument)
+     * @see org.kuali.kfs.service.ElectronicPaymentClaimingService#createPaymentClaimingDocument(java.util.List, org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy)
      */
-    public String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocument documentCreationHelper, UniversalUser user) {
+    public String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, UniversalUser user) {
         return documentCreationHelper.createDocumentFromElectronicPayments(claims, user);
     }
 
@@ -127,11 +127,11 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * 
      * @see org.kuali.kfs.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.core.bo.user.UniversalUser)
      */
-    public List<ElectronicPaymentClaimingDocument> getClaimingDocumentChoices(UniversalUser user) {
-        List<ElectronicPaymentClaimingDocument> documentChoices = new ArrayList<ElectronicPaymentClaimingDocument>();
+    public List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(UniversalUser user) {
+        List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentChoices = new ArrayList<ElectronicPaymentClaimingDocumentGenerationStrategy>();
         if (isUserMemberOfClaimingGroup(user)) {
-            Map<String, ElectronicPaymentClaimingDocument> claimingDocHelpers = SpringContext.getBeansOfType(ElectronicPaymentClaimingDocument.class);
-            ElectronicPaymentClaimingDocument claimingDocHelper;
+            Map<String, ElectronicPaymentClaimingDocumentGenerationStrategy> claimingDocHelpers = SpringContext.getBeansOfType(ElectronicPaymentClaimingDocumentGenerationStrategy.class);
+            ElectronicPaymentClaimingDocumentGenerationStrategy claimingDocHelper;
             
             // try the DI
             claimingDocHelper = claimingDocHelpers.get(DI_CLAIMING_DOC_HELPER_BEAN_NAME);

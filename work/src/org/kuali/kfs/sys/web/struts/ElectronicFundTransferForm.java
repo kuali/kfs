@@ -24,12 +24,12 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ElectronicPaymentClaimingDocument;
+import org.kuali.kfs.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.service.ElectronicPaymentClaimingService;
 
 public class ElectronicFundTransferForm extends KualiForm {
     private List<ElectronicPaymentClaim> claims;
-    private List<ElectronicPaymentClaimingDocument> availableClaimingDocuments;
+    private List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocumentStrategies;
     private List<ElectronicPaymentClaimClaimedHelper> claimedByCheckboxHelpers;
     private String chosenElectronicPaymentClaimingDocumentCode;
     private String hasDocumentation;
@@ -43,18 +43,18 @@ public class ElectronicFundTransferForm extends KualiForm {
     }
     
     /**
-     * Gets the availableClaimingDocuments attribute. 
-     * @return Returns the availableClaimingDocuments.
+     * Gets the availableClaimingDocumentStrategies attribute. 
+     * @return Returns the availableClaimingDocumentStrategies.
      */
-    public List<ElectronicPaymentClaimingDocument> getAvailableClaimingDocuments() {
-        return availableClaimingDocuments;
+    public List<ElectronicPaymentClaimingDocumentGenerationStrategy> getAvailableClaimingDocumentStrategies() {
+        return availableClaimingDocumentStrategies;
     }
     /**
-     * Sets the availableClaimingDocuments attribute value.
-     * @param availableClaimingDocuments The availableClaimingDocuments to set.
+     * Sets the availableClaimingDocumentStrategies attribute value.
+     * @param availableClaimingDocumentStrategies The availableClaimingDocumentStrategies to set.
      */
-    public void setAvailableClaimingDocuments(List<ElectronicPaymentClaimingDocument> availableClaimingDocuments) {
-        this.availableClaimingDocuments = availableClaimingDocuments;
+    public void setAvailableClaimingDocumentStrategies(List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocuments) {
+        this.availableClaimingDocumentStrategies = availableClaimingDocuments;
     }
     /**
      * Gets the chosenElectronicPaymentClaimingDocumentCode attribute. 

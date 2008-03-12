@@ -29,6 +29,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/gl" prefix="gl"%>
 <%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
 
+<%@ taglib tagdir="/WEB-INF/tags/kfs" prefix="kfs"%>
+
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra"%>
 <%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b"%>
 <%@ taglib tagdir="/WEB-INF/tags/kra/routingform" prefix="kra-rf"%>

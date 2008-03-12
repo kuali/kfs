@@ -42,7 +42,7 @@ public class ElectronicFundTransferAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ElectronicFundTransferForm eftForm = (ElectronicFundTransferForm)form;
-        eftForm.setAvailableClaimingDocuments(SpringContext.getBean(ElectronicPaymentClaimingService.class).getClaimingDocumentChoices(GlobalVariables.getUserSession().getUniversalUser()));
+        eftForm.setAvailableClaimingDocumentStrategies(SpringContext.getBean(ElectronicPaymentClaimingService.class).getClaimingDocumentChoices(GlobalVariables.getUserSession().getUniversalUser()));
         return super.execute(mapping, form, request, response);
     }
     

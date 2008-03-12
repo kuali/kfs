@@ -39,19 +39,19 @@ public interface ElectronicPaymentClaimingService {
     /**
      * Returns a list of which document types the given user can claim Electronic Payment Claims with.
      * @param user the user attempting to use a document to claim ElectronicPaymentClaim records
-     * @return a list of ElectronicPaymentClaimingDocument document helper implementations
+     * @return a list of ElectronicPaymentClaimingDocumentGenerationStrategy document helper implementations
      */
-    public abstract List<ElectronicPaymentClaimingDocument> getClaimingDocumentChoices(UniversalUser user);
+    public abstract List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(UniversalUser user);
     
     /**
-     * Given a List of ElectronicPaymentClaim records and a ElectronicPaymentClaimingDocument document helper implementation, creates a document that
+     * Given a List of ElectronicPaymentClaim records and a ElectronicPaymentClaimingDocumentGenerationStrategy document helper implementation, creates a document that
      * will claim; this method should also do the work of "claiming" each of the given ElectronicPaymentClaim records by filling in their referenceFinancialDocumentNumber field. 
      * @param claims the List of ElectronicPaymentClaim records to claim with a document
      * @param documentCreationHelper the document helper which will help this method in constructing the claiming document
      * @param user the UniversalUser record of the user who is claiming the given electronic payments
      * @return the URL to redirect to, so the user can edit the document
      */
-    public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocument documentCreationHelper, UniversalUser user);
+    public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, UniversalUser user);
     
     /**
      * Determines whether the given user is a member of the workgroup designated by parameter KFS-SY / ElectronicPaymentClaim / ELECTRONIC_FUNDS_CLAIMANT_GROUP

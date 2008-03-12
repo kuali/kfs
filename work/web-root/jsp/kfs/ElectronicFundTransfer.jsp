@@ -30,7 +30,7 @@
 </script>
 
 <kul:page headerTitle="Electronic Payment Claiming" transactionalDocument="false" showDocumentInfo="false" htmlFormAction="electronicFundTransfer" docTitle="Electronic Payments to Claim">
-  <fin:electronicPaymentClaims allowAdministration="${KualiForm.allowElectronicFundsTransferAdministration}" />
+  <kfs:electronicPaymentClaims allowAdministration="${KualiForm.allowElectronicFundsTransferAdministration}" />
   <kul:tab tabTitle="Claiming Document" defaultOpen="true" tabErrorKey="chosenElectronicPaymentClaimingDocumentCode">
     <div class="tab-container" align=center>
       <div class="h2-container"><h2>Claiming Document Type</h2></div>
@@ -41,7 +41,7 @@
               <bean:message key="${KualiForm.documentChoiceMessageKey}" />
             </p>
             <p align="center">
-              <c:forEach var="docType" items="${KualiForm.availableClaimingDocuments}">
+              <c:forEach var="docType" items="${KualiForm.availableClaimingDocumentStrategies}">
                 <input type="radio" id="chosenElectronicPaymentClaimingDocumentCode${docType.documentCode}" name="chosenElectronicPaymentClaimingDocumentCode" value="${docType.documentCode}"<c:if test="${KualiForm.chosenElectronicPaymentClaimingDocumentCode == docType.documentCode}"> checked="checked"</c:if> /><label for="chosenElectronicPaymentClaimingDocumentCode${docType.documentCode}">${docType.documentLabel}</label>&nbsp;
               </c:forEach>
             </p>

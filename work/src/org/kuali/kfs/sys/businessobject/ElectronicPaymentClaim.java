@@ -171,9 +171,14 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * Gets the generatingDocument attribute. 
      * @return Returns the generatingDocument.
      */
-    public AdvanceDepositDocument getGeneratingDocument() throws WorkflowException {
-        if (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber)) {
-            generatingDocument = (AdvanceDepositDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+    public AdvanceDepositDocument getGeneratingDocument() {
+        try {
+            if (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber)) {
+                generatingDocument = (AdvanceDepositDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            }
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Could not retrieve Document #"+documentNumber, we);
         }
         return this.generatingDocument;
     }
@@ -199,7 +204,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * Returns the accounting line on the generating Advance Deposit document for the transaction which generated this record
      * @return the accounting line that describes the transaction responsible for the creation of this record
      */
-    public SourceAccountingLine getGeneratingAccountingLine() throws WorkflowException {
+    public SourceAccountingLine getGeneratingAccountingLine() {
         AdvanceDepositDocument generatingDocument = getGeneratingDocument();
         if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
             return generatingDocument.getSourceAccountingLine(financialDocumentLineNumber.intValue() - 1);
@@ -211,7 +216,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * Returns the AdvanceDepositDetail on the generating Advance Deposit document for the transaction which generated this record
      * @return the advance deposit detail that describes the transaction responsible for the creation of this record
      */
-    public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() throws WorkflowException {
+    public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() {
         AdvanceDepositDocument generatingDocument = getGeneratingDocument();
         if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
             return generatingDocument.getAdvanceDepositDetail(financialDocumentLineNumber.intValue() - 1);

@@ -3,16 +3,14 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 
 /**
@@ -22,6 +20,10 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
 
     private Integer purchaseOrderIdentifier;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
+
+    //not mapped in ojb
+    private transient PurchaseOrderDocument purchaseOrderDocument;
     
     //Collections
     private List<ReceivingLineItem> items;
@@ -38,7 +40,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     public void initiateDocument(){
         //initiate code
     }
-    
+
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
         
         //populate receiving line document from purchase order
@@ -91,10 +93,9 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
                poi.getItemType().isItemTypeAboveTheLineIndicator() ){
                 this.getItems().add(new ReceivingLineItem(poi, this));
             }
-        }
-        
+            }
     }
-
+        
     /**
      * Perform logic needed to clear the initial fields on a Receiving Line Document
      */
@@ -105,7 +106,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
 
-        // Clearing document Init fields        
+        // Clearing document Init fields
         this.setShipmentReceivedDate(null);
         this.setShipmentPackingSlipNumber(null);
         this.setShipmentBillOfLadingNumber(null);
@@ -123,7 +124,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         
         super.prepareForSave(event);
     }
-
+    
     /**
      * Gets the purchaseOrderIdentifier attribute.
      * 
@@ -165,6 +166,31 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         return ReceivingLineItem.class;
     }
 
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
+     */
+    public PurchaseOrderDocument getPurchaseOrderDocument() {
+        if ((ObjectUtils.isNull(this.purchaseOrderDocument) || ObjectUtils.isNull(this.purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
+            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+        }
+        return this.purchaseOrderDocument;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.AccountsPayableDocument#setPurchaseOrderDocument(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+            this.purchaseOrderDocument = null;
+        }
+        else {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
+                setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+            }
+            this.purchaseOrderDocument = purchaseOrderDocument;
+        }
+    }
+    
     public List getItems() {
         return items;
     }

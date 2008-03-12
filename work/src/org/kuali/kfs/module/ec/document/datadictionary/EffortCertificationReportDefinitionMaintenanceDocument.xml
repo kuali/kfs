@@ -31,7 +31,7 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>EffortCertificationReportDefinition</documentTypeName>
+		<documentTypeName>EffortCertificationReportDefinitionMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPT</documentTypeCode>
 
 		<label>Effort Certification Report Definition Maintenance Document</label>

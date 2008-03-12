@@ -36,10 +36,12 @@ import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@Transactional
 public class ReceivingServiceImpl implements ReceivingService {
 
     private PurchaseOrderService purchaseOrderService;

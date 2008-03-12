@@ -277,6 +277,9 @@
         <property name="imageDao">
             <ref bean="imageDao" />
         </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>  
 	</bean>
 			
 	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">

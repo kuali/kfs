@@ -32,7 +32,7 @@
     					<field attributeName="referenceFinancialDocumentNumber" />
     					<field attributeName="financialDocumentPostingYear" />
     					<field attributeName="financialDocumentPostingPeriodCode" />
-    					<field attributeName="paymentClaimStatusCode" />
+    					<field attributeName="paymentClaimStatus" />
     				</inquiryFields>
     			</inquirySection>
     		</inquirySections>
@@ -47,7 +47,9 @@
     		<lookupFields>
     			<lookupField attributeName="financialDocumentPostingPeriodCode" />
     			<lookupField attributeName="financialDocumentPostingYear" />
-    			<lookupField attributeName="paymentClaimStatusCode" />
+    			<lookupField attributeName="paymentClaimStatusCode">
+    				<defaultValue>U</defaultValue>
+    			</lookupField>
     		</lookupFields>
     			
     		<resultFields>
@@ -56,6 +58,7 @@
     			<field attributeName="generatingAccountingLine.financialDocumentLineDescription" />
     			<field attributeName="generatingAccountingLine.amount" />
     			<field attributeName="referenceFinancialDocumentNumber" />
+    			<field attributeName="paymentClaimStatus" />
     			<field attributeName="financialDocumentPostingYear" />
     			<field attributeName="financialDocumentPostingPeriodCode" />
     		</resultFields>

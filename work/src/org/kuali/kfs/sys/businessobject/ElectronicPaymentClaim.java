@@ -260,4 +260,11 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
         representation.append(getFinancialDocumentLineNumber());
         return representation.toString();
     }
+    
+    /**
+     * @return a descriptive version of the paymentClaimStatusCode field
+     */
+    public String getPaymentClaimStatus() {
+        return getPaymentClaimStatusCode().equals("C") ? "Claimed" : "Unclaimed";
+    }
 }

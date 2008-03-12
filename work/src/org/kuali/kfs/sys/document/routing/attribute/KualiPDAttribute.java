@@ -19,14 +19,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -184,18 +182,18 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) throws Exception {// fix this
-        UuId projectDirectorUniversalId = null;
+        String projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            //projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
+            projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber).getPersonUniversalIdentifier();
         }
 
         // if we cant find a Project Director, log it.
-        if (projectDirectorUniversalId.isEmpty()) {
+        if (StringUtils.isBlank(projectDirectorUniversalId)) {
             LOG.debug(new StringBuffer("Could not locate the project director for the given account ").append(role.accountNumber).toString());
             return null;
         }
 
-        return projectDirectorUniversalId;
+        return new UuId(projectDirectorUniversalId);
 
     }
 

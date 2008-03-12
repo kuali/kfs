@@ -18,6 +18,8 @@ package org.kuali.module.ar.rules;
 import static org.kuali.test.fixtures.UserNameFixture.BUTT;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
@@ -25,6 +27,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.test.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -43,14 +47,11 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     private static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
     private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-1);
     private static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(2);
-    // this should be a valid document number from the db
-    private static final String REFERENCE_FINANCIAL_DOC_NBR = "318355";
+
     // this should be the code for payment medium cash
     private static final String CUSTOMER_PAYMENT_MEDIUM_CASH_CODE = "CA";
     // any value that does not represent a valid payment medium code
     private static final String CUSTOMER_PAYMENT_MEDIUM_NOT_VALID_CODE = "MEH";
-    // this should be a valid document number from the database
-    private static final String ORGANIZATION_DOC_NBR = "318355";
 
     @Override
     protected void setUp() throws Exception {
@@ -136,6 +137,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      * This method tests that checkUserOrgOptions rule returns true when the user organization options are set up
      */
     public void testCheckUserOrgOptions_True() {
+        // make sure current user has organization options set up
         assertTrue(rule.checkUserOrgOptions(document));
     }
 
@@ -151,9 +153,10 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     /**
      * This method tests that checkReferenceDocument rule returns true when reference document number is not null
      */
-    public void testCheckReferenceDocument_True() {
+    public void testCheckReferenceDocument_True() throws WorkflowException {
 
-        document.setReferenceFinancialDocumentNumber(REFERENCE_FINANCIAL_DOC_NBR);
+        Document tempDocument = documentService.getNewDocument(GeneralErrorCorrectionDocument.class);
+        document.setReferenceFinancialDocumentNumber(tempDocument.getDocumentNumber());
 
         assertTrue(rule.checkReferenceDocument(document));
     }
@@ -203,10 +206,11 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      * This method that checkOrgDocNumber rule returns true if organization document number is set and valid when payment mewdium is
      * cash
      */
-    public void testCheckOrgDocNumber_True() {
+    public void testCheckOrgDocNumber_True() throws WorkflowException {
 
+        CashReceiptDocument tempDoc = (CashReceiptDocument) documentService.getNewDocument(CashReceiptDocument.class);
         document.setCustomerPaymentMediumCode(CUSTOMER_PAYMENT_MEDIUM_CASH_CODE);
-        document.getDocumentHeader().setOrganizationDocumentNumber(ORGANIZATION_DOC_NBR);
+        document.getDocumentHeader().setOrganizationDocumentNumber(tempDoc.getDocumentNumber());
 
         assertTrue(rule.checkOrgDocNumber(document));
     }

@@ -231,11 +231,13 @@
                 <label>Vendor Date</label>
                 <shortLabel>Vendor Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
+				<required>true</required>
+
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>shipmentReceivedDate</summary>

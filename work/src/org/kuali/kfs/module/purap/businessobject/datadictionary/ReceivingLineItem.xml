@@ -98,7 +98,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="32" />
+                    <text size="15" />
                 </control>
 
                 <summary>itemCatalogNumber</summary>
@@ -128,7 +128,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <textarea rows="5" cols="80"/>
+                    <textarea rows="1" cols="45"/>
                 </control>
 
                 <summary>itemDescription</summary>
@@ -150,50 +150,26 @@
                 <description>itemLineNumber description...</description>
 			</attribute>
 
-            <attribute name="itemOrderedQuantity" forceUppercase="true">
+            <attributeReference name="itemOrderedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
                 <label>Item Ordered Quantity</label>
                 <shortLabel>Qty Ordered</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
                 <summary>itemOrderedQuantity</summary>
                 <description>itemOrderedQuantity description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="itemReceivedPriorQuantity" forceUppercase="true">
+            <attributeReference name="itemReceivedPriorQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
                 <label>Prior Qty Received</label>
                 <shortLabel>Prior Qty Received</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
                 <summary>itemReceivedPriorQuantity</summary>
                 <description>itemReceivedPriorQuantity description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="itemReceivedToBeQuantity" forceUppercase="true">
+            <attributeReference name="itemReceivedToBeQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
                 <label>To be Received</label>
                 <shortLabel>To be Received</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
                 <summary>itemReceivedToBeQuantity</summary>
                 <description>itemReceivedToBeQuantity description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="itemReasonAddedCode" forceUppercase="true">
                 <label>Item Reason Added Code</label>
@@ -202,43 +178,27 @@
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+				<control>
+					<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemReasonAddedValuesFinder" />
+				</control>
 
                 <summary>itemReasonAddedCode</summary>
                 <description>itemReasonAddedCode description...</description>
 			</attribute>
 
-            <attribute name="itemReceivedTotalQuantity" forceUppercase="true">
+            <attributeReference name="itemReceivedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
                 <label>Item Received Total Quantity</label>
                 <shortLabel>Qty Received</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
                 <summary>itemReceivedTotalQuantity</summary>
                 <description>itemReceivedTotalQuantity description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="itemReturnedTotalQuantity" forceUppercase="true">
+            <attributeReference name="itemReturnedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
                 <label>Item Returned Total Quantity</label>
                 <shortLabel>Qty Returned</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
                 <summary>itemReturnedTotalQuantity</summary>
                 <description>itemReturnedTotalQuantity description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="itemTypeCode" forceUppercase="true">
                 <label>Item Type Code</label>

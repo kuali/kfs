@@ -59,16 +59,16 @@
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newReceivingLineItemLine.itemDescription" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newReceivingLineItemLine.itemOrderedQuantity" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newReceivingLineItemLine.itemOrderedQuantity" />
 		    </td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemUnitOfMeasureCode" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" />
 		    </td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" />
 			</td>
 			<td class="infoline">
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newReceivingLineItemLine.itemReceivedTotalQuantity" />
@@ -148,15 +148,12 @@
 			<tbody style="display: none;" id="tab-${tabKey}-div">
 		</c:if>
 
-		<tr>				
-			<td class="infoline" nowrap="nowrap">
-			    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" /> 
-			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemLineNumber}"
-				    property="document.item[${ctr}].itemLineNumber"
-				    extraReadOnlyProperty="document.item[${ctr}].itemLineNumber"
-				    readOnly="${true}" />			    
-			</td>					
+		<tr>			
+				<td class="infoline" nowrap="nowrap">
+					    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" />
+					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
+					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
+					</td>		
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"

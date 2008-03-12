@@ -93,7 +93,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
                poi.getItemType().isItemTypeAboveTheLineIndicator() ){
                 this.getItems().add(new ReceivingLineItem(poi, this));
             }
-            }
+        }
     }
         
     /**

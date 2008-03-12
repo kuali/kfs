@@ -53,7 +53,6 @@ public class CamsPropertyConstants {
     }
 
     public static class AssetPayment {
-        public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
         public static final String TRANSFER_PAYMENT_CODE = "transferPaymentCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String ORIGINATION_CODE = "financialSystemOriginationCode";
@@ -66,8 +65,22 @@ public class CamsPropertyConstants {
         public static final String PROJECT_CODE = "projectCode";
         public static final String PAYMENT_SEQ_NUMBER = "paymentSequenceNumber";
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
-        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";
         
+        public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
+        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";        
+        public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT="previousYearPrimaryDepreciationAmount";
+        public static final String PERIOD_1_DEPRECIATION_AMOUNT="period1Depreciation1Amount";
+        public static final String PERIOD_2_DEPRECIATION_AMOUNT="period2Depreciation1Amount";
+        public static final String PERIOD_3_DEPRECIATION_AMOUNT="period3Depreciation1Amount";
+        public static final String PERIOD_4_DEPRECIATION_AMOUNT="period4Depreciation1Amount";
+        public static final String PERIOD_5_DEPRECIATION_AMOUNT="period5Depreciation1Amount";
+        public static final String PERIOD_6_DEPRECIATION_AMOUNT="period6Depreciation1Amount";
+        public static final String PERIOD_7_DEPRECIATION_AMOUNT="period7Depreciation1Amount";
+        public static final String PERIOD_8_DEPRECIATION_AMOUNT="period8Depreciation1Amount";
+        public static final String PERIOD_9_DEPRECIATION_AMOUNT="period9Depreciation1Amount";
+        public static final String PERIOD_10_DEPRECIATION_AMOUNT="period10Depreciation1Amount";
+        public static final String PERIOD_11_DEPRECIATION_AMOUNT="period11Depreciation1Amount";
+        public static final String PERIOD_12_DEPRECIATION_AMOUNT="period12Depreciation1Amount";        
     }
     
     public static class AssetType {

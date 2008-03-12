@@ -25,12 +25,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -51,6 +55,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetDepreciationTransaction;
 import org.kuali.module.cams.bo.AssetObjectCode;
@@ -114,8 +119,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
 */
             //***************** GET RID OF THESE LINES WHEN DONE TESTING **********
-            depreciationDateParameter = "2008-03-01";
-            currentDate.setTime(dateFormat.parse("2008-03-01"));
+            depreciationDateParameter = "2008-04-01";
+            currentDate.setTime(dateFormat.parse("2008-04-01"));
             // *********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
@@ -175,7 +180,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * This method calculates the base amount adding the PrimaryDepreciationBaseAmount field of each asset
      * 
      * @param depreciableAssetsCollection collection of assets and assets payments that are eligible for depreciation
-     * @return Map with the asset# and the base amount
+     * @return Map with the asset number and the base amount that was calculated
      */
     private Map<Long, KualiDecimal> getBaseAmountOfAssets(Collection<AssetPayment> depreciableAssetsCollection) {
         Map<Long, KualiDecimal> assetsBaseAmount = new HashMap<Long, KualiDecimal>();
@@ -207,10 +212,10 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * 
-     * This method calculates the depreciation of each asset payment and gets the right plant account for each asset payment
-     * depreciation
+     * This method calculates the depreciation of each asset payment, creates the depreciation transactions that will be
+     * stored in the general ledger pending entry table
      * 
-     * @param depreciableAssetsCollection
+     * @param depreciableAssetsCollection asset payments eligible for depreciation
      */
     private SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Collection<AssetPayment> depreciableAssetsCollection, Calendar depreciationDate) {
         LOG.debug("calculateDepreciation() - start");
@@ -331,20 +336,17 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
 
                 // Saving depreciation amount in the asset payment table
-                // depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(),
-                // assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
-                // fiscalMonth);
+                 depreciableAssetsDao.updateAssetPayments(assetPayment.getCapitalAssetNumber().toString(),
+                                                          assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
+                                                          fiscalMonth);
 
-                // LOG.info("**Trn Amount:"+transactionAmount.toString());
-                // if (transactionAmount.compareTo(new KualiDecimal(0)) != 0 ) {
                 if (!transactionAmount.isZero()) {
-                    LOG.info("**Asset#:" + assetPayment.getCapitalAssetNumber() + " - Trn Amount:" + transactionAmount.toString());
+                    //LOG.info("**Asset#:" + assetPayment.getCapitalAssetNumber() + " - Trn Amount:" + transactionAmount.toString());
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
                     transactionType = (transactionType.equals(KFSConstants.GL_CREDIT_CODE) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
                 }
             } // end for
-
 
             for (Object key : depreciationTransactionSummary.keySet()) {
                 AssetDepreciationTransaction t = depreciationTransactionSummary.get(key);
@@ -360,18 +362,18 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     /**
      * 
-     * This method stores in a collection of pojo's the depreciation transaction that later on will be passed to the
+     * This method stores in a collection of business objects the depreciation transaction that later on will be passed to the
      * processGeneralLedgerPendingEntry method in order to store the records in gl pending entry table
      * 
-     * @param depreciationTransaction
-     * @param assetPayment
-     * @param transactionType
-     * @param transactionAmount
-     * @param plantCOA
-     * @param plantAccount
-     * @param accumulatedDepreciationFinancialObjectCode
-     * @param depreciationExpenseFinancialObjectCode
-     * @param financialObject
+     * @param depreciationTransaction  
+     * @param assetPayment asset payment
+     * @param transactionType which can be [C]redit or [D]ebit
+     * @param transactionAmount depreciation amount
+     * @param plantCOA plant fund char of account code
+     * @param plantAccount plant fund char of account code
+     * @param accumulatedDepreciationFinancialObjectCode accumulated depreciation object code
+     * @param depreciationExpenseFinancialObjectCode expense object code
+     * @param financialObject char of account object code linked to the payment 
      * @param depreciationTransactionSummary
      */
     private void populateDepreciationTransaction(AssetDepreciationTransaction depreciationTransaction, AssetPayment assetPayment, String transactionType, KualiDecimal transactionAmount, String plantCOA, String plantAccount, String accumulatedDepreciationFinancialObjectCode, String depreciationExpenseFinancialObjectCode, ObjectCode financialObject, SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary) {
@@ -431,11 +433,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             this.businessObjectService.save(documentHeader);
             // **************************************************************************************************
 
-            /*
-             * LOG.info("*****************************"); LOG.info("*** DOCUMENT #:" + documentHeader.getDocumentNumber());
-             * LOG.info("*****************************");
-             */
-
             this.documentNumber = documentHeader.getDocumentNumber();
 
             // Getting depreciation document type code
@@ -483,6 +480,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
     }
 
+    
+    
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

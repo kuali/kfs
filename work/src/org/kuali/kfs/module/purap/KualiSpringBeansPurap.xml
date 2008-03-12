@@ -313,6 +313,12 @@
         <property name="vendorService">
             <ref bean="vendorService" />
         </property>
+        <property name="purapWorkflowIntegrationService">
+            <ref bean="purapWorkflowIntegrationService" />
+        </property>    
+        <property name="workflowInfoService">
+            <ref bean="workflowInfoService" />
+        </property>  
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

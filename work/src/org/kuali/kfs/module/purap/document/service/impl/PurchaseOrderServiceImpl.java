@@ -45,7 +45,6 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -69,7 +68,6 @@ import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
-import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -95,6 +93,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiRuleService kualiRuleService;
     private VendorService vendorService;
     private RequisitionService requisitionService;
+    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
+    private KualiWorkflowInfo workflowInfoService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -144,6 +144,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.requisitionService = requisitionService;
     }
 
+    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
+        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
+    }
+    
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
+        this.workflowInfoService = workflowInfoService;
+    }
+    
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.module.purap.document.PurchaseOrderDocument)
      */
@@ -407,9 +415,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderFirstTransmissionDate(currentDate);
         po.setPurchaseOrderLastTransmitDate(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
-        boolean performedAction = SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser(), null);
+        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser(), null);
         if (!performedAction) {
-            SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
@@ -443,7 +451,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private void takeWorkflowActionsForDocumentTransmission(PurchaseOrderDocument po, String annotation) {
         try {
             List<ActionRequestVO> docTransRequests = new ArrayList<ActionRequestVO>();
-            ActionRequestVO[] actionRequests = SpringContext.getBean(KualiWorkflowInfo.class).getActionRequests(Long.valueOf(po.getDocumentNumber()));
+            ActionRequestVO[] actionRequests = workflowInfoService.getActionRequests(Long.valueOf(po.getDocumentNumber()));
             for (ActionRequestVO actionRequestVO : actionRequests) {
                 if (actionRequestVO.isActivated()) {
                     if (StringUtils.equals(actionRequestVO.getNodeName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName())) {
@@ -457,13 +465,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
             }
             if (po.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-                SpringContext.getBean(DocumentService.class).approveDocument(po, null, new ArrayList());
+                documentService.approveDocument(po, null, new ArrayList());
             }
             else if (po.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
-                SpringContext.getBean(DocumentService.class).acknowledgeDocument(po, null, new ArrayList());
+                documentService.acknowledgeDocument(po, null, new ArrayList());
             }
             else if (po.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
-                SpringContext.getBean(DocumentService.class).clearDocumentFyi(po, new ArrayList());
+                documentService.clearDocumentFyi(po, new ArrayList());
             }
         }
         catch (NumberFormatException nfe) {
@@ -848,7 +856,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         if (ObjectUtils.isNotNull(documentBusinessObject)) {
             if (ObjectUtils.isNotNull(po.getObjectId())) {
-                List<Note> dbNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(po.getObjectId());
+                List<Note> dbNotes = noteService.getByRemoteObjectId(po.getObjectId());
                 // need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified
                 // independently of the ones in the db)
                 fixDbNoteFields(documentBusinessObject, dbNotes);

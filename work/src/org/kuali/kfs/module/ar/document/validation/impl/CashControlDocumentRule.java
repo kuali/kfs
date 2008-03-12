@@ -113,7 +113,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param detail the CashControlDetail
      * @return true is amount is valid, false otherwise
      */
-    private boolean checkLineAmount(CashControlDocument document, CashControlDetail detail) {
+    public boolean checkLineAmount(CashControlDocument document, CashControlDetail detail) {
 
         boolean isValid = true;
 
@@ -143,7 +143,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param document
      * @return
      */
-    private boolean checkPaymentMedium(CashControlDocument document) {
+    public boolean checkPaymentMedium(CashControlDocument document) {
 
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -171,7 +171,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param document CashControlDocument
      * @return true if valid, false otherwise
      */
-    private boolean checkOrgDocNumber(CashControlDocument document) {
+    public boolean checkOrgDocNumber(CashControlDocument document) {
 
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -210,13 +210,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param document CashControlDocument
      * @return true if not null, false otherwise
      */
-    private boolean checkReferenceDocument(CashControlDocument document) {
+    public boolean checkReferenceDocument(CashControlDocument document) {
 
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         String refDocNumber = document.getReferenceFinancialDocumentNumber();
-        if (null == refDocNumber) {
+        if (null == refDocNumber || "".equals(refDocNumber)) {
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
         }
@@ -232,7 +232,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param document CashConrolDocument
      * @return true if valid, false otherwise
      */
-    private boolean checkUserOrgOptions(CashControlDocument document) {
+    public boolean checkUserOrgOptions(CashControlDocument document) {
         
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -289,7 +289,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param cashControlDocument CashControldocument
      * @return true if valid, false otherwise
      */
-    private boolean validateCashControlDetails(CashControlDocument cashControlDocument) {
+    public boolean validateCashControlDetails(CashControlDocument cashControlDocument) {
 
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
@@ -316,7 +316,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param cashControlDocument
      * @return true if all application documents approved/final, false otherwise
      */
-    private boolean checkAllAppDocsApproved(CashControlDocument cashControlDocument) {
+    public boolean checkAllAppDocsApproved(CashControlDocument cashControlDocument) {
         
         boolean allAppDocsApproved = true;
 

@@ -58,25 +58,24 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        
+
         super.loadDocument(kualiDocumentFormBase);
         CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
 
-        if (cashControlDocument != null && cashControlDocument.getCashControlDetails().size() > 0) {
-            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-                String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
-                PaymentApplicationDocument doc = null;
-                doc = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
-                if (doc == null) {
-                    throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
-                }
-
-                cashControlDetail.setReferenceFinancialDocument(doc);
-                KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-                // KualiDocumentFormBase.populate() needs this updated in the session
-                GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
+        //get the PaymentApplicationDocuments by reference number
+        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+            String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
+            PaymentApplicationDocument doc = null;
+            doc = (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            if (doc == null) {
+                throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
             }
+
+            cashControlDetail.setReferenceFinancialDocument(doc);
+            KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+            // KualiDocumentFormBase.populate() needs this updated in the session
+            GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         }
 
     }

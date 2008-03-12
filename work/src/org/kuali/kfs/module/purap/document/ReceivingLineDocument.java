@@ -4,12 +4,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
+import org.kuali.module.purap.rule.event.ContinuePurapEvent;
+import org.kuali.module.purap.service.ReceivingService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -32,7 +36,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     }
 
     public void initiateDocument(){
-        this.documentHeader.setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.INITIATED);
+        //initiate code
     }
     
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
@@ -40,6 +44,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         //populate receiving line document from purchase order
         this.setPurchaseOrderIdentifier( po.getPurapDocumentIdentifier() );
         this.getDocumentHeader().setOrganizationDocumentNumber( po.getDocumentHeader().getOrganizationDocumentNumber() );
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier( po.getAccountsPayablePurchasingDocumentLinkIdentifier() );
         
         //copy vendor
         this.setVendorHeaderGeneratedIdentifier( po.getVendorHeaderGeneratedIdentifier() );
@@ -100,12 +105,23 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
 
-        // Clearing document Init fields
-        this.setPurchaseOrderIdentifier(null);
+        // Clearing document Init fields        
         this.setShipmentReceivedDate(null);
         this.setShipmentPackingSlipNumber(null);
         this.setShipmentBillOfLadingNumber(null);
         this.setCarrierCode(null);        
+    }
+
+    
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+
+        // first populate, then call super
+        if (event instanceof ContinuePurapEvent) {
+            SpringContext.getBean(ReceivingService.class).populateReceivingLineFromPurchaseOrder(this);
+        }
+        
+        super.prepareForSave(event);
     }
 
     /**

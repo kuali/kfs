@@ -24,10 +24,15 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.ReceivingDao;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
+
+import edu.iu.uis.eden.clientapp.WorkflowDocument;
 
 /**
  * OJB implementation of PurchaseOrderDao.
@@ -35,30 +40,39 @@ import org.kuali.module.purap.document.ReceivingLineDocument;
 public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements ReceivingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingDaoOjb.class);
 
-    public boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer id) {
-        boolean isInProcess = false;
+    public List<String> getDocumentNumbersByPurchaseOrderId(Integer id) {        
 
-        //TODO: Create a list of receiving line documents and loop through and check the workflow status 
+        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, id);        
-        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingLineDocument.class, criteria);
-
-        Collection rlDocs = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ReceivingLineDocument.class, criteria));        
-        ReceivingLineDocument rlDoc = null;
-                
-        for (Iterator<ReceivingLineDocument> iter = rlDocs.iterator(); iter.hasNext();) {
-            rlDoc = iter.next();
-
-            //if not in one of the final states, then is in process, so return true and break
-            if(!(rlDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled() ||
-               rlDoc.getDocumentHeader().getWorkflowDocument().stateIsException() ||
-               rlDoc.getDocumentHeader().getWorkflowDocument().stateIsFinal()) ){
-                
-                isInProcess = false;
-                break;
-            }
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
         }
+        return returnList;
 
-        return isInProcess;
     }
+    
+    /**
+     * Retrieves a document number for a payment request by user defined criteria and sorts the values ascending if orderByAscending
+     * parameter is true, descending otherwise.
+     * 
+     * @param criteria - list of criteria to use in the retrieve
+     * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
+     * @return - Iterator of document numbers
+     */
+    private Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
+        
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ReceivingLineDocument.class, criteria);
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        if (orderByAscending) {
+            rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        else {
+            rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        }
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+    }
+
 }

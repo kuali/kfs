@@ -91,7 +91,7 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
 
         //display init tab
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) document;
-        if (StringUtils.equals(receivingLineDocument.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.INITIATED)) {
+        if (workflowDocument.stateIsInitiated()) {
             editModeMap.put(PurapAuthorizationConstants.ReceivingLineEditMode.DISPLAY_INIT_TAB, "TRUE");
         }
         else {
@@ -115,7 +115,8 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
         }
         
         ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) document;
-        if (StringUtils.equals(receivingLineDocument.getDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.INITIATED)) {
+        
+        if (workflowDocument.stateIsInitiated()) {
             flags.setCanSave(false);
             flags.setCanClose(true);
             flags.setCanCancel(false);

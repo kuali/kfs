@@ -15,7 +15,8 @@
  */
 package org.kuali.module.purap.service;
 
-import org.kuali.module.purap.document.PaymentRequestDocument;
+import java.util.HashMap;
+
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
@@ -29,15 +30,13 @@ public interface ReceivingService {
      * @param rlDoc
      * @param poDocId
      */
-    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc, String poDocId);
+    public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc);
      
-    public void saveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
+    public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
+        
+    public boolean canCreateReceivingLineDocument(Integer poId) throws RuntimeException;
     
-    /**
-     * Checks to see if there are receiving line documents currently in process for a given purchase order id.
-     * 
-     * @param poId
-     * @return
-     */
-    public boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId);
+    public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException;
+    
+    public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc);
 }

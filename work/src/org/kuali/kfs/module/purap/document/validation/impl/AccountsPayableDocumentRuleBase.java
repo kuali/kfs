@@ -29,13 +29,13 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 import org.kuali.module.purap.rule.CancelAccountsPayableRule;
-import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
+import org.kuali.module.purap.rule.ContinuePurapRule;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 
 /**
  * Business Rule(s) applicable to Accounts Payable documents.
  */
-public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
+public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ContinuePurapRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
 
     /**
      * Determines if approval at accounts payable review is allowed.

@@ -273,17 +273,9 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * 
      * @return
      */
-    public boolean canCreateReceiving(){
-    
-        //TODO: Refactor this code and move to a service call that takes a purchase order identifer
-        if ((purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
-            purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
-            purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
-            !SpringContext.getBean(ReceivingService.class).isReceivingLineDocumentInProcessForPurchaseOrder(purchaseOrder.getPurapDocumentIdentifier())){
-            
-            return true;
-        }
-        return false;
+    public boolean canCreateReceiving() {    
+       //return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder);           
+       return false;
     }
     
     private boolean isApUser() {

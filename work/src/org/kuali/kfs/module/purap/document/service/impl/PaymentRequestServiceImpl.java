@@ -69,7 +69,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -1008,7 +1008,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
             preq.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
-            documentService.saveDocument(preq, ContinueAccountsPayableEvent.class);
+            documentService.saveDocument(preq, ContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
             preq.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);

@@ -57,7 +57,7 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -289,7 +289,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public void populateAndSaveCreditMemo(CreditMemoDocument document) {
         try {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
-            documentService.saveDocument(document, ContinueAccountsPayableEvent.class);
+            documentService.saveDocument(document, ContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);

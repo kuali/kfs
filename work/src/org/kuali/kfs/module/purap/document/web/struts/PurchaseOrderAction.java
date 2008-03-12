@@ -1745,7 +1745,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingLineDocument");        
-        parameters.put("purchaseOrderDocId", document.getDocumentNumber() );
+        parameters.put("purchaseOrderId", document.getPurapDocumentIdentifier().toString() );
         
         //create url
         String receivingUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingLine.do", parameters);

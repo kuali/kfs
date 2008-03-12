@@ -443,6 +443,10 @@ public class PurapConstants extends JstlConstants {
         }
     }
 
+    public static class ReceivingLineDocumentStrings{
+        public static final String DUPLICATE_RECEIVING_LINE_QUESTION = "DuplicateReceivingLine";
+    }
+    
     public static class PREQDocumentsStrings {
         public static final String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
         public static final String HOLD_PREQ_QUESTION = "HoldPREQ";

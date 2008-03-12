@@ -48,7 +48,7 @@ import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoCreateService;
@@ -522,7 +522,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
 
         // first populate, then call super
-        if (event instanceof ContinueAccountsPayableEvent) {
+        if (event instanceof ContinuePurapEvent) {
             SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(this);
         }
 

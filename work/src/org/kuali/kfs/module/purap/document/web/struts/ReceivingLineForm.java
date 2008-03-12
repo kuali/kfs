@@ -27,7 +27,7 @@ import org.kuali.module.purap.document.ReceivingLineDocument;
 
 public class ReceivingLineForm extends ReceivingFormBase {
     
-    private String purchaseOrderDocId;
+    private Integer purchaseOrderId;
     private ReceivingLineItem newReceivingLineItemLine;
     
     /**
@@ -49,12 +49,12 @@ public class ReceivingLineForm extends ReceivingFormBase {
         setDocument(receivingLineDocument);
     }
 
-    public String getPurchaseOrderDocId() {
-        return purchaseOrderDocId;
+    public Integer getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setPurchaseOrderDocId(String purchaseOrderDocId) {
-        this.purchaseOrderDocId = purchaseOrderDocId;
+    public void setPurchaseOrderId(Integer purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
     }
 
     public ReceivingLineItem setupNewReceivingLineItemLine() {

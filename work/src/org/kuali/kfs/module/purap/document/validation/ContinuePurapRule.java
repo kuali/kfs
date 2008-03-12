@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.dao;
+package org.kuali.module.purap.rule;
 
-import java.util.List;
-
+import org.kuali.core.document.TransactionalDocument;
 
 /**
- * Receiving Line DAO Interface.
+ * Continue Purap Rule Interface
+ * Defines a rule which gets invoked immediately before continuing to the next step during creation of a Transactional document.
  */
-public interface ReceivingDao {
-
-    public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
+public interface ContinuePurapRule {
+    
+    /**
+     * Checks the rules that are applicable to the Continue Event on a Transactional Document
+     * 
+     * @param document the document to check
+     * @return true if the business rules pass
+     */
+    public boolean processContinuePurapBusinessRules(TransactionalDocument document);
 }

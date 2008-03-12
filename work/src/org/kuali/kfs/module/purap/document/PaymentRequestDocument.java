@@ -56,7 +56,7 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
+import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -947,7 +947,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
 
         // first populate, then call super
-        if (event instanceof ContinueAccountsPayableEvent) {
+        if (event instanceof ContinuePurapEvent) {
             SpringContext.getBean(PaymentRequestService.class).populatePaymentRequest(this);
         }
 

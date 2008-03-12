@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,15 +24,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.service.impl.ReceivingServiceImpl;
@@ -51,9 +56,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
         
         //set identifier from form value
-        if( rlf.getPurchaseOrderDocId() != null){
-            rlDoc.setPurchaseOrderIdentifier( Integer.parseInt( rlf.getPurchaseOrderDocId()) );
-        }
+        rlDoc.setPurchaseOrderIdentifier( rlf.getPurchaseOrderId() );
         
         rlDoc.initiateDocument();
         
@@ -63,11 +66,15 @@ public class ReceivingLineAction extends ReceivingBaseAction {
     
         ReceivingLineForm rlf = (ReceivingLineForm)form;
         ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
-        String poDocId = rlf.getPurchaseOrderDocId();
-            
-        //populate and save Receiving Line Document from Purchase Order
-        SpringContext.getBean(ReceivingService.class).populateReceivingLineFromPurchaseOrder(rlDoc, poDocId);
-        SpringContext.getBean(ReceivingService.class).saveReceivingLineDocument(rlDoc);
+        
+        //perform duplicate check
+        ActionForward forward = performDuplicateReceivingLineCheck(mapping, form, request, response, rlDoc);
+        if( forward != null ){
+            return forward;
+        }
+        
+        //populate and save Receiving Line Document from Purchase Order        
+        SpringContext.getBean(ReceivingService.class).populateAndSaveReceivingLineDocument(rlDoc);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -103,6 +110,25 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         rlDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
+    }
+
+    private ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, ReceivingLineDocument receivingLineDocument) throws Exception {
+        ActionForward forward = null;
+        HashMap<String, String> duplicateMessages = SpringContext.getBean(ReceivingService.class).receivingLineDuplicateMessages(receivingLineDocument);
+        if (duplicateMessages != null && !duplicateMessages.isEmpty()) {
+            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (question == null) {
+
+                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, duplicateMessages.get(PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+            }
+
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {                
+                forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
+        return forward;
     }
 
 }

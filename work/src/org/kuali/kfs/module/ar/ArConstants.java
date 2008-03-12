@@ -21,12 +21,13 @@ public class ArConstants {
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberCannotBeNullforPaymentMediumCash";
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberMustBeValidforPaymentMediumCash";
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL = "error.ar.ReferenceDocNumberCannotBeNull";
-    public static final String ERROR_REFERENCE_DOC_NUMBER_HAS_BEEN_GENERATED = "error.ar.ReferenceDocNumberHasBeenGenerated";
     public static final String ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG = "error.ar.OrganizationOptionsMustBeSet";
     public static final String ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL = "error.ar.CustomerPaymentMediumCannotBeNull";
     public static final String ERROR_PAYMENT_MEDIUM_IS_NOT_VALID = "error.ar.CustomerPaymentMediumIsNotValid";
     public static final String ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED = "error.ar.OnlyOneNegativeLineAmountAllowed";
     public static final String ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED = "error.ar.AllApplicationDocumentsMustBeApproved";
+    public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN ="error.ar.DeleteAddApplicationDocNotAllowedAfterRefDocGenerated";
+    
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
     

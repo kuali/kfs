@@ -36,6 +36,8 @@ import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.AddCashControlDetailRule;
+import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
+import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.ar.service.PaymentMediumService;
 import org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl;
@@ -50,8 +52,11 @@ import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>{
-    
+/**
+ * This class holds the business rules for the AR Cash Control Document
+ */
+public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>, DeleteCashControlDetailRule<CashControlDocument>, GenerateReferenceDocumentRule<CashControlDocument> {
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentRule.class);
 
     /**
@@ -69,7 +74,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
@@ -86,7 +91,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         return isValid;
     }
-    
+
     /**
      * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomApproveDocumentBusinessRules(Document)
      */
@@ -104,12 +109,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         return isValid;
     }
-    
+
     /**
-     * This method checks the CashControlDetail line amount is not zero and the CashControlDocument doesn't have 
-     * more than one negative line amount.
+     * This method checks the CashControlDetail line amount is not zero and the CashControlDocument doesn't have more than one
+     * negative line amount.
      * 
-     * @param document the CashControldocument 
+     * @param document the CashControldocument
      * @param detail the CashControlDetail
      * @return true is amount is valid, false otherwise
      */
@@ -134,12 +139,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         }
 
         return isValid;
-        
+
     }
-    
+
     /**
-     * 
      * This method checks that payment medium is not null and has a valid value
+     * 
      * @param document
      * @return
      */
@@ -150,7 +155,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
 
         PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
-        
+
         if (paymentMediumCode == null || paymentMediumCode.equalsIgnoreCase("")) {
             GlobalVariables.getErrorMap().putError("customerPaymentMediumCode", ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
             isValid = false;
@@ -164,7 +169,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
     /**
      * This method checks that organization document number is not null when payment medium is Cash.
      * 
@@ -203,7 +208,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
     /**
      * This method checks that reference document number is not null
      * 
@@ -216,7 +221,11 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         String refDocNumber = document.getReferenceFinancialDocumentNumber();
-        if (null == refDocNumber || "".equals(refDocNumber)) {
+
+        // if payment medium is not Cash the reference document number must not be null; if payment medium is Cash a Cash Receipt
+        // Document must be created prior to creating the Cash Control
+        // document and it's number should be set in Organization Document number
+        if (!document.getCustomerPaymentMediumCode().equalsIgnoreCase("CA") && null == refDocNumber || "".equals(refDocNumber)) {
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
         }
@@ -225,7 +234,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
     /**
      * This method checks that user organization options has a valid value
      * 
@@ -233,7 +242,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true if valid, false otherwise
      */
     public boolean checkUserOrgOptions(CashControlDocument document) {
-        
+
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
@@ -253,11 +262,16 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.module.ar.rule.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.module.ar.rule.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.module.ar.bo.CashControlDetail)
      */
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
-        boolean success = validateCashControlDetail(transactionalDocument, cashControlDetail);
+        boolean success = true;
+        success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+        if (success) {
+            success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
+        }
         return success;
 
     }
@@ -282,7 +296,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
     /**
      * This method validates cash control document's details
      * 
@@ -310,18 +324,36 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
+    /**
+     * This method checks if reference document has been already generated
+     * 
+     * @param cashControlDocument the cash control document
+     * @return true if it was not generated, false otherwise
+     */
+    public boolean checkReferenceDocumentNumberNotGenerated(CashControlDocument cashControlDocument) {
+        boolean success = true;
+        if (cashControlDocument.getReferenceFinancialDocumentNumber() != null && !cashControlDocument.getReferenceFinancialDocumentNumber().equals("")) {
+            success = false;
+            GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+            GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN);
+            GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        }
+        return success;
+    }
+
     /**
      * This method checks if all application documents are in approved or in final state
+     * 
      * @param cashControlDocument
      * @return true if all application documents approved/final, false otherwise
      */
     public boolean checkAllAppDocsApproved(CashControlDocument cashControlDocument) {
-        
+
         boolean allAppDocsApproved = true;
 
         for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
-            
+
             CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
             String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
@@ -338,11 +370,33 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
                 break;
             }
-            
+
         }
 
         return allAppDocsApproved;
-        
+
     }
-    
+
+    /**
+     * @see org.kuali.module.ar.rule.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.module.ar.bo.CashControlDetail)
+     */
+    public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
+        boolean success = true;
+        success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+        return success;
+    }
+
+    /**
+     * @see org.kuali.module.ar.rule.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
+     */
+    public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
+        boolean success = true;
+        success &= checkPaymentMedium(transactionalDocument);
+        if (success) {
+            success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+        }
+        return success;
+    }
+
 }

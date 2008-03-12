@@ -23,10 +23,12 @@ import org.kuali.module.ar.bo.CashControlDetail;
  */
 public interface AddCashControlDetailRule<F extends TransactionalDocument > extends CashControlDetailRule {
     
+
     /**
-     * @param check
-     * @param financialDocument
-     * @return true if the business rules pass
+     * This method is called when a cash control detail is added
+     * @param transactionalDocument the cash control document
+     * @param cashControlDetail the detail to be added
+     * @return true if valid to be added, false otherwise
      */
     public boolean processAddCashControlDetailBusinessRules(F transactionalDocument, CashControlDetail cashControlDetail);
 

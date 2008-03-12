@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.ar.rule.event;
+package org.kuali.module.ar.rule;
 
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.ar.bo.CashControlDetail;
 
-/**
- * Defines methods for all events related to cash control details
- */
-public interface CashControlDetailEvent extends KualiDocumentEvent {
+public interface GenerateReferenceDocumentRule <F extends TransactionalDocument > {
 
     /**
-     * This method returns the customer invoice related to the event
-     * @return CustomerInvoiceDetail
+     * This method is called when a reference document is generated
+     * @param transactionalDocument the cash control document
+     * @return true if reference document can be generated, false otherwise
      */
-    public CashControlDetail getCashControlDetail();
+    public boolean processGenerateReferenceDocumentBusinessRules(F transactionalDocument);
 }

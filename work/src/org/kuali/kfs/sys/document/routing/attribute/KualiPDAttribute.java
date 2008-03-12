@@ -186,7 +186,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
     private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) throws Exception {// fix this
         UuId projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
+            //projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
         }
 
         // if we cant find a Project Director, log it.

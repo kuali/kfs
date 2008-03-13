@@ -178,7 +178,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
         valid &=  super.newIndividualItemValidation(purapDocument, documentType, item);
-        valid &=  validateItemCapitalAssetWithErrors(purapDocument, item);
+        valid &=  validateItemCapitalAssetWithErrors(purapDocument, item, false);
         valid &=  validateUnitOfMeasure(item);
         return valid;
     }
@@ -629,7 +629,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = true;
         List<PurApItem> itemList = purapDocument.getItems();
         for (PurApItem item : itemList) {
-            valid &= validateItemCapitalAssetWithErrors(purapDocument, item);
+            valid &= validateItemCapitalAssetWithErrors(purapDocument, item, true);
         }
         // We don't actually need the error messages for the purposes of the APO.
         GlobalVariables.getErrorMap().clear();
@@ -645,9 +645,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item                      A PurchasingItemBase object
      * @param recurringPaymentType      The item's document's RecurringPaymentType
      * @param itemIdentifier            The item number (String)
+     * @param apoCheck                  True if this check is for APO purposes
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item) {
+    public boolean validateItemCapitalAssetWithErrors(PurchasingAccountsPayableDocument purapDocument, PurApItem item, boolean apoCheck) {
         PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
         return validateItemCapitalAsset(purDocument, purchasingItem, false);

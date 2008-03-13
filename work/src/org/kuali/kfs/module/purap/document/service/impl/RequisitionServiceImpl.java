@@ -200,7 +200,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition contains alternate vendor names.";
         }
         
-        if (ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {
+        if (!ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {
             
             return "Requisition has failed Capital Asset rules.";
         }

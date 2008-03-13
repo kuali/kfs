@@ -45,6 +45,10 @@
 			property="${propertyName}.referenceFinancialDocumentNumber" />
 		<html:hidden
 			property="${propertyName}.referenceFinancialDocument.documentNumber" />
+		<html:hidden
+			property="${propertyName}.referenceFinancialDocument.objectId" />
+		<html:hidden
+			property="${propertyName}.referenceFinancialDocument.versionNumber" />
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">

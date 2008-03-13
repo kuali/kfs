@@ -57,8 +57,10 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.CommodityCode;
@@ -99,7 +101,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocument.getClass(), PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        
+        //This is needed so that we don't have to create system parameters for each of the subclasses of PurchaseOrderDocument.
+        Class purapDocumentClass = null;
+        if (purapDocument instanceof RequisitionDocument) {
+            purapDocumentClass = purapDocument.getClass();
+        }
+        else {
+            purapDocumentClass = PurchaseOrderDocument.class;
+        }
+        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;

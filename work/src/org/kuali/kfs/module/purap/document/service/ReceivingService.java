@@ -31,12 +31,45 @@ public interface ReceivingService {
      * @param poDocId
      */
     public void populateReceivingLineFromPurchaseOrder(ReceivingLineDocument rlDoc);
-     
-    public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
-        
-    public boolean canCreateReceivingLineDocument(Integer poId) throws RuntimeException;
     
+    /**
+     * A save is done passing the continue purap event so as to call a populate within
+     * prepare for save. 
+     *
+     * @param rlDoc
+     * @throws WorkflowException
+     */
+    public void populateAndSaveReceivingLineDocument(ReceivingLineDocument rlDoc) throws WorkflowException;
+    
+    /**
+     * Determines if a receiving line document can be created at the time the user requests it.
+     * This version looks up the current purchase order by po id and also excludes the current receiving
+     * document from the check.
+     * 
+     * @param poId
+     * @param receivingDocumentNumber
+     * @return
+     * @throws RuntimeException
+     */
+    public boolean canCreateReceivingLineDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException;
+    
+    /**
+     * Determines if a receiving line document can be created at the time the user requests it.
+     * This version requires the purchase order being evaluated to be passed in.
+     * 
+     * @param po
+     * @return
+     * @throws RuntimeException
+     */
     public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException;
     
+    /**
+     * Checks for duplicate Receiving Line documents and passes back a list of those found
+     * where vendor date, packing slip number or bill of lading match on previous receiving line
+     * documents by purchase order.
+     * 
+     * @param rlDoc
+     * @return
+     */
     public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc);
 }

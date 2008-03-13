@@ -24,4 +24,10 @@ import java.util.List;
 public interface ReceivingDao {
 
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id);
+    
+    public List<String> duplicateVendorDate(Integer poId, java.sql.Date vendorDate);
+    
+    public List<String> duplicatePackingSlipNumber(Integer poId, String packingSlipNumber);
+    
+    public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber);
 }

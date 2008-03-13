@@ -47,7 +47,8 @@
 			itemAttributes="${DataDictionary.ReceivingLineItem.attributes}" />
 		
 	    <purap:delivery
-			documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}" />
+			documentAttributes="${DataDictionary.ReceivingLineDocument.attributes}"
+			deliveryReadOnly="true" />
 		          	
 		<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/>
 	

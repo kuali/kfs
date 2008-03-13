@@ -237,4 +237,12 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER = "message.duplicate.creditMemo.vendorNumber";
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT = "message.duplicate.creditMemo.vendorNumber.date.amount";
 
+    // Receiving Line
+    public static final String ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO = "errors.receivingLine.documentActiveForPo";
+    public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX = "message.duplicate.receivingLine.prefix";
+    public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_SUFFIX = "message.duplicate.receivingLine.suffix";
+    public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_VENDOR_DATE = "message.duplicate.receivngLine.vendorDate";
+    public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_PACKING_SLIP_NUMBER = "message.duplicate.receivingLine.packingSlipNumber";
+    public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER = "message.duplicate.receivingLine.billOfLadingNumber";
+    
 }

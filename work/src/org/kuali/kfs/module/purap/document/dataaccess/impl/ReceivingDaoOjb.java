@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -73,6 +74,54 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+    }
+
+    public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber) {
+        
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
+        criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_BILL_OF_LADING_NUMBER, billOfLadingNumber);        
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
+
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        
+        return returnList;
+    }
+
+    public List<String> duplicatePackingSlipNumber(Integer poId, String packingSlipNumber) {      
+
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
+        criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_PACKING_SLIP_NUMBER, packingSlipNumber);        
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
+
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        
+        return returnList;
+    }
+
+    public List<String> duplicateVendorDate(Integer poId, Date vendorDate) {
+ 
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
+        criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, vendorDate);        
+        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
+
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        
+        return returnList;
     }
 
 }

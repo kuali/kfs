@@ -109,7 +109,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         ReceivingLineDocument rlDocument = (ReceivingLineDocument) rlForm.getDocument();
         rlDocument.clearInitFields();
 
-        return super.refresh(mapping, form, request, response);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     private ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, ReceivingLineDocument receivingLineDocument) throws Exception {

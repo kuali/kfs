@@ -368,6 +368,7 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>        
+        <property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ReceivingDaoOjb" />

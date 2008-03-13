@@ -15,22 +15,19 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.exceptions.ValidationException;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.dao.ReceivingDao;
-import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
@@ -38,7 +35,6 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
@@ -48,6 +44,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     private ReceivingDao receivingDao;
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
+    private KualiConfigurationService configurationService;    
     
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -63,6 +60,10 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
     /**
@@ -100,13 +101,48 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
     }
 
-    private boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId) throws RuntimeException{
+    /**
+     * 
+     * @see org.kuali.module.purap.service.ReceivingService#canCreateReceivingLineDocument(java.lang.Integer, java.lang.String)
+     */
+    public boolean canCreateReceivingLineDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException {
+        
+        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(poId);
+        
+        return canCreateReceivingLineDocument(po, receivingDocumentNumber);            
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.ReceivingService#canCreateReceivingLineDocument(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException {
+        return canCreateReceivingLineDocument(po, null);
+    }
+
+    private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
+
+        boolean canCreate = false;
+        
+        if( (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
+             po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
+             po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
+             !isReceivingLineDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier(), receivingDocumentNumber) &&
+             po.isPurchaseOrderCurrentIndicator() ){
+            
+            canCreate = true;
+        }
+        
+        return canCreate;
+    }
+
+    private boolean isReceivingLineDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
         List<String> docNumbers = receivingDao.getDocumentNumbersByPurchaseOrderId(poId);
         KualiWorkflowDocument workflowDocument = null;
-        
+                
         for (String docNumber : docNumbers) {
         
             try{
@@ -117,7 +153,8 @@ public class ReceivingServiceImpl implements ReceivingService {
             
             if(!(workflowDocument.stateIsCanceled() ||
                  workflowDocument.stateIsException() ||
-                 workflowDocument.stateIsFinal()) ){
+                 workflowDocument.stateIsFinal()) &&
+                 docNumber.equals(receivingDocumentNumber) == false ){
                      
                 isInProcess = true;
                 break;
@@ -127,32 +164,94 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isInProcess;
     }
 
-    public boolean canCreateReceivingLineDocument(Integer poId) throws RuntimeException {
+    /**
+     * 
+     * @see org.kuali.module.purap.service.ReceivingService#receivingLineDuplicateMessages(org.kuali.module.purap.document.ReceivingLineDocument)
+     */
+    public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc) {
+        HashMap<String, String> msgs;
+        msgs = new HashMap<String, String>();
+        Integer poId = rlDoc.getPurchaseOrderIdentifier();
+        StringBuffer currentMessage = new StringBuffer("");
+        List<String> docNumbers = null;
         
-        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(poId);
-        
-        return canCreateReceivingLineDocument(po);            
-    }
-
-    public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException {
-        
-        boolean canCreate = false;
-        
-        if( (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || 
-             po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) || 
-             po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD)) &&
-             !isReceivingLineDocumentInProcessForPurchaseOrder(po.getPurapDocumentIdentifier()) &&
-             po.isPurchaseOrderCurrentIndicator() ){
-            
-            canCreate = true;
+        //check vendor date for duplicates
+        if( rlDoc.getShipmentReceivedDate() != null ){
+            docNumbers = receivingDao.duplicateVendorDate(poId, rlDoc.getShipmentReceivedDate());
+            if( hasDuplicateEntry(docNumbers) ){
+                appendDuplicateMessage(currentMessage, PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_VENDOR_DATE, rlDoc.getPurchaseOrderIdentifier());                                
+            }
         }
         
-        return canCreate;
+        //check packing slip number for duplicates
+        if( !StringUtils.isEmpty(rlDoc.getShipmentPackingSlipNumber()) ){
+            docNumbers = receivingDao.duplicatePackingSlipNumber(poId, rlDoc.getShipmentPackingSlipNumber());
+            if( hasDuplicateEntry(docNumbers) ){
+                appendDuplicateMessage(currentMessage, PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_PACKING_SLIP_NUMBER, rlDoc.getPurchaseOrderIdentifier());                                
+            }
+        }
+        
+        //check bill of lading number for duplicates
+        if( !StringUtils.isEmpty(rlDoc.getShipmentBillOfLadingNumber()) ){
+            docNumbers = receivingDao.duplicateBillOfLadingNumber(poId, rlDoc.getShipmentBillOfLadingNumber());
+            if( hasDuplicateEntry(docNumbers) ){
+                appendDuplicateMessage(currentMessage, PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER, rlDoc.getPurchaseOrderIdentifier());                
+            }
+        }
+        
+       //add message if one exists
+       if(currentMessage.length() > 0){
+           //add suffix
+           appendDuplicateMessage(currentMessage, PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_SUFFIX, rlDoc.getPurchaseOrderIdentifier() );
+           
+           //add msg to map
+           msgs.put(PurapConstants.ReceivingLineDocumentStrings.DUPLICATE_RECEIVING_LINE_QUESTION, currentMessage.toString());
+       }
+       
+       return msgs;
     }
 
-    public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    /**
+     * Looks at a list of doc numbers, but only considers an entry duplicate
+     * if the document is in a Final status.
+     * 
+     * @param docNumbers
+     * @return
+     */
+    private boolean hasDuplicateEntry(List<String> docNumbers){
+        
+        boolean isDuplicate = false;
+        KualiWorkflowDocument workflowDocument = null;
+        
+        for (String docNumber : docNumbers) {
+        
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            //if the doc number exists, and is in final status, consider this a dupe and return
+            if(workflowDocument.stateIsFinal()){
+                isDuplicate = true;
+                break;
+            }
+        }
+        
+        return isDuplicate;
 
+    }
+    private void appendDuplicateMessage(StringBuffer currentMessage, String duplicateMessageKey, Integer poId){
+        
+        //append prefix if this is first call
+        if(currentMessage.length() == 0){
+            String messageText = configurationService.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_RECEIVING_LINE_PREFIX);
+            String prefix = MessageFormat.format(messageText, poId.toString() );
+            
+            currentMessage.append(prefix);
+        }
+        
+        //append message
+        currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
+    }
 }

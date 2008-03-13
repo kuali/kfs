@@ -126,7 +126,9 @@ public class ReceivingLineDocumentAuthorizer extends TransactionalDocumentAuthor
             flags.setCanDisapprove(false);
             flags.setCanApprove(false);
             flags.setCanCancel(true);
-            flags.setCanSave(true);            
+            flags.setCanSave(true);
+            //temporary TODO: figure out how to make sure this work without forcing
+            flags.setCanRoute(true);
         }
         
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS

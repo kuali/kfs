@@ -53,7 +53,7 @@
                     <maintainableField name="capitalAssetNumber" readOnly="true" />
                     <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
                     <maintainableField name="organizationOwnerAccountNumber" />
-                    <maintainableField name="organizationOwnerAccount.organizationCode"/>
+                    <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true"/>
                     <maintainableField name="agencyNumber" />
                     <maintainableField name="acquisitionTypeCode" readOnly="true"/>
                     <maintainableField name="inventoryStatusCode" required="true"/>
@@ -107,6 +107,7 @@
                 	<maintainableField name="assetOrganization.organizationText" />
                 	<maintainableField name="assetOrganization.organizationTagNumber" />
                 	<maintainableField name="assetOrganization.organizationAssetTypeIdentifier" />
+                	<maintainableField name="assetOrganization.versionNumber" />
                 	<maintainableField name="receiveDate" />
                 	<maintainableField name="replacementAmount" />
                 	<maintainableField name="estimatedSellingPrice" />

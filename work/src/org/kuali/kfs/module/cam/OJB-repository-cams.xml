@@ -200,7 +200,7 @@
    	<reference-descriptor name="assetRepresentative" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="representativeUniversalIdentifier" />
 	</reference-descriptor>	
-	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
 	<reference-descriptor name="assetWarranty" class-ref="org.kuali.module.cams.bo.AssetWarranty" auto-retrieve="true" auto-update="object" auto-delete="true" proxy="true">

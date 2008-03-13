@@ -38,7 +38,7 @@ public class CamsKeyConstants {
         public static final String DEPRECIATION_DATE_PARAMETER_NOT_FOUND        = "error.batch.depreciation.depreciationDateNotFound";
         public static final String INVALID_DEPRECIATION_DATE_FORMAT             = "error.batch.depreciation.invalidDepreciationDateFormat";
         public static final String DEPRECIATION_ALREADY_RAN_MSG                 = "error.batch.depreciation.alreadyRan";
-        public static final String ERROR_WHEN_UPDATING_DOCUMENT_HEADER_TABLE    = "error.batch.depreciation.documentHeaderUpdateError";
+        public static final String ERROR_WHEN_UPDATING_DOCUMENT_HEADER_TABLE    = "error.batch.depreciation.documentHeaderUpdateError";        
                 
         public static final String MSG_REPORT_DEPRECIATION_HEADING1   = "message.batch.report.depreciation.heading.description";
         public static final String MSG_REPORT_DEPRECIATION_HEADING2   = "message.batch.report.depreciation.heading.figures";        
@@ -52,5 +52,8 @@ public class CamsKeyConstants {
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
     public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
     public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";
+    public static final String ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE = "error.asset.type.code.restrict.change";
+    public static final String ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE = "error.asset.description.restrict.change";
     public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
+    
 }

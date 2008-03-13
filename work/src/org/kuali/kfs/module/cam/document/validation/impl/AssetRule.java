@@ -20,7 +20,6 @@ import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_WARRANTY_W
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +44,7 @@ import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * AssetRule for Asset edit.
@@ -54,36 +54,24 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private Asset newAsset;
     private Asset copyAsset;
-    
-    private boolean isTagNumberChanged = false;
-    
+
     private static Map<String, String[]> VALID_INVENTROY_STATUS_CODE_CHANGE = new HashMap<String, String[]>();
     static {
         try {
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT});
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT });
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT });
             VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT, new String[] {CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE,CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE });
             VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED});
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE});
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003});
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003, new String[] {CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003});
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED });
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE });
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003 });
+            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003 });
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-    private boolean isTagNumberChanged() {
-        return isTagNumberChanged;
-    }
-
-
-    private void setTagNumberChanged(boolean isTagNumberChanged) {
-        this.isTagNumberChanged = isTagNumberChanged;
-    }
-
 
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
@@ -121,9 +109,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (valid) {
             AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
             assetDetailInfoService.checkAndUpdateLastInventoryDate(copyAsset, newAsset);
-            if (isTagNumberChanged()) {
-                assetDetailInfoService.updateTagNumber(copyAsset, newAsset);
-            }
         }
         return valid;
     }
@@ -156,7 +141,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
     }
 
-        
+
     /**
      * Validates Asset
      * 
@@ -185,6 +170,16 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateInventoryStatusCode();
         }
 
+        // validate Asset Description
+        if (!StringUtils.equalsIgnoreCase(copyAsset.getCapitalAssetDescription(), newAsset.getCapitalAssetDescription())) {
+            valid &= validateAssetDescription();
+        }
+
+        // validate Asset Type Code
+        if (!StringUtils.equalsIgnoreCase(copyAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode())) {
+            valid &= validateAssetTypeCode();
+        }
+
         // validate Vender Name.
         if (!StringUtils.equalsIgnoreCase(copyAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVenderName();
@@ -195,19 +190,50 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateTagNumber();
         }
 
-        // validade location.
-        if (isLocationUpdated()) {
-            valid &= validateLocation(newAsset);
+        // validade On Campus location.
+        if (isOnCampusLocationUpdated()) {
+            valid &= validateOnCampusLocation(newAsset);
+        }
+
+        return valid;
+    }
+
+    /**
+     * If asset is tagged and created in prior fiscal year, the Asset Type Code is not allowed to change
+     * 
+     * @return boolean
+     */
+    private boolean validateAssetTypeCode() {
+        boolean valid = true;
+
+        if (isAssetTaggedInPriorFiscalYear()) {
+            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE);
+            valid &= false;
+        }
+        return valid;
+    }
+
+    /**
+     * If asset is tagged and created in prior fiscal year, the Asset Description is not allowed to change
+     * 
+     * @return boolean
+     */
+    private boolean validateAssetDescription() {
+        boolean valid = true;
+
+        if (isAssetTaggedInPriorFiscalYear()) {
+            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, CamsKeyConstants.ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE);
+            valid &= false;
         }
 
         return valid;
     }
 
 
-    private boolean isLocationUpdated() {
+    private boolean isOnCampusLocationUpdated() {
         boolean updated = false;
-        
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(copyAsset.getBuildingCode(), newAsset.getBuildingCode()) || ! StringUtils.equalsIgnoreCase(copyAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
+
+        if (!StringUtils.equalsIgnoreCase(copyAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(copyAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(copyAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
             updated = true;
         }
         return updated;
@@ -220,13 +246,48 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
-        
+
         if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(copyAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
             putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { copyAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
             valid &= false;
         }
-        
+
         return valid;
+    }
+
+
+    /**
+     * The Asset Type Code is allowed to be changed only:
+     * (1)If the tag number has not been assigned or 
+     * (2)The asset is tagged, and the asset created in the current fiscal year
+     * 
+     * @return
+     */
+    private boolean isAssetTaggedInPriorFiscalYear() {
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+        return StringUtils.isNotBlank(copyAsset.getCampusTagNumber()) && ObjectUtils.isNotNull(copyAsset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(copyAsset.getFinancialDocumentPostingYear());
+    }
+
+    /**
+     * 
+     * 
+     * @return boolean
+     */
+    private boolean isAssetTagged() {
+        return ObjectUtils.isNotNull(copyAsset.getCampusTagNumber());
+    }
+
+
+    /**
+     * The Tag Number check excludes value of "N" and retired assets.
+     * This method...
+     * @return
+     */
+    private boolean isTagNumberCheckExclude() {
+        String status = newAsset.getInventoryStatusCode();
+
+        return StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(newAsset.getCampusTagNumber(), CamsConstants.NON_TAGGABLE_ASSET);
     }
 
 
@@ -234,12 +295,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (newAsset == null) {
             newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         }
-        if (copyAsset == null ) {
+        if (copyAsset == null) {
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         }
     }
 
     /**
+     * If the tag number has not been assigned, the departmental user will be able to update the tag number.
      * The Tag Number shall be verified that the tag number does not exist on another asset. 
      * 
      * @param asset
@@ -248,12 +310,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateTagNumber() {
         boolean valid = true;
         boolean anyFound = false;
-       
 
-        valid &= isTagNumberChangeAllowed();
-        
-        if (valid && !isTagNumberCheckExclude()){
-                
+
+        if (isAssetTagged()) {
+            putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_RESTRICT_CHANGE);
+            valid &= false;
+        }
+        else if (!isTagNumberCheckExclude()) {
+
             Map fieldValues = new HashMap();
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber());
 
@@ -265,49 +329,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                     break;
                 }
             }
-            
+
             if (anyFound) {
                 putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
                 valid &= false;
-            }else {
-                setTagNumberChanged(true);
             }
         }
-        
+
         return valid;
-    }
-
-
-    /**
-     * 
-     * The Tag Number can't be updated together with Asset Type Code.
-     * @param valid
-     * @return
-     */
-    private boolean isTagNumberChangeAllowed() {
-        boolean valid = true;
-        
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getInventoryStatusCode(),newAsset.getInventoryStatusCode())) {
-            putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER,CamsKeyConstants.ERROR_TAG_NUMBER_RESTRICT_CHANGE);
-            valid &= false;
-        }
-        return valid;
-    }
-
-    
-    /**
-     * The Tag Number check excludes value of "N" and retired assets.
-     * This method...
-     * @return
-     */
-    private boolean isTagNumberCheckExclude() {
-        boolean exclude = false;
-        String status = newAsset.getInventoryStatusCode();
-        
-        if (StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status,CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(newAsset.getCampusTagNumber(), CamsConstants.NON_TAGGABLE_ASSET)) {
-            exclude = true;
-        }
-        return exclude;
     }
 
 
@@ -319,7 +348,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateVenderName() {
         boolean valid = true;
-        
+
         if (isCapitalEquipment(newAsset)) {
             if (StringUtils.isBlank(newAsset.getVendorName())) {
                 putFieldError(CamsPropertyConstants.Asset.VENDOR_NAME, CamsKeyConstants.ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED);
@@ -328,11 +357,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     private boolean isCapitalEquipment(Asset asset) {
         return StringUtils.contains(CamsConstants.CAPITAL_ASSET_STATUS_CODES, asset.getInventoryStatusCode());
     }
-   
 
 
     /**
@@ -342,9 +370,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return boolean false if the on campus location information is invalid
      */
 
-    private boolean validateLocation(Asset asset) {
+    private boolean validateOnCampusLocation(Asset asset) {
         boolean valid = true;
-        
+
         AssetType assetType = (AssetType) asset.getCapitalAssetType();
 
         if (assetType.isMovingIndicator()) {
@@ -369,25 +397,25 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateLocationForMoving(Asset asset) {
         boolean valid = true;
-        
+
         if (ObjectUtils.isNull(asset.getCampus())) {
             putFieldError(CamsPropertyConstants.Asset.CAMPUS_CODE, CamsKeyConstants.ERROR_INVALID_ASSET_CAMPUS_CODE);
             valid &= false;
         }
-        
+
         if (ObjectUtils.isNull(asset.getBuilding())) {
             putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_MANDATORY_ASSET_BUILDING_CODE, "moving code");
             valid &= false;
         }
-        
+
         if (ObjectUtils.isNull(asset.getBuildingRoom())) {
             putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_MANDATORY_ASSET_BUILDING_ROOM_NO, "moving code");
             valid &= false;
         }
-        
+
         return valid;
     }
-    
+
     /**
      * Validates Asset On Campus loaction information when "req bldg" is 'Y'.
      * Campus and Building are mandatory and shall be validated.
@@ -453,7 +481,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
-    
+
     /**
      * Validate warranty information if user enters value
      * 

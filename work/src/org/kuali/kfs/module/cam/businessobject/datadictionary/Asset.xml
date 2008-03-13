@@ -750,6 +750,8 @@
 				<label>Org Asset Type</label>
 			</attributeReference>		
 			
+			<attributeReference name="assetOrganization.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="versionNumber" />
+			
 			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
 				<label>Asset Condition</label>
 			</attributeReference>

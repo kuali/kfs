@@ -41,6 +41,8 @@ public class CamsPropertyConstants {
         public static final String CAMPUS_CODE = "campusCode";
         public static final String BUILDING_CODE = "buildingCode";
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+        public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
+        public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
     }
 
 	public static class AssetHeader {
@@ -67,7 +69,7 @@ public class CamsPropertyConstants {
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
         
         public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
-        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";        
+        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";
         public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT="previousYearPrimaryDepreciationAmount";
         public static final String PERIOD_1_DEPRECIATION_AMOUNT="period1Depreciation1Amount";
         public static final String PERIOD_2_DEPRECIATION_AMOUNT="period2Depreciation1Amount";

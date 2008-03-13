@@ -23,6 +23,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.ItemType;
 
 /**
@@ -41,7 +42,8 @@ public class ItemTypeValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         for (Object code : codes) {
             ItemType it = (ItemType) code;
-            if (it.isItemTypeAboveTheLineIndicator()) {
+            //exclude certain item types from the list
+            if (it.isItemTypeAboveTheLineIndicator() && !PurapConstants.ItemTypeCodes.EXCLUDED_ITEM_TYPES.contains(it.getItemTypeCode()) ) {
                 labels.add(new KeyLabelPair(it.getItemTypeCode(), it.getItemTypeDescription()));
             }
         }

@@ -260,7 +260,12 @@ public class PurapConstants extends JstlConstants {
         public static final String ITEM_TYPE_STATE_GROSS_CODE = "STGR";
         public static final String ITEM_TYPE_RESTCK_FEE_CODE = "RSTO";
         public static final String ITEM_TYPE_MISC_CRDT_CODE = "MSCR";
+        public static final String ITEM_TYPE_UNORDERED_ITEM_CODE = "UNOR";
 
+        public static final Set<String> EXCLUDED_ITEM_TYPES = new HashSet<String>();
+        static {
+            EXCLUDED_ITEM_TYPES.add(ITEM_TYPE_UNORDERED_ITEM_CODE);
+        }
     }
 
     // Item constants

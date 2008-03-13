@@ -18,6 +18,7 @@ package org.kuali.module.effort.util;
 import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.effort.EffortConstants;
 
 /**
@@ -187,5 +188,21 @@ public class PayrollAmountHolder {
         double percent = payrollAmount.doubleValue() * EffortConstants.ONE_HUNDRED.doubleValue() / totalPayrollAmount.doubleValue();
                
         return percent;
+    }
+    
+    /**
+     * recalculate the effort percent based on the given total amount and payroll amount and return it as of type String
+     * 
+     * @param totalPayrollAmount the given total amount
+     * @param payrollAmount the given payroll amount
+     * @return the effort percent as String calculated from the given total amount and payroll amount
+     */
+    public static String recalculateEffortPercentAsString(KualiDecimal totalPayrollAmount, KualiDecimal payrollAmount) {
+        double actualPercentAsDouble = 0;
+        if(totalPayrollAmount.isNonZero()) {
+            actualPercentAsDouble = recalculateEffortPercent(totalPayrollAmount, payrollAmount);
+        }
+        
+        return String.format("%.4f%s", actualPercentAsDouble, KFSConstants.PERCENTAGE_SIGN); 
     }
 }

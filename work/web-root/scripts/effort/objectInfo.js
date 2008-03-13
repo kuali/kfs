@@ -15,12 +15,14 @@
  */
 
 var totalAmountFiledName ="document.totalOriginalPayrollAmount";
+
 var fringeBenefitFieldNameSuffix = ".fringeBenefitAmount"
 var fiscalYearFieldNameSuffix = ".universityFiscalYear";
 var objectCodeFieldNameSuffix = ".financialObjectCode";
 var chartOfAccountsCodeFieldNameSuffix = ".chartOfAccountsCode";
 var payrollAmountFieldNameSuffix = ".effortCertificationPayrollAmount";
-var effortPercentFieldNameSuffix = ".effortCertificationCalculatedOverallPercent";
+var effortPercentFieldNameSuffix = ".effortCertificationUpdatedOverallPercent";
+
 var divSuffix = ".div";
 var comma = ",";
 var percentageSign = "%";

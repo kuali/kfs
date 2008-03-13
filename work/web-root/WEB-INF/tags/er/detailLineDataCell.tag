@@ -66,8 +66,10 @@
 	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
+	
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/effort/objectInfo.js"></script>
+	
 	<c:set var="scriptsLoaded" value="true" scope="request" />
 </c:if>              
               
@@ -77,30 +79,35 @@
 <c:set var="styleClass" value="${empty entryFormatter || !fn:contains(numericFormatter, entryFormatter) ? 'left' : 'right' }" />   
                    
 <kul:htmlControlAttribute
-		property="${fieldFormName}"
-		attributeEntry="${attributeEntry}"
-		onblur="${onblur}"
-		onchange="${onchange}"
-		readOnly="${readOnly}"
-		readOnlyBody="${readOnly}">
-      	
-      	<span class="${styleClass}">
-			<c:if test="${inquirable}">
-	    		<a href="${inquirableUrl}" target="_blank">${fieldValue}</a>
-			</c:if>
-			
-			<c:if test="${!inquirable}">
-	    		<span class="${styleClass}" id="${fieldFormName}" name="${fieldFormName}">${fieldValue}</span>
-			</c:if>
-		</span><br/>
-		
-		<span class="${styleClass}">
-    		<div id="${fieldFormName}.div" name="${fieldFormName}.div" class="fineprint">${fieldInfo}</div>
-    	</span>
-    	
-    	<c:if test="${withHiddenForm}">
-    		<html:hidden write="false" property="${fieldFormName}"/>
-    	</c:if>		
+	property="${fieldFormName}"
+	attributeEntry="${attributeEntry}"
+	onblur="${onblur}"
+	onchange="${onchange}"
+	readOnly="${readOnly}"
+	readOnlyBody="${readOnly}">
+     	
+    <c:choose>
+      	<c:when test="${inquirable}">
+    		<span class="${styleClass}">
+    			<a href="${inquirableUrl}" target="_blank">${fieldValue}</a>
+    		</span>
+		</c:when>
+		<c:otherwise>
+    		<span class="${styleClass}" id="${fieldFormName}" name="${fieldFormName}">
+    			${fieldValue}
+    		</span>
+		</c:otherwise>
+	</c:choose>
+	
+	<br/>
+	
+	<span class="${styleClass}">
+   		<div id="${fieldFormName}.div" name="${fieldFormName}.div" class="fineprint">${fieldInfo}</div>
+   	</span>
+   	
+   	<c:if test="${withHiddenForm}">
+   		<html:hidden write="false" property="${fieldFormName}"/>
+   	</c:if>		
 </kul:htmlControlAttribute>  
 
 <c:if test="${!readOnly && not empty relationshipMetadata}">

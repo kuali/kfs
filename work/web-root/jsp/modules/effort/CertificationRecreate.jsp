@@ -51,8 +51,9 @@
 			<div class="h2-container"><h2>Effort Detail Lines</h2></div>
 			
 			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
-				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationCalculatedOverallPercent"
-				hiddenFieldNames="universityFiscalYear,financialDocumentPostingYear,effortCertificationOriginalPayrollAmount,effortCertificationUpdatedOverallPercent,costShareSourceSubAccountNumber,versionNumber"
+				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationUpdatedOverallPercent"
+				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationUpdatedOverallPercent"				
+				hiddenFieldNames="universityFiscalYear,financialDocumentPostingYear,effortCertificationOriginalPayrollAmount,effortCertificationCalculatedOverallPercent,costShareSourceSubAccountNumber,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
 				relationshipMetadata ="${KualiForm.relationshipMetadata}" />

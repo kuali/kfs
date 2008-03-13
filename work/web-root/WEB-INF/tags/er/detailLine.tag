@@ -52,9 +52,20 @@
 	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>	
 <%@ attribute name="index" required="false"
 	description="The index of the detail line object containing the data being displayed"%>
+
+<c:set var="commaDeliminator" value=","/>
 	
 <c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">
 	<html:hidden property="${detailLineFormName}.${fieldName}" />
+</c:forTokens>
+
+<c:set var="onblurForEditableFieldNamesArray" value="${fn:split(onblurForEditableFieldNames, commaDeliminator)}" />
+<c:set var="onblurableInfoFieldNamesArray" value="${fn:split(onblurableInfoFieldNames, commaDeliminator)}" />
+
+<c:forTokens var="onblurOfField" items="${onblurForEditableFieldNames}"	delims="," varStatus="onblurStatus">
+	<c:if test="${onblurIndex == onblurStatus.index}">
+		<c:set var="onblur"	value="${onblurOfField}(this.name, '${onblurableInfoFieldName}');" />
+	</c:if>
 </c:forTokens>
 					
 <!-- populate the table with the given deatil lines -->
@@ -74,19 +85,9 @@
 		</c:forTokens>
 	</c:if>
 	
-	<c:if test="${editable && onblurIndex >=0}">
-		<c:forTokens var="onblurOfInfoField" items="${onblurableInfoFieldNames}" delims=","	varStatus="onblurInfoStatus">
-			<c:if test="${onblurIndex == onblurInfoStatus.index}">
-				<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${onblurOfInfoField}" />
-			</c:if>
-		</c:forTokens>
-	
-	
-		<c:forTokens var="onblurOfField" items="${onblurForEditableFieldNames}"	delims="," varStatus="onblurStatus">
-			<c:if test="${onblurIndex == onblurStatus.index}">
-				<c:set var="onblur"	value="${onblurOfField}(this.name, '${onblurableInfoFieldName}');" />
-			</c:if>
-		</c:forTokens>
+	<c:if test="${editable && onblurIndex >=0}">	
+		<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${onblurableInfoFieldNamesArray[onblurIndex]}" />
+		<c:set var="onblur" value="${onblurForEditableFieldNamesArray[onblurIndex]}(this.name, '${onblurableInfoFieldName}');" />
 	</c:if>
 	
 	<td class="datacell-nowrap">

@@ -22,22 +22,22 @@
     description="the order of the detail line that contains the field being rendered" %>
 <%@ attribute name="section" required="false"
     description="the order of the detail line that contains the field being rendered" %>    
-<%@ attribute name="detailFieldNames" required="true"
+<%@ attribute name="totalFieldNames" required="true"
 	description="The names of the fields that will be displayed . The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="hasActions" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
+	description="To determine if a user can tak an action on the given detail line. If true, the  given actions can be rendered with the detail line."%>
 
-<c:forTokens var="fieldName" items="${detailFieldNames}" delims=","	varStatus="status">
+<c:forTokens var="fieldName" items="${totalFieldNames}" delims=","	varStatus="status">
 	<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
-	<td class="total-line" style="border-left: 0px; font-weight: bold;">
-		<div id="${section}.document.${fieldName}">
+	<td class="infoline">
+		<div id="${section}.document.${fieldName}" class="right">
 			${KualiForm.document[fieldName]}${percent}
 		</div>
 	</td>
 </c:forTokens>
 
 <c:if test="${hasActions}">
-	<td class="total-line" style="border-left: 0px; font-weight: bold;">
+	<td class="infoline">
 		<div align="center"><jsp:doBody /></div>
 	</td>
 </c:if>

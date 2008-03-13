@@ -307,21 +307,21 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
             
+            KualiDecimal totalOriginalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
+            KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+            String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualOriginalPercent);
+
             KualiDecimal totalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
-            KualiDecimal payrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-            
-            double actualPercentAsDouble = 0;
-            if(totalPayrollAmount.isNonZero()) {
-                actualPercentAsDouble = PayrollAmountHolder.recalculateEffortPercent(totalPayrollAmount, payrollAmount);
-            }
-            String actualPercent = String.format("%.4f%s", actualPercentAsDouble, KFSConstants.PERCENTAGE_SIGN); 
-            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualPercent);
+            KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
+            String actualPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalPayrollAmount, payrollAmount);
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, actualPercent);            
 
             fieldInfo.add(fieldInfoForAttribute);
         }
 
         return fieldInfo;
-    }    
+    }  
 
     /**
      * get the inquirable implmentation

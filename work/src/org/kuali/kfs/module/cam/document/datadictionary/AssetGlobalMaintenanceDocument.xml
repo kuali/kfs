@@ -49,8 +49,11 @@
         </lockingKeys>
 
         <defaultExistenceChecks>
-            <reference attributeName="assetGlobalHeader.organizationOwnerChartOfAccounts.chartOfAccountsCode" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerChartOfAccountsCode" />
-            <reference attributeName="assetGlobalHeader.organizationOwnerAccount.accountNumber" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerAccountNumber" />
+            <reference attributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerChartOfAccountsCode" />
+            <reference attributeName="assetGlobalHeader.organizationOwnerAccount" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerAccountNumber" />
+            <!-- <reference attributeName="assetGlobalHeader.agency" attributeToHighlightOnFail="assetGlobalHeader.agencyNumber" /> -->
+            <reference attributeName="condition" attributeToHighlightOnFail="conditionCode" />
+            <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
         </defaultExistenceChecks>
  
         <maintainableSections>
@@ -60,8 +63,8 @@
 					<maintainableField name="assetGlobalHeader.organizationOwnerChartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup" />
 					<maintainableField name="assetGlobalHeader.organizationOwnerAccountNumber" required="true" webUILeaveFieldFunction="accountNameLookup" />
 					<!-- org. owner -->
-					<maintainableField name="leoOrganizationOwner" readOnly="true"/>
-					<maintainableField name="agencyNumber" />
+					<maintainableField name="leoOrganizationOwner" required="false" readOnly="true"/>
+					<maintainableField name="agencyNumber" required="true" />
 					<maintainableField name="acquisitionTypeCode" required="true" />
 					<maintainableField name="inventoryStatusCode" required="true" />
 					<maintainableField name="conditionCode" required="true" />
@@ -69,22 +72,24 @@
 					<maintainableField name="capitalAssetTypeCode" required="true" />
 					<maintainableField name="vendorName" required="true" />
 					<maintainableField name="manufacturerName" required="true" />
-					<maintainableField name="manufacturerModelNumber" />
-					<maintainableField name="organizationText" />
-					<!-- asset rep. -->
-					<maintainableField name="assetGlobalHeader.representativeUniversalIdentifier" />
+					<maintainableField name="manufacturerModelNumber" required="false" />
+					<maintainableField name="organizationText" required="false" />
+					<maintainableField name="assetGlobalHeader.representativeUniversalIdentifier" required="false" />
 					<maintainableField name="lastInventoryDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
 					<maintainableField name="createDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
-					<maintainableField name="capitalAssetInServiceDate">
+					<maintainableField name="capitalAssetInServiceDate" required="false">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
 					<!-- deprec. date -->
 					<maintainableField name="leoDeprecationDate" readOnly="true"/>
-	                <maintainableField name="versionNumber" />					
+					<maintainableField name="landCountyName" required="false" />
+				    <maintainableField name="landAcreageSize" required="false" />
+				    <maintainableField name="landParcelNumber" required="false" />
+	                <maintainableField name="versionNumber" required="false" />					
 				</maintainableItems>
             </maintainableSection>
 
@@ -92,14 +97,14 @@
                 <maintainableItems>
                     <!-- nbr of assets to create -->
                 	<maintainableField name="leoAssetsToCreate" readOnly="true" />
-					<maintainableField name="campusTagNumber" />
-					<maintainableField name="serialNumber" />
+					<maintainableField name="campusTagNumber" required="false" />
+					<maintainableField name="serialNumber" required="false" />
 					<!-- government tag -->
-					<maintainableField name="leoGovernmentTag" readOnly="true" />
+					<maintainableField name="leoGovernmentTag" required="false" readOnly="true" />
 					<!-- national stock number -->
-					<maintainableField name="leoNationalStockNbr" readOnly="true" />
-                	<maintainableField name="organizationInventoryName" />
-                	<maintainableField name="organizationAssetTypeIdentifier" />
+					<maintainableField name="leoNationalStockNbr" required="false" readOnly="true" />
+                	<maintainableField name="organizationInventoryName" required="false" />
+                	<maintainableField name="organizationAssetTypeIdentifier" required="false" />
 				</maintainableItems>
             </maintainableSection>
 
@@ -108,34 +113,25 @@
                 	<!-- <subSectionHeader name="Campus Location" /> -->
                     <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
 						<!-- <subSectionHeader name="On Campus" /> -->
-						<maintainableField name="capitalAssetNumber" readOnly="true"/>
+						<maintainableField name="capitalAssetNumber" required="false" readOnly="true"/>
                         <maintainableField name="campusCode" required="true" />
                         <maintainableField name="buildingCode" required="true" />
                         <maintainableField name="buildingRoomNumber" required="true" />
-                        <maintainableField name="buildingSubRoomNumber" />
+                        <maintainableField name="buildingSubRoomNumber" required="false" />
 						<!-- <subSectionHeader name="Off Campus" /> -->
 						<maintainableField name="offCampusName" required="true" />
                         <maintainableField name="offCampusAddress" required="true" />
                         <maintainableField name="offCampusCityName" required="true" />
                         <maintainableField name="offCampusStateCode" required="true" />
                         <maintainableField name="offCampusZipCode" required="true" />
-                        <maintainableField name="offCampusCountryCode" />
+                        <maintainableField name="offCampusCountryCode" required="false" />
                         <maintainableField name="locationQuantity" required="true" />
-                        <!-- <maintainableField name="newCollectionRecord" /> -->
                         <summaryFields>
-                        	<summaryField name="campusCode" />
-                            <summaryField name="capitalAssetNumber" />
+                        	<summaryField name="campusCode"/>
+                            <summaryField name="capitalAssetNumber"/>
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>
-            </maintainableSection>
-
-            <maintainableSection title="Land Information">
-                <maintainableItems>
-				    <maintainableField name="landCountyName" />
-				    <maintainableField name="landAcreageSize" />
-				    <maintainableField name="landParcelNumber" />
-				</maintainableItems>
             </maintainableSection>
 
             <maintainableSection title="Add Payments">
@@ -144,16 +140,16 @@
 					    <maintainableField name="chartOfAccountsCode" required="true" />
 					    <maintainableField name="accountNumber" required="true" />
 					    	<!-- display acct name & org. code -->
-					    <maintainableField name="subAccountNumber" />
+					    <maintainableField name="subAccountNumber" required="false" />
 					    <maintainableField name="financialObjectCode" required="true" />
 					    	<!-- display object code name -->
-					    <maintainableField name="financialSubObjectCode" />
-					    <maintainableField name="projectCode" />
-					    <maintainableField name="organizationReferenceId" />
+					    <maintainableField name="financialSubObjectCode" required="false" />
+					    <maintainableField name="projectCode" required="false" />
+					    <maintainableField name="organizationReferenceId" required="false" />
 					    <maintainableField name="expenditureFinancialDocumentNumber" required="true" />
 					    <maintainableField name="expenditureFinancialDocumentTypeCode" required="true" />
-					    <maintainableField name="purchaseOrderNumber" />
-					    <maintainableField name="requisitionNumber" />
+					    <maintainableField name="purchaseOrderNumber" required="false" />
+					    <maintainableField name="requisitionNumber" required="false" />
 					    <maintainableField name="financialDocumentPostingYear" required="true" />
 					    <maintainableField name="financialDocumentPostingPeriodCode" required="true" />
 					    <maintainableField name="accountChargeAmount" required="true" />

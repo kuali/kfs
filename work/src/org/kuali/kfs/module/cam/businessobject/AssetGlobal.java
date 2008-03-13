@@ -42,8 +42,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String leoAssetRepresentitive; //asset rep.
     private Timestamp lastInventoryDate;
     private Date createDate;
-    private int financialDocumentPostingYear;
-    private String financialDocumentPostingPeriodCode;
     private Date capitalAssetInServiceDate;
     private Date leoDeprecationDate; //deprec. date
     
@@ -62,7 +60,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /* land information */
     private String landCountyName;
-    private String landAcreageSize;
+    private int landAcreageSize;
     private String landParcelNumber;
     
     /* Add Payments (AssetPayment / CM_AST_PAYMENT_T) */
@@ -78,19 +76,20 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String purchaseOrderNumber;
     private String requisitionNumber;
     private Date financialDocumentPostingDate;
-    private int leoFinancialDocumentPostingYear ;  // dup/exists?
-    private String leoFinancialDocumentPostingPeriodCode; // dup/exists?
+    private int financialDocumentPostingYear;
+    private String financialDocumentPostingPeriodCode;
     private BigDecimal accountChargeAmount;
     
 
-    private AssetCondition condition;
-    private AssetType capitalAssetType;
-    private AssetGlobalHeader assetGlobalHeader;
     private List<AssetPaymentDetail> assetPaymentDetails;
     
     /* default existance checks */
+    private AssetGlobalHeader assetGlobalHeader;
     private Chart organizationOwnerChartOfAccounts;
     private Account organizationOwnerAccount;
+    private AssetGlobalHeader agency;
+    private AssetCondition condition;
+    private AssetType capitalAssetType;
     
     /**
      * Gets the organizationOwnerAccount attribute. 
@@ -388,7 +387,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Gets the landAcreageSize attribute. 
      * @return Returns the landAcreageSize.
      */
-    public String getLandAcreageSize() {
+    public int getLandAcreageSize() {
         return landAcreageSize;
     }
 
@@ -396,7 +395,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Sets the landAcreageSize attribute value.
      * @param landAcreageSize The landAcreageSize to set.
      */
-    public void setLandAcreageSize(String landAcreageSize) {
+    public void setLandAcreageSize(int landAcreageSize) {
         this.landAcreageSize = landAcreageSize;
     }
 
@@ -881,38 +880,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the leoFinancialDocumentPostingPeriodCode attribute. 
-     * @return Returns the leoFinancialDocumentPostingPeriodCode.
-     */
-    public String getLeoFinancialDocumentPostingPeriodCode() {
-        return leoFinancialDocumentPostingPeriodCode;
-    }
-
-    /**
-     * Sets the leoFinancialDocumentPostingPeriodCode attribute value.
-     * @param leoFinancialDocumentPostingPeriodCode The leoFinancialDocumentPostingPeriodCode to set.
-     */
-    public void setLeoFinancialDocumentPostingPeriodCode(String leoFinancialDocumentPostingPeriodCode) {
-        this.leoFinancialDocumentPostingPeriodCode = leoFinancialDocumentPostingPeriodCode;
-    }
-
-    /**
-     * Gets the leoFinancialDocumentPostingYear attribute. 
-     * @return Returns the leoFinancialDocumentPostingYear.
-     */
-    public int getLeoFinancialDocumentPostingYear() {
-        return leoFinancialDocumentPostingYear;
-    }
-
-    /**
-     * Sets the leoFinancialDocumentPostingYear attribute value.
-     * @param leoFinancialDocumentPostingYear The leoFinancialDocumentPostingYear to set.
-     */
-    public void setLeoFinancialDocumentPostingYear(int leoFinancialDocumentPostingYear) {
-        this.leoFinancialDocumentPostingYear = leoFinancialDocumentPostingYear;
-    }
-
-    /**
      * Gets the organizationReferenceId attribute. 
      * @return Returns the organizationReferenceId.
      */
@@ -1022,5 +989,53 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
         this.assetPaymentDetails = assetPaymentDetails;
+    }
+
+    /**
+     * Gets the condition attribute. 
+     * @return Returns the condition.
+     */
+    public AssetCondition getCondition() {
+        return condition;
+    }
+
+    /**
+     * Sets the condition attribute value.
+     * @param condition The condition to set.
+     */
+    public void setCondition(AssetCondition condition) {
+        this.condition = condition;
+    }
+
+    /**
+     * Gets the capitalAssetType attribute. 
+     * @return Returns the capitalAssetType.
+     */
+    public AssetType getCapitalAssetType() {
+        return capitalAssetType;
+    }
+
+    /**
+     * Sets the capitalAssetType attribute value.
+     * @param capitalAssetType The capitalAssetType to set.
+     */
+    public void setCapitalAssetType(AssetType capitalAssetType) {
+        this.capitalAssetType = capitalAssetType;
+    }
+
+    /**
+     * Gets the agency attribute. 
+     * @return Returns the agency.
+     */
+    public AssetGlobalHeader getAgency() {
+        return agency;
+    }
+
+    /**
+     * Sets the agency attribute value.
+     * @param agency The agency to set.
+     */
+    public void setAgency(AssetGlobalHeader agency) {
+        this.agency = agency;
     }
 }

@@ -24,14 +24,10 @@
 <!--  ### Asset Detail Information ### -->
             <attributeReference name="assetGlobalHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Owner Chart</label>
-                <shortLabel>Number</shortLabel>
-                <required>false</required>
             </attributeReference>
 
             <attributeReference name="assetGlobalHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Owner Account Number</label>
-                <shortLabel>Code</shortLabel>
-                <required>false</required>
 			</attributeReference>		
 			
 			<!-- org. owner -->
@@ -59,17 +55,9 @@
 				<label>Acquistion Status</label>
 			</attributeReference>
 
-            <attribute name="conditionCode" forceUppercase="true">
-                <label>Condition Code</label>
-                <shortLabel>Condition Code</shortLabel>
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>conditionCode</summary>
-                <description>conditionCode description...</description>
-			</attribute>
+            <attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode">
+                <label>Asset Condition</label>
+            </attributeReference>
 			
             <attribute name="capitalAssetDescription" forceUppercase="true">
                 <label>Description</label>
@@ -83,17 +71,11 @@
                 <description>capitalAssetDescription description...</description>
 			</attribute>
 			
-            <attribute name="capitalAssetTypeCode" forceUppercase="true">
-                <label>Asset Type</label>
-                <shortLabel>Asset Type</shortLabel>
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="9" />
-                </control>
-                <summary>AssetType</summary>
-                <description>capitalAssetTypeCode description...</description>
-			</attribute>
+			
+			
+            <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode">
+                <label>Asset Condition</label>
+            </attributeReference>
 			
 			<attributeReference name="vendorName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="vendorName">
 				<label>Vendor</label>
@@ -115,20 +97,6 @@
                 <label>Asset Representitive</label>
                 <required>false</required>
 			</attributeReference>
-				
-			<!-- asset rep
-			<attribute name="leoAssetRepresentitive" forceUppercase="true">
-                <label>Asset Representitive</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoAssetRepresentitive</summary>
-                <description>leoAssetRepresentitive....</description>
-			</attribute>
-			-->
 			
 			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>Last Inventory Date</label>
@@ -138,18 +106,63 @@
 				<label>Create Date</label>
 			</attributeReference>
 			
-			<attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-				<label>Fiscal Year</label>
-			</attributeReference>
-			
-			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
-				<label>Period</label>
-			</attributeReference>
-			
 			<attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>In-service Date</label>
 			</attributeReference>
+
+
+
+
+			<!-- 
+			<attributeReference name="landCountyName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landCountyName">
+				<label>Land Country</label>
+			</attributeReference>
 			
+			<attributeReference name="landAcreageSize" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landAcreageSize">
+				<label>Land Acreage</label>
+			</attributeReference>
+					
+			<attributeReference name="landParcelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landParcelNumber">
+				<label>Land Parcel Number</label>
+			</attributeReference>
+			-->
+	
+			<attribute name="landCountyName" forceUppercase="true">
+                <label>Land County Name</label>
+                <shortLabel>Country</shortLabel>
+                <maxLength>22</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="20" />
+                </control>
+                <summary>landCountyName</summary>
+                <description>landCountyName description...</description>
+			</attribute>
+			
+			<attribute name="landAcreageSize" forceUppercase="true">
+                <label>Land Acreage</label>
+                <shortLabel>Acreage</shortLabel>
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="7" />
+                </control>
+                <summary>landAcreageSize</summary>
+                <description>landAcreageSize description...</description>
+			</attribute>			
+			
+			<attribute name="landParcelNumber" forceUppercase="true">
+                <label>Land Parcel Number</label>
+                <shortLabel>Parcel</shortLabel>
+                <maxLength>32</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="30" />
+                </control>
+                <summary>landParcelNumber</summary>
+                <description>landParcelNumber description...</description>
+			</attribute>			
+
 			<!-- deprec. date -->
 			<attribute name="leoDeprecationDate" forceUppercase="true">
                 <label>Deprecation Date</label>
@@ -224,19 +237,6 @@
 				<label>Organization Asset Type</label>
 			</attributeReference>
 
-<!--  ### Land Information ### -->
-			<attributeReference name="landCountyName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landCountyName">
-				<label>Land Country</label>
-			</attributeReference>
-			
-			<attributeReference name="landAcreageSize" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landAcreageSize">
-				<label>Land Acreage</label>
-			</attributeReference>
-					
-			<attributeReference name="landParcelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landParcelNumber">
-				<label>Land Parcel Number</label>
-			</attributeReference>
-
 <!--  ### Add Payment ### -->
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="chartOfAccountsCode">
 				<label>Chart</label>
@@ -295,31 +295,13 @@
 				<label>Financial Post Date</label>
 			</attributeReference>
 
-			<!-- fiscal year -->
-			<attribute name="leoFinancialDocumentPostingYear">
-                <label>Fiscal Year</label>
-                <shortLabel>dup/exists???</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoFinancialDocumentPostingYear</summary>
-                <description>leoFinancialDocumentPostingYear....</description>
-			</attribute>
-
-			<!-- period -->
-			<attribute name="leoFinancialDocumentPostingPeriodCode">
-                <label>Period</label>
-                <shortLabel>dup/exists???</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoFinancialDocumentPostingPeriodCode</summary>
-                <description>leoFinancialDocumentPostingPeriodCode....</description>
-			</attribute>
+			<attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+				<label>Fiscal Year</label>
+			</attributeReference>
+			
+			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
+				<label>Period</label>
+			</attributeReference>
 
 			<attributeReference name="accountChargeAmount" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="accountChargeAmount">
 				<label>Account Amount</label>
@@ -344,15 +326,20 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+		
+		<!-- 
+		 ## Chart
+        <relationship objectAttributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" >
+			<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+		</relationship>
+		
+		## Account
+        <relationship objectAttributeName="assetGlobalHeader.organizationOwnerAccount" >
+        	<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+			<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
+		</relationship>
+		-->    
         
-<!-- ## on hold
-        <relationships>
-			<relationship objectAttributeName="organizationOwnerAccount" >
-				<primitiveAttribute sourceName="personUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="organizationOwnerAccount.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-			</relationship>
-		</relationships>
--->
         <objectLabel>Asset Global</objectLabel>
         
     </businessObject>

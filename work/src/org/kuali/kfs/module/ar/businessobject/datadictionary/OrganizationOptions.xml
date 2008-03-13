@@ -105,7 +105,7 @@
            </attributeReference>
 
             <attribute name="organization800PhoneNumber" forceUppercase="true">
-                <label>Organization 800 Phone Number</label>
+                <label>800 Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>13</maxLength>
@@ -137,7 +137,7 @@
 			</attribute>
 
             <attribute name="organizationFaxNumber" forceUppercase="true">
-                <label>Organization Fax Number</label>
+                <label>Fax Number</label>
                 <shortLabel>Number</shortLabel>
 
 
@@ -187,7 +187,7 @@
 			</attribute>
 
             <attribute name="organizationPhoneNumber" forceUppercase="true">
-                <label>Organization Phone Number</label>
+                <label>Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>13</maxLength>
@@ -203,7 +203,7 @@
 			</attribute>
 
             <attribute name="organizationRemitToAddressName" forceUppercase="true">
-                <label>Organization Remit To Address Name</label>
+                <label>Address Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -219,7 +219,7 @@
 			</attribute>
 
             <attribute name="organizationRemitToCityName" forceUppercase="true">
-                <label>Organization Remit To City Name</label>
+                <label>City Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>25</maxLength>
@@ -235,7 +235,7 @@
 			</attribute>
 
             <attribute name="organizationRemitToLine1StreetAddress" forceUppercase="true">
-                <label>Organization Remit To Line 1 Street Address</label>
+                <label>Line 1 Street Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -251,7 +251,7 @@
 			</attribute>
 
             <attribute name="organizationRemitToLine2StreetAddress" forceUppercase="true">
-                <label>Organization Remit To Line 2 Street Address</label>
+                <label>Line 2 Street Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -270,7 +270,7 @@
            </attributeReference>
 
             <attribute name="organizationRemitToZipCode" forceUppercase="true">
-                <label>Organization Remit To Zip Code</label>
+                <label>Zip Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>11</maxLength>

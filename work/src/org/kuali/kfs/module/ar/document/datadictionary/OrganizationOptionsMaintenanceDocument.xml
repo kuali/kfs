@@ -105,15 +105,9 @@
 					<!--                    <maintainableField name="universityName" required="false" >-->
 					<!--                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>-->
 					<!--                    </maintainableField>      -->
-					<!--                    <maintainableField name="organizationRemitToAddressName" required="true" />-->
-					<!--                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />-->
-					<!--                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />-->
-					<!--                    <maintainableField name="organizationRemitToCityName" required="true" />-->
-					<!--                    <maintainableField name="organizationRemitToStateCode" required="true" />-->
-					<!--                    <maintainableField name="organizationRemitToZipCode" required="true" />-->
-					<!--                    <maintainableField name="organization800PhoneNumber" required="false" />-->
-					<!--                    <maintainableField name="organizationFaxNumber" required="false" />-->
-					<!--                    <maintainableField name="organizationPhoneNumber" required="true" />-->
+					                  
+
+
 					<!--                    <maintainableField name="versionNumber" />-->
 				</maintainableItems>
 			</maintainableSection>
@@ -138,15 +132,28 @@
 					<defaultValue>Y</defaultValue>
 				</maintainableField>
 
-
-
-
-
-
-
 				</maintainableItems>
 			</maintainableSection>
 
-		</maintainableSections>
+            <maintainableSection title="Edit Organization Remit To Address">
+                <maintainableItems>
+                    <maintainableField name="organizationRemitToAddressName" required="true"/>
+                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true"/>
+                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false"/>
+                    <maintainableField name="organizationRemitToCityName" required="true"/>
+                    <maintainableField name="organizationRemitToStateCode" required="true"/>
+                    <maintainableField name="organizationRemitToZipCode" required="true"/>
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Edit Organization Phone">
+                <maintainableItems>
+                    <maintainableField name="organizationPhoneNumber" required="true"/>
+                    <maintainableField name="organizationFaxNumber" required="false"/>
+                    <maintainableField name="organization800PhoneNumber" required="false"/>
+                </maintainableItems>
+            </maintainableSection>
+
+        </maintainableSections>
 	</maintenanceDocument>
 </dictionaryEntry>

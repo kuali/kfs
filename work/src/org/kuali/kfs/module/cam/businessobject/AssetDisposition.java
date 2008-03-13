@@ -7,6 +7,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @deprecated may be retired in the near future. Talk to Philip if need to use this.
  */
 public class AssetDisposition extends PersistableBusinessObjectBase {
 

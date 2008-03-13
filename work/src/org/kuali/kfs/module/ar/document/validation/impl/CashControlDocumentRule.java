@@ -15,17 +15,14 @@
  */
 package org.kuali.module.ar.rules;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -40,17 +37,8 @@ import org.kuali.module.ar.rule.DeleteCashControlDetailRule;
 import org.kuali.module.ar.rule.GenerateReferenceDocumentRule;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.ar.service.PaymentMediumService;
-import org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
-import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class holds the business rules for the AR Cash Control Document
@@ -350,9 +338,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
             CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-            if (!(EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(docStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(docStatus))) {
+            if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal()) {
                 allAppDocsApproved = false;
 
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";

@@ -37,8 +37,9 @@
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount}" />
-			
-			    <kul:htmlAttributeHeaderCell literalLabel="Actions" />
+			    <c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
+			    	<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+			    </c:if>
 			</tr>     
 			<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
 				<ar:cashControlDetail propertyName="newCashControlDetail" cashControlDetailAttributes="${cashControlDetailAttributes}" addLine="true" readOnly="${readOnly}" rowHeading="add" cssClass="infoline" actionMethod="addCashControlDetail"  actionAlt="Add Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />				

@@ -35,13 +35,16 @@
 <%@ attribute name="cssClass" required="true"%>
 
 <tr>
-	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row" rowspan="2">
+	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row"
+		rowspan="2">
 		<%-- Outside this th, these hidden fields would be invalid HTML. --%>
 		<html:hidden property="${propertyName}.documentNumber" />
 		<html:hidden property="${propertyName}.versionNumber" />
 		<html:hidden property="${propertyName}.objectId" />
-		<html:hidden property="${propertyName}.referenceFinancialDocumentNumber" />
-		<html:hidden property="${propertyName}.referenceFinancialDocument.documentNumber" />
+		<html:hidden
+			property="${propertyName}.referenceFinancialDocumentNumber" />
+		<html:hidden
+			property="${propertyName}.referenceFinancialDocument.documentNumber" />
 	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
@@ -50,12 +53,12 @@
 			property="${propertyName}.referenceFinancialDocumentNumber"
 			readOnly="true" />
 	</td>
-	
+
 	<td align=left class="${cssClass}">
-	    <kul:htmlControlAttribute
+		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.status}"
 			property="${propertyName}.referenceFinancialDocument.documentHeader.workflowDocument.statusDisplayValue"
-			readOnly="true" />	
+			readOnly="true" />
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
@@ -78,27 +81,27 @@
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
-			property="${propertyName}.financialDocumentLineAmount" styleClass="right" />
+			property="${propertyName}.financialDocumentLineAmount"
+			styleClass="right" />
 	</td>
-	
-	
-	<td class="${cssClass}" rowspan="2">
-    	<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
+
+	<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
+		<td class="${cssClass}" rowspan="2">
 			<div align="center">
 				<html:image property="methodToCall.${actionMethod}"
 					src="${actionImage}" alt="${actionAlt}" title="${actionAlt}"
 					styleClass="tinybutton" />
 			</div>
-		</c:if>
-	</td>
+		</td>
+	</c:if>
 
-	
 </tr>
 <tr>
-<kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}" />
-<td colspan="5" class="${cssClass}">
-<kul:htmlControlAttribute
+	<kul:htmlAttributeHeaderCell
+		attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}" />
+	<td colspan="5" class="${cssClass}">
+		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}"
 			property="${propertyName}.customerPaymentDescription" />
-</td>
+	</td>
 </tr>

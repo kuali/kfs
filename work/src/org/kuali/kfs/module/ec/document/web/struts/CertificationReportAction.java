@@ -15,26 +15,28 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.AddDetailLineEvent;
 import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
+import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
 
 /**
@@ -59,7 +61,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail lineToRecalculate = detailLines.get(lineToRecalculateIndex);
         
-        //TODO: should the new salary default to the calculated salary value from the form or zero? right now it's default value is zero
         KualiDecimal newSalary = KualiDecimal.ZERO;
         KualiDecimal convertedPercent = (new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent()).divide(new KualiDecimal(100)));
         
@@ -137,7 +138,6 @@ public class CertificationReportAction extends EffortCertificationAction {
 
         detailLines.remove(lineToDeleteIndex);
 
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -156,11 +156,11 @@ public class CertificationReportAction extends EffortCertificationAction {
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
-
+        
         EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.retrieve(lineToRevert);
-
+        
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
 
@@ -194,5 +194,67 @@ public class CertificationReportAction extends EffortCertificationAction {
         
         return super.execute(mapping, form, request, response);
         
+    }
+    
+    /**
+     * Sorts the federal pass through detail lines for display
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward sortFed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CertificationReportForm effortForm = (CertificationReportForm) form;
+        
+        effortForm.setSortColumnFed(getColumnToSortBy(mapping, form, request, response));
+        effortForm.toggleFedSortOrder();
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC); 
+    }
+    
+    /**
+     * Sorts the non federal pass through lines for display
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward sortOther(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CertificationReportForm effortForm = (CertificationReportForm) form;
+        
+        effortForm.setSortColumnOther(getColumnToSortBy(mapping, form, request, response));
+        effortForm.toggleOtherSortOrder();
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC); 
+    }
+    
+    /**
+     * Gets the correct column for sorting
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private String getColumnToSortBy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String columnToSortBy = "";
+        String parameterName = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            columnToSortBy = StringUtils.substringBetween(parameterName, ".column", ".");
+        }
+        
+        if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_CHART)) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_CHART;
+        else if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_ACCOUNT) ) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_ACCOUNT;
+        else if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_SALARY) ) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_SALARY;
+        
+        return EffortConstants.EFFORT_DOCUMENT_DEFAULT_SORT_COLUMN;
     }
 }

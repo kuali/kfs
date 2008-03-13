@@ -31,7 +31,7 @@
 	
 	<er:reportInformation />
 	
-	<er:effortSummary />
+	<!-- er:effortSummary /-->
 	
 	<er:effortDetail />
 	

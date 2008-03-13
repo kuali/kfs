@@ -16,32 +16,19 @@
 package org.kuali.module.cams.service;
 
 
-import static org.kuali.module.cams.fixture.AssetFixture.BASIC_ASSET;
-import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT1;
-import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT2;
-import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT3;
-import static org.kuali.module.cams.fixture.AssetPaymentFixture.PAYMENT4;
-
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.module.cams.fixture.PaymentSummaryFixture;
 import org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.financial.service.impl.UniversityDateServiceImpl;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.test.util.CSVDataLoader;
-
-import sun.util.calendar.Gregorian;
 
 public class PaymentSummaryServiceTest extends KualiTestBase {
 
@@ -50,12 +37,12 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
 
     @Override
     protected void setUp() throws Exception {
-        asset = BASIC_ASSET.newAsset();
+        asset = PaymentSummaryFixture.ASSET.newAsset();
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
-        assetPayments.add(PAYMENT1.newAssetPayment());
-        assetPayments.add(PAYMENT2.newAssetPayment());
-        assetPayments.add(PAYMENT3.newAssetPayment());
-        assetPayments.add(PAYMENT4.newAssetPayment());
+        assetPayments.add(PaymentSummaryFixture.PAYMENT1.newAssetPayment());
+        assetPayments.add(PaymentSummaryFixture.PAYMENT2.newAssetPayment());
+        assetPayments.add(PaymentSummaryFixture.PAYMENT3.newAssetPayment());
+        assetPayments.add(PaymentSummaryFixture.PAYMENT4.newAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
 

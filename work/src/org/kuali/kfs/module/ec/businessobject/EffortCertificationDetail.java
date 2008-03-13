@@ -24,6 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.LaborModuleService;
@@ -59,7 +60,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     private KualiDecimal originalFringeBenefitAmount;
 
-    private String overrideCode; // to hold the override code if the associated account is expired
+    private boolean accountExpiredOverride;
+    private boolean accountExpiredOverrideNeeded;    
+    private String overrideCode = AccountingLineOverride.CODE.NONE;
+    
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
     // through account.
     private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
@@ -669,5 +673,37 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT, this.effortCertificationOriginalPayrollAmount);
 
         return map;
+    }
+
+    /**
+     * Gets the accountExpiredOverride attribute. 
+     * @return Returns the accountExpiredOverride.
+     */
+    public boolean isAccountExpiredOverride() {
+        return accountExpiredOverride;
+    }
+
+    /**
+     * Sets the accountExpiredOverride attribute value.
+     * @param accountExpiredOverride The accountExpiredOverride to set.
+     */
+    public void setAccountExpiredOverride(boolean accountExpiredOverride) {
+        this.accountExpiredOverride = accountExpiredOverride;
+    }
+
+    /**
+     * Gets the accountExpiredOverrideNeeded attribute. 
+     * @return Returns the accountExpiredOverrideNeeded.
+     */
+    public boolean isAccountExpiredOverrideNeeded() {
+        return accountExpiredOverrideNeeded;
+    }
+
+    /**
+     * Sets the accountExpiredOverrideNeeded attribute value.
+     * @param accountExpiredOverrideNeeded The accountExpiredOverrideNeeded to set.
+     */
+    public void setAccountExpiredOverrideNeeded(boolean accountExpiredOverrideNeeded) {
+        this.accountExpiredOverrideNeeded = accountExpiredOverrideNeeded;
     }
 }

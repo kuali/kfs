@@ -122,7 +122,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
+        if (detailLine.isNewLineIndicator() && !EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
             reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }

@@ -102,7 +102,11 @@
 			inquirableUrl="${inquirableUrl[fieldName]}"
 			fieldInfo="${fieldInfo[fieldName]}"
 			relationshipMetadata = "${relationshipMetadata[fieldName]}"
-			onblur="${onblur}" readOnly="${not editable}" />
+			onblur="${onblur}" readOnly="${not editable}" />			
+		
+		<c:if test="${editable && fn:contains(fieldName, 'accountNumber') && detailLine.accountExpiredOverrideNeeded}">
+			<er:expiredAccountOverride detailLineFormName="${detailLineFormName}" attributes="${attributes}" />
+		</c:if>
 	</td>
 </c:forTokens>
 

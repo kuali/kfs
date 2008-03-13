@@ -199,6 +199,22 @@
                 <description>costShareSourceSubAccountNumber description...</description>
 			</attribute>
 			
+			<attribute name="accountExpiredOverride">
+			    <label>Account Expired Override</label>
+			    <shortLabel>Expired Override</shortLabel>
+			
+			    <maxLength>1</maxLength>
+			    <required>true</required>
+			    <control>
+			        <checkbox />
+			    </control>
+			
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>This override indicates that the user has explicitly decided to use an account even though it has expired.</description>
+			</attribute>			
+			
 			<attributeReference name="originalFringeBenefitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Original Fringe Benefit</label>
                 <shortLabel>Original F-Ben</shortLabel>

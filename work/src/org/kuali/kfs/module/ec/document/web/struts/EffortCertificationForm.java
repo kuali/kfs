@@ -21,12 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.BusinessObjectRelationship;
 import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -39,12 +40,10 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
 import org.kuali.module.effort.util.PayrollAmountHolder;
-import org.kuali.module.effort.util.PrimaryKeyFieldHolder;
-import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Action form for Effort Certification Document.
@@ -102,12 +101,24 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+
+        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+            EffortCertificationDetailLineOverride.populateFromInput(detailLine);
+        }
+    }
+
+    /**
      * Gets the detailLines attribute.
      * 
      * @return Returns the detailLines.
      */
     public List<EffortCertificationDetail> getDetailLines() {
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument)this.getDocument();
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
         return effortCertificationDocument.getEffortCertificationDetailLines();
     }
 
@@ -268,7 +279,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         return completeURL.concat(queryString.toString());
     }
-    
+
 
     /**
      * Gets the fieldInfo attribute.
@@ -277,7 +288,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      */
     public List<Map<String, String>> getFieldInfo() {
         List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument)this.getDocument();
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
 
         for (EffortCertificationDetail detailLine : this.getDetailLines()) {
             detailLine.refreshNonUpdateableReferences();
@@ -286,7 +297,7 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
             fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
             fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
-            
+
             SubAccount subAccount = detailLine.getSubAccount();
             if (subAccount != null) {
                 fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
@@ -296,17 +307,17 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
             if (objectCode != null) {
                 fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
             }
-            
+
             Account sourceAccount = detailLine.getSourceAccount();
-            if ( sourceAccount != null) {
+            if (sourceAccount != null) {
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
             }
-            
+
             Chart sourceChart = detailLine.getSourceChartOfAccounts();
             if (sourceChart != null) {
                 fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
             }
-            
+
             KualiDecimal totalOriginalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
             KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
             String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
@@ -315,13 +326,13 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
             KualiDecimal totalPayrollAmount = effortCertificationDocument.getTotalOriginalPayrollAmount();
             KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
             String actualPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalPayrollAmount, payrollAmount);
-            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, actualPercent);            
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, actualPercent);
 
             fieldInfo.add(fieldInfoForAttribute);
         }
 
         return fieldInfo;
-    }  
+    }
 
     /**
      * get the inquirable implmentation

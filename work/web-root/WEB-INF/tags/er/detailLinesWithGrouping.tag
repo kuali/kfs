@@ -107,7 +107,7 @@
 				<c:set var="lineIndex" value="${lineIndex + 1}"/>
 				<kul:htmlAttributeHeaderCell literalLabel="${lineIndex}"/>
 				
-				<c:set var="editable" value="${detailLine.editable}" />
+				<c:set var="editable" value="${detailLine.editable || detailLine.newLineIndicator}" />
 				
 				<c:if test="${editable}">		
 					<c:set var="existing" value="${!detailLine.newLineIndicator}" />

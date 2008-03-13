@@ -27,9 +27,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.AddDetailLineEvent;
 import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
@@ -92,10 +94,14 @@ public class CertificationReportAction extends EffortCertificationAction {
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
-        newDetailLine.setEffortCertificationOriginalPayrollAmount(newDetailLine.getEffortCertificationPayrollAmount());
+        newDetailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
+        
+        if(newDetailLine.isAccountExpiredOverride()) {
+            this.updateDetailLineOverrideCode(newDetailLine);
+        }
         
         // check business rules
-        boolean isValid = this.invokeRules(new AddDetailLineEvent("", "newDetailLine", effortDocument, effortForm.getNewDetailLine()));
+        boolean isValid = this.invokeRules(new AddDetailLineEvent("", "newDetailLine", effortDocument, newDetailLine));
         if (isValid) {
             
             EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
@@ -103,7 +109,12 @@ public class CertificationReportAction extends EffortCertificationAction {
                 EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
             }
             detailLines.add(newDetailLine);
-        }
+        } 
+        else {
+            EffortCertificationDetailLineOverride.processForOutput(newDetailLine);
+        }         
+        
+        this.processDetailLineOverrides(detailLines);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -345,6 +345,10 @@
       <constructor-arg><ref bean="parameterService"/></constructor-arg>
     </bean>
     
+    <bean id="budgetConstructionRevenueExpenditureObjectTypesService" class="org.kuali.module.budget.service.impl.BudgetConstructionRevenueExpenditureObjectTypesServiceImpl">
+      <constructor-arg><ref bean="parameterService"/></constructor-arg>
+    </bean>
+    
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">
       <property name="budgetConstructionMonthlyBudgetsCreateDeleteDao">
         <ref bean="budgetConstructionMonthlyBudgetsCreateDeleteDao"/>

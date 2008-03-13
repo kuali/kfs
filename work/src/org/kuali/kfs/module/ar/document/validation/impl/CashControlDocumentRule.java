@@ -83,7 +83,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
-        isValid &= checkReferenceDocument(ccDocument);
+        // isValid &= checkReferenceDocument(ccDocument);
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkPaymentMedium(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
@@ -180,30 +180,24 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         String paymentMedium = document.getCustomerPaymentMediumCode();
-        if (paymentMedium != null && paymentMedium.equals("CA")) {
-            DocumentService documentService = KNSServiceLocator.getDocumentService();
+        if ("CA".equalsIgnoreCase(paymentMedium)) {
             String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
             if (orgDocNumber == null) {
                 GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
             else {
-                try {
-                    Document cashReceiptDoc = documentService.getByDocumentHeaderId(orgDocNumber);
-                    if (ObjectUtils.isNull(document)) {
-                        GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
-                        isValid = false;
-                    }
-
-                }
-                catch (WorkflowException we) {
-                    GlobalVariables.getErrorMap().putError("organizationDocumentNumber", we.getMessage());
+                boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(orgDocNumber);
+                if (!docExists) {
+                    GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
+
             }
         }
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
@@ -225,7 +219,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // if payment medium is not Cash the reference document number must not be null; if payment medium is Cash a Cash Receipt
         // Document must be created prior to creating the Cash Control
         // document and it's number should be set in Organization Document number
-        if (!document.getCustomerPaymentMediumCode().equalsIgnoreCase("CA") && null == refDocNumber || "".equals(refDocNumber)) {
+        if (!"CA".equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && null == refDocNumber || "".equals(refDocNumber)) {
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
         }

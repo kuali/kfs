@@ -30,28 +30,32 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
-    
+
     private CashControlDetail newCashControlDetail;
     private String processingChartOfAccCodeAndOrgCode;
-    
+
+    private boolean documentSubmitted;
     private boolean hasGeneratedRefDoc;
+    private boolean cashPaymentMediumSelected;
 
     /**
      * Constructs a CashControlDocumentForm.java.
      */
     public CashControlDocumentForm() {
-        
+
         super();
         setDocument(new CashControlDocument());
         hasGeneratedRefDoc = false;
-        
+        cashPaymentMediumSelected = false;
+        documentSubmitted = false;
+
     }
-    
+
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
-        
+
         super.populate(request);
 
         CashControlDocument ccDoc = getCashControlDocument();
@@ -141,5 +145,21 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     public void setHasGeneratedRefDoc(boolean hasGeneratedRefDoc) {
         this.hasGeneratedRefDoc = hasGeneratedRefDoc;
     }
- 
+
+    public boolean isCashPaymentMediumSelected() {
+        return cashPaymentMediumSelected;
+    }
+
+    public void setCashPaymentMediumSelected(boolean cashPaymentMediumSelected) {
+        this.cashPaymentMediumSelected = cashPaymentMediumSelected;
+    }
+
+    public boolean isDocumentSubmitted() {
+        return documentSubmitted;
+    }
+
+    public void setDocumentSubmitted(boolean documentSubmitted) {
+        this.documentSubmitted = documentSubmitted;
+    }
+
 }

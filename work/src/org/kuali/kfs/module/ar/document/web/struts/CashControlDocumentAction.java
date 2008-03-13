@@ -53,6 +53,7 @@ import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocumen
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.rice.KNSServiceLocator;
 
+import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
@@ -66,7 +67,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
 
-        //get the PaymentApplicationDocuments by reference number
+        // get the PaymentApplicationDocuments by reference number
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
             String docId = cashControlDetail.getReferenceFinancialDocumentNumber();
             PaymentApplicationDocument doc = null;
@@ -98,12 +99,15 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         if (ccDoc != null) {
             String refFinancialDocNbr = ccDoc.getReferenceFinancialDocumentNumber();
             ccForm.setHasGeneratedRefDoc(refFinancialDocNbr != null && !refFinancialDocNbr.equals(""));
+            ccForm.setCashPaymentMediumSelected("CA".equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
+            KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
+            ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
         }
 
         if (ccForm.hasDocumentId()) {
             ccDoc = ccForm.getCashControlDocument();
 
-            //recalc b/c changes to the amounts could have happened
+            // recalc b/c changes to the amounts could have happened
             ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
         }
 
@@ -117,7 +121,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocumentForm form = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument document = form.getCashControlDocument();
 
-        //set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
+        // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
@@ -128,9 +132,10 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
     /**
      * This method adds a new cash control detail
+     * 
      * @param mapping action mapping
      * @param form action form
-     * @param request 
+     * @param request
      * @param response
      * @return forward action
      * @throws Exception
@@ -193,7 +198,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
     /**
      * This method deletes a cash control detail
-     * @param mapping action mapping 
+     * 
+     * @param mapping action mapping
      * @param form action form
      * @param request
      * @param response

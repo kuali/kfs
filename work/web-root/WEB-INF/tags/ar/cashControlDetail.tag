@@ -78,7 +78,7 @@
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
-			property="${propertyName}.financialDocumentLineAmount" styleClass="right" readOnly="${KualiForm.hasGeneratedRefDoc}"/>
+			property="${propertyName}.financialDocumentLineAmount" styleClass="right" />
 	</td>
 	
 	

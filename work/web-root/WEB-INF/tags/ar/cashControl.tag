@@ -30,6 +30,10 @@
 	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
 <html:hidden
 	property="hasGeneratedRefDoc" />
+<html:hidden
+	property="cashPaymentMediumSelected" />
+<html:hidden
+	property="documentSubmitted" />
 
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
@@ -63,7 +67,7 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc}"/>
+						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}" onchange="submitForm()"/>
 				</td>
 			</tr>
 
@@ -82,7 +86,7 @@
 							readOnly="true" />
 					</c:if>
 					
-					<c:if test="${not KualiForm.hasGeneratedRefDoc}">
+					<c:if test="${not KualiForm.hasGeneratedRefDoc and KualiForm.documentSubmitted and not KualiForm.cashPaymentMediumSelected}">
 						<html:image property="methodToCall.generateRefDoc"
 							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
 							alt="Generate Reference Document"

@@ -30,6 +30,7 @@ import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.DocumentTestUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -155,7 +156,9 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckReferenceDocument_True() throws WorkflowException {
 
-        Document tempDocument = documentService.getNewDocument(GeneralErrorCorrectionDocument.class);
+        Document tempDocument = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
+        ;
+        documentService.saveDocument(tempDocument);
         document.setReferenceFinancialDocumentNumber(tempDocument.getDocumentNumber());
 
         assertTrue(rule.checkReferenceDocument(document));
@@ -208,7 +211,8 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckOrgDocNumber_True() throws WorkflowException {
 
-        CashReceiptDocument tempDoc = (CashReceiptDocument) documentService.getNewDocument(CashReceiptDocument.class);
+        GeneralErrorCorrectionDocument tempDoc = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
+        documentService.saveDocument(tempDoc);
         document.setCustomerPaymentMediumCode(CUSTOMER_PAYMENT_MEDIUM_CASH_CODE);
         document.getDocumentHeader().setOrganizationDocumentNumber(tempDoc.getDocumentNumber());
 

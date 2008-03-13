@@ -19,6 +19,7 @@
 <div class="body">
 	<strong>Accounts Receivable</strong><br />
     <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
     </ul>
 

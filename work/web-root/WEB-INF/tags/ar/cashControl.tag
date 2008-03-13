@@ -33,6 +33,8 @@
 <html:hidden
 	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
 <html:hidden
+			property="document.referenceFinancialDocumentNumber" />
+<html:hidden
 	property="hasGeneratedRefDoc" />
 <html:hidden
 	property="cashPaymentMediumSelected" />

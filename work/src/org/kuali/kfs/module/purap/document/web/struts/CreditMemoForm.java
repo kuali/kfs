@@ -90,7 +90,8 @@ public class CreditMemoForm extends AccountsPayableFormBase {
 
         CreditMemoDocument creditMemo = (CreditMemoDocument) this.getDocument();
 
-        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
+        if (!creditMemo.isSourceVendor() &&
+                SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
 
             valid = true;
         }

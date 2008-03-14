@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -40,8 +38,6 @@ import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.ProcessPdpCancelPaidService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Implementation of ProcessPdpCancelPaidService

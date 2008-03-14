@@ -42,6 +42,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     
     private static final String BASIC_FORWARD = "basic";
     private static final String ACTION_NAME = "claim";
+    private static final String PORTAL_FORWARD = "portal";
 
     /**
      * @see org.kuali.kfs.service.ElectronicFundTransferActionHelper#performAction(org.kuali.core.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
@@ -58,11 +59,11 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
             lookupResultsSequenceNumber = ((String[])params.get("lookupResultsSequenceNumber"))[0];
         }
         if (StringUtils.isBlank(lookupResultsSequenceNumber)) {
-            throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferRefreshActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
+            return mapping.findForward(PORTAL_FORWARD);
         }
         List<ElectronicPaymentClaim> claims = getClaimedPayments(currentUser, lookupResultsSequenceNumber);
         if (claims.size() == 0) {
-            throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferRefreshActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
+            return mapping.findForward(PORTAL_FORWARD);
         }
         // if so, load their currently claimed electronic funds to the form
         form.setClaims(claims);

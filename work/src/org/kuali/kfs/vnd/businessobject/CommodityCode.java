@@ -16,6 +16,7 @@
 package org.kuali.module.vendor.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.purap.bo.RestrictedMaterial;
@@ -32,7 +33,11 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private String restrictedMaterialCode;
     private boolean active;
     
+    private String restrictedMaterialForLookup;  //not persisted in db
+    
     private RestrictedMaterial restrictedMaterial;
+    
+    private List<CommodityContractManager> commodityContractManagers;
         
     public boolean isActive() {
         return active;
@@ -89,7 +94,26 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     public void setSalesTaxIndicator(boolean salesTaxIndicator) {
         this.salesTaxIndicator = salesTaxIndicator;
     }
+    
+    public List<CommodityContractManager> getCommodityContractManagers() {
+        return commodityContractManagers;
+    }
 
+    public void setCommodityContractManagers(List<CommodityContractManager> commodityContractManagers) {
+        this.commodityContractManagers = commodityContractManagers;
+    }    
+
+    public String getRestrictedMaterialForLookup() {
+        return restrictedMaterialForLookup;
+    }
+
+    public void setRestrictedMaterialForLookup(String restrictedMaterialForLookup) {
+        this.restrictedMaterialForLookup = restrictedMaterialForLookup;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

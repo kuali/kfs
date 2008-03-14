@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>PURAP_ADMIN</workgroup>
+                    <workgroup>PURAP_PUR_CONTR_MGR</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -44,16 +44,26 @@
         <maintainableSections>
            <maintainableSection title="Commodity Code">
                 <maintainableItems>
-                	<maintainableField name="purchasingCommodityCode" />
-                	<maintainableField name="commodityDescription" />
+                	<maintainableField name="purchasingCommodityCode" required="true" />
+                	<maintainableField name="commodityDescription" required="true" />
                 	<maintainableField name="salesTaxIndicator" />
                 	<maintainableField name="restrictedItemsIndicator" />
                 	<maintainableField name="restrictedMaterialCode" />
- 					<maintainableField name="active"/>
+ 					<maintainableField name="active">
+ 						<defaultValue>true</defaultValue>
+ 					</maintainableField>
  					<maintainableField name="versionNumber" />
                 </maintainableItems>
-           </maintainableSection>        
-        </maintainableSections>
-        
+           </maintainableSection>
+           <maintainableSection title="Contract Managers">
+           		<maintainableItems>
+	            	<maintainableCollection name="commodityContractManagers" businessObjectClass="org.kuali.module.vendor.bo.CommodityContractManager" summaryTitle="Contract Managers">
+	 					<maintainableField name="campusCode"/>
+	 					<maintainableField name="contractManagerCode"/>
+	 					<maintainableField name="versionNumber" />
+	 				</maintainableCollection>
+	 			</maintainableItems>
+           </maintainableSection>
+        </maintainableSections>        
 	</maintenanceDocument>
 </dictionaryEntry>       

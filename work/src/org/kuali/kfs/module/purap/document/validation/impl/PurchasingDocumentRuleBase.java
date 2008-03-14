@@ -129,7 +129,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid &= validateItemQuantity(item, identifierString);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
                     valid &= validateCommodityCodes(item, identifierString);
-                }
+            }
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -254,7 +254,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + item.getItemIdentifierString());
             }
-        }        
+        }    
 
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
             if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {

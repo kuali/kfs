@@ -53,5 +53,6 @@ public class EffortPropertyConstants {
     public static final String LABOR_OBJECT_FRINGE_OR_SALARY_CODE = KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE;
     public static final String SOURCE_ACCOUNT_NUMBER = "sourceAccountNumber";
     public static final String SOURCE_CHART_OF_ACCOUNTS_CODE = "sourceChartOfAccountsCode";
-    public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER ="costShareSourceSubAccountNumber";    
+    public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER ="costShareSourceSubAccountNumber";
+    public static final String EFFORT_CERTIFICATION_DOCUMENT_NEW_LINE = "newDetailLine";
 }

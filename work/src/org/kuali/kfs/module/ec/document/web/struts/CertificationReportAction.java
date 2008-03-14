@@ -28,9 +28,9 @@ import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -90,7 +90,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail newDetailLine = effortForm.getNewDetailLine();
         
-        // TODO: should required fields be checked for null values?
         newDetailLine.refresh();
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
@@ -102,7 +101,7 @@ public class CertificationReportAction extends EffortCertificationAction {
         }
         
         // check business rules
-        boolean isValid = this.invokeRules(new AddDetailLineEvent("", "newDetailLine", effortDocument, newDetailLine));
+        boolean isValid = this.invokeRules(new AddDetailLineEvent("", EffortPropertyConstants.EFFORT_CERTIFICATION_DOCUMENT_NEW_LINE, effortDocument, newDetailLine));
         if (isValid) {
             
             EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);

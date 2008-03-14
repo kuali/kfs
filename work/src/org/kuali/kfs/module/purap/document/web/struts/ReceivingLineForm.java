@@ -22,6 +22,8 @@ import java.util.Map;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
@@ -38,7 +40,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
         setDocument(new ReceivingLineDocument());
 
         this.setNewReceivingLineItemLine(setupNewReceivingLineItemLine());
-        newReceivingLineItemLine.setItemTypeCode("ITEM");
+        newReceivingLineItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
     }
 
     public ReceivingLineDocument getReceivingLineDocument() {
@@ -127,6 +129,26 @@ public class ReceivingLineForm extends ReceivingFormBase {
         result.put(correctionButton.getExtraButtonProperty(), correctionButton);
         
         return result;
+    }
+    
+    /**
+     * Returns the new Receiving Item Line and resets it to null.
+     * 
+     * @return the new Receiving Item Line.
+     */
+    public ReceivingLineItem getAndResetNewReceivingItemLine() {
+        ReceivingLineItem receivingItemLine = getNewReceivingLineItemLine();
+        setNewReceivingLineItemLine(setupNewReceivingItemLine());
+        return receivingItemLine;
+    }
+
+    /**
+     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
+     */
+    public ReceivingLineItem setupNewReceivingItemLine() {
+        ReceivingLineItem receivingLineItem = new ReceivingLineItem((ReceivingLineDocument)getDocument());
+        newReceivingLineItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
+        return receivingLineItem;
     }
 
 }

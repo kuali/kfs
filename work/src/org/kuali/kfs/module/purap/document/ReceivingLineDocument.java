@@ -252,6 +252,10 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         return (ReceivingLineItem) items.get(pos);
     }
 
+    public void addItem(ReceivingLineItem item) {
+        items.add(item);
+    }
+
     /*public ReceivingLineItem getItemByLineNumber(int lineNumber) {
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             ReceivingLineItem item = (ReceivingLineItem) iter.next();

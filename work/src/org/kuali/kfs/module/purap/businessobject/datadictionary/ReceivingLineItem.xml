@@ -215,20 +215,23 @@
                 <description>itemTypeCode description...</description>
 			</attribute>
 
-            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
-                <label>Item Unit Of Measure Code</label>
-                <shortLabel>UOM</shortLabel>
+            <attribute name="itemUnitOfMeasureCode"
+            	forceUppercase="true">
+            	<label>Item Unit Of Measure Code</label>
+            	<shortLabel>UOM</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+            	<maxLength>4</maxLength>
+            	<validationPattern>
+            		<anyCharacter />
+            	</validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+            	<control>
+            		<select
+            			valuesFinderClass="org.kuali.kfs.lookup.keyvalues.UnitOfMeasureValuesFinder" />
+            	</control>
 
-                <summary>itemUnitOfMeasureCode</summary>
-                <description>itemUnitOfMeasureCode description...</description>
-			</attribute>
+            </attribute>
+
 
             <attribute name="purchaseOrderIdentifier" forceUppercase="true">
                 <label>Purchase Order Identifier</label>

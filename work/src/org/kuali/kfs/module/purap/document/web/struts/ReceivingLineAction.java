@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.UrlFactory;
@@ -33,15 +34,20 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
+import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.purap.service.impl.ReceivingServiceImpl;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
+import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -130,5 +136,28 @@ public class ReceivingLineAction extends ReceivingBaseAction {
 
         return forward;
     }
+    /**
+     * Add a new item to the document.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+        ReceivingLineItem item = receivingLineForm.getNewReceivingLineItemLine();
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
 
+        if (rulePassed) {
+            item = receivingLineForm.getAndResetNewReceivingItemLine();
+            receivingLineDocument.addItem(item);
+            //TODO: we need to set the line number correctly to match up to PO
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

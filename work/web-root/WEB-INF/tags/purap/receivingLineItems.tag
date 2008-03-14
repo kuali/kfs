@@ -59,16 +59,16 @@
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newReceivingLineItemLine.itemDescription" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newReceivingLineItemLine.itemOrderedQuantity" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemOrderedQuantity}" property="newReceivingLineItemLine.itemOrderedQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newReceivingLineItemLine.itemUnitOfMeasureCode" />
 		    </td>
 			<td class="infoline">
-			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" />
+			    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedPriorQuantity}" property="newReceivingLineItemLine.itemReceivedPriorQuantity" readOnly="${true}"/>
 		    </td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedToBeQuantity}" property="newReceivingLineItemLine.itemReceivedToBeQuantity" readOnly="${true}"/>
 			</td>
 			<td class="infoline">
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReceivedTotalQuantity}" property="newReceivingLineItemLine.itemReceivedTotalQuantity" />

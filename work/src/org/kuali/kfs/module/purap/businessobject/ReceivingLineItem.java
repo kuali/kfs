@@ -53,6 +53,13 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
 
     }
     
+    public ReceivingLineItem(ReceivingLineDocument rld){
+        this.setDocumentNumber( rld.getDocumentNumber() );
+        this.setItemReceivedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemReturnedTotalQuantity( KualiDecimal.ZERO );
+        this.setItemDamagedTotalQuantity( KualiDecimal.ZERO );
+    }
+    
     public ReceivingLineItem(PurchaseOrderItem poi, ReceivingLineDocument rld){
         
         this.setDocumentNumber( rld.getDocumentNumber() );        

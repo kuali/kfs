@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetLocationGlobalDetail">
+ 
+        <inquiry>
+            <title>Asset Location Global Detail Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="buildingCode" />
+                        <field attributeName="buildingRoomNumber" />
+                        <field attributeName="buildingSubRoomNumber" />
+                        <field attributeName="campusCode" />
+                        <field attributeName="campusTagNumber" />
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="documentNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Location Global Detail Lookup</title>
+
+            <instructions>Look up an Asset Location Global Detail</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="buildingCode" required="false" />
+                <lookupField attributeName="buildingRoomNumber" required="false" />
+                <lookupField attributeName="buildingSubRoomNumber" required="false" />
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="campusTagNumber" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+                <field attributeName="buildingSubRoomNumber" />
+                <field attributeName="campusCode" />
+                <field attributeName="campusTagNumber" />
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="documentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="buildingCode" forceUppercase="true">
+                <label>Building Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>buildingCode</summary>
+                <description>buildingCode description...</description>
+			</attribute>
+
+            <attribute name="buildingRoomNumber" forceUppercase="true">
+                <label>Building Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>buildingRoomNumber</summary>
+                <description>buildingRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="buildingSubRoomNumber" forceUppercase="true">
+                <label>Building Sub Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>buildingSubRoomNumber</summary>
+                <description>buildingSubRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="campusTagNumber" forceUppercase="true">
+                <label>Campus Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>campusTagNumber</summary>
+                <description>campusTagNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

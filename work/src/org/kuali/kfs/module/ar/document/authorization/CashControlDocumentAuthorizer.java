@@ -15,19 +15,14 @@
  */
 package org.kuali.module.ar.document.authorization;
 
-import org.kuali.core.bo.DocumentStatus;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
 
 public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
@@ -49,9 +44,9 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
         // check if there is at least one Application Document approved
         for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            String docStatus = applicationDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-           
-            if (EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(docStatus)) {
+            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+
+            if (workflowDocument != null && workflowDocument.stateIsApproved()) {
                 atLeastOneAppDocApproved = true;
                 break;
             }

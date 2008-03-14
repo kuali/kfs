@@ -53,4 +53,11 @@ public class ArConstants {
  
     
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
+    
+    public static class PaymentMediumCode {
+        public static final String CASH = "CA";
+        public static final String CHECK = "CK";
+        public static final String WIRE_TRANSFER = "WT";
+        public static final String CREDIT_CARD = "CR";
+    }
 }

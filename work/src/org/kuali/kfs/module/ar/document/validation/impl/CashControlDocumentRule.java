@@ -170,7 +170,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         String paymentMedium = document.getCustomerPaymentMediumCode();
-        if ("CA".equalsIgnoreCase(paymentMedium)) {
+        if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
             String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
             if (orgDocNumber == null) {
                 GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
@@ -207,7 +207,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // if payment medium is not Cash the reference document number must not be null; if payment medium is Cash a Cash Receipt
         // Document must be created prior to creating the Cash Control
         // document and it's number should be set in Organization Document number
-        if (!"CA".equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && null == refDocNumber || "".equals(refDocNumber)) {
+        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && null == refDocNumber || "".equals(refDocNumber)) {
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
         }

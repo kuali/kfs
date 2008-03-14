@@ -99,7 +99,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         if (ccDoc != null) {
             String refFinancialDocNbr = ccDoc.getReferenceFinancialDocumentNumber();
             ccForm.setHasGeneratedRefDoc(refFinancialDocNbr != null && !refFinancialDocNbr.equals(""));
-            ccForm.setCashPaymentMediumSelected("CA".equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
+            ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
             KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
             ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
         }
@@ -270,16 +270,16 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         String referenceDocumentNumber = "";
 
-        if (paymentMediumCode.equalsIgnoreCase("CK")) {
+        if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
             referenceDocumentNumber = createCashReceiptDocument(cashControlDocument);
         }
-        else if (paymentMediumCode.equalsIgnoreCase("WT")) {
+        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER)) {
             referenceDocumentNumber = createDistributionOfIncomeAndExpenseDocument(cashControlDocument);
         }
-        else if (paymentMediumCode.equalsIgnoreCase("CR")) {
+        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CREDIT_CARD)) {
             referenceDocumentNumber = createGeneralErrorCorrectionDocument(cashControlDocument);
         }
-        else if (paymentMediumCode.equalsIgnoreCase("CA")) {
+        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CASH)) {
             // no reference document is generated; a Cash Receipt Document must be created prior to creating the Cash Control
             // document and it's number should be set in Organization Document number
         }

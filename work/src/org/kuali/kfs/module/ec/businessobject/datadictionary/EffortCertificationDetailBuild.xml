@@ -24,10 +24,10 @@
             <title>Effort Certification Extract Line Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+                
                 <field attributeName="effortCertificationBuildNumber" />
-            	
-                <field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
-                <field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+            	<field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
                 <field attributeName="effortCertificationDocumentBuild.emplid"/>
                                
                 <field attributeName="chartOfAccountsCode" />                                
@@ -62,16 +62,16 @@
             </defaultSort>
 
             <lookupFields>
+            	<lookupField attributeName="effortCertificationDocumentBuild.universityFiscalYear" required="true" />
                 <lookupField attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" required="true" />
-                <lookupField attributeName="effortCertificationDocumentBuild.universityFiscalYear" required="true" />
                 <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="false" />
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+                
             	<field attributeName="effortCertificationBuildNumber" />
-            	
-                <field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
-                <field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+            	<field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
                 <field attributeName="effortCertificationDocumentBuild.emplid"/>
                               
                 <field attributeName="chartOfAccountsCode" />                                

@@ -34,17 +34,17 @@
             </defaultSort>
 
             <lookupFields>
+            	<lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="effortCertificationReportNumber" required="false" />
                 <lookupField attributeName="effortCertificationReportPositionObjectGroupCode" required="false" />
                 <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="universityFiscalYear" />
                 <field attributeName="effortCertificationReportNumber" />
                 <field attributeName="effortCertificationReportPositionObjectGroupCode" />
                 <field attributeName="active" />
-                <field attributeName="universityFiscalYear" />
             </resultFields>
         </lookup>
 

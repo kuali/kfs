@@ -75,15 +75,14 @@
             </defaultSort>
 
             <lookupFields>
+            	<lookupField attributeName="universityFiscalYear" required="true" />
             	<lookupField attributeName="effortCertificationReportNumber" required="true" />
-                <lookupField attributeName="universityFiscalYear" required="true" />
                 <lookupField attributeName="emplid" required="false" />
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="universityFiscalYear" />              
                 <field attributeName="effortCertificationBuildNumber" />
-                                                
-                <field attributeName="universityFiscalYear" />              
                 <field attributeName="effortCertificationReportNumber" /> 
                 <field attributeName="emplid" />               
             </resultFields>

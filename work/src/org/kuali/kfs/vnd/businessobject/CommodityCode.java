@@ -15,10 +15,12 @@
  */
 package org.kuali.module.vendor.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.bo.RestrictedMaterial;
 
 /**
@@ -36,7 +38,11 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private RestrictedMaterial restrictedMaterial;
     
     private List<CommodityContractManager> commodityContractManagers;
-        
+    
+    public CommodityCode() {
+        commodityContractManagers = new TypedArrayList(CommodityContractManager.class);
+    }
+    
     public boolean isActive() {
         return active;
     }

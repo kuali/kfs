@@ -48,7 +48,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     private static final String ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER = "ELECTRONIC_FUNDS_CLAIMANT_GROUP";
     private final static String ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME = "ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP";
     private static final String ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER = "ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE";
-    private static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: \n";
+    private static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: ";
     private static final String DI_CLAIMING_DOC_HELPER_BEAN_NAME = "distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
     private static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
     private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";

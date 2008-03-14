@@ -37,7 +37,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -51,7 +53,12 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
+import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
+import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
@@ -64,13 +71,7 @@ public class PurapServiceImpl implements PurapService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
-    private VendorService vendorService;
-    private PersistenceService persistenceService;
-    private PurchaseOrderService purchaseOrderService;
-    private DocumentService documentService;
-    private NoteService noteService;
-    private DataDictionaryService dataDictionaryService;
-    
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -83,30 +84,6 @@ public class PurapServiceImpl implements PurapService {
         this.parameterService = parameterService;
     }
 
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;    
-    }
-    
-    public void setPersistenceService(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;    
-    }
-    
-    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
-        this.purchaseOrderService = purchaseOrderService;    
-    }
-    
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-    
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
-    }
-    
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-    
     /**
      * @see org.kuali.module.purap.service.PurapService#updateStatus(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
@@ -286,7 +263,7 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#getDateFromOffsetFromToday(int)
      */
     public Date getDateFromOffsetFromToday(int offsetDays) {
-        Calendar calendar = dateTimeService.getCurrentCalendar();
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         calendar.add(Calendar.DATE, offsetDays);
         return new Date(calendar.getTimeInMillis());
     }
@@ -341,7 +318,7 @@ public class PurapServiceImpl implements PurapService {
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
         LOG.debug("getApoLimit() started");
 
-        KualiDecimal purchaseOrderTotalLimit = vendorService.getApoLimitFromContract(vendorContractGeneratedIdentifier, chart, org);
+        KualiDecimal purchaseOrderTotalLimit = SpringContext.getBean(VendorService.class).getApoLimitFromContract(vendorContractGeneratedIdentifier, chart, org);
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
             // We didn't find the limit on the vendor contract, get it from the org parameter table.
             if (ObjectUtils.isNull(chart) || ObjectUtils.isNull(org)) {
@@ -350,7 +327,7 @@ public class PurapServiceImpl implements PurapService {
             OrganizationParameter organizationParameter = new OrganizationParameter();
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
-            Map orgParamKeys = persistenceService.getPrimaryKeyFieldValues(organizationParameter);
+            Map orgParamKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(organizationParameter);
             organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
@@ -456,11 +433,11 @@ public class PurapServiceImpl implements PurapService {
 
 
         Integer poId = apDocument.getPurchaseOrderIdentifier();
-        PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(poId);
+        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
         if (!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), docType)) {
             // we are skipping the validation above because it would be too late to correct any errors (i.e. because in
             // post-processing)
-            purchaseOrderService.createAndRoutePotentialChangeDocument(purchaseOrderDocument.getPurchaseOrderRestrictedMaterials(), purchaseOrderDocument.getPurchaseOrderRestrictionStatusHistories(), purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
+            SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(purchaseOrderDocument.getPurchaseOrderRestrictedMaterials(), purchaseOrderDocument.getPurchaseOrderRestrictionStatusHistories(), purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
         }
 
         /*
@@ -479,6 +456,8 @@ public class PurapServiceImpl implements PurapService {
             poNote.append(apDocument.getDocumentNumber());
                         
             //save the note to the purchase order
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            NoteService noteService = SpringContext.getBean(NoteService.class);
             try{
                 Note noteObj = documentService.createNoteFromDocument(apDocument.getPurchaseOrderDocument(), poNote.toString());
                 documentService.addNoteToDocument(apDocument.getPurchaseOrderDocument(), noteObj);
@@ -505,10 +484,10 @@ public class PurapServiceImpl implements PurapService {
     private String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
         LOG.debug("assemblePurchaseOrderNote() started");
 
-        String documentLabel = dataDictionaryService.getDocumentLabelByClass(getClass());
+        String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
         String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
-        closeReopenNote.append(dataDictionaryService.getDocumentLabelByClass(PurchaseOrderDocument.class));
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class));
         closeReopenNote.append(" will be manually ");
         closeReopenNote.append(action);
         closeReopenNote.append(" by ");
@@ -516,7 +495,7 @@ public class PurapServiceImpl implements PurapService {
         closeReopenNote.append(" when approving ");
         closeReopenNote.append(documentLabel);
         closeReopenNote.append(" with ");
-        closeReopenNote.append(dataDictionaryService.getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
+        closeReopenNote.append(SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(getClass(), PurapPropertyConstants.PURAP_DOC_ID));
         closeReopenNote.append(" ");
         closeReopenNote.append(apDocument.getPurapDocumentIdentifier());
 

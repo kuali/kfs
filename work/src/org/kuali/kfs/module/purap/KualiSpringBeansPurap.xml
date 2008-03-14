@@ -133,14 +133,8 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="parameterService" ref="parameterService"/>
-        <property name="vendorService" ref="vendorService"/>
-        <property name="persistenceService" ref="persistenceService"/>
-        <property name="purchaseOrderService" ref="purchaseOrderService"/>
-        <property name="documentService" ref="documentService"/>
-        <property name="noteService" ref="noteService"/>
-        <property name="dataDictionaryService" ref="dataDictionaryService"/>
     </bean>
-	
+    
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
         <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
         <property name="workflowDocumentService" ref="workflowDocumentService"/>

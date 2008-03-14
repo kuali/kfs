@@ -58,7 +58,7 @@
                 <field attributeName="commodityDescription" />
  				<field attributeName="salesTaxIndicator" />
 				<field attributeName="restrictedItemsIndicator" />
-				<field attributeName="restrictedMaterialForLookup" />               
+				<field attributeName="restrictedMaterial.restrictedMaterialDescription" />               
                 <field attributeName="active" />
             </resultFields>
         </lookup>
@@ -124,17 +124,9 @@
                 </control>
             </attribute>
             
-             <attribute name="restrictedMaterialForLookup">
-                <label>Restricted Material</label>
-                <shortLabel>Restricted Material</shortLabel>
-
-				<maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.RestrictedMaterialValuesFinder"/>
-                </control>
-            </attribute>                                    	
+            <attributeReference name="restrictedMaterial.restrictedMaterialDescription" sourceClassName="org.kuali.module.purap.bo.RestrictedMaterial" sourceAttributeName="restrictedMaterialDescription">
+            	<label>Restricted Material</label>
+            </attributeReference>                            	
         	
         	<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 

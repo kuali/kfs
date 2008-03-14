@@ -33,8 +33,6 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private String restrictedMaterialCode;
     private boolean active;
     
-    private String restrictedMaterialForLookup;  //not persisted in db
-    
     private RestrictedMaterial restrictedMaterial;
     
     private List<CommodityContractManager> commodityContractManagers;
@@ -102,14 +100,6 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     public void setCommodityContractManagers(List<CommodityContractManager> commodityContractManagers) {
         this.commodityContractManagers = commodityContractManagers;
     }    
-
-    public String getRestrictedMaterialForLookup() {
-        return restrictedMaterialForLookup;
-    }
-
-    public void setRestrictedMaterialForLookup(String restrictedMaterialForLookup) {
-        this.restrictedMaterialForLookup = restrictedMaterialForLookup;
-    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

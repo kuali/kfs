@@ -349,7 +349,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
             KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-            if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal()) {
+            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal())) {
                 allAppDocsApproved = false;
 
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";

@@ -32,7 +32,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
@@ -58,13 +57,18 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     private KualiWorkflowInfo kualiWorkflowInfo;
     private WorkflowDocumentService workflowDocumentService;
-
+    private UniversalUserService universalUserService;
+    
     public void setKualiWorkflowInfo(KualiWorkflowInfo kualiWorkflowInfo) {
         this.kualiWorkflowInfo = kualiWorkflowInfo;
     }
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
     }
 
     private UserIdVO getUserIdVO(UniversalUser user) {
@@ -128,7 +132,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             // if a super user network id was given... take all actions as super user
             if (StringUtils.isNotBlank(superUserNetworkId)) {
                 // approve each action request as the super user
-                UniversalUser superUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(superUserNetworkId));
+                UniversalUser superUser = universalUserService.getUniversalUser(new AuthenticationUserId(superUserNetworkId));
                 LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  personUserIdentifier - " + networkIdString + "; nodeName - " + nodeName);
                 superUserApproveAllActionRequests(superUser, documentNumber, nodeName, userToCheck, potentialAnnotation);
                 return true;

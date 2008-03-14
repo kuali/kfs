@@ -144,6 +144,7 @@
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
         <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
         <property name="workflowDocumentService" ref="workflowDocumentService"/>
+        <property name="universalUserService" ref="universalUserService"/>
 	</bean>
 	
     <bean id="purapGeneralLedgerService" class="org.kuali.module.purap.service.impl.PurapGeneralLedgerServiceImpl">

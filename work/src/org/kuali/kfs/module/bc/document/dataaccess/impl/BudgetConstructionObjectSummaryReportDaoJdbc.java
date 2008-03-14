@@ -19,19 +19,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.core.util.Guid;
 
+import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService;
 
 import org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao;
 
 public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionObjectSummaryReportDao {
+    
+    private BudgetConstructionRevenueExpenditureObjectTypesService budgetConstructionRevenueExpenditureObjectTypesService;
+    
+    private static String revenueIndicator     = new String("A");
+    private static String expenditureIndicator = new String("B");
+    private static String embeddedZero         = new String("0,\n");
+    private static String trailingZero         = new String("0\n");
+    
+    public BudgetConstructionObjectSummaryReportDaoJdbc(BudgetConstructionRevenueExpenditureObjectTypesService budgetConstructionRevenueExpenditureObjectTypesService)
+    {
+       // this is the service that will provide the object type IN clauses in the SQL below 
+       this.budgetConstructionRevenueExpenditureObjectTypesService =  budgetConstructionRevenueExpenditureObjectTypesService;
+       
+    }
     
     /**
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
      */
     public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
-        // TODO Auto-generated method stub
-
+        this.clearTempTableByUnvlId("LD)BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
     }
 
     /**
@@ -40,8 +55,11 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      */
     @RawSQL
     public void updateGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
-        // TODO Auto-generated method stub
-
+        String  idForSession = (new Guid()).toString();
+        
+        // clean out the auxiliary tables we used
+        this.clearTempTableBySesId("LD_BUILD_OBJTSUMM01_MT","SESID",idForSession);
+        this.clearTempTableBySesId("LD_BUILD_OBJTSUMM02_MT","SESID",idForSession);
     }
 
 }

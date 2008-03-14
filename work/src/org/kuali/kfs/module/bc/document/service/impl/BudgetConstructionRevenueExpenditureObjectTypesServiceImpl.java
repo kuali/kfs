@@ -18,6 +18,8 @@ package org.kuali.module.budget.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import org.kuali.module.budget.BCParameterConstants;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService;
@@ -33,6 +35,7 @@ import org.apache.log4j.*;
  * on-line reporting deals with many rows, and needs to be reasonably fast because a user is waiting for it to finish.  this service reads the parameters once and
  * sets up static values which can be used repeatedly by instantiations of the Dao's to build their SQL.
  */
+@Transactional
 public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implements BudgetConstructionRevenueExpenditureObjectTypesService {
 
     private ParameterService parameterService;

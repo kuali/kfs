@@ -55,7 +55,8 @@ public class CamsConstants {
         public static final String TRANSACTION_DESCRIPTION      = "Batch Depreciation Asset ";
         public static final String DOCUMENT_DESCRIPTION         = "Batch Depreciation Entry";
         public static final String REPORT_FILE_NAME             = "DEPRECIATION_REPORT";
-        public static final String DEPRECIATION_REPORT_TITLE = "Asset Depreciation Report - Statistics";        
+        public static final String DEPRECIATION_REPORT_TITLE    = "Asset Depreciation Report - Statistics";
+        public static final String DEPRECIATION_BATCH           ="DEPRECIATION BATCH - ";
     }
 
     public static class NotPendingDocumentStatuses {

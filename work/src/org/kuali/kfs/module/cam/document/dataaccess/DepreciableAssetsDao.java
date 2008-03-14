@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 
 public interface DepreciableAssetsDao {
@@ -68,6 +69,15 @@ public interface DepreciableAssetsDao {
      */
     public void initializeAssetPayment(Integer fiscalMonth);
 
+    /**
+     * 
+     * This method retrieves a list of valid asset object codes for a particular fiscal year
+     * 
+     * @param fiscalYear
+     * @return Collection<AssetObjectCode>
+     */
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
+    
     /**
      * 
      * Setter for Kuali Configuration Service

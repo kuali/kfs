@@ -25,6 +25,7 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String PRIMARY_DEPRECIATION_METHOD = "primaryDepreciationMethodCode";
+        public static final String SALVAGE_AMOUNT = "salvageAmount";        
         public static final String ASSET_DATE_OF_SERVICE = "capitalAssetInServiceDate";
         public static final String ASSET_RETIREMENT_FISCAL_YEAR = "retirementFiscalYear";
         public static final String ASSET_RETIREMENT_FISCAL_MONTH = "retirementPeriodCode";
@@ -69,7 +70,7 @@ public class CamsPropertyConstants {
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
         
         public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
-        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";
+        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";        
         public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT="previousYearPrimaryDepreciationAmount";
         public static final String PERIOD_1_DEPRECIATION_AMOUNT="period1Depreciation1Amount";
         public static final String PERIOD_2_DEPRECIATION_AMOUNT="period2Depreciation1Amount";

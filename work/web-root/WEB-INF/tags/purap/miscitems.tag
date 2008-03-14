@@ -38,6 +38,8 @@
               description="Fragment of code to specify special item total line" %>
 <%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
     description="Whether or not to show item description before extended price." %>
+<%@ attribute name="suppressCams" required="false"
+    description="A boolean stating whether to suppress showing CAMS " %>
               
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Additional Charges"/>
@@ -243,7 +245,8 @@
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}"/>
+				    ctr="${ctr}"
+				    suppressCams="${suppressCams}"/>
 		    </c:if>
 		</c:if>
 	</c:if>

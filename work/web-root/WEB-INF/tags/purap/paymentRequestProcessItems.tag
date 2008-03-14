@@ -70,7 +70,8 @@
 			overrideTitle="Additional Charges" 
 			showAmount="${showAmount}"
 			showInvoiced="${showInvoiced}"
-			specialItemTotalType="DISC" >
+			specialItemTotalType="DISC" 
+			suppressCams="true" >
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
 					<td align=right width='75%' colspan="5" scope="row" class="datacell">

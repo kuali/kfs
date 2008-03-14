@@ -110,6 +110,7 @@ public class CertificationReportAction extends EffortCertificationAction {
                 EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
             }
             detailLines.add(newDetailLine);
+            effortForm.setNewDetailLine(new EffortCertificationDetail());
         } 
         else {
             EffortCertificationDetailLineOverride.processForOutput(newDetailLine);

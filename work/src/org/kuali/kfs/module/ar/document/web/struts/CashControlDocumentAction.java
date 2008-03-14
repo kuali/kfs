@@ -101,7 +101,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             ccForm.setHasGeneratedRefDoc(refFinancialDocNbr != null && !refFinancialDocNbr.equals(""));
             ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
             KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
-            ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
+            ccForm.setDocumentSubmitted(workflowDocument != null && workflowDocument.stateIsEnroute());
         }
 
         if (ccForm.hasDocumentId()) {

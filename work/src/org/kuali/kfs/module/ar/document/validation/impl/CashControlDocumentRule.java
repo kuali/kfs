@@ -52,6 +52,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
@@ -61,6 +62,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= validateCashControlDetails(ccDocument);
 
         return true;
+
     }
 
     /**
@@ -68,6 +70,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         CashControlDocument ccDocument = (CashControlDocument) document;
 
@@ -78,6 +81,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= validateCashControlDetails(ccDocument);
 
         return isValid;
+
     }
 
     /**
@@ -85,6 +89,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument ccDocument = (CashControlDocument) approveEvent.getDocument();
 
@@ -96,6 +101,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= validateCashControlDetails(ccDocument);
 
         return isValid;
+
     }
 
     /**
@@ -314,14 +320,17 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true if it was not generated, false otherwise
      */
     public boolean checkReferenceDocumentNumberNotGenerated(CashControlDocument cashControlDocument) {
+
         boolean success = true;
-        if (cashControlDocument.getReferenceFinancialDocumentNumber() != null && !cashControlDocument.getReferenceFinancialDocumentNumber().equals("")) {
+        String referenceDocumentNumber = cashControlDocument.getReferenceFinancialDocumentNumber();
+        if (referenceDocumentNumber != null && !referenceDocumentNumber.equals("")) {
             success = false;
             GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN);
             GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         }
         return success;
+
     }
 
     /**
@@ -364,21 +373,25 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      *      org.kuali.module.ar.bo.CashControlDetail)
      */
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
+
         boolean success = true;
         success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
         return success;
+
     }
 
     /**
      * @see org.kuali.module.ar.rule.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
+
         boolean success = true;
         success &= checkPaymentMedium(transactionalDocument);
         if (success) {
             success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
         }
         return success;
+
     }
 
 }

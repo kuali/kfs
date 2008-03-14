@@ -60,7 +60,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
         CashControlDocument ccDoc = getCashControlDocument();
 
-        //apply populate to PaymentApplicationDocuments
+        // apply populate to PaymentApplicationDocuments
         for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
 
             // populate workflowDocument in documentHeader, if needed
@@ -100,6 +100,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method gets the new cash control detail
+     * 
      * @return cashControlDetail
      */
     public CashControlDetail getNewCashControlDetail() {
@@ -108,6 +109,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method sets the new cash control detail
+     * 
      * @param newCashControlDetail
      */
     public void setNewCashControlDetail(CashControlDetail newCashControlDetail) {
@@ -116,6 +118,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method gets the processingChartOfAccCodeAndOrgCode
+     * 
      * @return processingChartOfAccCodeAndOrgCode
      */
     public String getProcessingChartOfAccCodeAndOrgCode() {
@@ -124,6 +127,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method sets processingChartOfAccCodeAndOrgCode
+     * 
      * @param processingChartOfAccCodeAndOrgCode
      */
     public void setProcessingChartOfAccCodeAndOrgCode(String processingChartOfAccCodeAndOrgCode) {
@@ -132,6 +136,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method gets the value for hasGeneratedRefDoc
+     * 
      * @return true if a reference document has been generated, false otherwise
      */
     public boolean isHasGeneratedRefDoc() {
@@ -140,24 +145,45 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * This method sets hasGeneratedRefDoc value
+     * 
      * @param hasGeneratedRefDoc
      */
     public void setHasGeneratedRefDoc(boolean hasGeneratedRefDoc) {
         this.hasGeneratedRefDoc = hasGeneratedRefDoc;
     }
 
+    /**
+     * This method returns if payment medium is selected
+     * 
+     * @return true if payment medium selected, false otherwise
+     */
     public boolean isCashPaymentMediumSelected() {
         return cashPaymentMediumSelected;
     }
 
+    /**
+     * This method sets if payments medium is selected
+     * 
+     * @param cashPaymentMediumSelected
+     */
     public void setCashPaymentMediumSelected(boolean cashPaymentMediumSelected) {
         this.cashPaymentMediumSelected = cashPaymentMediumSelected;
     }
 
+    /**
+     * This method returns if document is submitted
+     * 
+     * @return true if document is submitted, false otherwise
+     */
     public boolean isDocumentSubmitted() {
         return documentSubmitted;
     }
 
+    /**
+     * This method sets if document is submitted
+     * 
+     * @param documentSubmitted
+     */
     public void setDocumentSubmitted(boolean documentSubmitted) {
         this.documentSubmitted = documentSubmitted;
     }

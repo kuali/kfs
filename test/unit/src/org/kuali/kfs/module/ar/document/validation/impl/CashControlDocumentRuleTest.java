@@ -24,6 +24,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
@@ -49,10 +50,9 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-1);
     private static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(2);
 
-    // this should be the code for payment medium cash
-    private static final String CUSTOMER_PAYMENT_MEDIUM_CASH_CODE = "CA";
     // any value that does not represent a valid payment medium code
     private static final String CUSTOMER_PAYMENT_MEDIUM_NOT_VALID_CODE = "MEH";
+    private static final String REFERENCE_DOCUMENT_NUMBER = "123456";
 
     @Override
     protected void setUp() throws Exception {
@@ -157,7 +157,6 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     public void testCheckReferenceDocument_True() throws WorkflowException {
 
         Document tempDocument = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
-        ;
         documentService.saveDocument(tempDocument);
         document.setReferenceFinancialDocumentNumber(tempDocument.getDocumentNumber());
 
@@ -179,7 +178,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckPaymentMedium_True() {
 
-        document.setCustomerPaymentMediumCode(CUSTOMER_PAYMENT_MEDIUM_CASH_CODE);
+        document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
 
         assertTrue(rule.checkPaymentMedium(document));
     }
@@ -213,7 +212,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         GeneralErrorCorrectionDocument tempDoc = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
         documentService.saveDocument(tempDoc);
-        document.setCustomerPaymentMediumCode(CUSTOMER_PAYMENT_MEDIUM_CASH_CODE);
+        document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
         document.getDocumentHeader().setOrganizationDocumentNumber(tempDoc.getDocumentNumber());
 
         assertTrue(rule.checkOrgDocNumber(document));
@@ -224,10 +223,32 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckOrgDocNumber_False() {
 
-        document.setCustomerPaymentMediumCode(CUSTOMER_PAYMENT_MEDIUM_CASH_CODE);
+        document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
         document.getDocumentHeader().setOrganizationDocumentNumber(null);
 
         assertFalse(rule.checkOrgDocNumber(document));
+
+    }
+
+    /**
+     * This method that checkReferenceDocumentNumberNotGenerated rule returns true if reference document number is not generated
+     */
+    public void testCheckReferenceDocumentNumberNotGenerated_True() {
+
+        document.setReferenceFinancialDocumentNumber(null);
+
+        assertTrue(rule.checkReferenceDocumentNumberNotGenerated(document));
+
+    }
+
+    /**
+     * This method that checkReferenceDocumentNumberNotGenerated rule returns false if referencen document number is generated
+     */
+    public void testCheckReferenceDocumentNumberNotGenerated_False() {
+
+        document.setReferenceFinancialDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
+
+        assertFalse(rule.checkReferenceDocumentNumberNotGenerated(document));
 
     }
 

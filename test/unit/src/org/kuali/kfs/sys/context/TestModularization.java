@@ -1,6 +1,5 @@
 package org.kuali.kfs.context;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +38,8 @@ public class TestModularization extends KualiTestBase {
     
     private boolean testOptionalModuleSpringConfiguration(String moduleName, String fileset, StringBuffer errorMessage) {
         try {
-            new ClassPathXmlApplicationContext(fileset.split(","));
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(fileset.split(","));
+            context.close();
             return true;
         }
         catch (Exception e) {

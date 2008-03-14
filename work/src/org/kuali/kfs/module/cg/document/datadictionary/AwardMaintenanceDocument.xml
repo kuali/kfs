@@ -114,9 +114,13 @@
 						<maintainableField name="accountNumber" required="true" webUILeaveFieldFunction="accountNameLookup"/>
 						<maintainableField name="account.accountName" readOnly="true" />
 
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup"/>
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup">
+                        	<overrideLookupClass>org.kuali.module.cg.bo.ProjectDirector</overrideLookupClass>
+							<overrideFieldConversions>personUniversalIdentifier:personUniversalIdentifier</overrideFieldConversions>
+                        </maintainableField>
 						<maintainableField name="projectDirector.personName" readOnly="true"/>
-						<maintainableField name="personUniversalIdentifier" readOnly="true" />
+						<maintainableField name="personUniversalIdentifier" readOnly="true">
+						</maintainableField>
 						<!-- hidden fields -->
 						<maintainableField name="newCollectionRecord" />
 						<maintainableField name="versionNumber" />
@@ -132,7 +136,7 @@
 			<maintainableSection title="Project Directors">
 				<maintainableItems>
 					<maintainableCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup"/>
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup" />
 						<maintainableField name="projectDirector.personName" readOnly="true"/>
 						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />

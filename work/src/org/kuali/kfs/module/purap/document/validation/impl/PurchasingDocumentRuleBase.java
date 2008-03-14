@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -128,8 +129,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
-                    valid &= validateCommodityCodes(item, identifierString);
-            }
+                    valid &= validateCommodityCodes(item);
+                }
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -161,6 +162,31 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * Overrides to do the validations for commodity codes to prevent 
+     * the users to try to save invalid commodity codes to the database
+     * which could potentially throw SQL exception when the integrity
+     * constraints are violated.
+     * 
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean valid = true;
+        int i = 0;
+        for (PurApItem item : ((PurchasingDocument)document).getItems()) {
+            GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+            // This validation is applicable to the above the line items only.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
+                valid &= validateCommodityCodes(item);
+            }
+            GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+            i++;
+        }
+        return valid;
+    }
+    
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to also invoke the validateAccountNotExpired for each of
      * the accounts.
@@ -393,10 +419,12 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    private boolean validateCommodityCodes(PurApItem item, String identifierString) {
+    private boolean validateCommodityCodes(PurApItem item) {
         boolean valid = true;
+        String identifierString = item.getItemIdentifierString();
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         if (StringUtils.isBlank(purItem.getPurchasingCommodityCode())) {
+            //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
         }
@@ -405,9 +433,14 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             Map fieldValues = new HashMap<String, String>();
             fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
+                //This is the case where the commodity code on the item does not exist in the database.
                 valid = false;
-                //TODO: Change this error to the correct, suitable error message about invalid commodity code
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
+            }
+            else if (!purItem.getCommodityCode().isActive()) {
+                //This is the case where the commodity code on the item is not active.
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
             }
         }
         

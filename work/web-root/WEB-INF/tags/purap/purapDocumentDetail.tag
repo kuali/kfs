@@ -30,6 +30,12 @@
 	<c:set var="editableFundingSource" value="false" />
 </c:if>
 
+<c:if test="${amendmentEntry}">
+	<c:if test="${KualiForm.document.receivingDocumentRequiredIndicator eq 'true'}">	
+		<c:set var="readOnlyReceivingRequired" value="true" />
+	</c:if>
+</c:if>
+	
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>
 </div>
@@ -67,7 +73,10 @@
 	            <kul:htmlControlAttribute
 	                property="document.receivingDocumentRequiredIndicator"
 	                attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}"
-	                readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"/>
+	                readOnly="${paymentRequest or 
+	                			readOnlyReceivingRequired or 
+	                			not(fullEntryMode or amendmentEntry) and 
+	                			not (contentReadOnly or internalPurchasingReadOnly)}"/>
 	        </td>
 	        <th align=right valign=middle class="bord-l-b">
 	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>

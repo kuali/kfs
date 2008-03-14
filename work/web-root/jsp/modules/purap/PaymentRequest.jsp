@@ -67,7 +67,13 @@
 	    <kul:documentOverview editingMode="${KualiForm.editingMode}"
 	        includePostingYear="true"
 	        fiscalYearReadOnly="true"
-	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" />
+	        postingYearAttributes="${DataDictionary.PaymentRequestDocument.attributes}" >
+	        
+	    	<purap:purapDocumentDetail
+	    	documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
+	    	detailSectionLabel="Payment Request Detail"
+	    	paymentRequest="true" />
+	    </kul:documentOverview>
 	</c:if>
     
     <c:if test="${KualiForm.editingMode['displayInitTab']}" > 

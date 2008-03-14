@@ -75,6 +75,16 @@
 
             </attributeReference>
 			
+			<attributeReference name="receivingDocumentRequiredIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Receiving Required</label>
+                <shortLabel>Receiving Required</shortLabel>
+            </attributeReference>
+            
+            <attributeReference name="paymentRequestPositiveApprovalIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Payment Request Positive Approval Required</label>
+                <shortLabel>Payment Request Positive Approval Required</shortLabel>
+            </attributeReference>
+            
 			<attribute name="invoiceNumber" forceUppercase="true">
 				<label>Invoice Number</label>
 				<shortLabel>Invoice Number</shortLabel>

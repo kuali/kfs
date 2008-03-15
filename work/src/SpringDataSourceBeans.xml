@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
-	  	<property name="uniqueResourceName" value="dataSource"/>
-		<property name="driverClassName" value="${datasource.driver.class}"/>
-		<property name="url" value="${datasource.url}"/>
-		<property name="user" value="${datasource.username}"/>
-		<property name="password" value="${datasource.password}"/>
-		<property name="poolSize" value="${datasource.pool.size}"/>
-		<property name="connectionTimeout" value="${datasource.connection.timeout}"/>
-		<property name="validatingQuery" value="${datasource.validating.query}"/>
-		<property name="testOnBorrow" value="true"/>
-	</bean>
-
     <alias name="dataSource" alias="kewDataSource"/>
     <alias name="dataSource" alias="registryDataSource"/>
 </beans>

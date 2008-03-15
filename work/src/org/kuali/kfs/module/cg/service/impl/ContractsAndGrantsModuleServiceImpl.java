@@ -19,84 +19,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiGroupService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.dao.AwardDao;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class exposes operations on Awards.
- */
 @Transactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
 
-    private AwardDao awardDao;
-    private KualiGroupService kualiGroupService;
-
-    public void deleteAll() {
-        awardDao.deleteAll();
-    }
-
-    public void setAwardDao(AwardDao awardDao) {
-        this.awardDao = awardDao;
-    }
-
-    /**
-     * @see org.kuali.module.cg.service.AwardService#getKualiGroup(java.lang.String)
-     */
-    public KualiGroup getKualiGroup(String groupId) {
-        KualiGroup group = null;
-
-        if (kualiGroupService.groupExists(groupId)) {
-            try {
-                group = kualiGroupService.getByGroupName(groupId);
-            }
-            catch (GroupNotFoundException gnfe) {
-                group = null;
-            }
-        }
-
-        return group;
-    }
-
-    /**
-     * @return
-     */
-    public KualiGroupService getKualiGroupService() {
-        return kualiGroupService;
-    }
-
-    /**
-     * @param kualiGroupService
-     */
-    public void setKualiGroupService(KualiGroupService kualiGroupService) {
-        this.kualiGroupService = kualiGroupService;
-    }
-
-    /**
-     * @see org.kuali.module.cg.service.AwardService#save(org.kuali.module.cg.bo.Award)
-     */
-    public void save(Award award) {
-        awardDao.save(award);
-    }
-
-    /**
-     * @see org.kuali.module.cg.service.AwardService#getAwardWorkgroupForAccount(java.lang.String, java.lang.String)
-     */
-    public String getAwardWorkgroupForAccount(String chart, String account) {
+    public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber) {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Long maxProposalNumber;
         Map awardAccountMap = new HashMap();
         Map awardMap = new HashMap();
-        awardAccountMap.put("chartOfAccountsCode", chart);
-        awardAccountMap.put("accountNumber", account);
+        awardAccountMap.put("chartOfAccountsCode", chartOfAccountsCode);
+        awardAccountMap.put("accountNumber", accountNumber);
         Collection proposals = boService.findMatchingOrderBy(AwardAccount.class, awardAccountMap, "proposalNumber", false);
         if (proposals != null && !proposals.isEmpty()) {
             maxProposalNumber = ((AwardAccount) proposals.iterator().next()).getProposalNumber();
@@ -108,14 +48,14 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         }
 
     }
-    
-    public UniversalUser getProjectDirectorForAccount(String chart, String account){
+
+    public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Long maxProposalNumber;
         Map awardAccountMap = new HashMap();
         Map awardMap = new HashMap();
-        awardAccountMap.put("chartOfAccountsCode", chart);
-        awardAccountMap.put("accountNumber", account);
+        awardAccountMap.put("chartOfAccountsCode", chartOfAccountsCode);
+        awardAccountMap.put("accountNumber", accountNumber);
         Collection proposals = boService.findMatchingOrderBy(AwardAccount.class, awardAccountMap, "proposalNumber", false);
         if (proposals != null && !proposals.isEmpty()) {
             maxProposalNumber = ((AwardAccount) proposals.iterator().next()).getProposalNumber();

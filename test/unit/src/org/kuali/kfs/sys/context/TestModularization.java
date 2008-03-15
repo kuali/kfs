@@ -37,14 +37,25 @@ public class TestModularization extends KualiTestBase {
     }
     
     private boolean testOptionalModuleSpringConfiguration(String moduleName, String fileset, StringBuffer errorMessage) {
+        ClassPathXmlApplicationContext context = null;
         try {
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(fileset.split(","));
-            context.close();
+            context = new ClassPathXmlApplicationContext(fileset.split(","));
             return true;
         }
         catch (Exception e) {
             errorMessage.append(moduleName).append(": ").append(e.getMessage());
             return false;
+        }
+        finally {
+            if (context != null) {
+                try {
+                    context.close();
+                }
+                catch (Exception e) {
+                    System.err.println("Caught exception while closing context during test for module: " + moduleName);
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

@@ -90,16 +90,6 @@
 
 	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
-
-	<bean id="contractsAndGrantsModuleService" class="org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl">
-		<property name="awardDao">
-			<ref bean="awardDao" />
-		</property>
-        <property name="kualiGroupService">
-            <ref bean="kualiGroupService" />
-        </property>
-        
-	</bean>
 	
 	<bean id="proposalService" class="org.kuali.module.cg.service.impl.ProposalServiceImpl">
     	<property name="proposalDao">

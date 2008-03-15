@@ -26,13 +26,14 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**
@@ -1077,7 +1078,12 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * @return KualiGroup defined by workgroupName
      */
     public KualiGroup getWorkgroup() {
-        return SpringContext.getBean(ContractsAndGrantsModuleService.class).getKualiGroup(workgroupName);
+        try {
+            return SpringContext.getBean(KualiGroupService.class).getByGroupName(workgroupName);
+        }
+        catch (GroupNotFoundException e) {
+            return null;
+        }
     }
 
     /**

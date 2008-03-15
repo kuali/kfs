@@ -15,20 +15,10 @@
  */
 package org.kuali.module.integration.service;
 
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 
-
-/**
- * Services for Award.
- */
 public interface ContractsAndGrantsModuleService {
+    public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);
 
-    public KualiGroup getKualiGroup(String groupId);
-
-    public String getAwardWorkgroupForAccount(String chart, String account);
-    
-    public UniversalUser getProjectDirectorForAccount(String chart, String account);
-    
-    
+    public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
 }

@@ -173,16 +173,30 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = true;
-        int i = 0;
-        for (PurApItem item : ((PurchasingDocument)document).getItems()) {
-            GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-            // This validation is applicable to the above the line items only.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
-                valid &= validateCommodityCodes(item);
+        //This is needed so that we don't have to create system parameters for each of the subclasses of PurchaseOrderDocument.
+        Class purapDocumentClass = null;
+        if (document instanceof RequisitionDocument) {
+            purapDocumentClass = document.getClass();
+        }
+        else {
+            purapDocumentClass = PurchaseOrderDocument.class;
+        }
+        String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        if (commodityCodeIsRequired.equalsIgnoreCase("N")) {
+            return valid;
+        }
+        else {
+            int i = 0;
+            for (PurApItem item : ((PurchasingDocument)document).getItems()) {
+                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+                // This validation is applicable to the above the line items only.
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
+                    valid &= validateCommodityCodes(item);
+                }
+                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+                i++;
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
-            i++;
         }
         return valid;
     }

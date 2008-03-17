@@ -23,6 +23,11 @@
         <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
     </ul>
 
+    <strong>Budget Construction</strong><br />
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Budget Construction Selection" url="budgetBudgetConstructionSelection.do?methodToCall=loadExpansionScreen" /></li>
+    </ul>
+
 	<strong>Financial Processing</strong><br />
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AdvanceDepositDocument" /></li>
@@ -43,11 +48,6 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Benefit Expense Transfer" url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiBenefitExpenseTransferDocument" /></li>	            
 		<li><portal:portalLink displayTitle="true" title="Salary Expense Transfer" url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiSalaryExpenseTransferDocument" /></li>	
-    </ul>
-
-    <strong>Budget Construction</strong><br />
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Budget Construction Selection" url="budgetBudgetConstructionSelection.do?methodToCall=loadExpansionScreen" /></li>
     </ul>
 
 	<strong>Pre-Award</strong><br />

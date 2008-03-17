@@ -35,6 +35,8 @@
     <html:hidden property="document.effortCertificationDocumentCode" />
     <html:hidden property="document.universityFiscalYear" />
     <html:hidden property="document.emplid" />
+    <html:hidden property="sortOrderOther" />
+	<html:hidden property="sortOrderFed" />
 		 		
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 		
@@ -82,6 +84,7 @@
 				hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
+				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 				editableFieldNames="effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
 				extraEditableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber"
 				onblurForEditableFieldNames="effortAmountUpdator.recalculatePayrollAmount,effortAmountUpdator.recalculateEffortPercent"
@@ -102,6 +105,7 @@
 			<er:detailLinesWithGrouping detailLines="${detailLines}" 
 				attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"
+				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
 				ferderalTotalFieldNames="effortOrigFederalTotal,effortFederalTotal,salaryOrigFederalTotal,salaryFederalTotal,totalOriginalBenefitAmount,totalUpdatedBenefitAmount" 
@@ -110,7 +114,6 @@
 				hasActions="false" readOnlySection="true"/>			
 		</div>				
 	</kul:tab>
-
 	
 	<kul:notes />
 	

@@ -50,7 +50,9 @@
               description="the names of the fields that can be editable" %> 
 <%@ attribute name="onblurableExtraInfoFieldNames" required="false"
               description="the names of the fields that can be editable" %> 
-                            
+<%@ attribute name="sortableFieldNames" required="false"
+              description="the names of the fields that can be editable" %>              
+                                        
 <%@ attribute name="hasActions" required="false"
               description="determine if a user can tak an action on the given line" %>
 <%@ attribute name="readOnlySection" required="false"
@@ -100,7 +102,11 @@
 		</tr>
 	
 		<tr>
-			<er:detailLineHeader attributes="${attributes}"	detailFieldNames="${detailFieldNames}" hasActions="${hasActions}"/>
+			<er:detailLineHeader attributes="${attributes}"	
+				detailFieldNames="${detailFieldNames}" 
+				isFederalFunding="${federalFunding}" 
+				sortableFieldNames = "${sortableFieldNames}"
+				hasActions="${hasActions}"/>
 		</tr> 
 	
 		<!-- populate the table with the given deatil lines -->

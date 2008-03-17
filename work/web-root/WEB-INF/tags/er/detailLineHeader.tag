@@ -25,13 +25,24 @@
 <%@ attribute name="hasActions" required="true"
               description="determine if a user can tak an action on the given line" %>
 <%@ attribute name="index" required="false"
-              description="the line index" %>              
+              description="the line index" %> 
+<%@ attribute name="sortableFieldNames" required="false"
+              description="the names of the fields that can be editable" %>             
+<%@ attribute name="isFederalFunding" required="false"
+              description="the names of the fields that can be editable" %>
 
 <kul:htmlAttributeHeaderCell literalLabel="${index}"/>
 		
 <!-- render the header of the detail line table -->
+<c:set var="sortMethod" value="${isFederalFunding ? 'sortFed' : 'sortOther'}"/>
+
 <c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
-	<kul:htmlAttributeHeaderCell attributeEntry="${attributes[fieldName]}"/>
+	<kul:htmlAttributeHeaderCell attributeEntry="${attributes[fieldName]}">		
+		<c:if test="${fn:contains(sortableFieldNames,fieldName)}">
+			<html:image property="methodToCall.${sortMethod}.column${fieldName}" 
+				src="kr/static/images/sort.gif" title="Sort" alt="Sort" styleClass="tinybutton" />
+		</c:if>
+	</kul:htmlAttributeHeaderCell>		            
 </c:forTokens>
 
 <c:if test="${hasActions}">		

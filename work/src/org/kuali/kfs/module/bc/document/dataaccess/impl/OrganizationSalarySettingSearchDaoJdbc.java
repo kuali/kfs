@@ -90,7 +90,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
-        sqlText.append("  AND p.pos_eff_status != 'I' \n");
+        sqlText.append("  AND p.pos_eff_status <> 'I' \n");
         sqlText.append("  AND p.univ_fiscal_yr = af.univ_fiscal_yr \n");
         sqlText.append("  AND p.position_nbr = af.position_nbr \n");
         sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, \n");
@@ -108,7 +108,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
-        sqlText.append("  AND p.pos_eff_status != 'I' \n");
+        sqlText.append("  AND p.pos_eff_status <> 'I' \n");
         sqlText.append("  AND NOT EXISTS \n");
         sqlText.append("      (SELECT * \n");
         sqlText.append("       FROM ld_bcn_pos_sel_t ps \n");
@@ -175,7 +175,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
         sqlText.append("SET person_nm = 'NOT FUNDED' \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
-        sqlText.append("  AND p.person_nm != 'INACTIVE POS.' \n");
+        sqlText.append("  AND p.person_nm <> 'INACTIVE POS.' \n");
         sqlText.append("  AND NOT EXISTS \n");
         sqlText.append("    (SELECT * \n");
         sqlText.append("    FROM ld_pndbc_apptfnd_t af \n");

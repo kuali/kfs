@@ -118,8 +118,8 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("  AND pv.pull_flag = ? \n");
         sqlText.append("  AND bar.fin_coa_cd = pv.fin_coa_cd \n");
         sqlText.append("  AND bar.account_nbr = pv.account_nbr \n");
-        sqlText.append("  AND (bar.rpts_to_org_cd != pv.sorg_cd \n");
-        sqlText.append("       OR bar.rpts_to_fin_coa_cd != pv.sorg_fin_coa_cd) \n");
+        sqlText.append("  AND (bar.rpts_to_org_cd <> pv.sorg_cd \n");
+        sqlText.append("       OR bar.rpts_to_fin_coa_cd <> pv.sorg_fin_coa_cd) \n");
         pullupSelectedOrganizationDocumentsTemplates[4] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 

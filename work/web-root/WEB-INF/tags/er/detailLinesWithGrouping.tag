@@ -18,6 +18,8 @@
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<%@ attribute name="id" required="false"
+              description="the detail lines being displayed" %> 
 <%@ attribute name="detailLines" required="true" type="java.util.List"
               description="the detail lines being displayed" %>             
 <%@ attribute name="attributes" required="true" type="java.util.Map"
@@ -51,6 +53,8 @@
                             
 <%@ attribute name="hasActions" required="false"
               description="determine if a user can tak an action on the given line" %>
+<%@ attribute name="readOnlySection" required="false"
+              description="determine if the field woulb be rendered as read-only or not" %>	              
 	
 <%@ attribute name="ferderalTotalFieldNames" required="false"
 	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
@@ -87,7 +91,7 @@
 <c:set var="subtotalGroups" value="${ferderalTotalFieldNames}${semicolonDeliminator}${nonFerderalTotalFieldNames}"/>
 <c:set var="subtotalGroup" value="${fn:split(subtotalGroups, semicolonDeliminator)}"/>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" id="${id}">
 	<c:forEach var="federalFunding" items="${federalFundingIndicators}" varStatus="indicatorStatus">
 		<tr>
 			<td colspan="${countOfColumns}">
@@ -137,7 +141,7 @@
 					onblurableInfoFieldNames="${realOnblurableInfoFieldNames}"
 					inquirableUrl="${inquirableUrl[status.index]}"
 					fieldInfo="${fieldInfo[status.index]}"
-					relationshipMetadata ="${relationshipMetadata}" 
+					relationshipMetadata ="${relationshipMetadata}" readOnlySection="${readOnlySection}"
 					hasActions="${hasActions}" index="${status.index}" actions="${actions}" actionImageFileNames="${actionImageFileNames}"/>			
 			</tr>
 			</c:if>		
@@ -145,7 +149,7 @@
 		
 		<tr>
 			<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Subtotals:</strong></div></td>
-			<er:detailLineTotal totalFieldNames="${subtotalGroup[indicatorStatus.index]}" section="detail" hasActions="${hasActions}" />						
+			<er:detailLineTotal totalFieldNames="${subtotalGroup[indicatorStatus.index]}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />						
 		</tr>	
 	</c:forEach>
 
@@ -157,6 +161,6 @@
 
 	<tr>				
 		<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Grand Totals:</strong></div></td>
-		<er:detailLineTotal totalFieldNames="${grandTotalFieldNames}" section="detail" hasActions="${hasActions}" />		
+		<er:detailLineTotal totalFieldNames="${grandTotalFieldNames}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />		
 	</tr>
 </table>	      

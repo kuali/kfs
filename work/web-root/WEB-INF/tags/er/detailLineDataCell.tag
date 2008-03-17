@@ -42,8 +42,10 @@
 <%@ attribute name="fieldFormNamePrefix" required="true"
               description="the form name of the field" %>              
 <%@ attribute name="relationshipMetadata" required="false" type="java.lang.Object"
-			  description="The DataDictionary entry containing attributes for the line fields."%>			  
-			                
+			  description="The DataDictionary entry containing attributes for the line fields."%>	
+			  		  
+<%@ attribute name="readOnlySection" required="false"
+              description="determine if the field woulb be rendered as read-only or not" %>			                
 <%@ attribute name="readOnly" required="false"
               description="determine if the field woulb be rendered as read-only or not" %>  
 <%@ attribute name="withHiddenForm" required="false"
@@ -76,7 +78,8 @@
 <c:set var="inquirable" value="${not empty inquirableUrl}" />  
 <c:set var="numericFormatter" value="org.kuali.core.web.format.CurrencyFormatter,org.kuali.core.web.format.IntegerFormatter"/> 
 <c:set var="entryFormatter" value="${attributeEntry.formatterClass}" /> 
-<c:set var="styleClass" value="${empty entryFormatter || !fn:contains(numericFormatter, entryFormatter) ? 'left' : 'right' }" />   
+<c:set var="styleClass" value="${empty entryFormatter || !fn:contains(numericFormatter, entryFormatter) ? 'left' : 'right' }" /> 
+<c:set var="readonlySuffix" value="${readOnlySection ? '.readonly' : ''}" /> 
                    
 <kul:htmlControlAttribute
 	property="${fieldFormName}"
@@ -85,15 +88,20 @@
 	onchange="${onchange}"
 	readOnly="${readOnly}"
 	readOnlyBody="${readOnly}">
+	
+	<c:set var="spanName" value="${fieldFormName}.span${readonlySuffix}" />
+	<c:set var="divName" value="${fieldFormName}.div${readonlySuffix}" />
      	
     <c:choose>
       	<c:when test="${inquirable}">
-    		<span class="${styleClass}">
-    			<a href="${inquirableUrl}" target="_blank">${fieldValue}</a>
-    		</span>
+      		<a href="${inquirableUrl}" target="_blank">
+	    		<span class="${styleClass}" style="text-decoration: underline;" id="${spanName}" name="${spanName}">
+	    			${fieldValue}
+	    		</span>
+    		</a>
 		</c:when>
 		<c:otherwise>
-    		<span class="${styleClass}" id="${fieldFormName}" name="${fieldFormName}">
+    		<span class="${styleClass}" id="${spanName}" name="${spanName}">
     			${fieldValue}
     		</span>
 		</c:otherwise>
@@ -102,7 +110,7 @@
 	<br/>
 	
 	<span class="${styleClass}">
-   		<div id="${fieldFormName}.div" name="${fieldFormName}.div" class="fineprint">${fieldInfo}</div>
+   		<div id="${divName}" name="${divName}" class="fineprint">${fieldInfo}</div>
    	</span>
    	
    	<c:if test="${withHiddenForm}">

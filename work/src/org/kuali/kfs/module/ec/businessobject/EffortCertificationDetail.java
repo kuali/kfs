@@ -567,6 +567,13 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return false;
     }
+    
+    /**
+     * This is a marker method, which does nothing.  
+     */
+    public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
+        return;
+    }
 
     /**
      * Gets the overrideCode attribute.

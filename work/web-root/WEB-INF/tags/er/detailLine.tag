@@ -52,6 +52,8 @@
 	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>	
 <%@ attribute name="index" required="false"
 	description="The index of the detail line object containing the data being displayed"%>
+<%@ attribute name="readOnlySection" required="false"
+              description="determine if the field woulb be rendered as read-only or not" %>			
 
 <c:set var="commaDeliminator" value=","/>
 	
@@ -85,8 +87,10 @@
 		</c:forTokens>
 	</c:if>
 	
-	<c:if test="${editable && onblurIndex >=0}">	
-		<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${onblurableInfoFieldNamesArray[onblurIndex]}" />
+	<c:if test="${editable && onblurIndex >=0}">
+		<c:set var="tempInfoFieldName" value="${fn:length(onblurableInfoFieldNamesArray) > (onblurIndex + 1) ? '' : onblurableInfoFieldNamesArray[onblurIndex]}" />	
+		<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${tempInfoFieldName}" />
+		<c:set var="onblurableInfoFieldName" value="${fn:length(tempInfoFieldName) > 0 ? onblurableInfoFieldName : ''}" />
 		<c:set var="onblur" value="${onblurForEditableFieldNamesArray[onblurIndex]}(this.name, '${onblurableInfoFieldName}');" />
 	</c:if>
 	
@@ -102,9 +106,10 @@
 			inquirableUrl="${inquirableUrl[fieldName]}"
 			fieldInfo="${fieldInfo[fieldName]}"
 			relationshipMetadata = "${relationshipMetadata[fieldName]}"
-			onblur="${onblur}" readOnly="${not editable}" />			
+			onblur="${onblur}" readOnly="${not editable}" readOnlySection="${readOnlySection}"/>			
 		
 		<c:if test="${editable && fn:contains(fieldName, 'accountNumber') && detailLine.accountExpiredOverrideNeeded}">
+			<br/>
 			<er:expiredAccountOverride detailLineFormName="${detailLineFormName}" attributes="${attributes}" />
 		</c:if>
 	</td>

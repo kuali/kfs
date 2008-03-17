@@ -20,17 +20,19 @@
 
 <%@ attribute name="index" required="false"
     description="the order of the detail line that contains the field being rendered" %>
-<%@ attribute name="section" required="false"
-    description="the order of the detail line that contains the field being rendered" %>    
+<%@ attribute name="readOnlySection" required="false"
+    description="determine if the field woulb be rendered as read-only or not" %>	    
 <%@ attribute name="totalFieldNames" required="true"
 	description="The names of the fields that will be displayed . The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="hasActions" required="false"
 	description="To determine if a user can tak an action on the given detail line. If true, the  given actions can be rendered with the detail line."%>
 
+<c:set var="readonlySuffix" value="${readOnlySection ? '.readonly' : ''}" /> 
+
 <c:forTokens var="fieldName" items="${totalFieldNames}" delims=","	varStatus="status">
 	<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
 	<td class="infoline">
-		<div id="${section}.document.${fieldName}" class="right">
+		<div id="document.${fieldName}${readonlySuffix}" class="right">
 			${KualiForm.document[fieldName]}${percent}
 		</div>
 	</td>

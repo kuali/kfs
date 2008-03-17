@@ -98,7 +98,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         document.refreshNonUpdateableReferences();
         detailLine.refreshNonUpdateableReferences();
 
-        if (!this.checkRequiredAttributes(detailLine) || !this.checkDetailLineAttributes(detailLine)) {
+        if (!this.checkDetailLineAttributes(detailLine)) {
             return false;
         }
 

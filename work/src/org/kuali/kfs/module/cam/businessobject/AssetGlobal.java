@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -60,7 +63,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     /* land information */
     private String landCountyName;
-    private int landAcreageSize;
+    private Integer landAcreageSize;
     private String landParcelNumber;
     
     /* Add Payments (AssetPayment / CM_AST_PAYMENT_T) */
@@ -327,6 +330,28 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
     
     /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        /** TODO Why is the following necessary for assetGlobalHeader but not assetGlobalDetail? */
+        assetGlobalHeader.setDocumentNumber(documentNumber);
+        
+        super.beforeUpdate(persistenceBroker);
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        /** TODO Why is the following necessary for assetGlobalHeader but not assetGlobalDetail? */
+        assetGlobalHeader.setDocumentNumber(documentNumber);
+        
+        super.beforeInsert(persistenceBroker);
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -387,7 +412,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Gets the landAcreageSize attribute. 
      * @return Returns the landAcreageSize.
      */
-    public int getLandAcreageSize() {
+    public Integer getLandAcreageSize() {
         return landAcreageSize;
     }
 
@@ -395,7 +420,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Sets the landAcreageSize attribute value.
      * @param landAcreageSize The landAcreageSize to set.
      */
-    public void setLandAcreageSize(int landAcreageSize) {
+    public void setLandAcreageSize(Integer landAcreageSize) {
         this.landAcreageSize = landAcreageSize;
     }
 

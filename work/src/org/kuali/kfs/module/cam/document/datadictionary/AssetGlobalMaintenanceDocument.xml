@@ -94,6 +94,8 @@
 -->
 				    <maintainableField name="landParcelNumber" required="false" />
 	                <maintainableField name="versionNumber" required="false" />					
+                    <!-- TODO following is temporary fix to avoid OJB ver# exception -->
+	                <maintainableField name="assetGlobalHeader.versionNumber" required="false" readOnly="true"/>
 				</maintainableItems>
             </maintainableSection>
 
@@ -130,6 +132,7 @@
                         <maintainableField name="offCampusZipCode" required="true" />
                         <maintainableField name="offCampusCountryCode" required="false" />
                         <maintainableField name="locationQuantity" required="true" />
+	                    <maintainableField name="versionNumber" required="false" />					
                         <summaryFields>
                         	<summaryField name="campusCode" />
                             <summaryField name="capitalAssetNumber" />
@@ -157,6 +160,7 @@
 					    <maintainableField name="financialDocumentPostingYear" required="true" />
 					    <maintainableField name="financialDocumentPostingPeriodCode" required="true" />
 					    <maintainableField name="accountChargeAmount" required="true" />
+					    <maintainableField name="versionNumber" required="false" />
                     </maintainableCollection>
 				</maintainableItems>
             </maintainableSection>

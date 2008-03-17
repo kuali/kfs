@@ -315,10 +315,6 @@
 				<label>Financial Post Date</label>
 			</attributeReference>
 
-			<attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-				<label>Fiscal Year</label>
-			</attributeReference>
-
 			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
 				<label>Period</label>
 			</attributeReference>
@@ -346,27 +342,21 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-
+        
         <relationships>
          	<relationship objectAttributeName="assetGlobalHeader.assetRepresentative" >
             	<primitiveAttribute sourceName="assetGlobalHeader.representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
 				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
 				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personName" targetName="personName" />
         	</relationship>
+			<relationship objectAttributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" >
+	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+	        </relationship>
+			<relationship objectAttributeName="assetGlobalHeader.organizationOwnerAccount" >
+	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
+	        </relationship>
         </relationships>
-      
-		<!-- 
-		 ## Chart
-        <relationship objectAttributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" >
-			<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
-		</relationship>
-		
-		## Account
-        <relationship objectAttributeName="assetGlobalHeader.organizationOwnerAccount" >
-        	<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
-			<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
-		</relationship>
-		-->    
 
         <objectLabel>Asset Global</objectLabel>
         

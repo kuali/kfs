@@ -306,7 +306,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // don't bother checking the total if some deposits are broken
         if (isValid && cashControlDocument.getTotalDollarAmount().isZero()) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, ArConstants.CASH_CTRL_DOC_TOTAL);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Cash Control Total");
         }
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);

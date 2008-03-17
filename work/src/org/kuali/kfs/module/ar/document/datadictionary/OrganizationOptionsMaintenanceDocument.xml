@@ -108,7 +108,7 @@
 					                  
 
 
-					<!--                    <maintainableField name="versionNumber" />-->
+					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>
 

@@ -67,21 +67,6 @@
                 <description>active description...</description>
 			</attribute>
 
-            <attribute name="purchasingCommodityCode" forceUppercase="true">
-                <label>Commodity Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="40" />
-                </control>
-
-                <summary>commodityCode</summary>
-                <description>commodityCode description...</description>
-			</attribute>
-
             <attribute name="commodityDefaultIndicator" forceUppercase="true">
                 <label>Commodity Default Indicator</label>
                 <shortLabel>Indicator</shortLabel>
@@ -96,6 +81,7 @@
                 <description>commodityDefaultIndicator description...</description>
 			</attribute>
 
+			<attributeReference name="purchasingCommodityCode" sourceClassName="org.kuali.module.vendor.bo.CommodityCode" sourceAttributeName="purchasingCommodityCode"/>
             <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
             <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

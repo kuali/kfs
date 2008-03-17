@@ -25,75 +25,30 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
-	 * Gets the purchasingCommodityCode attribute.
-	 * 
-	 * @return Returns the purchasingCommodityCode
-	 * 
-	 */
 	public String getPurchasingCommodityCode() { 
 		return purchasingCommodityCode;
 	}
 
-	/**
-	 * Sets the purchasingCommodityCode attribute.
-	 * 
-	 * @param purchasingCommodityCode The purchasingCommodityCode to set.
-	 * 
-	 */
 	public void setPurchasingCommodityCode(String purchasingCommodityCode) {
 		this.purchasingCommodityCode = purchasingCommodityCode;
 	}
 
-
-	/**
-	 * Gets the campusCode attribute.
-	 * 
-	 * @return Returns the campusCode
-	 * 
-	 */
 	public String getCampusCode() { 
 		return campusCode;
 	}
 
-	/**
-	 * Sets the campusCode attribute.
-	 * 
-	 * @param campusCode The campusCode to set.
-	 * 
-	 */
 	public void setCampusCode(String campusCode) {
 		this.campusCode = campusCode;
 	}
 
-
-	/**
-	 * Gets the contractManagerCode attribute.
-	 * 
-	 * @return Returns the contractManagerCode
-	 * 
-	 */
 	public Integer getContractManagerCode() { 
 		return contractManagerCode;
 	}
 
-	/**
-	 * Sets the contractManagerCode attribute.
-	 * 
-	 * @param contractManagerCode The contractManagerCode to set.
-	 * 
-	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
 		this.contractManagerCode = contractManagerCode;
 	}
 
-
-	/**
-	 * Gets the campus attribute.
-	 * 
-	 * @return Returns the campus
-	 * 
-	 */
 	public Campus getCampus() { 
 		return campus;
 	}
@@ -108,10 +63,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 		this.campus = campus;
 	}
 
-	/**
-     * Gets the commodity attribute. 
-     * @return Returns the commodity.
-     */
+
     public CommodityCode getCommodity() {
         return commodity;
     }
@@ -125,10 +77,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
         this.commodity = commodity;
     }
 
-    /**
-     * Gets the contractManager attribute. 
-     * @return Returns the contractManager.
-     */
+
     public ContractManager getContractManager() {
         return contractManager;
     }

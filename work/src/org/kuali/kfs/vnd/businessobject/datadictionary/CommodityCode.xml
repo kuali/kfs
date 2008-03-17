@@ -70,11 +70,11 @@
         		<label>Commodity Code</label>
         		<shortLabel>Comm Code</shortLabel>
         		
-        		<maxLength>25</maxLength>
+        		<maxLength>40</maxLength>
         		<validationPattern><anyCharacter/></validationPattern>
         		
         		<control>
-        			<text size="27"/>
+        			<text size="42"/>
         		</control>       		
         	</attribute>
         	

@@ -18,6 +18,7 @@ package org.kuali.module.purap.fixtures;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.vendor.bo.CommodityCode;
 
 public enum RequisitionItemFixture {
 
@@ -100,12 +101,28 @@ public enum RequisitionItemFixture {
     REQ_WITH_MISC_ITEM_NO_DESC(false, // itemRestrictedIndicator
             PurApItemFixture.MISC_ITEM_NO_DESC, // purApItemFixture
             new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 } // requisitionAccountMultiFixtures
-    ),;
+    ),
+    REQ_ITEM_NO_APO_BASIC_ACTIVE_COMMODITY_CODE(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_ACTIVE  //commodityCodeFixture
+    ),
+    REQ_ITEM_NO_APO_BASIC_INACTIVE_COMMODITY_CODE(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_INACTIVE  //commodityCodeFixture
+    ),
+    REQ_ITEM_NO_APO_NON_EXISTENCE_COMMODITY_CODE(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_NON_EXISTENCE  //commodityCodeFixture
+    ),
     ;
 
     private boolean itemRestrictedIndicator;
     private PurApItemFixture purApItemFixture;
     private RequisitionAccountingLineFixture[] requisitionAccountingLineFixtures;
+    private CommodityCodeFixture commodityCodeFixture;
 
 
     private RequisitionItemFixture(boolean itemRestrictedIndicator, PurApItemFixture purApItemFixture, RequisitionAccountingLineFixture[] requisitionAccountingLineFixtures) {
@@ -113,12 +130,28 @@ public enum RequisitionItemFixture {
         this.purApItemFixture = purApItemFixture;
         this.requisitionAccountingLineFixtures = requisitionAccountingLineFixtures;
     }
+    
+    private RequisitionItemFixture(boolean itemRestrictedIndicator, PurApItemFixture purApItemFixture, RequisitionAccountingLineFixture[] requisitionAccountingLineFixtures, CommodityCodeFixture commodityCodeFixture) {
+        this.itemRestrictedIndicator = itemRestrictedIndicator;
+        this.purApItemFixture = purApItemFixture;
+        this.requisitionAccountingLineFixtures = requisitionAccountingLineFixtures;
+        this.commodityCodeFixture = commodityCodeFixture;
+    }
 
 
     public void addTo(RequisitionDocument requisitionDocument) {
         RequisitionItem item = null;
+        boolean active = true;
         item = (RequisitionItem) this.createRequisitionItem();
+        if (item.getCommodityCode() != null) {
+            active = item.getCommodityCode().isActive();
+        }
         requisitionDocument.addItem(item);
+        //Just for unit tests, we need these following lines so that we could set the commodity codes active status to true/false
+        //as we need to.
+        if (item.getCommodityCode() != null) {
+            item.getCommodityCode().setActive(active);
+        }
         // iterate over the accounts
         for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {
             requisitionAccountMultiFixture.addTo(item);
@@ -128,6 +161,11 @@ public enum RequisitionItemFixture {
     public PurchasingItem createRequisitionItem() {
         RequisitionItem item = (RequisitionItem) purApItemFixture.createPurApItem(RequisitionItem.class);
         item.setItemRestrictedIndicator(itemRestrictedIndicator);
+        if (commodityCodeFixture != null) {
+            CommodityCode commodityCode = commodityCodeFixture.createCommodityCode();
+            item.setCommodityCode(commodityCode);
+            item.setPurchasingCommodityCode(commodityCode.getPurchasingCommodityCode());
+        }
         return item;
     }
 

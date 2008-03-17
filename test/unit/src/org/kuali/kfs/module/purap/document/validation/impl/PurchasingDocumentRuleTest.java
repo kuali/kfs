@@ -23,18 +23,27 @@ import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.TestUtils;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.bo.CapitalAssetTransactionType;
 import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderDocumentWithCommodityCodeFixture;
 import org.kuali.module.purap.fixtures.PurchasingCapitalAssetFixture;
 import org.kuali.module.purap.fixtures.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
+import org.kuali.module.purap.fixtures.RequisitionDocumentWithCommodityCodeFixture;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -541,4 +550,79 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
         assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
     }    
+
+    /**
+     * Tests that, if a commodity code is not entered on the item, but the system parameter
+     * requires the item to have commodity code, it will give validation error about
+     * the commodity code is required.
+     * 
+     * @throws Exception
+     */
+    public void testMissingCommodityCodeWhenRequired() throws Exception {
+        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_NO_APO_VALID;
+        rules.processItemValidation(reqFixture.createRequisitionDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
+        assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
+        GlobalVariables.getErrorMap().clear();
+        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        PurchaseOrderDocumentFixture poFixture = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS;
+        rules.processItemValidation(poFixture.createPurchaseOrderDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
+        assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
+    
+    }
+    
+    /**
+     * Tests that, if a valid and active commodity code is entered and is required according to the 
+     * system parameter, the validation should return true (successful).
+     * 
+     * @throws Exception
+     */
+    public void testValidActiveCommodityCode() throws Exception {
+        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_ACTIVE_COMMODITY_CODE;
+        assertTrue(rules.processItemValidation(fixture.createRequisitionDocument()));
+        GlobalVariables.getErrorMap().clear();
+        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE;
+        assertTrue(rules.processItemValidation(poFixture.createPurchaseOrderDocument()));
+    }
+    
+    /**
+     * Tests that, if a commodity code entered on the item is inactive, it will give validation error
+     * about inactive commodity code.
+     * 
+     * @throws Exception
+     */
+    public void testInactiveCommodityCodeValidation() throws Exception {
+        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_VALID_INACTIVE_COMMODITY_CODE;
+        rules.processItemValidation(fixture.createRequisitionDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE));
+        GlobalVariables.getErrorMap().clear();
+        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_INACTIVE_COMMODITY_CODE;
+        rules.processItemValidation(poFixture.createPurchaseOrderDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE));
+    }
+    
+    /**
+     * Tests that, if a commodity code entered on the item has not existed yet in the database, it will give 
+     * validation error about invalid commodity code.
+     * 
+     * @throws Exception
+     */
+    public void testNonExistenceCommodityCodeValidation() throws Exception {
+        TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_NON_EXISTENCE_COMMODITY_CODE;
+        rules.processItemValidation(fixture.createRequisitionDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));
+        GlobalVariables.getErrorMap().clear();
+        TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
+        PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_NON_EXISTENCE_COMMODITY_CODE;
+        rules.processItemValidation(poFixture.createPurchaseOrderDocument());
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.PUR_COMMODITY_CODE_INVALID));
+        
+    }
 }

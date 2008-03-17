@@ -19,6 +19,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
  * Fixture class for Purchase Order Item.
@@ -33,7 +34,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -45,7 +45,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.BASIC_QTY_ITEM_2, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -57,7 +56,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.VALID_FREIGHT_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -69,7 +67,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.VALID_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -81,7 +78,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.VALID_MISC_CREDIT_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -93,7 +89,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.NEGATIVE_FREIGHT_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -105,7 +100,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.NEGATIVE_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -117,7 +111,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.ZERO_FREIGHT_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -129,7 +122,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.ZERO_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -141,7 +133,6 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.MISC_ITEM_NO_DESC, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
@@ -153,10 +144,46 @@ public enum PurchaseOrderItemFixture {
             null, // itemOutstandingEncumberedQuantity,
             null, // itemOutstandingEncumberedAmount,
             true, // itemActiveIndicator,
-            null, // purchaseOrderCommodityCd,
             PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.PO_APO_ACCOUNT_1 } // requisitionAccountMultiFixtures
-    );
+    ),
+    PO_ITEM_BASIC_ACTIVE_COMMODITY_CODE(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_ACTIVE  //commodityCodeFixture
+    ),
+    PO_ITEM_BASIC_INACTIVE_COMMODITY_CODE(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_INACTIVE  //commodityCodeFixture
+    ),
+    PO_ITEM_NON_EXISTENCE_COMMODITY_CODE(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 }, // purchaseOrderAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_NON_EXISTENCE //commodityCodeFixture
+    ),
+    ;
 
     
     private String documentNumber;
@@ -167,15 +194,15 @@ public enum PurchaseOrderItemFixture {
     private KualiDecimal itemOutstandingEncumberedQuantity;
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
-    private String purchaseOrderCommodityCd;
 
     private PurApItemFixture purApItemFixture;
     private PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures;
-
+    private CommodityCodeFixture commodityCodeFixture;
+    
     /**
      * Private Constructor.
      */
-    private PurchaseOrderItemFixture(String documentNumber, KualiDecimal itemInvoicedTotalQuantity, KualiDecimal itemInvoicedTotalAmount, KualiDecimal itemReceivedTotalQuantity, KualiDecimal itemReturnedTotalQuantity, KualiDecimal itemOutstandingEncumberedQuantity, KualiDecimal itemOutstandingEncumberedAmount, boolean itemActiveIndicator, String purchaseOrderCommodityCd, PurApItemFixture purApItemFixture, PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures) {
+    private PurchaseOrderItemFixture(String documentNumber, KualiDecimal itemInvoicedTotalQuantity, KualiDecimal itemInvoicedTotalAmount, KualiDecimal itemReceivedTotalQuantity, KualiDecimal itemReturnedTotalQuantity, KualiDecimal itemOutstandingEncumberedQuantity, KualiDecimal itemOutstandingEncumberedAmount, boolean itemActiveIndicator, PurApItemFixture purApItemFixture, PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures) {
         this.documentNumber = documentNumber;
         this.itemInvoicedTotalQuantity = itemInvoicedTotalQuantity;
         this.itemInvoicedTotalAmount = itemInvoicedTotalAmount;
@@ -184,11 +211,24 @@ public enum PurchaseOrderItemFixture {
         this.itemOutstandingEncumberedQuantity = itemOutstandingEncumberedQuantity;
         this.itemOutstandingEncumberedAmount = itemOutstandingEncumberedAmount;
         this.itemActiveIndicator = itemActiveIndicator;
-        this.purchaseOrderCommodityCd = purchaseOrderCommodityCd;
         this.purApItemFixture = purApItemFixture;
         this.purchaseOrderAccountingLineFixtures = purchaseOrderAccountingLineFixtures;
     }
 
+    private PurchaseOrderItemFixture(String documentNumber, KualiDecimal itemInvoicedTotalQuantity, KualiDecimal itemInvoicedTotalAmount, KualiDecimal itemReceivedTotalQuantity, KualiDecimal itemReturnedTotalQuantity, KualiDecimal itemOutstandingEncumberedQuantity, KualiDecimal itemOutstandingEncumberedAmount, boolean itemActiveIndicator, PurApItemFixture purApItemFixture, PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures, CommodityCodeFixture commodityCodeFixture) {
+        this.documentNumber = documentNumber;
+        this.itemInvoicedTotalQuantity = itemInvoicedTotalQuantity;
+        this.itemInvoicedTotalAmount = itemInvoicedTotalAmount;
+        this.itemReceivedTotalQuantity = itemReceivedTotalQuantity;
+        this.itemReturnedTotalQuantity = itemReturnedTotalQuantity;
+        this.itemOutstandingEncumberedQuantity = itemOutstandingEncumberedQuantity;
+        this.itemOutstandingEncumberedAmount = itemOutstandingEncumberedAmount;
+        this.itemActiveIndicator = itemActiveIndicator;
+        this.purApItemFixture = purApItemFixture;
+        this.purchaseOrderAccountingLineFixtures = purchaseOrderAccountingLineFixtures;
+        this.commodityCodeFixture = commodityCodeFixture;
+    }
+    
     /**
      * Creates a Purchase Order Item from this fixture and adds the item to the specified Purchase Order Document.
      * 
@@ -220,8 +260,14 @@ public enum PurchaseOrderItemFixture {
         item.setItemOutstandingEncumberedQuantity(itemOutstandingEncumberedQuantity);
         item.setItemOutstandingEncumberedAmount(itemOutstandingEncumberedAmount);
         item.setItemActiveIndicator(itemActiveIndicator);
-//        item.setPurchaseOrderCommodityCd(purchaseOrderCommodityCd);
 
+        if (commodityCodeFixture != null) {
+            CommodityCode commodityCode = commodityCodeFixture.createCommodityCode();
+            item.setCommodityCode(commodityCode);
+            item.setPurchasingCommodityCode(commodityCode.getPurchasingCommodityCode());
+        }
+        
         return item;
     }
+
 }

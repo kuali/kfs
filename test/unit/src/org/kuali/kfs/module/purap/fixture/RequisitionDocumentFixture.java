@@ -75,7 +75,7 @@ public enum RequisitionDocumentFixture {
             PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO } // requisitionItemMultiFixtures
     ),
-
+    
     REQ_NO_APO_VALID_2(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -479,7 +479,20 @@ public enum RequisitionDocumentFixture {
             PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_WITH_RECURRING_PAYMENT_TYPE_BEGIN_AND_END_DATE, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
-    ), ;
+    ), 
+    REQ_NO_APO_VALID_WITH_BASIC_ACTIVE_COMMODITY_CODE(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO_BASIC_ACTIVE_COMMODITY_CODE } // requisitionItemMultiFixtures
+    ),;
     
     public final String requisitionOrganizationReference1Text;
     public final String requisitionOrganizationReference2Text;

@@ -70,7 +70,7 @@
                 <summary>capitalAssetDescription</summary>
                 <description>capitalAssetDescription description...</description>
 			</attribute>
-			
+
 			
 			
             <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode">
@@ -92,11 +92,31 @@
 			<attributeReference name="organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText">
 				<label>Organization Text</label>
 			</attributeReference>
-			
-			<attributeReference name="assetGlobalHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+  
+            <attributeReference name="assetGlobalHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetGlobalHeader" sourceAttributeName="representativeUniversalIdentifier" >
+                <label>Asset Representitive</label>
+                <displayLabelAttribute>assetGlobalHeader.assetRepresentative.personUserIdentifier</displayLabelAttribute>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+			</attributeReference>
+
+			<attributeReference name="assetGlobalHeader.assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Asset Representitive</label>
                 <required>false</required>
+                <control>
+                	<kualiUser universalIdAttributeName="assetGlobalHeader.representativeUniversalIdentifier" userIdAttributeName="assetGlobalHeader.assetRepresentative.personUserIdentifier" personNameAttributeName="assetGlobalHeader.assetRepresentative.personName" />
+                </control>
 			</attributeReference>
+				
+            <attributeReference name="assetGlobalHeader.assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Asset Representitive</label>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
 			
 			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>Last Inventory Date</label>
@@ -105,7 +125,7 @@
 			<attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>Create Date</label>
 			</attributeReference>
-			
+						
 			<attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>In-service Date</label>
 			</attributeReference>
@@ -162,7 +182,7 @@
                 <summary>landParcelNumber</summary>
                 <description>landParcelNumber description...</description>
 			</attribute>			
-
+			
 			<!-- deprec. date -->
 			<attribute name="leoDeprecationDate" forceUppercase="true">
                 <label>Deprecation Date</label>
@@ -298,7 +318,7 @@
 			<attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
 				<label>Fiscal Year</label>
 			</attributeReference>
-			
+
 			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
 				<label>Period</label>
 			</attributeReference>
@@ -326,7 +346,15 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-		
+
+        <relationships>
+         	<relationship objectAttributeName="assetGlobalHeader.assetRepresentative" >
+            	<primitiveAttribute sourceName="assetGlobalHeader.representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personName" targetName="personName" />
+        	</relationship>
+        </relationships>
+      
 		<!-- 
 		 ## Chart
         <relationship objectAttributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" >
@@ -339,7 +367,7 @@
 			<primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
 		</relationship>
 		-->    
-        
+
         <objectLabel>Asset Global</objectLabel>
         
     </businessObject>

@@ -72,9 +72,11 @@
 					<maintainableField name="capitalAssetTypeCode" required="true" />
 					<maintainableField name="vendorName" required="true" />
 					<maintainableField name="manufacturerName" required="true" />
-					<maintainableField name="manufacturerModelNumber" required="false" />
-					<maintainableField name="organizationText" required="false" />
-					<maintainableField name="assetGlobalHeader.representativeUniversalIdentifier" required="false" />
+					<maintainableField name="manufacturerModelNumber" />
+					<maintainableField name="organizationText" />
+					<maintainableField name="assetGlobalHeader.representativeUniversalIdentifier" required="false" readOnly="true"/>
+					<maintainableField name="assetGlobalHeader.assetRepresentative.personUserIdentifier" required="false"/>
+					<maintainableField name="assetGlobalHeader.assetRepresentative.personName" required="false" readOnly="true"/>
 					<maintainableField name="lastInventoryDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
@@ -87,7 +89,9 @@
 					<!-- deprec. date -->
 					<maintainableField name="leoDeprecationDate" readOnly="true"/>
 					<maintainableField name="landCountyName" required="false" />
-				    <maintainableField name="landAcreageSize" required="false" />
+<!-- 
+ 				    <maintainableField name="landAcreageSize" required="false" />
+-->
 				    <maintainableField name="landParcelNumber" required="false" />
 	                <maintainableField name="versionNumber" required="false" />					
 				</maintainableItems>
@@ -127,8 +131,8 @@
                         <maintainableField name="offCampusCountryCode" required="false" />
                         <maintainableField name="locationQuantity" required="true" />
                         <summaryFields>
-                        	<summaryField name="campusCode"/>
-                            <summaryField name="capitalAssetNumber"/>
+                        	<summaryField name="campusCode" />
+                            <summaryField name="capitalAssetNumber" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>

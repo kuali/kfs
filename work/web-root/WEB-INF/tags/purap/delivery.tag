@@ -71,14 +71,14 @@
                     	attributeEntry="${documentAttributes.deliveryCampusCode}" 
                     	property="document.deliveryCampusCode" 
                     	readOnly="${notOtherDeliveryBuilding || deliveryReadOnly}"/>                
-                </td>           	
+                </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToPhoneNumber}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToEmailAddress}" 
-                    	property="document.deliveryToEmailAddress" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
-                </td>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToPhoneNumber}" 
+                    	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                </td>           	
             </tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
@@ -92,11 +92,11 @@
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToPhoneNumber}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToPhoneNumber}" 
-                    	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToEmailAddress}" 
+                    	property="document.deliveryToEmailAddress" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>
 			</tr>
 			<tr>

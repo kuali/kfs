@@ -47,6 +47,7 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
+import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.exceptions.ItemParserException;
@@ -155,15 +156,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.templateVendorDetail(document.getVendorDetail());
         }
 
-         // Refreshing the fields after returning from a building lookup on the delivery tab (update billing address)
+        // Refreshing corresponding fields after returning from various kuali lookups 
         if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
-            BillingAddress billingAddress = new BillingAddress();
-            billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
-            Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-            billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
-            document.templateBillingAddress(billingAddress);
+            if (request.getParameter("document.deliveryCampusCode") != null) {            
+                // returning from a building lookup on the delivery tab (update billing address)
+                BillingAddress billingAddress = new BillingAddress();
+                billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
+                Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
+                billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+                document.templateBillingAddress(billingAddress);
+            }            
+            else if (request.getParameter("document.chartOfAccountsCode") != null) {
+                // returning from a chart/org lookup on the document detail tab (update receiving address)
+                document.loadReceivingAddress();
+            }
         }
-
+        
         return super.refresh(mapping, form, request, response);
     }
 

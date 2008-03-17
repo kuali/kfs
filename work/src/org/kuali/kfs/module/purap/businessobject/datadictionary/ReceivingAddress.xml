@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ReceivingAddress">
+
+        <inquiry>
+            <title>Receiving Address Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="receivingName" />
+                <field attributeName="receivingLine1Address" />
+                <field attributeName="receivingLine2Address" />
+                <field attributeName="receivingCityName" />
+                <field attributeName="receivingStateCode" />
+                <field attributeName="receivingPostalCode" />
+                <field attributeName="receivingCountryCode" />
+                <field attributeName="useReceivingIndicator" />
+                <field attributeName="defaultIndicator" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Receiving Address Lookup</title>
+
+            <instructions>Lookup a Receiving Address</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                    <sortAttribute attributeName="receivingName" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="receivingName" required="false" />
+                <lookupField attributeName="receivingLine1Address" required="false" />
+                <lookupField attributeName="receivingLine2Address" required="false" />
+                <lookupField attributeName="receivingCityName" required="false" />
+                <lookupField attributeName="receivingStateCode" required="false" />
+                <lookupField attributeName="receivingPostalCode" required="false" />
+                <lookupField attributeName="receivingCountryCode" required="false" />
+                <lookupField attributeName="useReceivingIndicator" required="false" />
+                <lookupField attributeName="defaultIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="receivingName" />
+                <field attributeName="receivingLine1Address" />
+                <field attributeName="receivingLine2Address" />
+                <field attributeName="receivingCityName" />
+                <field attributeName="receivingStateCode" />
+                <field attributeName="receivingPostalCode" />
+                <field attributeName="receivingCountryCode" />
+                <field attributeName="useReceivingIndicator" />
+                <field attributeName="defaultIndicator" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>receivingName</titleAttribute>
+
+        <attributes>
+
+            <attribute name="receivingAddressIdentifier" forceUppercase="true">
+                <label>Receiving Address Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+                
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <hidden/>
+                </control>
+			</attribute>
+			
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
+
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+            	<required>false</required>
+            </attributeReference>
+			
+            <attribute name="receivingName" forceUppercase="true">
+                <label>Receiving Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+			</attribute>
+			
+			<attributeReference name="receivingLine1Address"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="line1Address">
+				<label>Receiving Line 1 Address</label>
+			</attributeReference>
+			
+			<attributeReference name="receivingLine2Address"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="line2Address">
+				<label>Receiving Line 2 Address</label>
+			</attributeReference>			
+
+			<attributeReference name="receivingCityName"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="cityName">
+				<label>Receiving City Name</label>
+			</attributeReference>
+
+			<attributeReference name="receivingStateCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="stateCode">
+				<label>Receiving State Code</label>
+			</attributeReference>				
+
+			<attributeReference name="receivingPostalCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="zipCode">
+				<label>Receiving Postal Code</label>
+			</attributeReference>						
+
+			<attributeReference name="receivingCountryCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="countryCode">
+				<label>Receiving Country Code</label>
+			</attributeReference>
+			
+            <attributeReference name="useReceivingIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+            	<label>Use Receiving Address Indicator</label>
+                <shortLabel>Use Receiving</shortLabel>
+                <summary>Use Receiving Indicator indicates whether to use the receiving address as the address to vendor.</summary>
+                <description>This attribute is used to describe whether the associated receiving address, instead of the final delivery address, shall be used as the default address to vendor.</description>
+			</attributeReference>
+
+            <attributeReference name="defaultIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+            	<label>Default Indicator</label>
+                <shortLabel>Default</shortLabel>
+                <summary>Default Indicator indicates whether the receiving address is the default one.</summary>
+                <description>This attribute is used to describe whether the associated receiving address is the default one for its chart/org.</description>
+			</attributeReference>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+        <objectLabel>Receiving Address</objectLabel>
+    </businessObject>
+</dictionaryEntry>

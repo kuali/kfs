@@ -91,6 +91,8 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER = "purchaseOrderVendorQuoteIdentifier";
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
+    // Receiving Address
+    public static final String RCVNG_ADDR_DFLT_IND = "defaultIndicator";
 
     // PAYMENT REQUEST DOCUMENT
     public static final String INVOICE_DATE = "invoiceDate";
@@ -114,5 +116,4 @@ public class PurapPropertyConstants {
     
     // Restricted Material
     public static final String WORKGROUP_NAME = "restrictedMaterialWorkgroupName";
-    
 }

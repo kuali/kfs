@@ -2423,6 +2423,24 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.purap.bo.ReceivingAddress" table="PUR_RCVNG_ADDR_T">
+    <field-descriptor name="receivingAddressIdentifier" column="PUR_RCVNG_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_ADDR_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="receivingName" column="PUR_RCVNG_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingLine1Address" column="PUR_RCVNG_LN1_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingLine2Address" column="PUR_RCVNG_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingCityName" column="PUR_RCVNG_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="defaultIndicator" column="PUR_RCVNG_DFLT_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="useReceivingIndicator" column="VNDR_ADDR_USE_RCVNG_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderContractLanguage" table="PUR_PO_CONTR_LANG_T">
     <field-descriptor name="purchaseOrderContractLanguageIdentifier" column="PO_CONTR_LANG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_CONTR_LANG_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

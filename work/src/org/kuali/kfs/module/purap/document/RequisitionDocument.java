@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,9 +52,9 @@ import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDet
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurapUser;
+import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
@@ -133,12 +132,16 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // set the APO limit
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
+        // populate billing address
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
         billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
         this.templateBillingAddress(billingAddress);
-
+        
+        // populate receiving address with the default one for the chart/org
+        loadReceivingAddress();
+        
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.refreshNonUpdateableReferences();
     }

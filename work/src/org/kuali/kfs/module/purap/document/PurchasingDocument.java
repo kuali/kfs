@@ -28,6 +28,7 @@ import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.util.ItemParser;
@@ -270,7 +271,39 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public String getBillingPhoneNumber();
 
-    public void setBillingPhoneNumber(String billingPhoneNumber);
+    public void setBillingPhoneNumber(String receivingPhoneNumber);
+
+    public String getReceivingName();
+
+    public void setReceivingName(String receivingName);
+
+    public String getReceivingLine1Address();
+
+    public void setReceivingLine1Address(String receivingLine1Address);
+
+    public String getReceivingLine2Address();
+
+    public void setReceivingLine2Address(String receivingLine2Address);
+
+    public String getReceivingCityName();
+
+    public void setReceivingCityName(String receivingCityName);
+
+    public String getReceivingStateCode();
+
+    public void setReceivingStateCode(String receivingStateCode);
+
+    public String getReceivingPostalCode();
+
+    public void setReceivingPostalCode(String receivingPostalCode);
+
+    public String getReceivingCountryCode();
+
+    public void setReceivingCountryCode(String receivingCountryCode);
+
+    public boolean getAddressToVendorIndicator();
+
+    public void setAddressToVendorIndicator(boolean addressToVendorIndicator);
 
     public String getExternalOrganizationB2bSupplierIdentifier();
 
@@ -428,6 +461,18 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @param billingAddress the specified Billing Address.
      */
     public void templateBillingAddress(BillingAddress billingAddress);
+    
+    /**
+     * Sets receiving address fields based on the specified Receiving Address.
+     * 
+     * @param receivingAddress the specified Receiving Address.
+     */
+    public void templateReceivingAddress(ReceivingAddress receivingAddress);
+    
+    /**
+     * Loads the default receiving address from database corresponding to the chart/org of this document.
+     */
+    public void loadReceivingAddress();
     
     public boolean isReceivingDocumentRequiredIndicator() ;
 

@@ -25,6 +25,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -119,7 +120,14 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             }
         }
         editModeMap.put(editMode, "TRUE");
-
+        
+        // Set display modes for Receiving Address according to its parameter value. 
+        String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
+        editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RECEIVING_ADDRESS;
+        if (paramValue.equals("Y")) 
+            editModeMap.put(editMode, "TRUE");
+                       
         return editModeMap;
     }
 

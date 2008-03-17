@@ -48,6 +48,9 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String DEFAULT_QUANTITY_ITEM_TYPE = "DEFAULT_QUANTITY_ITEM_TYPE";
     public static final String DEFAULT_NON_QUANTITY_ITEM_TYPE = "DEFAULT_NON_QUANTITY_ITEM_TYPE";
     
+    public static final String ENABLE_RECEIVING_ADDRESS_IND = "ENABLE_RECEIVING_ADDRESS_IND";
+    public static final String ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND = "ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND";
+    
     public static final String VALIDATE_ACCOUNT_DISTRIBUTION_IND = "VALIDATE_ACCOUNT_DISTRIBUTION_IND";
     
     public static class CapitalAsset {

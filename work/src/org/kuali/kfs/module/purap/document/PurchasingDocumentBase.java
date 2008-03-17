@@ -16,19 +16,27 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.util.ItemParser;
@@ -94,6 +102,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String billingPostalCode;
     private String billingCountryCode;
     private String billingPhoneNumber;
+    private String receivingName;
+    private String receivingLine1Address;
+    private String receivingLine2Address;
+    private String receivingCityName;
+    private String receivingStateCode;
+    private String receivingPostalCode;
+    private String receivingCountryCode;
+    private boolean addressToVendorIndicator; // if true, use receiving address
     private String externalOrganizationB2bSupplierIdentifier;
     private boolean purchaseOrderAutomaticIndicator;
     private String vendorPaymentTermsCode;
@@ -167,9 +183,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * Sets billing address fields based on the specified Billing Address.
-     * 
-     * @param billingAddress the specified Billing Address.
+     * @see org.kuali.module.purap.document.PurchasingDocumentBase#templateBillingAddress(org.kuali.module.purap.bo.BillingAddress).
      */
     public void templateBillingAddress(BillingAddress billingAddress) {
         if (ObjectUtils.isNotNull(billingAddress)) {
@@ -185,6 +199,48 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
+     * @see org.kuali.module.purap.document.PurchasingDocumentBase#templateReceivingAddress(org.kuali.module.purap.bo.ReceivingAddress).
+     */
+    public void templateReceivingAddress(ReceivingAddress receivingAddress) {
+        if (receivingAddress != null) {
+            this.setReceivingName(receivingAddress.getReceivingName());
+            this.setReceivingLine1Address(receivingAddress.getReceivingLine1Address());
+            this.setReceivingLine2Address(receivingAddress.getReceivingLine2Address());
+            this.setReceivingCityName(receivingAddress.getReceivingCityName());
+            this.setReceivingStateCode(receivingAddress.getReceivingStateCode());
+            this.setReceivingPostalCode(receivingAddress.getReceivingPostalCode());
+            this.setReceivingCountryCode(receivingAddress.getReceivingCountryCode());            
+            this.setAddressToVendorIndicator(receivingAddress.isUseReceivingIndicator());
+        }
+        else {
+            this.setReceivingName(null);
+            this.setReceivingLine1Address(null);
+            this.setReceivingLine2Address(null);
+            this.setReceivingCityName(null);
+            this.setReceivingStateCode(null);
+            this.setReceivingPostalCode(null);
+            this.setReceivingCountryCode(null);            
+            this.setAddressToVendorIndicator(false);            
+        }
+    }
+
+    /**
+     * Loads the default receiving address from database corresponding to the chart/org of this document.
+     */
+    public void loadReceivingAddress() {
+        Map criteria = new HashMap();
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, this.getOrganizationCode());
+        criteria.put(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, true);        
+        List<ReceivingAddress> addresses = (List)SpringContext.getBean(BusinessObjectService.class).findMatching(ReceivingAddress.class, criteria);
+        if (addresses != null && addresses.size()>0 ) 
+            this.templateReceivingAddress(addresses.get(0));        
+        else // if no address is found, fill with null
+            this.templateReceivingAddress(null);        
+        //TODO what if more than one is found? throw an exception
+    }
+    
+    /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#addItem(org.kuali.module.purap.bo.PurApItem)
      */
     @Override
@@ -192,6 +248,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
         super.addItem(item);
     }
+    
     
     // GETTERS AND SETTERS
 
@@ -266,6 +323,70 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.billingStateCode = billingStateCode;
     }
 
+    public String getReceivingCityName() {
+        return receivingCityName;
+    }
+
+    public void setReceivingCityName(String receivingCityName) {
+        this.receivingCityName = receivingCityName;
+    }
+
+    public String getReceivingCountryCode() {
+        return receivingCountryCode;
+    }
+
+    public void setReceivingCountryCode(String receivingCountryCode) {
+        this.receivingCountryCode = receivingCountryCode;
+    }
+
+    public String getReceivingLine1Address() {
+        return receivingLine1Address;
+    }
+
+    public void setReceivingLine1Address(String receivingLine1Address) {
+        this.receivingLine1Address = receivingLine1Address;
+    }
+
+    public String getReceivingLine2Address() {
+        return receivingLine2Address;
+    }
+
+    public void setReceivingLine2Address(String receivingLine2Address) {
+        this.receivingLine2Address = receivingLine2Address;
+    }
+
+    public String getReceivingName() {
+        return receivingName;
+    }
+
+    public void setReceivingName(String receivingName) {
+        this.receivingName = receivingName;
+    }
+
+    public String getReceivingPostalCode() {
+        return receivingPostalCode;
+    }
+
+    public void setReceivingPostalCode(String receivingPostalCode) {
+        this.receivingPostalCode = receivingPostalCode;
+    }
+
+    public String getReceivingStateCode() {
+        return receivingStateCode;
+    }
+
+    public void setReceivingStateCode(String receivingStateCode) {
+        this.receivingStateCode = receivingStateCode;
+    }
+
+    public boolean getAddressToVendorIndicator() {
+        return addressToVendorIndicator;
+    }
+
+    public void setAddressToVendorIndicator(boolean addressToVendor) {
+        this.addressToVendorIndicator = addressToVendor;
+    }
+    
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }

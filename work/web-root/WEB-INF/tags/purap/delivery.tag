@@ -19,20 +19,24 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="deliveryReadOnly" required="false"
               description="Boolean to indicate if delivery tab fields are read only" %>              
-              
+
 <c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOther}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:if test="${empty deliveryReadOnly}">
 	<c:set var="deliveryReadOnly" value="false" />
 </c:if>
+<c:set var="displayReceivingAddress" value="${(not empty KualiForm.editingMode['displayReceivingAddress'])}" />
+<c:set var="lockAddressToVendor" value="${(not empty KualiForm.editingMode['lockAddressToVendor'])}" />
 
 <kul:tab tabTitle="Delivery" defaultOpen="false" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
+    
+    	<!---- Final Delivery ---->
         <div class="h2-container">
-            <h2>Delivery</h2>
+            <h2>Final Delivery</h2>
         </div>
 
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Delivery Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Final Delivery Section">
             <tr>
  				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}"/></div>
@@ -71,14 +75,14 @@
                     	attributeEntry="${documentAttributes.deliveryCampusCode}" 
                     	property="document.deliveryCampusCode" 
                     	readOnly="${notOtherDeliveryBuilding || deliveryReadOnly}"/>                
-                </td>
+                </td>           	
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToPhoneNumber}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToPhoneNumber}" 
                     	property="document.deliveryToPhoneNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
-                </td>           	
+                </td>
             </tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
@@ -177,5 +181,73 @@
                 </td>
 			</tr>
         </table>
-    </div>
+
+	   	<c:if test="${displayReceivingAddress}">    
+	   	
+    	<!---- Receiving Address ---->
+        <div class="h2-container">
+            <h2>Receiving Address</h2>
+        </div>
+
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="Receiving Address Section">	 
+			<tr>
+                <th align=right valign=middle  class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingName}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingName}" property="document.receivingName" readOnly="true" /><br>
+                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine1Address}" property="document.receivingLine1Address" readOnly="true" /><br>
+	        		<c:if test="${!empty document.receivingLine2Address}">
+	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingLine2Address}" property="document.receivingLine2Address" readOnly="true" /><br>
+	        		</c:if>
+               		<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCityName}" property="document.receivingCityName" readOnly="true" />,&nbsp;
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingStateCode}" property="document.receivingStateCode" readOnly="true" />&nbsp;
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingPostalCode}" property="document.receivingPostalCode" readOnly="true" /><br>
+             		<c:if test="${!empty documentAttributes.receivingCountryCode}">       
+               			<kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" property="document.receivingCountryCode" readOnly="true" />
+            		</c:if>
+            	</td>
+                <td align=left valign=middle class="datacell">
+                    <c:if test="${fullEntryMode}">
+                    	<kul:lookup boClassName="org.kuali.module.purap.bo.ReceivingAddress"
+                    		lookupParameters="'Y':active,document.chartOfAccountsCode:chartOfAccountsCode,document.organizationCode:organizationCode"
+                    		fieldConversions="receivingName:document.receivingName,receivingCityName:document.receivingCityName,receivingLine1Address:document.receivingLine1Address,receivingLine2Address:document.receivingLine2Address,receivingCityName:document.receivingCityName,receivingStateCode:document.receivingStateCode,receivingPostalCode:document.receivingPostalCode,receivingCountryCode:document.receivingCountryCode,useReceivingIndicator:document.addressToVendorIndicator"/>
+                    </c:if>            		
+            	</td>
+            </tr>
+        </table>
+        
+    	<!---- Address To Vendor ---->
+        <div class="h2-container">
+            <h2>Address To Vendor</h2>
+        </div>
+        
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="Address To Vendor Section">
+			<tr>
+				<th align=right valign=middle class="bord-l-b">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${documentAttributes.addressToVendorIndicator}" />
+					</div>
+				</th>
+				<td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.addressToVendorIndicator}" property="document.addressToVendorIndicator" readOnly="${lockAddressToVendor}" /><br>				
+					<!--
+					<c:choose>
+						<c:when test="${KualiForm.document.addressToVendorIndicator == 'true'}">
+							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="true" checked />&nbsp;Receiving Address&nbsp;
+							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="false" />&nbsp;Final Delivery Address&nbsp;
+						</c:when>
+						<c:otherwise>
+							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="false" />&nbsp;Receiving Address&nbsp;
+							&nbsp;<input type=radio name="document.addressToVendorIndicator" value="true" checked />&nbsp;Final Delivery Address&nbsp;
+						</c:otherwise>
+					</c:choose>
+					-->
+            	</td>
+            </tr>
+        </table>
+					
+		</c:if>            		
+
+	</div>
 </kul:tab>

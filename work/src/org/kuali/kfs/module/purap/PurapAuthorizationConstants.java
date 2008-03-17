@@ -27,6 +27,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String LOCK_CONTENT_ENTRY = "lockContentEntry";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
         public static final String ALLOW_ITEM_ENTRY = "allowItemEntry";
+        public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
+        public static final String LOCK_ADDRESS_TO_VENDOR = "lockAddressToVendor";
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
@@ -35,6 +37,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String DISPLAY_RETRANSMIT_TAB = "displayRetransmitTab";
         public static final String AMENDMENT_ENTRY = "amendmentEntry";
         public static final String PRE_ROUTE_CHANGEABLE = "preRouteChangeable";
+        public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
     }
 
     public static class PaymentRequestEditMode extends EditMode {

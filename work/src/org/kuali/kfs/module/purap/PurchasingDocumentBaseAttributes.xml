@@ -90,6 +90,37 @@
 <attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPhoneNumber">
 </attributeReference>
 
+<attributeReference name="receivingName" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingName">
+    <label>Receiving Address</label>
+    <shortLabel>Name</shortLabel>
+</attributeReference>
+
+<attributeReference name="receivingLine1Address" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingLine1Address">
+</attributeReference>
+
+<attributeReference name="receivingLine2Address" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingLine2Address">
+</attributeReference>
+
+<attributeReference name="receivingCityName" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingCityName">
+</attributeReference>
+
+<attributeReference name="receivingStateCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingStateCode">
+</attributeReference>
+
+<attributeReference name="receivingPostalCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingPostalCode">
+</attributeReference>
+
+<attributeReference name="receivingCountryCode" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="receivingCountryCode">
+</attributeReference>
+
+<attributeReference name="addressToVendorIndicator" sourceClassName="org.kuali.module.purap.bo.ReceivingAddress" sourceAttributeName="useReceivingIndicator">
+    <label>Shipping Address Presented to Vendor</label>
+    <shortLabel>Address to Vendor</shortLabel>
+    <control>
+    	<radio valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.AddressToVendorIndicatorValuesFinder" />
+    </control>
+</attributeReference>
+
 <attribute name="deliveryBuildingName">
     <label>Building</label>
     <shortLabel>Building</shortLabel>
@@ -233,6 +264,7 @@
     <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
     </control>
+
 </attributeReference>
 
 <attributeReference name="institutionContactEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">

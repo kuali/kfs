@@ -24,11 +24,14 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapAuthorizationConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -107,10 +110,22 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                 // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
-
+            
             editModeMap.put(editMode, "TRUE");
         }
 
+        // Set display modes for Receiving Address and Address to Vendor sections according to their parameter values. 
+        String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
+        String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
+        String editMode = PurapAuthorizationConstants.RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS;
+        if (paramValue.equals("Y") || paramValue.equals("y")) 
+            editModeMap.put(editMode, "TRUE");
+        paramName = PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND;
+        paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Requisition", paramName);
+        editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR;
+        if (paramValue.equals("N") || paramValue.equals("n")) 
+            editModeMap.put(editMode, "TRUE");
+                       
         return editModeMap;
     }
 

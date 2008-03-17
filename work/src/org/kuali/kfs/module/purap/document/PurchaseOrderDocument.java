@@ -357,16 +357,24 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
 
-        this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());
-        this.setBillingCityName(requisitionDocument.getBillingCityName());
-        this.setBillingCountryCode(requisitionDocument.getBillingCountryCode());
+        this.setBillingName(requisitionDocument.getBillingName());
         this.setBillingLine1Address(requisitionDocument.getBillingLine1Address());
         this.setBillingLine2Address(requisitionDocument.getBillingLine2Address());
-        this.setBillingName(requisitionDocument.getBillingName());
-        this.setBillingPhoneNumber(requisitionDocument.getBillingPhoneNumber());
-        this.setBillingPostalCode(requisitionDocument.getBillingPostalCode());
+        this.setBillingCityName(requisitionDocument.getBillingCityName());
         this.setBillingStateCode(requisitionDocument.getBillingStateCode());
-        this.setPurchaseOrderCostSourceCode(requisitionDocument.getPurchaseOrderCostSourceCode());
+        this.setBillingPostalCode(requisitionDocument.getBillingPostalCode());
+        this.setBillingCountryCode(requisitionDocument.getBillingCountryCode());
+        this.setBillingPhoneNumber(requisitionDocument.getBillingPhoneNumber());
+        
+        this.setReceivingName(requisitionDocument.getReceivingName());
+        this.setReceivingCityName(requisitionDocument.getReceivingCityName());
+        this.setReceivingLine1Address(requisitionDocument.getReceivingLine1Address());
+        this.setReceivingLine2Address(requisitionDocument.getReceivingLine2Address());
+        this.setReceivingStateCode(requisitionDocument.getReceivingStateCode());
+        this.setReceivingPostalCode(requisitionDocument.getReceivingPostalCode());
+        this.setReceivingCountryCode(requisitionDocument.getReceivingCountryCode());
+        this.setAddressToVendorIndicator(requisitionDocument.getAddressToVendorIndicator());
+
         this.setDeliveryBuildingCode(requisitionDocument.getDeliveryBuildingCode());
         this.setDeliveryBuildingRoomNumber(requisitionDocument.getDeliveryBuildingRoomNumber());
         this.setDeliveryBuildingName(requisitionDocument.getDeliveryBuildingName());
@@ -383,6 +391,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setDeliveryToEmailAddress(requisitionDocument.getDeliveryToEmailAddress());
         this.setDeliveryToName(requisitionDocument.getDeliveryToName());
         this.setDeliveryToPhoneNumber(requisitionDocument.getDeliveryToPhoneNumber());
+        
+        this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());
+        this.setPurchaseOrderCostSourceCode(requisitionDocument.getPurchaseOrderCostSourceCode());
         this.setPostingYear(requisitionDocument.getPostingYear());
         this.setPurchaseOrderEndDate(requisitionDocument.getPurchaseOrderEndDate());
         this.setChartOfAccountsCode(requisitionDocument.getChartOfAccountsCode());
@@ -402,6 +413,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setRequisitionIdentifier(requisitionDocument.getPurapDocumentIdentifier());
         this.setPurchaseOrderTotalLimit(requisitionDocument.getPurchaseOrderTotalLimit());
         this.setPurchaseOrderTransmissionMethodCode(requisitionDocument.getPurchaseOrderTransmissionMethodCode());
+        
         this.setVendorCityName(requisitionDocument.getVendorCityName());
         this.setVendorContract(requisitionDocument.getVendorContract());
         this.setVendorCountryCode(requisitionDocument.getVendorCountryCode());
@@ -416,6 +428,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setVendorPhoneNumber(requisitionDocument.getVendorPhoneNumber());
         this.setVendorPostalCode(requisitionDocument.getVendorPostalCode());
         this.setVendorRestrictedIndicator(requisitionDocument.getVendorRestrictedIndicator());
+        
         this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());

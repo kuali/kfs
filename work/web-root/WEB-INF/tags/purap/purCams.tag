@@ -45,7 +45,7 @@
 <table cellpadding="0" cellspacing="0" class="datatable" >
     <tr>
         <td colspan="4" class="subhead">
-            <span class="subhead-left">CAMS Detail
+            <span class="subhead-left">Capital Asset Detail
                 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
                     <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                 </c:if>

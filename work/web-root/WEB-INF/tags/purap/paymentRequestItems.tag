@@ -181,7 +181,7 @@
 			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
 			<c:set var="hideFields" value="" />
 		</c:if>
-		<purap:puraccountingLineCams
+		<purap:purapGeneralAccounting
 			editingMode="${KualiForm.editingMode}"
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
@@ -191,8 +191,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}"
-			suppressCams="true"/>	
+			ctr="${ctr}"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

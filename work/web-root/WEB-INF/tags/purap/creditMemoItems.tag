@@ -226,7 +226,7 @@
 			</c:if>
 		</tr>
 
-		<purap:puraccountingLineCams
+		<purap:purapGeneralAccounting
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
 			optionalFields="accountLinePercent"
@@ -235,8 +235,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 
 			accountingAddLineIndex="${ctr}"
-			ctr="${ctr}" 
-			suppressCams="true" />	
+			ctr="${ctr}" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

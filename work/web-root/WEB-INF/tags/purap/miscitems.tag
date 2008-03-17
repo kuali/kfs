@@ -38,8 +38,6 @@
               description="Fragment of code to specify special item total line" %>
 <%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
     description="Whether or not to show item description before extended price." %>
-<%@ attribute name="suppressCams" required="false"
-    description="A boolean stating whether to suppress showing CAMS " %>
               
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Additional Charges"/>
@@ -216,7 +214,7 @@
 		</tr>
 
 		<c:if test="${amendmentEntry}">
-			<purap:puraccountingLineCams
+			<purap:purapGeneralAccounting
 				editingMode="${KualiForm.accountingLineEditingMode}"
 				editableAccounts="${KualiForm.editableAccounts}"
 				sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
@@ -238,15 +236,14 @@
 				    <c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
 				    <c:set var="hideFields" value="" />
 			    </c:if>
-			    <purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+			    <purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
 				    editableAccounts="${KualiForm.editableAccounts}"
 				    sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
 				    extraHiddenFields="${extraHiddenFields}"
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}"
-				    suppressCams="${suppressCams}"/>
+				    ctr="${ctr}" />
 		    </c:if>
 		</c:if>
 	</c:if>

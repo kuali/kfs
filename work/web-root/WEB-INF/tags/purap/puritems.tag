@@ -17,8 +17,8 @@
 
 <%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's accounting line fields."%>
+<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields for capital assets."%>
 <%@ attribute name="extraHiddenItemFields" required="false"
               description="A comma seperated list of names to be added to the list of normally hidden fields
               for the existing misc items." %>
@@ -95,9 +95,9 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" /></kul:htmlAttributeHeaderCell>				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
@@ -123,7 +123,7 @@
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" />
 			    </td>
 				<td class="infoline">
-				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
+				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
 			    </td>
 			    <td class="infoline">
 			        <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
@@ -347,7 +347,7 @@
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 				    </td>
 					<td class="infoline">
-					    <kul:htmlControlAttribute
+						 <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
@@ -458,7 +458,7 @@
                     <c:choose>
 	    			    <c:when test="${(itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)) )}">
 				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-					<purap:puraccountingLineCams
+					<purap:purapGeneralAccounting
 						editingMode="${KualiForm.accountingLineEditingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
@@ -472,7 +472,7 @@
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
-					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+					<purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
@@ -489,7 +489,7 @@
 					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >
 					    <c:set target="${KualiForm.editingMode}" property="expenseEntry" value="true" />
 					</c:if>
-					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+					<purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"

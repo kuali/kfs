@@ -18,6 +18,8 @@ package org.kuali.module.ar;
 public class ArConstants {
     
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
+    
+    //constants for CashControlDocument
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberCannotBeNullforPaymentMediumCash";
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberMustBeValidforPaymentMediumCash";
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL = "error.ar.ReferenceDocNumberCannotBeNull";
@@ -27,6 +29,10 @@ public class ArConstants {
     public static final String ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED = "error.ar.OnlyOneNegativeLineAmountAllowed";
     public static final String ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED = "error.ar.AllApplicationDocumentsMustBeApproved";
     public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN ="error.ar.DeleteAddApplicationDocNotAllowedAfterRefDocGenerated";
+    
+    public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
+    public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
+    public static final String CASH_CTRL_DOC_TOTAL = "message.ar.CashControlTotal";
     
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
@@ -59,5 +65,13 @@ public class ArConstants {
         public static final String CHECK = "CK";
         public static final String WIRE_TRANSFER = "WT";
         public static final String CREDIT_CARD = "CR";
+    }
+    
+    public static class CashControlDocumentFields {
+        public static final String FINANCIAL_DOCUMENT_LINE_AMOUNT = "financialDocumentLineAmount";
+        public static final String REFERENCE_FINANCIAL_DOC_NBR = "referenceFinancialDocumentNumber";
+        public static final String APPLICATION_DOC_STATUS = "status";
+        public static final String ORGANIZATION_DOC_NBR = "organizationDocumentNumber";
+        public static final String CUSTOMER_PAYMENT_MEDIUM_CODE = "customerPaymentMediumCode";
     }
 }

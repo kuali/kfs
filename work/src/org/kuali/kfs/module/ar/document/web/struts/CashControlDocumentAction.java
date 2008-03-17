@@ -18,6 +18,7 @@ package org.kuali.module.ar.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -45,6 +46,7 @@ import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
@@ -61,6 +63,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
 
         super.loadDocument(kualiDocumentFormBase);
@@ -90,6 +93,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActionForward forward = super.execute(mapping, form, request, response);
@@ -98,7 +102,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         if (ccDoc != null) {
             String refFinancialDocNbr = ccDoc.getReferenceFinancialDocumentNumber();
-            ccForm.setHasGeneratedRefDoc(refFinancialDocNbr != null && !refFinancialDocNbr.equals(""));
+            ccForm.setHasGeneratedRefDoc(!StringUtils.isEmpty(refFinancialDocNbr));
             ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
             KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
             ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
@@ -154,30 +158,10 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         // add the new detail if rules passed
         if (rulePassed) {
 
-            DocumentService documentService = KNSServiceLocator.getDocumentService();
+            CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
             // create a new PaymentApplicationdocument
-            PaymentApplicationDocument doc = (PaymentApplicationDocument) documentService.getNewDocument("PaymentApplicationDocument");
-            // set a description to say that this application document has been created by the CashControldocument
-            doc.getDocumentHeader().setFinancialDocumentDescription("Created by Cash Control Document");
-
-            // set up the default values for the AR DOC Header
-            AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-            accountsReceivableDocumentHeader.setDocumentNumber(doc.getDocumentNumber());
-            doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-
-            // set the non applied holding
-            NonAppliedHolding nonAppliedHolding = new NonAppliedHolding();
-            nonAppliedHolding.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
-            doc.setNonAppliedHolding(nonAppliedHolding);
-
-            // the line amount for the new PaymentApplicationDocument should be the line amount in the new cash control detail
-            doc.getDocumentHeader().setFinancialDocumentTotalAmount(newCashControlDetail.getFinancialDocumentLineAmount());
-
-            // refresh nonupdatable references and save the PaymentApplicationDocument
-            doc.refreshNonUpdateableReferences();
-            documentService.saveDocument(doc);
+            PaymentApplicationDocument doc = cashControlDocumentService.createAndSavePaymentApplicationDocument(cashControlDocument, newCashControlDetail);
 
             // update new cash control detail fields to refer to the new created PaymentApplicationDocument
             newCashControlDetail.setReferenceFinancialDocument(doc);
@@ -215,8 +199,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-        documentService.cancelDocument(applicationDocument, "The document has been deleted from the Cash Control Document details");
-        // cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
+        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+        cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -269,15 +253,16 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
     private String createReferenceDocument(String paymentMediumCode, CashControlDocument cashControlDocument) throws WorkflowException {
 
         String referenceDocumentNumber = "";
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
         if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
-            referenceDocumentNumber = createCashReceiptDocument(cashControlDocument);
+            referenceDocumentNumber = cashControlDocumentService.createCashReceiptDocument(cashControlDocument);
         }
         else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER)) {
-            referenceDocumentNumber = createDistributionOfIncomeAndExpenseDocument(cashControlDocument);
+            referenceDocumentNumber = cashControlDocumentService.createDistributionOfIncomeAndExpenseDocument(cashControlDocument);
         }
         else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CREDIT_CARD)) {
-            referenceDocumentNumber = createGeneralErrorCorrectionDocument(cashControlDocument);
+            referenceDocumentNumber = cashControlDocumentService.createGeneralErrorCorrectionDocument(cashControlDocument);
         }
         else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CASH)) {
             // no reference document is generated; a Cash Receipt Document must be created prior to creating the Cash Control
@@ -286,54 +271,6 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         return referenceDocumentNumber;
 
-    }
-
-    /**
-     * This method creates a Cash Receipt Document as a reference document for the current Cash Control Document
-     * 
-     * @param cashControlDocument the cash control document
-     * @return the Cash Receipt Document number
-     * @throws WorkflowException
-     */
-    private String createCashReceiptDocument(CashControlDocument cashControlDocument) throws WorkflowException {
-        String referenceDocumentNumber = "";
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        CashReceiptDocument referenceDocument = (CashReceiptDocument) documentService.getNewDocument(CashReceiptDocument.class);
-
-        referenceDocumentNumber = referenceDocument.getDocumentNumber();
-        return referenceDocumentNumber;
-    }
-
-    /**
-     * This method creates a DistributionOfIncomeAndExpenseDocument as a reference document for the current Cash Control Document
-     * 
-     * @param cashControlDocument the cash control document
-     * @return the DistributionOfIncomeAndExpenseDocument number
-     * @throws WorkflowException
-     */
-    private String createDistributionOfIncomeAndExpenseDocument(CashControlDocument cashControlDocument) throws WorkflowException {
-        String referenceDocumentNumber = "";
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        DistributionOfIncomeAndExpenseDocument referenceDocument = (DistributionOfIncomeAndExpenseDocument) documentService.getNewDocument(DistributionOfIncomeAndExpenseDocument.class);
-
-        referenceDocumentNumber = referenceDocument.getDocumentNumber();
-        return referenceDocumentNumber;
-    }
-
-    /**
-     * This method creates a GeneralErrorCorrectionDocument as a reference document for the current cash control document
-     * 
-     * @param cashControlDocument the cash control document
-     * @return the GeneralErrorCorrectionDocument number
-     * @throws WorkflowException
-     */
-    private String createGeneralErrorCorrectionDocument(CashControlDocument cashControlDocument) throws WorkflowException {
-        String referenceDocumentNumber = "";
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        GeneralErrorCorrectionDocument referenceDocument = (GeneralErrorCorrectionDocument) documentService.getNewDocument(GeneralErrorCorrectionDocument.class);
-
-        referenceDocumentNumber = referenceDocument.getDocumentNumber();
-        return referenceDocumentNumber;
     }
 
 }

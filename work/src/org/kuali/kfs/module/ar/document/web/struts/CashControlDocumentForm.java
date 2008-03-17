@@ -54,6 +54,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     /**
      * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public void populate(HttpServletRequest request) {
 
         super.populate(request);

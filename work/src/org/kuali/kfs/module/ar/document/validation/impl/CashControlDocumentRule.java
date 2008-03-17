@@ -15,6 +15,7 @@
  */
 package org.kuali.module.ar.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
@@ -118,12 +119,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         // line amount cannot be zero
         if (detail.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.CashControl.LINE_AMOUNT_CANNOT_BE_ZERO);
+            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, KFSKeyConstants.CashControl.LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
         // there can be only one negative line amount
         else if (detail.getFinancialDocumentLineAmount().isNegative() && document.isHasNegativeCashControlDetail()) {
-            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
+            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
             isValid = false;
         }
 
@@ -140,7 +141,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * This method checks that payment medium is not null and has a valid value
      * 
      * @param document
-     * @return
+     * @return true if valid, false otherwise
      */
     public boolean checkPaymentMedium(CashControlDocument document) {
 
@@ -150,12 +151,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
 
-        if (paymentMediumCode == null || paymentMediumCode.equalsIgnoreCase("")) {
-            GlobalVariables.getErrorMap().putError("customerPaymentMediumCode", ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
+        if (StringUtils.isBlank(paymentMediumCode)) {
+            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
             isValid = false;
         }
         else if (null == service.getByPrimaryKey(paymentMediumCode)) {
-            GlobalVariables.getErrorMap().putError("customerPaymentMediumCode", ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
+            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }
 
@@ -178,14 +179,14 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
             String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
-            if (orgDocNumber == null) {
-                GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+            if (StringUtils.isBlank(orgDocNumber)) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.ORGANIZATION_DOC_NBR, ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
             else {
                 boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(orgDocNumber);
                 if (!docExists) {
-                    GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.ORGANIZATION_DOC_NBR, ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
 
@@ -213,7 +214,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // if payment medium is not Cash the reference document number must not be null; if payment medium is Cash a Cash Receipt
         // Document must be created prior to creating the Cash Control
         // document and it's number should be set in Organization Document number
-        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && null == refDocNumber || "".equals(refDocNumber)) {
+        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && StringUtils.isBlank(refDocNumber)) {
             GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
         }
@@ -305,7 +306,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // don't bother checking the total if some deposits are broken
         if (isValid && cashControlDocument.getTotalDollarAmount().isZero()) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Cash Control Total");
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, ArConstants.CASH_CTRL_DOC_TOTAL);
         }
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -323,10 +324,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         boolean success = true;
         String referenceDocumentNumber = cashControlDocument.getReferenceFinancialDocumentNumber();
-        if (referenceDocumentNumber != null && !referenceDocumentNumber.equals("")) {
+        if (!StringUtils.isBlank(referenceDocumentNumber)) {
             success = false;
             GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-            GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN);
+            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN);
             GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         }
         return success;
@@ -355,7 +356,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
                 GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-                GlobalVariables.getErrorMap().put("status", ArConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+                GlobalVariables.getErrorMap().put(ArConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
                 GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
                 GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 

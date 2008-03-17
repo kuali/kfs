@@ -86,7 +86,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="AccountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
+	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
 		<property name="organizationOptionsService">
 			<ref bean="organizationOptionsService" />
 		</property>					
@@ -113,6 +113,15 @@
     <bean id="customerInvoiceDocumentService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>		
+	</bean>	
+	
+	<bean id="cashControlDocumentService" class="org.kuali.module.ar.service.impl.CashControlDocumentServiceImpl">
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />

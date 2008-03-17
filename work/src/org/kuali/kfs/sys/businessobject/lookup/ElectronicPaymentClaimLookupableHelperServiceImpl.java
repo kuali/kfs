@@ -15,16 +15,15 @@
  */
 package org.kuali.kfs.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.kfs.bo.ElectronicPaymentClaim;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,15 +43,14 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
         String claimingStatus = fieldValues.remove("paymentClaimStatusCode");
-        Criteria additionalCriteria = new Criteria();
         if (claimingStatus != null && !claimingStatus.equals("A")) {
             if (claimingStatus.equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) {
-                additionalCriteria.addEqualTo("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
+                fieldValues.put("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED);
             } else {
-                additionalCriteria.addEqualTo("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
+                fieldValues.put("paymentClaimStatusCode", ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED);
             }
         }
-        return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, additionalCriteria);
+        return (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, new Criteria());
     }
 
     /**
@@ -64,6 +62,19 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         this.setDocFormKey((String)fieldValues.get("docFormKey"));
         this.setBackLocation((String)fieldValues.get("backLocation"));
         super.validateSearchParameters(fieldValues);
+    }
+
+    /**
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#isResultReturnable(org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public boolean isResultReturnable(BusinessObject claimAsBO) {
+        boolean result = super.isResultReturnable(claimAsBO);
+        ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsBO;
+        if (result && ((claim.getPaymentClaimStatusCode() != null && claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED)) || (!StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())))) {
+            result = false;
+        }
+        return result;
     }
 
     /**

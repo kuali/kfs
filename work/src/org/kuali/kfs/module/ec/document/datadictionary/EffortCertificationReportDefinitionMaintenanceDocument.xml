@@ -80,9 +80,13 @@
 	        </maintainableSection>
 	        <maintainableSection title="Edit Report Position Object Group Codes">
 				<maintainableItems>
-					<maintainableCollection name="effortCertificationReportPositions" businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition">
+					<maintainableCollection name="effortCertificationReportPositions" 
+						businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition"
+						sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup"
+						sourceAttributeName="effortCertificationReportPositions"
+						summaryTitle="Position Object Group Codes">
 						<maintainableField name="effortCertificationReportPositionObjectGroupCode" required="true" />
-			            <maintainableField name="active" required="true" >
+						<maintainableField name="active" required="true" >
 			            	<defaultValue>true</defaultValue>
 						</maintainableField>
 			            <maintainableField name="newCollectionRecord" />
@@ -90,6 +94,11 @@
 			            <summaryFields>
                             <summaryField name="effortCertificationReportPositionObjectGroupCode" />
                         </summaryFields>
+                        <duplicateIdentificationFields>
+                        	<duplicateIdentificationField name="effortCertificationReportPositionObjectGroupCode" />
+					    	<duplicateIdentificationField name="universityFiscalYear" />
+							<duplicateIdentificationField name="effortCertificationReportNumber" />
+						</duplicateIdentificationFields>
 			        </maintainableCollection>
 				</maintainableItems>
 			</maintainableSection>

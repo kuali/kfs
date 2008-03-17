@@ -1105,7 +1105,7 @@
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<collection-descriptor name="assetLocationGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetLocationGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="none" auto-update="none" proxy="true">
+	<collection-descriptor name="assetLocationGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetLocationGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
         <orderby name="capitalAssetNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 	</collection-descriptor>

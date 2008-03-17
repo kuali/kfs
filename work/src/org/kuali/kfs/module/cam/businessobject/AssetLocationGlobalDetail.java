@@ -1,18 +1,27 @@
 package org.kuali.module.cams.bo;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.core.service.PersistenceStructureService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class AssetLocationGlobalDetail extends PersistableBusinessObjectBase {
+public class AssetLocationGlobalDetail extends GlobalBusinessObjectDetailBase {
 
+    private static final Logger LOG = Logger.getLogger(AssetLocationGlobalDetail.class);
+    
 	private String documentNumber;
 	private Long capitalAssetNumber;
 	private String campusCode;
@@ -233,6 +242,28 @@ public class AssetLocationGlobalDetail extends PersistableBusinessObjectBase {
         this.buildingRoom = buildingRoom;
     }
 
+    /**
+     * Returns a map of the keys<propName,value> based on the primary key names of the underlying BO and reflecting into this
+     * object.
+     */
+    public Map<String, Object> getPrimaryKeys() {
+        try {
+            List<String> keys = SpringContext.getBean(PersistenceStructureService.class).getPrimaryKeys(Asset.class);
+            HashMap<String, Object> pks = new HashMap<String, Object>(keys.size());
+            for (String key : keys) {
+                // attempt to read the property of the current object
+                // this requires that the field names match between the underlying BO object
+                // and this object
+                pks.put(key, ObjectUtils.getPropertyValue(this, key));
+            }
+            return pks;
+        }
+        catch (Exception ex) {
+            LOG.error("unable to get primary keys for global detail object", ex);
+        }
+        return new HashMap<String, Object>(0);
+    }
+    
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

@@ -71,7 +71,7 @@
             <title>Asset Lookup</title>
 
             <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${kr.externalizable.images.url}tinybutton-edit1.gif" alt="create new location global" width="40" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
             </menubar>
 
             <instructions>Look up an Asset</instructions>

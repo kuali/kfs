@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.GlobalBusinessObject;
+import org.kuali.core.bo.GlobalBusinessObjectDetail;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class AssetLocationGlobal extends PersistableBusinessObjectBase {
+public class AssetLocationGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
 	private String documentNumber;
 
@@ -23,8 +30,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase {
 	 * Default constructor.
 	 */
 	public AssetLocationGlobal() {
-        assetLocationGlobalDetails = new ArrayList<AssetLocationGlobalDetail>();
-        
+        assetLocationGlobalDetails = new TypedArrayList(AssetLocationGlobalDetail.class);
 	}
 
 	/**
@@ -80,6 +86,67 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase {
         this.assetLocationGlobalDetails = assetLocationGlobalDetails;
     }
 
+    /**
+     * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     */
+    public List<PersistableBusinessObject> generateDeactivationsToPersist() {
+        return null;
+    }
+
+    /**
+     * This returns a list of Assets to update
+     * 
+     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     */
+    public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
+        // the list of persist-ready BOs
+        List<PersistableBusinessObject> persistables = new ArrayList();
+
+        // walk over each change detail record
+        for (AssetLocationGlobalDetail detail : assetLocationGlobalDetails) {
+
+            // load the object by keys
+            Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, detail.getPrimaryKeys());
+
+            // if we got a valid account, do the processing
+            if (asset != null) {
+
+                if (StringUtils.isNotBlank(detail.getCampusCode())) {
+                    asset.setCampusCode(detail.getCampusCode());
+                }
+                
+                if (StringUtils.isNotBlank(detail.getBuildingCode())) {
+                    asset.setBuildingCode(detail.getBuildingCode());
+                }
+                
+                if (StringUtils.isNotBlank(detail.getBuildingRoomNumber())) {
+                    asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
+                }
+                
+                if (StringUtils.isNotBlank(detail.getBuildingSubRoomNumber())) {
+                    asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
+                }
+                
+                if (StringUtils.isNotBlank(detail.getCampusTagNumber())) {
+                    asset.setCampusTagNumber(detail.getCampusTagNumber());
+                }
+                
+                persistables.add(asset);
+
+            }
+        }
+
+        return persistables;
+    }
+    
+    public boolean isPersistable() {
+        return true;
+    }
+    
+    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
+        return getAssetLocationGlobalDetails();
+    }
+    
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

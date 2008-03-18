@@ -41,6 +41,8 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -109,7 +111,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     private PurapAccountingService purapAccountingService;
     private BusinessObjectService businessObjectService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
-
+    private WorkflowDocumentService workflowDocumentService;
+    
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -156,6 +159,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
         this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService){
+        this.workflowDocumentService = workflowDocumentService;
     }
 
     /**
@@ -1271,4 +1278,34 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PaymentRequestService#hasActivePaymentRequestsForPurchaseOrder(java.lang.Integer)
+     */
+    public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier){
+        
+        boolean hasActivePreqs = false;
+        List<String> docNumbers= null;
+        KualiWorkflowDocument workflowDocument = null;
+        
+        docNumbers= paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
+        
+        for (String docNumber : docNumbers) {
+            try{
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+            }catch(WorkflowException we){
+                throw new RuntimeException(we);
+            }
+            
+            //if the document is not in a non-active status then return true and stop evaluation
+            if(!(workflowDocument.stateIsCanceled() ||
+                    workflowDocument.stateIsException() ||
+                    workflowDocument.stateIsFinal()) ){
+                hasActivePreqs = true;
+                break;
+            }
+
+        }
+        
+        return hasActivePreqs;
+    }
 }

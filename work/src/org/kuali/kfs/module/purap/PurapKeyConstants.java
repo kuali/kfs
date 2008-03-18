@@ -61,7 +61,7 @@ public class PurapKeyConstants {
     public static final String PUR_COMMODITY_CODES_CLEARED = "message.document.pur.commodityCodesCleared";
     public static final String PUR_COMMODITY_CODE_INVALID = "error.commodity.code.invalid";
     public static final String PUR_COMMODITY_CODE_INACTIVE= "error.commodity.code.inactive";
-    
+       
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
     public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";
@@ -110,7 +110,8 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_INACTIVE = "error.inactive";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE = "error.purchaseOrder.alternateVendor.dvType";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED = "error.purchaseOrder.alternateVendor.debarred";
-
+    public static final String ERROR_PURCHASE_ORDER_RECEIVING_DOC_REQUIRED_ID_PENDING_PREQ = "error.purchaseOrder.receivingDocRequiredId.pendingPreq";
+    
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";
     public static final String ERROR_APPROVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";

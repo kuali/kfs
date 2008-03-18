@@ -368,6 +368,25 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
     }
 
+    
+    public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId){
+        LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
+                
+        List<String> returnList = new ArrayList<String>();
+        Criteria criteria = new Criteria();
+        
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
+        criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
+        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+        
+        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+        while (iter.hasNext()) {
+            Object[] cols = (Object[]) iter.next();
+            returnList.add((String) cols[0]);
+        }
+        return returnList;
+    }
+    
     public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
         this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
     }

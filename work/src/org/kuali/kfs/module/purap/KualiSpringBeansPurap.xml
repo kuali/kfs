@@ -222,6 +222,9 @@
         <property name="purapWorkflowIntegrationService">
             <ref bean="purapWorkflowIntegrationService" />
         </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>        
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.CreditMemoDaoOjb" />

@@ -422,6 +422,8 @@ public class PurapConstants extends JstlConstants {
 
         public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { AUTO_APPROVED, DEPARTMENT_APPROVED };
 
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, DEPARTMENT_APPROVED, AUTO_APPROVED, AWAITING_ACCOUNTS_PAYABLE_REVIEW, AWAITING_SUB_ACCT_MGR_REVIEW, AWAITING_FISCAL_REVIEW, AWAITING_ORG_REVIEW, AWAITING_TAX_REVIEW };
+        
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();
         public static final Set STATUSES_DISALLOWING_REMOVE_HOLD = new HashSet();

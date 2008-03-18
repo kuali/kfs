@@ -334,4 +334,12 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return                         The resulting description string for the payment request document.
      */
     public String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName);
+    
+    /**
+     * Determines if there are active payment requests for a purchase order.
+     * 
+     * @param purchaseOrderIdentifier
+     * @return
+     */
+    public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier);
 }

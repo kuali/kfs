@@ -26,7 +26,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
     private PaymentApplicationDocument referenceFinancialDocument;
     private CashControlDocument cashControlDocument;
 	private Customer customer;
-    private NonAppliedHolding nonAppliedHolding;
     
     private String status;
     
@@ -222,23 +221,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-	/**
-     * Gets the nonAppliedHolding attribute. 
-     * @return Returns the nonAppliedHolding.
-     */
-    public NonAppliedHolding getNonAppliedHolding() {
-        return nonAppliedHolding;
-    }
-
-    /**
-     * Sets the nonAppliedHolding attribute value.
-     * @param nonAppliedHolding The nonAppliedHolding to set.
-     * @deprecated
-     */
-    public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
-        this.nonAppliedHolding = nonAppliedHolding;
-    }
 
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

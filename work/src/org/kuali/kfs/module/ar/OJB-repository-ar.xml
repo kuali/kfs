@@ -267,9 +267,6 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.module.ar.bo.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="referenceFinancialDocumentNumber" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.document.CustomerInvoiceDocument" table="AR_INV_DOC_T">

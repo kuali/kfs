@@ -63,7 +63,7 @@ public enum PaymentSummaryFixture {
         // TODO this has to be re-implemented
         assetPayment.setFinancialObject(new ObjectCode() {
             public String getFinancialObjectSubTypeCode() {
-                return "BL";
+                return "BF";
             }
         });
         return assetPayment;

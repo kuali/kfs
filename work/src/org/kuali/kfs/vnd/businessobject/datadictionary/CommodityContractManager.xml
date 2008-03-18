@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.CommodityContractManager">
+ 
+        <inquiry>
+            <title>Commodity Contract Manager Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="campusCode" />
+                        <field attributeName="purchasingCommodityCode" />
+                        <field attributeName="contractManagerCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Commodity Contract Manager Lookup</title>
+
+            <instructions>Look up a Commodity Contract Manager</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchasingCommodityCode" />
+                    <sortAttribute attributeName="campusCode" />
+                    <sortAttribute attributeName="contractManagerCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="purchasingCommodityCode" required="false" />
+                <lookupField attributeName="contractManagerCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="campusCode" />
+                <field attributeName="purchasingCommodityCode" />
+                <field attributeName="contractManagerCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="contractManagerCode" forceUppercase="true">
+                <label>Contract Manager Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>contractManagerCode</summary>
+                <description>contractManagerCode description...</description>
+			</attribute>
+			
+			<attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+			
+			<attributeReference name="purchasingCommodityCode" 
+								sourceClassName="org.kuali.module.vendor.bo.CommodityCode" 
+								sourceAttributeName="purchasingCommodityCode" />
+
+            <attributeReference name="versionNumber" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

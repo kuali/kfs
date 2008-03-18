@@ -45,8 +45,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.PAYMENT);
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.RETIRE);
-        actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.SEPARATE);
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.TRANSFER);

@@ -96,12 +96,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
 
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-        retirementInfoService.setRetirementInfo(newAsset);
         retirementInfoService.setRetirementInfo(oldAsset);
+        retirementInfoService.setRetirementInfo(newAsset);
 
         EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-        equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
         equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
+        equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
 
         boolean valid = processAssetValidation(document);
         valid &= validateWarrantyInformation(newAsset);

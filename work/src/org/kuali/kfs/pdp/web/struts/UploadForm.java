@@ -19,13 +19,13 @@
  */
 package org.kuali.module.pdp.form.upload;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.web.struts.form.KualiForm;
 
 /**
  * @author jsissom
  */
-public class UploadForm extends ActionForm {
+public class UploadForm extends KualiForm {
     private FormFile file;
 
     public UploadForm() {

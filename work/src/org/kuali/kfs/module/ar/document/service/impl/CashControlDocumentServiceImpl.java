@@ -104,25 +104,63 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         return doc;
     }
 
+    /**
+     * @see org.kuali.module.ar.service.CashControlDocumentService#hasAllApplicationDocumentsApproved(org.kuali.module.ar.document.CashControlDocument)
+     */
     public boolean hasAllApplicationDocumentsApproved(CashControlDocument cashControlDocument) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    /**
+     * This method gets the accounts receivable header
+     * @return the accounts receivable header
+     */
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
 
+    /**
+     * This method sets the accounts receivable header
+     * @param accountsReceivableDocumentHeaderService
+     */
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
+    /**
+     * This method gets the document service
+     * @return the document service
+     */
     public DocumentService getDocumentService() {
         return documentService;
     }
 
+    /**
+     * This method sets the document service
+     * @param documentService
+     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CashControlDocumentService#addNewCashControlDetail(org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
+     */
+    public void addNewCashControlDetail(CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+
+        // create a new PaymentApplicationdocument
+        PaymentApplicationDocument doc = createAndSavePaymentApplicationDocument(cashControlDocument, cashControlDetail);
+
+        // update new cash control detail fields to refer to the new created PaymentApplicationDocument
+        cashControlDetail.setReferenceFinancialDocument(doc);
+        cashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+        // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
+
+        // add cash control detail
+        cashControlDocument.addCashControlDetail(cashControlDetail);
+
     }
 
 }

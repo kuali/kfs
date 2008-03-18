@@ -25,6 +25,15 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public interface CashControlDocumentService {
 
     /**
+     * This method add a new cash control detail to the cash control document
+     * 
+     * @param cashControlDocument the cash control document
+     * @param cashControlDetail the cash control detail to be added
+     * @throws WorkflowException
+     */
+    public void addNewCashControlDetail(CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException;
+    
+    /**
      * This method creates a new PaymentApplicationDocument
      * 
      * @param cashControlDocument the cash control document

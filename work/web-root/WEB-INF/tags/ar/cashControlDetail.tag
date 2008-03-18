@@ -94,7 +94,7 @@
 			<div align="center">
 				<html:image property="methodToCall.${actionMethod}"
 					src="${actionImage}" alt="${actionAlt}" title="${actionAlt}"
-					styleClass="tinybutton" />
+					styleClass="tinybutton"/>
 			</div>
 		</td>
 	</c:if>

@@ -160,16 +160,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
-            // create a new PaymentApplicationdocument
-            PaymentApplicationDocument doc = cashControlDocumentService.createAndSavePaymentApplicationDocument(cashControlDocument, newCashControlDetail);
-
-            // update new cash control detail fields to refer to the new created PaymentApplicationDocument
-            newCashControlDetail.setReferenceFinancialDocument(doc);
-            newCashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
-            // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
-
             // add cash control detail
-            cashControlDocument.addCashControlDetail(newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(cashControlDocument, newCashControlDetail);
 
             // set a new blank cash control detail
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());

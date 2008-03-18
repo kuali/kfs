@@ -73,7 +73,8 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}" onchange="submitForm()"/>
+						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}"
+					    onchange="submitForm()"/>
 				</td>
 			</tr>
 

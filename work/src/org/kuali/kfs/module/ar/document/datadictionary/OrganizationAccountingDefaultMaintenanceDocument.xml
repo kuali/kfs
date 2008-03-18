@@ -78,8 +78,6 @@
                 	<maintainableField name="defaultInvoiceChartOfAccountsCode" required="false"/>
                     <maintainableField name="defaultInvoiceAccountNumber" required="false" />
                     <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
-                    <maintainableField name="organizationLateChargeObjectCode" required="false" />
-                    <maintainableField name="organizationLateChargeObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceFinancialObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceProjectCode" required="false"/>
@@ -91,7 +89,8 @@
                 	<maintainableField name="defaultPaymentChartOfAccountsCode" required="false"/>
                     <maintainableField name="defaultPaymentAccountNumber" required="false" />
                     <maintainableField name="defaultPaymentSubAccountNumber" required="false" />
-                    <maintainableField name="defaultPaymentProjectCode" required="false" />
+                    <maintainableField name="defaultInvoiceProjectCode" required="false"/>
+ 					<!--  2 fields are missing here -->
                     <maintainableField name="defaultPaymentOrganizationReferenceIdentifier" required="false" />
                 </maintainableItems>
             </maintainableSection>

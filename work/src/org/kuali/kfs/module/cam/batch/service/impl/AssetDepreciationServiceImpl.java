@@ -127,6 +127,15 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         try {
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Started");
+            
+            /*
+             * Getting the system parameter "DEPRECIATION_DATE"
+             * When this parameter is used to determine which fiscal month and year is going to be depreciated
+             * If blank then
+             *    the system will take the system date to determine the fiscal period 
+             * 
+             */
+            
 /*          if (parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_DATE_PARAMETER)) {
                 depreciationDateParameter = ((List<String>) parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_DATE_PARAMETER)).get(0).trim();
             }
@@ -150,12 +159,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Depreciation Date: "+depreciationDateParameter);
             
-            // LOG.info(" Depreciation Date:"+dateTimeService.toDateString(depreciationDate.getTime())+" - Current
-            // Date:"+dateTimeService.toDateString(currentDate.getTime()));
-
-            // *************************************************************************************************
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
-            // *************************************************************************************************
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting fiscal month and fiscal year.");
 
             universityDate = universityDateDao.getByPrimaryKey(depreciationDate.getTime());
@@ -169,6 +173,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             reportLog.addAll(depreciableAssetsDao.checkSum(true, "", fiscalYear, fiscalMonth, depreciationDate));
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting a list of asset payments eligible for depreciation.");            
+
             // Retrieving eligible assets
             Collection<AssetPayment> depreciableAssetsCollection = depreciableAssetsDao.getListOfDepreciableAssets(this.fiscalYear, this.fiscalMonth, depreciationDate);
 
@@ -223,6 +228,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 if (depreciableAssets.getCapitalAssetNumber().compareTo(assetNumber) == 0) {
                     baseAmount = baseAmount.add(depreciableAssets.getPrimaryDepreciationBaseAmount());
                 }
+                
                 if ((depreciableAssets.getCapitalAssetNumber().compareTo(assetNumber) < 0) || (i == depreciableAssetsCollection.size())) {
                     assetsBaseAmount.put(assetNumber, baseAmount);
                     baseAmount = new KualiDecimal(0);
@@ -290,16 +296,26 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // Reading asset payments
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Reading collection with eligible asset payments.");                        
             for (AssetPayment assetPayment : depreciableAssetsCollection) {
+                // Getting the asset
                 Asset asset = assetPayment.getAsset();
 
+                //Getting asset type
                 AssetType assetType = asset.getCapitalAssetType();
+                
+                //Getting the account the asset payment is associated with.
                 Account account = assetPayment.getAccount();
+                
+                //Organization code the asset payment account is associated with.
                 Org org = account.getOrganization();
+                
+                //Object code the asset payment is associated with
                 ObjectCode financialObject = assetPayment.getFinancialObject();
 
                 String accumulatedDepreciationFinancialObjectCode = "";
                 String depreciationExpenseFinancialObjectCode = "";
 
+                //Reading the list of asset object codes in order to get the accumulated and expense object code that are going 
+                // to be stored in the glpe depreciation transaction. 
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting the accumulated object code and expense object code of each asset payment.");                                        
                 for (AssetObjectCode assetObjectCodes : objectCodes) {
                     boolean found = false;
@@ -324,21 +340,28 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 assetServiceDate.setTime(asset.getCapitalAssetInServiceDate());
                 accumulatedDepreciationAmount = new KualiDecimal(0);
 
+                //Getting the asset base amount.
                 baseAmount = assetBaseAmounts.get(assetPayment.getCapitalAssetNumber());
+                
+                //Calculating the life of the asset in months.
                 assetLifeInMonths = new Double(assetType.getDepreciableLifeLimit() * 12);
 
+                //Calculating the month elapse of the asset using the depreciation date and the asset service date.
                 monthsElapsed = new Double(depreciationDate.get(Calendar.MONTH) - assetServiceDate.get(Calendar.MONTH) + (depreciationDate.get(Calendar.YEAR) - assetServiceDate.get(Calendar.YEAR)) * 12) + 1;
 
-                // ********************************************************
-                // Calculating depreciation accumulated depreciation amount
-                // ********************************************************
-                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Calculating depreciation - Asset:"+assetPayment.getCapitalAssetNumber());                
+                // Calculating depreciation accumulated depreciation amount.
+                LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Calculating depreciation - Asset:"+assetPayment.getCapitalAssetNumber());
+                
+                //**************************************************************************************************************
+                // CALCULATING ACCUMULATED DEPRECIATION BASED ON FORMULA FOR SINGLE LINE AND SALVAGE VALUE DEPRECIATION METHODS.
+                //**************************************************************************************************************
+                //If the month elapse >= to the life of the asset (in months) then, the accumulated depreciation should be:
                 if (monthsElapsed.compareTo(assetLifeInMonths) >= 0) {
                     if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
                         accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount();
                     else if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE))
                         accumulatedDepreciationAmount = assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()));
-                }
+                } //If the month elapse < to the life of the asset (in months) then....
                 else {
                     if (asset.getPrimaryDepreciationMethodCode().equals(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE))
                         accumulatedDepreciationAmount = new KualiDecimal((monthsElapsed.doubleValue() / assetLifeInMonths.doubleValue()) * assetPayment.getPrimaryDepreciationBaseAmount().doubleValue());
@@ -346,10 +369,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         accumulatedDepreciationAmount = new KualiDecimal((monthsElapsed.doubleValue() / assetLifeInMonths.doubleValue()) * (assetPayment.getPrimaryDepreciationBaseAmount().subtract((assetPayment.getPrimaryDepreciationBaseAmount().divide(baseAmount)).multiply(asset.getSalvageAmount()))).doubleValue());
                 }
 
-                // ******** Now calculating fiscal month depreciation amount
-                // ********************************************************************
+                // Calculating in process fiscal month depreciation amount
                 KualiDecimal transactionAmount = accumulatedDepreciationAmount.subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount());
-                // *******************************************************************************************************************************
 
                 String plantAccount = "";
                 String plantCOA = "";
@@ -364,7 +385,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 if (transactionAmount.compareTo(new KualiDecimal(0)) == -1)
                     transactionType = KFSConstants.GL_CREDIT_CODE;
 
-                // getting the right Assign Plant Fund Chart & Account
+                // getting the right Plant Fund Chart code & Plant Fund Account
                 if (organizationPlantFundObjectSubType.contains(financialObject.getFinancialObjectSubTypeCode())) {
                     plantAccount = org.getOrganizationPlantAccountNumber();
                     plantCOA = org.getOrganizationPlantChartCode();
@@ -379,10 +400,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                                                           assetPayment.getPaymentSequenceNumber().toString(), transactionAmount, accumulatedDepreciationAmount,
                                                           fiscalMonth);
 
+                 // if the asset has a depreciation amount > than 0 then, create its debits and credits.
                 if (!transactionAmount.isZero()) {
                     //LOG.info("**Asset#:" + assetPayment.getCapitalAssetNumber() + " - Trn Amount:" + transactionAmount.toString());
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
+                    
                     transactionType = (transactionType.equals(KFSConstants.GL_CREDIT_CODE) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+                    
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
                 }
             } // end for
@@ -438,6 +462,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         String sKey = depreciationTransaction.getKey();
 
+        //Grouping the asset transactions by asset#, accounts, sub account, object, transaction type (C/D), etc. in order to 
+        //only have one credit and one credit by group.
         if (depreciationTransactionSummary.containsKey(sKey)) {
             depreciationTransaction = depreciationTransactionSummary.get(sKey);
             depreciationTransaction.setTransactionAmount(depreciationTransaction.getTransactionAmount().add(transactionAmount));
@@ -481,10 +507,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             this.documentNumber = documentHeader.getDocumentNumber();
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Document Number Created: "+this.documentNumber);
             
-            // Getting depreciation document type code
+            // Getting depreciation document type code for the transactions
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting document type for depreciation.");            
             documentTypeCode = documentTypeService.getDocumentTypeCodeByClass(AssetDepreciationDocument.class);
-
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Depreciation Document Type Code: "+documentTypeCode);
             
             Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());

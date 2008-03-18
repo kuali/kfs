@@ -139,7 +139,7 @@
 
 	<!-- bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="assetDepreciationBatchJob" />
-		<property name="cronExpression" value="00 00 14 * * ?" />
+		<property name="cronExpression" value="00 00 00 1 * ?" />
 	</bean-->
 
 

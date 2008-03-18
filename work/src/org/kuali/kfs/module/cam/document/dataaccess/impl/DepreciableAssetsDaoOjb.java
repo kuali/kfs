@@ -153,7 +153,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         assetPayment.setAccumulatedPrimaryDepreciationAmount(accumulatedDepreciationAmount);
 
-        // Using reflection in order to set the amount in the correct asset payment field
         /*
          * try { String setterMethodName="setPeriod"+fiscalMonth+"Depreciation1Amount"; LOG.debug("Invoking method
          * :"+setterMethodName+" in class AssetPayment."); Method method = AssetPayment.class.getMethod(setterMethodName, new
@@ -211,14 +210,14 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Criteria arCriteria = new Criteria();
         Criteria atCriteria = new Criteria();
 
-        // Retired assets subquery
+        // Retired assets sub query
         ReportQueryByCriteria arSubQuery;
         arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
         arSubQuery = QueryFactory.newReportQuery(AssetRetirementDocument.class, arCriteria);
         arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
 
-        // transferred assets subquery
+        // transferred assets sub query
         ReportQueryByCriteria atSubQuery;
         atCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
@@ -254,14 +253,14 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Criteria arCriteria = new Criteria();
         Criteria atCriteria = new Criteria();
 
-        // Retired assets subquery
+        // Retired assets sub query
         ReportQueryByCriteria arSubQuery;
         arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
         arSubQuery = QueryFactory.newReportQuery(AssetRetirementDocument.class, arCriteria);
         arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
 
-        // transferred assets subquery
+        // transferred assets sub query
         ReportQueryByCriteria atSubQuery;
         atCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
@@ -289,7 +288,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     /**
      * 
-     * This method
+     * This method creates the criteria that the program uses in order to retrieve the asset payments eligible
+     * for depreciation
      * 
      * @param fiscalYear
      * @param fiscalMonth
@@ -322,7 +322,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Criteria criteria = new Criteria();
         Criteria criteriaB = new Criteria();
         Criteria criteriaC = new Criteria();
-
 
         criteria.addEqualTo(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE, CamsConstants.Depreciation.DEPRECIATION_ORIGINATION_CODE);
 

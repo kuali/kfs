@@ -70,15 +70,16 @@
                     <maintainableField name="chartOfAccountsCode" required="true"/>
                     <maintainableField name="organizationCode" required="true"/>
 					<maintainableField name="writeoffObjectCode" required="true"/>
-					<maintainableField name="organizationLateChargeObjectCode" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
-            <maintainableSection title="Edit Organization Accounting Invoice Defaults">
+            <maintainableSection title="Edit Organization Income Account Defaults">
                 <maintainableItems>
                 	<maintainableField name="defaultInvoiceChartOfAccountsCode" required="false"/>
                     <maintainableField name="defaultInvoiceAccountNumber" required="false" />
                     <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
+                    <maintainableField name="organizationLateChargeObjectCode" required="false" />
+                    <maintainableField name="organizationLateChargeObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceFinancialObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceProjectCode" required="false"/>

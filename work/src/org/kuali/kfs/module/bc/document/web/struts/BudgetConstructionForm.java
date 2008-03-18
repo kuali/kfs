@@ -28,8 +28,10 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.service.BenefitsCalculationService;
@@ -171,9 +173,9 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
         final List REFRESH_FIELDS;
         if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())){
-            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly" }));
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, KFSPropertyConstants.FINANCIAL_SUB_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
         } else {
-            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "budgetConstructionMonthly" }));
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
         }
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);

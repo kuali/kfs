@@ -16,15 +16,16 @@
 package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.vendor.bo.CommodityContractManager;
 import org.kuali.module.vendor.bo.ContractManager;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -80,7 +81,35 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.requisitionIdentifier = requisitionIdentifier;
     }
 
+    /**
+     * Returns the default contract manager code if the first line item of the
+     * requisition contains commodity codes with one contract manager whose campus
+     * code matches the delivery campus code on the requisition. If there are more
+     * than one contract managers of the same campus code as the delivery code, we'll
+     * return null. If the first line item of the requisition does not contain commodity
+     * code, or contain commodity code that does not have contract manager, we'll
+     * also return null
+     * 
+     * @return Integer the default contract manager code if applicable, or null.
+     */
     public Integer getContractManagerCode() {
+        if ( (contractManagerCode == null) && getFirstLineItem().getCommodityCode() != null) {
+            List<CommodityContractManager> commodityContractManagers = getFirstLineItem().getCommodityCode().getCommodityContractManagers();
+            if (commodityContractManagers != null && commodityContractManagers.size() > 0) {
+                int count = 0;
+                Integer matchingContractManagerCode = null;
+                for (CommodityContractManager commodityContractManager : commodityContractManagers) {
+                    if (this.getRequisition().getDeliveryCampusCode().equals(commodityContractManager.getCampusCode())) {
+                        count = count + 1;
+                        matchingContractManagerCode = commodityContractManager.getContractManagerCode();
+                    }
+                }
+                if (count == 1) {
+                    setContractManagerCode(matchingContractManagerCode);
+                    return contractManagerCode;
+                }
+            }
+        }
         return contractManagerCode;
     }
 
@@ -135,6 +164,10 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    private PurchasingItemBase getFirstLineItem() {
+        return (PurchasingItemBase)this.getRequisition().getItem(0);
     }
 
     /**

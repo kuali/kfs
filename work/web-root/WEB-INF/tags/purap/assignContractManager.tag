@@ -95,7 +95,7 @@
 		                </td>
 		                <td align=left valign=middle class="datacell">                         
                             <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionAttributes.items[0].purchasingCommodityCode}" readOnly="true" />
-                        </td>
+                        </td>                       
 		                <td align=left valign=middle class="datacell">		                    
 		                    <c:choose>
 								<c:when test="${!empty acmDetail.requisition.items[0].sourceAccountingLines}">

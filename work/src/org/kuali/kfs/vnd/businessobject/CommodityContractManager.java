@@ -15,7 +15,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	private Integer contractManagerCode;
 
     private Campus campus;
-    private CommodityCode commodity;
+    private CommodityCode commodityCode;
     private ContractManager contractManager;
     
 	/**
@@ -64,17 +64,17 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
 	}
 
 
-    public CommodityCode getCommodity() {
-        return commodity;
+    public CommodityCode getCommodityCode() {
+        return commodityCode;
     }
 
     /**
      * Sets the commodity attribute value.
-     * @param commodity The commodity to set.
+     * @param commodityCode The commodityCode to set.
      * @deprecated
      */
-    public void setCommodity(CommodityCode commodity) {
-        this.commodity = commodity;
+    public void setCommodityCode(CommodityCode commodityCode) {
+        this.commodityCode = commodityCode;
     }
 
 

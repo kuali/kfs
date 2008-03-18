@@ -15,14 +15,15 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import static org.kuali.module.cams.CamsConstants.DOC_APPROVED;
+import static org.kuali.module.cams.CamsConstants.EquipmentLoanOrReturn.DOCUMENT_HEADER;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.SortedSet;
 
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
@@ -30,13 +31,15 @@ import org.kuali.module.cams.service.EquipmentLoanInfoService;
 
 public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
+
     public void setEquipmentLoanInfo(Asset asset) {
         List<AssetHeader> assetHeaders = asset.getAssetHeaders();
         List<EquipmentLoanOrReturn> sortableList = new ArrayList<EquipmentLoanOrReturn>();
 
         for (AssetHeader assetHeader : assetHeaders) {
-            if (assetHeader.getEquipmentLoanOrReturn() != null) {
-                sortableList.add(assetHeader.getEquipmentLoanOrReturn());
+            EquipmentLoanOrReturn equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturn();
+            if (equipmentLoanOrReturn != null && isDocumentApproved(equipmentLoanOrReturn)) {
+                sortableList.add(equipmentLoanOrReturn);
             }
         }
         Comparator<EquipmentLoanOrReturn> comparator = new Comparator<EquipmentLoanOrReturn>() {
@@ -50,6 +53,15 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
         if (!sortableList.isEmpty()) {
             asset.setLoanOrReturnInfo(sortableList.get(0));
         }
+    }
+
+    private boolean isDocumentApproved(EquipmentLoanOrReturn equipmentLoanOrReturn) {
+        equipmentLoanOrReturn.refreshReferenceObject(DOCUMENT_HEADER);
+        DocumentHeader documentHeader = equipmentLoanOrReturn.getDocumentHeader();
+        if (documentHeader != null && DOC_APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
+            return true;
+        }
+        return false;
     }
 
 }

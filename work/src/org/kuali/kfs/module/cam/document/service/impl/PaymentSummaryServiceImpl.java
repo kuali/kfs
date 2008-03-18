@@ -81,9 +81,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     }
 
     private void setPaymentYearToDate(Asset asset) {
-        Object[] emptyParams = new Object[] {};
         List<AssetPayment> assetPayments = asset.getAssetPayments();
-
         if (assetPayments != null) {
             for (AssetPayment assetPayment : assetPayments) {
                 KualiDecimal yearToDate = new KualiDecimal(0);

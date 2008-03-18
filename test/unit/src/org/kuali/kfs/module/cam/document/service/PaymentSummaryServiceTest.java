@@ -62,6 +62,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
 
     public void testCalculateAndSetPaymentSummary_SL() throws Exception {
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
+        assertEquals(new KualiDecimal(50), asset.getFederalContribution());
         assertEquals(new KualiDecimal(50), asset.getPaymentTotalCost());
         assertEquals(new KualiDecimal(100), asset.getAccumulatedDepreciation());
         assertEquals(new KualiDecimal(100.30), asset.getBaseAmount());
@@ -69,12 +70,17 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assertEquals(new KualiDecimal(62), asset.getPrevYearDepreciation());
         assertEquals(new KualiDecimal(160.81), asset.getYearToDateDepreciation());
         assertEquals(new KualiDecimal(15), asset.getCurrentMonthDepreciation());
+        assertEquals(new KualiDecimal(392.38), asset.getAssetPayments().get(0).getYearToDate());
+        assertEquals(new KualiDecimal(210.92), asset.getAssetPayments().get(1).getYearToDate());
+        assertEquals(new KualiDecimal(-392.38), asset.getAssetPayments().get(2).getYearToDate());
+        assertEquals(new KualiDecimal(-50.11), asset.getAssetPayments().get(3).getYearToDate());
     }
 
     public void testCalculateAndSetPaymentSummary_SV() throws Exception {
         asset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
         asset.setSalvageAmount(new KualiDecimal(25));
         paymentSummaryService.calculateAndSetPaymentSummary(asset);
+        assertEquals(new KualiDecimal(50), asset.getFederalContribution());
         assertEquals(new KualiDecimal(50), asset.getPaymentTotalCost());
         assertEquals(new KualiDecimal(100), asset.getAccumulatedDepreciation());
         assertEquals(new KualiDecimal(100.30), asset.getBaseAmount());
@@ -82,5 +88,9 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assertEquals(new KualiDecimal(62), asset.getPrevYearDepreciation());
         assertEquals(new KualiDecimal(160.81), asset.getYearToDateDepreciation());
         assertEquals(new KualiDecimal(15), asset.getCurrentMonthDepreciation());
+        assertEquals(new KualiDecimal(392.38), asset.getAssetPayments().get(0).getYearToDate());
+        assertEquals(new KualiDecimal(210.92), asset.getAssetPayments().get(1).getYearToDate());
+        assertEquals(new KualiDecimal(-392.38), asset.getAssetPayments().get(2).getYearToDate());
+        assertEquals(new KualiDecimal(-50.11), asset.getAssetPayments().get(3).getYearToDate());
     }
 }

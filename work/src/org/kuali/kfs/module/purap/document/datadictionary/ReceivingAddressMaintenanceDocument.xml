@@ -36,8 +36,11 @@
         <documentTypeCode>PMRA</documentTypeCode>
 
         <label>Receiving Address</label>
-        <help parameterNamespace="KFS-PA" parameterDetailType="ReceivingAddress" parameterName="RECEIVING_ADDRESS" />
 
+        <!--
+        <help parameterNamespace="KFS-PA" parameterDetailType="ReceivingAddress" parameterName="RECEIVING_ADDRESS" />
+		-->
+		
         <lockingKeys>
             <field attributeName="receivingAddressIdentifier" />
         </lockingKeys>

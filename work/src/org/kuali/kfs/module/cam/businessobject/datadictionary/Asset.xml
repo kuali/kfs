@@ -739,7 +739,7 @@
 			</attributeReference>
 			
 			<attributeReference name="assetOrganization.organizationTagNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationTagNumber" >
-				<label>Org Tag Number</label>
+				<label>Organization Tag Number</label>
 			</attributeReference>
 			
 			<attributeReference name="assetOrganization.organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText" >
@@ -747,7 +747,7 @@
 			</attributeReference>		
 			
 			<attributeReference name="assetOrganization.organizationAssetTypeIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationAssetTypeIdentifier" >
-				<label>Org Asset Type</label>
+				<label>Organization Asset Type</label>
 			</attributeReference>		
 			
 			<attributeReference name="assetOrganization.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="versionNumber" />
@@ -920,6 +920,7 @@
 				<label>Phone</label>
 				<shortLabel>Phone</shortLabel>
 			</attributeReference>
+			
 			<!-- Loan Info -->
 			<attributeReference name="loanOrReturnInfo.borrowerUniversalUser.personName" sourceClassName="org.kuali.module.cams.bo.EquipmentLoanOrReturn" sourceAttributeName="borrowerUniversalUser.personName" >
 				<label>Name</label>

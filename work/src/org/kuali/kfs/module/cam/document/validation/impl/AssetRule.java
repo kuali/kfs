@@ -53,7 +53,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
 
     private Asset newAsset;
-    private Asset copyAsset;
+    private Asset oldAsset;
 
     private static Map<String, String[]> VALID_INVENTROY_STATUS_CODE_CHANGE = new HashMap<String, String[]>();
     static {
@@ -78,17 +78,16 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        Asset asset = (Asset) document.getDocumentBusinessObject();
         initializeAttributes(document);
 
-        setAssetComponentNumbers(asset);
+        setAssetComponentNumbers(newAsset);
 
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-        paymentSummaryService.calculateAndSetPaymentSummary(copyAsset);
+        paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
         paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
 
         AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-        assetDispService.setAssetDispositionHistory(copyAsset);
+        assetDispService.setAssetDispositionHistory(oldAsset);
         assetDispService.setAssetDispositionHistory(newAsset);
 
         if (isOffCampusLocationChanged()) {
@@ -97,18 +96,20 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
 
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-        retirementInfoService.setRetirementInfo(asset);
+        retirementInfoService.setRetirementInfo(newAsset);
+        retirementInfoService.setRetirementInfo(oldAsset);
 
         EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-        equipmentLoanInfoService.setEquipmentLoanInfo(asset);
+        equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
+        equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
 
-        boolean valid = processValidation(document);
-        valid &= validateWarrantyInformation(asset);
+        boolean valid = processAssetValidation(document);
+        valid &= validateWarrantyInformation(newAsset);
         valid &= super.processCustomSaveDocumentBusinessRules(document);
 
         if (valid) {
             AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
-            assetDetailInfoService.checkAndUpdateLastInventoryDate(copyAsset, newAsset);
+            assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
         }
         return valid;
     }
@@ -116,7 +117,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private boolean isOffCampusLocationChanged() {
         boolean changed = false;
-        AssetLocation copyLocation = copyAsset.getOffCampusLocation();
+        AssetLocation copyLocation = oldAsset.getOffCampusLocation();
         AssetLocation newLocation = newAsset.getOffCampusLocation();
 
         if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), copyLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), copyLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), copyLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), copyLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), copyLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), copyLocation.getAssetLocationCountryCode())) {
@@ -143,20 +144,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates Asset
-     * 
-     * @param document MaintenanceDocument instance
-     * @return boolean false or true
-     */
-    private boolean processValidation(MaintenanceDocument document) {
-        boolean valid = true;
-
-        valid &= processAssetValidation(document);
-
-        return valid;
-    }
-
-    /**
      * Validates Asset document.
      * 
      * @param document MaintenanceDocument instance
@@ -166,27 +153,27 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         // validate Inventory Status Code.
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
             valid &= validateInventoryStatusCode();
         }
 
         // validate Asset Description
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getCapitalAssetDescription(), newAsset.getCapitalAssetDescription())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetDescription(), newAsset.getCapitalAssetDescription())) {
             valid &= validateAssetDescription();
         }
 
         // validate Asset Type Code
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode())) {
             valid &= validateAssetTypeCode();
         }
 
         // validate Vender Name.
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getVendorName(), newAsset.getVendorName())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVenderName();
         }
 
         // validate Tag Number.
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getCampusTagNumber(), newAsset.getCampusTagNumber())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber())) {
             valid &= validateTagNumber();
         }
 
@@ -233,7 +220,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean isOnCampusLocationUpdated() {
         boolean updated = false;
 
-        if (!StringUtils.equalsIgnoreCase(copyAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(copyAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(copyAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
             updated = true;
         }
         return updated;
@@ -242,13 +229,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate Inventory Status Code Change
-     * 
      */
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
 
-        if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(copyAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
-            putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { copyAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
+        if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(oldAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
+            putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
             valid &= false;
         }
 
@@ -257,31 +243,28 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * The Asset Type Code is allowed to be changed only:
-     * (1)If the tag number has not been assigned or 
-     * (2)The asset is tagged, and the asset created in the current fiscal year
+     * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
+     * the asset created in the current fiscal year
      * 
      * @return
      */
     private boolean isAssetTaggedInPriorFiscalYear() {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
-        return StringUtils.isNotBlank(copyAsset.getCampusTagNumber()) && ObjectUtils.isNotNull(copyAsset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(copyAsset.getFinancialDocumentPostingYear());
+        return StringUtils.isNotBlank(oldAsset.getCampusTagNumber()) && ObjectUtils.isNotNull(oldAsset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(oldAsset.getFinancialDocumentPostingYear());
     }
 
     /**
-     * 
-     * 
      * @return boolean
      */
     private boolean isAssetTagged() {
-        return ObjectUtils.isNotNull(copyAsset.getCampusTagNumber());
+        return ObjectUtils.isNotNull(oldAsset.getCampusTagNumber());
     }
 
 
     /**
-     * The Tag Number check excludes value of "N" and retired assets.
-     * This method...
+     * The Tag Number check excludes value of "N" and retired assets. This method...
+     * 
      * @return
      */
     private boolean isTagNumberCheckExclude() {
@@ -295,14 +278,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (newAsset == null) {
             newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         }
-        if (copyAsset == null) {
-            copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
+        if (oldAsset == null) {
+            oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
         }
     }
 
     /**
-     * If the tag number has not been assigned, the departmental user will be able to update the tag number.
-     * The Tag Number shall be verified that the tag number does not exist on another asset. 
+     * If the tag number has not been assigned, the departmental user will be able to update the tag number. The Tag Number shall be
+     * verified that the tag number does not exist on another asset.
      * 
      * @param asset
      * @return
@@ -389,8 +372,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates Asset On Campus loaction information when "moving" code is 'Y'.
-     * Campus, Building and Room are mandatory and shall be validated.
+     * Validates Asset On Campus loaction information when "moving" code is 'Y'. Campus, Building and Room are mandatory and shall
+     * be validated.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
@@ -417,8 +400,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates Asset On Campus loaction information when "req bldg" is 'Y'.
-     * Campus and Building are mandatory and shall be validated.
+     * Validates Asset On Campus loaction information when "req bldg" is 'Y'. Campus and Building are mandatory and shall be
+     * validated.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
@@ -449,8 +432,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates Asset On Campus loaction information when neither "moving" and "req bldg" are set.
-     * Campus is mandatory and shall be validated.
+     * Validates Asset On Campus loaction information when neither "moving" and "req bldg" are set. Campus is mandatory and shall be
+     * validated.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid

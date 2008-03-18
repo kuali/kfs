@@ -40,36 +40,6 @@
   		<attributes>
            <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
 
-            <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
-            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
-                <label>University Fiscal Period Code</label>
-                <shortLabel>Fiscal Period Code</shortLabel>
-
-                <maxLength>2</maxLength>
-
-                <validationPattern>
-                    <anyCharacter exactLength="2" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.FiscalPeriodValuesFinder" />
-                </control>
-            </attribute>
-
             <attribute name="invoiceHeaderText">
                 <label>Header Text</label>
                 <shortLabel>Header</shortLabel>
@@ -92,7 +62,7 @@
                 <label>Attention Line Text</label>
                 <shortLabel>Attention Line</shortLabel>
 
-                <maxLength>10</maxLength>
+                <maxLength>80</maxLength>
 
                 <required>false</required>
 
@@ -110,7 +80,6 @@
                 sourceAttributeName="genericDate" >
                 <label>Due Date</label>
                 <shortLabel>Due Date</shortLabel>
-
                 <required>true</required>
 
                 <summary><![CDATA[&nbsp;]]> </summary>
@@ -121,7 +90,6 @@
                 sourceAttributeName="genericDate" >
                 <label>Billing Date</label>
                 <shortLabel>Billing Date</shortLabel>
-
                 <required>true</required>
 
                 <summary><![CDATA[&nbsp;]]> </summary>
@@ -151,12 +119,12 @@
                 <label>Organization Invoice Number</label>
                 <shortLabel>Invoice Number</shortLabel>
 
-                <maxLength>20</maxLength>
+                <maxLength>9</maxLength>
 
                 <required>false</required>
 
                 <control>
-                    <text size="21" />
+                    <text size="9" />
                 </control>
 
                 <summary>
@@ -189,12 +157,12 @@
                 <label>Customer Purchase Order Number</label>
                 <shortLabel>P.O. Number</shortLabel>
 
-                <maxLength>20</maxLength>
+                <maxLength>25</maxLength>
 
                 <required>false</required>
 
                 <control>
-                    <text size="21" />
+                    <text size="25" />
                 </control>
 
                 <summary>
@@ -263,8 +231,7 @@
                 sourceAttributeName="genericDate" >
                 <label>Customer Purchase Order Date</label>
                 <shortLabel>P.O. Date</shortLabel>
-
-                <required>true</required>
+                <required>false</required>
 
                 <summary><![CDATA[&nbsp;]]> </summary>
                 <description>The date that this P.O. for this invoice was created</description>
@@ -292,7 +259,7 @@
                 <maxLength>5</maxLength>
 
                 <control>
-                    <text size="6" />
+                    <text size="7" />
                 </control>
 
                 <summary>
@@ -309,7 +276,7 @@
                 <required>false</required>
 
                 <control>
-                    <text size="6" />
+                    <text size="7" />
                 </control>
 
                 <summary>
@@ -321,12 +288,12 @@
                 <label>Special Processing Code</label>
                 <shortLabel>Special Processing</shortLabel>
 
-                <maxLength>10</maxLength>
+                <maxLength>2</maxLength>
 
                 <required>false</required>
 
                 <control>
-                    <text size="11" />
+                    <text size="2" />
                 </control>
 
                 <summary>

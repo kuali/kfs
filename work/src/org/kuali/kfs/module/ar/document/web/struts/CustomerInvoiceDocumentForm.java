@@ -71,9 +71,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         try {
 
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-            //TODO Check if we want do do this on document load...
-            //return (SourceAccountingLine) customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
-            return new CustomerInvoiceDetail();
+            return customerInvoiceDetailService.getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
         }
         catch (Exception e) {
             throw new InfrastructureException("unable to create a new source accounting line", e);

@@ -31,10 +31,13 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-    <ar:accountsReceivableDocumentHeader/>	
+    <ar:customerInvoiceOrganization documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"  readOnly="${readOnly}"/>	
 	
-    <ar:customerInvoice
+    <ar:customerInvoiceGeneral
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />
+        
+    <ar:customerInvoiceAddress
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
         
         
     <%--

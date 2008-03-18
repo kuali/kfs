@@ -1062,8 +1062,15 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         return DASH_PROJECT_CODE;
     }
     
+    //AR TAB ERROR KEYS
+    
+    //Customer Invoice Document
+    public static final String CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS = "document.billByChartOfAccountCode,document.billedByOrganizationCode";
+    public static final String CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS = "document.accountsReceivableDocumentHeader.customerNumber,document.invoice*,document.billingDate,document.invoiceDueDate";
+    public static final String CUSTOMER_INVOICE_DOCUMENT_ADDRESS = "document.customerBillToAddressIdentifier,document.customerShipToAddressIdentifier"; 
     public static final String CUSTOMER_INVOICE_DETAIL_ERRORS = "newCustomerInvoiceDetail*,document.sourceAccountingLine*";
-    public static final String CUSTOMER_INVOICE_DOCUMENT_ERRORS = "document.accountsReceivableDocumentHeader.customerNumber,document.universityFiscalYear,document.universityFiscal*, document.invoice*,document.billingDate,document.invoiceDueDate,document.bill*,document.customerPurchase*,document.customerShip*";
+    
+    //Cash Control Document
     public static final String CASH_CONTROL_DOCUMENT_ERRORS = "document.accountsReceivableDocumentHeader.processingChartOfAccountCode,document.referenceFinancialDocumentNumber,document.customerPaymentMediumCode,document.organizationCode";
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
 }

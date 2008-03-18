@@ -32,9 +32,6 @@ import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 public class CustomerInvoiceDocument extends AccountingDocumentBase {
 
     protected Integer nextInvoiceItemNumber;
-    
-	private Integer universityFiscalYear;
-	private String universityFiscalPeriodCode;
 	private String invoiceHeaderText;
 	private String invoiceAttentionLineText;
 	private Date invoiceDueDate;
@@ -56,7 +53,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private boolean openInvoiceIndicator;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-	private AccountingPeriod universityFiscalPeriod;
 	private Chart billByChartOfAccount;
 	private Org billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
@@ -87,48 +83,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 */
 	public void setDocumentNumber(String documentNumber) {
 		this.documentNumber = documentNumber;
-	}
-
-
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
-
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
-	}
-
-
-	/**
-	 * Gets the universityFiscalPeriodCode attribute.
-	 * 
-	 * @return Returns the universityFiscalPeriodCode
-	 * 
-	 */
-	public String getUniversityFiscalPeriodCode() { 
-		return universityFiscalPeriodCode;
-	}
-
-	/**
-	 * Sets the universityFiscalPeriodCode attribute.
-	 * 
-	 * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
-	 * 
-	 */
-	public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
-		this.universityFiscalPeriodCode = universityFiscalPeriodCode;
 	}
 
 
@@ -551,26 +505,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	}
 
 	/**
-	 * Gets the universityFiscalPeriod attribute.
-	 * 
-	 * @return Returns the universityFiscalPeriod
-	 * 
-	 */
-	public AccountingPeriod getUniversityFiscalPeriod() { 
-		return universityFiscalPeriod;
-	}
-
-	/**
-	 * Sets the universityFiscalPeriod attribute.
-	 * 
-	 * @param universityFiscalPeriod The universityFiscalPeriod to set.
-	 * @deprecated
-	 */
-	public void setUniversityFiscalPeriod(AccountingPeriod universityFiscalPeriod) {
-		this.universityFiscalPeriod = universityFiscalPeriod;
-	}
-
-	/**
 	 * Gets the billByChartOfAccount attribute.
 	 * 
 	 * @return Returns the billByChartOfAccount
@@ -652,10 +586,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         }
         setWriteoffIndicator(true);
         setPrintInvoiceIndicator(true);
+        setOpenInvoiceIndicator(true);
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         setDefaultInvoiceDueDate(dateTimeService);
         setDefaultBillingDate(dateTimeService);
+        
+        
         
         
         //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options

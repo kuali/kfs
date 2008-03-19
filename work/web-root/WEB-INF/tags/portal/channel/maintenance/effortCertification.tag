@@ -62,13 +62,14 @@
 	<ul class="chan">		
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Outstanding Reports"
+			<portal:portalLink displayTitle="true" title="Outstanding Certifications by Chart/Org/Report"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingReportsByOrganization&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		
-		<!-- 
-			<portal:portalLink displayTitle="true" title="Effort Certification Document" url="effortEffortCertification.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" />
-		</li>-->
+		<li>
+			<portal:portalLink displayTitle="true" title="Outstanding Certifications By Report"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingCertificationsByReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 		
 	</ul>
 	

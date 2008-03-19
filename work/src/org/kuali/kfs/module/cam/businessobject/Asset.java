@@ -83,6 +83,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private String landCountyName;
     private Integer landAcreageSize;
     private String landParcelNumber;
+    private Date depreciationDate;
+    
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -1240,6 +1242,22 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setLandParcelNumber(String landParcelNumber) {
         this.landParcelNumber = landParcelNumber;
+    }
+
+    /**
+     * Gets the depreciationDate attribute. 
+     * @return Returns the depreciationDate.
+     */
+    public Date getDepreciationDate() {
+        return depreciationDate;
+    }
+
+    /**
+     * Sets the depreciationDate attribute value.
+     * @param depreciationDate The depreciationDate to set.
+     */
+    public void setDepreciationDate(Date depreciationDate) {
+        this.depreciationDate = depreciationDate;
     }
 
     /**

@@ -28,15 +28,14 @@
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="effortCertificationReport"
-	documentTypeName="EffortCertificationDocument" renderMultipart="true"
+	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
 	<html:hidden property="document.effortCertificationReportNumber" />
     <html:hidden property="document.effortCertificationDocumentCode" />
     <html:hidden property="document.universityFiscalYear" />
     <html:hidden property="document.emplid" />
-    <html:hidden property="sortOrderOther" />
-	<html:hidden property="sortOrderFed" />
+    <html:hidden property="sortOrder" />
 		 		
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 		
@@ -62,7 +61,7 @@
 				</tr>
 				
 				<tr>
-					<kul:htmlAttributeHeaderCell literalLabel="Add: "/>
+					<kul:htmlAttributeHeaderCell literalLabel="${KFSConstants.ADD_PREFIX}: "/>
 					
 					<er:detailLine detailLine="${newDetailLine}" detailLineFormName="newDetailLine" attributes="${detailAttributes}"
 						detailFieldNames="${newLineDetailFieldNames}"
@@ -81,7 +80,7 @@
 				attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"
 				detailFieldNamesWithHiddenFormWhenReadonly="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount"				
-				hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
+				hiddenFieldNames="documentNumber,universityFiscalYear,financialDocumentPostingYear,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,costShareSourceSubAccountNumber,originalFringeBenefitAmount,fringeBenefitAmount,newLineIndicator,federalOrFederalPassThroughIndicator,persistedPayrollAmount,versionNumber"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
 				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
@@ -91,9 +90,9 @@
 				onblurForExtraEditableFieldNames="loadChartInfo,loadAccountInfo,loadSubAccountInfo"
 				onblurableInfoFieldNames=""	
 				onblurableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName"			
-				relationshipMetadata ="${KualiForm.relationshipMetadata}"
-				ferderalTotalFieldNames="effortOrigFederalTotal,effortFederalTotal,salaryOrigFederalTotal,salaryFederalTotal" 
-				nonFerderalTotalFieldNames="effortOrigOtherTotal,effortOtherTotal,salaryOrigOtherTotal,salaryOtherTotal"
+				relationshipMetadata="${KualiForm.relationshipMetadata}"
+				ferderalTotalFieldNames="federalTotalOriginalEffortPercent,federalTotalEffortPercent,federalTotalOriginalPayrollAmount,federalTotalPayrollAmount" 
+				nonFerderalTotalFieldNames="otherTotalOriginalEffortPercent,otherTotalEffortPercent,otherTotalOriginalPayrollAmount,otherTotalPayrollAmount"
 				grandTotalFieldNames="totalOriginalEffortPercent,totalEffortPercent,totalOriginalPayrollAmount,totalPayrollAmount"
 				hasActions="true"/>			
 		</div>				
@@ -102,15 +101,15 @@
 	<kul:tab tabTitle="Effort Detail" defaultOpen="false" tabErrorKey="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}">
 		
 		<div class="tab-container" align=center>
-			<er:detailLinesWithGrouping detailLines="${detailLines}" 
+			<er:detailLinesWithGrouping id="readonlyDetailLineTable" detailLines="${detailLines}" 
 				attributes="${detailAttributes}"
 				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationCalculatedOverallPercent,effortCertificationUpdatedOverallPercent,effortCertificationOriginalPayrollAmount,effortCertificationPayrollAmount,originalFringeBenefitAmount,fringeBenefitAmount"
 				sortableFieldNames="chartOfAccountsCode,accountNumber,effortCertificationPayrollAmount"
 				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
 				fieldInfo="${KualiForm.fieldInfo}"
-				ferderalTotalFieldNames="effortOrigFederalTotal,effortFederalTotal,salaryOrigFederalTotal,salaryFederalTotal,totalOriginalBenefitAmount,totalUpdatedBenefitAmount" 
-				nonFerderalTotalFieldNames="effortOrigOtherTotal,effortOtherTotal,salaryOrigOtherTotal,salaryOtherTotal,totalOriginalBenefitAmount,totalUpdatedBenefitAmount"
-				grandTotalFieldNames="totalOriginalEffortPercent,totalEffortPercent,totalOriginalPayrollAmount,totalPayrollAmount,totalOriginalBenefitAmount,totalUpdatedBenefitAmount"
+				ferderalTotalFieldNames="federalTotalOriginalEffortPercent,federalTotalEffortPercent,federalTotalOriginalPayrollAmount,federalTotalPayrollAmount,federalTotalOriginalFringeBenefit,federalTotalFringeBenefit" 
+				nonFerderalTotalFieldNames="otherTotalOriginalEffortPercent,otherTotalEffortPercent,otherTotalOriginalPayrollAmount,otherTotalPayrollAmount,otherTotalOriginalFringeBenefit,otherTotalFringeBenefit"
+				grandTotalFieldNames="totalOriginalEffortPercent,totalEffortPercent,totalOriginalPayrollAmount,totalPayrollAmount,totalOriginalFringeBenefit,totalFringeBenefit"
 				hasActions="false" readOnlySection="true"/>			
 		</div>				
 	</kul:tab>

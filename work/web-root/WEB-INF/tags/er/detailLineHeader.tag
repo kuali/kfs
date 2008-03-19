@@ -28,19 +28,18 @@
               description="the line index" %> 
 <%@ attribute name="sortableFieldNames" required="false"
               description="the names of the fields that can be editable" %>             
-<%@ attribute name="isFederalFunding" required="false"
-              description="the names of the fields that can be editable" %>
 
 <kul:htmlAttributeHeaderCell literalLabel="${index}"/>
 		
 <!-- render the header of the detail line table -->
-<c:set var="sortMethod" value="${isFederalFunding ? 'sortFed' : 'sortOther'}"/>
-
 <c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
 	<kul:htmlAttributeHeaderCell attributeEntry="${attributes[fieldName]}">		
 		<c:if test="${fn:contains(sortableFieldNames,fieldName)}">
-			<html:image property="methodToCall.${sortMethod}.column${fieldName}" 
-				src="kr/static/images/sort.gif" title="Sort" alt="Sort" styleClass="tinybutton" />
+			<html:image property="methodToCall.sortDetailLineByColumn.${fieldName}" 
+				src="${ConfigProperties.kr.externalizable.images.url}sort.gif" 
+				title="Sort by ${attributes[fieldName].label}" 
+				alt="Sort by ${attributes[fieldName].label}" 
+				styleClass="tinybutton" />
 		</c:if>
 	</kul:htmlAttributeHeaderCell>		            
 </c:forTokens>

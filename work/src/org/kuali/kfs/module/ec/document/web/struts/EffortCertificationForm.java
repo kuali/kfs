@@ -63,7 +63,16 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
         this.setEffortCertificationDocument(new EffortCertificationDocument());
         this.setDocument(this.getEffortCertificationDocument());
 
-        newDetailLine = new EffortCertificationDetail();
+        newDetailLine = this.createNewDetailLine();
+    }
+    
+    public EffortCertificationDetail createNewDetailLine() {
+        EffortCertificationDetail detailLine = new EffortCertificationDetail();
+        detailLine.setEffortCertificationUpdatedOverallPercent(null);
+        detailLine.setEffortCertificationPayrollAmount(null);
+        detailLine.setSubAccountNumber(null);
+        
+        return detailLine;
     }
 
     /**

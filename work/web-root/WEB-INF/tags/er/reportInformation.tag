@@ -17,40 +17,66 @@
 
 <kul:tab tabTitle="Report Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_CONTACT_TAB_ERRORS}">
 	<c:set var="erAttributes" value="${DataDictionary.EffortCertificationDocument.attributes}" />
-	<c:set var="documentObject" value="${KualiForm.document}" />
-    <c:set var="detailLines" value="${KualiForm.document.effortCertificationDetailLines}" />
-  	<div class="tab-container" align=center > 
-    <div class="h2-container">
-<h2>Report Information</h2>
-</div>
-	  <table summary="" cellpadding="0" cellspacing="0">
-            <tbody><tr>
-              <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}" noColon="true" /></div></th>
-              <td>
-              	<kul:inquiry 
-					boClassName="org.kuali.core.bo.user.UniversalUser" 
-					keyValues="personPayrollIdentifier=${documentObject.emplid}&personUniversalIdentifier=${documentObject.employee.personUniversalIdentifier}" 
-					render="true">
-              		<kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/>
-              	</kul:inquiry>
-              </td>
-              <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" noColon="true" /></th>
-              <td><c:out value="${KualiForm.formattedStartDate}" /></td>
-            </tr>
-            <tr>
-              <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes.effortCertificationReportNumber}" noColon="true" /></div></th>
-              <td>
-              	<kul:inquiry 
-					boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" 
-					keyValues="universityFiscalYear=${documentObject.effortCertificationReportDefinition.universityFiscalYear}&effortCertificationReportNumber=${documentObject.effortCertificationReportDefinition.effortCertificationReportNumber}" 
-					render="true">
-              		<kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" property="document.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear" readOnly="true"/>-<kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/>
-              	</kul:inquiry>
-              </td>
-              <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" noColon="true" /></div></th>
-              <td><c:out value="${KualiForm.formattedEndDate}" /></td>
-            </tr>
-         </tbody>
-      </table>
-    </div>
+	<c:set var="document" value="${KualiForm.document}" />
+	<c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
+
+ 	<div class="tab-container" align=center > 
+		<div class="h2-container"><h2>Report Information</h2></div>
+		
+	 	<table summary="" cellpadding="0" cellspacing="0"><tbody>
+			<tr>
+				<th scope="row">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}" noColon="true" />
+					</div>
+				</th>
+			    <td>
+			    	<kul:inquiry 
+						boClassName="org.kuali.core.bo.user.UniversalUser" 
+						keyValues="personPayrollIdentifier=${document.emplid}&personUniversalIdentifier=${document.employee.personUniversalIdentifier}" 
+						render="true">
+			         	<kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/>
+					</kul:inquiry>
+				</td>
+			
+				<th scope="row">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" noColon="true" />
+					</div>
+				</th>
+				<td>
+					<fmt:formatDate 
+						value="${KualiForm.document.effortCertificationReportDefinition.reportBeginPeriod.universityFiscalPeriodBeginDate}" 
+						pattern="${dateFormatPattern}"/>
+				</td>
+			</tr>
+			
+			<tr>
+			  	<th scope="row">
+			  		<div align="right">
+			  			<kul:htmlAttributeLabel attributeEntry="${erAttributes.effortCertificationReportNumber}" noColon="true" />
+			  		</div>
+			    </th>
+			    <td>
+			         <kul:inquiry 
+						boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" 
+						keyValues="universityFiscalYear=${document.universityFiscalYear}&effortCertificationReportNumber=${document.effortCertificationReportNumber}" 
+						render="true">
+			         	${document.universityFiscalYear}-${document.effortCertificationReportNumber}
+					</kul:inquiry>
+				</td>
+			
+				<th scope="row">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" noColon="true" />
+					</div>
+				</th>
+				<td>
+					<fmt:formatDate 
+						value="${KualiForm.document.effortCertificationReportDefinition.reportEndPeriod.universityFiscalPeriodEndDate}" 
+						pattern ="${dateFormatPattern}"/>
+				</td>
+			</tr>   
+	     </tbody></table>
+	</div>
 </kul:tab>

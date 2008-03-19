@@ -18,38 +18,39 @@
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="index" required="false"
-              description="the order of the detail line that contains the field being rendered" %>
 <%@ attribute name="fieldFormName" required="true"
-              description="the form name of the field" %> 
+    description="the form name of the field" %> 
 <%@ attribute name="infoFieldFormName" required="false"
-              description="the form name of the field that holds the descriptive information" %>                     
+    description="the form name of the field that holds the descriptive information" %>                     
 <%@ attribute name="fieldValue" required="true"
-              description="the value of the field that will be displayed" %>
+    description="the value of the field that will be displayed" %>
 <%@ attribute name="attributeEntry" required="true" type="java.util.Map"
-			  description="The DataDictionary entry containing attribute for the field"%>
+	description="The DataDictionary entry containing attribute for the field"%>
 			  
 <%@ attribute name="onblur" required="false"
-			  description="The DataDictionary entry containing attribute for the field"%> 
+	description="The JavaScript function names associated with the field when onBlur event occurs"%> 
 <%@ attribute name="onchange" required="false"
-			  description="The DataDictionary entry containing attribute for the field"%> 
+	description="The JavaScript function names associated with the field when onChange event occurs"%> 
               
 <%@ attribute name="fieldInfo" required="false"
-              description="the descriptive information of the field that will be displayed" %>                         
+    description="the descriptive information of the field that will be displayed" %>                         
 <%@ attribute name="inquirableUrl" required="false"
-              description="determine if the given field is inquirable" %>
+    description="The inquirable url if the given field is inquirable" %>
 
 <%@ attribute name="fieldFormNamePrefix" required="true"
-              description="the form name of the field" %>              
+    description="the form name prefix of the field" %>              
 <%@ attribute name="relationshipMetadata" required="false" type="java.lang.Object"
-			  description="The DataDictionary entry containing attributes for the line fields."%>	
+	description="The DataDictionary entry containing attributes for the line fields."%>	
 			  		  
 <%@ attribute name="readOnlySection" required="false"
-              description="determine if the field woulb be rendered as read-only or not" %>			                
+    description="determine if the container of current detail line is read-only or not" %>		                
 <%@ attribute name="readOnly" required="false"
-              description="determine if the field woulb be rendered as read-only or not" %>  
+    description="determine if the field woulb be rendered as read-only or not" %>  
 <%@ attribute name="withHiddenForm" required="false"
-              description="determine if the field woulb be rendered with a hidden form" %>               
+    description="determine if the field woulb be rendered with a hidden form" %>  
+              
+<%@ attribute name="index" required="false"
+    description="the index of the detail line that contains the field being rendered" %>                           
   
 <c:if test="${!scriptsLoaded}">
 	<SCRIPT type="text/javascript">

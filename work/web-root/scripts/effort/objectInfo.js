@@ -112,11 +112,14 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 		if(fiscalYear != '' && objectCode!='' && chartOfAccountsCode != '') {				
 			var updateFringeBenefit = function(data) {				
 				var benefit = new Number(data).toFixed(2);
-				
-				var benefitFieldName = fieldNamePrefix + fringeBenefitFieldNameSuffix + spanSuffix;	
+												
+				var benefitFieldName = fieldNamePrefix + fringeBenefitFieldNameSuffix;	
 				effortAmountUpdator.setValueByElementId( benefitFieldName, benefit);
 				
-				var benefitFieldNameReadonly = benefitFieldName + readonlySuffix;
+				var benefitFieldNameSpan = benefitFieldName + spanSuffix;	
+				effortAmountUpdator.setValueByElementId( benefitFieldNameSpan, benefit);
+				
+				var benefitFieldNameReadonly = benefitFieldNameSpan + readonlySuffix;
 				effortAmountUpdator.setValueByElementId( benefitFieldNameReadonly, benefit);
 				
 				effortAmountUpdator.updateTotals();
@@ -130,7 +133,7 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 };
 
 EffortAmountUpdator.prototype.setValueByElementId = function(elementId, value){
-	if(document.getElementById(elementId) != null){
+	if(document.getElementById(elementId) != null || document.getElementsByName(elementId).length > 0){
 		DWRUtil.setValue( elementId, value);
 	}
 };
@@ -143,20 +146,20 @@ EffortAmountUpdator.prototype.removeDelimator = function(stringObject, delimator
 EffortAmountUpdator.prototype.updateTotals = function(){
 	// update the payroll amount totals
 	totalFieldId = "document.totalPayrollAmount";
-	federalTotalFieldId = "document.salaryFederalTotal";
-	otherTotalFieldId = "document.salaryOtherTotal";
+	federalTotalFieldId = "document.federalTotalPayrollAmount";
+	otherTotalFieldId = "document.otherTotalPayrollAmount";
 	this.updateTotalField(editableDetailLineTableId, payrollAmountFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 
 	// update the effort percent totals
 	totalFieldId = "document.totalEffortPercent";
-	federalTotalFieldId = "document.effortFederalTotal";
-	otherTotalFieldId = "document.effortOtherTotal";
+	federalTotalFieldId = "document.federalTotalEffortPercent";
+	otherTotalFieldId = "document.otherTotalEffortPercent";
 	this.updateTotalField(editableDetailLineTableId, effortPercentFieldNameSuffix, true, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 	
 	// update the fringe benefit totals
-	totalFieldId = "document.totalUpdatedBenefitAmount";
-	federalTotalFieldId = "document.totalUpdatedBenefitAmount";
-	otherTotalFieldId = "document.totalUpdatedBenefitAmount";
+	totalFieldId = "document.totalFringeBenefit";
+	federalTotalFieldId = "document.federalTotalFringeBenefit";
+	otherTotalFieldId = "document.otherTotalFringeBenefit";
 	this.updateTotalField(editableDetailLineTableId, fringeBenefitFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 };
 
@@ -170,11 +173,12 @@ EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amo
   		var amountFieldId = detailLinesPrefix + indexHolder + amountFieldSuffix;
   		var fereralIndicatorFieldId = detailLinesPrefix + indexHolder + federalIndicatorFieldNameSuffix;
   		
-  		if(document.getElementById(amountFieldId) == null){
+  		var nodes = document.getElementsByName(amountFieldId);
+  		if(document.getElementById(amountFieldId) == null && nodes.length <= 0){
   			continue;
   		}
   		
-  		var lineAmount = parseFloat(DWRUtil.getValue(amountFieldId));
+  		var lineAmount = parseFloat(DWRUtil.getValue(amountFieldId));  		
   		var federalIndicator = DWRUtil.getValue(fereralIndicatorFieldId); 		
   		if(federalIndicator.toUpperCase() == "YES"){
   			federalTotal += lineAmount;	

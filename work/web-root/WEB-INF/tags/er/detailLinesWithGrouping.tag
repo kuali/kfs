@@ -104,7 +104,6 @@
 		<tr>
 			<er:detailLineHeader attributes="${attributes}"	
 				detailFieldNames="${detailFieldNames}" 
-				isFederalFunding="${federalFunding}" 
 				sortableFieldNames = "${sortableFieldNames}"
 				hasActions="${hasActions}"/>
 		</tr> 

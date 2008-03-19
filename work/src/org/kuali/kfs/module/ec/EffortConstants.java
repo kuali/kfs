@@ -92,17 +92,8 @@ public class EffortConstants extends JstlConstants {
     public static final String EFFORT_DETAIL_IMPORT_ERRORS = "effortDetailImportError";
     public static final String REQUIRED_IMPORT_FIELDS_ERRORS = "requiredImportFieldError";
     public static final String DOCUMENT_PREFIX = "document.";
-    
-        
+           
     public static final String EFFORT_CERTIFICATION_TAB_ERRORS = "newDetailLine.*,document.effortCertificationDetailLines*";
     
     public static final String RECREATED_DOCUMENT_MESSAGE_KEY = "message.effort.recreatedDocumentMessage";
-    
-    public static final String EFFORT_DOCUMENT_SORT_ORDER_ASC = "asc";
-    public static final String EFFORT_DOCUMENT_SORT_ORDER_DESC = "desc";
-    
-    public static final String EFFORT_DOCUMENT_DEFAULT_SORT_COLUMN = "effortCertificationPayrollAmount";
-    public static final String EFFORT_DOCUMENT_SORT_COLUMN_CHART = "chartOfAccountsCode";
-    public static final String EFFORT_DOCUMENT_SORT_COLUMN_ACCOUNT = "accountNumber";
-    public static final String EFFORT_DOCUMENT_SORT_COLUMN_SALARY = "effortCertificationPayrollAmount";
 }

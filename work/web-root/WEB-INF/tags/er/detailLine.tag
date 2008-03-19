@@ -45,15 +45,15 @@
 	description="This is a Map that holds a property name list of the primary key of the referenced class for each eligible field. The value of the attribute is used to build quick finder for the eligible fields."%>	
 
 <%@ attribute name="hasActions" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
+	description="To determine if a user can take an action on the given detail line. If true, the given actions can be rendered with the detail line."%>
 <%@ attribute name="actions" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
+	description="The actions that can be taken on the given detail line."%>
 <%@ attribute name="actionImageFileNames" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>	
+	description="The graphic representations of the given actions."%>	
 <%@ attribute name="index" required="false"
 	description="The index of the detail line object containing the data being displayed"%>
 <%@ attribute name="readOnlySection" required="false"
-              description="determine if the field woulb be rendered as read-only or not" %>			
+    description="determine if the container of current detail line is read-only or not" %>			
 
 <c:set var="commaDeliminator" value=","/>
 	

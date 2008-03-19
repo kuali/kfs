@@ -29,13 +29,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.event.AddDetailLineEvent;
 import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
+import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.effort.web.struts.form.CertificationReportForm;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
 
@@ -46,75 +46,58 @@ public class CertificationReportAction extends EffortCertificationAction {
 
     /**
      * Recalculates the detail line
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToRecalculateIndex = getLineToDelete(request);
+
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail lineToRecalculate = detailLines.get(lineToRecalculateIndex);
-        
-        KualiDecimal newSalary = KualiDecimal.ZERO;
-        KualiDecimal convertedPercent = (new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent()).divide(new KualiDecimal(100)));
-        
-        if (lineToRecalculate.isFederalOrFederalPassThroughIndicator()) {
-            newSalary = convertedPercent.multiply(effortDocument.getSalaryOrigFederalTotal());
-        } else {
-            newSalary = convertedPercent.multiply(effortDocument.getSalaryOrigOtherTotal());
-        }
-        lineToRecalculate.setEffortCertificationPayrollAmount(newSalary);
-        
+
+        KualiDecimal totalPayrollAmount = effortDocument.getFederalTotalOriginalPayrollAmount();
+        Integer effortPercent = lineToRecalculate.getEffortCertificationUpdatedOverallPercent();
+
+        KualiDecimal payrollAmount = PayrollAmountHolder.recalculatePayrollAmount(totalPayrollAmount, effortPercent);
+        lineToRecalculate.setEffortCertificationPayrollAmount(payrollAmount);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * Adds New Effort Certification Detail Lines
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail newDetailLine = effortForm.getNewDetailLine();
-        
+
         newDetailLine.refresh();
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
         newDetailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
-        
-        if(newDetailLine.isAccountExpiredOverride()) {
+
+        EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
+
+        if (newDetailLine.isAccountExpiredOverride()) {
             this.updateDetailLineOverrideCode(newDetailLine);
         }
-        
+
         // check business rules
         boolean isValid = this.invokeRules(new AddDetailLineEvent("", EffortPropertyConstants.EFFORT_CERTIFICATION_DOCUMENT_NEW_LINE, effortDocument, newDetailLine));
         if (isValid) {
-            
-            EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
             if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(newDetailLine)) {
                 EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(newDetailLine);
             }
             detailLines.add(newDetailLine);
-            effortForm.setNewDetailLine(new EffortCertificationDetail());
-        } 
+            effortForm.setNewDetailLine(effortForm.createNewDetailLine());
+        }
         else {
             EffortCertificationDetailLineOverride.processForOutput(newDetailLine);
-        }         
-        
+        }
+
         this.processDetailLineOverrides(detailLines);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -122,16 +105,10 @@ public class CertificationReportAction extends EffortCertificationAction {
 
     /**
      * Deletes detail line
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToDeleteIndex = getLineToDelete(request);
+
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
@@ -143,24 +120,18 @@ public class CertificationReportAction extends EffortCertificationAction {
 
     /**
      * Reverts the detail line to the original values
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward revert(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineToRevertIndex = getLineToDelete(request);
+
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
-        
+
         EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.retrieve(lineToRevert);
-        
+
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
 
@@ -168,93 +139,47 @@ public class CertificationReportAction extends EffortCertificationAction {
     }
 
     /**
-     * 
-     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refresh();
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         refresh(mapping, form, request, response);
-        
+
         return super.execute(mapping, form, request, response);
-        
+
     }
-    
+
     /**
-     * Sorts the federal pass through detail lines for display
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * sort the detail lines by column
      */
-    public ActionForward sortFed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CertificationReportForm effortForm = (CertificationReportForm) form;
-        
-        effortForm.setSortColumnFed(getColumnToSortBy(mapping, form, request, response));
-        effortForm.toggleFedSortOrder();
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC); 
-    }
-    
-    /**
-     * Sorts the non federal pass through lines for display
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward sortOther(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CertificationReportForm effortForm = (CertificationReportForm) form;
-        
-        effortForm.setSortColumnOther(getColumnToSortBy(mapping, form, request, response));
-        effortForm.toggleOtherSortOrder();
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC); 
-    }
-    
-    /**
-     * Gets the correct column for sorting
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    private String getColumnToSortBy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String columnToSortBy = "";
-        String parameterName = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            columnToSortBy = StringUtils.substringBetween(parameterName, ".column", ".");
-        }
-        
-        if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_CHART)) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_CHART;
-        else if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_ACCOUNT) ) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_ACCOUNT;
-        else if (columnToSortBy.equals(EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_SALARY) ) return EffortConstants.EFFORT_DOCUMENT_SORT_COLUMN_SALARY;
-        
-        return EffortConstants.EFFORT_DOCUMENT_DEFAULT_SORT_COLUMN;
+    public ActionForward sortDetailLineByColumn(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CertificationReportForm certificationReportForm = (CertificationReportForm) form;
+
+        String methodToCallAttribute = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String sortColumn = StringUtils.substringBetween(methodToCallAttribute, "sortDetailLineByColumn.", ".");
+
+        certificationReportForm.toggleSortOrder();
+        certificationReportForm.sortDetailLine(sortColumn);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

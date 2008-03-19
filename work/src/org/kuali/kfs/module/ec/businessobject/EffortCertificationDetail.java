@@ -65,7 +65,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String overrideCode = AccountingLineOverride.CODE.NONE;
     
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
-    // through account.
     private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
     // been updated at the route level
 
@@ -603,11 +602,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
     
     /**
-     * Sets the fringeBenefitAmount attribute value.
-     * 
-     * @param fringeBenefitAmount The fringeBenefitAmount to set.
+     * This is a marker method, which does nothing.  
      */
     public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
+        return;
     }
 
     /**

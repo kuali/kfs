@@ -42,7 +42,14 @@ public enum CommodityCodeFixture {
             false,    //restrictedItemsIndicator
             null,     //restrictedMaterialCode
             false      //active
-            ),              
+            ),         
+    COMMODITY_CODE_WITH_RESTRICTED_MATERIAL("516110", // purchasingCommodityCode
+            "Internet Publishing and Broadcasting", // commodityDescription
+            false, // salesTaxIndicator
+            true, // restrictedItemsIndicator
+            null, // restrictedMaterialCode
+            true // active
+            ),               
             ;
     
     private String purchasingCommodityCode;

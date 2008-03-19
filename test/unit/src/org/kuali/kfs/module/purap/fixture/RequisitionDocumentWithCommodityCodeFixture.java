@@ -28,6 +28,12 @@ public enum RequisitionDocumentWithCommodityCodeFixture {
     REQ_NON_EXISTENCE_COMMODITY_CODE(
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO_NON_EXISTENCE_COMMODITY_CODE} // requisitionItemMultiFixtures
     ),     
+    REQ_APO_INACTIVE_COMMODITY_CODE(
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_APO_BASIC_INACTIVE_COMMODITY_CODE} // requisitionItemMultiFixtures
+    ), 
+    REQ_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL(
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL} // requisitionItemMultiFixtures
+    ), 
     ;
     
     private RequisitionItemFixture[] requisitionItemFixtures;
@@ -39,7 +45,7 @@ public enum RequisitionDocumentWithCommodityCodeFixture {
     }
     
     public RequisitionDocument createRequisitionDocument() {
-        RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        RequisitionDocument doc = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         //Removes all the existing item from doc, we'll add the appropriate items later.
         doc.getItems().clear();
         for (RequisitionItemFixture requisitionItemFixture : requisitionItemFixtures) { 

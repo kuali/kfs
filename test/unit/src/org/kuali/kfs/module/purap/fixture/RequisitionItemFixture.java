@@ -116,6 +116,16 @@ public enum RequisitionItemFixture {
             PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
             new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
             CommodityCodeFixture.COMMODITY_CODE_NON_EXISTENCE  //commodityCodeFixture
+    ),    
+    REQ_ITEM_APO_BASIC_INACTIVE_COMMODITY_CODE(false, // itemRestrictedIndicator
+            PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_BASIC_INACTIVE  //commodityCodeFixture
+    ),
+    REQ_ITEM_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL(false, // itemRestrictedIndicator
+            PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 }, // requisitionAccountMultiFixtures
+            CommodityCodeFixture.COMMODITY_CODE_WITH_RESTRICTED_MATERIAL  //commodityCodeFixture
     ),
     ;
 
@@ -142,15 +152,18 @@ public enum RequisitionItemFixture {
     public void addTo(RequisitionDocument requisitionDocument) {
         RequisitionItem item = null;
         boolean active = true;
+        boolean restrictedItemsIndicator = true;
         item = (RequisitionItem) this.createRequisitionItem();
         if (item.getCommodityCode() != null) {
             active = item.getCommodityCode().isActive();
+            restrictedItemsIndicator = item.getCommodityCode().isRestrictedItemsIndicator();
         }
         requisitionDocument.addItem(item);
         //Just for unit tests, we need these following lines so that we could set the commodity codes active status to true/false
-        //as we need to.
+        //and set the restricted indicator to true/false as we need to.
         if (item.getCommodityCode() != null) {
             item.getCommodityCode().setActive(active);
+            item.getCommodityCode().setRestrictedItemsIndicator(restrictedItemsIndicator);
         }
         // iterate over the accounts
         for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {

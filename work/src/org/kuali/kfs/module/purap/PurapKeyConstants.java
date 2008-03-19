@@ -72,7 +72,10 @@ public class PurapKeyConstants {
     public static final String NON_APO_PAYMENT_TYPE_IS_RECURRING="requisition.nonAPO.paymentType.is.recurring";
     public static final String NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY="requisition.nonAPO.po.total.limit.is.not.empty";
     public static final String NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES="requisition.nonAPO.requisition.contains.alternate.vendor.names";
-    
+    public static final String NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE="requisition.nonAPO.requisition.contains.inactive.commodity.code";
+    public static final String NON_APO_REQUISITION_MISSING_COMMODITY_CODE="requisition.nonAPO.requisition.missing.commodity.code";
+    public static final String NON_APO_REQUISITION_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL="requisition.nonAPO.requisition.contains.commodity.code.restricted.material";
+        
     // Purchase Order
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";

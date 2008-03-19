@@ -63,12 +63,6 @@
 
 <c:set var="onblurForEditableFieldNamesArray" value="${fn:split(onblurForEditableFieldNames, commaDeliminator)}" />
 <c:set var="onblurableInfoFieldNamesArray" value="${fn:split(onblurableInfoFieldNames, commaDeliminator)}" />
-
-<c:forTokens var="onblurOfField" items="${onblurForEditableFieldNames}"	delims="," varStatus="onblurStatus">
-	<c:if test="${onblurIndex == onblurStatus.index}">
-		<c:set var="onblur"	value="${onblurOfField}(this.name, '${onblurableInfoFieldName}');" />
-	</c:if>
-</c:forTokens>
 					
 <!-- populate the table with the given deatil lines -->
 <c:forTokens var="fieldName" items="${detailFieldNames}" delims=","	varStatus="status">
@@ -88,7 +82,7 @@
 	</c:if>
 	
 	<c:if test="${editable && onblurIndex >=0}">
-		<c:set var="tempInfoFieldName" value="${fn:length(onblurableInfoFieldNamesArray) > (onblurIndex + 1) ? '' : onblurableInfoFieldNamesArray[onblurIndex]}" />	
+		<c:set var="tempInfoFieldName" value="${onblurableInfoFieldNamesArray[onblurIndex]}" />
 		<c:set var="onblurableInfoFieldName" value="${detailLineFormName}.${tempInfoFieldName}" />
 		<c:set var="onblurableInfoFieldName" value="${fn:length(tempInfoFieldName) > 0 ? onblurableInfoFieldName : ''}" />
 		<c:set var="onblur" value="${onblurForEditableFieldNamesArray[onblurIndex]}(this.name, '${onblurableInfoFieldName}');" />

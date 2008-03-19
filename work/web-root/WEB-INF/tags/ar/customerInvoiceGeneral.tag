@@ -152,23 +152,7 @@
                 <td align=left valign=middle class="datacell">
                     &nbsp;
                 </td>       
-            </tr>
-            
-            <tr>
-				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.printInvoiceIndicator}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator}" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>
-                </td>
-				<th align=right valign=middle class="bord-l-b">
-                   &nbsp;
-                </th>
-                <td align=left valign=middle class="datacell">
-                    &nbsp;
-                </td>
-              
-            </tr>         
+            </tr>        
         </table>
     </div>
 </kul:tab>

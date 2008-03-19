@@ -71,10 +71,10 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationInvoiceNumber}" property="document.organizationInvoiceNumber" readOnly="${readOnly}"/>
                 </td>  
 				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerSpecialProcessingCode}" /></div>
+                    &nbsp;
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerSpecialProcessingCode}" property="document.customerSpecialProcessingCode" readOnly="${readOnly}"/>
+                    &nbsp;
                 </td> 
             </tr>
         </table>

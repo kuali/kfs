@@ -88,11 +88,26 @@
 
 <c:set var="groupDescriptions" value="Federal and Federal Pass Through Accounts,Other Sponsored and Non-sponsored Accounts"/>
 <c:set var="groupDescription" value="${fn:split(groupDescriptions, commaDeliminator)}"/>
-<c:set var="federalFundingIndicators" value="${fn:split('true,false', commaDeliminator)}"/>
 
 <c:set var="subtotalGroups" value="${ferderalTotalFieldNames}${semicolonDeliminator}${nonFerderalTotalFieldNames}"/>
 <c:set var="subtotalGroup" value="${fn:split(subtotalGroups, semicolonDeliminator)}"/>
 
+<c:set var="countOfFerderalFunding" value="0"/>
+<c:set var="countOfOtherFunding" value="0"/> 
+<c:forEach var="detailLine" items="${detailLines}" varStatus="status">
+	<c:if test="${detailLine.federalOrFederalPassThroughIndicator}">
+		<c:set var="countOfFerderalFunding" value="${countOfFerderalFunding + 1}"/>
+	</c:if>
+	<c:if test="${!detailLine.federalOrFederalPassThroughIndicator}">
+		<c:set var="countOfOtherFunding" value="${countOfOtherFunding + 1}"/>
+	</c:if>
+</c:forEach>
+
+<c:set var="federalFund" value="${countOfFerderalFunding > 0 ? 'true' : ''}" />
+<c:set var="otherFund" value="${countOfOtherFunding > 0 ? 'false' : ''}" />
+<c:set var="federalFundingType" value="${federalFund}${commaDeliminator}${otherFund}" /> 
+
+<c:set var="federalFundingIndicators" value="${fn:split(federalFundingType, commaDeliminator)}"/>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" id="${id}">
 	<c:forEach var="federalFunding" items="${federalFundingIndicators}" varStatus="indicatorStatus">
 		<tr>
@@ -102,9 +117,10 @@
 		</tr>
 	
 		<tr>
+			<c:set var="actualSortableFieldNames" value="${indicatorStatus.index == 0 ? sortableFieldNames : '' }"/>
 			<er:detailLineHeader attributes="${attributes}"	
 				detailFieldNames="${detailFieldNames}" 
-				sortableFieldNames = "${sortableFieldNames}"
+				sortableFieldNames = "${actualSortableFieldNames}"
 				hasActions="${hasActions}"/>
 		</tr> 
 	
@@ -120,17 +136,17 @@
 				
 				<c:if test="${editable}">		
 					<c:set var="existing" value="${!detailLine.newLineIndicator}" />
-					<c:set var="realEditableFieldNames" value="${existing ? editableFieldNames : completeEditableFieldNames}" />
-					<c:set var="realOnblurForEditableFieldNames" value="${existing ? onblurForEditableFieldNames : completeOnblurForEditableFieldNames}" />
-					<c:set var="realOnblurableInfoFieldNames" value="${existing ? onblurableInfoFieldNames : completeOnblurableInfoFieldNames}" />
+					<c:set var="actualEditableFieldNames" value="${existing ? editableFieldNames : completeEditableFieldNames}" />
+					<c:set var="actualOnblurForEditableFieldNames" value="${existing ? onblurForEditableFieldNames : completeOnblurForEditableFieldNames}" />
+					<c:set var="actualOnblurableInfoFieldNames" value="${existing ? onblurableInfoFieldNames : completeOnblurableInfoFieldNames}" />
 					<c:set var="actions" value="${existing ? actionForExistingLine : actionForNewLine}" />
 					<c:set var="actionImageFileNames" value="${existing ? actionForExistingLineImageFileName : actionForNewLineImageFileName}" />
 				</c:if>
 				
 				<c:if test="${!editable}">		
-					<c:set var="realEditableFieldNames" value="" />
-					<c:set var="realOnblurForEditableFieldNames" value="" />
-					<c:set var="realOnblurableInfoFieldNames" value="" />
+					<c:set var="actualEditableFieldNames" value="" />
+					<c:set var="actualOnblurForEditableFieldNames" value="" />
+					<c:set var="actualOnblurableInfoFieldNames" value="" />
 					<c:set var="actions" value=""/>
 					<c:set var="actionImageFileNames" value=""/>
 				</c:if>			
@@ -140,10 +156,10 @@
 					attributes="${attributes}"
 					detailFieldNames="${detailFieldNames}"
 					detailFieldNamesWithHiddenFormWhenReadonly="${detailFieldNamesWithHiddenFormWhenReadonly}"
-					editableFieldNames="${realEditableFieldNames}"
+					editableFieldNames="${actualEditableFieldNames}"
 					hiddenFieldNames="${hiddenFieldNames}"
-					onblurForEditableFieldNames="${realOnblurForEditableFieldNames}"
-					onblurableInfoFieldNames="${realOnblurableInfoFieldNames}"
+					onblurForEditableFieldNames="${actualOnblurForEditableFieldNames}"
+					onblurableInfoFieldNames="${actualOnblurableInfoFieldNames}"
 					inquirableUrl="${inquirableUrl[status.index]}"
 					fieldInfo="${fieldInfo[status.index]}"
 					relationshipMetadata ="${relationshipMetadata}" readOnlySection="${readOnlySection}"

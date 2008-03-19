@@ -46,6 +46,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
     /**
      * This method tests if the isWriteOffObjectValidExpense rule returns true when write off object is set to an expense object code
      */
+    /*
     public void testIsWriteOffObjectValidExpense_True(){
         
         organizationAccountingDefault.setWriteoffFinancialObjectCode(EXPENSE_OBJECT_CODE);
@@ -54,11 +55,12 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
         
         boolean result = rule.isWriteOffObjectValidExpense(organizationAccountingDefault);
         assertEquals( "When write off object code is " + EXPENSE_OBJECT_CODE + ", isWriteOffObjectValidExpense should return true. ", true, result );
-    }
+    }*/
     
     /**
      * This method tests if the isWriteOffObjectValidExpense rule returns false when write off object is set to an income object code
      */
+    /*
     public void testIsWriteOffObjectValidExpense_False(){
         organizationAccountingDefault.setWriteoffFinancialObjectCode(INCOME_OBJECT_CODE);
         organizationAccountingDefault.refreshReferenceObject("writeoffObject");
@@ -67,7 +69,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
         boolean result = rule.isWriteOffObjectValidExpense(organizationAccountingDefault);
         assertEquals( "When write off object code is " + INCOME_OBJECT_CODE + ", isWriteOffObjectValidExpense should return false. ", false, result );
         
-    }
+    }*/
     
     /**
      * This method tests if the isLateChargeObjectValidIncome rule returns true when late charge object is set to an income object code

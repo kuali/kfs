@@ -39,35 +39,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private DateTimeService dateTimeService;
     private UniversityDateService universityDateService;
     private CustomerInvoiceItemCodeService customerInvoiceItemCodeService;
-    
-    
-    /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(java.lang.String)
-     */
-    public CustomerInvoiceDetail getLoadedCustomerInvoiceDetailForCurrentUser(String invoiceItemCode) {
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        return getLoadedCustomerInvoiceDetail(invoiceItemCode, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
-    }  
-    
-    
-    /**
-     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getLoadedCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
-    public CustomerInvoiceDetail getLoadedCustomerInvoiceDetail(String invoiceItemCode, String chartOfAccountsCode, String organizationCode) {
-        CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
-
-        CustomerInvoiceItemCode customerInvoiceItemCode = customerInvoiceItemCodeService.getByPrimaryKey(invoiceItemCode, chartOfAccountsCode, organizationCode);
-        if (ObjectUtils.isNotNull(customerInvoiceItemCode)) {
-           customerInvoiceDetail = getCustomerInvoiceDetailFromCustomerInvoiceItemCode( customerInvoiceItemCode );
-        }
-        else {
-            Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
-            customerInvoiceDetail = getCustomerInvoiceDetailFromOrganizationAccountingDefault(universityFiscalYear, chartOfAccountsCode, organizationCode);
-        }
-
-        return customerInvoiceDetail;
-    }
   
 
     /**
@@ -110,13 +81,11 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String chartOfAccountsCode, String organizationCode) {
         CustomerInvoiceItemCode customerInvoiceItemCode = customerInvoiceItemCodeService.getByPrimaryKey(invoiceItemCode, chartOfAccountsCode, organizationCode);
-        return getCustomerInvoiceDetailFromCustomerInvoiceItemCode(customerInvoiceItemCode);
-    }
-    
-    protected CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(CustomerInvoiceItemCode customerInvoiceItemCode) {
-        CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
-
+        
+        CustomerInvoiceDetail customerInvoiceDetail = null;
         if (ObjectUtils.isNotNull(customerInvoiceItemCode)) {
+            
+            customerInvoiceDetail = new CustomerInvoiceDetail();
             customerInvoiceDetail.setChartOfAccountsCode(customerInvoiceItemCode.getDefaultInvoiceChartOfAccountsCode());
             customerInvoiceDetail.setAccountNumber(customerInvoiceItemCode.getDefaultInvoiceAccountNumber());
             customerInvoiceDetail.setSubAccountNumber(customerInvoiceItemCode.getDefaultInvoiceSubAccountNumber());
@@ -142,7 +111,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         }
 
         return customerInvoiceDetail;
-    }    
+    }   
 
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(java.lang.String)
@@ -151,9 +120,6 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         return getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
-
-
-
 
     public OrganizationAccountingDefaultService getOrganizationAccountingDefaultService() {
         return organizationAccountingDefaultService;

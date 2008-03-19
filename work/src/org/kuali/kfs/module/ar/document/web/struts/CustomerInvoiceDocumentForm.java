@@ -69,7 +69,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             throw new IllegalArgumentException("invalid (null) document");
         }
         try {
-
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
             return customerInvoiceDetailService.getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
         }

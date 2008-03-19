@@ -45,7 +45,7 @@ public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
     /**
      * This method tests if the CustomerInvoiceDetailService uses invoice item code to default values if the invoice item code exists.
      */
-    public void testLoadedCustomerInvoiceDetail_FromInvoiceItemCode() {
+    public void testGetCustomerInvoiceDetailFromCustomerInvoiceItemCode() {
 
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
 
@@ -60,7 +60,7 @@ public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         boService.save(code);
 
-        CustomerInvoiceDetail customerInvoiceDetail = service.getLoadedCustomerInvoiceDetail(INVOICE_ITEM_CODE, CHART_CODE, ORGNIZATION_CODE);
+        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromCustomerInvoiceItemCode(INVOICE_ITEM_CODE, CHART_CODE, ORGNIZATION_CODE);
         assertEquals("Customer Invoice Detail's chart code should be " + IIC_CHART_CODE + "but is actually " + customerInvoiceDetail.getChartOfAccountsCode(), IIC_CHART_CODE, customerInvoiceDetail.getChartOfAccountsCode());
         assertEquals("Customer Invoice Detail's account number should be " + IIC_ACCOUNT_NUMBER + "but is actually " + customerInvoiceDetail.getAccountNumber(), IIC_ACCOUNT_NUMBER, customerInvoiceDetail.getAccountNumber());
         assertEquals("Customer Invoice Detail's object code should be " + IIC_FINANCIAL_OBJECT_CODE + "but is actually " + customerInvoiceDetail.getFinancialObjectCode(), IIC_FINANCIAL_OBJECT_CODE, customerInvoiceDetail.getFinancialObjectCode());
@@ -68,12 +68,12 @@ public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method tests if the CustomerInvoiceDetailService uses the Org Acct Default instead of the invoice item code, if not invoice item code exists.
+     * This method tests if the CustomerInvoiceDetailService uses the Org Acct Default
      */
-    public void testLoadedCustomerInvoiceDetail_FromOrganizationAccountingDefault() {
+    public void testGetCustomerInvoiceDetailFromOrganizationAccountingDefault() {
 
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-
+        
         OrganizationAccountingDefault orgAcctDefault = new OrganizationAccountingDefault();
         orgAcctDefault.setChartOfAccountsCode(CHART_CODE);
         orgAcctDefault.setOrganizationCode(ORGNIZATION_CODE);
@@ -85,7 +85,7 @@ public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         boService.save(orgAcctDefault);
 
-        CustomerInvoiceDetail customerInvoiceDetail = service.getLoadedCustomerInvoiceDetail(INVOICE_ITEM_CODE, CHART_CODE, ORGNIZATION_CODE);
+        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromOrganizationAccountingDefault(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), CHART_CODE, ORGNIZATION_CODE);
         assertEquals("Customer Invoice Detail's chart code should be " + OAD_CHART_CODE + "but is actually " + customerInvoiceDetail.getChartOfAccountsCode(), OAD_CHART_CODE, customerInvoiceDetail.getChartOfAccountsCode());
         assertEquals("Customer Invoice Detail's account number should be " + OAD_ACCOUNT_NUMBER + "but is actually " + customerInvoiceDetail.getAccountNumber(), OAD_ACCOUNT_NUMBER, customerInvoiceDetail.getAccountNumber());
         assertEquals("Customer Invoice Detail's object code should be " + OAD_FINANCIAL_OBJECT_CODE + "but is actually " + customerInvoiceDetail.getFinancialObjectCode(), OAD_FINANCIAL_OBJECT_CODE, customerInvoiceDetail.getFinancialObjectCode());

@@ -49,6 +49,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
 
     private CustomerInvoiceDocument customerInvoiceDocument = null;
+    
+    /**
+     * Constructs a CustomerInvoiceDocumentRule instance.
+     */
+    public CustomerInvoiceDocumentRule() {        
+        //TODO Errors on the invoice details were showing twice.  This seems to fix the problem. Need find true fix.
+        setMaxDictionaryValidationDepth(0);
+    }
 
     /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
@@ -61,15 +69,6 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= defaultExistenceChecks(customerInvoiceDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
         return success;
-    }
-
-    /**
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document doc) {
-        processCustomRouteDocumentBusinessRules(doc);
-        return true;
     }
 
     /**
@@ -314,4 +313,5 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         
         return success;
     }
+   
 }

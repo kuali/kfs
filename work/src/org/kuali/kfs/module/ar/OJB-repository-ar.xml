@@ -183,7 +183,9 @@
 	<field-descriptor name="customerContactPhoneNumber" column="CUST_CNTCT_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerFaxNumber" column="CUST_FAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerBirthDate" column="CUST_BIRTH_DT" jdbc-type="DATE"/>
+	<!-- FOR SOME REASON THIS FIELD IS CAUSING ERRORS.
 	<field-descriptor name="customerTaxExemptIndicator" column="CUST_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	-->
 	<field-descriptor name="customerCreditLimitAmount" column="CUST_CRDT_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerCreditApprovedByName" column="CUST_CRDT_APRV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
@@ -294,6 +296,7 @@
 	<field-descriptor name="customerSpecialProcessingCode" column="CUST_SPCL_PRCS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerRecordAttachmentIndicator" column="CUST_REC_ATT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="openInvoiceIndicator" column="AR_OPEN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<!-- 
 	<field-descriptor name="paymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -301,6 +304,7 @@
 	<field-descriptor name="paymentFinancialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
+	-->
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
@@ -322,6 +326,7 @@
 	<reference-descriptor name="customerSpecialProcessing" class-ref="org.kuali.module.ar.bo.CustomerProcessingType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerSpecialProcessingCode" />
 	</reference-descriptor>
+	<!--
 	<reference-descriptor name="paymentChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentChartOfAccountsCode" />
 	</reference-descriptor>
@@ -349,6 +354,7 @@
 	<reference-descriptor name="paymentProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentProjectCode" />
 	</reference-descriptor>
+	-->
     <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -379,9 +385,7 @@
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="invoiceItemTaxAmount" column="AR_INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<!-- 
 	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	-->
 
 	<reference-descriptor name="accountsReceivableSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear" />
@@ -678,6 +682,8 @@
 	<field-descriptor name="defaultInvoiceFinancialSubObjectCode" column="INV_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceProjectCode" column="INV_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceOrganizationReferenceIdentifier" column="INV_ORG_REF_ID" jdbc-type="VARCHAR"/>
+	<!--
+		WAITING FOR DB UPDATE
 	<field-descriptor name="defaultPaymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -686,12 +692,14 @@
 	<field-descriptor name="defaultPaymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffChartOfAccountsCode" column="WRITEOFF_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	
 	<field-descriptor name="writeoffAccountNumber" column="WRITEOFF_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffSubAccountNumber" column="WRITEOFF_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffFinancialObjectCode" column="WRITEOFF_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffFinancialSubObjectCode" column="WRITEOFF_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffProjectCode" column="WRITEOFF_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffOrganizationReferenceIdentifier" column="WRITEOFF_ORG_REF_ID" jdbc-type="VARCHAR"/>
+	-->
 
 	<reference-descriptor name="defaultInvoiceFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -732,6 +740,8 @@
 	<reference-descriptor name="defaultInvoiceProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultInvoiceProjectCode" />
 	</reference-descriptor>
+	<!--
+		WAITING FOR DB UPDATE
 	<reference-descriptor name="defaultPaymentAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultPaymentChartOfAccountsCode" />
 		<foreignkey field-ref="defaultPaymentAccountNumber" />
@@ -747,9 +757,12 @@
 	<reference-descriptor name="defaultPaymentProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultPaymentProjectCode" />
 	</reference-descriptor>
+	-->
 	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+    <!--
+    	WAITING FOR DB UPDATE
 	<reference-descriptor name="defaultPaymentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="defaultPaymentChartOfAccountsCode" />
@@ -762,6 +775,7 @@
 		<foreignkey field-ref="defaultPaymentFinancialObjectCode" />
 		<foreignkey field-ref="defaultPaymentFinancialSubObjectCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="writeoffChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="writeoffChartOfAccountsCode" />
 	</reference-descriptor>
@@ -789,6 +803,8 @@
 	<reference-descriptor name="writeoffProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="writeoffProjectCode" />
 	</reference-descriptor>
+	
+	-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.SystemInformation" table="AR_SYS_INFO_T">

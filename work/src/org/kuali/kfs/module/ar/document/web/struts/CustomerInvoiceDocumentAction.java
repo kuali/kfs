@@ -88,7 +88,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail newCustomerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
         
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getLoadedCustomerInvoiceDetailForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
+        CustomerInvoiceDetail loadedCustomerInvoiceDetail = customerInvoiceDetailService.getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(newCustomerInvoiceDetail.getInvoiceItemCode());
+        if( loadedCustomerInvoiceDetail == null ){
+            loadedCustomerInvoiceDetail = (CustomerInvoiceDetail)customerInvoiceDocumentForm.getNewSourceLine();
+        }
+        
         customerInvoiceDocumentForm.setNewSourceLine(loadedCustomerInvoiceDetail);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -122,6 +126,40 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             // recalculate the amount for the accounting line
             KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
             customerInvoiceDetail.setAmount(amount);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    
+    /**
+     * This method is used for creating a discount line based on a selected source line.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward discountSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+
+        int index = getSelectedLine(request);
+        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(index);
+
+        //document.sourceAccountingLine[0].invoiceItemUnitPrice
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "sourceAccountingLine[" + index + "]";
+
+        boolean rulePassed = true;
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
+        if (rulePassed) {
+            // since this new line will be a discount, set amount as a negative
+            customerInvoiceDetail.setAmount(customerInvoiceDetail.getAmount().negated());
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
+            insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

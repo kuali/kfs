@@ -27,7 +27,8 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>PURAP_PUR_ADMIN</workgroup>
+                    <workgroup>PURAP_PUR_CONTR_MGR</workgroup>
+                    <workgroup>PURAP_PUR_STAFF</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

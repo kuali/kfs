@@ -647,9 +647,17 @@
 	<field-descriptor name="defaultPaymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="defaultPaymentFinancialObjectCode" column="PMT_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="defaultPaymentFinancialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="writeoffObjectCode" column="AR_WRITEOFF_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffChartOfAccountsCode" column="WRITEOFF_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffAccountNumber" column="WRITEOFF_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffSubAccountNumber" column="WRITEOFF_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffFinancialObjectCode" column="WRITEOFF_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffFinancialSubObjectCode" column="WRITEOFF_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffProjectCode" column="WRITEOFF_PROJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="writeoffOrganizationReferenceIdentifier" column="WRITEOFF_ORG_REF_ID" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="defaultInvoiceFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -662,11 +670,6 @@
 		<foreignkey field-ref="defaultInvoiceAccountNumber" />
 		<foreignkey field-ref="defaultInvoiceFinancialObjectCode" />
 		<foreignkey field-ref="defaultInvoiceFinancialSubObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="writeoffObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="writeoffObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="organizationLateChargeObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -713,6 +716,45 @@
 	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+	<reference-descriptor name="defaultPaymentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="defaultPaymentChartOfAccountsCode" />
+		<foreignkey field-ref="defaultPaymentFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="defaultPaymentFinancialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="defaultPaymentChartOfAccountsCode" />
+		<foreignkey field-ref="defaultPaymentAccountNumber" />
+		<foreignkey field-ref="defaultPaymentFinancialObjectCode" />
+		<foreignkey field-ref="defaultPaymentFinancialSubObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="writeoffChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="writeoffChartOfAccountsCode" />
+		<foreignkey field-ref="writeoffAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="writeoffChartOfAccountsCode" />
+		<foreignkey field-ref="writeoffAccountNumber" />
+		<foreignkey field-ref="writeoffSubAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="writeoffChartOfAccountsCode" />
+		<foreignkey field-ref="writeoffFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffFinancialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="writeoffChartOfAccountsCode" />
+		<foreignkey field-ref="writeoffAccountNumber" />
+		<foreignkey field-ref="writeoffFinancialObjectCode" />
+		<foreignkey field-ref="writeoffFinancialSubObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="writeoffProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="writeoffProjectCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.SystemInformation" table="AR_SYS_INFO_T">

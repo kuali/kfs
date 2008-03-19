@@ -27,7 +27,6 @@
 						<field attributeName="organizationCode" />
 						<field attributeName="organizationLateChargeObjectCode" />
 						<field attributeName="universityFiscalYear" />
-						<field attributeName="writeoffObjectCode" />
 					</inquiryFields>
 				</inquirySection>
 			</inquirySections>
@@ -69,7 +68,6 @@
 				<field attributeName="organizationCode" />
 				<field attributeName="organizationLateChargeObjectCode" />
 				<field attributeName="universityFiscalYear" />
-				<field attributeName="writeoffObjectCode" />
 			</resultFields>
 		</lookup>
 
@@ -208,17 +206,6 @@
 			</attributeReference>
 
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			<attributeReference name="writeoffObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Writeoff Object Code</label>
-				<shortLabel>WriteoffObjCode</shortLabel>
-
-				<maxLength>4</maxLength>
-				<required>true</required>
-
-				<control>
-					<text size="4" />
-				</control>
-			</attributeReference>
 
 		</attributes>
 	</businessObject>

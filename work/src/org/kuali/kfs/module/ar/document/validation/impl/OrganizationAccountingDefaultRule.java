@@ -89,7 +89,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
 
         boolean success = true;
         Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
-        ObjectCode writeObject = organizationAccountingDefault.getWriteoffObject();
+        ObjectCode writeObject = organizationAccountingDefault.getWriteoffFinancialObject();
 
         if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(writeObject)) {
 

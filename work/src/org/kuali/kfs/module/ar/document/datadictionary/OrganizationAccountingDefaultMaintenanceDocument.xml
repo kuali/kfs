@@ -69,7 +69,6 @@
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="chartOfAccountsCode" required="true"/>
                     <maintainableField name="organizationCode" required="true"/>
-					<maintainableField name="writeoffObjectCode" required="true"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

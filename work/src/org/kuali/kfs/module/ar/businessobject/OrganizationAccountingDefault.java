@@ -31,13 +31,20 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private String defaultPaymentChartOfAccountsCode;
 	private String defaultPaymentAccountNumber;
 	private String defaultPaymentSubAccountNumber;
-	private String defaultPaymentProjectCode;
+    private String defaultPaymentFinancialObjectCode;
+    private String defaultPaymentFinancialSubObjectCode;
+    private String defaultPaymentProjectCode;
 	private String defaultPaymentOrganizationReferenceIdentifier;
-	private String writeoffObjectCode;
-
+    private String writeoffChartOfAccountsCode;
+    private String writeoffAccountNumber;
+    private String writeoffSubAccountNumber;
+    private String writeoffFinancialObjectCode;
+    private String writeoffFinancialSubObjectCode;
+    private String writeoffProjectCode;
+    private String writeoffOrganizationReferenceIdentifier;
+   
     private ObjectCode defaultInvoiceFinancialObject;
 	private SubObjCd defaultInvoiceFinancialSubObject;
-	private ObjectCode writeoffObject;
 	private ObjectCode organizationLateChargeObject;
 	private Chart chartOfAccounts;
 	private Org organization;
@@ -50,7 +57,15 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private SubAccount defaultPaymentSubAccount;
 	private ProjectCode defaultPaymentProject;
 	private Options universityFiscal;
-
+    private ObjectCode defaultPaymentFinancialObject;
+    private SubObjCd defaultPaymentFinancialSubObject;
+    private Chart writeoffChartOfAccounts;
+    private Account writeoffAccount;
+    private SubAccount writeoffSubAccount;
+    private ObjectCode writeoffFinancialObject;
+    private SubObjCd writeoffFinancialSubObject;
+    private ProjectCode writeoffProject;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -351,8 +366,39 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 		this.defaultPaymentSubAccountNumber = defaultPaymentSubAccountNumber;
 	}
 
-
 	/**
+     * Gets the defaultPaymentFinancialObjectCode attribute. 
+     * @return Returns the defaultPaymentFinancialObjectCode.
+     */
+    public String getDefaultPaymentFinancialObjectCode() {
+        return defaultPaymentFinancialObjectCode;
+    }
+
+    /**
+     * Sets the defaultPaymentFinancialObjectCode attribute value.
+     * @param defaultPaymentFinancialObjectCode The defaultPaymentFinancialObjectCode to set.
+     */
+    public void setDefaultPaymentFinancialObjectCode(String defaultPaymentFinancialObjectCode) {
+        this.defaultPaymentFinancialObjectCode = defaultPaymentFinancialObjectCode;
+    }
+
+    /**
+     * Gets the defaultPaymentFinancialSubObjectCode attribute. 
+     * @return Returns the defaultPaymentFinancialSubObjectCode.
+     */
+    public String getDefaultPaymentFinancialSubObjectCode() {
+        return defaultPaymentFinancialSubObjectCode;
+    }
+
+    /**
+     * Sets the defaultPaymentFinancialSubObjectCode attribute value.
+     * @param defaultPaymentFinancialSubObjectCode The defaultPaymentFinancialSubObjectCode to set.
+     */
+    public void setDefaultPaymentFinancialSubObjectCode(String defaultPaymentFinancialSubObjectCode) {
+        this.defaultPaymentFinancialSubObjectCode = defaultPaymentFinancialSubObjectCode;
+    }
+
+    /**
 	 * Gets the defaultPaymentProjectCode attribute.
 	 * 
 	 * @return Returns the defaultPaymentProjectCode
@@ -393,29 +439,119 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 		this.defaultPaymentOrganizationReferenceIdentifier = defaultPaymentOrganizationReferenceIdentifier;
 	}
 
-
 	/**
-	 * Gets the writeoffObjectCode attribute.
-	 * 
-	 * @return Returns the writeoffObjectCode
-	 * 
-	 */
-	public String getWriteoffObjectCode() { 
-		return writeoffObjectCode;
-	}
+     * Gets the writeoffAccountNumber attribute. 
+     * @return Returns the writeoffAccountNumber.
+     */
+    public String getWriteoffAccountNumber() {
+        return writeoffAccountNumber;
+    }
 
-	/**
-	 * Sets the writeoffObjectCode attribute.
-	 * 
-	 * @param writeoffObjectCode The writeoffObjectCode to set.
-	 * 
-	 */
-	public void setWriteoffObjectCode(String writeoffObjectCode) {
-		this.writeoffObjectCode = writeoffObjectCode;
-	}
+    /**
+     * Sets the writeoffAccountNumber attribute value.
+     * @param writeoffAccountNumber The writeoffAccountNumber to set.
+     */
+    public void setWriteoffAccountNumber(String writeoffAccountNumber) {
+        this.writeoffAccountNumber = writeoffAccountNumber;
+    }
 
+    /**
+     * Gets the writeoffChartOfAccountsCode attribute. 
+     * @return Returns the writeoffChartOfAccountsCode.
+     */
+    public String getWriteoffChartOfAccountsCode() {
+        return writeoffChartOfAccountsCode;
+    }
 
-	/**
+    /**
+     * Sets the writeoffChartOfAccountsCode attribute value.
+     * @param writeoffChartOfAccountsCode The writeoffChartOfAccountsCode to set.
+     */
+    public void setWriteoffChartOfAccountsCode(String writeoffChartOfAccountsCode) {
+        this.writeoffChartOfAccountsCode = writeoffChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the writeoffFinancialObjectCode attribute. 
+     * @return Returns the writeoffFinancialObjectCode.
+     */
+    public String getWriteoffFinancialObjectCode() {
+        return writeoffFinancialObjectCode;
+    }
+
+    /**
+     * Sets the writeoffFinancialObjectCode attribute value.
+     * @param writeoffFinancialObjectCode The writeoffFinancialObjectCode to set.
+     */
+    public void setWriteoffFinancialObjectCode(String writeoffFinancialObjectCode) {
+        this.writeoffFinancialObjectCode = writeoffFinancialObjectCode;
+    }
+
+    /**
+     * Gets the writeoffFinancialSubObjectCode attribute. 
+     * @return Returns the writeoffFinancialSubObjectCode.
+     */
+    public String getWriteoffFinancialSubObjectCode() {
+        return writeoffFinancialSubObjectCode;
+    }
+
+    /**
+     * Sets the writeoffFinancialSubObjectCode attribute value.
+     * @param writeoffFinancialSubObjectCode The writeoffFinancialSubObjectCode to set.
+     */
+    public void setWriteoffFinancialSubObjectCode(String writeoffFinancialSubObjectCode) {
+        this.writeoffFinancialSubObjectCode = writeoffFinancialSubObjectCode;
+    }
+
+    /**
+     * Gets the writeoffOrganizationReferenceIdentifier attribute. 
+     * @return Returns the writeoffOrganizationReferenceIdentifier.
+     */
+    public String getWriteoffOrganizationReferenceIdentifier() {
+        return writeoffOrganizationReferenceIdentifier;
+    }
+
+    /**
+     * Sets the writeoffOrganizationReferenceIdentifier attribute value.
+     * @param writeoffOrganizationReferenceIdentifier The writeoffOrganizationReferenceIdentifier to set.
+     */
+    public void setWriteoffOrganizationReferenceIdentifier(String writeoffOrganizationReferenceIdentifier) {
+        this.writeoffOrganizationReferenceIdentifier = writeoffOrganizationReferenceIdentifier;
+    }
+
+    /**
+     * Gets the writeoffProjectCode attribute. 
+     * @return Returns the writeoffProjectCode.
+     */
+    public String getWriteoffProjectCode() {
+        return writeoffProjectCode;
+    }
+
+    /**
+     * Sets the writeoffProjectCode attribute value.
+     * @param writeoffProjectCode The writeoffProjectCode to set.
+     */
+    public void setWriteoffProjectCode(String writeoffProjectCode) {
+        this.writeoffProjectCode = writeoffProjectCode;
+    }
+
+    /**
+     * Gets the writeoffSubAccountNumber attribute. 
+     * @return Returns the writeoffSubAccountNumber.
+     */
+    public String getWriteoffSubAccountNumber() {
+        return writeoffSubAccountNumber;
+    }
+
+    /**
+     * Sets the writeoffSubAccountNumber attribute value.
+     * @param writeoffSubAccountNumber The writeoffSubAccountNumber to set.
+     */
+    public void setWriteoffSubAccountNumber(String writeoffSubAccountNumber) {
+        this.writeoffSubAccountNumber = writeoffSubAccountNumber;
+    }
+
+    /**
 	 * Gets the defaultInvoiceFinancialObject attribute.
 	 * 
 	 * @return Returns the defaultInvoiceFinancialObject
@@ -453,26 +589,6 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 */
 	public void setDefaultInvoiceFinancialSubObject(SubObjCd defaultInvoiceFinancialSubObject) {
 		this.defaultInvoiceFinancialSubObject = defaultInvoiceFinancialSubObject;
-	}
-
-	/**
-	 * Gets the writeoffObject attribute.
-	 * 
-	 * @return Returns the writeoffObject
-	 * 
-	 */
-	public ObjectCode getWriteoffObject() { 
-		return writeoffObject;
-	}
-
-	/**
-	 * Sets the writeoffObject attribute.
-	 * 
-	 * @param writeoffObject The writeoffObject to set.
-	 * @deprecated
-	 */
-	public void setWriteoffObject(ObjectCode writeoffObject) {
-		this.writeoffObject = writeoffObject;
 	}
 
 	/**
@@ -696,6 +812,142 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	}
 	
 	/**
+     * Gets the defaultPaymentFinancialObject attribute. 
+     * @return Returns the defaultPaymentFinancialObject.
+     */
+    public ObjectCode getDefaultPaymentFinancialObject() {
+        return defaultPaymentFinancialObject;
+    }
+
+    /**
+     * Sets the defaultPaymentFinancialObject attribute value.
+     * @param defaultPaymentFinancialObject The defaultPaymentFinancialObject to set.
+     * @deprecated
+     */
+    public void setDefaultPaymentFinancialObject(ObjectCode defaultPaymentFinancialObject) {
+        this.defaultPaymentFinancialObject = defaultPaymentFinancialObject;
+    }
+
+    /**
+     * Gets the defaultPaymentFinancialSubObject attribute. 
+     * @return Returns the defaultPaymentFinancialSubObject.
+     */
+    public SubObjCd getDefaultPaymentFinancialSubObject() {
+        return defaultPaymentFinancialSubObject;
+    }
+
+    /**
+     * Sets the defaultPaymentFinancialSubObject attribute value.
+     * @param defaultPaymentFinancialSubObject The defaultPaymentFinancialSubObject to set.
+     * @deprecated
+     */
+    public void setDefaultPaymentFinancialSubObject(SubObjCd defaultPaymentFinancialSubObject) {
+        this.defaultPaymentFinancialSubObject = defaultPaymentFinancialSubObject;
+    }
+
+    /**
+     * Gets the writeoffAccount attribute. 
+     * @return Returns the writeoffAccount.
+     */
+    public Account getWriteoffAccount() {
+        return writeoffAccount;
+    }
+
+    /**
+     * Sets the writeoffAccount attribute value.
+     * @param writeoffAccount The writeoffAccount to set.
+     * @deprecated
+     */
+    public void setWriteoffAccount(Account writeoffAccount) {
+        this.writeoffAccount = writeoffAccount;
+    }
+
+    /**
+     * Gets the writeoffChartOfAccounts attribute. 
+     * @return Returns the writeoffChartOfAccounts.
+     */
+    public Chart getWriteoffChartOfAccounts() {
+        return writeoffChartOfAccounts;
+    }
+
+    /**
+     * Sets the writeoffChartOfAccounts attribute value.
+     * @param writeoffChartOfAccounts The writeoffChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setWriteoffChartOfAccounts(Chart writeoffChartOfAccounts) {
+        this.writeoffChartOfAccounts = writeoffChartOfAccounts;
+    }
+
+    /**
+     * Gets the writeoffFinancialObject attribute. 
+     * @return Returns the writeoffFinancialObject.
+     */
+    public ObjectCode getWriteoffFinancialObject() {
+        return writeoffFinancialObject;
+    }
+
+    /**
+     * Sets the writeoffFinancialObject attribute value.
+     * @param writeoffFinancialObject The writeoffFinancialObject to set.
+     * @deprecated
+     */
+    public void setWriteoffFinancialObject(ObjectCode writeoffFinancialObject) {
+        this.writeoffFinancialObject = writeoffFinancialObject;
+    }
+
+    /**
+     * Gets the writeoffFinancialSubObject attribute. 
+     * @return Returns the writeoffFinancialSubObject.
+     */
+    public SubObjCd getWriteoffFinancialSubObject() {
+        return writeoffFinancialSubObject;
+    }
+
+    /**
+     * Sets the writeoffFinancialSubObject attribute value.
+     * @param writeoffFinancialSubObject The writeoffFinancialSubObject to set.
+     * @deprecated
+     */
+    public void setWriteoffFinancialSubObject(SubObjCd writeoffFinancialSubObject) {
+        this.writeoffFinancialSubObject = writeoffFinancialSubObject;
+    }
+
+    /**
+     * Gets the writeoffProject attribute. 
+     * @return Returns the writeoffProject.
+     */
+    public ProjectCode getWriteoffProject() {
+        return writeoffProject;
+    }
+
+    /**
+     * Sets the writeoffProject attribute value.
+     * @param writeoffProject The writeoffProject to set.
+     * @deprecated
+     */
+    public void setWriteoffProject(ProjectCode writeoffProject) {
+        this.writeoffProject = writeoffProject;
+    }
+
+    /**
+     * Gets the writeoffSubAccount attribute. 
+     * @return Returns the writeoffSubAccount.
+     */
+    public SubAccount getWriteoffSubAccount() {
+        return writeoffSubAccount;
+    }
+
+    /**
+     * Sets the writeoffSubAccount attribute value.
+     * @param writeoffSubAccount The writeoffSubAccount to set.
+     * @deprecated
+     */
+    public void setWriteoffSubAccount(SubAccount writeoffSubAccount) {
+        this.writeoffSubAccount = writeoffSubAccount;
+    }
+
+    /**
      * Gets the universityFiscal attribute.
      * 
      * @return Returns the universityFiscal.

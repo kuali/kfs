@@ -48,7 +48,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsWriteOffObjectValidExpense_True(){
         
-        organizationAccountingDefault.setWriteoffObjectCode(EXPENSE_OBJECT_CODE);
+        organizationAccountingDefault.setWriteoffFinancialObjectCode(EXPENSE_OBJECT_CODE);
         organizationAccountingDefault.refreshReferenceObject("writeoffObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
@@ -60,7 +60,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      * This method tests if the isWriteOffObjectValidExpense rule returns false when write off object is set to an income object code
      */
     public void testIsWriteOffObjectValidExpense_False(){
-        organizationAccountingDefault.setWriteoffObjectCode(INCOME_OBJECT_CODE);
+        organizationAccountingDefault.setWriteoffFinancialObjectCode(INCOME_OBJECT_CODE);
         organizationAccountingDefault.refreshReferenceObject("writeoffObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         

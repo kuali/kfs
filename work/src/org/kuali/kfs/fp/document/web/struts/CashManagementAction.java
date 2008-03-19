@@ -238,6 +238,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // display status message
         GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
+        
+        ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

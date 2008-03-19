@@ -405,6 +405,7 @@ public class DepositWizardAction extends KualiAction {
                             finalDeposit.setDepositAmount(finalDeposit.getDepositAmount().add(dform.getCoinDetail().getTotalAmount()));
                         }
                         SpringContext.getBean(BusinessObjectService.class).save(cashManagementDoc.getCashDrawer());
+                        SpringContext.getBean(BusinessObjectService.class).save(finalDeposit);
                     }
 
                     // redirect to controlling CashManagementDocument

@@ -45,7 +45,7 @@
         </lockingKeys>
                 
         <maintainableSections>
-            <maintainableSection title="Edit Asset Acquisition Code">
+            <maintainableSection title="Edit Asset Acquisition Type">
                 <maintainableItems>
                     <maintainableField name="acquisitionTypeCode" required="true" />
                     <maintainableField name="acquisitionTypeName" required="true" />

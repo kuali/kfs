@@ -71,6 +71,14 @@ public class EffortCertificationDocumentRuleUtil {
         if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
             detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
         }
+        
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationCalculatedOverallPercent())) {
+            detailLine.setEffortCertificationCalculatedOverallPercent(0);
+        }
+        
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationUpdatedOverallPercent())) {
+            detailLine.setEffortCertificationUpdatedOverallPercent(0);
+        }
 
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());

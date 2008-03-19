@@ -178,7 +178,7 @@ EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amo
   			continue;
   		}
   		
-  		var lineAmount = parseFloat(DWRUtil.getValue(amountFieldId));  		
+  		var lineAmount = parseFloat(this.removeDelimator(DWRUtil.getValue(amountFieldId), comma));  		
   		var federalIndicator = DWRUtil.getValue(fereralIndicatorFieldId); 		
   		if(federalIndicator.toUpperCase() == "YES"){
   			federalTotal += lineAmount;	

@@ -77,7 +77,6 @@ public class CertificationReportAction extends EffortCertificationAction {
         newDetailLine.setPositionNumber(effortDocument.getDefaultPositionNumber());
         newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
         newDetailLine.setNewLineIndicator(true);
-        newDetailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
 
         EffortCertificationDocumentRuleUtil.applyDefaultValues(newDetailLine);
 

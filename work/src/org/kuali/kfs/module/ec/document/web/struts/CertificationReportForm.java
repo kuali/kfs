@@ -15,6 +15,9 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.util.DynamicCollectionComparator;
 import org.kuali.module.effort.util.DynamicCollectionComparator.SortOrder;
 
@@ -24,6 +27,8 @@ import org.kuali.module.effort.util.DynamicCollectionComparator.SortOrder;
 public class CertificationReportForm extends EffortCertificationForm {
 
     private String sortOrder = SortOrder.ASC.name();
+    private AccountingPeriod reportBeginPeriod;
+    private AccountingPeriod reportEndPeriod;
 
     /**
      * Gets the sortOrder attribute.
@@ -62,5 +67,27 @@ public class CertificationReportForm extends EffortCertificationForm {
     public void sortDetailLine(String... sortColumn) {
         String sortOrder = this.getSortOrder();
         DynamicCollectionComparator.sort(this.getDetailLines(), SortOrder.valueOf(sortOrder), sortColumn);
+    }
+
+    /**
+     * Gets the reportBeginPeriod attribute. 
+     * @return Returns the reportBeginPeriod.
+     */
+    public AccountingPeriod getReportBeginPeriod() {
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
+        effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        
+        return effortCertificationDocument.getEffortCertificationReportDefinition().getReportBeginPeriod();
+    }
+
+    /**
+     * Gets the reportEndPeriod attribute. 
+     * @return Returns the reportEndPeriod.
+     */
+    public AccountingPeriod getReportEndPeriod() {
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
+        effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        
+        return effortCertificationDocument.getEffortCertificationReportDefinition().getReportEndPeriod();
     }
 }

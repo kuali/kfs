@@ -294,6 +294,13 @@
 	<field-descriptor name="customerSpecialProcessingCode" column="CUST_SPCL_PRCS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerRecordAttachmentIndicator" column="CUST_REC_ATT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="openInvoiceIndicator" column="AR_OPEN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="paymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentFinancialObjectCode" column="PMT_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentFinancialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
@@ -314,6 +321,33 @@
 	</reference-descriptor>
 	<reference-descriptor name="customerSpecialProcessing" class-ref="org.kuali.module.ar.bo.CustomerProcessingType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerSpecialProcessingCode" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="paymentChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="paymentChartOfAccountsCode" />
+		<foreignkey field-ref="paymentAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="paymentChartOfAccountsCode" />
+		<foreignkey field-ref="paymentAccountNumber" />
+		<foreignkey field-ref="paymentSubAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="postingYear" />
+		<foreignkey field-ref="paymentChartOfAccountsCode" />
+		<foreignkey field-ref="paymentFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentFinancialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="postingYear" />
+		<foreignkey field-ref="paymentChartOfAccountsCode" />
+		<foreignkey field-ref="paymentAccountNumber" />
+		<foreignkey field-ref="paymentFinancialObjectCode" />
+		<foreignkey field-ref="paymentFinancialSubObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="paymentProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="paymentProjectCode" />
 	</reference-descriptor>
     <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />

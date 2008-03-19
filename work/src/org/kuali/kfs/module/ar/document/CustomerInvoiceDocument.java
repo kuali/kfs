@@ -20,10 +20,15 @@ import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.OrganizationOptionsService;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.bo.ProjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 /**
@@ -51,11 +56,24 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private String customerSpecialProcessingCode;
 	private boolean customerRecordAttachmentIndicator;
 	private boolean openInvoiceIndicator;
-
+    private String paymentChartOfAccountsCode;
+    private String paymentAccountNumber;
+    private String paymentSubAccountNumber;
+    private String paymentFinancialObjectCode;
+    private String paymentFinancialSubObjectCode;
+    private String paymentProjectCode;
+    private String paymentOrganizationReferenceIdentifier;
+    
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
 	private Org billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
+    private Account paymentAccount;
+    private Chart paymentChartOfAccounts;
+    private SubAccount paymentSubAccount;
+    private ObjectCode paymentFinancialObject;
+    private SubObjCd paymentFinancialSubObject;
+    private ProjectCode paymentProject;    
     
 	/**
 	 * Default constructor.
@@ -484,8 +502,119 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 		this.openInvoiceIndicator = openInvoiceIndicator;
 	}
 
-
 	/**
+     * Gets the paymentAccountNumber attribute. 
+     * @return Returns the paymentAccountNumber.
+     */
+    public String getPaymentAccountNumber() {
+        return paymentAccountNumber;
+    }
+
+    /**
+     * Sets the paymentAccountNumber attribute value.
+     * @param paymentAccountNumber The paymentAccountNumber to set.
+     */
+    public void setPaymentAccountNumber(String paymentAccountNumber) {
+        this.paymentAccountNumber = paymentAccountNumber;
+    }
+
+    /**
+     * Gets the paymentChartOfAccountsCode attribute. 
+     * @return Returns the paymentChartOfAccountsCode.
+     */
+    public String getPaymentChartOfAccountsCode() {
+        return paymentChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the paymentChartOfAccountsCode attribute value.
+     * @param paymentChartOfAccountsCode The paymentChartOfAccountsCode to set.
+     */
+    public void setPaymentChartOfAccountsCode(String paymentChartOfAccountsCode) {
+        this.paymentChartOfAccountsCode = paymentChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the paymentFinancialObjectCode attribute. 
+     * @return Returns the paymentFinancialObjectCode.
+     */
+    public String getPaymentFinancialObjectCode() {
+        return paymentFinancialObjectCode;
+    }
+
+    /**
+     * Sets the paymentFinancialObjectCode attribute value.
+     * @param paymentFinancialObjectCode The paymentFinancialObjectCode to set.
+     */
+    public void setPaymentFinancialObjectCode(String paymentFinancialObjectCode) {
+        this.paymentFinancialObjectCode = paymentFinancialObjectCode;
+    }
+
+    /**
+     * Gets the paymentFinancialSubObjectCode attribute. 
+     * @return Returns the paymentFinancialSubObjectCode.
+     */
+    public String getPaymentFinancialSubObjectCode() {
+        return paymentFinancialSubObjectCode;
+    }
+
+    /**
+     * Sets the paymentFinancialSubObjectCode attribute value.
+     * @param paymentFinancialSubObjectCode The paymentFinancialSubObjectCode to set.
+     */
+    public void setPaymentFinancialSubObjectCode(String paymentFinancialSubObjectCode) {
+        this.paymentFinancialSubObjectCode = paymentFinancialSubObjectCode;
+    }
+
+    /**
+     * Gets the paymentOrganizationReferenceIdentifier attribute. 
+     * @return Returns the paymentOrganizationReferenceIdentifier.
+     */
+    public String getPaymentOrganizationReferenceIdentifier() {
+        return paymentOrganizationReferenceIdentifier;
+    }
+
+    /**
+     * Sets the paymentOrganizationReferenceIdentifier attribute value.
+     * @param paymentOrganizationReferenceIdentifier The paymentOrganizationReferenceIdentifier to set.
+     */
+    public void setPaymentOrganizationReferenceIdentifier(String paymentOrganizationReferenceIdentifier) {
+        this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
+    }
+
+    /**
+     * Gets the paymentProjectCode attribute. 
+     * @return Returns the paymentProjectCode.
+     */
+    public String getPaymentProjectCode() {
+        return paymentProjectCode;
+    }
+
+    /**
+     * Sets the paymentProjectCode attribute value.
+     * @param paymentProjectCode The paymentProjectCode to set.
+     */
+    public void setPaymentProjectCode(String paymentProjectCode) {
+        this.paymentProjectCode = paymentProjectCode;
+    }
+
+    /**
+     * Gets the paymentSubAccountNumber attribute. 
+     * @return Returns the paymentSubAccountNumber.
+     */
+    public String getPaymentSubAccountNumber() {
+        return paymentSubAccountNumber;
+    }
+
+    /**
+     * Sets the paymentSubAccountNumber attribute value.
+     * @param paymentSubAccountNumber The paymentSubAccountNumber to set.
+     */
+    public void setPaymentSubAccountNumber(String paymentSubAccountNumber) {
+        this.paymentSubAccountNumber = paymentSubAccountNumber;
+    }
+
+    /**
 	 * Gets the accountsReceivableDocumentHeader attribute.
 	 * 
 	 * @return Returns the accountsReceivableDocumentHeader
@@ -565,6 +694,108 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	}
     
 	/**
+     * Gets the paymentAccount attribute. 
+     * @return Returns the paymentAccount.
+     */
+    public Account getPaymentAccount() {
+        return paymentAccount;
+    }
+
+    /**
+     * Sets the paymentAccount attribute value.
+     * @param paymentAccount The paymentAccount to set.
+     * @deprecated
+     */
+    public void setPaymentAccount(Account paymentAccount) {
+        this.paymentAccount = paymentAccount;
+    }
+
+    /**
+     * Gets the paymentChartOfAccounts attribute. 
+     * @return Returns the paymentChartOfAccounts.
+     */
+    public Chart getPaymentChartOfAccounts() {
+        return paymentChartOfAccounts;
+    }
+
+    /**
+     * Sets the paymentChartOfAccounts attribute value.
+     * @param paymentChartOfAccounts The paymentChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setPaymentChartOfAccounts(Chart paymentChartOfAccounts) {
+        this.paymentChartOfAccounts = paymentChartOfAccounts;
+    }
+
+    /**
+     * Gets the paymentFinancialObject attribute. 
+     * @return Returns the paymentFinancialObject.
+     */
+    public ObjectCode getPaymentFinancialObject() {
+        return paymentFinancialObject;
+    }
+
+    /**
+     * Sets the paymentFinancialObject attribute value.
+     * @param paymentFinancialObject The paymentFinancialObject to set.
+     * @deprecated
+     */
+    public void setPaymentFinancialObject(ObjectCode paymentFinancialObject) {
+        this.paymentFinancialObject = paymentFinancialObject;
+    }
+
+    /**
+     * Gets the paymentFinancialSubObject attribute. 
+     * @return Returns the paymentFinancialSubObject.
+     */
+    public SubObjCd getPaymentFinancialSubObject() {
+        return paymentFinancialSubObject;
+    }
+
+    /**
+     * Sets the paymentFinancialSubObject attribute value.
+     * @param paymentFinancialSubObject The paymentFinancialSubObject to set.
+     * @deprecated
+     */
+    public void setPaymentFinancialSubObject(SubObjCd paymentFinancialSubObject) {
+        this.paymentFinancialSubObject = paymentFinancialSubObject;
+    }
+
+    /**
+     * Gets the paymentProject attribute. 
+     * @return Returns the paymentProject.
+     */
+    public ProjectCode getPaymentProject() {
+        return paymentProject;
+    }
+
+    /**
+     * Sets the paymentProject attribute value.
+     * @param paymentProject The paymentProject to set.
+     * @deprecated
+     */
+    public void setPaymentProject(ProjectCode paymentProject) {
+        this.paymentProject = paymentProject;
+    }
+
+    /**
+     * Gets the paymentSubAccount attribute. 
+     * @return Returns the paymentSubAccount.
+     */
+    public SubAccount getPaymentSubAccount() {
+        return paymentSubAccount;
+    }
+
+    /**
+     * Sets the paymentSubAccount attribute value.
+     * @param paymentSubAccount The paymentSubAccount to set.
+     * @deprecated
+     */
+    public void setPaymentSubAccount(SubAccount paymentSubAccount) {
+        this.paymentSubAccount = paymentSubAccount;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

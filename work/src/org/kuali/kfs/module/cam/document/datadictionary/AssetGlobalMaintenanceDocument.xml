@@ -49,9 +49,9 @@
         </lockingKeys>
 
         <defaultExistenceChecks>
-            <reference attributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerChartOfAccountsCode" />
-            <reference attributeName="assetGlobalHeader.organizationOwnerAccount" attributeToHighlightOnFail="assetGlobalHeader.organizationOwnerAccountNumber" />
-            <!-- <reference attributeName="assetGlobalHeader.agency" attributeToHighlightOnFail="assetGlobalHeader.agencyNumber" /> -->
+            <reference attributeName="assetHeader.organizationOwnerChartOfAccounts" attributeToHighlightOnFail="assetHeader.organizationOwnerChartOfAccountsCode" />
+            <reference attributeName="assetHeader.organizationOwnerAccount" attributeToHighlightOnFail="assetHeader.organizationOwnerAccountNumber" />
+            <!-- <reference attributeName="assetHeader.agency" attributeToHighlightOnFail="assetHeader.agencyNumber" /> -->
             <reference attributeName="condition" attributeToHighlightOnFail="conditionCode" />
             <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
         </defaultExistenceChecks>
@@ -60,8 +60,8 @@
         
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems>
-					<maintainableField name="assetGlobalHeader.organizationOwnerChartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup" />
-					<maintainableField name="assetGlobalHeader.organizationOwnerAccountNumber" required="true" webUILeaveFieldFunction="accountNameLookup" />
+					<maintainableField name="assetHeader.organizationOwnerChartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup" />
+					<maintainableField name="assetHeader.organizationOwnerAccountNumber" required="true" webUILeaveFieldFunction="accountNameLookup" />
 					<!-- org. owner -->
 					<maintainableField name="leoOrganizationOwner" required="false" readOnly="true"/>
 					<maintainableField name="agencyNumber" required="true" />
@@ -74,9 +74,9 @@
 					<maintainableField name="manufacturerName" required="true" />
 					<maintainableField name="manufacturerModelNumber" />
 					<maintainableField name="organizationText" />
-					<maintainableField name="assetGlobalHeader.representativeUniversalIdentifier" required="false" readOnly="true"/>
-					<maintainableField name="assetGlobalHeader.assetRepresentative.personUserIdentifier" required="false"/>
-					<maintainableField name="assetGlobalHeader.assetRepresentative.personName" required="false" readOnly="true"/>
+					<maintainableField name="assetHeader.representativeUniversalIdentifier" required="false" readOnly="true"/>
+					<maintainableField name="assetHeader.assetRepresentative.personUserIdentifier" required="false"/>
+					<maintainableField name="assetHeader.assetRepresentative.personName" required="false" readOnly="true"/>
 					<maintainableField name="lastInventoryDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
@@ -95,7 +95,7 @@
 				    <maintainableField name="landParcelNumber" required="false" />
 	                <maintainableField name="versionNumber" required="false" />					
                     <!-- TODO following is temporary fix to avoid OJB ver# exception -->
-	                <maintainableField name="assetGlobalHeader.versionNumber" required="false" readOnly="true"/>
+	                <maintainableField name="assetHeader.versionNumber" required="false" readOnly="true"/>
 				</maintainableItems>
             </maintainableSection>
 

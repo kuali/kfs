@@ -22,11 +22,11 @@
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetGlobal">
         <attributes>
 <!--  ### Asset Detail Information ### -->
-            <attributeReference name="assetGlobalHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+            <attributeReference name="assetHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Owner Chart</label>
             </attributeReference>
 
-            <attributeReference name="assetGlobalHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+            <attributeReference name="assetHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Owner Account Number</label>
 			</attributeReference>		
 			
@@ -43,7 +43,7 @@
                 <description>leoOrganizationOwner....</description>
 			</attribute>
 			
-			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.AssetGlobalHeader" sourceAttributeName="agencyNumber">
+			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="agencyNumber">
 				<label>Owner</label>
 			</attributeReference>
 			
@@ -93,24 +93,24 @@
 				<label>Organization Text</label>
 			</attributeReference>
   
-            <attributeReference name="assetGlobalHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetGlobalHeader" sourceAttributeName="representativeUniversalIdentifier" >
+            <attributeReference name="assetHeader.representativeUniversalIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="representativeUniversalIdentifier" >
                 <label>Asset Representitive</label>
-                <displayLabelAttribute>assetGlobalHeader.assetRepresentative.personUserIdentifier</displayLabelAttribute>
+                <displayLabelAttribute>assetHeader.assetRepresentative.personUserIdentifier</displayLabelAttribute>
                 <required>false</required>
                 <control>
                     <hidden />
                 </control>
 			</attributeReference>
 
-			<attributeReference name="assetGlobalHeader.assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+			<attributeReference name="assetHeader.assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Asset Representitive</label>
                 <required>false</required>
                 <control>
-                	<kualiUser universalIdAttributeName="assetGlobalHeader.representativeUniversalIdentifier" userIdAttributeName="assetGlobalHeader.assetRepresentative.personUserIdentifier" personNameAttributeName="assetGlobalHeader.assetRepresentative.personName" />
+                	<kualiUser universalIdAttributeName="assetHeader.representativeUniversalIdentifier" userIdAttributeName="assetHeader.assetRepresentative.personUserIdentifier" personNameAttributeName="assetHeader.assetRepresentative.personName" />
                 </control>
 			</attributeReference>
 				
-            <attributeReference name="assetGlobalHeader.assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+            <attributeReference name="assetHeader.assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
                 <label>Asset Representitive</label>
                 <required>false</required>
                 <control>
@@ -344,17 +344,17 @@
         </attributes>
         
         <relationships>
-         	<relationship objectAttributeName="assetGlobalHeader.assetRepresentative" >
-            	<primitiveAttribute sourceName="assetGlobalHeader.representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
-				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
-				<supportAttribute sourceName="assetGlobalHeader.assetRepresentative.personName" targetName="personName" />
+         	<relationship objectAttributeName="assetHeader.assetRepresentative" >
+            	<primitiveAttribute sourceName="assetHeader.representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="assetHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="assetHeader.assetRepresentative.personName" targetName="personName" />
         	</relationship>
-			<relationship objectAttributeName="assetGlobalHeader.organizationOwnerChartOfAccounts" >
-	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+			<relationship objectAttributeName="assetHeader.organizationOwnerChartOfAccounts" >
+	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
 	        </relationship>
-			<relationship objectAttributeName="assetGlobalHeader.organizationOwnerAccount" >
-	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
-	            <primitiveAttribute sourceName="assetGlobalHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
+			<relationship objectAttributeName="assetHeader.organizationOwnerAccount" >
+	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
+	            <primitiveAttribute sourceName="assetHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
 	        </relationship>
         </relationships>
 

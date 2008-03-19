@@ -87,10 +87,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private List<AssetPaymentDetail> assetPaymentDetails;
     
     /* default existance checks */
-    private AssetGlobalHeader assetGlobalHeader;
+    private AssetHeader assetHeader;
     private Chart organizationOwnerChartOfAccounts;
     private Account organizationOwnerAccount;
-    private AssetGlobalHeader agency;
     private AssetCondition condition;
     private AssetType capitalAssetType;
     
@@ -334,8 +333,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        /** TODO Why is the following necessary for assetGlobalHeader but not assetGlobalDetail? */
-        assetGlobalHeader.setDocumentNumber(documentNumber);
+        /** TODO Why is the following necessary for assetHeader but not assetGlobalDetail? */
+        assetHeader.setDocumentNumber(documentNumber);
         
         super.beforeUpdate(persistenceBroker);
     }
@@ -345,8 +344,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        /** TODO Why is the following necessary for assetGlobalHeader but not assetGlobalDetail? */
-        assetGlobalHeader.setDocumentNumber(documentNumber);
+        /** TODO Why is the following necessary for assetHeader but not assetGlobalDetail? */
+        assetHeader.setDocumentNumber(documentNumber);
         
         super.beforeInsert(persistenceBroker);
     }
@@ -985,19 +984,19 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Gets the assetGlobalHeader attribute. 
-     * @return Returns the assetGlobalHeader.
+     * Gets the assetHeader attribute. 
+     * @return Returns the assetHeader.
      */
-    public AssetGlobalHeader getAssetGlobalHeader() {
-        return assetGlobalHeader;
+    public AssetHeader getAssetHeader() {
+        return assetHeader;
     }
 
     /**
-     * Sets the assetGlobalHeader attribute value.
-     * @param assetGlobalHeader The assetGlobalHeader to set.
+     * Sets the assetHeader attribute value.
+     * @param assetHeader The assetHeader to set.
      */
-    public void setAssetGlobalHeader(AssetGlobalHeader assetGlobalHeader) {
-        this.assetGlobalHeader = assetGlobalHeader;
+    public void setAssetHeader(AssetHeader assetHeader) {
+        this.assetHeader = assetHeader;
     }
 
     /**
@@ -1046,21 +1045,5 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
-    }
-
-    /**
-     * Gets the agency attribute. 
-     * @return Returns the agency.
-     */
-    public AssetGlobalHeader getAgency() {
-        return agency;
-    }
-
-    /**
-     * Sets the agency attribute value.
-     * @param agency The agency to set.
-     */
-    public void setAgency(AssetGlobalHeader agency) {
-        this.agency = agency;
     }
 }

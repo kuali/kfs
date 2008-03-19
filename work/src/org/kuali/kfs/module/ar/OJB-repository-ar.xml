@@ -682,17 +682,20 @@
 	<field-descriptor name="defaultInvoiceFinancialSubObjectCode" column="INV_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceProjectCode" column="INV_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceOrganizationReferenceIdentifier" column="INV_ORG_REF_ID" jdbc-type="VARCHAR"/>
-	<!--
-		WAITING FOR DB UPDATE
+	
+	
 	<field-descriptor name="defaultPaymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<!--
 	<field-descriptor name="defaultPaymentFinancialObjectCode" column="PMT_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentFinancialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	-->
 	<field-descriptor name="defaultPaymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultPaymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="writeoffChartOfAccountsCode" column="WRITEOFF_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	
+	<!--
+	<field-descriptor name="writeoffChartOfAccountsCode" column="WRITEOFF_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffAccountNumber" column="WRITEOFF_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffSubAccountNumber" column="WRITEOFF_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffFinancialObjectCode" column="WRITEOFF_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
@@ -740,8 +743,7 @@
 	<reference-descriptor name="defaultInvoiceProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultInvoiceProjectCode" />
 	</reference-descriptor>
-	<!--
-		WAITING FOR DB UPDATE
+	
 	<reference-descriptor name="defaultPaymentAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultPaymentChartOfAccountsCode" />
 		<foreignkey field-ref="defaultPaymentAccountNumber" />
@@ -757,7 +759,7 @@
 	<reference-descriptor name="defaultPaymentProject" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="defaultPaymentProjectCode" />
 	</reference-descriptor>
-	-->
+
 	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>

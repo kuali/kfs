@@ -14,56 +14,61 @@
  limitations under the License.
 --%>
 
-<%@ tag description="display all detail lines of current document in a table" %>
+<%@ tag description="display all detail lines of current document in a table. The detail lines will be displayed in two groups: federal and nonfederal" %>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
 <%@ attribute name="id" required="false"
-              description="the detail lines being displayed" %> 
+    description="The unique id of the table, which will be used to identify the table in the HTML DOM tree" %> 
+        
 <%@ attribute name="detailLines" required="true" type="java.util.List"
-              description="the detail lines being displayed" %>             
+    description="The detail lines being displayed" %>             
 <%@ attribute name="attributes" required="true" type="java.util.Map"
-			  description="The DataDictionary entry containing attributes for the line fields."%>              
+	description="The DataDictionary entry containing attributes for the line fields."%>              
+
 <%@ attribute name="detailFieldNames" required="true"
-              description="the names of the fields that will be displayed" %>
+    description="The names of the fields that will be displayed. The attribute can hold multiple filed names, which are separated by commas." %>
 <%@ attribute name="detailFieldNamesWithHiddenFormWhenReadonly" required="false"
-			  description="The names of the fields that will have hidden forms when the fields are readonly. The attribute can hold multiple filed names, which are separated by commas."%>	             
+	description="The names of the fields that will have hidden forms when the fields are readonly. The attribute can hold multiple filed names, which are separated by commas."%>	             
 <%@ attribute name="hiddenFieldNames" required="false"
-              description="the names of the fields that can be editable" %> 
+    description="The names of the fields that can be rendered as hidden fields. The attribute can hold multiple filed names, which are separated by commas." %> 
+    
 <%@ attribute name="inquirableUrl" required="false" type="java.util.List"
-              description="the names of the fields that can be inquirable" %>  
+    description="The list of URLs for the inquirable fields" %>  
 <%@ attribute name="fieldInfo" required="false" type="java.util.List"
-              description="the information of the fields in the detail lines" %>
-<%@ attribute name="relationshipMetadata" required="false"
-	type="java.util.Map"
+    description="The descriptive information of the fields in the detail lines" %>
+<%@ attribute name="relationshipMetadata" required="false" type="java.util.Map"
 	description="This is a Map that holds a property name list of the primary key of the referenced class for each eligible field. The value of the attribute is used to build quick finder for the eligible fields."%>				                 
 
 <%@ attribute name="editableFieldNames" required="false"
-              description="the names of the fields that can be editable" %>
+    description="The names of the fields that can be editable. The attribute can hold multiple filed names, which are separated by commas." %>
 <%@ attribute name="extraEditableFieldNames" required="false"
-              description="the names of the fields that can be editable" %>                
+    description="The names of the fields that can be editable. The attribute can hold multiple filed names, which are separated by commas." %> 
+                   
 <%@ attribute name="onblurForEditableFieldNames" required="false"
-              description="the funation names that retrives the information of the given editable fields" %> 
+    description="The function names that retrives the information of the given editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
 <%@ attribute name="onblurForExtraEditableFieldNames" required="false"
-              description="the funation names that retrives the information of the given editable fields" %>              
+    description="The function names that retrives the information of the given extra editable fields. The attribute can hold multiple filed names, which are separated by commas." %>  
+                
 <%@ attribute name="onblurableInfoFieldNames" required="false"
-              description="the names of the fields that can be editable" %> 
+    description="The names of the fields that can be used to hold the descriptive information of the editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
 <%@ attribute name="onblurableExtraInfoFieldNames" required="false"
-              description="the names of the fields that can be editable" %> 
+    description="The names of the fields that can be used to hold the descriptive information of the extra editable fields. The attribute can hold multiple filed names, which are separated by commas." %> 
+    
 <%@ attribute name="sortableFieldNames" required="false"
-              description="the names of the fields that can be editable" %>              
+    description="The names of the fields that can be sorted" %>              
                                         
 <%@ attribute name="hasActions" required="false"
-              description="determine if a user can tak an action on the given line" %>
+    description="Determine if a user can take an action on the given line" %>
 <%@ attribute name="readOnlySection" required="false"
-              description="determine if the field woulb be rendered as read-only or not" %>	              
+    description="Determine if the detail lines will be rended as a readonly section" %>	              
 	
 <%@ attribute name="ferderalTotalFieldNames" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
+	description="Indicate the field names that hold the federal funding total amount. The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="nonFerderalTotalFieldNames" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>
+	description="Indicate the field names that hold the nonfederal funding total amount. The attribute can hold multiple filed names, which are separated by commas."%>
 <%@ attribute name="grandTotalFieldNames" required="false"
-	description="To determine if a user can tak an action on the given detail line . If true, the  given actions can be rendered with the detail line."%>			              
+	description="Indicate the field names that hold the grand total amount. The attribute can hold multiple filed names, which are separated by commas."%>			              
 
 <c:set var="commaDeliminator" value=","/>
 <c:set var="semicolonDeliminator" value=";"/>
@@ -168,12 +173,15 @@
 			</c:if>		
 		</c:forEach>
 		
+		<c:if test="${fn:length(subtotalGroup[indicatorStatus.index]) > 0}" >
 		<tr>
 			<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Subtotals:</strong></div></td>
 			<er:detailLineTotal totalFieldNames="${subtotalGroup[indicatorStatus.index]}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />						
-		</tr>	
+		</tr>
+		</c:if>	
 	</c:forEach>
 
+	<c:if test="${fn:length(grandTotalFieldNames) > 0}" >
 	<tr>
 		<td colspan="${countOfColumns}">
 			<div class="h2-container" style="width: 100%;"><h2>Grand Totals</h2></div>
@@ -184,4 +192,5 @@
 		<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Grand Totals:</strong></div></td>
 		<er:detailLineTotal totalFieldNames="${grandTotalFieldNames}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />		
 	</tr>
+	</c:if>
 </table>	      

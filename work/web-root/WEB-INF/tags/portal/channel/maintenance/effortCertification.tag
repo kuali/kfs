@@ -71,6 +71,11 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingCertificationsByReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		
+		<li>
+			<portal:portalLink displayTitle="true" title="Duplicate Certifications Report"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.DuplicateCertificationsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		
 	</ul>
 	
 	<strong>Document</strong><br />	

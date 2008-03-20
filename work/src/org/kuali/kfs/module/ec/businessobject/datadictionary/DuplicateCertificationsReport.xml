@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.DuplicateCertificationsReport">
+       <lookup>
+       		<lookupableID>duplicateCertificationsReportLookupable</lookupableID> 
+            <title>Duplicate Certifications Report</title>
+
+            <instructions>Find Outstanding Reports</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="effortCertificationReportNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="universityFiscalYear" required="true" />
+                <lookupField attributeName="effortCertificationReportNumber" required="true" />
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="emplid" />
+            	<field attributeName="effortCertificationReportNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+        	<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+        </attributes>
+        <relationships>
+            <relationship objectAttributeName="employee" >
+				<primitiveAttribute sourceName="emplid" targetName="personPayrollIdentifier" />
+                <supportAttribute sourceName="employee.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+                <supportAttribute sourceName="employee.personName" targetName="personName" />
+            </relationship>
+	    </relationships>     
+    </businessObject>
+</dictionaryEntry>

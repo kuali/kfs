@@ -187,6 +187,12 @@
 		</property>
 	</bean>
 	
+	<bean id="duplicateCertificationsReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="duplicateCertificationsReportLookupableHelperService" />
+		</property>
+	</bean>
+	
 	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingReportsByOrganizationLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -209,6 +215,27 @@
 	</bean> 
 
 	<bean id="outstandingCertificationsByReportLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>		
+	</bean> 
+
+	<bean id="duplicateCertificationsReportLookupableHelperService" class="org.kuali.module.effort.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

@@ -214,7 +214,6 @@
 <attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Date Required</label>
     <shortLabel>Date Required</shortLabel>
-    <maxLength>10</maxLength>
 </attributeReference>
 
 <attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">

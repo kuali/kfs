@@ -90,6 +90,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
     // vendor quote
     public static final String PURCHASE_ORDER_VENDOR_QUOTE_IDENTIFIER = "purchaseOrderVendorQuoteIdentifier";
+    public static final String PURCHASE_ORDER_QUOTE_STATUS ="purchaseOrderQuoteStatus";
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     // Receiving Address

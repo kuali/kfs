@@ -1236,7 +1236,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 tempRow = StringUtils.replace(tempRow, "{1}", poQuote.getPurchaseOrderQuoteAwardDate().toString());
             }
             if (poQuote.getPurchaseOrderQuoteStatusCode() != null) {
-                tempRow = StringUtils.replace(tempRow, "{2}", poQuote.getPurchaseOrderQuoteStatusCode());
+                poQuote.refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_QUOTE_STATUS);
+                tempRow = StringUtils.replace(tempRow, "{2}", poQuote.getPurchaseOrderQuoteStatus().getStatusDescription());
             }
             else {
                 tempRow = StringUtils.replace(tempRow, "{2}", "N/A");

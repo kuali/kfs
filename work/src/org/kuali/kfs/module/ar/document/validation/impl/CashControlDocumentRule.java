@@ -58,7 +58,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         CashControlDocument ccDocument = (CashControlDocument) document;
 
         isValid &= checkUserOrgOptions(ccDocument);
-        isValid &= checkPaymentMedium(ccDocument);
+//        isValid &= checkPaymentMedium(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
         isValid &= validateCashControlDetails(ccDocument);
 
@@ -73,13 +73,14 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
 
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        CashControlDocument ccDocument = (CashControlDocument) document;
+        CashControlDocument cashControlDocument = (CashControlDocument) document;
 
-        // isValid &= checkReferenceDocument(ccDocument);
-        isValid &= checkUserOrgOptions(ccDocument);
-        isValid &= checkPaymentMedium(ccDocument);
-        isValid &= checkOrgDocNumber(ccDocument);
-        isValid &= validateCashControlDetails(ccDocument);
+        // isValid &= checkReferenceDocument(cashControlDocument);
+        isValid &= checkUserOrgOptions(cashControlDocument);
+        isValid &= checkPaymentMedium(cashControlDocument);
+        isValid &= checkOrgDocNumber(cashControlDocument);
+        isValid &= validateCashControlDetails(cashControlDocument);
+        isValid &= checkTotalAmountNotZero(cashControlDocument);
 
         return isValid;
 
@@ -92,14 +93,15 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
 
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
-        CashControlDocument ccDocument = (CashControlDocument) approveEvent.getDocument();
+        CashControlDocument cashControlDocument = (CashControlDocument) approveEvent.getDocument();
 
-        isValid &= checkAllAppDocsApproved(ccDocument);
-        isValid &= checkReferenceDocument(ccDocument);
-        isValid &= checkUserOrgOptions(ccDocument);
-        isValid &= checkPaymentMedium(ccDocument);
-        isValid &= checkOrgDocNumber(ccDocument);
-        isValid &= validateCashControlDetails(ccDocument);
+        isValid &= checkAllAppDocsApproved(cashControlDocument);
+        isValid &= checkReferenceDocument(cashControlDocument);
+        isValid &= checkUserOrgOptions(cashControlDocument);
+        isValid &= checkPaymentMedium(cashControlDocument);
+        isValid &= checkOrgDocNumber(cashControlDocument);
+        isValid &= validateCashControlDetails(cashControlDocument);
+        isValid &= checkTotalAmountNotZero(cashControlDocument);
 
         return isValid;
 
@@ -113,7 +115,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param detail the CashControlDetail
      * @return true is amount is valid, false otherwise
      */
-    public boolean checkLineAmount(CashControlDocument document, CashControlDetail detail) {
+    public boolean checkLineAmountNotZero(CashControlDocument document, CashControlDetail detail) {
 
         boolean isValid = true;
 
@@ -122,19 +124,30 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, KFSKeyConstants.CashControl.LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
-        // there can be only one negative line amount
-        else if (detail.getFinancialDocumentLineAmount().isNegative() && document.isHasNegativeCashControlDetail()) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
-            isValid = false;
-        }
-
-        // if document doesn't have a negative amount yet and this line amount is negative set hasNegativeCashControlDetail to true
-        if (!document.isHasNegativeCashControlDetail() && detail.getFinancialDocumentLineAmount().isNegative()) {
-            document.setHasNegativeCashControlDetail(true);
-        }
 
         return isValid;
 
+    }
+    
+    /**
+     * This method checks if document total amount is zero
+     * 
+     * @param cashControlDocument
+     * @return true is cash control document total amount is not zero, false otherwise
+     */
+    public boolean checkTotalAmountNotZero(CashControlDocument cashControlDocument) {
+        boolean isValid = true;
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
+
+        if (cashControlDocument.getTotalDollarAmount().isZero()) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, CashReceipt.ERROR_ZERO_TOTAL, "Cash Control Total");
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+
+        return isValid;
     }
 
     /**
@@ -150,12 +163,14 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
 
         PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
-
-        if (StringUtils.isBlank(paymentMediumCode)) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
-            isValid = false;
-        }
-        else if (null == service.getByPrimaryKey(paymentMediumCode)) {
+        //
+        // if (StringUtils.isBlank(paymentMediumCode)) {
+        // GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE,
+        // ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
+        // isValid = false;
+        // }
+        // else
+        if (null == service.getByPrimaryKey(paymentMediumCode)) {
             GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }
@@ -260,6 +275,17 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
         if (success) {
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
+            // if line amount is negative check if there is another negative cash control detail; only one negative amount is
+            // allowed per cash control document
+            if (success && cashControlDetail.getFinancialDocumentLineAmount().isNegative()) {
+                for (CashControlDetail detail : transactionalDocument.getCashControlDetails()) {
+                    if (detail.getFinancialDocumentLineAmount().isNegative()) {
+                        success = false;
+                        GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
+                        break;
+                    }
+                }
+            }
         }
         return success;
 
@@ -275,12 +301,19 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     private boolean validateCashControlDetail(CashControlDocument document, CashControlDetail cashControlDetail) {
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int originalErrorCount = errorMap.getErrorCount();
-        checkLineAmount(document, cashControlDetail);
 
+        boolean isValid = true;
+
+        int originalErrorCount = errorMap.getErrorCount();
         // call the DD validation which checks basic data integrity
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(cashControlDetail);
-        boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
+        isValid = (errorMap.getErrorCount() == originalErrorCount);
+
+        // validate line amount
+        if (isValid) {
+            // check if line amount is zero
+            isValid &= checkLineAmountNotZero(document, cashControlDetail);
+        }
 
         return isValid;
 
@@ -296,17 +329,29 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
+        boolean hasNegativeLineAmount = false;
+
         for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
+
+            CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
             String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-            isValid &= validateCashControlDetail(cashControlDocument, cashControlDocument.getCashControlDetail(i));
-            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
-        }
 
-        // don't bother checking the total if some deposits are broken
-        if (isValid && cashControlDocument.getTotalDollarAmount().isZero()) {
-            isValid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Cash Control Total");
+            isValid &= validateCashControlDetail(cashControlDocument, cashControlDetail);
+
+            // only one negative amount is allowed per cash control document
+            if (hasNegativeLineAmount && cashControlDetail.getFinancialDocumentLineAmount().isNegative()) {
+                isValid = false;
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED);
+                break;
+            }
+
+            // if current detail amount is negative set hasNegativeLineAmount to true
+            if (!hasNegativeLineAmount && cashControlDetail.getFinancialDocumentLineAmount().isNegative()) {
+                hasNegativeLineAmount = true;
+            }
+
+            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);

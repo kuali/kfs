@@ -29,16 +29,6 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
     private List<CashControlDetail> cashControlDetails;
-    
-    private boolean hasNegativeCashControlDetail = false;
-    
-	public boolean isHasNegativeCashControlDetail() {
-        return hasNegativeCashControlDetail;
-    }
-
-    public void setHasNegativeCashControlDetail(boolean hasNegativeCashControlDetail) {
-        this.hasNegativeCashControlDetail = hasNegativeCashControlDetail;
-    }
 
     /**
 	 * Default constructor.

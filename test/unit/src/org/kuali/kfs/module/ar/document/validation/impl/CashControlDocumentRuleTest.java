@@ -242,7 +242,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method that checkReferenceDocumentNumberNotGenerated rule returns false if referencen document number is generated
+     * This method that checkReferenceDocumentNumberNotGenerated rule returns false if reference document number is generated
      */
     public void testCheckReferenceDocumentNumberNotGenerated_False() {
 
@@ -250,6 +250,27 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         assertFalse(rule.checkReferenceDocumentNumberNotGenerated(document));
 
+    }
+    
+    /**
+     * This method that checkTotalAmountNotZero rule returns true if cash control total amount is not zero
+     */
+    public void testCheckTotalAmountNotZero_True() {
+
+        CashControlDetail detail = new CashControlDetail();
+        detail.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+        document.addCashControlDetail(detail);
+
+        assertTrue(rule.checkTotalAmountNotZero(document));
+
+    }
+
+    /**
+     * This method that checkTotalAmountNotZero rule returns false if cash control total amount is zero
+     */
+    public void testCheckTotalAmountNotZero_False() {
+
+        assertFalse(rule.checkTotalAmountNotZero(document));
     }
 
 }

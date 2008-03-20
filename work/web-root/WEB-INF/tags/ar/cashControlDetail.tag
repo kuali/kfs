@@ -86,7 +86,7 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
 			property="${propertyName}.financialDocumentLineAmount"
-			styleClass="right" readOnly="${KualiForm.hasGeneratedRefDoc or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}"/>
+			styleClass="right" readOnly="${not addLine}"/>
 	</td>
 
 	<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">

@@ -191,7 +191,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+//        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -48,7 +48,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
         hasGeneratedRefDoc = false;
         cashPaymentMediumSelected = false;
         documentSubmitted = false;
-
+        
     }
 
     /**
@@ -61,30 +61,33 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
         CashControlDocument ccDoc = getCashControlDocument();
 
-        // apply populate to PaymentApplicationDocuments
-        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
+        if (hasDocumentId()) {
 
-            // populate workflowDocument in documentHeader, if needed
-            try {
-                KualiWorkflowDocument workflowDocument = null;
-                if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
-                    workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
-                }
-                else {
-                    // gets the workflow document from doc service, doc service will also set the workflow document in the
-                    // user's session
-                    Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-                    if (retrievedDocument == null) {
-                        throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
+            // apply populate to PaymentApplicationDocuments
+            for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
+
+                // populate workflowDocument in documentHeader, if needed
+                try {
+                    KualiWorkflowDocument workflowDocument = null;
+                    if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
+                        workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
                     }
-                    workflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
-                }
+                    else {
+                        // gets the workflow document from doc service, doc service will also set the workflow document in the
+                        // user's session
+                        Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
+                        if (retrievedDocument == null) {
+                            throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
+                        }
+                        workflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
+                    }
 
-                cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
-            }
-            catch (WorkflowException e) {
-                LOG.warn("Error while instantiating workflowDoc", e);
-                throw new RuntimeException("error populating documentHeader.workflowDocument", e);
+                    cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
+                }
+                catch (WorkflowException e) {
+                    LOG.warn("Error while instantiating workflowDoc", e);
+                    throw new RuntimeException("error populating documentHeader.workflowDocument", e);
+                }
             }
         }
 

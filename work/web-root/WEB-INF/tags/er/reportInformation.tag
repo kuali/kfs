@@ -64,6 +64,10 @@
 						render="true">
 			         	${document.universityFiscalYear}-${document.effortCertificationReportNumber}
 					</kul:inquiry>
+					
+					<c:if test="${document.effortCertificationDocumentCode}" >
+					  &nbsp;&nbsp;<font color="red"><bean:write property="${EffortConstants.RECREATED_DOCUMENT_MESSAGE_KEY}" /></font>
+					</c:if>
 				</td>
 			
 				<th scope="row">

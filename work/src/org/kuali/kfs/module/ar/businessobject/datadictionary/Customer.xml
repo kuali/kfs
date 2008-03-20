@@ -389,20 +389,20 @@
                 <description>customerSocialSecurityNumberIdentifier description...</description>
 			</attribute>
 
-            <attribute name="customerTaxExemptIndicator" forceUppercase="true">
+			
+			<attribute name="customerTaxExemptIndicator" forceUppercase="true">
                 <label>Customer Tax Exempt Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Tax</shortLabel>
 
                 <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                    <checkbox />
                 </control>
 
-                <summary>customerTaxExemptIndicator</summary>
-                <description>customerTaxExemptIndicator description...</description>
-			</attribute>
+                <summary>customerActiveIndicator</summary>
+                <description>customerActiveIndicator description...</description>
+			</attribute>			
 
             <attribute name="customerTypeCode" forceUppercase="true">
                 <label>Customer Type Code</label>

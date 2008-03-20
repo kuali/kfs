@@ -183,10 +183,7 @@
 	<field-descriptor name="customerContactPhoneNumber" column="CUST_CNTCT_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerFaxNumber" column="CUST_FAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerBirthDate" column="CUST_BIRTH_DT" jdbc-type="DATE"/>
-	<!--
-		THIS IS BREAKING THE CUSTOMER LOOKUP
 	<field-descriptor name="customerTaxExemptIndicator" column="CUST_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	--> 
 	<field-descriptor name="customerCreditLimitAmount" column="CUST_CRDT_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerCreditApprovedByName" column="CUST_CRDT_APRV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>

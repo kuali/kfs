@@ -29,7 +29,7 @@ public class Customer extends PersistableBusinessObjectBase {
 	private String customerContactPhoneNumber;
 	private String customerFaxNumber;
 	private Date customerBirthDate;
-	private String customerTaxExemptIndicator;
+	private boolean customerTaxExemptIndicator;
 	private KualiDecimal customerCreditLimitAmount;
 	private String customerCreditApprovedByName;
 	private String customerEmailAddress;
@@ -383,27 +383,6 @@ public class Customer extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the customerTaxExemptIndicator attribute.
-	 * 
-	 * @return Returns the customerTaxExemptIndicator
-	 * 
-	 */
-	public String getCustomerTaxExemptIndicator() { 
-		return customerTaxExemptIndicator;
-	}
-
-	/**
-	 * Sets the customerTaxExemptIndicator attribute.
-	 * 
-	 * @param customerTaxExemptIndicator The customerTaxExemptIndicator to set.
-	 * 
-	 */
-	public void setCustomerTaxExemptIndicator(String customerTaxExemptIndicator) {
-		this.customerTaxExemptIndicator = customerTaxExemptIndicator;
-	}
-
-
-	/**
 	 * Gets the customerCreditLimitAmount attribute.
 	 * 
 	 * @return Returns the customerCreditLimitAmount
@@ -508,6 +487,14 @@ public class Customer extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("customerNumber", this.customerNumber);
         return m;
+    }
+
+    public boolean isCustomerTaxExemptIndicator() {
+        return customerTaxExemptIndicator;
+    }
+
+    public void setCustomerTaxExemptIndicator(boolean customerTaxExemptIndicator) {
+        this.customerTaxExemptIndicator = customerTaxExemptIndicator;
     }
 
 }

@@ -28,11 +28,12 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.Pretag;
 import org.kuali.module.cams.bo.PretagDetail;
@@ -186,12 +187,12 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             BigDecimal totalNumerOfDetails = new BigDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" });
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" });
                 success &= false;
             }
             else {
                 if ((pretag.getQuantityInvoiced().compareTo(new BigDecimal(0)) > 0) && (totalActiveDetails == 0)) {
-                    putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + "pretagDetail.campusTagNumber", CamsKeyConstants.ERROR_NO_DETAIL_LINE);
+                    putFieldError(CamsPropertyConstants.Pretag.PRETAG_DETAIL_CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
                     success &= false;
                 }
             }
@@ -228,10 +229,10 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         if (dtl.isActive()) {
             Map tagMap = new HashMap();
-            tagMap.put("campusTagNumber", dtl.getCampusTagNumber());
+            tagMap.put(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);
             if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (matchDetailCount > 0)) {
-                GlobalVariables.getErrorMap().putError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
                 success &= false;
             }
         }
@@ -253,19 +254,19 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isNotBlank(dtl.getCampusCode()) && StringUtils.isNotBlank(dtl.getBuildingCode())) {
             Map preTagMap = new HashMap();
-            preTagMap.put("campusCode", dtl.getCampusCode());
-            preTagMap.put("buildingCode", dtl.getBuildingCode());
+            preTagMap.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
+            preTagMap.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
 
             bo = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, preTagMap);
             if (bo == null) {
-                GlobalVariables.getErrorMap().putError("buildingCode", CamsKeyConstants.ERROR_INVALID_BUILDING_CODE, new String[] { dtl.getCampusCode(), dtl.getBuildingCode() });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.ERROR_INVALID_BUILDING_CODE, new String[] { dtl.getCampusCode(), dtl.getBuildingCode() });
             }
 
             if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
-                preTagMap.put("buildingRoomNumber", dtl.getBuildingRoomNumber());
+                preTagMap.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, dtl.getBuildingRoomNumber());
                 bo = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, preTagMap);
                 if (bo == null) {
-                    GlobalVariables.getErrorMap().putError("buildingRoomNumber", CamsKeyConstants.ERROR_INVALID_ROOM_NUMBER, new String[] { dtl.getCampusCode(), dtl.getBuildingCode(), dtl.getBuildingRoomNumber() });
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_INVALID_ROOM_NUMBER, new String[] { dtl.getCampusCode(), dtl.getBuildingCode(), dtl.getBuildingRoomNumber() });
                 }
             }
         }
@@ -291,7 +292,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     /**
      * This method ensures that count {@link pretagDetail} active detail lines
      * 
-     * @param collecttion
+     * @param collection
      * @return active pretagDetail count
      */
     public int countActive(Collection<PretagDetail> pretagDetails) {

@@ -232,8 +232,18 @@
     
     <bean id="assetDispositionService" class="org.kuali.module.cams.service.impl.AssetDispositionServiceImpl" />
     
-    <bean id="retirementInfoService" class="org.kuali.module.cams.service.impl.RetirementInfoServiceImpl" />
-    <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl" />    
+    <bean id="retirementInfoService" class="org.kuali.module.cams.service.impl.RetirementInfoServiceImpl">
+    	<property name="assetHeaderService">
+    		<ref bean="assetHeaderService" />
+    	</property>
+    </bean>
+    <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl">
+    	<property name="assetHeaderService">
+    		<ref bean="assetHeaderService" />
+    	</property>
+    </bean>    
     <bean id="assetDetailInformationService" class="org.kuali.module.cams.service.impl.AssetDetailInformationServiceImpl" />
     <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" />
+    <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />
+    
 </beans>

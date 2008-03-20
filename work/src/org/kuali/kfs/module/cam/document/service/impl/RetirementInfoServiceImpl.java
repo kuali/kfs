@@ -18,35 +18,59 @@ package org.kuali.module.cams.service.impl;
 import static org.kuali.module.cams.CamsConstants.DOC_APPROVED;
 import static org.kuali.module.cams.CamsConstants.EquipmentLoanOrReturn.DOCUMENT_HEADER;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetRetirementDocument;
 import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
+import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.RetirementInfoService;
 
 public class RetirementInfoServiceImpl implements RetirementInfoService {
+    private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
+    AssetHeaderService assetHeaderService;
+
+    public AssetHeaderService getAssetHeaderService() {
+        return assetHeaderService;
+    }
+
+    public void setAssetHeaderService(AssetHeaderService assetHeaderService) {
+        this.assetHeaderService = assetHeaderService;
+    }
+
 
     public void setRetirementInfo(Asset asset) {
+        // If current status is not retired, return
+        if (!ArrayUtils.contains(RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+            return;
+        }
         List<AssetHeader> assetHeaders = asset.getAssetHeaders();
+        List<AssetRetirementDocument> sortableList = new ArrayList<AssetRetirementDocument>();
+
         for (AssetHeader assetHeader : assetHeaders) {
-            AssetRetirementDocument retirementDocument = assetHeader.getRetirementDocument();
-            if (retirementDocument != null && isDocumentApproved(retirementDocument)) {
-                asset.setRetirementInfo(retirementDocument);
-                return;
+            AssetRetirementDocument retirementDoc = assetHeader.getRetirementDocument();
+            if (retirementDoc != null && assetHeaderService.isDocumentApproved(assetHeader)) {
+                sortableList.add(retirementDoc);
             }
+        }
+        Comparator<AssetRetirementDocument> comparator = new Comparator<AssetRetirementDocument>() {
+            public int compare(AssetRetirementDocument o1, AssetRetirementDocument o2) {
+                // sort descending based on loan date
+                return o2.getRetirementDate().compareTo(o1.getRetirementDate());
+            }
+        };
+        Collections.sort(sortableList, comparator);
+
+        if (!sortableList.isEmpty()) {
+            asset.setRetirementInfo(sortableList.get(0));
         }
     }
 
-    private boolean isDocumentApproved(AssetRetirementDocument assetRetirementDocument) {
-        assetRetirementDocument.refreshReferenceObject(DOCUMENT_HEADER);
-        DocumentHeader documentHeader = assetRetirementDocument.getDocumentHeader();
-        if (documentHeader != null && DOC_APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
-            return true;
-        }
-        return false;
-    }
 
 }

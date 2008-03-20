@@ -27,10 +27,21 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
+import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 
 public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
+    private AssetHeaderService assetHeaderService;
+
+
+    public AssetHeaderService getAssetHeaderService() {
+        return assetHeaderService;
+    }
+
+    public void setAssetHeaderService(AssetHeaderService assetHeaderService) {
+        this.assetHeaderService = assetHeaderService;
+    }
 
     public void setEquipmentLoanInfo(Asset asset) {
         List<AssetHeader> assetHeaders = asset.getAssetHeaders();
@@ -38,7 +49,7 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
 
         for (AssetHeader assetHeader : assetHeaders) {
             EquipmentLoanOrReturn equipmentLoanOrReturn = assetHeader.getEquipmentLoanOrReturn();
-            if (equipmentLoanOrReturn != null && isDocumentApproved(equipmentLoanOrReturn)) {
+            if (equipmentLoanOrReturn != null && assetHeaderService.isDocumentApproved(assetHeader)) {
                 sortableList.add(equipmentLoanOrReturn);
             }
         }
@@ -55,13 +66,5 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
         }
     }
 
-    private boolean isDocumentApproved(EquipmentLoanOrReturn equipmentLoanOrReturn) {
-        equipmentLoanOrReturn.refreshReferenceObject(DOCUMENT_HEADER);
-        DocumentHeader documentHeader = equipmentLoanOrReturn.getDocumentHeader();
-        if (documentHeader != null && DOC_APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
-            return true;
-        }
-        return false;
-    }
 
 }

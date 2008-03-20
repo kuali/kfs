@@ -17,14 +17,11 @@ package org.kuali.module.cams.service;
 
 import java.util.Date;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetRetirementDocument;
-import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
 import org.kuali.module.cams.service.impl.RetirementInfoServiceImpl;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
@@ -36,50 +33,49 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         this.retirementInfoService = new RetirementInfoServiceImpl();
+        this.retirementInfoService.setAssetHeaderService(new AssetHeaderService() {
+
+            public boolean isDocumentApproved(AssetHeader assetHeader) {
+                return true;
+            }
+        });
         this.asset = new Asset();
+        this.asset.setInventoryStatusCode("R");
     }
 
-    private AssetHeader createApprovedAssetHeader(String docNumber) {
+    private AssetHeader createAssetHeader(String docNumber, int daysToAdd) {
         AssetHeader assetHeader = new AssetHeader();
-        AssetRetirementDocument retirementDocument = new AssetRetirementDocument() {
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                DocumentHeader header = new DocumentHeader();
-                header.setFinancialDocumentStatusCode(CamsConstants.DOC_APPROVED);
-                this.setDocumentHeader(header);
-            }
-
-        };
+        AssetRetirementDocument retirementDocument = new AssetRetirementDocument();
         retirementDocument.setDocumentNumber(docNumber);
-        assetHeader.setRetirementDocument(retirementDocument);
-        return assetHeader;
-    }
-
-    private AssetHeader createDisapprovedAssetHeader(String docNumber) {
-        AssetHeader assetHeader = new AssetHeader();
-        AssetRetirementDocument retirementDocument = new AssetRetirementDocument() {
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                DocumentHeader header = new DocumentHeader();
-                header.setFinancialDocumentStatusCode(DOC_DISAPPROVED);
-                this.setDocumentHeader(header);
-            }
-
-        };
-        retirementDocument.setDocumentNumber(docNumber);
+        retirementDocument.setRetirementDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
         assetHeader.setRetirementDocument(retirementDocument);
         return assetHeader;
     }
 
     public void testRetirementInfoService() throws Exception {
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("123456"));
+        this.asset.getAssetHeaders().add(createAssetHeader("123456", 0));
+        this.asset.getAssetHeaders().add(createAssetHeader("123457", 1));
         this.retirementInfoService.setRetirementInfo(this.asset);
         assertNotNull(this.asset.getRetirementInfo());
-        assertEquals("123456", this.asset.getRetirementInfo().getDocumentNumber());
+        assertEquals("123457", this.asset.getRetirementInfo().getDocumentNumber());
     }
 
     public void testRetirementInfoService_Disapproved() throws Exception {
-        this.asset.getAssetHeaders().add(createDisapprovedAssetHeader("123456"));
+        this.retirementInfoService.setAssetHeaderService(new AssetHeaderService() {
+            public boolean isDocumentApproved(AssetHeader assetHeader) {
+                return false;
+            }
+        });
+        this.asset.getAssetHeaders().add(createAssetHeader("123456", 0));
+        this.asset.getAssetHeaders().add(createAssetHeader("123457", 1));
+        this.retirementInfoService.setRetirementInfo(this.asset);
+        assertNull(this.asset.getRetirementInfo());
+    }
+
+    public void testRetirementInfoService_NotRetired() throws Exception {
+        this.asset.setInventoryStatusCode("A");
+        this.asset.getAssetHeaders().add(createAssetHeader("123456", 0));
+        this.asset.getAssetHeaders().add(createAssetHeader("123457", 1));
         this.retirementInfoService.setRetirementInfo(this.asset);
         assertNull(this.asset.getRetirementInfo());
     }

@@ -38,42 +38,23 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         equipmentLoanInfoService = new EquipmentLoanInfoServiceImpl();
+        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderService() {
+            public boolean isDocumentApproved(AssetHeader assetHeader) {
+                return true;
+            }
+        });
         this.asset = new Asset();
     }
 
-    private AssetHeader createApprovedAssetHeader(String docNumber, int daysToAdd) {
+    private AssetHeader createAssetHeader(String docNumber, int daysToAdd) {
         AssetHeader assetHeader = new AssetHeader();
-        EquipmentLoanOrReturn loanOrReturn = new EquipmentLoanOrReturn() {
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                DocumentHeader header = new DocumentHeader();
-                header.setFinancialDocumentStatusCode(CamsConstants.DOC_APPROVED);
-                this.setDocumentHeader(header);
-            }
-
-        };
+        EquipmentLoanOrReturn loanOrReturn = new EquipmentLoanOrReturn();
         loanOrReturn.setDocumentNumber(docNumber);
         loanOrReturn.setLoanDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
         assetHeader.setEquipmentLoanOrReturn(loanOrReturn);
         return assetHeader;
     }
 
-    private AssetHeader createDisapprovedAssetHeader(String docNumber, int daysToAdd) {
-        AssetHeader assetHeader = new AssetHeader();
-        EquipmentLoanOrReturn loanOrReturn = new EquipmentLoanOrReturn() {
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                DocumentHeader header = new DocumentHeader();
-                header.setFinancialDocumentStatusCode(DOC_DISAPPROVED);
-                this.setDocumentHeader(header);
-            }
-
-        };
-        loanOrReturn.setDocumentNumber(docNumber);
-        loanOrReturn.setLoanDate(new java.sql.Date(DateUtils.addDays(new Date(), daysToAdd).getTime()));
-        assetHeader.setEquipmentLoanOrReturn(loanOrReturn);
-        return assetHeader;
-    }
 
     public void testEmptyHeaderList() throws Exception {
         this.asset.getAssetHeaders().clear();
@@ -87,25 +68,29 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     }
 
     public void testSetEquipmentLoanInfo() throws Exception {
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("first", TWO_DAYS_LATER));
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("second", THREE_DAYS_LATER));
+        this.asset.getAssetHeaders().add(createAssetHeader("first", TWO_DAYS_LATER));
+        this.asset.getAssetHeaders().add(createAssetHeader("second", THREE_DAYS_LATER));
         equipmentLoanInfoService.setEquipmentLoanInfo(this.asset);
         assertNotNull(this.asset.getLoanOrReturnInfo());
         assertEquals("second", this.asset.getLoanOrReturnInfo().getDocumentNumber());
     }
 
     public void testSetEquipmentLoanInfo_Disapproved() throws Exception {
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("first", TWO_DAYS_LATER));
+        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderService() {
+            public boolean isDocumentApproved(AssetHeader assetHeader) {
+                return false;
+            }
+        });
+        this.asset.getAssetHeaders().add(createAssetHeader("first", TWO_DAYS_LATER));
         // create a disapproved header so that it is ignored by the program
-        this.asset.getAssetHeaders().add(createDisapprovedAssetHeader("second", THREE_DAYS_LATER));
+        this.asset.getAssetHeaders().add(createAssetHeader("second", THREE_DAYS_LATER));
         equipmentLoanInfoService.setEquipmentLoanInfo(this.asset);
-        assertNotNull(this.asset.getLoanOrReturnInfo());
-        assertEquals("first", this.asset.getLoanOrReturnInfo().getDocumentNumber());
+        assertNull(this.asset.getLoanOrReturnInfo());
     }
 
     public void testSetEquipmentLoanInfo_Reverse() throws Exception {
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("first", THREE_DAYS_LATER));
-        this.asset.getAssetHeaders().add(createApprovedAssetHeader("second", TWO_DAYS_LATER));
+        this.asset.getAssetHeaders().add(createAssetHeader("first", THREE_DAYS_LATER));
+        this.asset.getAssetHeaders().add(createAssetHeader("second", TWO_DAYS_LATER));
         equipmentLoanInfoService.setEquipmentLoanInfo(this.asset);
         assertNotNull(this.asset.getLoanOrReturnInfo());
         assertEquals("first", this.asset.getLoanOrReturnInfo().getDocumentNumber());

@@ -23,7 +23,7 @@ public class ReceivingCorrectionDocumentPreRules extends PreRulesContinuationBas
     @Override
     public boolean doRules(Document arg0) {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
 }

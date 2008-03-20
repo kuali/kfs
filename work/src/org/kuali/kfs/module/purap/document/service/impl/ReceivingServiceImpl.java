@@ -119,6 +119,11 @@ public class ReceivingServiceImpl implements ReceivingService {
     public boolean canCreateReceivingLineDocument(PurchaseOrderDocument po) throws RuntimeException {
         return canCreateReceivingLineDocument(po, null);
     }
+    
+    public boolean awaitingPurchaseOrderOpen(String documentNumber) {
+        //return true if po not in one of these statuses (OPEN|CLOSED|PMTHOLD)
+        return true;
+    }
 
     private boolean canCreateReceivingLineDocument(PurchaseOrderDocument po, String receivingDocumentNumber){
 

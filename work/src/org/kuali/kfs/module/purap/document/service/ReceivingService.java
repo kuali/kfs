@@ -72,4 +72,11 @@ public interface ReceivingService {
      * @return
      */
     public HashMap<String, String> receivingLineDuplicateMessages(ReceivingLineDocument rlDoc);
+
+    /**
+     * returns true if po is not in a status that can allow amendments
+     * @param documentNumber the doc number
+     * @return true if po is not in a status that allows amendments
+     */
+    public boolean awaitingPurchaseOrderOpen(String documentNumber);
 }

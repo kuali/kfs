@@ -34,18 +34,8 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
-        if ( BusinessObject.class.isAssignableFrom(DuplicateCertificationsReport.class) ) {
-            System.out.println("DuplicateCertificationsReport IS AssignableFrom BusinessObject");
-            
-        } else System.out.println("DuplicateCertificationsReport is NOT AssignableFrom BusinessObject");
+        
         return super.getSearchResults(fieldValues);
     }
-
-    @Override
-    public Class getBusinessObjectClass() {
-        
-        return DuplicateCertificationsReport.class;
-    }
-    
-    
+ 
 }

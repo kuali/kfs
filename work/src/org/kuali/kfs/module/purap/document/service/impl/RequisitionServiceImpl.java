@@ -184,6 +184,10 @@ public class RequisitionServiceImpl implements RequisitionService {
             requisition.setVendorDetail(vendorDetail);
         }
         
+        //These are needed for commodity codes. They are put in here so that
+        //we don't have to loop through items too many times.
+        String purchaseOrderRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             if (item.isItemRestrictedIndicator()) {
@@ -191,10 +195,6 @@ public class RequisitionServiceImpl implements RequisitionService {
                 return "Requisition contains an item that is marked as restricted.";
             }
             
-            //These are needed for commodity codes. They are put in here so that
-            //we don't have to loop through items too many times.
-            String requisitionRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-            String purchaseOrderRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
             String commodityCodesReason = "";
             if (purchaseOrderRequiresCommodityCode.equals("Y")) {
                 List<VendorCommodityCode> vendorCommodityCodes = requisition.getVendorDetail().getVendorCommodities();
@@ -229,7 +229,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         
         return "";
     }
-
+    
     /**
      * Checks the APO rules for Commodity Codes. 
      * The rules are as follow :
@@ -248,43 +248,6 @@ public class RequisitionServiceImpl implements RequisitionService {
      * @param requisition
      * @return
      */
-    private String checkAPORulesForCommodityCodes(RequisitionDocument requisition) {
-        String requisitionRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-        String purchaseOrderRequiresCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-        
-        if (purchaseOrderRequiresCommodityCode.equals("N")) {
-            return "";
-        }
-        else {
-            for (PurApItem item : (List<PurApItem>)requisition.getItems())   {
-                PurchasingItemBase purItem = (PurchasingItemBase)item;
-                //If the Purchase Order requires commodity code but the Requisition does not,
-                //if the commodity code is blank on any line item, then the system should use
-                //the default commodity code for the vendor
-                if (purItem.getCommodityCode() == null) {
-                    List<VendorCommodityCode> vendorCommodityCodes = requisition.getVendorDetail().getVendorCommodities();
-                    for (VendorCommodityCode vcc : vendorCommodityCodes) {
-                        if (vcc.isCommodityDefaultIndicator()) {
-                            purItem.setCommodityCode(vcc.getCommodityCode());
-                        }
-                    }
-                    //If there is not a default commodity code for the vendor then the requisition
-                    //is not eligible to become an APO.
-                    if (purItem.getCommodityCode() == null) {
-                        return "there are missing commodity code(s).";
-                    }
-                }
-                if (!purItem.getCommodityCode().isActive()) {
-                    return "Requisition contains inactive commodity codes.";
-                }
-                else if (purItem.getCommodityCode().getRestrictedMaterial() != null && purItem.getCommodityCode().getRestrictedMaterial().isActive()) {
-                    return "Requisition contains an item that is marked as restricted.";
-                }
-            }
-        }
-        return "";
-    }
-    
     private String checkAPORulesPerItemForCommodityCodes(RequisitionItem purItem, List<VendorCommodityCode>vendorCommodityCodes) {
         // If the commodity code is blank on any line item, then the system should use
         // the default commodity code for the vendor

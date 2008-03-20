@@ -30,8 +30,8 @@
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" />
-                <lookupField attributeName="effortCertificationReportNumber" />
+            	<lookupField attributeName="universityFiscalYear" required="true" />
+                <lookupField attributeName="effortCertificationReportNumber" required="true" />
             </lookupFields>
 
             <resultFields>
@@ -44,50 +44,13 @@
         </lookup>
 
         <attributes>
-			<attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
-                <shortLabel>year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>University Fiscal Year</summary>
-                <description>University Fiscal Year</description>
-			</attribute>
+			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
 			
-			<attribute name="effortCertificationReportNumber" forceUppercase="true">
-                <label>Effort Certification Report Number</label>
-                <shortLabel>report number</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Effort Certification Report Number</summary>
-                <description>Effort Certification Report Number</description>
-			</attribute>
+			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
+            
+			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
 			
-			<attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>chart</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Chart Of Accounts Code</summary>
-                <description>Chart Of Accounts Code</description>
-			</attribute>
+			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" />
 			
 			<attribute name="outstandingCertificationCount" forceUppercase="true">
                 <label>Number of Outstanding Certifications</label>

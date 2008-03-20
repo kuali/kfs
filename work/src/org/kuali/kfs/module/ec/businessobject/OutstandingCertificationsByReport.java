@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.effort.EffortPropertyConstants;
 
 public class OutstandingCertificationsByReport extends TransientBusinessObjectBase {
@@ -28,6 +29,8 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
     private String chartOfAccountsCode;
     private String organizationCode;
     private Integer outstandingCertificationCount;
+    
+    private Options options;
     
     /**
      * Return the chartOfAccountsCode
@@ -119,6 +122,24 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
         this.universityFiscalYear = universityFiscalYear;
     }
 
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+    
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

@@ -27,6 +27,7 @@ import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
 import org.kuali.module.effort.bo.OutstandingReportsByOrganization;
 
@@ -49,22 +50,24 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
             String[] chartOrgArray = outstandingReportByOrganization.getCertificationOrganizations().split(",");
             for (String chartOrg : chartOrgArray) {
                 if (countMap.containsKey(chartOrg)) countMap.put(chartOrg, ( countMap.get(chartOrg) + 1 ) );
-                else countMap.put(chartOrg, 0);
+                else countMap.put(chartOrg, 1);
             }
         }
         
         ArrayList<String> chartOrgList = new ArrayList<String>(countMap.keySet());
         ArrayList<OutstandingCertificationsByReport> returnResults = new ArrayList<OutstandingCertificationsByReport>();
+        ArrayList<String> keys = new ArrayList<String>(fieldValues.keySet());
         
         for (String chartOrg : chartOrgList) {
             OutstandingCertificationsByReport temp = new OutstandingCertificationsByReport();
             String[] chartAndOrg = chartOrg.split("-");
             
             //TODO: are these the correct field property names
+            
             temp.setEffortCertificationReportNumber(fieldValues.get("effortCertificationReportNumber"));
             temp.setUniversityFiscalYear(fieldValues.get("universityFiscalYear"));
-            temp.setUniversityFiscalYear(chartAndOrg[0]);
-            temp.setUniversityFiscalYear(chartAndOrg[1]);
+            temp.setChartOfAccountsCode(chartAndOrg[0]);
+            temp.setOrganizationCode(chartAndOrg[1]);
             temp.setOutstandingCertificationCount(countMap.get(chartOrg));
             
             returnResults.add(temp);
@@ -75,6 +78,18 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
         return returnResults;
+    }
+
+    @Override
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
+        
+        return "";
+    }
+
+    @Override
+    public Class getBusinessObjectClass() {
+        
+        return OutstandingCertificationsByReport.class;
     }
 
 }

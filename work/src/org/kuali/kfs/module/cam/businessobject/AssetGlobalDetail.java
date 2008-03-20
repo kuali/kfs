@@ -23,13 +23,15 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 	private String buildingSubRoomNumber;
 	private String campusTagNumber;
 	private String organizationInventoryName;
-	private String organizationCapitalAssetTypeIdentifier;
+	private String organizationAssetTypeIdentifier;
     private String offCampusName;
     private String offCampusAddress;
 	private String offCampusCityName;
 	private String offCampusStateCode;
 	private String offCampusZipCode;
     private String offCampusCountryCode;
+    private String governmentTagNumber;
+    private String nationalStockNumber;
     
     private Campus campus;
     private Building building;
@@ -37,14 +39,14 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private State offCampusState;
     private Country offCampusCountry;
     
-    private int locationQuantity;
+    private Integer locationQuantity;
     
 	/**
      * Gets the locationQuantity attribute.
      * 
      * @return Returns the locationQuantity.
      */
-    public int getLocationQuantity() {
+    public Integer getLocationQuantity() {
         return locationQuantity;
     }
 
@@ -53,7 +55,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @param locationQuantity The locationQuantity to set.
      */
-    public void setLocationQuantity(int locationQuantity) {
+    public void setLocationQuantity(Integer locationQuantity) {
         this.locationQuantity = locationQuantity;
     }
 
@@ -252,23 +254,23 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
 
 	/**
-	 * Gets the organizationCapitalAssetTypeIdentifier attribute.
+	 * Gets the organizationAssetTypeIdentifier attribute.
 	 * 
-	 * @return Returns the organizationCapitalAssetTypeIdentifier
+	 * @return Returns the organizationAssetTypeIdentifier
 	 * 
 	 */
-	public String getOrganizationCapitalAssetTypeIdentifier() { 
-		return organizationCapitalAssetTypeIdentifier;
+	public String getOrganizationAssetTypeIdentifier() { 
+		return organizationAssetTypeIdentifier;
 	}
 
 	/**
-	 * Sets the organizationCapitalAssetTypeIdentifier attribute.
+	 * Sets the organizationAssetTypeIdentifier attribute.
 	 * 
-	 * @param organizationCapitalAssetTypeIdentifier The organizationCapitalAssetTypeIdentifier to set.
+	 * @param organizationAssetTypeIdentifier The organizationAssetTypeIdentifier to set.
 	 * 
 	 */
-	public void setOrganizationCapitalAssetTypeIdentifier(String organizationCapitalAssetTypeIdentifier) {
-		this.organizationCapitalAssetTypeIdentifier = organizationCapitalAssetTypeIdentifier;
+	public void setOrganizationAssetTypeIdentifier(String organizationAssetTypeIdentifier) {
+		this.organizationAssetTypeIdentifier = organizationAssetTypeIdentifier;
 	}
 
 
@@ -387,6 +389,47 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
         this.offCampusName = offCampusName;
     }
 
+    /**
+     * Gets the governmentTagNumber attribute.
+     * 
+     * @return Returns the governmentTagNumber
+     * 
+     */
+    public String getGovernmentTagNumber() { 
+        return governmentTagNumber;
+    }
+
+    /**
+     * Sets the governmentTagNumber attribute.
+     * 
+     * @param governmentTagNumber The governmentTagNumber to set.
+     * 
+     */
+    public void setGovernmentTagNumber(String governmentTagNumber) {
+        this.governmentTagNumber = governmentTagNumber;
+    }
+
+
+    /**
+     * Gets the nationalStockNumber attribute.
+     * 
+     * @return Returns the nationalStockNumber
+     * 
+     */
+    public String getNationalStockNumber() { 
+        return nationalStockNumber;
+    }
+
+    /**
+     * Sets the nationalStockNumber attribute.
+     * 
+     * @param nationalStockNumber The nationalStockNumber to set.
+     * 
+     */
+    public void setNationalStockNumber(String nationalStockNumber) {
+        this.nationalStockNumber = nationalStockNumber;
+    }
+    
     /**
 	 * Gets the campus attribute.
 	 * 

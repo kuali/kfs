@@ -52,7 +52,7 @@
             <reference attributeName="assetHeader.organizationOwnerChartOfAccounts" attributeToHighlightOnFail="assetHeader.organizationOwnerChartOfAccountsCode" />
             <reference attributeName="assetHeader.organizationOwnerAccount" attributeToHighlightOnFail="assetHeader.organizationOwnerAccountNumber" />
             <!-- <reference attributeName="assetHeader.agency" attributeToHighlightOnFail="assetHeader.agencyNumber" /> -->
-            <reference attributeName="condition" attributeToHighlightOnFail="conditionCode" />
+            <reference attributeName="assetCondition" attributeToHighlightOnFail="conditionCode" />
             <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
         </defaultExistenceChecks>
  

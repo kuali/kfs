@@ -10,10 +10,12 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
@@ -24,186 +26,50 @@ import org.kuali.module.chart.bo.Chart;
  */
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
-    /* misc. */
     private String documentNumber;
-    private BigDecimal leoAddPaymentsTotalCost;
-    
-    /* asset detail infomation (Asset / CM_CPTLAST_T) */
-    private String organizationOwnerChartOfAccountsCode;
-    private String organizationOwnerAccountNumber;
-    private String leoOrganizationOwner; //org. owner
-    private String agencyNumber;
+    private Integer financialDocumentNextLineNumber;
     private String acquisitionTypeCode;
+    private String capitalAssetDescription;
     private String inventoryStatusCode;
-    private String conditionCode; // (AssetGlobal / CM_MULT_AST_DOC_T)
-    private String capitalAssetDescription; // (AssetGlobal / CM_MULT_AST_DOC_T)
-    private String capitalAssetTypeCode; // (AssetGlobal / CM_MULT_AST_DOC_T)
-    private String vendorName;
+    private String conditionCode;
+    private String primaryDepreciationMethodCode;
+    private KualiDecimal primaryDepreciationBaseAmount;
+    private String acquisitionSourceName;
+    private String capitalAssetTypeCode;
     private String manufacturerName;
     private String manufacturerModelNumber;
-    private String organizationText; // (AssetOrganization / CM_AST_ORG_T)
-    private String leoAssetRepresentitive; //asset rep.
-    private Timestamp lastInventoryDate;
-    private Date createDate;
-    private Date capitalAssetInServiceDate;
-    private Date leoDeprecationDate; //deprec. date
-    
-    /* unique asset information (Asset / CM_CPTLAST_T) */
-    private String leoAssetsToCreate; //nbr of assets to create
-    private long capitalAssetNumber; // PK
-    private String campusTagNumber;
-    private String serialNumber;
-    private String leoGovernmentTag; // government tag
-    private String leoNationalStockNbr; //national stock number
-    private String organizationInventoryName;
-    private String organizationAssetTypeIdentifier; // (AssetOrganization / CM_AST_ORG_T)
-
-    /* location - on/off campus (AssetGlobalDetail / CM_MULT_AST_DTL_T) */
-    private List<AssetGlobalDetail> assetGlobalDetails; 
-
-    /* land information */
+    private Date capitalizationDate;
+    private KualiDecimal totalCostAmount;
     private String landCountyName;
     private Integer landAcreageSize;
     private String landParcelNumber;
-    
-    /* Add Payments (AssetPayment / CM_AST_PAYMENT_T) */
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String projectCode;
-    private String organizationReferenceId;
-    private String leoDocumentNumber; // dup/exists?
-    private String financialDocumentTypeCode;
-    private String purchaseOrderNumber;
-    private String requisitionNumber;
-    private Date financialDocumentPostingDate;
-    private int financialDocumentPostingYear;
-    private String financialDocumentPostingPeriodCode;
-    private BigDecimal accountChargeAmount;
-    
+    private String vendorName;
+    private String organizationText;
+    private Date createDate;
+    private Date capitalAssetInServiceDate;
+    private Date capitalAssetDepreciationDate;
 
+    private AssetHeader assetHeader;
+    private AssetType capitalAssetType;
+    private AssetCondition assetCondition;
+    private AssetStatus inventoryStatus;
+    private List<AssetGlobalDetail> assetGlobalDetails; 
     private List<AssetPaymentDetail> assetPaymentDetails;
     
-    /* default existance checks */
-    private AssetHeader assetHeader;
-    private Chart organizationOwnerChartOfAccounts;
-    private Account organizationOwnerAccount;
-    private AssetCondition condition;
-    private AssetType capitalAssetType;
-    
-    /**
-     * Gets the organizationOwnerAccount attribute. 
-     * @return Returns the organizationOwnerAccount.
-     */
-    public Account getOrganizationOwnerAccount() {
-        return organizationOwnerAccount;
-    }
-
-    /**
-     * Sets the organizationOwnerAccount attribute value.
-     * @param organizationOwnerAccount The organizationOwnerAccount to set.
-     */
-    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
-        this.organizationOwnerAccount = organizationOwnerAccount;
-    }
-
-    /**
-     * Gets the organizationOwnerChartOfAccounts attribute. 
-     * @return Returns the organizationOwnerChartOfAccounts.
-     */
-    public Chart getOrganizationOwnerChartOfAccounts() {
-        return organizationOwnerChartOfAccounts;
-    }
-
-    /**
-     * Sets the organizationOwnerChartOfAccounts attribute value.
-     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
-     */
-    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
-        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
-    }
-
     /**
      * Default constructor.
      */
     public AssetGlobal() {
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
-    }     
-    
-    /**
-     * Gets the leoAssetRepresentitive attribute. 
-     * @return Returns the leoAssetRepresentitive.
-     */
-    public String getLeoAssetRepresentitive() {
-        return leoAssetRepresentitive;
-    }
-
-    /**
-     * Sets the leoAssetRepresentitive attribute value.
-     * @param leoAssetRepresentitive The leoAssetRepresentitive to set.
-     */
-    public void setLeoAssetRepresentitive(String leoAssetRepresentitive) {
-        this.leoAssetRepresentitive = leoAssetRepresentitive;
-    }
-
-    /**
-     * Gets the leoDeprecationDate attribute. 
-     * @return Returns the leoDeprecationDate.
-     */
-    public Date getLeoDeprecationDate() {
-        return leoDeprecationDate;
-    }
-
-    /**
-     * Sets the leoDeprecationDate attribute value.
-     * @param leoDeprecationDate The leoDeprecationDate to set.
-     */
-    public void setLeoDeprecationDate(Date leoDeprecationDate) {
-        this.leoDeprecationDate = leoDeprecationDate;
-    }
-
-    /**
-     * Gets the leoOrganizationOwner attribute. 
-     * @return Returns the leoOrganizationOwner.
-     */
-    public String getLeoOrganizationOwner() {
-        return leoOrganizationOwner;
-    }
-
-    /**
-     * Sets the leoOrganizationOwner attribute value.
-     * @param leoOrganizationOwner The leoOrganizationOwner to set.
-     */
-    public void setLeoOrganizationOwner(String leoOrganizationOwner) {
-        this.leoOrganizationOwner = leoOrganizationOwner;
-    }
-
-    /**
-     * Gets the assetGlobalDetails attribute.
-     * 
-     * @return Returns the assetGlobalDetails.
-     */
-    public List<AssetGlobalDetail> getAssetGlobalDetails() {
-        return assetGlobalDetails;
-    }
-
-    /**
-     * Sets the assetGlobalDetails attribute value.
-     *
-     * @param assetGlobalDetails The assetGlobalDetails to set.
-     */
-    public void setAssetGlobalDetails(List<AssetGlobalDetail> assetGlobalDetails) {
-        this.assetGlobalDetails = assetGlobalDetails;
     }
 
     /**
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
+     * 
      */
-    public String getDocumentNumber() {
+    public String getDocumentNumber() { 
         return documentNumber;
     }
 
@@ -211,12 +77,55 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
+     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-    
-  
+
+
+    /**
+     * Gets the financialDocumentNextLineNumber attribute.
+     * 
+     * @return Returns the financialDocumentNextLineNumber
+     * 
+     */
+    public Integer getFinancialDocumentNextLineNumber() { 
+        return financialDocumentNextLineNumber;
+    }
+
+    /**
+     * Sets the financialDocumentNextLineNumber attribute.
+     * 
+     * @param financialDocumentNextLineNumber The financialDocumentNextLineNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNextLineNumber(Integer financialDocumentNextLineNumber) {
+        this.financialDocumentNextLineNumber = financialDocumentNextLineNumber;
+    }
+
+
+    /**
+     * Gets the acquisitionTypeCode attribute.
+     * 
+     * @return Returns the acquisitionTypeCode
+     * 
+     */
+    public String getAcquisitionTypeCode() { 
+        return acquisitionTypeCode;
+    }
+
+    /**
+     * Sets the acquisitionTypeCode attribute.
+     * 
+     * @param acquisitionTypeCode The acquisitionTypeCode to set.
+     * 
+     */
+    public void setAcquisitionTypeCode(String acquisitionTypeCode) {
+        this.acquisitionTypeCode = acquisitionTypeCode;
+    }
+
+
     /**
      * Gets the capitalAssetDescription attribute.
      * 
@@ -235,6 +144,111 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setCapitalAssetDescription(String capitalAssetDescription) {
         this.capitalAssetDescription = capitalAssetDescription;
+    }
+
+
+    /**
+     * Gets the inventoryStatusCode attribute.
+     * 
+     * @return Returns the inventoryStatusCode
+     * 
+     */
+    public String getInventoryStatusCode() { 
+        return inventoryStatusCode;
+    }
+
+    /**
+     * Sets the inventoryStatusCode attribute.
+     * 
+     * @param inventoryStatusCode The inventoryStatusCode to set.
+     * 
+     */
+    public void setInventoryStatusCode(String inventoryStatusCode) {
+        this.inventoryStatusCode = inventoryStatusCode;
+    }
+
+
+    /**
+     * Gets the conditionCode attribute.
+     * 
+     * @return Returns the conditionCode
+     * 
+     */
+    public String getConditionCode() { 
+        return conditionCode;
+    }
+
+    /**
+     * Sets the conditionCode attribute.
+     * 
+     * @param conditionCode The conditionCode to set.
+     * 
+     */
+    public void setConditionCode(String conditionCode) {
+        this.conditionCode = conditionCode;
+    }
+
+
+    /**
+     * Gets the primaryDepreciationMethodCode attribute.
+     * 
+     * @return Returns the primaryDepreciationMethodCode
+     * 
+     */
+    public String getPrimaryDepreciationMethodCode() { 
+        return primaryDepreciationMethodCode;
+    }
+
+    /**
+     * Sets the primaryDepreciationMethodCode attribute.
+     * 
+     * @param primaryDepreciationMethodCode The primaryDepreciationMethodCode to set.
+     * 
+     */
+    public void setPrimaryDepreciationMethodCode(String primaryDepreciationMethodCode) {
+        this.primaryDepreciationMethodCode = primaryDepreciationMethodCode;
+    }
+
+
+    /**
+     * Gets the primaryDepreciationBaseAmount attribute.
+     * 
+     * @return Returns the primaryDepreciationBaseAmount
+     * 
+     */
+    public KualiDecimal getPrimaryDepreciationBaseAmount() { 
+        return primaryDepreciationBaseAmount;
+    }
+
+    /**
+     * Sets the primaryDepreciationBaseAmount attribute.
+     * 
+     * @param primaryDepreciationBaseAmount The primaryDepreciationBaseAmount to set.
+     * 
+     */
+    public void setPrimaryDepreciationBaseAmount(KualiDecimal primaryDepreciationBaseAmount) {
+        this.primaryDepreciationBaseAmount = primaryDepreciationBaseAmount;
+    }
+
+
+    /**
+     * Gets the acquisitionSourceName attribute.
+     * 
+     * @return Returns the acquisitionSourceName
+     * 
+     */
+    public String getAcquisitionSourceName() { 
+        return acquisitionSourceName;
+    }
+
+    /**
+     * Sets the acquisitionSourceName attribute.
+     * 
+     * @param acquisitionSourceName The acquisitionSourceName to set.
+     * 
+     */
+    public void setAcquisitionSourceName(String acquisitionSourceName) {
+        this.acquisitionSourceName = acquisitionSourceName;
     }
 
 
@@ -260,25 +274,358 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
 
     /**
-     * Gets the conditionCode attribute.
+     * Gets the manufacturerName attribute.
      * 
-     * @return Returns the conditionCode
+     * @return Returns the manufacturerName
      * 
      */
-    public String getConditionCode() { 
-        return conditionCode;
+    public String getManufacturerName() { 
+        return manufacturerName;
     }
 
     /**
-     * Sets the conditionCode attribute.
+     * Sets the manufacturerName attribute.
      * 
-     * @param conditionCode The conditionCode to set.
+     * @param manufacturerName The manufacturerName to set.
      * 
      */
-    public void setConditionCode(String conditionCode) {
-        this.conditionCode = conditionCode;
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
     }
 
+
+    /**
+     * Gets the manufacturerModelNumber attribute.
+     * 
+     * @return Returns the manufacturerModelNumber
+     * 
+     */
+    public String getManufacturerModelNumber() { 
+        return manufacturerModelNumber;
+    }
+
+    /**
+     * Sets the manufacturerModelNumber attribute.
+     * 
+     * @param manufacturerModelNumber The manufacturerModelNumber to set.
+     * 
+     */
+    public void setManufacturerModelNumber(String manufacturerModelNumber) {
+        this.manufacturerModelNumber = manufacturerModelNumber;
+    }
+
+
+    /**
+     * Gets the capitalizationDate attribute.
+     * 
+     * @return Returns the capitalizationDate
+     * 
+     */
+    public Date getCapitalizationDate() { 
+        return capitalizationDate;
+    }
+
+    /**
+     * Sets the capitalizationDate attribute.
+     * 
+     * @param capitalizationDate The capitalizationDate to set.
+     * 
+     */
+    public void setCapitalizationDate(Date capitalizationDate) {
+        this.capitalizationDate = capitalizationDate;
+    }
+
+
+    /**
+     * Gets the totalCostAmount attribute.
+     * 
+     * @return Returns the totalCostAmount
+     * 
+     */
+    public KualiDecimal getTotalCostAmount() { 
+        return totalCostAmount;
+    }
+
+    /**
+     * Sets the totalCostAmount attribute.
+     * 
+     * @param totalCostAmount The totalCostAmount to set.
+     * 
+     */
+    public void setTotalCostAmount(KualiDecimal totalCostAmount) {
+        this.totalCostAmount = totalCostAmount;
+    }
+
+
+    /**
+     * Gets the landCountyName attribute.
+     * 
+     * @return Returns the landCountyName
+     * 
+     */
+    public String getLandCountyName() { 
+        return landCountyName;
+    }
+
+    /**
+     * Sets the landCountyName attribute.
+     * 
+     * @param landCountyName The landCountyName to set.
+     * 
+     */
+    public void setLandCountyName(String landCountyName) {
+        this.landCountyName = landCountyName;
+    }
+
+
+    /**
+     * Gets the landAcreageSize attribute.
+     * 
+     * @return Returns the landAcreageSize
+     * 
+     */
+    public Integer getLandAcreageSize() { 
+        return landAcreageSize;
+    }
+
+    /**
+     * Sets the landAcreageSize attribute.
+     * 
+     * @param landAcreageSize The landAcreageSize to set.
+     * 
+     */
+    public void setLandAcreageSize(Integer landAcreageSize) {
+        this.landAcreageSize = landAcreageSize;
+    }
+
+
+    /**
+     * Gets the landParcelNumber attribute.
+     * 
+     * @return Returns the landParcelNumber
+     * 
+     */
+    public String getLandParcelNumber() { 
+        return landParcelNumber;
+    }
+
+    /**
+     * Sets the landParcelNumber attribute.
+     * 
+     * @param landParcelNumber The landParcelNumber to set.
+     * 
+     */
+    public void setLandParcelNumber(String landParcelNumber) {
+        this.landParcelNumber = landParcelNumber;
+    }
+
+
+    /**
+     * Gets the vendorName attribute.
+     * 
+     * @return Returns the vendorName
+     * 
+     */
+    public String getVendorName() { 
+        return vendorName;
+    }
+
+    /**
+     * Sets the vendorName attribute.
+     * 
+     * @param vendorName The vendorName to set.
+     * 
+     */
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+
+    /**
+     * Gets the organizationText attribute.
+     * 
+     * @return Returns the organizationText
+     * 
+     */
+    public String getOrganizationText() { 
+        return organizationText;
+    }
+
+    /**
+     * Sets the organizationText attribute.
+     * 
+     * @param organizationText The organizationText to set.
+     * 
+     */
+    public void setOrganizationText(String organizationText) {
+        this.organizationText = organizationText;
+    }
+
+
+    /**
+     * Gets the createDate attribute.
+     * 
+     * @return Returns the createDate
+     * 
+     */
+    public Date getCreateDate() { 
+        return createDate;
+    }
+
+    /**
+     * Sets the createDate attribute.
+     * 
+     * @param createDate The createDate to set.
+     * 
+     */
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+
+    /**
+     * Gets the capitalAssetInServiceDate attribute.
+     * 
+     * @return Returns the capitalAssetInServiceDate
+     * 
+     */
+    public Date getCapitalAssetInServiceDate() { 
+        return capitalAssetInServiceDate;
+    }
+
+    /**
+     * Sets the capitalAssetInServiceDate attribute.
+     * 
+     * @param capitalAssetInServiceDate The capitalAssetInServiceDate to set.
+     * 
+     */
+    public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
+        this.capitalAssetInServiceDate = capitalAssetInServiceDate;
+    }
+
+
+    /**
+     * Gets the capitalAssetDepreciationDate attribute.
+     * 
+     * @return Returns the capitalAssetDepreciationDate
+     * 
+     */
+    public Date getCapitalAssetDepreciationDate() { 
+        return capitalAssetDepreciationDate;
+    }
+
+    /**
+     * Sets the capitalAssetDepreciationDate attribute.
+     * 
+     * @param capitalAssetDepreciationDate The capitalAssetDepreciationDate to set.
+     * 
+     */
+    public void setCapitalAssetDepreciationDate(Date capitalAssetDepreciationDate) {
+        this.capitalAssetDepreciationDate = capitalAssetDepreciationDate;
+    }
+
+    /**
+     * Gets the assetCondition attribute. 
+     * @return Returns the assetCondition.
+     */
+    public AssetCondition getAssetCondition() {
+        return assetCondition;
+    }
+
+    /**
+     * Sets the assetCondition attribute value.
+     * @param assetCondition The assetCondition to set.
+     * @deprecated
+     */
+    public void setAssetCondition(AssetCondition assetCondition) {
+        this.assetCondition = assetCondition;
+    }
+
+    /**
+     * Gets the capitalAssetType attribute. 
+     * @return Returns the capitalAssetType.
+     */
+    public AssetType getCapitalAssetType() {
+        return capitalAssetType;
+    }
+
+    /**
+     * Sets the capitalAssetType attribute value.
+     * @param capitalAssetType The capitalAssetType to set.
+     * @deprecated
+     */
+    public void setCapitalAssetType(AssetType capitalAssetType) {
+        this.capitalAssetType = capitalAssetType;
+    }
+
+    /**
+     * Gets the inventoryStatus attribute. 
+     * @return Returns the inventoryStatus.
+     */
+    public AssetStatus getInventoryStatus() {
+        return inventoryStatus;
+    }
+
+    /**
+     * Sets the inventoryStatus attribute value.
+     * @param inventoryStatus The inventoryStatus to set.
+     * @deprecated
+     */
+    public void setInventoryStatus(AssetStatus inventoryStatus) {
+        this.inventoryStatus = inventoryStatus;
+    }
+
+
+    /**
+     * Gets the assetHeader attribute. 
+     * @return Returns the assetHeader.
+     */
+    public AssetHeader getAssetHeader() {
+        return assetHeader;
+    }
+
+    /**
+     * Sets the assetHeader attribute value.
+     * @param assetHeader The assetHeader to set.
+     */
+    public void setAssetHeader(AssetHeader assetHeader) {
+        this.assetHeader = assetHeader;
+    }
+
+    /**
+     * Gets the assetGlobalDetails attribute.
+     * 
+     * @return Returns the assetGlobalDetails.
+     */
+    public List<AssetGlobalDetail> getAssetGlobalDetails() {
+        return assetGlobalDetails;
+    }
+
+    /**
+     * Sets the assetGlobalDetails attribute value.
+     *
+     * @param assetGlobalDetails The assetGlobalDetails to set.
+     */
+    public void setAssetGlobalDetails(List<AssetGlobalDetail> assetGlobalDetails) {
+        this.assetGlobalDetails = assetGlobalDetails;
+    }
+    
+    /**
+     * Gets the assetPaymentDetails attribute. 
+     * @return Returns the assetPaymentDetails.
+     */
+    public List<AssetPaymentDetail> getAssetPaymentDetails() {
+        return assetPaymentDetails;
+    }
+
+    /**
+     * Sets the assetPaymentDetails attribute value.
+     * @param assetPaymentDetails The assetPaymentDetails to set.
+     */
+    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
+        this.assetPaymentDetails = assetPaymentDetails;
+    }
+    
     /**
      * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
@@ -349,30 +696,167 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         
         super.beforeInsert(persistenceBroker);
     }
-
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
         return m;
     }
-
-    /**
-     * Gets the acquisitionTypeCode attribute. 
-     * @return Returns the acquisitionTypeCode.
+    
+    /*
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * REVIEW THE BELOW
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
      */
-    public String getAcquisitionTypeCode() {
-        return acquisitionTypeCode;
+    
+    /* misc. */
+    private BigDecimal leoAddPaymentsTotalCost;
+    
+    /* asset detail infomation (Asset / CM_CPTLAST_T) */
+    private String organizationOwnerChartOfAccountsCode;
+    private String organizationOwnerAccountNumber;
+    private String leoOrganizationOwner; //org. owner
+    private String agencyNumber;
+    private String leoAssetRepresentitive; //asset rep.
+    private Timestamp lastInventoryDate;
+    private Date leoDeprecationDate; //deprec. date
+    
+    /* unique asset information (Asset / CM_CPTLAST_T) */
+    private String leoAssetsToCreate; //nbr of assets to create
+    private long capitalAssetNumber; // PK
+    private String campusTagNumber;
+    private String serialNumber;
+    private String leoGovernmentTag; // government tag
+    private String leoNationalStockNbr; //national stock number
+    private String organizationInventoryName;
+    private String organizationAssetTypeIdentifier; // (AssetOrganization / CM_AST_ORG_T)
+
+    /* Add Payments (AssetPayment / CM_AST_PAYMENT_T) */
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private String projectCode;
+    private String organizationReferenceId;
+    private String leoDocumentNumber; // dup/exists?
+    private String financialDocumentTypeCode;
+    private String purchaseOrderNumber;
+    private String requisitionNumber;
+    private Date financialDocumentPostingDate;
+    private int financialDocumentPostingYear;
+    private String financialDocumentPostingPeriodCode;
+    private BigDecimal accountChargeAmount;
+    
+    /* default existance checks */
+    private Chart organizationOwnerChartOfAccounts;
+    private Account organizationOwnerAccount;
+    
+    /**
+     * Gets the organizationOwnerAccount attribute. 
+     * @return Returns the organizationOwnerAccount.
+     */
+    public Account getOrganizationOwnerAccount() {
+        return organizationOwnerAccount;
     }
 
     /**
-     * Sets the acquisitionTypeCode attribute value.
-     * @param acquisitionTypeCode The acquisitionTypeCode to set.
+     * Sets the organizationOwnerAccount attribute value.
+     * @param organizationOwnerAccount The organizationOwnerAccount to set.
      */
-    public void setAcquisitionTypeCode(String acquisitionTypeCode) {
-        this.acquisitionTypeCode = acquisitionTypeCode;
+    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
+        this.organizationOwnerAccount = organizationOwnerAccount;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccounts attribute. 
+     * @return Returns the organizationOwnerChartOfAccounts.
+     */
+    public Chart getOrganizationOwnerChartOfAccounts() {
+        return organizationOwnerChartOfAccounts;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccounts attribute value.
+     * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
+     */
+    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
+        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
+    }  
+    
+    /**
+     * Gets the leoAssetRepresentitive attribute. 
+     * @return Returns the leoAssetRepresentitive.
+     */
+    public String getLeoAssetRepresentitive() {
+        return leoAssetRepresentitive;
+    }
+
+    /**
+     * Sets the leoAssetRepresentitive attribute value.
+     * @param leoAssetRepresentitive The leoAssetRepresentitive to set.
+     */
+    public void setLeoAssetRepresentitive(String leoAssetRepresentitive) {
+        this.leoAssetRepresentitive = leoAssetRepresentitive;
+    }
+
+    /**
+     * Gets the leoDeprecationDate attribute. 
+     * @return Returns the leoDeprecationDate.
+     */
+    public Date getLeoDeprecationDate() {
+        return leoDeprecationDate;
+    }
+
+    /**
+     * Sets the leoDeprecationDate attribute value.
+     * @param leoDeprecationDate The leoDeprecationDate to set.
+     */
+    public void setLeoDeprecationDate(Date leoDeprecationDate) {
+        this.leoDeprecationDate = leoDeprecationDate;
+    }
+
+    /**
+     * Gets the leoOrganizationOwner attribute. 
+     * @return Returns the leoOrganizationOwner.
+     */
+    public String getLeoOrganizationOwner() {
+        return leoOrganizationOwner;
+    }
+
+    /**
+     * Sets the leoOrganizationOwner attribute value.
+     * @param leoOrganizationOwner The leoOrganizationOwner to set.
+     */
+    public void setLeoOrganizationOwner(String leoOrganizationOwner) {
+        this.leoOrganizationOwner = leoOrganizationOwner;
     }
 
     /**
@@ -389,70 +873,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setAgencyNumber(String agencyNumber) {
         this.agencyNumber = agencyNumber;
-    }
-
-    /**
-     * Gets the inventoryStatusCode attribute. 
-     * @return Returns the inventoryStatusCode.
-     */
-    public String getInventoryStatusCode() {
-        return inventoryStatusCode;
-    }
-
-    /**
-     * Sets the inventoryStatusCode attribute value.
-     * @param inventoryStatusCode The inventoryStatusCode to set.
-     */
-    public void setInventoryStatusCode(String inventoryStatusCode) {
-        this.inventoryStatusCode = inventoryStatusCode;
-    }
-
-    /**
-     * Gets the landAcreageSize attribute. 
-     * @return Returns the landAcreageSize.
-     */
-    public Integer getLandAcreageSize() {
-        return landAcreageSize;
-    }
-
-    /**
-     * Sets the landAcreageSize attribute value.
-     * @param landAcreageSize The landAcreageSize to set.
-     */
-    public void setLandAcreageSize(Integer landAcreageSize) {
-        this.landAcreageSize = landAcreageSize;
-    }
-
-    /**
-     * Gets the landCountyName attribute. 
-     * @return Returns the landCountyName.
-     */
-    public String getLandCountyName() {
-        return landCountyName;
-    }
-
-    /**
-     * Sets the landCountyName attribute value.
-     * @param landCountyName The landCountyName to set.
-     */
-    public void setLandCountyName(String landCountyName) {
-        this.landCountyName = landCountyName;
-    }
-
-    /**
-     * Gets the landParcelNumber attribute. 
-     * @return Returns the landParcelNumber.
-     */
-    public String getLandParcelNumber() {
-        return landParcelNumber;
-    }
-
-    /**
-     * Sets the landParcelNumber attribute value.
-     * @param landParcelNumber The landParcelNumber to set.
-     */
-    public void setLandParcelNumber(String landParcelNumber) {
-        this.landParcelNumber = landParcelNumber;
     }
 
     /**
@@ -486,103 +906,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
         this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
     }
-
-    /**
-     * Gets the manufacturerModelNumber attribute. 
-     * @return Returns the manufacturerModelNumber.
-     */
-    public String getManufacturerModelNumber() {
-        return manufacturerModelNumber;
-    }
-
-    /**
-     * Sets the manufacturerModelNumber attribute value.
-     * @param manufacturerModelNumber The manufacturerModelNumber to set.
-     */
-    public void setManufacturerModelNumber(String manufacturerModelNumber) {
-        this.manufacturerModelNumber = manufacturerModelNumber;
-    }
-
-    /**
-     * Gets the manufacturerName attribute. 
-     * @return Returns the manufacturerName.
-     */
-    public String getManufacturerName() {
-        return manufacturerName;
-    }
-
-    /**
-     * Sets the manufacturerName attribute value.
-     * @param manufacturerName The manufacturerName to set.
-     */
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
-    }
-
-    /**
-     * Gets the organizationText attribute. 
-     * @return Returns the organizationText.
-     */
-    public String getOrganizationText() {
-        return organizationText;
-    }
-
-    /**
-     * Sets the organizationText attribute value.
-     * @param organizationText The organizationText to set.
-     */
-    public void setOrganizationText(String organizationText) {
-        this.organizationText = organizationText;
-    }
-
-    /**
-     * Gets the vendorName attribute. 
-     * @return Returns the vendorName.
-     */
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    /**
-     * Sets the vendorName attribute value.
-     * @param vendorName The vendorName to set.
-     */
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    /**
-     * Gets the capitalAssetInServiceDate attribute. 
-     * @return Returns the capitalAssetInServiceDate.
-     */
-    public Date getCapitalAssetInServiceDate() {
-        return capitalAssetInServiceDate;
-    }
-
-    /**
-     * Sets the capitalAssetInServiceDate attribute value.
-     * @param capitalAssetInServiceDate The capitalAssetInServiceDate to set.
-     */
-    public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
-        this.capitalAssetInServiceDate = capitalAssetInServiceDate;
-    }
-
-    /**
-     * Gets the createDate attribute. 
-     * @return Returns the createDate.
-     */
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    /**
-     * Sets the createDate attribute value.
-     * @param createDate The createDate to set.
-     */
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
+    
     /**
      * Gets the financialDocumentPostingPeriodCode attribute. 
      * @return Returns the financialDocumentPostingPeriodCode.
@@ -981,69 +1305,5 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
-    }
-
-    /**
-     * Gets the assetHeader attribute. 
-     * @return Returns the assetHeader.
-     */
-    public AssetHeader getAssetHeader() {
-        return assetHeader;
-    }
-
-    /**
-     * Sets the assetHeader attribute value.
-     * @param assetHeader The assetHeader to set.
-     */
-    public void setAssetHeader(AssetHeader assetHeader) {
-        this.assetHeader = assetHeader;
-    }
-
-    /**
-     * Gets the assetPaymentDetails attribute. 
-     * @return Returns the assetPaymentDetails.
-     */
-    public List<AssetPaymentDetail> getAssetPaymentDetails() {
-        return assetPaymentDetails;
-    }
-
-    /**
-     * Sets the assetPaymentDetails attribute value.
-     * @param assetPaymentDetails The assetPaymentDetails to set.
-     */
-    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
-        this.assetPaymentDetails = assetPaymentDetails;
-    }
-
-    /**
-     * Gets the condition attribute. 
-     * @return Returns the condition.
-     */
-    public AssetCondition getCondition() {
-        return condition;
-    }
-
-    /**
-     * Sets the condition attribute value.
-     * @param condition The condition to set.
-     */
-    public void setCondition(AssetCondition condition) {
-        this.condition = condition;
-    }
-
-    /**
-     * Gets the capitalAssetType attribute. 
-     * @return Returns the capitalAssetType.
-     */
-    public AssetType getCapitalAssetType() {
-        return capitalAssetType;
-    }
-
-    /**
-     * Sets the capitalAssetType attribute value.
-     * @param capitalAssetType The capitalAssetType to set.
-     */
-    public void setCapitalAssetType(AssetType capitalAssetType) {
-        this.capitalAssetType = capitalAssetType;
     }
 }

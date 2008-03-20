@@ -161,8 +161,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
             // add cash control detail
-            cashControlDocumentService.addNewCashControlDetail(cashControlDocument, newCashControlDetail);
-
+            cashControlDocumentService.addNewCashControlDetail(ArConstants.CREATED_BY_CASH_CTRL_DOC, cashControlDocument, newCashControlDetail);
+            
             // set a new blank cash control detail
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
 

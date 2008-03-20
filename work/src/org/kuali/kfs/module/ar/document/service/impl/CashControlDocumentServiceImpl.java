@@ -75,15 +75,17 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         return referenceDocumentNumber;
     }
 
+
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.module.ar.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
+     *      org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
      */
-    public PaymentApplicationDocument createAndSavePaymentApplicationDocument(CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
+    public PaymentApplicationDocument createAndSavePaymentApplicationDocument(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
         // create a new PaymentApplicationdocument
         PaymentApplicationDocument doc = (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
         // set a description to say that this application document has been created by the CashControldocument
-        doc.getDocumentHeader().setFinancialDocumentDescription(ArConstants.CREATED_BY_CASH_CTRL_DOC);
+        doc.getDocumentHeader().setFinancialDocumentDescription(description);
 
         // set up the default values for the AR DOC Header
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
@@ -144,14 +146,17 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         this.documentService = documentService;
     }
 
+
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#addNewCashControlDetail(org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
+     * @see org.kuali.module.ar.service.CashControlDocumentService#addNewCashControlDetail(java.lang.String,
+     *      org.kuali.module.ar.document.CashControlDocument, org.kuali.module.ar.bo.CashControlDetail)
      */
-    public void addNewCashControlDetail(CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
+    public void addNewCashControlDetail(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
+        
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
         // create a new PaymentApplicationdocument
-        PaymentApplicationDocument doc = createAndSavePaymentApplicationDocument(cashControlDocument, cashControlDetail);
+        PaymentApplicationDocument doc = createAndSavePaymentApplicationDocument(description, cashControlDocument, cashControlDetail);
 
         // update new cash control detail fields to refer to the new created PaymentApplicationDocument
         cashControlDetail.setReferenceFinancialDocument(doc);

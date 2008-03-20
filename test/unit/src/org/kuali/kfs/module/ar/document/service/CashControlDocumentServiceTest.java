@@ -20,6 +20,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
@@ -62,7 +63,7 @@ public class CashControlDocumentServiceTest extends KualiTestBase {
 
         CashControlDocument cashControlDocument = new CashControlDocument();
         CashControlDetail cashControlDetail = new CashControlDetail();
-        PaymentApplicationDocument applicationDocument = service.createAndSavePaymentApplicationDocument(cashControlDocument, cashControlDetail);
+        PaymentApplicationDocument applicationDocument = service.createAndSavePaymentApplicationDocument(ArConstants.CREATED_BY_CASH_CTRL_DOC, cashControlDocument, cashControlDetail);
 
         assertNotNull(applicationDocument);
 

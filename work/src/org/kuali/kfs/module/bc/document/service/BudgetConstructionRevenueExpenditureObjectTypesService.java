@@ -54,34 +54,6 @@ public interface BudgetConstructionRevenueExpenditureObjectTypesService {
      */
     public String getBudgetConstructionRevenueObjectTypesINList();
     
-    /**
-     * 
-     * fetch the object types for expenditure used in budget construction on-line reports
-     * @return an ArrayList of these
-     */
-    public ArrayList<String> getBudgetConstructionExpenditureReportObjectTypes();
-   
-    /**
-     * 
-     * fetch the object types for expenditure used in budget construction on-line reports as a SQL IN list
-     * @return--IN list as a String
-     */
-    public String getBudgetConstructionExpenditureReportObjectTypesINList();
-    
-    /**
-     * 
-     * fetch the object types for revenue used in budget construction on-line reports
-     * @return an ArrayList of these
-     */
-    public ArrayList<String> getBudgetConstructionRevenueReportObjectTypes();
-   
-    /**
-     * 
-     * fetch the object types for revenue used in budget construction on-line reports as a SQL IN List
-     * @return--IN list as a String
-     */
-    public String getBudgetConstructionRevenueReportObjectTypesINList();
-    
     //TODO:  this method systematically prints the returned values of all the routines
     public void testMethod();
 }

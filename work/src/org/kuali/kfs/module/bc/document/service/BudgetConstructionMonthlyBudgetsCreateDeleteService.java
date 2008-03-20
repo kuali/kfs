@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.service;
 
+import org.kuali.module.budget.BCConstants;
+
 /**
  * 
  * distribute the request amount for a set of budget construction general ledger rows evenly among twelve monthly periods in a budget construction 
@@ -32,8 +34,9 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
    * @param chartCode
    * @param accountNumber
    * @param subAccountNumber
+   * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
    */
-    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
     
    /**
     * 
@@ -43,8 +46,9 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
     * @param chartCode
     * @param accountNumber
     * @param subAccountNumber
+    * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
     */ 
-    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
     /**
      * 
@@ -54,9 +58,9 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
-     * @return false--no recalculation of benefits is required for revenue
+     * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
      */
-    public boolean spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
     /**
      * 
@@ -66,9 +70,9 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
-     * @return true if benefits object classes were among those distributed (benefits recaluclation required), false otherwise
+     * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
      */
-    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
     
     /**
      * 

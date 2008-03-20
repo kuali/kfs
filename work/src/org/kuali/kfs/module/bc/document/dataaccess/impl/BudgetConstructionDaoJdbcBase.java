@@ -15,14 +15,31 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
+import java.util.ArrayList;
+import java.lang.Exception;
+import java.io.IOException;
+
+import org.kuali.kfs.service.ParameterService;
+
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.core.dbplatform.RawSQL;
+
+import org.apache.log4j.Logger;
+
+import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
+
 
 /**
  * create methods for building SQL useful to all extenders
  */
 public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 
+    ParameterService parameterService;
+    
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDaoJdbcBase.class);
+
+    
     @RawSQL
     protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier);
@@ -48,7 +65,7 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         {
             return new String("('')");
         }
-        StringBuilder sb = new StringBuilder(20);
+        StringBuffer sb = new StringBuffer(20);
         sb = sb.append("(?");
         for (int i = 1; i < parameterCount; i++)
         {
@@ -57,5 +74,134 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         sb.append(")");
         return sb.toString();
     }
+
+    /**
+     * 
+     * build a SQL IN clause from the array of parameters passed in
+     * @param inListValues: components of the IN list
+     * @return an empty string if the IN list will be empty
+     */
+    @RawSQL
+    private String inString (ArrayList<String> inListValues)
+    {
+        // the delimiter for strings in the DB is assumed to be a single quote.
+        // this is the ANSI-92 standard.
+        // if the ArrayList input is empty, IN ('') is returned.
+        StringBuffer inBuilder = new StringBuffer(150);
+        
+        inBuilder.append(" IN ('");
+        if (! inListValues.isEmpty())
+        {
+          inBuilder.append(inListValues.get(0));
+        }
+        else
+        {
+            // for an empty list, return an empty string
+            return new String("");
+        }
+        for (int idx = 1; idx < inListValues.size(); idx++)
+        {
+            inBuilder.append("','");
+            inBuilder.append(inListValues.get(idx));
+        }
+        inBuilder.append("')");
+        
+        return inBuilder.toString();
+    }
+    
+    /**
+     * 
+     * return a SQL IN list containing the budget construction expenditure object types
+     * @return a null string if the system parameter does not exist or is empty
+     */
+    protected String expenditureINList()
+    {
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES))
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            return new String("");
+        }
+        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+        if (expenditureObjectTypes.isEmpty())
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            return new String("");
+        }
+        return inString(expenditureObjectTypes);
+    }
+    
+    /**
+     * 
+     * return a SQL IN list containing the budget construction revenue object types
+     * @return a null string if the system parameter does not exist or is empty
+     */
+    protected String revenueINList()
+    {
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES))
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            return new String("");
+        }
+        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES));
+        if (revenueObjectTypes.isEmpty())
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            return new String("");
+        }
+        return inString(revenueObjectTypes);
+    }
+
+    /**
+     * 
+     * return a SQL IN list containing the budget construction expenditure object types
+     * @return a null string if the system parameter does not exist or is empty
+     */
+    protected String getExpenditureINList() throws NoSuchFieldException, IOException
+    {
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES))
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            IOException ioex = new IOException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
+            throw (ioex);
+        }
+        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+        if (expenditureObjectTypes.isEmpty())
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            throw (bfex);
+        }
+        return inString(expenditureObjectTypes);
+    }
+    
+    /**
+     * 
+     * return a SQL IN list containing the budget construction revenue object types
+     * @return a null string if the system parameter does not exist or is empty
+     */
+    protected String getRevenueINList() throws NoSuchFieldException, IOException
+    {
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES))
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            IOException ioex = new IOException("parameter "+BCParameterConstants.REVENUE_OBJECT_TYPES+" does not exist");
+            throw (ioex);
+        }
+        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES));
+        if (revenueObjectTypes.isEmpty())
+        {
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            throw (bfex);
+        }
+        return inString(revenueObjectTypes);
+    }
+    
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    
 
 }

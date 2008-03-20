@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.module.budget.dao;
+
+import org.kuali.module.budget.BCConstants;
+
 /**
  * 
  * provides the data access methods to distribute a set of budget construction general ledger amounts among tweleve monthly periods in a budget
@@ -31,7 +34,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
      * @param accountNumber
      * @param subAccountNumber
      */
-      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
      /**
       * 
@@ -42,7 +45,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
       * @param accountNumber
       * @param subAccountNumber
       */ 
-      public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
@@ -53,7 +56,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
       /**
        * 
@@ -64,7 +67,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param accountNumber
        * @param subAccountNumber
        */
-      public void spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
       /**
        * 
@@ -76,6 +79,6 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param subAccountNumber
        * @return true if benefits are funded by this accounting key, false otherwise
        */
-      public boolean budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+      public BCConstants.benefitsResult budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
 }

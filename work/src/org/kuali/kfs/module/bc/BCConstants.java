@@ -74,7 +74,17 @@ public class BCConstants extends JstlConstants {
             return key;
         }
     }
+    
+    /**
+     * return values used by modules used to calculate benefits.  the "failed" value indicates that some system parameters needed for this task are invalid or missing.  
+     */
+    public enum benefitsResult {FAILED(0), BENEFITS(1), NO_BENEFITS(2);
+                                private int resultValue;
+                                private benefitsResult(int resultValue){this.resultValue = resultValue;}};  
 
+
+    
+    
     public static final String BC_DOCUMENT_REFRESH_CALLER = "BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION = "budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD = "refresh";

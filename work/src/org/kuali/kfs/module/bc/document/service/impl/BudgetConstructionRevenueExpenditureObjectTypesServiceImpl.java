@@ -49,11 +49,6 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
     
     private static String expenditureObjectTypesINList;
     private static String revenueObjectTypesINList;
-    private static String expenditureReportObjectTypesINList;
-    private static String revenueReportObjectTypesINList;
-    
-    private static final String liabilityObjectType = new String("LI");
-    private static final String assetsObjectType    = new String("AS");
     
     public BudgetConstructionRevenueExpenditureObjectTypesServiceImpl(ParameterService parameterService)
     {
@@ -64,15 +59,11 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
 
         // reporting object types add liabilities to expenditure, and assets to revenue
         expenditureReportObjectTypes = new ArrayList<String>(expenditureObjectTypes);
-        expenditureReportObjectTypes.add(liabilityObjectType);
-        revenueReportObjectTypes = new ArrayList<String>(revenueObjectTypes);
-        revenueReportObjectTypes.add(assetsObjectType);
+        revenueReportObjectTypes     = new ArrayList<String>(revenueObjectTypes);
         
         // build the corresponding IN List strings
         expenditureObjectTypesINList       = inString(expenditureObjectTypes);
         revenueObjectTypesINList           = inString(revenueObjectTypes);
-        expenditureReportObjectTypesINList = inString(expenditureReportObjectTypes);
-        revenueReportObjectTypesINList     = inString(revenueReportObjectTypes);
     }
     
     /**
@@ -115,29 +106,6 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
         return expenditureReportObjectTypes;
     }
 
-    /**
-     * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionExpenditureReportObjectTypesINList()
-     */
-    public String getBudgetConstructionExpenditureReportObjectTypesINList() {
-        return expenditureReportObjectTypesINList;
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueReportObjectTypes()
-     */
-    public ArrayList<String> getBudgetConstructionRevenueReportObjectTypes() {
-        return revenueReportObjectTypes;
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService#getBudgetConstructionRevenueReportObjectTypesINList()
-     */
-    public String getBudgetConstructionRevenueReportObjectTypesINList() {
-        return revenueReportObjectTypesINList;
-    }
 
     private String inString (ArrayList<String> inListValues)
     {
@@ -168,12 +136,9 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
         LOG.warn(String.format("\n\nreturned for a null list     : %s",inString(testArray)));
         LOG.warn(String.format("\nexpenditureObjectTypes       : %s",this.getBudgetConstructionExpenditureObjectTypesINList()));
         LOG.warn(String.format("\nrevenueObjectTypes           : %s",this.getBudgetConstructionRevenueObjectTypesINList()));
-        LOG.warn(String.format("\nexpenditureReportObjectTypes : %s",this.getBudgetConstructionExpenditureReportObjectTypesINList()));
-        LOG.warn(String.format("\nrevenueReportObjectTypes     : %s",this.getBudgetConstructionRevenueReportObjectTypesINList()));
         LOG.warn(String.format("\n\nArrayList returns:\nexpenditureObjectTypes       : %s",this.getBudgetConstructionExpenditureObjectTypes()));
         LOG.warn(String.format("\nrevenueObjectTypes           : %s",this.getBudgetConstructionRevenueObjectTypes()));
         LOG.warn(String.format("\nexpenditureReportObjectTypes : %s",this.getBudgetConstructionExpenditureReportObjectTypes()));
-        LOG.warn(String.format("\nrevenueReportObjectTypes     : %s\n\n",this.getBudgetConstructionRevenueReportObjectTypes()));
         
     }
 }

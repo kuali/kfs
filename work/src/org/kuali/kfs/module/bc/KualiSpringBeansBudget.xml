@@ -211,6 +211,9 @@
 	<bean id="budgetConstructionDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb" />
 	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionDaoJdbcBase">
+	    <property name="parameterService">
+	       <ref bean="parameterService"/>
+	    </property>   
 	</bean>
 	
 	<bean id="bcOrganizationSalarySettingSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationSalarySettingSearchDaoJdbc">
@@ -342,11 +345,6 @@
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc">
-      <constructor-arg><ref bean="parameterService"/></constructor-arg>
-    </bean>
-    
-    <bean id="budgetConstructionRevenueExpenditureObjectTypesService" class="org.kuali.module.budget.service.impl.BudgetConstructionRevenueExpenditureObjectTypesServiceImpl">
-      <constructor-arg><ref bean="parameterService"/></constructor-arg>
     </bean>
     
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService" class="org.kuali.module.budget.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl">

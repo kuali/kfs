@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail">
+ 
+        <inquiry>
+            <title>Asset Retirement Global Detail Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="buyerDescription" />
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="cashReceiptFinancialDocumentNumber" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="estimatedSellingPrice" />
+                        <field attributeName="handlingFeeAmount" />
+                        <field attributeName="paidCaseNumber" />
+                        <field attributeName="preventiveMaintenanceAmount" />
+                        <field attributeName="retirementAccountNumber" />
+                        <field attributeName="retirementChartOfAccountsCode" />
+                        <field attributeName="retirementCityName" />
+                        <field attributeName="retirementContactName" />
+                        <field attributeName="retirementCountryCode" />
+                        <field attributeName="retirementInstitutionName" />
+                        <field attributeName="retirementPhoneNumber" />
+                        <field attributeName="retirementStateCode" />
+                        <field attributeName="retirementStreetAddress" />
+                        <field attributeName="retirementZipCode" />
+                        <field attributeName="salePrice" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Retirement Global Detail Lookup</title>
+
+            <instructions>Look up an Asset Retirement Global Detail</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="buyerDescription" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="estimatedSellingPrice" required="false" />
+                <lookupField attributeName="handlingFeeAmount" required="false" />
+                <lookupField attributeName="paidCaseNumber" required="false" />
+                <lookupField attributeName="preventiveMaintenanceAmount" required="false" />
+                <lookupField attributeName="retirementAccountNumber" required="false" />
+                <lookupField attributeName="retirementChartOfAccountsCode" required="false" />
+                <lookupField attributeName="retirementCityName" required="false" />
+                <lookupField attributeName="retirementContactName" required="false" />
+                <lookupField attributeName="retirementCountryCode" required="false" />
+                <lookupField attributeName="retirementInstitutionName" required="false" />
+                <lookupField attributeName="retirementPhoneNumber" required="false" />
+                <lookupField attributeName="retirementStateCode" required="false" />
+                <lookupField attributeName="retirementStreetAddress" required="false" />
+                <lookupField attributeName="retirementZipCode" required="false" />
+                <lookupField attributeName="salePrice" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="buyerDescription" />
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="cashReceiptFinancialDocumentNumber" />
+                <field attributeName="documentNumber" />
+                <field attributeName="estimatedSellingPrice" />
+                <field attributeName="handlingFeeAmount" />
+                <field attributeName="paidCaseNumber" />
+                <field attributeName="preventiveMaintenanceAmount" />
+                <field attributeName="retirementAccountNumber" />
+                <field attributeName="retirementChartOfAccountsCode" />
+                <field attributeName="retirementCityName" />
+                <field attributeName="retirementContactName" />
+                <field attributeName="retirementCountryCode" />
+                <field attributeName="retirementInstitutionName" />
+                <field attributeName="retirementPhoneNumber" />
+                <field attributeName="retirementStateCode" />
+                <field attributeName="retirementStreetAddress" />
+                <field attributeName="retirementZipCode" />
+                <field attributeName="salePrice" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="buyerDescription" forceUppercase="true">
+                <label>Buyer Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>buyerDescription</summary>
+                <description>buyerDescription description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
+                <label>Cash Receipt Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>cashReceiptFinancialDocumentNumber</summary>
+                <description>cashReceiptFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="estimatedSellingPrice" forceUppercase="true">
+                <label>Estimated Selling Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>estimatedSellingPrice</summary>
+                <description>estimatedSellingPrice description...</description>
+			</attribute>
+
+            <attribute name="handlingFeeAmount" forceUppercase="true">
+                <label>Handling Fee Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>handlingFeeAmount</summary>
+                <description>handlingFeeAmount description...</description>
+			</attribute>
+
+            <attribute name="paidCaseNumber" forceUppercase="true">
+                <label>Paid Case Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>paidCaseNumber</summary>
+                <description>paidCaseNumber description...</description>
+			</attribute>
+
+            <attribute name="preventiveMaintenanceAmount" forceUppercase="true">
+                <label>Preventive Maintenance Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>preventiveMaintenanceAmount</summary>
+                <description>preventiveMaintenanceAmount description...</description>
+			</attribute>
+
+            <attribute name="retirementAccountNumber" forceUppercase="true">
+                <label>Retirement Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>retirementAccountNumber</summary>
+                <description>retirementAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="retirementChartOfAccountsCode" forceUppercase="true">
+                <label>Retirement Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>retirementChartOfAccountsCode</summary>
+                <description>retirementChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="retirementCityName" forceUppercase="true">
+                <label>Retirement City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>retirementCityName</summary>
+                <description>retirementCityName description...</description>
+			</attribute>
+
+            <attribute name="retirementContactName" forceUppercase="true">
+                <label>Retirement Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>retirementContactName</summary>
+                <description>retirementContactName description...</description>
+			</attribute>
+
+            <attribute name="retirementCountryCode" forceUppercase="true">
+                <label>Retirement Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>retirementCountryCode</summary>
+                <description>retirementCountryCode description...</description>
+			</attribute>
+
+            <attribute name="retirementInstitutionName" forceUppercase="true">
+                <label>Retirement Institution Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>retirementInstitutionName</summary>
+                <description>retirementInstitutionName description...</description>
+			</attribute>
+
+            <attribute name="retirementPhoneNumber" forceUppercase="true">
+                <label>Retirement Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>retirementPhoneNumber</summary>
+                <description>retirementPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="retirementStateCode" forceUppercase="true">
+                <label>Retirement State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>retirementStateCode</summary>
+                <description>retirementStateCode description...</description>
+			</attribute>
+
+            <attribute name="retirementStreetAddress" forceUppercase="true">
+                <label>Retirement Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>retirementStreetAddress</summary>
+                <description>retirementStreetAddress description...</description>
+			</attribute>
+
+            <attribute name="retirementZipCode" forceUppercase="true">
+                <label>Retirement Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>retirementZipCode</summary>
+                <description>retirementZipCode description...</description>
+			</attribute>
+
+            <attribute name="salePrice" forceUppercase="true">
+                <label>Sale Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>salePrice</summary>
+                <description>salePrice description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

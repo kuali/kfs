@@ -40,7 +40,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenueII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
@@ -48,7 +48,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditureII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
@@ -56,7 +56,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenueII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
@@ -64,11 +64,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        if (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber) == BCConstants.benefitsResult.FAILED)
-                {
-                   return BCConstants.benefitsResult.FAILED;
-                }
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditureII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**

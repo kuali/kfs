@@ -46,22 +46,22 @@
 			<list>
 				<value>org/kuali/module/cams/OJB-repository-cams.xml</value>
 			</list>
-		</property>		
-		<!-- property name="jobNames">
+		</property>
+
+		<property name="jobNames">
 			<list>
+				<!-- value>preAssetTaggingJob</value-->				
 				<value>assetDepreciationBatchJob</value>
 			</list>
 		</property>		
+
+		<!-- Asset Depreciation batch - START -->				
 		<property name="triggerNames">
 			<list>
 				<value>assetDepreciationBatchJobTrigger</value>
 			</list>
-		</property-->
-		<!--  property name="jobNames">
-			<list>
-				<value>preAssetTaggingJob</value>
-			</list>
-		</property-->				
+		</property>
+		<!-- Asset Depreciation batch - END -->								
 	</bean>
 
 	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -129,18 +129,19 @@
 		</property>
 	</bean>
 
-	<!-- bean id="assetDepreciationBatchJob" parent="scheduledJobDescriptor">
+	<bean id="assetDepreciationBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="assetDepreciationStep"/>
 			</list>
 		</property>
-	</bean-->
+	</bean>
 
-	<!-- bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
+	<bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="assetDepreciationBatchJob" />
-		<property name="cronExpression" value="00 00 00 1 * ?" />
-	</bean-->
+		<!--  it will run on the 3rd=3 thursday=5 of the month-->
+		<property name="cronExpression" value="00 00 00 ? * 5#3" />
+	</bean>
 
 
 <!-- *********  End of depreciation batch beans ********** -->

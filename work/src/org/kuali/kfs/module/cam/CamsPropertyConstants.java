@@ -44,6 +44,7 @@ public class CamsPropertyConstants {
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
         public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
         public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
+        public static final String ASSET_DEPRECIATION_DATE = "depreciationDate";
     }
 
 	public static class AssetHeader {

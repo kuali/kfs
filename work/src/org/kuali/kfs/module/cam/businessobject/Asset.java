@@ -13,9 +13,7 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.Room;
-import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -84,7 +82,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private Integer landAcreageSize;
     private String landParcelNumber;
     private Date depreciationDate;
-    
+
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -112,13 +110,14 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetDisposition> assetDispositions;
     private List<AssetHeader> assetHeaders;
     private List<AssetLocation> assetLocations;
+    private List<AssetRetirementGlobalDetail> assetRetirementHistory;
 
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
     private KualiDecimal federalContribution;
-    private AssetRetirementDocument retirementInfo;
+    private AssetRetirementGlobalDetail retirementInfo;
     private EquipmentLoanOrReturn loanOrReturnInfo;
     private AssetLocation offCampusLocation;
     // calculated depreciation amounts
@@ -139,6 +138,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetDispositions = new TypedArrayList(AssetDisposition.class);
         this.assetHeaders = new TypedArrayList(AssetHeader.class);
         this.assetLocations = new TypedArrayList(AssetLocation.class);
+        this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -1245,7 +1245,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the depreciationDate attribute. 
+     * Gets the depreciationDate attribute.
+     * 
      * @return Returns the depreciationDate.
      */
     public Date getDepreciationDate() {
@@ -1254,6 +1255,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the depreciationDate attribute value.
+     * 
      * @param depreciationDate The depreciationDate to set.
      */
     public void setDepreciationDate(Date depreciationDate) {
@@ -1798,11 +1800,11 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetHeaders = assetHeaders;
     }
 
-    public AssetRetirementDocument getRetirementInfo() {
+    public AssetRetirementGlobalDetail getRetirementInfo() {
         return retirementInfo;
     }
 
-    public void setRetirementInfo(AssetRetirementDocument retirementInfo) {
+    public void setRetirementInfo(AssetRetirementGlobalDetail retirementInfo) {
         this.retirementInfo = retirementInfo;
     }
 
@@ -1829,4 +1831,13 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setOffCampusLocation(AssetLocation offCampusLocation) {
         this.offCampusLocation = offCampusLocation;
     }
+
+    public List<AssetRetirementGlobalDetail> getAssetRetirementHistory() {
+        return assetRetirementHistory;
+    }
+
+    public void setAssetRetirementHistory(List<AssetRetirementGlobalDetail> assetRetirementHistory) {
+        this.assetRetirementHistory = assetRetirementHistory;
+    }
+
 }

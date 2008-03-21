@@ -16,7 +16,6 @@
 package org.kuali.module.cams;
 
 
-
 /**
  * Global constants for CAMS.
  */
@@ -41,10 +40,10 @@ public class CamsConstants {
     public static class Parameters {
         public static final String DEPRECIATION_RUN_DATE_PARAMETER = "DEPRECIATION_RUN_DATE";
         public static final String DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES = "DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPE";
-        public static final String DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES = "DEPRECIATION_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";        
+        public static final String DEPRECIATION_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES = "DEPRECIATION_ORGANIZATON_PLANT_FUND_OBJECT_SUB_TYPE";
         public static final String NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES = "NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES";
         public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES = "NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
-        
+
     }
 
     public static class Report {
@@ -113,8 +112,14 @@ public class CamsConstants {
     public static final String CAPITAL_ASSET_STATUS_CODES = "A,C,U,S,R";
     public static final String DOC_APPROVED = "A";
 
-    public static class EquipmentLoanOrReturn {
+    public static class AssetHeader {
+        public static final String DOCUMENT_HEADER = "documentHeader";
+
+    }
+
+    public static class AssetRetirementGlobal {
         public static final String DOCUMENT_HEADER = "documentHeader";
     }
+
 
 }

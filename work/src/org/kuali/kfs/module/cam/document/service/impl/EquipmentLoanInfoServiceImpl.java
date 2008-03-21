@@ -15,15 +15,11 @@
  */
 package org.kuali.module.cams.service.impl;
 
-import static org.kuali.module.cams.CamsConstants.DOC_APPROVED;
-import static org.kuali.module.cams.CamsConstants.EquipmentLoanOrReturn.DOCUMENT_HEADER;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.EquipmentLoanOrReturn;

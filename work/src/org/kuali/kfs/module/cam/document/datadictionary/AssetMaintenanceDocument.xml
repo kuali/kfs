@@ -195,7 +195,7 @@
           	<maintainableItems>
           		<maintainableField name="retirementInfo.documentNumber" readOnly="true" />
           		<maintainableField name="retirementReasonCode" readOnly="true" />
-          		<maintainableField name="retirementInfo.retirementDate" readOnly="true" />
+          		<maintainableField name="retirementInfo.assetRetirementGlobal.retirementDate" readOnly="true" />
           		<subSectionHeader name="Sale" />
           		<maintainableField name="salePrice" readOnly="true" />
           		<maintainableField name="estimatedSellingPrice" readOnly="true" />

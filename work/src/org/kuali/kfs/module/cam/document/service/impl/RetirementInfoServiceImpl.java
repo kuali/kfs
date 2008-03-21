@@ -16,7 +16,6 @@
 package org.kuali.module.cams.service.impl;
 
 import static org.kuali.module.cams.CamsConstants.DOC_APPROVED;
-import static org.kuali.module.cams.CamsConstants.EquipmentLoanOrReturn.DOCUMENT_HEADER;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,24 +24,14 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.AssetRetirementDocument;
-import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
-import org.kuali.module.cams.service.AssetHeaderService;
+import org.kuali.module.cams.bo.AssetRetirementGlobal;
+import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.RetirementInfoService;
 
 public class RetirementInfoServiceImpl implements RetirementInfoService {
     private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
-    AssetHeaderService assetHeaderService;
-
-    public AssetHeaderService getAssetHeaderService() {
-        return assetHeaderService;
-    }
-
-    public void setAssetHeaderService(AssetHeaderService assetHeaderService) {
-        this.assetHeaderService = assetHeaderService;
-    }
 
 
     public void setRetirementInfo(Asset asset) {
@@ -50,19 +39,23 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
         if (!ArrayUtils.contains(RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
             return;
         }
-        List<AssetHeader> assetHeaders = asset.getAssetHeaders();
-        List<AssetRetirementDocument> sortableList = new ArrayList<AssetRetirementDocument>();
+        List<AssetRetirementGlobalDetail> retirementHistory = asset.getAssetRetirementHistory();
 
-        for (AssetHeader assetHeader : assetHeaders) {
-            AssetRetirementDocument retirementDoc = assetHeader.getRetirementDocument();
-            if (retirementDoc != null && assetHeaderService.isDocumentApproved(assetHeader)) {
-                sortableList.add(retirementDoc);
+        List<AssetRetirementGlobalDetail> sortableList = new ArrayList<AssetRetirementGlobalDetail>();
+
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : retirementHistory) {
+            AssetRetirementGlobal assetRetirementGlobal = assetRetirementGlobalDetail.getAssetRetirementGlobal();
+            if (assetRetirementGlobal != null && isDocumentApproved(assetRetirementGlobal)) {
+                sortableList.add(assetRetirementGlobalDetail);
             }
+
         }
-        Comparator<AssetRetirementDocument> comparator = new Comparator<AssetRetirementDocument>() {
-            public int compare(AssetRetirementDocument o1, AssetRetirementDocument o2) {
+
+
+        Comparator<AssetRetirementGlobalDetail> comparator = new Comparator<AssetRetirementGlobalDetail>() {
+            public int compare(AssetRetirementGlobalDetail o1, AssetRetirementGlobalDetail o2) {
                 // sort descending based on loan date
-                return o2.getRetirementDate().compareTo(o1.getRetirementDate());
+                return o2.getAssetRetirementGlobal().getRetirementDate().compareTo(o1.getAssetRetirementGlobal().getRetirementDate());
             }
         };
         Collections.sort(sortableList, comparator);
@@ -72,5 +65,14 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
         }
     }
 
+
+    public boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
+        assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
+        DocumentHeader documentHeader = assetRetirementDoc.getDocumentHeader();
+        if (documentHeader != null && DOC_APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
+            return true;
+        }
+        return false;
+    }
 
 }

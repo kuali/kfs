@@ -220,6 +220,9 @@
 	<collection-descriptor name="assetLocations" element-class-ref="org.kuali.module.cams.bo.AssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
+	<collection-descriptor name="assetRetirementHistory" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<inverse-foreignkey field-ref="capitalAssetNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">
@@ -1145,7 +1148,7 @@
 	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
-	<collection-descriptor name="AssetRetirementGlobalDetail" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+	<collection-descriptor name="retiredAssetDetails" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
         <orderby name="capitalAssetNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 	</collection-descriptor>
@@ -1195,6 +1198,9 @@
 	</reference-descriptor>
 	<reference-descriptor name="retirementCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="retirementCountryCode" />
+	</reference-descriptor>
+	<reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.module.cams.bo.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

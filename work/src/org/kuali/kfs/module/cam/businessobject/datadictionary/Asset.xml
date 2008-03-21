@@ -896,40 +896,40 @@
 			</attributeReference>			
 			<attributeReference name="assetDispositions.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="versionNumber"/>
 			<!-- Retirement Information -->
-			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="documentNumber" >
+			<attributeReference name="retirementInfo.documentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="documentNumber" >
 				<label>Retirement Document Number</label>
 				<shortLabel>RetireDocNbr</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementDate"/>
-			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementContactName" >
+			<attributeReference name="retirementInfo.assetRetirementGlobal.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobal" sourceAttributeName="retirementDate"/>
+			<attributeReference name="retirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementContactName" >
 				<label>Contact Name</label>
 				<shortLabel>name</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementInstitutionName" >
+			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementInstitutionName" >
 				<label>Institution</label>
 				<shortLabel>Institution</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStreetAddress" >
+			<attributeReference name="retirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStreetAddress" >
 				<label>Street</label>
 				<shortLabel>Street</shortLabel>			
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCityName" >
+			<attributeReference name="retirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCityName" >
 				<label>City</label>
 				<shortLabel>City</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementStateCode" >
+			<attributeReference name="retirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStateCode" >
 				<label>State</label>
 				<shortLabel>State</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementZipCode" >
+			<attributeReference name="retirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementZipCode" >
 				<label>Zip Code</label>
 				<shortLabel>Zip</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementCountryCode" >
+			<attributeReference name="retirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCountryCode" >
 				<label>Country</label>
 				<shortLabel>Country</shortLabel>
 			</attributeReference>
-			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementDocument" sourceAttributeName="retirementPhoneNumber" >
+			<attributeReference name="retirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementPhoneNumber" >
 				<label>Phone</label>
 				<shortLabel>Phone</shortLabel>
 			</attributeReference>

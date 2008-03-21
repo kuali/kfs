@@ -30,6 +30,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private String accountsReceivableSubObjectCode;
     private KualiDecimal invoiceItemTaxAmount;
     private boolean taxableIndicator;
+    private boolean receivableIndicator;
 
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
@@ -293,5 +294,15 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
 
     public void setTaxableIndicator(boolean taxableIndicator) {
         this.taxableIndicator = taxableIndicator;
+    }
+
+
+    public boolean isReceivableIndicator() {
+        return receivableIndicator;
+    }
+
+
+    public void setReceivableIndicator(boolean receivableIndicator) {
+        this.receivableIndicator = receivableIndicator;
     }
 }

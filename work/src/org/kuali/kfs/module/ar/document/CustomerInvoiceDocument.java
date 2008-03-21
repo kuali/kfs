@@ -895,13 +895,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
    
     
     /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
+     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
+        return ((CustomerInvoiceDetail)postable).isReceivableIndicator();
     }
     
     /**

@@ -1068,6 +1068,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS = "document.billByChartOfAccountCode,document.billedByOrganizationCode";
     public static final String CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS = "document.accountsReceivableDocumentHeader.customerNumber,document.invoice*,document.billingDate,document.invoiceDueDate";
     public static final String CUSTOMER_INVOICE_DOCUMENT_ADDRESS = "document.customerBillToAddressIdentifier,document.customerShipToAddressIdentifier"; 
+    public static final String CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE = "document.payment*";
     public static final String CUSTOMER_INVOICE_DETAIL_ERRORS = "newCustomerInvoiceDetail*,document.sourceAccountingLine*";
     
     //Cash Control Document

@@ -30,6 +30,7 @@ public class ArConstants {
     public static final String ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED = "error.ar.AllApplicationDocumentsMustBeApproved";
     public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN ="error.ar.DeleteAddApplicationDocNotAllowedAfterRefDocGenerated";
     public static final String MESSAGE_NEGATIVE_LINE_AMOUNTS_ARCORRECTIONS_ONE_PER_CTRL_DOC = "message.ar.NegativeLineAmountsARCorrectionsOnePerCTRLDoc";
+    public static final String CASH_CONTROL_TOTAL = "ar.CashControlTotal";
     
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";

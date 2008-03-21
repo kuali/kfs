@@ -21,6 +21,7 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -136,22 +137,26 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true is cash control document total amount is not zero, false otherwise
      */
     public boolean checkTotalAmountNotZero(CashControlDocument cashControlDocument) {
+
         boolean isValid = true;
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
 
         if (cashControlDocument.getTotalDollarAmount().isZero()) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, CashReceipt.ERROR_ZERO_TOTAL, "Cash Control Total");
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, CashReceipt.ERROR_ZERO_TOTAL, kualiConfiguration.getPropertyString(ArConstants.CASH_CONTROL_TOTAL));
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
+
     }
 
     /**
-     * This method checks that payment medium is not null and has a valid value
+     * This method checks that payment medium has a valid value
      * 
      * @param document
      * @return true if valid, false otherwise
@@ -163,13 +168,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
 
         PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
-        //
-        // if (StringUtils.isBlank(paymentMediumCode)) {
-        // GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE,
-        // ArConstants.ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL);
-        // isValid = false;
-        // }
-        // else
+
         if (null == service.getByPrimaryKey(paymentMediumCode)) {
             GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;

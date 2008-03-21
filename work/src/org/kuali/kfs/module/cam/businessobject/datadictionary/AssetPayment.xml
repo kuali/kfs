@@ -198,6 +198,8 @@
 
                 <summary>accountChargeAmount</summary>
                 <description>accountChargeAmount description...</description>
+
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="accountNumber" forceUppercase="true">

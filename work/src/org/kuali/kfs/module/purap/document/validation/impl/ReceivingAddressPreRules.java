@@ -21,11 +21,11 @@ import java.util.Map;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.ReceivingAddress;
@@ -47,8 +47,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
-    protected boolean doCustomPreRules( MaintenanceDocument document ) {
-        
+    protected boolean doCustomPreRules( MaintenanceDocument document ) {                
         ReceivingAddress raOld = ( ReceivingAddress )document.getOldMaintainableObject().getBusinessObject();
         ReceivingAddress raNew = ( ReceivingAddress )document.getNewMaintainableObject().getBusinessObject();
 
@@ -92,13 +91,16 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          * Give warning; if proceed, will unset the other default address in post-processing.
          */
         else if ( (stayActive && setDefault) || (setActive && isDefault && existOther) ) {
-            // TODO give warning Q&A
+            if (!super.askOrAnalyzeYesNoQuestion(PurapConstants.CONFIRM_CHANGE_DFLT_RVNG_ADDR, PurapConstants.CONFIRM_CHANGE_DFLT_RVNG_ADDR_TXT) ) {
+                abortRulesCheck();
+            }
         }
         /* Case 3 - unsetting the default address that's still active:
          * Give error: Can't unset the default address; you must set another default address to replace this one. 
          */
-        else if ( (stayActive && unsetDefault) || (unsetActive && isDefault && existOther) ) {
+        else if ( stayActive && unsetDefault ) {
             putFieldError(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, PurapKeyConstants.ERROR_RCVNG_ADDR_UNSET_DFLT);
+            abortRulesCheck();
             return false;
         }
         /* Case 4 - deactivating the default address while there're still other active ones:
@@ -107,8 +109,11 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          */
         else if ( unsetActive && wasDefault && existOther ) {            
             putFieldError(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, PurapKeyConstants.ERROR_RCVNG_ADDR_DEACTIVATE_DFLT);
+            abortRulesCheck();
             return false;
         }         
+        /* Other cases are harmless, i.e. won't break the constraint, so we can proceed without doing anything extra.
+         */
         
         return true;
     }

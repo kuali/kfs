@@ -225,12 +225,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
         documentService.updateDocument(bcDocument);
 
+        // TODO use this instead? research the differences
+        // documentService.saveDocument(document);
+
+
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
 
         // TODO not sure this is needed in BC
         budgetConstructionForm.setAnnotation("");
 
-        // TODO this should eventually be set to return to AccountSelect
+        // redisplay the document along with document saved message
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

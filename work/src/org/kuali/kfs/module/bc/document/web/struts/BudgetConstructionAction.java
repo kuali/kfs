@@ -244,7 +244,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
         documentService.updateDocument(bcDocument);
 
-        // TODO use this instead? research the differences
+        // TODO use this instead? research the differences - may need to extend DocumentService and roll our own
         // documentService.saveDocument(document);
 
 

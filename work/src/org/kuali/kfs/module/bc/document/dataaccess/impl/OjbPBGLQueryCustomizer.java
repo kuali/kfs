@@ -74,6 +74,7 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
         
         List paramValues; 
 
+        // these parameter service calls will throw an IllegalArgumentException exception if the parameter doesn't exist 
         if ("TRUE".equals(getAttribute(revenueAttributeName))) {
             paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.REVENUE_OBJECT_TYPES);
         }

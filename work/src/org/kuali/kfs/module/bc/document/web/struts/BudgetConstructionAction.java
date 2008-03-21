@@ -17,6 +17,7 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
@@ -39,6 +41,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
@@ -122,18 +125,27 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     private void loadDocument(BudgetConstructionForm budgetConstructionForm) throws WorkflowException {
 
-        // use the passed url autoloaded parms to get the record from DB
-        // BudgetConstructionDaoOjb bcHeaderDao;
-        String chartOfAccountsCode = budgetConstructionForm.getChartOfAccountsCode();
-        String accountNumber = budgetConstructionForm.getAccountNumber();
-        String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
-        Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
+        BudgetConstructionHeader budgetConstructionHeader;
 
-        BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        // TODO may need to add BC security model checks here or will form populateAuthorizationFields do this
 
-        // TODO need to check for existence and throw error
-        // BC doc select will create any missing bc doc and its account hierarchy before calling this
-        // for now we assume the doc exists
+        if (budgetConstructionForm.getDocId() != null) {
+            HashMap primaryKey = new HashMap();
+            primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocId());
+
+            budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+
+        }
+        else {
+            // use the passed url autoloaded parms to get the record from DB
+            // BudgetConstructionDaoOjb bcHeaderDao;
+            String chartOfAccountsCode = budgetConstructionForm.getChartOfAccountsCode();
+            String accountNumber = budgetConstructionForm.getAccountNumber();
+            String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
+            Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
+
+            budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        }
 
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
@@ -193,15 +205,22 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
         else {
 
-            // setup the return parms for the document and anchor
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-            parameters.put(KFSConstants.DOC_FORM_KEY, docForm.getReturnFormKey());
-            parameters.put(KFSConstants.ANCHOR, docForm.getReturnAnchor());
-            parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
+            if (docForm.getReturnFormKey() == null) {
 
-            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-            return new ActionForward(lookupUrl, true);
+                // assume called from doc search or lost the session - go back to main
+                return returnToSender(mapping, docForm);
+            }
+            else {
+                // setup the return parms for the document and anchor and go back to doc select
+                Properties parameters = new Properties();
+                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
+                parameters.put(KFSConstants.DOC_FORM_KEY, docForm.getReturnFormKey());
+                parameters.put(KFSConstants.ANCHOR, docForm.getReturnAnchor());
+                parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
+
+                String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+                return new ActionForward(lookupUrl, true);
+            }
         }
 
         // TODO this needs to return to bc doc selection
@@ -468,13 +487,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         boolean rulePassed = true;
 
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPendingBudgetGeneralLedgerLineEvent(BCConstants.NEW_EXPENDITURE_LINE_PROPERTY_NAME, budgetConstructionForm.getDocument(), line, false));
-                
+
         if (rulePassed) {
             // TODO this should not be needed since ref objects are retrieved in populate
             // this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
             // but it looks like this would circumvent business rules checks
             // SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
-            
+
             // add PBGLLine
             insertPBGLLine(false, budgetConstructionForm, line);
 
@@ -667,8 +686,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
-        
-        // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after calculation is performed
+
+        // TODO create form/hidden flag vars (annual and monthly) to maintain state of benefits calc and reset here after
+        // calculation is performed
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

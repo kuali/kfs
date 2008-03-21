@@ -68,14 +68,14 @@
 					<reportElement
 						x="6"
 						y="9"
-						width="125"
+						width="600"
 						height="21"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{subreport}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{subreport.parameterMap}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>

@@ -34,7 +34,8 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private PurApItem newPurchasingItemLine;
     private FormFile itemImportFile; // file from which items can be imported
     private String distributePurchasingCommodityCode;
-
+    private String distributePurchasingCommodityDescription;
+    
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
     private Integer accountDistributionnextSourceLineNumber;
@@ -194,6 +195,14 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     public void setDistributePurchasingCommodityCode(String distributePurchasingCommodityCode) {
         this.distributePurchasingCommodityCode = distributePurchasingCommodityCode;
+    }
+
+    public String getDistributePurchasingCommodityDescription() {
+        return distributePurchasingCommodityDescription;
+    }
+
+    public void setDistributePurchasingCommodityDescription(String distributePurchasingCommodityDescription) {
+        this.distributePurchasingCommodityDescription = distributePurchasingCommodityDescription;
     }
 
 }

@@ -19,6 +19,9 @@
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
+<script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
+
 <html:hidden property="hideDistributeAccounts" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
@@ -76,15 +79,21 @@
 	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemAttributes.commodityCode}" /></div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
+                    <c:set var="commodityCodeField"  value="distributePurchasingCommodityCode" />
+                    <c:set var="commodityDescriptionField"  value="distributePurchasingCommodityDescription" />	        
 	                        <kul:htmlControlAttribute 
 	                            attributeEntry="${itemAttributes.commodityCode}" 
 	                            property="distributePurchasingCommodityCode"
-	                            readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+	                            readOnly="${not (fullEntryMode or amendmentEntry)}"
+	                            onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
                         <c:if test="${fullEntryMode}">   
                             <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>
+                    <div id="distributePurchasingCommodityDescription.div" class="fineprint">
+                        <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
+                    </div>    
 	        </td>
 	    </tr>
         <tr>

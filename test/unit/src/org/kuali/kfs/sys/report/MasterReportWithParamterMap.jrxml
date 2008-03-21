@@ -25,6 +25,7 @@
 	
 	<parameter name="accounts" isForPrompting="false" class="java.util.List"/>
 	<parameter name="subAccounts" isForPrompting="false" class="java.util.List"/>
+	<parameter name="SUBREPORT_TEMPLATE_NAMES" isForPrompting="false" class="java.util.Map"/>
 
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
@@ -107,7 +108,7 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{accounts})]]></dataSourceExpression>						
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "AccountReport.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + $P{SUBREPORT_TEMPLATE_NAMES}.get("AccountReport") + ".jasper"]]></subreportExpression>
 				</subreport>
 				<subreport  isUsingCache="true">
 					<reportElement
@@ -120,7 +121,7 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{subAccounts})]]></dataSourceExpression>						
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "SubAccountReport.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + $P{SUBREPORT_TEMPLATE_NAMES}.get("SubAccountReport") + ".jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

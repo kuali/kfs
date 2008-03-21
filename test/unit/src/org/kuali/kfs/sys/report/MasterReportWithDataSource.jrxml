@@ -23,6 +23,7 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
+	<parameter name="SUBREPORT_TEMPLATE_NAMES" isForPrompting="false" class="java.util.Map"/>
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -104,7 +105,7 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[$P{REPORT_DATA_SOURCE}]]></dataSourceExpression>						
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "AccountReport.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + $P{SUBREPORT_TEMPLATE_NAMES}.get("AccountReport") + ".jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

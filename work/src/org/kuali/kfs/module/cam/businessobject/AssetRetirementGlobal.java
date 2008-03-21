@@ -2,6 +2,7 @@ package org.kuali.module.cams.bo;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -22,6 +23,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
     private Asset mergedTargetCapitalAsset;
     private AssetRetirementReason retirementReason;
     private AssetStatus inventoryStatus;
+    private List<AssetRetirementGlobal> assetRetirementGlobal;
     
 	/**
 	 * Default constructor.
@@ -200,6 +202,22 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
      */
     public void setRetirementReason(AssetRetirementReason retirementReason) {
         this.retirementReason = retirementReason;
+    }
+    
+    /**
+     * Gets the assetRetirementGlobal attribute. 
+     * @return Returns the assetRetirementGlobal.
+     */
+    public List<AssetRetirementGlobal> getAssetRetirementGlobal() {
+        return assetRetirementGlobal;
+    }
+
+    /**
+     * Sets the assetRetirementGlobal attribute value.
+     * @param assetRetirementGlobal The assetRetirementGlobal to set.
+     */
+    public void setAssetRetirementGlobal(List<AssetRetirementGlobal> assetRetirementGlobal) {
+        this.assetRetirementGlobal = assetRetirementGlobal;
     }
 
     /**

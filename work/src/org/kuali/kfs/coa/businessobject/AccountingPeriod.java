@@ -252,17 +252,4 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
             return false;
         return true;
     }
-
-    /**
-     * Gets the universityFiscalPeriodBeginDate attribute. The begin date is the first date of the period month.
-     * 
-     * @return Returns the universityFiscalPeriodBeginDate.
-     */
-    public Date getUniversityFiscalPeriodBeginDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(this.getUniversityFiscalPeriodEndDate());
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        return new Date(calendar.getTime().getTime());
-    }
-
 }

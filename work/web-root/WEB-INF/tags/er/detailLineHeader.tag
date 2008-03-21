@@ -16,18 +16,18 @@
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ tag description="render the given field in the given detail line" %>
+<%@ tag description="render the header of the detail line table" %>
               
 <%@ attribute name="attributes" required="true" type="java.util.Map"
-			  description="The DataDictionary entry containing attributes for the line fields."%>              
+	description="The DataDictionary entry containing attributes for the line fields."%>              
 <%@ attribute name="detailFieldNames" required="true"
-              description="the names of the fields that will be displayed" %>
+    description="The names of the fields that will be displayed" %>
 <%@ attribute name="hasActions" required="true"
-              description="determine if a user can tak an action on the given line" %>
+    description="Determine if a user can tak an action on the given line" %>
 <%@ attribute name="index" required="false"
-              description="the line index" %> 
+    description="The line index" %> 
 <%@ attribute name="sortableFieldNames" required="false"
-              description="the names of the fields that can be editable" %>             
+    description="the names of the fields that can be sorted" %>             
 
 <kul:htmlAttributeHeaderCell literalLabel="${index}"/>
 		

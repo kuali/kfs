@@ -361,4 +361,6 @@
             <ref bean="electronicPaymentClaimLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="reportGenerationService" class="org.kuali.kfs.service.impl.ReportGenerationServiceImpl" />
 </beans>

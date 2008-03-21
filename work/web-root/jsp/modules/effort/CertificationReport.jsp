@@ -95,10 +95,10 @@
 				nonFerderalTotalFieldNames="otherTotalOriginalEffortPercent,otherTotalEffortPercent,otherTotalOriginalPayrollAmount,otherTotalPayrollAmount"
 				grandTotalFieldNames="totalOriginalEffortPercent,totalEffortPercent,totalOriginalPayrollAmount,totalPayrollAmount"
 				hasActions="true"/>			
-		</div>				
+		</div>						
 	</kul:tab>
 	
-	<kul:tab tabTitle="Effort Detail" defaultOpen="false" tabErrorKey="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}">
+	<kul:tab tabTitle="Effort Detail" defaultOpen="false">
 		
 		<div class="tab-container" align=center>
 			<er:detailLinesWithGrouping id="readonlyDetailLineTable" detailLines="${detailLines}" 

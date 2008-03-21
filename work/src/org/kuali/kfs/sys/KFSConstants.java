@@ -1074,4 +1074,12 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     //Cash Control Document
     public static final String CASH_CONTROL_DOCUMENT_ERRORS = "document.accountsReceivableDocumentHeader.processingChartOfAccountCode,document.referenceFinancialDocumentNumber,document.customerPaymentMediumCode,document.organizationCode";
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
+    
+    public static final class ReportGeneration{
+        public final static String PARAMETER_NAME_SUBREPORT_DIR = "SUBREPORT_DIR";
+        public final static String PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME = "SUBREPORT_TEMPLATE_NAMES";
+        public final static String DESIGN_FILE_EXTENSION = ".jrxml";
+        public final static String JASPER_REPORT_EXTENSION = ".jasper";
+        public final static String PDF_FILE_EXTENSION = ".pdf";
+    }
 }

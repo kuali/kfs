@@ -39,6 +39,7 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
 
     private String resourceBundleBaseName;
     private String reportTemplateClassPath;
+    private Map<String, String> subReports;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generate(org.kuali.module.effort.util.ExtractProcessReportDataHolder,
@@ -52,7 +53,8 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
         reportData.put(ReportGenerator.PARAMETER_NAME_SUBREPORT_DIR, reportTemplateClassPath);
-        
+        reportData.put(ReportGenerator.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
+
         ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
 
         LOG.info(reportDataHolder);
@@ -97,5 +99,21 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
      */
     public void setReportTemplateClassPath(String reportTemplateClassPath) {
         this.reportTemplateClassPath = reportTemplateClassPath;
+    }
+
+    /**
+     * Gets the subReports attribute. 
+     * @return Returns the subReports.
+     */
+    public Map<String, String> getSubReports() {
+        return subReports;
+    }
+
+    /**
+     * Sets the subReports attribute value.
+     * @param subReports The subReports to set.
+     */
+    public void setSubReports(Map<String, String> subReports) {
+        this.subReports = subReports;
     }
 }

@@ -146,6 +146,11 @@
 	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl">
 		<property name="resourceBundleBaseName" value="org/kuali/module/effort/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/module/effort/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="extractErrors" value="ExtractErrors"/>
+			</map>
+		</property>
 	</bean>	
 	
 	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >
@@ -180,7 +185,7 @@
 			<ref bean="outstandingReportsByOrganizationLookupableHelperService" />
 		</property>
 	</bean>
-	
+
 	<bean id="outstandingCertificationsByReportLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="outstandingCertificationsByReportLookupableHelperService" />

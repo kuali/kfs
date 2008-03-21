@@ -15,6 +15,9 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -27,8 +30,6 @@ import org.kuali.module.effort.util.DynamicCollectionComparator.SortOrder;
 public class CertificationReportForm extends EffortCertificationForm {
 
     private String sortOrder = SortOrder.ASC.name();
-    private AccountingPeriod reportBeginPeriod;
-    private AccountingPeriod reportEndPeriod;
 
     /**
      * Gets the sortOrder attribute.
@@ -70,24 +71,38 @@ public class CertificationReportForm extends EffortCertificationForm {
     }
 
     /**
-     * Gets the reportBeginPeriod attribute. 
-     * @return Returns the reportBeginPeriod.
+     * Gets the reportPeriodBeginDate attribute. 
+     * @return Returns the reportPeriodBeginDate.
      */
-    public AccountingPeriod getReportBeginPeriod() {
+    public Date getReportPeriodBeginDate() {
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        AccountingPeriod beginPeriod = effortCertificationDocument.getEffortCertificationReportDefinition().getReportBeginPeriod();
         
-        return effortCertificationDocument.getEffortCertificationReportDefinition().getReportBeginPeriod();
+        return getUniversityFiscalPeriodBeginDate(beginPeriod);
     }
 
     /**
-     * Gets the reportEndPeriod attribute. 
-     * @return Returns the reportEndPeriod.
+     * Gets the reportPeriodEndDate attribute. 
+     * @return Returns the reportPeriodEndDate.
      */
-    public AccountingPeriod getReportEndPeriod() {
+    public Date getReportPeriodEndDate() {
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) this.getDocument();
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        AccountingPeriod endPeriod = effortCertificationDocument.getEffortCertificationReportDefinition().getReportEndPeriod();
         
-        return effortCertificationDocument.getEffortCertificationReportDefinition().getReportEndPeriod();
+        return endPeriod.getUniversityFiscalPeriodEndDate();
+    }
+    
+    /**
+     * Gets the universityFiscalPeriodBeginDate attribute. The begin date is the first date of the period month.
+     * 
+     * @return Returns the universityFiscalPeriodBeginDate.
+     */
+    private Date getUniversityFiscalPeriodBeginDate(AccountingPeriod accountingPeriod) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(accountingPeriod.getUniversityFiscalPeriodEndDate());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return new Date(calendar.getTime().getTime());
     }
 }

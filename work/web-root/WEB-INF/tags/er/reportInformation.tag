@@ -46,7 +46,7 @@
 				</th>
 				<td>
 					<fmt:formatDate 
-						value="${KualiForm.reportBeginPeriod.universityFiscalPeriodBeginDate}" 
+						value="${KualiForm.reportPeriodBeginDate}" 
 						pattern="${dateFormatPattern}"/>
 				</td>
 			</tr>
@@ -77,7 +77,7 @@
 				</th>
 				<td>
 					<fmt:formatDate 
-						value="${KualiForm.reportEndPeriod.universityFiscalPeriodEndDate}" 
+						value="${KualiForm.reportPeriodEndDate}" 
 						pattern ="${dateFormatPattern}"/>
 				</td>
 			</tr>   

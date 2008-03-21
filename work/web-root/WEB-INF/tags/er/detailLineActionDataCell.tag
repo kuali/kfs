@@ -15,13 +15,14 @@
 --%>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
 <%@ attribute name="action" required="true"
-              description="the order of the detail line that contains the field being rendered" %>
+    description="the name of action that could be rendered" %>
 <%@ attribute name="imageFileName" required="true"
-              description="the order of the detail line that contains the field being rendered" %>              
+    description="the graphic representation of the given action" %>              
               
 <html:image property="methodToCall.${action}" 
-			src="${ConfigProperties.externalizable.images.url}${imageFileName}" 
-			title="${action}" 
-			alt="${action}" 
-			styleClass="tinybutton" />
+	src="${ConfigProperties.externalizable.images.url}${imageFileName}" 
+	title="${action}" 
+	alt="${action}" 
+	styleClass="tinybutton" />

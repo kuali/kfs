@@ -176,10 +176,10 @@ public class TestDataPreparator {
      * @param dataObject the given data object
      * @return return the data object persisted into the data store
      */
-    public static <T extends PersistableBusinessObject> T persistDataObject(T dataObject) {        
-        T existingDataObject = (T) getBusinessObjectService ().retrieve(dataObject);
+    public static <T extends PersistableBusinessObject> T persistDataObject(T dataObject) {
+        T existingDataObject = (T) getBusinessObjectService().retrieve(dataObject);
         if (existingDataObject == null) {
-            getBusinessObjectService ().save(dataObject);
+            getBusinessObjectService().save(dataObject);
             getPersistenceService().retrieveNonKeyFields(dataObject);
             return dataObject;
         }
@@ -207,17 +207,17 @@ public class TestDataPreparator {
      */
     public static <T extends PersistableBusinessObject> void doCleanUpWithoutReference(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         Map<String, Object> fieldValues = buildFieldValues(clazz, properties, propertykey, fieldNames, deliminator);
-        getBusinessObjectService ().deleteMatching(clazz, fieldValues);
+        getBusinessObjectService().deleteMatching(clazz, fieldValues);
     }
-    
+
     /**
      * remove the existing data from the database so that they cannot affact the test results
      */
     public static <T extends PersistableBusinessObject> void doCleanUpWithReference(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         List<T> dataObjects = findMatching(clazz, properties, propertykey, fieldNames, deliminator);
-        
-        for(T object : dataObjects) {
-            getBusinessObjectService ().delete(object);
+
+        for (T object : dataObjects) {
+            getBusinessObjectService().delete(object);
         }
     }
 
@@ -226,67 +226,67 @@ public class TestDataPreparator {
      */
     public static <T extends PersistableBusinessObject> List<T> findMatching(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         Map<String, Object> fieldValues = buildFieldValues(clazz, properties, propertykey, fieldNames, deliminator);
-        return (List<T>) getBusinessObjectService ().findMatching(clazz, fieldValues);
+        return (List<T>) getBusinessObjectService().findMatching(clazz, fieldValues);
     }
 
     /**
-     * build the field name and value pairs from the given properties in the specified properties file 
+     * build the field name and value pairs from the given properties in the specified properties file
      */
     public static <T> Map<String, Object> buildFieldValues(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         T cleanup = clazz.newInstance();
         ObjectUtil.populateBusinessObject(cleanup, properties, propertykey, fieldNames, deliminator);
         return ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
     }
-    
+
     /**
      * test if the given object is in the given collection. The given key fields can be used for the comparison.
      * 
      * @return true if the given object is in the given collection; otherwise, false
      */
-    public static <T> boolean contains(List<T> collection, T object, List<String> keyFields) { 
-        for(T objectInCollection : collection) {
+    public static <T> boolean contains(List<T> collection, T object, List<String> keyFields) {
+        for (T objectInCollection : collection) {
             boolean contains = ObjectUtil.compareObject(objectInCollection, object, keyFields);
-            
-            if(contains) {
+
+            if (contains) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
-     * test if the given two collections contain the exactly same elements.  The given key fields can be used for the comparison.
+     * test if the given two collections contain the exactly same elements. The given key fields can be used for the comparison.
      * 
      * @return true if the given two collections contain the exactly same elements; otherwise, false
      */
     public static <T> boolean hasSameElements(List<T> collection1, List<T> collection2, List<String> keyFields) {
-        if(collection1 == collection2) {
+        if (collection1 == collection2) {
             return true;
         }
-        
-        if(collection1 == null || collection2 == null) {
+
+        if (collection1 == null || collection2 == null) {
             return false;
         }
-        
-        if(collection1.size() != collection2.size()) {
+
+        if (collection1.size() != collection2.size()) {
             return false;
         }
-        
-        for(T object : collection2) {
+
+        for (T object : collection2) {
             boolean contains = contains(collection1, object, keyFields);
-            if(!contains) {
+            if (!contains) {
                 return false;
             }
         }
-        
+
         return true;
-    } 
-    
-    private static BusinessObjectService getBusinessObjectService () {
+    }
+
+    private static BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
-    
+
     private static PersistenceService getPersistenceService() {
         return SpringContext.getBean(PersistenceService.class);
     }

@@ -19,16 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
-import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -36,12 +32,10 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
-import org.kuali.module.ar.bo.NonAppliedHolding;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
@@ -50,12 +44,8 @@ import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.rice.KNSServiceLocator;
 
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
@@ -148,9 +138,11 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
+
 
         // apply rules for the new cash control detail
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
@@ -161,8 +153,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
             // add cash control detail
-            cashControlDocumentService.addNewCashControlDetail(ArConstants.CREATED_BY_CASH_CTRL_DOC, cashControlDocument, newCashControlDetail);
-            
+            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
+
             // set a new blank cash control detail
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
 

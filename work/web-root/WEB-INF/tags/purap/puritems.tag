@@ -174,7 +174,8 @@
 
 		<tr>
 			<th height=30 colspan="11">
-			    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" />
+			    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" 
+			        itemAttributes="${itemAttributes}"/>
 		    </th>
 		</tr>
 

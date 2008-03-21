@@ -33,15 +33,16 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private Boolean hideDistributeAccounts = true;
     private PurApItem newPurchasingItemLine;
     private FormFile itemImportFile; // file from which items can be imported
+    private String distributePurchasingCommodityCode;
 
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
     private Integer accountDistributionnextSourceLineNumber;
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;
-    
+
     private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
-    
+
     /**
      * Constructs a PurchasingFormBase instance and sets up the appropriately casted document.
      */
@@ -98,11 +99,11 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         }
         return this.totalPercentageOfAccountDistributionsourceAccountingLines;
     }
-    
+
     public void setTotalPercentageOfAccountDistributionsourceAccountingLines(BigDecimal total) {
         this.totalPercentageOfAccountDistributionsourceAccountingLines = total;
     }
-    
+
     public PurApAccountingLine getAccountDistributionnewSourceLine() {
         return accountDistributionnewSourceLine;
     }
@@ -118,7 +119,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
         this.newPurchasingItemLine = newPurchasingItemLine;
     }
-    
+
     public FormFile getItemImportFile() {
         return itemImportFile;
     }
@@ -185,6 +186,14 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         this.accountDistributionsourceAccountingLines.add(line);
         this.accountDistributionnextSourceLineNumber = new Integer(this.getAccountDistributionnextSourceLineNumber().intValue() + 1);
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
+    }
+
+    public String getDistributePurchasingCommodityCode() {
+        return distributePurchasingCommodityCode;
+    }
+
+    public void setDistributePurchasingCommodityCode(String distributePurchasingCommodityCode) {
+        this.distributePurchasingCommodityCode = distributePurchasingCommodityCode;
     }
 
 }

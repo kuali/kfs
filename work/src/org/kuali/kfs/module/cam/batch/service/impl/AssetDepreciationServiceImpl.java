@@ -126,7 +126,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Started");
+            LOG.info("*******"+CamsConstants.Depreciation.DEPRECIATION_BATCH+" HAS BEGUN *******");
             
             /*
              * Getting the system parameter "DEPRECIATION_DATE"
@@ -157,7 +157,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     throw new IllegalArgumentException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.INVALID_DEPRECIATION_DATE_FORMAT));
                 }
             }
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Depreciation Date: "+depreciationDateParameter);
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Depreciation run date: "+depreciationDateParameter);
             
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Getting fiscal month and fiscal year.");
@@ -187,18 +187,22 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
         }
         catch (Exception e) {
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"An error has occurred:"+e.getMessage());                                    
-
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"**************************************************************************");
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"AN ERROR HAS OCCURRED! - ERROR: "+e.getMessage());                                    
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"**************************************************************************");
+            
             error = true;
             this.errorMsg = "Depreciation process ran unsucessfuly.\nReason:" + e.getMessage();
         }
         finally {
-            if (!error)
+            if (!error) {
                 reportLog.addAll(depreciableAssetsDao.generateStatistics(false, this.documentNumber, fiscalYear, fiscalMonth, depreciationDate));
-
+            }
             // the report will be generated only when there is an error or when the log has something.
             if (!reportLog.isEmpty() || !errorMsg.trim().equals(""))
                 reportService.generateDepreciationReport(reportLog, errorMsg, depreciationDateParameter);
+            
+            LOG.info("*******"+CamsConstants.Depreciation.DEPRECIATION_BATCH+" HAS ENDED *******");            
         }
     }
 
@@ -240,6 +244,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.ERROR_WHEN_CALCULATING_BASE_AMOUNT) + " :" + e.getMessage());
         }
         LOG.debug("getBaseAmountOfAssets(Collection<AssetPayment> depreciableAssetsCollection) - End.");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Finished calculating the base amount for each asset.");                    
         return assetsBaseAmount;
     }
 
@@ -253,7 +258,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      */
     private SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Collection<AssetPayment> depreciableAssetsCollection, Calendar depreciationDate) {
         LOG.debug("calculateDepreciation() - start");
-
         
         List<String> organizationPlantFundObjectSubType = new ArrayList<String>();
         List<String> campusPlantFundObjectSubType = new ArrayList<String>();
@@ -268,7 +272,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         KualiDecimal baseAmount;
         KualiDecimal accumulatedDepreciationAmount;
 
-        Calendar assetServiceDate = Calendar.getInstance();
+        Calendar assetDepreciationDate = Calendar.getInstance();
         boolean documentCreated = false;
 
         try {
@@ -339,7 +343,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 monthsElapsed = new Double(0);
                 String transactionType = KFSConstants.GL_DEBIT_CODE;
 
-                assetServiceDate.setTime(asset.getCapitalAssetInServiceDate());
+                assetDepreciationDate.setTime(asset.getDepreciationDate());
                 accumulatedDepreciationAmount = new KualiDecimal(0);
 
                 //Getting the asset base amount.
@@ -349,7 +353,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 assetLifeInMonths = new Double(assetType.getDepreciableLifeLimit() * 12);
 
                 //Calculating the month elapse of the asset using the depreciation date and the asset service date.
-                monthsElapsed = new Double(depreciationDate.get(Calendar.MONTH) - assetServiceDate.get(Calendar.MONTH) + (depreciationDate.get(Calendar.YEAR) - assetServiceDate.get(Calendar.YEAR)) * 12) + 1;
+                monthsElapsed = new Double(depreciationDate.get(Calendar.MONTH) - assetDepreciationDate.get(Calendar.MONTH) + (depreciationDate.get(Calendar.YEAR) - assetDepreciationDate.get(Calendar.YEAR)) * 12) + 1;
 
                 // Calculating depreciation accumulated depreciation amount.
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Calculating depreciation - Asset:"+assetPayment.getCapitalAssetNumber());
@@ -374,19 +378,24 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 // Calculating in process fiscal month depreciation amount
                 KualiDecimal transactionAmount = accumulatedDepreciationAmount.subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount());
 
-                String plantAccount = "";
-                String plantCOA = "";
 
-                LOG.debug("Asset#: "+assetPayment.getCapitalAssetNumber()+" life:"+assetLifeInMonths + 
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");                
+                LOG.info("Asset#: "+assetPayment.getCapitalAssetNumber()+
+                        " Payment sequence#:"+assetPayment.getPaymentSequenceNumber()+
+                        " Depreciation date:"+dateFormat.format(assetDepreciationDate.getTime())+
+                        " Life:"+assetLifeInMonths + 
                         " Depreciation base amt:"+assetPayment.getPrimaryDepreciationBaseAmount()+
                         " Accumulated depreciation:"+assetPayment.getAccumulatedPrimaryDepreciationAmount()+
                         " Month Elapsed:"+monthsElapsed+ 
-                        " Calculated accum depr:"+accumulatedDepreciationAmount+
-                        " Depreciation amt:"+transactionAmount.toString());
+                        " Calculated accum depreciation:"+accumulatedDepreciationAmount+
+                        " Depreciation amount:"+transactionAmount.toString());
 
                 if (transactionAmount.compareTo(new KualiDecimal(0)) == -1)
                     transactionType = KFSConstants.GL_CREDIT_CODE;
 
+                String plantAccount = "";
+                String plantCOA = "";
+                
                 // getting the right Plant Fund Chart code & Plant Fund Account
                 if (organizationPlantFundObjectSubType.contains(financialObject.getFinancialObjectSubTypeCode())) {
                     plantAccount = org.getOrganizationPlantAccountNumber();
@@ -508,6 +517,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Saving document header entry.");
             this.businessObjectService.save(documentHeader);
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Document Header entry was saved successfully.");
             // **************************************************************************************************
                         
             this.documentNumber = documentHeader.getDocumentNumber();
@@ -556,6 +566,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                     LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"Saving GLPE entries for asset:"+t.getCapitalAssetNumber());            
                     this.generalLedgerPendingEntryService.save(explicitEntry);
+                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH+"GLPE entries was saved successfully - asset:"+t.getCapitalAssetNumber());                    
                 }
             }
         }

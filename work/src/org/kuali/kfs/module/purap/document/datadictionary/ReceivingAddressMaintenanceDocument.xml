@@ -21,7 +21,8 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.purap.bo.ReceivingAddress</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.purap.maintenance.ReceivingAddressMaintainableImpl</maintainableClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingAddressPreRules</preRulesCheckClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -34,9 +35,9 @@
 
         <documentTypeName>ReceivingAddressMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMRA</documentTypeCode>
-
         <label>Receiving Address</label>
-
+        <summary>Receiving Address Maintenance Document</summary>
+        <description>Maintenance document which allows you to create, copy, or modify Receiving Addresses.</description>
         <!--
         <help parameterNamespace="KFS-PA" parameterDetailType="ReceivingAddress" parameterName="RECEIVING_ADDRESS" />
 		-->
@@ -45,12 +46,24 @@
             <field attributeName="receivingAddressIdentifier" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
+        </defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Receiving Address">
                 <maintainableItems>
                     <maintainableField name="receivingAddressIdentifier" />
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" />
+                    <!-- 
+                    	chartOfAccountsCode and organizationCode are not editable once they are initialized through create and copy actions. 
+                    	Since receiving addresses are grouped by chart/org in the sense that there're some constraints across all the addresses with the same chart/org.
+                    	If we allow users to change these two fields, it's equivalent to removing the edited address from its previous group and adding it to the new group. 
+                    	These could cause enforced updates to both groups to satisfy the constraints, and would be too complicated to deal with. 
+                    	Instead, this operation can be easily achieved by deactivating the address and copy it to a new one with the chart/org set to the desired values.
+                    -->
+                    <maintainableField name="chartOfAccountsCode" required="true" readOnlyAfterAdd = "true"/>
+                    <maintainableField name="organizationCode" readOnlyAfterAdd = "true"/>
                     <maintainableField name="receivingName" required="true"/>
                     <maintainableField name="receivingLine1Address" required="true"/>
                     <maintainableField name="receivingLine2Address" />

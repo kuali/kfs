@@ -95,6 +95,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     // Receiving Address
     public static final String RCVNG_ADDR_DFLT_IND = "defaultIndicator";
+    public static final String RCVNG_ADDR_ACTIVE = "active";
 
     // PAYMENT REQUEST DOCUMENT
     public static final String INVOICE_DATE = "invoiceDate";

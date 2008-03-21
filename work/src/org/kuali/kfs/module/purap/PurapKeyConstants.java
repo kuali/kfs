@@ -61,6 +61,8 @@ public class PurapKeyConstants {
     public static final String PUR_COMMODITY_CODES_CLEARED = "message.document.pur.commodityCodesCleared";
     public static final String PUR_COMMODITY_CODE_INVALID = "error.commodity.code.invalid";
     public static final String PUR_COMMODITY_CODE_INACTIVE= "error.commodity.code.inactive";
+    public static final String ERROR_RCVNG_ADDR_UNSET_DFLT = "error.rcvng.addr.unset.dflt";
+    public static final String ERROR_RCVNG_ADDR_DEACTIVATE_DFLT = "error.rcvng.addr.deactivate.dflt";
        
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";

@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.Org;
 
 /**
  * Receiving Address Business Object. 
@@ -43,6 +45,8 @@ public class ReceivingAddress extends PersistableBusinessObjectBase {
     private boolean defaultIndicator;
     private boolean active;
 
+    private Chart chartOfAccounts;
+    private Org organization;
 
     /**
      * Default constructor.
@@ -152,6 +156,28 @@ public class ReceivingAddress extends PersistableBusinessObjectBase {
 
     public void setUseReceivingIndicator(boolean useReceivingIndicator) {
         this.useReceivingIndicator = useReceivingIndicator;
+    }
+    
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    public Org getOrganization() {
+        return organization;
+    }
+
+    /**
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
     }
 
     /**

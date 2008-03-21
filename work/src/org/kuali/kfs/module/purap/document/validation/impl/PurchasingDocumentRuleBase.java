@@ -16,6 +16,7 @@
 package org.kuali.module.purap.rules;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -259,7 +260,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param purDocument the purchasing document to be validated
      * @return boolean false if the document does not contain at least one item.
      */
-    private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
+    public boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
         for (PurApItem item : purDocument.getItems()) {
             if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
@@ -433,11 +434,21 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * Validates whether the commodity code existed on the item, and if existed, whether the
+     * commodity code on the item existed in the database, and if so, whether the commodity 
+     * code is active. Display error if any of these 3 conditions are not met.
+     * 
+     * @param item  The PurApItem containing the commodity code to be validated.
+     * @return boolean false if the validation fails and true otherwise.
+     */
     private boolean validateCommodityCodes(PurApItem item) {
         boolean valid = true;
         String identifierString = item.getItemIdentifierString();
         PurchasingItemBase purItem = (PurchasingItemBase) item;
-        if (StringUtils.isBlank(purItem.getPurchasingCommodityCode())) {
+        
+        //This validation is only needed if this method is not called from the doDistribution for distributing commodity code.
+        if (StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
@@ -458,6 +469,38 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
         }
         
+        return valid;
+    }
+    
+    /**
+     * Validates the commodity code for the doDistribution to make sure that
+     * the commodity code entered existed in the database, and if so, make sure
+     * that the commodity code is active. If it either not existed in the
+     * database or is not active, then display error.
+     * 
+     * @param purchasingCommodityCode The string representing the commodity code to be validated.
+     * @return boolean false if it fails the validation and true otherwise.
+     */
+    public boolean validateCommodityCodesForDistribution(String purchasingCommodityCode) {
+        boolean valid = true;
+        //Find out whether the commodity code has existed in the database
+        Map fieldValues = new HashMap<String, String>();
+        fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purchasingCommodityCode);
+        
+        Collection result = SpringContext.getBean(BusinessObjectService.class).findMatching(CommodityCode.class, fieldValues);
+        if (result != null && result.size() > 0) {
+            CommodityCode commodityCode = (CommodityCode)(result.iterator().next());
+            if (!commodityCode.isActive()) {
+                //This is the case where the commodity code on the item is not active.
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in distribute commodity code" );
+            }
+        }
+        else {
+            //This is the case where the commodity code on the item does not exist in the database.
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in distribute commodity code" );
+        }
         return valid;
     }
     

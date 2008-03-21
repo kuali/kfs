@@ -47,12 +47,12 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
-import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.exceptions.ItemParserException;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.rule.event.ImportPurchasingAccountsPayableItemEvent;
+import org.kuali.module.purap.rules.PurchasingDocumentRuleBase;
 import org.kuali.module.purap.util.ItemParser;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
@@ -433,9 +433,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * Distribute accounting line(s) to the item(s). Does not distribute the accounting line(s) to an item if the item if there are
+     * Distribute accounting line(s) to the item(s). Does not distribute the accounting line(s) to an item if there are
      * already accounting lines associated with that item, if the item is a below-the-line item and has no unit cost, or if the item
-     * is inactive.
+     * is inactive. Distribute commodity code to the item(s). Does not distribute the commodity code to an item if the the
+     * item is not above the line item, is inactive or if the commodity code fails the validation (i.e. inactive commodity
+     * code or non existence commodity code).
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -444,45 +446,99 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @throws Exception
      * @return An ActionForward
      */
-    public ActionForward doAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward doDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
-        if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
+        PurchasingDocumentRuleBase purchasingDocumentRule = (PurchasingDocumentRuleBase)(SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(purchasingForm.getDocument(), PurchasingDocumentRuleBase.class));
+        
+//        if (purchasingDocumentRule.validateContainsAtLeastOneItem((PurchasingDocument)purchasingForm.getDocument())) {
+//            
+            boolean needToDistributeCommodityCode = false;
             
+            if (StringUtils.isNotBlank(purchasingForm.getDistributePurchasingCommodityCode())) {
+                //Do the logic for distributing purchasing commodity code to all the items.    
+                needToDistributeCommodityCode = true;
+            }
+            
+            boolean needToDistributeAccount = false;
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
+                needToDistributeAccount = true;
+            }
+            if (needToDistributeAccount || needToDistributeCommodityCode) {
+                
                 boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter( "KFS-PA", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+                boolean foundAccountDistributionError = false;
+                boolean foundCommodityCodeDistributionError = false;
+                boolean performedAccountDistribution = false;
+                boolean performedCommodityCodeDistribution = false;
                 
                 //If the institution's validate account distribution indicator is true and
                 //the total percentage in the distribute account list does not equal 100 % then we should display error
-                if (institutionNeedsDistributeAccountValidation && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
+                if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    foundAccountDistributionError = true;
+                    
                 }
                 for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
-                    BigDecimal zero = new BigDecimal(0);
                     boolean itemIsActive = true;
                     if (item instanceof PurchaseOrderItem) {
                         // if item is PO item... only validate active items
                         itemIsActive = ((PurchaseOrderItem) item).isItemActiveIndicator();
                     }
-                    // We should be distributing accounting lines to above the line items all the time;
-                    // but only to the below the line items when there is a unit cost.
-                    boolean unitCostNotZeroForBelowLineItems = item.getItemType().isItemTypeAboveTheLineIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
-                    if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
-                        item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                    if (needToDistributeCommodityCode) {
+                        //only the above the line items need the commodity code.
+                        if (item.getItemType().isItemTypeAboveTheLineIndicator() && StringUtils.isBlank(((PurchasingItemBase)item).getPurchasingCommodityCode()) && itemIsActive) {
+                            //Ideally we should invoke rules to check whether the commodity code is valid (active, not restricted, 
+                            //not missing, etc), probably somewhere here or invoke the rule class from here.
+                            
+                            boolean rulePassed = purchasingDocumentRule.validateCommodityCodesForDistribution(purchasingForm.getDistributePurchasingCommodityCode());
+                            if (rulePassed) {
+                                ((PurchasingItemBase)item).setPurchasingCommodityCode(purchasingForm.getDistributePurchasingCommodityCode());
+                                performedCommodityCodeDistribution = true;
+                            }
+                            else {
+                                foundCommodityCodeDistributionError = true;
+                            }
+                        }
+                    }
+                    if (needToDistributeAccount && !foundAccountDistributionError) {
+                        BigDecimal zero = new BigDecimal(0);
+                        // We should be distributing accounting lines to above the line items all the time;
+                        // but only to the below the line items when there is a unit cost.
+                        boolean unitCostNotZeroForBelowLineItems = item.getItemType().isItemTypeAboveTheLineIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
+                        if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
+                            item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                            performedAccountDistribution = true;
+                        }
                     }
                 }
-                purchasingForm.getAccountDistributionsourceAccountingLines().clear();
-                GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
-                purchasingForm.setHideDistributeAccounts(true);
+                
+                if ((needToDistributeCommodityCode && performedCommodityCodeDistribution && !foundCommodityCodeDistributionError) || (needToDistributeAccount && performedAccountDistribution && !foundAccountDistributionError)) {
+                    if(needToDistributeCommodityCode && !foundCommodityCodeDistributionError && performedCommodityCodeDistribution) {
+                        GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODE_DISTRIBUTED);
+                        purchasingForm.setDistributePurchasingCommodityCode(null);
+                    }
+                    if (needToDistributeAccount && !foundAccountDistributionError && performedAccountDistribution) {
+                        GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
+                        purchasingForm.getAccountDistributionsourceAccountingLines().clear();
+                    }
+                    purchasingForm.setHideDistributeAccounts(true);
+                }
+                
+                if ((needToDistributeAccount && !performedAccountDistribution && !foundAccountDistributionError)) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "Account");
+                }
+                if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && !foundCommodityCodeDistributionError) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "Commodity Code");
+                }
             }
             else {
                 GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE);
             }
-        }
-        else {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO);
-        }
+//        }
+//        else {
+//            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO);
+//        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

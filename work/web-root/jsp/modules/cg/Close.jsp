@@ -32,13 +32,13 @@
                 <legend><b>Perform Close</b></legend>
                 <table>
                     <tr>
-                        <th style="text-align: right;">Date Closed: </th>
+                        <th style="text-align: right;">* Date Closed: </th>
                         <td style="width:50%">
                             <kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
                         </td>
                     </tr>
                     <tr>
-                        <th style="text-align: right;">Close on or before:</th>
+                        <th style="text-align: right;">* Close on or before:</th>
                         <td style="width:50%">
                             <kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate"  maxLength="10" size="10" />
                         </td>

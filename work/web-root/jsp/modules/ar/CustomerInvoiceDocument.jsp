@@ -38,14 +38,9 @@
         
     <ar:customerInvoiceAddress
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
-        
-        
-    <%--
-	<ar:customerInvoiceDetails
-        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"
-        customerInvoiceDetailAttributes="${DataDictionary.CustomerInvoiceDetail.attributes}"
-        readOnly="${readOnly}" />
-     --%>
+     
+     <ar:customerInvoiceReceivableAccountingLine
+      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"  />
      
 	<c:set var="actionInfixVar" value="" scope="request" />
 	<c:set var="accountingLineIndexVar" value="" scope="request" />     
@@ -79,6 +74,8 @@
 		</jsp:attribute>
 
 	</fin:accountingLines>
+	
+	<gl:generalLedgerPendingEntries />
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 

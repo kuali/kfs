@@ -27,4 +27,35 @@
 			<ref bean="organizationReversionDao" />
 		</property>
 	</bean>
+	
+	<bean id="infoForParameterMapReport" class="org.kuali.kfs.util.ReportInfoHolder" >
+		<property name="reportTitle" value="Account and SubAccount For Testing" />
+		<property name="reportFileName" value="TestReportWithParameterMap" /> 
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/report/ReportGenerationService" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="reportTemplateName" value="MasterReportWithParamterMap" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="AccountReport" value="AccountReport"/>
+				<entry key="SubAccountReport" value="SubAccountReport"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="infoForDataSourceReport" class="org.kuali.kfs.util.ReportInfoHolder" >
+		<property name="reportTitle" value="Account For Testing" />
+		<property name="reportFileName" value="TestReportWithDataSource" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/report/ReportGenerationService" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="reportTemplateName" value="MasterReportWithDataSource" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="AccountReport" value="AccountReport"/>
+			</map>
+		</property>
+	</bean>	
 </beans>

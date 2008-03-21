@@ -18,7 +18,9 @@ package org.kuali.kfs.util;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-
+/**
+ * Hold the basic information of a report, for example, the names and locations of the output report and the report template.  
+ */
 public interface ReportInfo {
 
     /**

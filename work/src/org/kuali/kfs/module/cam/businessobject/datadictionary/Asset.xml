@@ -270,6 +270,7 @@
                 <shortLabel>Price</shortLabel>
                 <summary>estimatedSellingPrice</summary>
                 <description>estimatedSellingPrice description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="expectedReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -283,6 +284,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>fabricationEstimatedTotalAmount</summary>
                 <description>fabricationEstimatedTotalAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
@@ -504,6 +506,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>replacementAmount</summary>
                 <description>replacementAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attribute name="retirementAccountNumber" forceUppercase="true">
@@ -586,6 +589,7 @@
                 <shortLabel>Price</shortLabel>
                 <summary>salePrice</summary>
                 <description>salePrice description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="salvageAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -593,6 +597,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>salvageAmount</summary>
                 <description>salvageAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attribute name="secondaryDepreciationMethodCode" forceUppercase="true">
@@ -645,6 +650,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>totalCostAmount</summary>
                 <description>totalCostAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
@@ -797,6 +803,7 @@
 				<shortLabel>Accumulated</shortLabel>
 				<summary>Accumulated Depreciation</summary>
 				<description>Accumulated Depreciation Amount</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="baseAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
@@ -804,6 +811,7 @@
 				<shortLabel>Base</shortLabel>
 				<summary>Base Amount</summary>
 				<description>Base Amount</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="bookValue" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
@@ -811,6 +819,7 @@
 				<shortLabel>Book Value</shortLabel>
 				<summary>Book Value</summary>
 				<description>Book Value</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="prevYearDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
@@ -818,6 +827,7 @@
 				<shortLabel>Previous Year</shortLabel>
 				<summary>Previous Year Depreciation</summary>
 				<description>Previous Year Depreciation</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="yearToDateDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
@@ -825,6 +835,7 @@
 				<shortLabel>Year To Date</shortLabel>
 				<summary>Year To Date Depreciation</summary>
 				<description>Year To Date Depreciation</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="currentMonthDepreciation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
@@ -832,11 +843,13 @@
 				<shortLabel>Current Month</shortLabel>
 				<summary>Current Month Depreciation</summary>
 				<description>Current Month Depreciation</description>
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Display Total Cost</label>
                 <shortLabel>Total Cost</shortLabel>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             
             <attributeReference name="federalContribution" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

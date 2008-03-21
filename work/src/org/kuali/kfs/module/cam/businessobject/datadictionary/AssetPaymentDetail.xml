@@ -18,6 +18,7 @@
 
                 <summary>accountChargeAmount</summary>
                 <description>accountChargeAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="accountNumber" forceUppercase="true">
@@ -258,6 +259,7 @@
 
                 <summary>primaryDepreciationPaymentAmount</summary>
                 <description>primaryDepreciationPaymentAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="projectCode" forceUppercase="true">
@@ -318,6 +320,7 @@
 
                 <summary>secondaryDepreciationPaymentAmount</summary>
                 <description>secondaryDepreciationPaymentAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">

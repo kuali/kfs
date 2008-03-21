@@ -342,6 +342,7 @@
 
                 <summary>insuranceChargeAccountNumber</summary>
                 <description>insuranceChargeAccountNumber description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">

@@ -101,6 +101,7 @@
             	sourceAttributeName="genericAmount">
             	<label>Repair Amount</label>
             	<shortLabel>Amount</shortLabel>
+            	<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             <attribute name="repairContactName" forceUppercase="true">
                 <label>Repair Contact Name</label>

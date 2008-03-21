@@ -167,6 +167,7 @@
 
                 <summary>estimatedSellingPrice</summary>
                 <description>estimatedSellingPrice description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="handlingFeeAmount" forceUppercase="true">
@@ -182,6 +183,7 @@
 
                 <summary>handlingFeeAmount</summary>
                 <description>handlingFeeAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="paidCaseNumber" forceUppercase="true">
@@ -212,6 +214,7 @@
 
                 <summary>preventiveMaintenanceAmount</summary>
                 <description>preventiveMaintenanceAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="retirementAccountNumber" forceUppercase="true">
@@ -377,6 +380,7 @@
 
                 <summary>salePrice</summary>
                 <description>salePrice description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

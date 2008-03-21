@@ -230,6 +230,7 @@
 
                 <summary>accumulatedPrimaryDepreciationAmount</summary>
                 <description>accumulatedPrimaryDepreciationAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="accumulatedSecondaryDepreciationAmount" forceUppercase="true">
@@ -245,6 +246,7 @@
 
                 <summary>accumulatedSecondaryDepreciationAmount</summary>
                 <description>accumulatedSecondaryDepreciationAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="capitalAssetNumber" forceUppercase="true">
@@ -451,6 +453,7 @@
 
                 <summary>period10Depreciation2Amount</summary>
                 <description>period10Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period11Depreciation1Amount" forceUppercase="true">
@@ -466,6 +469,7 @@
 
                 <summary>period11Depreciation1Amount</summary>
                 <description>period11Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period11Depreciation2Amount" forceUppercase="true">
@@ -481,6 +485,7 @@
 
                 <summary>period11Depreciation2Amount</summary>
                 <description>period11Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period12Depreciation1Amount" forceUppercase="true">
@@ -496,6 +501,7 @@
 
                 <summary>period12Depreciation1Amount</summary>
                 <description>period12Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period12Depreciation2Amount" forceUppercase="true">
@@ -511,6 +517,7 @@
 
                 <summary>period12Depreciation2Amount</summary>
                 <description>period12Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period1Depreciation1Amount" forceUppercase="true">
@@ -526,6 +533,7 @@
 
                 <summary>period1Depreciation1Amount</summary>
                 <description>period1Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period1Depreciation2Amount" forceUppercase="true">
@@ -541,6 +549,7 @@
 
                 <summary>period1Depreciation2Amount</summary>
                 <description>period1Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period2Depreciation1Amount" forceUppercase="true">
@@ -556,6 +565,7 @@
 
                 <summary>period2Depreciation1Amount</summary>
                 <description>period2Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period2Depreciation2Amount" forceUppercase="true">
@@ -571,6 +581,7 @@
 
                 <summary>period2Depreciation2Amount</summary>
                 <description>period2Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period3Depreciation1Amount" forceUppercase="true">
@@ -586,6 +597,7 @@
 
                 <summary>period3Depreciation1Amount</summary>
                 <description>period3Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period3Depreciation2Amount" forceUppercase="true">
@@ -601,6 +613,7 @@
 
                 <summary>period3Depreciation2Amount</summary>
                 <description>period3Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period4Depreciation1Amount" forceUppercase="true">
@@ -616,6 +629,7 @@
 
                 <summary>period4Depreciation1Amount</summary>
                 <description>period4Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period4Depreciation2Amount" forceUppercase="true">
@@ -631,6 +645,7 @@
 
                 <summary>period4Depreciation2Amount</summary>
                 <description>period4Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period5Depreciation1Amount" forceUppercase="true">
@@ -646,6 +661,7 @@
 
                 <summary>period5Depreciation1Amount</summary>
                 <description>period5Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period5Depreciation2Amount" forceUppercase="true">
@@ -661,6 +677,7 @@
 
                 <summary>period5Depreciation2Amount</summary>
                 <description>period5Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period6Depreciation1Amount" forceUppercase="true">
@@ -676,6 +693,7 @@
 
                 <summary>period6Depreciation1Amount</summary>
                 <description>period6Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period6Depreciation2Amount" forceUppercase="true">
@@ -691,6 +709,7 @@
 
                 <summary>period6Depreciation2Amount</summary>
                 <description>period6Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period7Depreciation1Amount" forceUppercase="true">
@@ -706,6 +725,7 @@
 
                 <summary>period7Depreciation1Amount</summary>
                 <description>period7Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period7Depreciation2Amount" forceUppercase="true">
@@ -721,6 +741,7 @@
 
                 <summary>period7Depreciation2Amount</summary>
                 <description>period7Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period8Depreciation1Amount" forceUppercase="true">
@@ -736,6 +757,7 @@
 
                 <summary>period8Depreciation1Amount</summary>
                 <description>period8Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period8Depreciation2Amount" forceUppercase="true">
@@ -751,6 +773,7 @@
 
                 <summary>period8Depreciation2Amount</summary>
                 <description>period8Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period9Depreciation1Amount" forceUppercase="true">
@@ -766,6 +789,7 @@
 
                 <summary>period9Depreciation1Amount</summary>
                 <description>period9Depreciation1Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="period9Depreciation2Amount" forceUppercase="true">
@@ -781,6 +805,7 @@
 
                 <summary>period9Depreciation2Amount</summary>
                 <description>period9Depreciation2Amount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="previousYearPrimaryDepreciationAmount" forceUppercase="true">
@@ -796,6 +821,7 @@
 
                 <summary>previousYearPrimaryDepreciationAmount</summary>
                 <description>previousYearPrimaryDepreciationAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="previousYearSecondaryDepreciationAmount" forceUppercase="true">
@@ -811,6 +837,7 @@
 
                 <summary>previousYearSecondaryDepreciationAmount</summary>
                 <description>previousYearSecondaryDepreciationAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="primaryDepreciationBaseAmount" forceUppercase="true">
@@ -826,6 +853,7 @@
 
                 <summary>primaryDepreciationBaseAmount</summary>
                 <description>primaryDepreciationBaseAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="projectCode" forceUppercase="true">
@@ -886,6 +914,7 @@
 
                 <summary>secondaryDepreciationBaseAmount</summary>
                 <description>secondaryDepreciationBaseAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">

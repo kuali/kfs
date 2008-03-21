@@ -26,7 +26,7 @@ import org.kuali.core.dbplatform.RawSQL;
 
 import org.apache.log4j.Logger;
 
-import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 
 
@@ -116,15 +116,15 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      */
     protected String expenditureINList()
     {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES))
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES))
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
             return new String("");
         }
-        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
         if (expenditureObjectTypes.isEmpty())
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
             return new String("");
         }
         return inString(expenditureObjectTypes);
@@ -137,15 +137,15 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      */
     protected String revenueINList()
     {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES))
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES))
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
             return new String("");
         }
-        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES));
+        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
         if (revenueObjectTypes.isEmpty())
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
             return new String("");
         }
         return inString(revenueObjectTypes);
@@ -158,17 +158,17 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      */
     protected String getExpenditureINList() throws NoSuchFieldException, IOException
     {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES))
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES))
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
-            IOException ioex = new IOException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
+            IOException ioex = new IOException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
-        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
+        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
         if (expenditureObjectTypes.isEmpty())
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
-            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
+            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
             throw (bfex);
         }
         return inString(expenditureObjectTypes);
@@ -181,17 +181,17 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      */
     protected String getRevenueINList() throws NoSuchFieldException, IOException
     {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES))
+        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES))
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
-            IOException ioex = new IOException("parameter "+BCParameterConstants.REVENUE_OBJECT_TYPES+" does not exist");
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
+            IOException ioex = new IOException("parameter "+BCParameterKeyConstants.REVENUE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
-        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES));
+        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
         if (revenueObjectTypes.isEmpty())
         {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterConstants.REVENUE_OBJECT_TYPES));
-            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
+            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
             throw (bfex);
         }
         return inString(revenueObjectTypes);

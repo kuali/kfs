@@ -28,7 +28,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 
 /**
@@ -76,10 +76,10 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
 
         // these parameter service calls will throw an IllegalArgumentException exception if the parameter doesn't exist 
         if ("TRUE".equals(getAttribute(revenueAttributeName))) {
-            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.REVENUE_OBJECT_TYPES);
+            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
         }
         else {
-            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterConstants.EXPENDITURE_OBJECT_TYPES);
+            paramValues = SpringContext.getBean(ParameterService.class).getParameterValues(budgetConstructionDocument.getClass(),BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
         }
         revObjs.addAll(paramValues);
         arg3.getCriteria().addIn(objectCodeTypeField, revObjs);

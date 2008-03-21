@@ -38,7 +38,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.budget.BCKeyConstants;
-import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
@@ -87,12 +87,12 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         Class docClass = budgetConstructionDocument.getClass();
 
         // get the system parameters we will use here
-        revenueObjectTypesParamValues = this.getParameterValues(docClass, BCParameterConstants.REVENUE_OBJECT_TYPES);
-        expenditureObjectTypesParamValues = this.getParameterValues(docClass, BCParameterConstants.EXPENDITURE_OBJECT_TYPES);
-        budgetAggregationCodesParamValues = this.getParameterValues(docClass, BCParameterConstants.BUDGET_AGGREGATION_CODES);
-        fringeBenefitDesignatorCodesParamValues = this.getParameterValues(docClass, BCParameterConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
-        salarySettingFundGroupsParamValues = this.getParameterValues(docClass, BCParameterConstants.SALARY_SETTING_FUND_GROUPS);
-        salarySettingSubFundGroupsParamValues = this.getParameterValues(docClass, BCParameterConstants.SALARY_SETTING_SUB_FUND_GROUPS);
+        revenueObjectTypesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
+        expenditureObjectTypesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+        budgetAggregationCodesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
+        fringeBenefitDesignatorCodesParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
+        salarySettingFundGroupsParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
+        salarySettingSubFundGroupsParamValues = this.getParameterValues(docClass, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
 
         // now make sure all the necessary business objects are fully populated
         // this refreshes any refs where auto-update="none" even though already done by populate for display purposes

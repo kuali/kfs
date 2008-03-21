@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 import org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
 import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService;
 import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
-import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.kfs.service.ParameterService;

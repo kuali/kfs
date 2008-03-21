@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import org.kuali.module.budget.BCParameterConstants;
+import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.service.BudgetConstructionRevenueExpenditureObjectTypesService;
 
@@ -54,8 +54,8 @@ public class BudgetConstructionRevenueExpenditureObjectTypesServiceImpl implemen
     {
         // use the parameter service to access the DB and build the ObjectType variables
         this.parameterService = parameterService;
-        expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.EXPENDITURE_OBJECT_TYPES));
-        revenueObjectTypes     = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterConstants.REVENUE_OBJECT_TYPES));
+        expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
+        revenueObjectTypes     = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
 
         // reporting object types add liabilities to expenditure, and assets to revenue
         expenditureReportObjectTypes = new ArrayList<String>(expenditureObjectTypes);

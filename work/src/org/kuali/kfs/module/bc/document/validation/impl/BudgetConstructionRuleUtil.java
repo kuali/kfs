@@ -45,20 +45,19 @@ public class BudgetConstructionRuleUtil {
         comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         comparableFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
-        if (newLine.getFinancialSubObjectCode() == null){
+        if (newLine.getFinancialSubObjectCode() == null) {
             newLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
-        for (PendingBudgetConstructionGeneralLedger line: existingLines){
-            if (ObjectUtil.compareObject(line, newLine, comparableFields)){
+        for (PendingBudgetConstructionGeneralLedger line : existingLines) {
+            if (ObjectUtil.compareObject(line, newLine, comparableFields)) {
                 isFound = true;
                 break;
             }
         }
-        if (newLine.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())){
+        if (newLine.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())) {
             newLine.setFinancialSubObjectCode(null);
         }
 
         return isFound;
     }
-
 }

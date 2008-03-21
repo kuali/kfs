@@ -15,6 +15,7 @@
  */
 package org.kuali.test.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * provide with a set of utilities that can be used to prepare test data for unit testing. The core idea is to convert Java
@@ -35,6 +37,28 @@ import org.kuali.kfs.util.ObjectUtil;
 public class TestDataPreparator {
     public static final String DEFAULT_FIELD_NAMES = "fieldNames";
     public static final String DEFAULT_DELIMINATOR = "deliminator";
+
+    /**
+     * load properties from the given class path resource. The class path is different than the absolute path. If a resource is
+     * located at /project/test/org/kuali/kfs/util/message.properties, then its class path is org/kuali/kfs/util/message.properties, which
+     * is the fully-qualified Java package name plus the resource name.
+     * 
+     * @param classPath the given class path of a resource
+     * @return properties loaded from the given resource.
+     */
+    public static Properties loadPropertiesFromClassPath(String classPath) {
+        ClassPathResource classPathResource = new ClassPathResource(classPath);
+
+        Properties properties = new Properties();
+        try {
+            properties.load(classPathResource.getInputStream());
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Invalid class path: " + classPath + e);
+        }
+
+        return properties;
+    }
 
     /**
      * build a list of objects of type "clazz" from the test data provided by the given properties. The default fieldNames and
@@ -283,10 +307,20 @@ public class TestDataPreparator {
         return true;
     }
 
+    /**
+     * get an instant of BusinessObjectService
+     * 
+     * @return an instant of BusinessObjectService
+     */
     private static BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
 
+    /**
+     * get an instant of PersistenceService
+     * 
+     * @return an instant of PersistenceService
+     */
     private static PersistenceService getPersistenceService() {
         return SpringContext.getBean(PersistenceService.class);
     }

@@ -31,7 +31,6 @@ import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
-import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 
@@ -57,12 +56,11 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      */
     public EffortCertificationDetailBuildServiceTest() {
         super();
-        String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/effortCertificationDetailBuildService.properties";
+        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
+        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationDetailBuildService.properties";
 
-        TestDataGenerator generator = new TestDataGenerator(propertiesFileName, messageFileName);
-        properties = generator.getProperties();
-        message = generator.getMessage();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);
 
         deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
 

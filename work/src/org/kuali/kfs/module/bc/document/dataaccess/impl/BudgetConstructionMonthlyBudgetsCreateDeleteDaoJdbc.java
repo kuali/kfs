@@ -41,17 +41,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc.class);
 
-    // SQL built on the first call to any method, based the StringBuilders created in the constructor
-    private String deleteAllRevenueRowsSQL;
-    private String deleteAllExpenditureRowsSQL;
-    private String deleteNoBenefitsRevenueRowsSQL;
-    private String deleteNoBenefitsExpenditureRowsSQL;
-    private String expenditureBenefitsObjectClassesCheckSQL; 
-    private String allocateGeneralLedgerExpenditureByMonthSQL;
-    private String allocateGeneralLedgerRevenueByMonthSQL;
-    
-    private int deleteBuilderRevenueInLocation;
+
     private int deleteBuilderExpenditureInLocation;
+    private int deleteBuilderRevenueInLocation;
     
     @RawSQL
     public BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc()
@@ -85,7 +77,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     public void deleteBudgetConstructionMonthlyBudgetsRevenueI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
 
         // SQL to delete all monthly revenue rows for this document
-        deleteAllRevenueRowsSQL = this.buildDeleteBudgetConstructionMonthlyBudgetsRevenueSQLI();
+        String deleteAllRevenueRowsSQL = this.buildDeleteBudgetConstructionMonthlyBudgetsRevenueSQLI();
         
         //run the delete-all SQL with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllRevenueRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
@@ -100,7 +92,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     public void deleteBudgetConstructionMonthlyBudgetsExpenditureI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)throws IOException, NoSuchFieldException {
 
         // SQL to delete all monthly expenditure rows for this document
-        deleteAllExpenditureRowsSQL = buildDeleteBudgetConstructionMonthlyBudgetsExpenditureSQLI();
+        String deleteAllExpenditureRowsSQL = buildDeleteBudgetConstructionMonthlyBudgetsExpenditureSQLI();
         
         // run the delete-all SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
@@ -117,7 +109,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // for revenue, we delete all existing rows, and spread all the corresponding rows in the general ledger
         // if there is any revenue for benefits, it will be spread, not calculated based on non-benefits rows as expenditure benefits will be
 
-        ArrayList<String> sqlStrings = this.buildAllocateGeneralLedgerRevenueByMonthSQLI(); 
+        ArrayList<String> sqlStrings = buildAllocateGeneralLedgerRevenueByMonthSQLI(); 
         
         // delete what is there now for this document for the revenue object classes
         String deleteAllRevenueRowsSQL = sqlStrings.get(0);
@@ -125,7 +117,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         LOG.warn(String.format("\n%s\n RevenueSpread rows deleted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
 
         // run the create-monthly-budgets-from-GL SQL with the revenue object classes
-        String allocateGeneralLedgerRevenueByMonthSQL = sqlStrings.get(0);
+        String allocateGeneralLedgerRevenueByMonthSQL = sqlStrings.get(1);
         returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerRevenueByMonthSQL,documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber );
         LOG.warn(String.format("\n%s\n RevenueSpread rows inserted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
     }
@@ -138,17 +130,20 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     @RawSQL
     public boolean spreadBudgetConstructionMonthlyBudgetsExpenditureI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
 
-        ArrayList<String> allocateGeneralLedgerExpenditureByMonthSQL = buildAllocateGeneralLedgerExpenditureByMonthSQLI();
+        ArrayList<String> sqlStrings = buildAllocateGeneralLedgerExpenditureByMonthSQLI();
         
         // run the delete-all-except-benefits SQL with the expenditure object classes
-        int returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL.get(0), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);
+        String deleteAllExpenditureRowsSQL = sqlStrings.get(0);
+        int returnCount = getSimpleJdbcTemplate().update(deleteAllExpenditureRowsSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);
         LOG.warn(String.format("\n%s\n ExpenditureSpread rows deleted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
 
         // run the create-monthly-budgets-from-GL SQL with the expenditure object classes
-        returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL.get(1), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);
+        String allocateGeneralLedgerExpenditureByMonthSQL = sqlStrings.get(1); 
+        returnCount = getSimpleJdbcTemplate().update(allocateGeneralLedgerExpenditureByMonthSQL, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);
         LOG.warn(String.format("\n%s\n ExpenditureSpread rows inserted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
 
-        return(budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(allocateGeneralLedgerExpenditureByMonthSQL.get(2), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+        String countBenefitsObjectClassesExpenditure = sqlStrings.get(2);
+        return(budgetConstructionMonthlyBudgetContainsBenefitsExpenditure(countBenefitsObjectClassesExpenditure, documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
     
     /**
@@ -261,13 +256,13 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     @RawSQL
     private ArrayList<String> buildAllocateGeneralLedgerRevenueByMonthSQLI() throws NoSuchFieldException, IOException
     {
-       String inSQLString = this.getRevenueINList();
+       String inSqlString = this.getRevenueINList();
        
        // to avoid calling the DB twice to get the system parameter, we return an array list of SQL strings.
        ArrayList<String> returnSQL = new ArrayList();
        
        // here is the SQL to delete the revenue from the monthly table for this document
-       returnSQL.add(buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+       returnSQL.add(buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
        
        // here is the SQL to re-distribute evenly over 12 months to the monthly table the revenue for this document in the general ledger
        StringBuffer allocateGeneralLedgerRevenueByMonth = new StringBuffer(5000);  
@@ -296,8 +291,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        allocateGeneralLedgerRevenueByMonth.append("          AND (account_nbr = ?)\n");
        allocateGeneralLedgerRevenueByMonth.append("          AND (sub_acct_nbr = ?)\n");
        allocateGeneralLedgerRevenueByMonth.append("          AND (fin_obj_typ_cd IN ");
-       allocateGeneralLedgerRevenueByMonth.append(inSQLString);
-       allocateGeneralLedgerRevenueByMonth.append(")");
+       allocateGeneralLedgerRevenueByMonth.append(inSqlString);
+       allocateGeneralLedgerRevenueByMonth.append("))");
 
        returnSQL.add(allocateGeneralLedgerRevenueByMonth.toString());
        
@@ -320,10 +315,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        // to avoid getting the expenditure parameter twice from the DB, we return both sets of SQL in an ArrayList
        ArrayList<String> returnSQL = new ArrayList<String>();
        
-       String inSQLString = this.getExpenditureINList();
+       String inSqlString = this.getExpenditureINList();
        
        // we have to delete all current monthly rows for this document which do not have benefits object types
-       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSQLString));
+       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSqlString));
        
        StringBuffer allocateGeneralLedgerExpenditureByMonth = new StringBuffer(5000);  
        allocateGeneralLedgerExpenditureByMonth.append("INSERT INTO LD_BCNSTR_MONTH_T\n"); 
@@ -356,8 +351,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        allocateGeneralLedgerExpenditureByMonth.append("                   AND (LD_BENEFITS_CALC_T.FIN_COA_CD = ?)\n");
        allocateGeneralLedgerExpenditureByMonth.append("                  AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))\n");
        allocateGeneralLedgerExpenditureByMonth.append("          AND (fin_obj_typ_cd IN ");
-       allocateGeneralLedgerExpenditureByMonth.append(inSQLString);
-       allocateGeneralLedgerExpenditureByMonth.append(")");
+       allocateGeneralLedgerExpenditureByMonth.append(inSqlString);
+       allocateGeneralLedgerExpenditureByMonth.append("))");
        
        returnSQL.add(allocateGeneralLedgerExpenditureByMonth.toString());
        
@@ -374,7 +369,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = ?)\n");
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = ?)\n");
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.FIN_OBJ_TYP_CD IN ");
-       expenditureBenefitsObjectClassesCheck.append(inSQLString);
+       expenditureBenefitsObjectClassesCheck.append(inSqlString);
        expenditureBenefitsObjectClassesCheck.append(")\n");
 
        returnSQL.add(expenditureBenefitsObjectClassesCheck.toString());
@@ -392,8 +387,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      */
     private String buildDeleteBudgetConstructionMonthlyBudgetsExpenditureSQLI() throws IOException, NoSuchFieldException
     {
-       String inSQLString = this.getExpenditureINList();
-       return (buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+       String inSqlString = this.getExpenditureINList();
+       return (buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
     }
     
     /**
@@ -405,8 +400,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      */
     private String buildDeleteBudgetConstructionMonthlyBudgetsRevenueSQLI() throws IOException, NoSuchFieldException
     {
-        String inSQLString = this.getRevenueINList();
-        return (buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+        String inSqlString = this.getRevenueINList();
+        return (buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
     }
 
     /**
@@ -422,14 +417,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        // to avoid calling the DB twice to get the system parameter, we return an array list of SQL strings.
        ArrayList<String> returnSQL = new ArrayList();
 
-       String inSQLString = this.revenueINList();
-       if (inSQLString.length() == 0)
+       String inSqlString = this.revenueINList();
+       if (inSqlString.length() == 0)
        {
            return returnSQL;
        }
        
        // here is the SQL to delete the revenue from the monthly table for this document
-       returnSQL.add(buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+       returnSQL.add(buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
        
        // here is the SQL to re-distribute evenly over 12 months to the monthly table the revenue for this document in the general ledger
        StringBuffer allocateGeneralLedgerRevenueByMonth = new StringBuffer(5000);  
@@ -458,8 +453,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        allocateGeneralLedgerRevenueByMonth.append("          AND (account_nbr = ?)\n");
        allocateGeneralLedgerRevenueByMonth.append("          AND (sub_acct_nbr = ?)\n");
        allocateGeneralLedgerRevenueByMonth.append("          AND (fin_obj_typ_cd IN ");
-       allocateGeneralLedgerRevenueByMonth.append(inSQLString);
-       allocateGeneralLedgerRevenueByMonth.append(")");
+       allocateGeneralLedgerRevenueByMonth.append(inSqlString);
+       allocateGeneralLedgerRevenueByMonth.append("))");
        returnSQL.add(allocateGeneralLedgerRevenueByMonth.toString());
        
        return returnSQL;
@@ -480,14 +475,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        // this is a signal that benefits need to be recalculated for this document.
        // to avoid getting the expenditure parameter twice from the DB, we return both sets of SQL in an ArrayList
        ArrayList<String> returnSQL = new ArrayList<String>(); 
-       String inSQLString = this.expenditureINList();
-       if (inSQLString.length() == 0)
+       String inSqlString = this.expenditureINList();
+       if (inSqlString.length() == 0)
        {
            return returnSQL;
        }
        
        // we have to delete all current monthly rows for this document which do not have benefits object types
-       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSQLString));
+       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSqlString));
        
        StringBuffer allocateGeneralLedgerExpenditureByMonth = new StringBuffer(5000);  
        allocateGeneralLedgerExpenditureByMonth.append("INSERT INTO LD_BCNSTR_MONTH_T\n"); 
@@ -520,8 +515,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        allocateGeneralLedgerExpenditureByMonth.append("                   AND (LD_BENEFITS_CALC_T.FIN_COA_CD = ?)\n");
        allocateGeneralLedgerExpenditureByMonth.append("                  AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))\n");
        allocateGeneralLedgerExpenditureByMonth.append("          AND (fin_obj_typ_cd IN ");
-       allocateGeneralLedgerExpenditureByMonth.append(inSQLString);
-       allocateGeneralLedgerExpenditureByMonth.append(")");
+       allocateGeneralLedgerExpenditureByMonth.append(inSqlString);
+       allocateGeneralLedgerExpenditureByMonth.append("))");
        returnSQL.add(allocateGeneralLedgerExpenditureByMonth.toString());
        
        StringBuffer expenditureBenefitsObjectClassesCheck = new StringBuffer(2000);
@@ -537,12 +532,12 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = ?)\n");
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = ?)\n");
        expenditureBenefitsObjectClassesCheck.append("  AND (LD_BCNSTR_MONTH_T.FIN_OBJ_TYP_CD IN ");
-       expenditureBenefitsObjectClassesCheck.append(inSQLString);
+       expenditureBenefitsObjectClassesCheck.append(inSqlString);
        expenditureBenefitsObjectClassesCheck.append(")\n");
        returnSQL.add(expenditureBenefitsObjectClassesCheck.toString());
        
        // we have to delete all current monthly rows for this document which do not have benefits object types
-       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSQLString));
+       returnSQL.add(this.buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(inSqlString));
        //
        return(returnSQL);
     }
@@ -556,12 +551,12 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      */
     private String buildDeleteBudgetConstructionMonthlyBudgetsExpenditureSQLII()
     {
-        String inSQLString = this.expenditureINList();
-        if (inSQLString.length() == 0)
+        String inSqlString = expenditureINList();
+        if (inSqlString.length() == 0)
         {
-            return inSQLString;
+            return inSqlString;
         }
-        return (buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+        return (buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
     }
     
     /**
@@ -573,12 +568,12 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      */
     private String buildDeleteBudgetConstructionMonthlyBudgetsRevenueSQLII()
     {
-        String inSQLString = this.revenueINList();
-        if (inSQLString.length() == 0)
+        String inSqlString = revenueINList();
+        if (inSqlString.length() == 0)
         {
-            return inSQLString;
+            return inSqlString;
         }
-        return (buildDeleteBudgetConstructionMonthlyBudgets(inSQLString));
+        return (buildDeleteBudgetConstructionMonthlyBudgets(inSqlString));
     }
     
     /**
@@ -590,7 +585,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @throws IOException
      * @throws NoSuchFieldException
      */
-    private String buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(String inString)
+    private String buildDeleteNoBenefitsBudgetConstructionMonthlyBudgetsExpenditureSQL(String inSqlString)
     {
         StringBuffer deleteBuilder = new StringBuffer(2000);
         deleteBuilder.append("DELETE FROM ld_bcnstr_month_t\n"); 
@@ -600,7 +595,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         deleteBuilder.append("  AND (account_nbr = ?)\n"); 
         deleteBuilder.append("  AND (sub_acct_nbr = ?)\n"); 
         deleteBuilder.append("  AND (fin_obj_typ_cd IN ");
-        deleteBuilder.append(inString);
+        deleteBuilder.append(inSqlString);
         deleteBuilder.append(")\n");
         deleteBuilder.append("AND (NOT EXISTS (SELECT 1\n");
         deleteBuilder.append("                 FROM LD_BENEFITS_CALC_T\n");
@@ -618,7 +613,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @return the SQL String
      */
     
-    private String buildDeleteBudgetConstructionMonthlyBudgets(String inString)
+    private String buildDeleteBudgetConstructionMonthlyBudgets(String inSqlString)
     {
         StringBuffer deleteBuilder = new StringBuffer(2000);
         deleteBuilder.append("DELETE FROM ld_bcnstr_month_t\n"); 
@@ -628,7 +623,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         deleteBuilder.append("  AND (account_nbr = ?)\n"); 
         deleteBuilder.append("  AND (sub_acct_nbr = ?)\n"); 
         deleteBuilder.append("  AND (fin_obj_typ_cd IN ");
-        deleteBuilder.append(inString);
+        deleteBuilder.append(inSqlString);
         deleteBuilder.append(")");
         
         return(deleteBuilder.toString());

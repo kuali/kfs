@@ -23,6 +23,8 @@ import org.kuali.module.budget.dao.BudgetConstructionMonthlyBudgetsCreateDeleteD
 import org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.module.budget.BCConstants;
 
+import java.io.IOException;
+
 /**
  * 
  * @see org.kuali.module.budget.service.BudgetConctructionMonthlyBudgetsCreateDeleteService
@@ -84,15 +86,40 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
     {
         
-       LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure\n\n"); 
-       deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
-       deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
-       spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %d for (%s,%d,%s,%s,%s): ",
+       LOG.warn(String.format("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure returned %s for (%s, %d, %s, %s, %s)\n\n",
+            deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+            document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+       LOG.warn(String.format("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue returned %s for (%s, %d, %s, %s, %s)\n\n", 
+                deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue returned %s for (%s, %d, %s, %s, %s)\n\n", 
+                spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %s for (%s,%d,%s,%s,%s)\n\n",
                                spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
                                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+       // added code to test the versions which throw exceptions
+       // take this out when we settle on whether we will use the enum or the exceptions
+       try
+       {
+          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditureI\n\n");
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditureI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenueI\n\n"); 
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenueI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenueI\n\n"); 
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenueI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditureI returned %b for (%s,%b,%s,%s,%s): ",
+                  budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditureI(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+                               document, fiscalYear, chartCode, accountNumber, subAccountNumber));
+       }
+       catch (IOException ioex)
+       {
+           LOG.warn(String.format("\n\nIOException thrown: %s",ioex.getMessage()));
+       }
+       catch (NoSuchFieldException nsfex)
+       {
+           LOG.warn(String.format("\n\nNoSuchFieldException thrown: %s",nsfex.getMessage()));
+       }
     }
     
 

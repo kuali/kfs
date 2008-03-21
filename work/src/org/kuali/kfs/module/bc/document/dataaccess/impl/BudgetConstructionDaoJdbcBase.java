@@ -89,7 +89,7 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         // if the ArrayList input is empty, IN ('') is returned.
         StringBuffer inBuilder = new StringBuffer(150);
         
-        inBuilder.append(" IN ('");
+        inBuilder.append("('");
         if (! inListValues.isEmpty())
         {
           inBuilder.append(inListValues.get(0));

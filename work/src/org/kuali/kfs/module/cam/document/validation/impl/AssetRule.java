@@ -117,10 +117,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
     private boolean isOffCampusLocationChanged() {
         boolean changed = false;
-        AssetLocation copyLocation = oldAsset.getOffCampusLocation();
+        AssetLocation oldLocation = oldAsset.getOffCampusLocation();
         AssetLocation newLocation = newAsset.getOffCampusLocation();
 
-        if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), copyLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), copyLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), copyLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), copyLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), copyLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), copyLocation.getAssetLocationCountryCode())) {
+        if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), oldLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), oldLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), oldLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), oldLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), oldLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), oldLocation.getAssetLocationCountryCode())) {
             changed = true;
         }
         return changed;
@@ -178,12 +178,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
 
         // validade On Campus location.
-        if (isOnCampusLocationUpdated()) {
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
             valid &= validateOnCampusLocation(newAsset);
         }
 
         return valid;
     }
+
 
     /**
      * If asset is tagged and created in prior fiscal year, the Asset Type Code is not allowed to change
@@ -214,16 +215,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
 
         return valid;
-    }
-
-
-    private boolean isOnCampusLocationUpdated() {
-        boolean updated = false;
-
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
-            updated = true;
-        }
-        return updated;
     }
 
 

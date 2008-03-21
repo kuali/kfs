@@ -155,6 +155,13 @@
                         <maintainableField name="period10Depreciation1Amount" readOnly="true" />
                         <maintainableField name="period11Depreciation1Amount" readOnly="true" />
                         <maintainableField name="period12Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="paymentSequenceNumberCopy" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="paymentSequenceNumberCopy" />
+                            <summaryField name="financialDocumentPostingDate" />
+                            <summaryField name="accountChargeAmount" />
+                        </summaryFields> 
    		            </maintainableCollection>
                         <maintainableField name="paymentTotalCost" readOnly="true" />
 		        </maintainableItems>

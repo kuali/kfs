@@ -196,6 +196,7 @@
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+ 		<orderby name="financialDocumentPostingDate" sort="ASC" />
         <inverse-foreignkey field-ref="capitalAssetNumber" />
     </collection-descriptor>
 	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -222,9 +223,9 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="financialDocumentNextLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
@@ -250,12 +251,15 @@
 	<reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+	
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.module.cams.bo.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
     <collection-descriptor name="assetPaymentDetails" element-class-ref="org.kuali.module.cams.bo.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>

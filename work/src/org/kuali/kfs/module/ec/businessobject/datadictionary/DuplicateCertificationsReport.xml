@@ -31,7 +31,7 @@
 
             <lookupFields>
             	<lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="effortCertificationReportNumber" required="true" />
+                <lookupField attributeName="effortCertificationReportNumber" />
             </lookupFields>
 
             <resultFields>
@@ -50,6 +50,12 @@
 				<primitiveAttribute sourceName="emplid" targetName="personPayrollIdentifier" />
                 <supportAttribute sourceName="employee.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
                 <supportAttribute sourceName="employee.personName" targetName="personName" />
+            </relationship>
+            <relationship objectAttributeName="options" >
+				<primitiveAttribute sourceName="universityFiscalYear" targetName="universityFiscalYear" />
+            </relationship>
+            <relationship objectAttributeName="effortCertificationReportDefinition" >
+				<primitiveAttribute sourceName="effortCertificationReportNumber" targetName="effortCertificationReportNumber" />
             </relationship>
 	    </relationships>     
     </businessObject>

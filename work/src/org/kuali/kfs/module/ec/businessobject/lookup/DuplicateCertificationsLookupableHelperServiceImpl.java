@@ -15,14 +15,21 @@
  */
 package org.kuali.module.effort.lookup;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.DuplicateCertificationsReport;
+import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
+import org.kuali.module.effort.bo.OutstandingReportsByOrganization;
 
 /**
  * Searches for documents that are not approved.
@@ -35,7 +42,32 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
         
-        return super.getSearchResults(fieldValues);
+        LookupService lookupService = SpringContext.getBean(LookupService.class);
+        List<OutstandingReportsByOrganization> reportList = new ArrayList<OutstandingReportsByOrganization>(lookupService.findCollectionBySearch(OutstandingReportsByOrganization.class, fieldValues));
+        ArrayList<DuplicateCertificationsReport> returnResults = new ArrayList<DuplicateCertificationsReport>();
+        
+        for (OutstandingReportsByOrganization outstandingReportByOrganization : reportList) {
+            
+            DuplicateCertificationsReport temp = new DuplicateCertificationsReport();
+            
+            //TODO: are these the correct field property names
+            
+            temp.setEffortCertificationReportNumber(outstandingReportByOrganization.getEffortCertificationReportNumber());
+            temp.setUniversityFiscalYear(outstandingReportByOrganization.getUniversityFiscalYear());
+            temp.setEmplid(outstandingReportByOrganization.getEmplid());
+            
+            returnResults.add(temp);
+        }
+        
+        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        return returnResults;
     }
- 
+    
+    @Override
+    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
+        
+        return "";
+    } 
 }

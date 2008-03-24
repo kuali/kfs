@@ -24,16 +24,19 @@ import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.EffortPropertyConstants;
 
 public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
 
-    private String universityFiscalYear;
+    private Integer universityFiscalYear;
     private String effortCertificationReportNumber;
     private String emplid;
     
     private UniversalUser employee;
+    private Options options;
+    private EffortCertificationReportDefinition effortCertificationReportDefinition;
     
     /**
      * Gets effortCertificationReportNumber
@@ -58,7 +61,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @return
      */
-    public String getUniversityFiscalYear() {
+    public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
     
@@ -67,7 +70,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @param universityFiscalYear
      */
-    public void setUniversityFiscalYear(String universityFiscalYear) {
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
     
@@ -118,5 +121,41 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      */
     public void setEmployee(UniversalUser employee) {
         this.employee = employee;
+    }
+    
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+    
+    /**
+     * Gets the effort certification report definition
+     * 
+     * @return
+     */
+    public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
+        return effortCertificationReportDefinition;
+    }
+    
+    /**
+     * Sets effort certification report definition
+     * 
+     * @param effortCertificationReportDefinition
+     */
+    public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
+        this.effortCertificationReportDefinition = effortCertificationReportDefinition;
     }
 }

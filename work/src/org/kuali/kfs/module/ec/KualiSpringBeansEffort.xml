@@ -220,7 +220,7 @@
 	</bean> 
 
 	<bean id="outstandingCertificationsByReportLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false">
-		<property name="persistenceStructureService">
+		<!-- property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
 		<property name="lookupService">
@@ -237,7 +237,7 @@
 		</property>
 		<property name="universalUserService">
             <ref bean="universalUserService" />
-        </property>		
+        </property-->		
 	</bean> 
 
 	<bean id="duplicateCertificationsReportLookupableHelperService" class="org.kuali.module.effort.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false">

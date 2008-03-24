@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.lookup.KualiLookupableImpl;
+import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -34,12 +34,12 @@ import org.kuali.module.effort.bo.OutstandingReportsByOrganization;
 /**
  * Searches for documents that are not approved.
  */
-public class OutstandingCertificationsByReportLookupableHelperServiceImpl extends KualiLookupableImpl {
+public class OutstandingCertificationsByReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
      * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
-    public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
         
         LookupService lookupService = SpringContext.getBean(LookupService.class);
@@ -55,15 +55,17 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         }
         
         ArrayList<String> chartOrgList = new ArrayList<String>(countMap.keySet());
-        List<BusinessObject> returnResults = new ArrayList<BusinessObject>();
+        ArrayList<OutstandingCertificationsByReport> returnResults = new ArrayList<OutstandingCertificationsByReport>();
         ArrayList<String> keys = new ArrayList<String>(fieldValues.keySet());
         
         for (String chartOrg : chartOrgList) {
             OutstandingCertificationsByReport temp = new OutstandingCertificationsByReport();
             String[] chartAndOrg = chartOrg.split("-");
             
-            temp.setEffortCertificationReportNumber(fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER));
-            temp.setUniversityFiscalYear(fieldValues.get(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME));
+            //TODO: are these the correct field property names
+            
+            temp.setEffortCertificationReportNumber(fieldValues.get("effortCertificationReportNumber"));
+            temp.setUniversityFiscalYear( Integer.parseInt(fieldValues.get("universityFiscalYear")) );
             temp.setChartOfAccountsCode(chartAndOrg[0]);
             temp.setOrganizationCode(chartAndOrg[1]);
             temp.setOutstandingCertificationCount(countMap.get(chartOrg));
@@ -73,6 +75,7 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         
         setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
         return returnResults;
     }
@@ -82,11 +85,5 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         
         return "";
     }
-
-    @Override
-    public Class getBusinessObjectClass() {
-        
-        return OutstandingCertificationsByReport.class;
-    }
-
+   
 }

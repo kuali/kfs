@@ -68,6 +68,19 @@
 			</attribute>
 			
         </attributes>
-          
+          <relationships>
+            <relationship objectAttributeName="options" >
+				<primitiveAttribute sourceName="universityFiscalYear" targetName="universityFiscalYear" />
+            </relationship>
+            <relationship objectAttributeName="effortCertificationReportDefinition" >
+				<primitiveAttribute sourceName="effortCertificationReportNumber" targetName="effortCertificationReportNumber" />
+            </relationship>
+            <relationship objectAttributeName="chart" >
+				<primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
+            </relationship>
+            <relationship objectAttributeName="organization" >
+				<primitiveAttribute sourceName="organizationCode" targetName="organizationCode" />
+            </relationship>
+	    </relationships>   
     </businessObject>
 </dictionaryEntry>

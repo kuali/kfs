@@ -20,17 +20,22 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.Org;
 import org.kuali.module.effort.EffortPropertyConstants;
 
 public class OutstandingCertificationsByReport extends TransientBusinessObjectBase {
 
-    private String universityFiscalYear;
+    private Integer universityFiscalYear;
     private String effortCertificationReportNumber;
     private String chartOfAccountsCode;
     private String organizationCode;
     private Integer outstandingCertificationCount;
     
     private Options options;
+    private EffortCertificationReportDefinition effortCertificationReportDefinition;
+    private Chart chart;
+    private Org organization;
     
     /**
      * Return the chartOfAccountsCode
@@ -109,7 +114,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
      * 
      * @return
      */
-    public String getUniversityFiscalYear() {
+    public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
     
@@ -118,7 +123,7 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
      * 
      * @param universityFiscalYear
      */
-    public void setUniversityFiscalYear(String universityFiscalYear) {
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
@@ -149,6 +154,60 @@ public class OutstandingCertificationsByReport extends TransientBusinessObjectBa
         m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
         
         return m;
+    }
+    
+    /**
+     * Gets the effort certification report definition
+     * 
+     * @return
+     */
+    public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
+        return effortCertificationReportDefinition;
+    }
+    
+    /**
+     * Sets effort certification report definition
+     * 
+     * @param effortCertificationReportDefinition
+     */
+    public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
+        this.effortCertificationReportDefinition = effortCertificationReportDefinition;
+    }
+    
+    /**
+     * Gets the organization
+     * 
+     * @return
+     */
+    public Org getOrganization() {
+        return organization;
+    }
+    
+    /**
+     * Sets organization
+     * 
+     * @param organization
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
+
+    /**
+     * Gets the chart
+     * 
+     * @return
+     */
+    public Chart getChart() {
+        return chart;
+    }
+    
+    /**
+     * Sets the chart
+     * 
+     * @param chart
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
     }
 
 }

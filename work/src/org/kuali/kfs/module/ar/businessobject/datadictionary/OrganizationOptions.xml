@@ -60,22 +60,21 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="processingChartOfAccountCode" />
-                <field attributeName="processingOrganizationCode" />
-                <field attributeName="organization800PhoneNumber" />
-                <field attributeName="organizationCheckPayableToName" />
-                <field attributeName="organizationFaxNumber" />
-                <field attributeName="organizationMessageText" />
-                <field attributeName="organizationPaymentTermsText" />
-                <field attributeName="organizationPhoneNumber" />
-                <field attributeName="organizationRemitToAddressName" />
-                <field attributeName="organizationRemitToCityName" />
-                <field attributeName="organizationRemitToLine1StreetAddress" />
-                <field attributeName="organizationRemitToLine2StreetAddress" />
-                <field attributeName="organizationRemitToStateCode" />
-                <field attributeName="organizationRemitToZipCode" />
-                <field attributeName="printInvoiceIndicator" />
-
-                <field attributeName="universityName" />
+                
+                <!--<field attributeName="organization800PhoneNumber" />-->
+                <!--<field attributeName="organizationCheckPayableToName" />-->
+                <!--<field attributeName="organizationFaxNumber" />-->
+                <!--<field attributeName="organizationMessageText" />-->
+                <!--<field attributeName="organizationPaymentTermsText" />-->
+                <!--<field attributeName="organizationPhoneNumber" />-->
+                <!--<field attributeName="organizationRemitToAddressName" />-->
+                <!--<field attributeName="organizationRemitToCityName" />-->
+                <!--<field attributeName="organizationRemitToLine1StreetAddress" />-->
+                <!--<field attributeName="organizationRemitToLine2StreetAddress" />-->
+                <!--<field attributeName="organizationRemitToStateCode" />-->
+                <!--<field attributeName="organizationRemitToZipCode" />-->
+                <!--<field attributeName="printInvoiceIndicator" />-->
+                <!--<field attributeName="universityName" />-->
             </resultFields>
         </lookup>
 

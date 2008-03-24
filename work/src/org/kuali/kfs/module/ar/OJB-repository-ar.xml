@@ -1228,16 +1228,27 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-	<reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-        <reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.module.ar.bo.NonAppliedHolding" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
+
+    <collection-descriptor name="appliedPayments" element-class-ref="org.kuali.module.ar.bo.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="nonInvoicedPayments" element-class-ref="org.kuali.module.ar.bo.NonInvoiced" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="nonInvoicedDistributions" element-class-ref="org.kuali.module.ar.bo.NonInvoicedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="nonAppliedDistributions" element-class-ref="org.kuali.module.ar.bo.NonAppliedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="nonAppliedHoldings" element-class-ref="org.kuali.module.ar.bo.NonAppliedHolding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
+    </collection-descriptor>
+
 </class-descriptor>
 
 <!-- TEMPORARY TABLE -->

@@ -15,16 +15,24 @@
  */
 package org.kuali.module.ar.document;
 
+import java.util.Collection;
+
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.InvoicePaidApplied;
+import org.kuali.module.ar.bo.NonAppliedDistribution;
 import org.kuali.module.ar.bo.NonAppliedHolding;
+import org.kuali.module.ar.bo.NonInvoiced;
+import org.kuali.module.ar.bo.NonInvoicedDistribution;
 
-public class PaymentApplicationDocument  extends AccountingDocumentBase {
+public class PaymentApplicationDocument extends AccountingDocumentBase {
+
+    private Collection<InvoicePaidApplied> appliedPayments;
+    private Collection<NonInvoiced> nonInvoicedPayments;
+    private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
+    private Collection<NonAppliedDistribution> nonAppliedDistributions;
+    private Collection<NonAppliedHolding> nonAppliedHoldings;
     
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    private NonAppliedHolding nonAppliedHolding;
-
     public PaymentApplicationDocument() {
         super();
     }
@@ -39,39 +47,44 @@ public class PaymentApplicationDocument  extends AccountingDocumentBase {
         return false;
     }
 
-    public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
-        return accountsReceivableDocumentHeader;
+    public Collection<InvoicePaidApplied> getAppliedPayments() {
+        return appliedPayments;
     }
 
-    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
+    public void setAppliedPayments(Collection<InvoicePaidApplied> appliedPayments) {
+        this.appliedPayments = appliedPayments;
+    }
+
+    public Collection<NonInvoiced> getNonInvoicedPayments() {
+        return nonInvoicedPayments;
+    }
+
+    public void setNonInvoicedPayments(Collection<NonInvoiced> nonInvoicedPayments) {
+        this.nonInvoicedPayments = nonInvoicedPayments;
+    }
+
+    public Collection<NonInvoicedDistribution> getNonInvoicedDistributions() {
+        return nonInvoicedDistributions;
+    }
+
+    public void setNonInvoicedDistributions(Collection<NonInvoicedDistribution> nonInvoicedDistributions) {
+        this.nonInvoicedDistributions = nonInvoicedDistributions;
+    }
+
+    public Collection<NonAppliedDistribution> getNonAppliedDistributions() {
+        return nonAppliedDistributions;
+    }
+
+    public void setNonAppliedDistributions(Collection<NonAppliedDistribution> nonAppliedDistributions) {
+        this.nonAppliedDistributions = nonAppliedDistributions;
+    }
+
+    public Collection<NonAppliedHolding> getNonAppliedHoldings() {
+        return nonAppliedHoldings;
+    }
+
+    public void setNonAppliedHoldings(Collection<NonAppliedHolding> nonAppliedHoldings) {
+        this.nonAppliedHoldings = nonAppliedHoldings;
     }
     
-    /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber
-     * 
-     */
-    public String getDocumentNumber() { 
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute.
-     * 
-     * @param documentNumber The documentNumber to set.
-     * 
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-    public NonAppliedHolding getNonAppliedHolding() {
-        return nonAppliedHolding;
-    }
-
-    public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
-        this.nonAppliedHolding = nonAppliedHolding;
-    }
 }

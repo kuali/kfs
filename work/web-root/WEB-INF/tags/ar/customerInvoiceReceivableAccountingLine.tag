@@ -18,7 +18,12 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<%@ attribute name="readOnly" required="true" description="Controlls if values should be read only" %>              
+<%@ attribute name="readOnly" required="true" description="Controlls if values should be read only" %> 
+
+<%@ attribute name="receivableValuesMap" required="false" type="java.util.Map"
+              description="map of the accounting line primitive fields and values, for inquiry keys" %>     
+
+<script language="JavaScript" type="text/javascript" src="scripts/ar/receivableObjectInfo.js"></script>        
                          
 <kul:tab tabTitle="Receivable" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE}">
     <div class="tab-container" align=center>	
@@ -39,11 +44,13 @@
 				<fin:accountingLineDataCell 
 					dataCellCssClass="${dataCellCssClass}"
 					accountingLine="document"
-					field="paymentChartOfAccountsCode" 
+					field="paymentChartOfAccountsCode"
+					conversionField="chartOfAccountsCode" 
 					detailFunction="loadChartInfo"
 					detailField="paymentChartOfAccounts.finChartOfAccountDescription"
 					attributes="${documentAttributes}" lookup="false" inquiry="true"
 					boClassSimpleName="Chart"
+					accountingLineValuesMap="${receivableValuesMap}"
 					readOnly="${readOnly}"
 				 />            
 				 
@@ -57,7 +64,9 @@
 					attributes="${documentAttributes}" lookup="true" inquiry="true"
 					boClassSimpleName="Account"
 					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode"
+					accountingLineValuesMap="${receivableValuesMap}"
 					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,"
+					inquiryExtraKeyValues="chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}"
 					readOnly="${readOnly}"
 				 />  
 				 
@@ -70,8 +79,10 @@
 					detailField="paymentSubAccount.subAccountName"
 					attributes="${documentAttributes}" lookup="true" inquiry="true"
 					boClassSimpleName="SubAccount"
+					accountingLineValuesMap="${receivableValuesMap}"
 					lookupParameters="document.paymentAccountNumber:accountNumber,document.paymentChartOfAccountsCode:chartOfAccountsCode"
 					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,accountNumber:document.paymentAccountNumber,"
+					inquiryExtraKeyValues="chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}&accountNumber=${receivableValuesMap['paymentAccountNumber']}"
 					readOnly="${readOnly}"
 				 />  
 				 
@@ -85,8 +96,10 @@
 					detailField="paymentFinancialObject.financialObjectCodeName"
 					attributes="${documentAttributes}" lookup="true" inquiry="true"
 					boClassSimpleName="ObjectCode"
+					accountingLineValuesMap="${receivableValuesMap}"
 					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode"
 					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,"
+					inquiryExtraKeyValues="universityFiscalYear=${receivableValuesMap['postingYear']}&chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}"
 					readOnly="${readOnly}"
 				 />
 				 
@@ -100,8 +113,10 @@
 					detailField="paymentFinancialSubObject.financialSubObjectCodeName"
 					attributes="${documentAttributes}" lookup="true" inquiry="true"
 					boClassSimpleName="SubObjCd"
+					accountingLineValuesMap="${receivableValuesMap}"
 					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentAccountNumber:accountNumber"
 					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,financialObjectCode:document.paymentFinancialObjectCode,accountNumber:document.paymentAccountNumber"
+					inquiryExtraKeyValues="universityFiscalYear=${receivableValuesMap['postingYear']}&chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}&financialObjectCode=${receivableValuesMap['paymentFinancialObjectCode']}&accountNumber=${receivableValuesMap['paymentAccountNumber']}"
 					readOnly="${readOnly}"
 				 />
 				 
@@ -112,6 +127,7 @@
 					conversionField="code"
 					detailFunction="loadReceivableProjectInfo"
 					detailField="paymentProject.name"
+					accountingLineValuesMap="${receivableValuesMap}"
 					attributes="${documentAttributes}" lookup="true" inquiry="true"
 					boClassSimpleName="ProjectCode"
 					readOnly="${readOnly}"

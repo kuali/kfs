@@ -47,6 +47,11 @@
 				<value>org/kuali/module/ar/OJB-repository-ar.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/module/ar/dwr-ar.xml</value>
+			</list>
+		</property>		
 	</bean>
 
 	<!--  AR DAOs  -->

@@ -15,12 +15,14 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<script type='text/javascript' src="dwr/interface/CustomerService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/ar/customerObjectInfo.js"></script>
+
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<%@ attribute name="readOnly" required="true" description="Controlls if values should be read only" %>              
-              
-<c:set var="customerReadOnly" value="${(not empty KualiForm.editingMode['lockCustomerEntry'])}" />              
+<%@ attribute name="readOnly" required="true" description="Controlls if values should be read only" %>                  
+                 
 <c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
 <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
@@ -34,24 +36,30 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}" forceRequired="true" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
-                    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly or customerReadOnly}"/>
+                
+				    <c:choose>
+				        <c:when test="${!readOnly}">
+				            <c:set var="onblurForCustomer" value="loadCustomerInfo( this.name, 'document.accountsReceivableDocumentHeader.customer.customerName');"/>
+				        </c:when>
+				        <c:otherwise>
+				            <c:set var="onblurForCustomer" value=""/>
+				        </c:otherwise>
+				    </c:choose>                
+                    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}"/>
                     <c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.module.ar.bo.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
                     </c:if>
+                    <!--  Using accountlingLineDataCellDetail tag because it generates the appropriate div for displaying customer name using DWR -->
+					<fin:accountingLineDataCellDetail
+					    detailField="accountsReceivableDocumentHeader.customer.customerName"
+					    accountingLine="document"
+					    />                    
                 </td>			
-                <th align=right valign=middle class="bord-l-b" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell" style="width: 25%;">
-                    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerName}" property="document.accountsReceivableDocumentHeader.customerName" readOnly="true" />
-                </td>           
-            </tr>    
-            <tr>        
-                <th align=right valign=middle class="bord-l-b">
+                <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerPurchaseOrderDate}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="datacell" style="width: 25%;">
 	               	<c:choose>
 	                    <c:when test="${readOnly}">
 	                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerPurchaseOrderDate}" property="document.customerPurchaseOrderDate" readOnly="${readOnly}" />
@@ -60,14 +68,21 @@
 	                        <kul:dateInput attributeEntry="${documentAttributes.customerPurchaseOrderDate}" property="document.customerPurchaseOrderDate"/>
 	                    </c:otherwise>
 	                </c:choose>                
-                </td>  
+                </td>          
+            </tr>    
+            <tr>        
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" property="document.customerPurchaseOrderNumber" readOnly="${readOnly}"/>
-				</td>                      
-                
+				</td>    
+				<th align=right valign=middle class="bord-l-b">
+                    &nbsp;
+                </th>
+                <td align=left valign=middle class="datacell">
+                    &nbsp;
+                </td> 
             </tr>         
             <tr>
                 <td colspan="4" class="subhead">Detail Information</td>

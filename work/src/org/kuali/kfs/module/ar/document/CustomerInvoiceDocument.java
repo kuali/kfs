@@ -4,12 +4,14 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -920,5 +922,23 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
         Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(ArConstants.CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID);
+    }
+
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map
+     */
+    public Map getValuesMap() {
+        Map valuesMap = new HashMap();
+
+        valuesMap.put("postingYear", getPostingYear());
+        valuesMap.put("paymentChartOfAccountsCode", getPaymentChartOfAccountsCode());
+        valuesMap.put("paymentAccountNumber", getPaymentAccountNumber());
+        valuesMap.put("paymentFinancialObjectCode", getPaymentFinancialObjectCode());
+        valuesMap.put("paymentSubAccountNumber", getPaymentSubAccountNumber());
+        valuesMap.put("paymentFinancialSubObjectCode", getPaymentFinancialSubObjectCode());
+        valuesMap.put("paymentProjectCode", getPaymentProjectCode());
+        return valuesMap;
     }    
 }

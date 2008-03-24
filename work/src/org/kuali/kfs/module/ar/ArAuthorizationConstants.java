@@ -19,9 +19,5 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.AuthorizationConstants.EditMode;
 
 public class ArAuthorizationConstants extends AuthorizationConstants {
-    
-    public static class CustomerInvoiceDocumentEditMode extends EditMode {
-        public static final String LOCK_CUSTOMER_ENTRY = "lockCustomerEntry";
-    }
 
 }

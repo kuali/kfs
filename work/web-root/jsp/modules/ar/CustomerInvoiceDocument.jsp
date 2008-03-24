@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<script language="JavaScript" type="text/javascript" src="scripts/ar/receivableObjectInfo.js"></script>
-
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 
@@ -42,7 +40,8 @@
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
      
      <ar:customerInvoiceReceivableAccountingLine
-      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"  />
+      	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"
+      	receivableValuesMap="${KualiForm.document.valuesMap}"  />
      
 	<c:set var="actionInfixVar" value="" scope="request" />
 	<c:set var="accountingLineIndexVar" value="" scope="request" />     

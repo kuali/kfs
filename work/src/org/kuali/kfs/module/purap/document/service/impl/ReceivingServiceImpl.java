@@ -29,6 +29,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.dao.ReceivingDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -258,5 +259,13 @@ public class ReceivingServiceImpl implements ReceivingService {
         
         //append message
         currentMessage.append( configurationService.getPropertyString(duplicateMessageKey) );                
+    }
+    /**
+     * 
+     * This method deletes unneeded items and updates the totals on the po and does any additional processing based on items i.e. FYI etc
+     * @param receivingDocument receiving document
+     */
+    public void completeReceivingDocument(ReceivingDocument receivingDocument) {
+        
     }
 }

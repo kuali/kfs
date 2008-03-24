@@ -10,8 +10,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
+
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -40,6 +43,8 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     public void initiateDocument(){
         //initiate code
     }
+
+
 
     public void populateReceivingLineFromPurchaseOrder(PurchaseOrderDocument po){
         
@@ -254,6 +259,12 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
 
     public void addItem(ReceivingLineItem item) {
         items.add(item);
+    }
+
+    @Override
+    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /*public ReceivingLineItem getItemByLineNumber(int lineNumber) {

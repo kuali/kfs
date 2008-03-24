@@ -21,12 +21,19 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.KFSResourceLoader;
 import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
+import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.rice.resourceloader.ServiceLocator;
+import org.springframework.ui.velocity.SpringResourceLoader;
 
-public abstract class ReceivingDocumentBase extends TransactionalDocumentBase {
+public abstract class ReceivingDocumentBase extends TransactionalDocumentBase implements ReceivingDocument {
 
     private String carrierCode;
     private String shipmentPackingSlipNumber;
@@ -857,6 +864,17 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase {
 
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
         this.deliveryBuildingOther = deliveryBuildingOther;
+    }
+
+    public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
+    
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            //delete unentered items and update po totals and save po
+            SpringContext.getBean(ReceivingService.class);
+        }
     }
 
 }

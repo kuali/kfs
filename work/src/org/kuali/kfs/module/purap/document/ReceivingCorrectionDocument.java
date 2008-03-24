@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.module.purap.bo.ReceivingCorrectionItem;
+import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -96,6 +97,12 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
 
     public ReceivingCorrectionItem getItem(int pos) {
         return (ReceivingCorrectionItem) items.get(pos);
+    }
+
+    @Override
+    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

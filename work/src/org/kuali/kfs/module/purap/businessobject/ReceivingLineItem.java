@@ -129,7 +129,7 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
                 return poi;
             }
             else {
-                LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+//                LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
                 return null;
             }
         }

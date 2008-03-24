@@ -115,7 +115,7 @@
 					boClassSimpleName="SubObjCd"
 					accountingLineValuesMap="${receivableValuesMap}"
 					lookupParameters="document.paymentChartOfAccountsCode:chartOfAccountsCode,document.paymentFinancialObjectCode:financialObjectCode,document.paymentAccountNumber:accountNumber"
-					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,financialObjectCode:document.paymentFinancialObjectCode,accountNumber:document.paymentAccountNumber"
+					lookupUnkeyedFieldConversions="chartOfAccountsCode:document.paymentChartOfAccountsCode,financialObjectCode:document.paymentFinancialObjectCode,accountNumber:document.paymentAccountNumber,"
 					inquiryExtraKeyValues="universityFiscalYear=${receivableValuesMap['postingYear']}&chartOfAccountsCode=${receivableValuesMap['paymentChartOfAccountsCode']}&financialObjectCode=${receivableValuesMap['paymentFinancialObjectCode']}&accountNumber=${receivableValuesMap['paymentAccountNumber']}"
 					readOnly="${readOnly}"
 				 />

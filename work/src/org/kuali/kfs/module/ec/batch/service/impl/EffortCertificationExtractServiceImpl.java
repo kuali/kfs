@@ -278,9 +278,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         for (LaborLedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             Message errorAmountMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods);
-            if (errorAmountMessage != null) {
-                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, errorAmountMessage);
-            }
 
             // every balance record must be associated with a valid account
             Message invalidAccountMessage = LedgerBalanceFieldValidator.hasValidAccount(balance);
@@ -326,7 +323,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         // the specified employee must have at least one grant account
         Message grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         if (grantAccountNotFoundError != null) {
-            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, grantAccountNotFoundError, emplid);
+            // exclude the error message according to the request in KULEFR-55
+            // this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, grantAccountNotFoundError, emplid);
             return false;
         }
 

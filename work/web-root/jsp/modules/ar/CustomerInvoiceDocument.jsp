@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<script language="JavaScript" type="text/javascript" src="scripts/ar/receivableObjectInfo.js"></script>
+
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 

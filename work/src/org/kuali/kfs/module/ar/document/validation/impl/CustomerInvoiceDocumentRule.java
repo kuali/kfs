@@ -44,6 +44,12 @@ import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
 import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.ProjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
@@ -116,9 +122,134 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= isValidBilledByOrganizationCode(doc);
         success &= isValidInvoiceDueDate(doc, doc.getDocumentHeader().getWorkflowDocument().getCreateDate());
         success &= hasAtLeastOneCustomerInvoiceDetail(doc);
+        
+        //TODO Only check if System Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD == 3
+        if(true){ 
+            success &= isValidPaymentChartOfAccountsCode(doc);
+            success &= isValidPaymentFinancialObjectCode(doc);
+            success &= isValidPaymentFinancialSubObjectCode(doc);
+            success &= isValidPaymentProjectCode(doc);
+            success &= isValidPaymentAccountNumber(doc);
+            success &= isValidPaymentSubAccountNumber(doc);
+            success &= isValidPaymentProjectCode(doc);
+        }
 
         return success;
     }
+
+    /**
+     * This method returns true if payment account number is provided and is valid.
+     * @param doc
+     * @return
+     */
+    private boolean isValidPaymentAccountNumber(CustomerInvoiceDocument doc) {
+        
+        if( StringUtils.isEmpty(doc.getPaymentAccountNumber() ) ){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            return false;            
+        } else {
+            doc.refreshReferenceObject("paymentAccount");
+            if (ObjectUtils.isNull(doc.getPaymentAccount())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    /**
+     * This method returns true if payment chart of accounts code is provided and is valid
+     * @param doc
+     * @return
+     */
+    private boolean isValidPaymentChartOfAccountsCode(CustomerInvoiceDocument doc) {
+        
+        if( StringUtils.isEmpty(doc.getPaymentChartOfAccountsCode() ) ){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            return false;            
+        } else {
+            doc.refreshReferenceObject("paymentChartOfAccounts");
+            if (ObjectUtils.isNull(doc.getPaymentChartOfAccounts())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_CHART_OF_ACCOUNTS_CODE);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * This method returns true if payment financial object code is provided and is valid
+     * @param doc
+     * @return
+     */
+    private boolean isValidPaymentFinancialObjectCode(CustomerInvoiceDocument doc) {
+        if( StringUtils.isEmpty(doc.getPaymentFinancialObjectCode() ) ){
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE_REQUIRED);
+            return false;            
+        } else {
+            doc.refreshReferenceObject("paymentFinancialObject");
+            if (ObjectUtils.isNull(doc.getPaymentFinancialObject())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * This method returns true if the payment sub account number is provided and true.
+     * @param doc
+     * @return
+     */
+    private boolean isValidPaymentSubAccountNumber(CustomerInvoiceDocument doc) {
+        
+        if( StringUtils.isNotEmpty(doc.getPaymentSubAccountNumber())){
+            doc.refreshReferenceObject("paymentSubAccount");
+            if (ObjectUtils.isNull(doc.getPaymentSubAccount())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_ACCOUNT_NUMBER);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * This method returns true if the payment project code is provided and true.
+     * @param doc
+     * @return
+     */
+    private boolean isValidPaymentProjectCode(CustomerInvoiceDocument doc) {
+        
+        if( StringUtils.isNotEmpty(doc.getPaymentProjectCode())){
+            doc.refreshReferenceObject("paymentProject");
+            if (ObjectUtils.isNull(doc.getPaymentProject())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_PROJECT_CODE);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    /**
+     * This method returns true if the payment sub object code is provided and true.
+     * @param doc
+     * @return
+     */    
+    private boolean isValidPaymentFinancialSubObjectCode(CustomerInvoiceDocument doc) {
+        if( StringUtils.isNotEmpty(doc.getPaymentFinancialSubObjectCode())){
+            doc.refreshReferenceObject("paymentFinancialSubObject");
+            if (ObjectUtils.isNull(doc.getPaymentFinancialSubObject())) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE);
+                return false;
+            }
+        }
+        return true;
+    }    
 
     /**
      * This method returns true if there exists at least 1 customer invoice detail

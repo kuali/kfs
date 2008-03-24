@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.ar.bo.OrganizationAccountingDefault</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.ar.maintenance.OrganizationAccountingDefaultMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.ar.rules.OrganizationAccountingDefaultRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.module.ar.document.authorization.OrganizationAccountingDefaultAuthorizer</documentAuthorizerClass>
         <authorizations>
@@ -59,7 +59,15 @@
             <reference attributeName="defaultPaymentChartOfAccounts" attributeToHighlightOnFail="defaultPaymentChartOfAccountsCode" />
             <reference attributeName="defaultPaymentAccount" attributeToHighlightOnFail="defaultPaymentAccountNumber" />
             <reference attributeName="defaultPaymentSubAccount" attributeToHighlightOnFail="defaultPaymentSubAccountNumber" />
+            <reference attributeName="defaultPaymentFinancialObjectCode" attributeToHighlightOnFail="defaultPaymentFinancialObjectCode" />
+            <reference attributeName="defaultPaymentFinancialSubObjectCode" attributeToHighlightOnFail="defaultPaymentFinancialSubObjectCode" />
             <reference attributeName="defaultPaymentProject" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffChartOfAccountsCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffAccountNumber" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffSubAccountNumber" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffFinancialObjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffFinancialSubObjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffProjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
         </defaultExistenceChecks>
 
@@ -88,9 +96,21 @@
                 	<maintainableField name="defaultPaymentChartOfAccountsCode" required="false"/>
                     <maintainableField name="defaultPaymentAccountNumber" required="false" />
                     <maintainableField name="defaultPaymentSubAccountNumber" required="false" />
+                    <maintainableField name="defaultPaymentFinancialObjectCode" required="false"/>
+ 					<maintainableField name="defaultPaymentFinancialSubObjectCode" required="false"/>
                     <maintainableField name="defaultInvoiceProjectCode" required="false"/>
- 					<!--  2 fields are missing here -->
                     <maintainableField name="defaultPaymentOrganizationReferenceIdentifier" required="false" />
+                </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Edit Organization Writeoff Account Defaults">
+                <maintainableItems>
+                	<maintainableField name="writeoffChartOfAccountsCode" required="false"/>
+                    <maintainableField name="writeoffAccountNumber" required="false" />
+                    <maintainableField name="writeoffSubAccountNumber" required="false" />
+                    <maintainableField name="writeoffFinancialObjectCode" required="false"/>
+ 					<maintainableField name="writeoffFinancialSubObjectCode" required="false"/>
+                    <maintainableField name="writeoffProjectCode" required="false"/>
+                    <maintainableField name="writeoffOrganizationReferenceIdentifier" required="false" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

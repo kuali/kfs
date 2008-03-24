@@ -18,6 +18,7 @@ package org.kuali.module.ar;
 public class ArConstants {
     
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
+    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
     
     //constants for CashControlDocument
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberCannotBeNullforPaymentMediumCash";
@@ -95,5 +96,10 @@ public class ArConstants {
         public static final String PAYMENT_ACCOUNT_NUMBER = "paymentAccountNumber";
         public static final String PAYMENT_SUB_ACCOUNT_NUMBER = "paymentSubAccountNumber";
         public static final String PAYMENT_PROJECT_CODE = "paymentProjectCode";
+    }
+    
+    public static class OrganizationAccountingOptionsConstants {
+        public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = "3";
+        public static final String NAME_OF_THE_TAB_TO_HIDE = "Edit Organization Accounting Payment Defaults";
     }
 }

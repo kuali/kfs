@@ -24,6 +24,15 @@
 						<field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
 						<field attributeName="defaultPaymentProjectCode" />
 						<field attributeName="defaultPaymentSubAccountNumber" />
+						<field attributeName="defaultPaymentFinancialObjectCode" />
+						<field attributeName="defaultPaymentFinancialSubObjectCode" />
+						<field attributeName="writeoffChartOfAccountsCode" />
+						<field attributeName="writeoffAccountNumber" />
+						<field attributeName="writeoffSubAccountNumber" />
+						<field attributeName="writeoffFinancialObjectCode" />
+						<field attributeName="writeoffFinancialSubObjectCode" />
+						<field attributeName="writeoffProjectCode" />
+						<field attributeName="writeoffOrganizationReferenceIdentifier" />
 						<field attributeName="organizationCode" />
 						<field attributeName="organizationLateChargeObjectCode" />
 						<field attributeName="universityFiscalYear" />
@@ -65,6 +74,15 @@
 				<field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
 				<field attributeName="defaultPaymentProjectCode" />
 				<field attributeName="defaultPaymentSubAccountNumber" />
+				<field attributeName="defaultPaymentFinancialObjectCode" />
+				<field attributeName="defaultPaymentFinancialSubObjectCode" />
+				<field attributeName="writeoffChartOfAccountsCode" />
+				<field attributeName="writeoffAccountNumber" />
+				<field attributeName="writeoffSubAccountNumber" />
+				<field attributeName="writeoffFinancialObjectCode" />
+				<field attributeName="writeoffFinancialSubObjectCode" />
+				<field attributeName="writeoffProjectCode" />
+				<field attributeName="writeoffOrganizationReferenceIdentifier" />
 				<field attributeName="organizationCode" />
 				<field attributeName="organizationLateChargeObjectCode" />
 				<field attributeName="universityFiscalYear" />
@@ -177,6 +195,17 @@
 				<shortLabel>Def Payment Sub-Acct Nbr</shortLabel>
 				<required>false</required>
 			</attributeReference>
+			<!--  OK -->
+			<attributeReference name="defaultPaymentFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+				<label>Object Code</label>
+				<shortLabel>Object Code</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attributeReference name="defaultPaymentFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+				<label>Sub-Object Code</label>
+				<shortLabel>Sub-Object Code</shortLabel>
+				<required>false</required>
+			</attributeReference>
 			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Billing Organization</label>
 				<shortLabel>OrgCode</shortLabel>
@@ -199,6 +228,55 @@
 					<text size="4" />
 				</control>
 			</attributeReference>
+			<attributeReference name="writeoffChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+				<label>Chart Code</label>
+				<shortLabel>Def. Writeoff Chart</shortLabel>
+				<required>false</required>
+				<control>
+					<text size="2" />
+				</control>
+			</attributeReference>
+			<attributeReference name="writeoffAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+				<label>Account Number</label>
+				<shortLabel>Def. Writeoff Acct. Nbr.</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attributeReference name="writeoffSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+				<label>Sub Account Number</label>
+				<shortLabel>Def Writeoff Sub-Acct Nbr</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attributeReference name="writeoffFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+				<label>Object Code</label>
+				<shortLabel>Writeoff Object Code</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attributeReference name="writeoffFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+				<label>Sub-Object Code</label>
+				<shortLabel>Writeoff Sub-Obj Cd</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attributeReference name="writeoffProjectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
+				<label>Project Code</label>
+				<shortLabel>WriteoffProjCode</shortLabel>
+				<required>false</required>
+			</attributeReference>
+			<attribute name="writeoffOrganizationReferenceIdentifier" forceUppercase="true">
+				<label>Organization Reference Identifier</label>
+				<shortLabel>Writeoff Identifier</shortLabel>
+
+				<maxLength>8</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="10" />
+				</control>
+
+				<summary>writeoffOrganizationReferenceIdentifier</summary>
+				<description>writeoffOrganizationReferenceIdentifier description...</description>
+			</attribute>
 			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
 				<label>Fiscal Year</label>
 				<shortLabel>FY</shortLabel>

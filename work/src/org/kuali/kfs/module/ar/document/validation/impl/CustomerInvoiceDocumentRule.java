@@ -124,6 +124,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= hasAtLeastOneCustomerInvoiceDetail(doc);
         
         //TODO Only check if System Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD == 3
+        /*
         if(true){ 
             success &= isValidPaymentChartOfAccountsCode(doc);
             success &= isValidPaymentFinancialObjectCode(doc);
@@ -132,7 +133,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
             success &= isValidPaymentAccountNumber(doc);
             success &= isValidPaymentSubAccountNumber(doc);
             success &= isValidPaymentProjectCode(doc);
-        }
+        }*/
 
         return success;
     }

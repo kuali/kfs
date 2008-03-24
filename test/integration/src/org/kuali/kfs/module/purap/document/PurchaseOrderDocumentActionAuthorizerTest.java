@@ -78,7 +78,6 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
     public final void testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
@@ -104,7 +103,6 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP2348)
     @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
     public final void testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();

@@ -22,9 +22,9 @@
         </inquiry>
 
         <lookup>
-            <title>Report Earn Paygroup</title>
+            <title>Report Earn Paygroup Lookup</title>
 
-            <instructions>Report Earn Paygroup</instructions>
+            <instructions>Report Earn Paygroup Lookup</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

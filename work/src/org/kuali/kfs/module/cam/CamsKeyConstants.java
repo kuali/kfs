@@ -44,11 +44,21 @@ public class CamsKeyConstants {
         public static final String MSG_REPORT_DEPRECIATION_HEADING2   = "message.batch.report.depreciation.heading.figures";        
     }
     
-    public static final String ERROR_INVALID_ASSET_CAMPUS_CODE = "error.invalid.asset.campus.code";
-    public static final String ERROR_INVALID_ASSET_BUILDING_CODE = "error.invalid.asset.building.code";
-    public static final String ERROR_MANDATORY_ASSET_BUILDING_CODE = "error.mandatory.asset.building.code";
-    public static final String ERROR_INVALID_ASSET_BUILDING_ROOM_NO = "error.invalid.asset.building.room.no";
-    public static final String ERROR_MANDATORY_ASSET_BUILDING_ROOM_NO = "error.mandatory.asset.building.room.no";
+    public static final String ERROR_ASSET_BUILDING_CODE_NULL = "error.asset.building.code.null";
+    public static final String ERROR_ASSET_BUILDING_CODE_NOT_NULL = "error.asset.building.code.not.null";
+    public static final String ERROR_ASSET_BUILDING_ROOMNO_NULL = "error.asset.building.roomno.null";
+    public static final String ERROR_ASSET_BUILDING_ROOMNO_NOT_NULL = "error.asset.building.roomno.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_CONTACT_NAME_NULL = "error.asset.off.campus.contact.name.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_CONTACT_NAME_NOT_NULL = "error.asset.off.campus.contact.name.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_STREET_NULL = "error.asset.off.campus.street.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_STREET_NOT_NULL = "error.asset.off.campus.street.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_CITY_NULL = "error.asset.off.campus.city.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_CITY_NOT_NULL = "error.asset.off.campus.city.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_STATE_NULL = "error.asset.off.campus.state.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_STATE_NOT_NULL = "error.asset.off.campus.state.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_ZIPCODE_NULL = "error.asset.off.campus.zipcode.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_ZIPCODE_NOT_NULL = "error.asset.off.campus.zipcode.not.null";
+    public static final String ERROR_ASSET_OFF_CAMPUS_COUNTRY_NOT_NULL = "error.asset.off.campus.country.not.null";
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
     public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
     public static final String ERROR_TAG_NUMBER_RESTRICT_CHANGE = "error.tag.number.restrict.change";

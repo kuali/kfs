@@ -46,6 +46,12 @@
         
         <allowsNewOrCopy>false</allowsNewOrCopy>
         
+        <defaultExistenceChecks>
+			<reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
+			<reference attributeName="building" attributeToHighlightOnFail="buildingCode" />
+			<reference attributeName="buildingRoom" attributeToHighlightOnFail="buildingRoomNumber" />
+		</defaultExistenceChecks>
+        
         <maintainableSections>
             <maintainableSection title="Asset Detail Information">
                 <maintainableItems> 

@@ -46,6 +46,15 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
         public static final String ASSET_DEPRECIATION_DATE = "depreciationDate";
     }
+    
+    public static class AssetLocation {
+        public static final String ASSET_LOCATION_CONTACT_NAME = "offCampusLocation.assetLocationContactName";
+        public static final String ASSET_LOCATION_STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
+        public static final String ASSET_LOCATION_CITY_NAME = "offCampusLocation.assetLocationCityName";
+        public static final String ASSET_LOCATION_STATE_CODE = "offCampusLocation.assetLocationStateCode";
+        public static final String ASSET_LOCATION_ZIP_CODE = "offCampusLocation.assetLocationZipCode";
+        public static final String ASSET_LOCATION_COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
+    }
 
 	public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";

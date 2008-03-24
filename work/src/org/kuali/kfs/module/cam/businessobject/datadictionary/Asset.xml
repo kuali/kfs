@@ -373,7 +373,7 @@
                 <shortLabel>NationalStockNumber</shortLabel>
 
                 <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="27" />
@@ -388,7 +388,7 @@
                 <shortLabel>GovernmentTagNumber</shortLabel>
 
                 <maxLength>12</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="14" />
@@ -421,7 +421,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="27" />

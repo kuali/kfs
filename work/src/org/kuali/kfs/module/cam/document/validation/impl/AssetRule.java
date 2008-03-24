@@ -90,11 +90,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         assetDispService.setAssetDispositionHistory(oldAsset);
         assetDispService.setAssetDispositionHistory(newAsset);
 
-        if (isOffCampusLocationChanged()) {
-            AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
-            assetlocationService.updateOffCampusLocation(newAsset);
-        }
-
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(oldAsset);
         retirementInfoService.setRetirementInfo(newAsset);
@@ -105,25 +100,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         boolean valid = processAssetValidation(document);
         valid &= validateWarrantyInformation(newAsset);
+        
         valid &= super.processCustomSaveDocumentBusinessRules(document);
-
         if (valid) {
             AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
             assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
         }
         return valid;
-    }
-
-
-    private boolean isOffCampusLocationChanged() {
-        boolean changed = false;
-        AssetLocation oldLocation = oldAsset.getOffCampusLocation();
-        AssetLocation newLocation = newAsset.getOffCampusLocation();
-
-        if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), oldLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), oldLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), oldLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), oldLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), oldLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), oldLocation.getAssetLocationCountryCode())) {
-            changed = true;
-        }
-        return changed;
     }
 
 
@@ -177,14 +160,44 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateTagNumber();
         }
 
-        // validade On Campus location.
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
-            valid &= validateOnCampusLocation(newAsset);
+        // validade location.
+        if (isOnCampusLocationChanged() || isOffCampusLocationChanged()) {
+            valid &= validateLocation();
         }
 
         return valid;
     }
 
+
+    /**
+     * Check if on campus fields got changed.
+     * 
+     * @return
+     */
+    private boolean isOnCampusLocationChanged() {
+        boolean changed = false;
+
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber())) {
+            changed = true;
+        }
+        return changed;
+    }
+
+    /**
+     * Check if off campus fields got changed.
+     * 
+     * @return
+     */
+    private boolean isOffCampusLocationChanged() {
+        boolean changed = false;
+        AssetLocation oldLocation = oldAsset.getOffCampusLocation();
+        AssetLocation newLocation = newAsset.getOffCampusLocation();
+
+        if (!StringUtils.equalsIgnoreCase(newLocation.getAssetLocationContactName(), oldLocation.getAssetLocationContactName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStreetAddress(), oldLocation.getAssetLocationStreetAddress()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCityName(), oldLocation.getAssetLocationCityName()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationStateCode(), oldLocation.getAssetLocationStateCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationZipCode(), oldLocation.getAssetLocationZipCode()) || !StringUtils.equalsIgnoreCase(newLocation.getAssetLocationCountryCode(), oldLocation.getAssetLocationCountryCode())) {
+            changed = true;
+        }
+        return changed;
+    }
 
     /**
      * If asset is tagged and created in prior fiscal year, the Asset Type Code is not allowed to change
@@ -338,19 +351,43 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates Asset On Campus loaction information
+     * Validate Asset Location fields
+     * 
+     * @param asset
+     * @return
+     */
+    private boolean validateLocation() {
+        boolean valid = true;
+        
+        if (isCapitalEquipment(newAsset)) {
+            valid &= validateCapitalAssetLocation(newAsset);
+        }
+        else {
+            valid &= validateNonCapitalAssetLocation(newAsset);
+        }
+
+        if (valid && isOffCampusLocationChanged()) {
+            AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
+            assetlocationService.updateOffCampusLocation(newAsset);
+        }
+        return valid;
+    }
+
+
+    /**
+     * Validates capital asset location fields.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
      */
 
-    private boolean validateOnCampusLocation(Asset asset) {
+    private boolean validateCapitalAssetLocation(Asset asset) {
         boolean valid = true;
 
         AssetType assetType = (AssetType) asset.getCapitalAssetType();
 
         if (assetType.isMovingIndicator()) {
-            valid &= validateLocationForMoving(asset);
+            valid &= validateLocationForMovable(asset);
         }
         else if (assetType.isRequiredBuildingIndicator()) {
             valid &= validateLocationForReqBuilding(asset);
@@ -361,6 +398,38 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Validate non capital asset location fields. All fields are optional except campus code. User can enter either on campus
+     * fields or off campus fields, but not both.
+     * 
+     * @param asset
+     * @return
+     */
+    private boolean validateNonCapitalAssetLocation(Asset asset) {
+        boolean valid = true;
+
+        if (StringUtils.isNotBlank(asset.getBuildingCode()) || StringUtils.isNotBlank(asset.getBuildingRoomNumber())) {
+            valid &= validateOffCampusLocationNotEntered(asset);
+        }
+        else if (isOffCampusLocationChanged() && isOffCampusLocationEntered(asset)) {
+            valid &= validateOffCampusLocationAllEntered(asset);
+        }
+
+        return valid;
+    }
+
+    
+    /**
+     * Test if any of the off campus location field is entered.
+     * 
+     * @param asset
+     * @return
+     */
+    private boolean isOffCampusLocationEntered(Asset asset) {
+        AssetLocation offCampus = asset.getOffCampusLocation();
+        return StringUtils.isNotBlank(offCampus.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampus.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationZipCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationCountryCode());
+    }
+
 
     /**
      * Validates Asset On Campus loaction information when "moving" code is 'Y'. Campus, Building and Room are mandatory and shall
@@ -369,30 +438,128 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
      */
-    private boolean validateLocationForMoving(Asset asset) {
+    private boolean validateLocationForMovable(Asset asset) {
         boolean valid = true;
 
-        if (ObjectUtils.isNull(asset.getCampus())) {
-            putFieldError(CamsPropertyConstants.Asset.CAMPUS_CODE, CamsKeyConstants.ERROR_INVALID_ASSET_CAMPUS_CODE);
-            valid &= false;
+        if (StringUtils.isBlank(asset.getBuildingCode()) && StringUtils.isBlank(asset.getBuildingRoomNumber()) && isOffCampusLocationChanged()) {
+            // off campus and only off campus location could entered
+            valid &= validateOffCampusLocationAllEntered(asset);
         }
-
-        if (ObjectUtils.isNull(asset.getBuilding())) {
-            putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_MANDATORY_ASSET_BUILDING_CODE, "moving code");
-            valid &= false;
+        else {
+            // on campus and only on campus location could entered
+            valid &= validateOnCampusLocationEntered(asset);
+            valid &= validateOffCampusLocationNotEntered(asset);
         }
-
-        if (ObjectUtils.isNull(asset.getBuildingRoom())) {
-            putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_MANDATORY_ASSET_BUILDING_ROOM_NO, "moving code");
-            valid &= false;
-        }
-
         return valid;
     }
 
     /**
-     * Validates Asset On Campus loaction information when "req bldg" is 'Y'. Campus and Building are mandatory and shall be
-     * validated.
+     * Required fields for off campus location: contact name, street, city,state and zip code.
+     * 
+     * @param asset
+     * @return
+     */
+    private boolean validateOffCampusLocationAllEntered(Asset asset) {
+        boolean valid = true;
+        AssetLocation offCampus = asset.getOffCampusLocation();
+
+        if (StringUtils.isBlank(offCampus.getAssetLocationContactName())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CONTACT_NAME, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_CONTACT_NAME_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isBlank(offCampus.getAssetLocationStreetAddress())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STREET_ADDRESS, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_STREET_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isBlank(offCampus.getAssetLocationCityName())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CITY_NAME, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_CITY_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isBlank(offCampus.getAssetLocationStateCode())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STATE_CODE, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_STATE_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isBlank(offCampus.getAssetLocationZipCode())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_ZIP_CODE, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_ZIPCODE_NULL);
+            valid &= false;
+        }
+        
+        return valid;
+    }
+    
+    /**
+     * Validate none of the off campus location are set: contact name, street, city,state, zip code and country. 
+     * 
+     * @param asset
+     * @return
+     */
+    private boolean validateOffCampusLocationNotEntered(Asset asset) {
+        boolean valid = true;
+        AssetLocation offCampusLoc = asset.getOffCampusLocation();
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationContactName())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CONTACT_NAME, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_CONTACT_NAME_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationStreetAddress())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STREET_ADDRESS, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_STREET_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationCityName())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_CITY_NAME, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_CITY_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationStateCode())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_STATE_CODE, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_STATE_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationZipCode())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_ZIP_CODE, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_ZIPCODE_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(offCampusLoc.getAssetLocationCountryCode())) {
+            putFieldError(CamsPropertyConstants.AssetLocation.ASSET_LOCATION_COUNTRY_CODE, CamsKeyConstants.ERROR_ASSET_OFF_CAMPUS_COUNTRY_NOT_NULL);
+            valid &= false;
+        }
+        
+        return valid;
+    }
+
+
+    /**
+     * Required fields for on campus: building code, building room number
+     * This method...
+     * @param asset
+     * @return
+     */
+    private boolean validateOnCampusLocationEntered(Asset asset) {
+        boolean valid = true;
+        
+        if (StringUtils.isBlank(asset.getBuildingCode())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_ASSET_BUILDING_CODE_NULL);
+            valid &= true;
+        }
+        
+        if (StringUtils.isBlank(asset.getBuildingRoomNumber())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_ASSET_BUILDING_ROOMNO_NULL);
+            valid &= true;
+        }
+        return valid;
+    }
+
+
+    /**
+     * when asset type code with the flag "reg bldg" checked, this asset must have a building code. No room number are allowed to
+     * enter. Off campus fields are not allowed to enter either.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
@@ -400,31 +567,24 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateLocationForReqBuilding(Asset asset) {
         boolean valid = true;
 
-        if (ObjectUtils.isNull(asset.getCampus())) {
-            putFieldError(CamsPropertyConstants.Asset.CAMPUS_CODE, CamsKeyConstants.ERROR_INVALID_ASSET_CAMPUS_CODE);
+        if (StringUtils.isBlank(asset.getBuildingCode())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_ASSET_BUILDING_CODE_NULL);
             valid &= false;
         }
 
 
-        if (ObjectUtils.isNull(asset.getBuilding())) {
-            putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_MANDATORY_ASSET_BUILDING_CODE, "Required Building");
+        if (StringUtils.isNotBlank(asset.getBuildingRoomNumber())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_ASSET_BUILDING_ROOMNO_NOT_NULL);
             valid &= false;
         }
 
-
-        if (StringUtils.isNotEmpty(asset.getBuildingRoomNumber())) {
-            if (ObjectUtils.isNull(asset.getBuildingRoom())) {
-                putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_INVALID_ASSET_BUILDING_ROOM_NO);
-                valid &= false;
-            }
-        }
+        valid &= validateOffCampusLocationNotEntered(asset);
 
         return valid;
     }
 
     /**
-     * Validates Asset On Campus loaction information when neither "moving" and "req bldg" are set. Campus is mandatory and shall be
-     * validated.
+     * when Any asst type code with the flags "moving code, and reg bldg" unchecked, no building code and room number are allowed to enter. But campus code and off campus fields are allowed to enter together.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
@@ -432,27 +592,20 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateLocationForNonspecific(Asset asset) {
         boolean valid = true;
 
-        if (ObjectUtils.isNull(asset.getCampus())) {
-            putFieldError(CamsPropertyConstants.Asset.CAMPUS_CODE, CamsKeyConstants.ERROR_INVALID_ASSET_CAMPUS_CODE);
+        if (StringUtils.isNotBlank(asset.getBuildingCode())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_ASSET_BUILDING_CODE_NOT_NULL);
+            valid &= false;
+        }
+        
+        if (StringUtils.isNotBlank(asset.getBuildingRoomNumber())) {
+            putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_ASSET_BUILDING_ROOMNO_NOT_NULL);
             valid &= false;
         }
 
-        if (StringUtils.isNotEmpty(asset.getBuildingCode())) {
-            if (ObjectUtils.isNull(asset.getBuilding())) {
-                putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_INVALID_ASSET_BUILDING_CODE);
-                valid &= false;
-            }
+        if (isOffCampusLocationChanged() && isOffCampusLocationEntered(asset)) {
+            valid &= validateOffCampusLocationAllEntered(asset);
         }
-
-        if (StringUtils.isNotEmpty(asset.getBuildingRoomNumber())) {
-            if (StringUtils.isNotEmpty(asset.getBuildingRoomNumber())) {
-                if (ObjectUtils.isNull(asset.getBuildingRoom())) {
-                    putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_INVALID_ASSET_BUILDING_ROOM_NO);
-                    valid &= false;
-                }
-            }
-        }
-
+        
         return valid;
     }
 

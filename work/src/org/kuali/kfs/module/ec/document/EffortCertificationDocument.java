@@ -18,14 +18,17 @@ package org.kuali.module.effort.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
@@ -34,11 +37,14 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
+import org.kuali.workflow.attribute.GenericRoutingSet;
+import org.kuali.workflow.attribute.OrgReviewRoutingData;
+import org.kuali.workflow.attribute.RoutingAccount;
 
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends TransactionalDocumentBase {
+public class EffortCertificationDocument extends TransactionalDocumentBase implements GenericRoutingSet {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
     private String documentNumber;
@@ -46,6 +52,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private boolean effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
+    private KualiDecimal financialDocumentTotalAmount;
 
     private Integer totalEffortPercent;
     private Integer totalOriginalEffortPercent;
@@ -57,7 +64,9 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
-
+    
+    public Set routingSet;
+ 
     /**
      * Default constructor.
      */
@@ -269,7 +278,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         super.handleRouteStatusChange();
         SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
     }
-
+    
     /**
      * Gets the totalEffortPercent attribute.
      * 
@@ -681,6 +690,34 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         return maxLine;
     }
 
+    public Set getRoutingSet() {
+        return routingSet;
+    }
+
+    public void setRoutingSet(Set routingSet) {
+        this.routingSet = routingSet;
+    }
+    public void populateRoutingSet(){
+        routingSet = new HashSet();
+        List <EffortCertificationDetail> detailLinesForRouting = getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine:detailLinesForRouting){
+            routingSet.add(new RoutingAccount(detailLine.getChartOfAccountsCode(), detailLine.getAccountNumber()));
+            routingSet.add(new OrgReviewRoutingData(detailLine.getChartOfAccountsCode(), detailLine.getAccount().getOrganizationCode()));
+        }
+    }
+    
+    @Override
+    public void populateDocumentForRouting() {
+        populateRoutingSet();
+        if (ObjectUtils.isNotNull(getTotalPayrollAmount())){
+            documentHeader.setFinancialDocumentTotalAmount(getTotalPayrollAmount()) ;
+        }else{
+            documentHeader.setFinancialDocumentTotalAmount(new KualiDecimal(0));
+        }
+        super.populateDocumentForRouting();
+    }
+    
+
     /**
      * Finds the list of unique object codes contained in this document
      * 
@@ -722,3 +759,5 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         return;
     }
 }
+
+

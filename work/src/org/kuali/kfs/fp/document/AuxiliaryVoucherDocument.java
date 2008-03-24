@@ -200,6 +200,15 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        refreshReversalDate();
+    }
+
+    /**
      * Overrides to call super and then change the reversal date if the type is accrual and the date is greater than the set
      * reversal date.
      */
@@ -220,19 +229,30 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * recode types.
      */
     private void updateReversalDate() {
+        if (refreshReversalDate()) {
+            // set the reversal date on each GLPE for the document too
+            List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
+            for (GeneralLedgerPendingEntry entry : glpes) {
+                entry.setFinancialDocumentReversalDate(getReversalDate());
+            }
+        }
+    }
+    
+    /**
+     * If the reversal date on this document is in need of refreshing, refreshes the reveral date.  THIS METHOD MAY CHANGE DOCUMENT STATE!
+     * @return true if the reversal date ended up getting refreshed, false otherwise
+     */
+    private boolean refreshReversalDate() {
+        boolean refreshed = false;
         if (isAccrualType() || isRecodeType()) {
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
             if (getReversalDate().before(today)) {
                 // set the reversal date on the document
                 setReversalDate(today);
-
-                // set the reversal date on each GLPE for the document too
-                List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
-                for (GeneralLedgerPendingEntry entry : glpes) {
-                    entry.setFinancialDocumentReversalDate(getReversalDate());
-                }
+                refreshed = true;
             }
         }
+        return refreshed;
     }
 
     /**

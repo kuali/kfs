@@ -43,8 +43,8 @@ import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.service.AccountingLineService;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -328,6 +328,8 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public void toCopy() throws WorkflowException {
         super.toCopy();
         copyAccountingLines(false);
+        updatePostingYearForAccountingLines(getSourceAccountingLines());
+        updatePostingYearForAccountingLines(getTargetAccountingLines());
     }
 
     /**
@@ -361,6 +363,20 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
                 targetLine.setVersionNumber(new Long(1));
                 if (isErrorCorrection) {
                     targetLine.setAmount(targetLine.getAmount().negated());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Updates the posting year on accounting lines to be the current posting year
+     * @param lines a List of accounting lines to update
+     */
+    private void updatePostingYearForAccountingLines(List<AccountingLine> lines) {
+        if (lines != null) {
+            for (AccountingLine line: lines) {
+                if (!line.getPostingYear().equals(getPostingYear())) {
+                    line.setPostingYear(getPostingYear());
                 }
             }
         }

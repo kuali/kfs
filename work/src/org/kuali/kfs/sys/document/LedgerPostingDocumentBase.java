@@ -27,6 +27,8 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.service.UniversityDateService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * Base implementation for a ledger posting document.
  */
@@ -55,11 +57,18 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
      * 
      * @return AccountingPeriod
      */
-    private void createInitialAccountingPeriod() {
-        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
-
+    private void createInitialAccountingPeriod() { 
+        AccountingPeriod accountingPeriod = retrieveCurrentAccountingPeriod();
         setAccountingPeriod(accountingPeriod);
+    }
+    
+    /**
+     * Finds the accounting period for the current date
+     * @return the current accounting period
+     */
+    private AccountingPeriod retrieveCurrentAccountingPeriod() {
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        return SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
     }
 
     /**
@@ -152,4 +161,16 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
 
         return allowsCorrection;
     }
+
+    /**
+     * If we've copied, we need to update the posting period and year
+     * @see org.kuali.core.document.DocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException, IllegalStateException {
+        super.toCopy();
+        setAccountingPeriod(retrieveCurrentAccountingPeriod());
+    }
+    
+    
 }

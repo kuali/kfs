@@ -73,7 +73,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
     /**
      * sets initial selected accounting period to current period
      */
-    private void populateDefaultSelectedAccountingPeriod() {
+    public void populateDefaultSelectedAccountingPeriod() {
         Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         AccountingPeriod accountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
 
@@ -337,7 +337,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * This method retrieves all of the "open for posting" accounting periods and prepares them to be rendered in a dropdown UI
      * component.
      */
-    protected void populateAccountingPeriodListForRendering() {
+    public void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
         ArrayList accountingPeriods = new ArrayList(SpringContext.getBean(AccountingPeriodService.class).getOpenAccountingPeriods());
         // set into the form for rendering

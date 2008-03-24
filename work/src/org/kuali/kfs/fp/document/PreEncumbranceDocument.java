@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -36,6 +37,8 @@ import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.module.financial.bo.PreEncumbranceDocumentAccountingLineParser;
 import org.kuali.module.gl.util.SufficientFundsItem;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical
@@ -165,5 +168,29 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
             explicitEntry.setReferenceFinancialDocumentTypeCode(explicitEntry.getFinancialDocumentTypeCode()); // "PE"
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        refreshReversalDate();
+    }
+    
+    /**
+     * If the reversal date on this document is in need of refreshing, refreshes the reveral date.  THIS METHOD MAY CHANGE DOCUMENT STATE!
+     * @return true if the reversal date ended up getting refreshed, false otherwise
+     */
+    private boolean refreshReversalDate() {
+        boolean refreshed = false;
+        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+        if (getReversalDate().before(today)) {
+            // set the reversal date on the document
+            setReversalDate(today);
+            refreshed = true;
+        }
+        return refreshed;
     }
 }

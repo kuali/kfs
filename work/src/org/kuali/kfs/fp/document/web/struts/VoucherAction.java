@@ -363,4 +363,16 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
         populateAllVoucherAccountingLineHelpers((VoucherForm) form);
     }
 
+    /**
+     * Overridden to reset the available and selected accounting periods on the form, so that copies are moved forward to the current accounting period correctly
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.copy(mapping, form, request, response);
+        VoucherForm voucherForm = (VoucherForm)form;
+        voucherForm.populateAccountingPeriodListForRendering();
+        voucherForm.populateDefaultSelectedAccountingPeriod();
+        return forward;
+    }
 }

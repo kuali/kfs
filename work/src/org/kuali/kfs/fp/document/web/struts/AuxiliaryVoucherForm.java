@@ -20,6 +20,7 @@ import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -150,7 +151,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      * @see org.kuali.module.financial.web.struts.form.VoucherForm#populateAccountingPeriodListForRendering()
      */
     @Override
-    protected void populateAccountingPeriodListForRendering() {
+    public void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
         ArrayList accountingPeriods = new ArrayList(SpringContext.getBean(AccountingPeriodService.class).getOpenAccountingPeriods());
         // now, validate further, based on the rules from AuxiliaryVoucherDocumentRule

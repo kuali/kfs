@@ -86,7 +86,9 @@
             <attributeReference name="expenseTransferFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
                 <label>Expense Transfer Fiscal Period Code</label>
                 <shortLabel>Expense Transfer Period Code</shortLabel>
-
+				<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
+				</control>
                 <summary>ExpenseTransferFiscalPeriodCode</summary>
                 <description>ExpenseTransferFiscalPeriodCode description...</description>
 			</attributeReference>
@@ -94,7 +96,7 @@
             <attributeReference name="expenseTransferFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Expense Transfer Fiscal Year</label>
                 <shortLabel>Expense Transfer Year</shortLabel>
-
+				
                 <summary>ExpenseTransferFiscalYear</summary>
                 <description>ExpenseTransferFiscalYear description...</description>
 			</attributeReference>

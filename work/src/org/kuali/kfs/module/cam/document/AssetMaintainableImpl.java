@@ -29,7 +29,8 @@ import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
 
 /**
- * AssetMaintainable for Asset edit.
+ * This class implements custom data preparation for displaying asset edit screen.
+ * 
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
 
@@ -38,26 +39,32 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
 
     /**
      * @see org.kuali.core.maintenance.Maintainable#processAfterEdit(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     * @param document Maintenance Document used for editing
+     * @param parameters Parameters available
      */
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         initializeAttributes(document);
-
+        // Identifies the latest location information
         AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
         assetlocationService.setOffCampusLocation(copyAsset);
         assetlocationService.setOffCampusLocation(newAsset);
 
+        // Calculates payment summary and depreciation summary based on available payment records
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(copyAsset);
         paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
 
+        // Identifies the merge history and separation history based on asset disposition records
         AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
         assetDispService.setAssetDispositionHistory(copyAsset);
         assetDispService.setAssetDispositionHistory(newAsset);
 
+        // Finds out the latest retirement info, is asset is currently retired.
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(copyAsset);
         retirementInfoService.setRetirementInfo(newAsset);
 
+        // Finds out the latest equipment loan or return information if available
         EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
         equipmentLoanInfoService.setEquipmentLoanInfo(copyAsset);
         equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
@@ -66,6 +73,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     }
 
 
+    /**
+     * This method gets old and new maintainable objects and creates convenience handles to them
+     * 
+     * @param document Asset Edit Document
+     */
     private void initializeAttributes(MaintenanceDocument document) {
         if (newAsset == null) {
             newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();

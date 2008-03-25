@@ -30,12 +30,26 @@ import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.RetirementInfoService;
 
+/**
+ * Implements RetirementInfoService, assists in identifying the latest retirement record
+ */
 public class RetirementInfoServiceImpl implements RetirementInfoService {
+
+    // TODO Change to use system parameters
     private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
 
 
+    /**
+     * Identifies the latest retirement record for the asset if current status is retired
+     * 
+     * <li>Sorts all approved retirement documents by retirement date</li>
+     * <li>Latest retirement document is identified and assigns to asset</li>
+     * 
+     * @param asset Asset
+     * @see org.kuali.module.cams.service.RetirementInfoService#setRetirementInfo(org.kuali.module.cams.bo.Asset)
+     */
     public void setRetirementInfo(Asset asset) {
-        // If current status is not retired, return
+        // If current status is not retired, return empty
         if (!ArrayUtils.contains(RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
             return;
         }
@@ -45,6 +59,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
 
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : retirementHistory) {
             AssetRetirementGlobal assetRetirementGlobal = assetRetirementGlobalDetail.getAssetRetirementGlobal();
+            // check if document is approved
             if (assetRetirementGlobal != null && isDocumentApproved(assetRetirementGlobal)) {
                 sortableList.add(assetRetirementGlobalDetail);
             }
@@ -54,7 +69,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
 
         Comparator<AssetRetirementGlobalDetail> comparator = new Comparator<AssetRetirementGlobalDetail>() {
             public int compare(AssetRetirementGlobalDetail o1, AssetRetirementGlobalDetail o2) {
-                // sort descending based on loan date
+                // sort descending based on retirement date
                 return o2.getAssetRetirementGlobal().getRetirementDate().compareTo(o1.getAssetRetirementGlobal().getRetirementDate());
             }
         };
@@ -66,6 +81,12 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
     }
 
 
+    /**
+     * Checks asset retirement document status, if approved returns true
+     * 
+     * @param assetRetirementDoc Asset Retirement Document
+     * @return "true" if approved
+     */
     public boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
         assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
         DocumentHeader documentHeader = assetRetirementDoc.getDocumentHeader();

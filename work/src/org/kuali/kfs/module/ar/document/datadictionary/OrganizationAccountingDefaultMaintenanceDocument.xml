@@ -59,15 +59,15 @@
             <reference attributeName="defaultPaymentChartOfAccounts" attributeToHighlightOnFail="defaultPaymentChartOfAccountsCode" />
             <reference attributeName="defaultPaymentAccount" attributeToHighlightOnFail="defaultPaymentAccountNumber" />
             <reference attributeName="defaultPaymentSubAccount" attributeToHighlightOnFail="defaultPaymentSubAccountNumber" />
-            <reference attributeName="defaultPaymentFinancialObjectCode" attributeToHighlightOnFail="defaultPaymentFinancialObjectCode" />
-            <reference attributeName="defaultPaymentFinancialSubObjectCode" attributeToHighlightOnFail="defaultPaymentFinancialSubObjectCode" />
+            <reference attributeName="defaultPaymentFinancialObject" attributeToHighlightOnFail="defaultPaymentFinancialObjectCode" />
+            <reference attributeName="defaultPaymentFinancialSubObject" attributeToHighlightOnFail="defaultPaymentFinancialSubObjectCode" />
             <reference attributeName="defaultPaymentProject" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffChartOfAccountsCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffAccountNumber" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffSubAccountNumber" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffFinancialObjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffFinancialSubObjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
-            <reference attributeName="writeoffProjectCode" attributeToHighlightOnFail="defaultPaymentProjectCode" />
+            <reference attributeName="writeoffChartOfAccounts" attributeToHighlightOnFail="writeoffChartOfAccountsCode" />
+            <reference attributeName="writeoffAccount" attributeToHighlightOnFail="writeoffAccountNumber" />
+            <reference attributeName="writeoffSubAccount" attributeToHighlightOnFail="writeoffSubAccountNumber" />
+            <reference attributeName="writeoffFinancialObject" attributeToHighlightOnFail="writeoffFinancialObjectCode" />
+            <reference attributeName="writeoffFinancialSubObject" attributeToHighlightOnFail="writeoffFinancialSubObjectCode" />
+            <reference attributeName="writeoffProject" attributeToHighlightOnFail="writeoffProjectCode" />
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
         </defaultExistenceChecks>
 

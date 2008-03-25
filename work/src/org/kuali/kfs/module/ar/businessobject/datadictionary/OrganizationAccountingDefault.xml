@@ -61,35 +61,23 @@
 			</lookupFields>
 
 			<resultFields>
+			    <field attributeName="organizationAccountingDefaultViewer" />
 				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="defaultInvoiceAccountNumber" />
-				<field attributeName="defaultInvoiceChartOfAccountsCode" />
-				<field attributeName="defaultInvoiceFinancialObjectCode" />
-				<field attributeName="defaultInvoiceFinancialSubObjectCode" />
-				<field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-				<field attributeName="defaultInvoiceProjectCode" />
-				<field attributeName="defaultInvoiceSubAccountNumber" />
-				<field attributeName="defaultPaymentAccountNumber" />
-				<field attributeName="defaultPaymentChartOfAccountsCode" />
-				<field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
-				<field attributeName="defaultPaymentProjectCode" />
-				<field attributeName="defaultPaymentSubAccountNumber" />
-				<field attributeName="defaultPaymentFinancialObjectCode" />
-				<field attributeName="defaultPaymentFinancialSubObjectCode" />
-				<field attributeName="writeoffChartOfAccountsCode" />
-				<field attributeName="writeoffAccountNumber" />
-				<field attributeName="writeoffSubAccountNumber" />
-				<field attributeName="writeoffFinancialObjectCode" />
-				<field attributeName="writeoffFinancialSubObjectCode" />
-				<field attributeName="writeoffProjectCode" />
-				<field attributeName="writeoffOrganizationReferenceIdentifier" />
 				<field attributeName="organizationCode" />
-				<field attributeName="organizationLateChargeObjectCode" />
 				<field attributeName="universityFiscalYear" />
 			</resultFields>
 		</lookup>
+		
+		<titleAttribute>organizationAccountingDefaultViewer</titleAttribute>
 
 		<attributes>
+		
+		    <attribute name="organizationAccountingDefaultViewer">
+        		<label>View</label>
+        		<maxLength>100</maxLength>
+        		<required>false</required>
+        		<control><hidden /></control>
+        	</attribute>
 
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
 				<label>Billing Chart</label>
@@ -195,7 +183,6 @@
 				<shortLabel>Def Payment Sub-Acct Nbr</shortLabel>
 				<required>false</required>
 			</attributeReference>
-			<!--  OK -->
 			<attributeReference name="defaultPaymentFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
 				<label>Object Code</label>
 				<shortLabel>Object Code</shortLabel>

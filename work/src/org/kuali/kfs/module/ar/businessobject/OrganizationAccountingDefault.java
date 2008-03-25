@@ -977,4 +977,14 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
         m.put("organizationCode", this.organizationCode);
 	    return m;
     }
+    
+     /**
+     * This method returns a string so that an organization accounting default can have a link to view its own
+     * inquiry page after a look up
+     * 
+     * @return the String "View Organization Accounting Default"
+     */
+    public String getOrganizationAccountingDefaultViewer() {
+        return "View Organization Accounting Default";
+    }
 }

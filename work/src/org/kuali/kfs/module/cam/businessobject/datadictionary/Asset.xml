@@ -9,7 +9,7 @@
             <title>Asset Inquiry</title>
              
             <inquirySections>
-                <inquirySection title="Header Text">
+                <inquirySection title="Asset Details">
                     <inquiryFields>
                         <field attributeName="acquisitionTypeCode" />
                         <field attributeName="agencyNumber" />
@@ -127,6 +127,8 @@
                 <field attributeName="agencyNumber" />
             </resultFields>
         </lookup>
+
+        <titleAttribute>capitalAssetNumber</titleAttribute>
 
         <attributes>
 

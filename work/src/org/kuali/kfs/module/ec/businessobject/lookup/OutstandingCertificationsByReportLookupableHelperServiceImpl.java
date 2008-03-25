@@ -44,33 +44,42 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         
         LookupService lookupService = SpringContext.getBean(LookupService.class);
         List<OutstandingReportsByOrganization> reportList = new ArrayList<OutstandingReportsByOrganization>(lookupService.findCollectionBySearch(OutstandingReportsByOrganization.class, fieldValues));
-        HashMap<String, Integer> countMap = new HashMap<String, Integer>();
+        HashMap<String, HashMap<String, Integer>> reportNumberCountMap = new HashMap<String, HashMap<String, Integer>>();
         
         for (OutstandingReportsByOrganization outstandingReportByOrganization : reportList) {
+            String reportNumber = outstandingReportByOrganization.getEffortCertificationReportNumber();
             String[] chartOrgArray = outstandingReportByOrganization.getCertificationOrganizations().split(",");
             for (String chartOrg : chartOrgArray) {
-                if (countMap.containsKey(chartOrg)) countMap.put(chartOrg, ( countMap.get(chartOrg) + 1 ) );
-                else countMap.put(chartOrg, 1);
+                if (reportNumberCountMap.containsKey(reportNumber)) {
+                    HashMap<String, Integer> countForReportNumberByCharOrg = reportNumberCountMap.get(reportNumber);
+                    if (countForReportNumberByCharOrg.containsKey(chartOrg)) countForReportNumberByCharOrg.put(chartOrg, ( countForReportNumberByCharOrg.get(chartOrg) + 1 ) );
+                    else countForReportNumberByCharOrg.put(chartOrg, 1);
+                } else {
+                    HashMap<String, Integer> countForReportNumberByCharOrg = new HashMap<String, Integer>();
+                    countForReportNumberByCharOrg.put(chartOrg, 1);
+                    reportNumberCountMap.put(reportNumber, countForReportNumberByCharOrg);
+                }
+                
             }
         }
         
-        ArrayList<String> chartOrgList = new ArrayList<String>(countMap.keySet());
         ArrayList<OutstandingCertificationsByReport> returnResults = new ArrayList<OutstandingCertificationsByReport>();
-        ArrayList<String> keys = new ArrayList<String>(fieldValues.keySet());
+        ArrayList<String> reportNumberList = new ArrayList(reportNumberCountMap.keySet());
         
-        for (String chartOrg : chartOrgList) {
-            OutstandingCertificationsByReport temp = new OutstandingCertificationsByReport();
-            String[] chartAndOrg = chartOrg.split("-");
-            
-            //TODO: are these the correct field property names
-            
-            temp.setEffortCertificationReportNumber(fieldValues.get("effortCertificationReportNumber"));
-            temp.setUniversityFiscalYear( Integer.parseInt(fieldValues.get("universityFiscalYear")) );
-            temp.setChartOfAccountsCode(chartAndOrg[0]);
-            temp.setOrganizationCode(chartAndOrg[1]);
-            temp.setOutstandingCertificationCount(countMap.get(chartOrg));
-            
-            returnResults.add(temp);
+        for (String reportNumber : reportNumberList) {
+            HashMap<String, Integer> countForReportNumberByCharOrg = reportNumberCountMap.get(reportNumber);
+            ArrayList<String> chartOrgList = new ArrayList<String>(countForReportNumberByCharOrg.keySet());
+            for (String chartOrg : chartOrgList) {
+                OutstandingCertificationsByReport temp = new OutstandingCertificationsByReport();
+                String[] chartAndOrg = chartOrg.split("-");
+                
+                temp.setEffortCertificationReportNumber(reportNumber);
+                temp.setUniversityFiscalYear( Integer.parseInt(fieldValues.get(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME)) );
+                temp.setChartOfAccountsCode(chartAndOrg[0]);
+                temp.setOrganizationCode(chartAndOrg[1]);
+                temp.setOutstandingCertificationCount(countForReportNumberByCharOrg.get(chartOrg));
+                returnResults.add(temp);
+            }
         }
         
         setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));

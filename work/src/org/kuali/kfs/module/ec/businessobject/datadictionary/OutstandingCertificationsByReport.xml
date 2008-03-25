@@ -31,7 +31,7 @@
 
             <lookupFields>
             	<lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="effortCertificationReportNumber" required="true" />
+                <lookupField attributeName="effortCertificationReportNumber" />
             </lookupFields>
 
             <resultFields>

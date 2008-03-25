@@ -185,11 +185,13 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      */
     private boolean refreshReversalDate() {
         boolean refreshed = false;
-        java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
-        if (getReversalDate().before(today)) {
-            // set the reversal date on the document
-            setReversalDate(today);
-            refreshed = true;
+        if (getReversalDate() != null) {
+            java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+            if (getReversalDate().before(today)) {
+                // set the reversal date on the document
+                setReversalDate(today);
+                refreshed = true;
+            }
         }
         return refreshed;
     }

@@ -244,7 +244,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      */
     private boolean refreshReversalDate() {
         boolean refreshed = false;
-        if (isAccrualType() || isRecodeType()) {
+        if ((isAccrualType() || isRecodeType()) && getReversalDate() != null) {
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
             if (getReversalDate().before(today)) {
                 // set the reversal date on the document

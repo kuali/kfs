@@ -120,10 +120,6 @@
                 <primitiveAttribute sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier" targetName="personUniversalIdentifier" />
 				<supportAttribute sourceName="effortCertificationDocumentBuild.emplid" targetName="personPayrollIdentifier" identifier="true" />
 	        </relationship>
-	        <relationship objectAttributeName="effortCertificationDocumentBuild.effortCertificationReportDefinition.effortCertificationReportType" >
-                <primitiveAttribute sourceName="effortCertificationDocumentBuild.effortCertificationReportNumber" targetName="effortCertificationReportTypeCode" />
-				<supportAttribute sourceName="effortCertificationDocumentBuild.effortCertificationReportNumber" targetName="effortCertificationReportTypeCode" identifier="false" />
-	        </relationship>
         </relationships>        
     </businessObject>
 </dictionaryEntry>

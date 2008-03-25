@@ -67,10 +67,10 @@
                 <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="false" />
             </lookupFields>
 
-            <resultFields>
-            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
-                
+            <resultFields>                                                            
             	<field attributeName="effortCertificationBuildNumber" />
+            	
+            	<field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
             	<field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
                 <field attributeName="effortCertificationDocumentBuild.emplid"/>
                               
@@ -119,6 +119,10 @@
             <relationship objectAttributeName="effortCertificationDocumentBuild.employee" >
                 <primitiveAttribute sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier" targetName="personUniversalIdentifier" />
 				<supportAttribute sourceName="effortCertificationDocumentBuild.emplid" targetName="personPayrollIdentifier" identifier="true" />
+	        </relationship>
+	        <relationship objectAttributeName="effortCertificationDocumentBuild.effortCertificationReportDefinition.effortCertificationReportType" >
+                <primitiveAttribute sourceName="effortCertificationDocumentBuild.effortCertificationReportNumber" targetName="effortCertificationReportTypeCode" />
+				<supportAttribute sourceName="effortCertificationDocumentBuild.effortCertificationReportNumber" targetName="effortCertificationReportTypeCode" identifier="false" />
 	        </relationship>
         </relationships>        
     </businessObject>

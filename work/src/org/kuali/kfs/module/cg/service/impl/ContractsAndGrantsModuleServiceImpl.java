@@ -24,6 +24,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +67,17 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
             return null;
         }
 
+    }
+    
+    /**
+     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.module.chart.bo.Account)
+     */
+    public UniversalUser getProjectDirectorForAccount(Account account) {
+        if(account != null) {
+            String chartOfAccountsCode = account.getChartOfAccountsCode(); 
+            String accountNumber = account.getAccountNumber();
+            return this.getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
+        }
+        return null;
     }
 }

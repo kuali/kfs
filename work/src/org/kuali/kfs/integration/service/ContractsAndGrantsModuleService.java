@@ -16,9 +16,12 @@
 package org.kuali.module.integration.service;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.module.chart.bo.Account;
 
 public interface ContractsAndGrantsModuleService {
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);
 
     public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
+    
+    public UniversalUser getProjectDirectorForAccount(Account account);
 }

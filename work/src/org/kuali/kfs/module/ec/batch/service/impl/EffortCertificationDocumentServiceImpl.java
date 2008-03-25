@@ -185,11 +185,11 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
-            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.FISCAL_OFFICER_VIEW);
+            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.FISCAL_OFFICER);
             adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
 
             String accountProjectDirectorPersonUserId = contractsAndGrantsModuleService.getProjectDirectorForAccount(account).getPersonUserIdentifier();
-            String actionRequestOfDirector = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.PROJECT_DIRECTOR_VIEW);
+            String actionRequestOfDirector = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.PROJECT_DIRECTOR);
             adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
         }
     }

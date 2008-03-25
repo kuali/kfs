@@ -73,7 +73,7 @@ EffortAmountUpdator.prototype.recalculatePayrollAmount = function(effortPercentF
 EffortAmountUpdator.prototype.recalculateEffortPercent = function(payrollAmountFieldName, effortPercentFieldName){
 	var fieldNamePrefix = findElPrefix(payrollAmountFieldName);
 	var totalPayrollAmount = parseFloat(this.removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma));
-	var payrollAmount = removeDelimator(DWRUtil.getValue(payrollAmountFieldName), comma);	
+	var payrollAmount = this.removeDelimator(DWRUtil.getValue(payrollAmountFieldName), comma);	
 	
 	if(payrollAmount > totalPayrollAmount || payrollAmount <0){
 		return;

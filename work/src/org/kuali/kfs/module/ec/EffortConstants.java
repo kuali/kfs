@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.JstlConstants;
+import org.kuali.core.authorization.AuthorizationConstants.TransactionalEditMode;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
@@ -98,7 +99,14 @@ public class EffortConstants extends JstlConstants {
     public static final String RECREATED_DOCUMENT_MESSAGE_KEY = "message.effort.recreatedDocumentMessage";
     
     public class DocumentRoutingLevelName{
-        public static final String FISCAL_OFFICER_VIEW = "Account View";
-        public static final String PROJECT_DIRECTOR_VIEW = "Project Director";
+        public static final String ORGANAZATION = "Org Review";
+        public static final String FISCAL_OFFICER = "Account View";
+        public static final String PROJECT_DIRECTOR = "Project Director";
+        public static final String CG_WORKGROUP = "Award Workgroup";
+        public static final String RECREATE_WORKGROUP = "Recreate Workgroup";
+    }
+    
+    public static class EffortCertificationEditMode extends TransactionalEditMode {
+        public static final String PROJECT_ENTRY = "projectEntry";
     }
 }

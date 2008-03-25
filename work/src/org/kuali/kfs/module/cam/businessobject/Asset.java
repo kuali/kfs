@@ -113,10 +113,10 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
 
     // Non-persisted attributes:
-    private KualiDecimal paymentTotalCost;
+    private transient KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
-    private KualiDecimal federalContribution;
+    private transient KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
     private EquipmentLoanOrReturn loanOrReturnInfo;
     private AssetLocation offCampusLocation;

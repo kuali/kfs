@@ -441,7 +441,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateLocationForMovable(Asset asset) {
         boolean valid = true;
 
-        if (StringUtils.isBlank(asset.getBuildingCode()) && StringUtils.isBlank(asset.getBuildingRoomNumber()) && isOffCampusLocationChanged()) {
+        if (StringUtils.isBlank(asset.getBuildingCode()) && StringUtils.isBlank(asset.getBuildingRoomNumber())) {
             // off campus and only off campus location could entered
             valid &= validateOffCampusLocationAllEntered(asset);
         }

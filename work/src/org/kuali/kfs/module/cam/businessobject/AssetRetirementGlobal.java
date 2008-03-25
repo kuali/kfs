@@ -5,6 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.GlobalBusinessObject;
+import org.kuali.core.bo.GlobalBusinessObjectDetail;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
 
@@ -12,7 +15,7 @@ import org.kuali.core.util.TypedArrayList;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
+public class AssetRetirementGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     private String documentNumber;
     private Long mergedTargetCapitalAssetNumber;
@@ -23,14 +26,37 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
     private AssetRetirementReason retirementReason;
     private AssetStatus inventoryStatus;
     private DocumentHeader documentHeader;
-    private List<AssetRetirementGlobalDetail> retiredAssetDetails;
+    private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
 
     /**
      * Default constructor.
      */
     public AssetRetirementGlobal() {
-        this.retiredAssetDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
+        this.assetRetirementGlobalDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
 
+    }
+
+
+    public List<PersistableBusinessObject> generateDeactivationsToPersist() {
+        return null;
+    }
+
+    /**
+     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     */
+    public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean isPersistable() {
+        // TODO Auto-generated method stub
+        return true;
     }
 
     /**
@@ -195,14 +221,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
         this.retirementReason = retirementReason;
     }
 
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("documentNumber", this.documentNumber);
-        return m;
-    }
 
     public DocumentHeader getDocumentHeader() {
         return documentHeader;
@@ -212,12 +230,21 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase {
         this.documentHeader = documentHeader;
     }
 
-    public List<AssetRetirementGlobalDetail> getRetiredAssetDetails() {
-        return retiredAssetDetails;
+    public List<AssetRetirementGlobalDetail> getAssetRetirementGlobalDetails() {
+        return assetRetirementGlobalDetails;
     }
 
-    public void setRetiredAssetDetails(List<AssetRetirementGlobalDetail> retiredAssetDetails) {
-        this.retiredAssetDetails = retiredAssetDetails;
+    public void setAssetRetirementGlobalDetails(List<AssetRetirementGlobalDetail> retiredAssetDetails) {
+        this.assetRetirementGlobalDetails = retiredAssetDetails;
     }
 
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("documentNumber", this.documentNumber);
+        return m;
+    }
 }

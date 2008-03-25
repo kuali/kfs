@@ -3,6 +3,7 @@ package org.kuali.module.cams.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Country;
@@ -14,7 +15,7 @@ import org.kuali.module.chart.bo.Chart;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class AssetRetirementGlobalDetail extends PersistableBusinessObjectBase {
+public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     private String documentNumber;
     private Long capitalAssetNumber;

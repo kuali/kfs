@@ -71,6 +71,7 @@
             <title>Asset Lookup</title>
 
             <menubar>
+                <!-- [CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal"><img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]-->
                 <![CDATA[<img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]>
             </menubar>
 

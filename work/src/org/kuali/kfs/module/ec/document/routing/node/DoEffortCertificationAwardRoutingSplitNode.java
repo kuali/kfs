@@ -18,19 +18,25 @@ package org.kuali.workflow.module.effort.node;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.RiceConstants;
+import org.kuali.core.UserSession;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.RouteHelper;
 import edu.iu.uis.eden.engine.node.SplitNode;
 import edu.iu.uis.eden.engine.node.SplitResult;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class DoEffortCertificationAwardRoutingSplitNode implements SplitNode {
+    
     public SplitResult process(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
-        boolean shouldEffortCertificationRoute = ((EffortCertificationDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(routeContext.getDocument().getRouteHeaderId().toString())).getEffortCertificationDocumentCode();
+        establishGlobalVariables();
+        boolean shouldEffortCertificationRoute = ((EffortCertificationDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(routeContext.getDocument().getRouteHeaderId().toString())).isEffortDistributionChanged();
         List branchNames = new ArrayList();
         if (shouldEffortCertificationRoute) {
             branchNames.add("EffortDistributionIsChangedBranch");
@@ -39,5 +45,11 @@ public class DoEffortCertificationAwardRoutingSplitNode implements SplitNode {
             branchNames.add("EffortDistributionIsNotChangedBranch");
         }
         return new SplitResult(branchNames);
+    }
+    protected void establishGlobalVariables() throws WorkflowException, UserNotFoundException {
+        if (GlobalVariables.getUserSession() == null) {
+            GlobalVariables.setUserSession(new UserSession(RiceConstants.SYSTEM_USER));
+        }
+        GlobalVariables.clear();
     }
 }

@@ -81,8 +81,8 @@
                 <field attributeName="sourceChartOfAccountsCode" />
                 <field attributeName="sourceAccountNumber" />
                 
-                <field attributeName="effortCertificationPayrollAmount" />
                 <field attributeName="effortCertificationCalculatedOverallPercent" />
+                <field attributeName="effortCertificationPayrollAmount" />
             </resultFields>
         </lookup>
 

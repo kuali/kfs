@@ -215,7 +215,7 @@
 		</property>
 	</bean>
 	
-	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingReportsByOrganizationLookupableHelperServiceImpl" singleton="false">
+	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingCertificationsByOrganizationLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

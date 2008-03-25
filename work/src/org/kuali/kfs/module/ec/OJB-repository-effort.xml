@@ -234,7 +234,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.effort.bo.OutstandingReportsByOrganization" table="LD_A21_DETAIL_T">
+<class-descriptor class="org.kuali.module.effort.bo.OutstandingCertificationsByOrganization" table="LD_A21_DETAIL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

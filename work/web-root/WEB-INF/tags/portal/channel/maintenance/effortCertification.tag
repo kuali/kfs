@@ -63,7 +63,7 @@
 		
 		<li>
 			<portal:portalLink displayTitle="true" title="Outstanding Certifications by Chart/Org/Report"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingReportsByOrganization&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingCertificationsByOrganization&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		
 		<li>

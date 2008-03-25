@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "../../../../../../../../rice/kns/src/main/resources/org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.OutstandingCertificationsByOrganization">
+       <lookup>
+       		<lookupableID>outstandingReportsByOrganizationLookupable</lookupableID> 
+            <title>Outstanding Certifications by Chart/Org/Report</title>
+
+            <instructions>Find Outstanding Certifications by Chart/Org/Report</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="effortCertificationReportNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="universityFiscalYear" />
+                <lookupField attributeName="effortCertificationReportNumber" />
+                <lookupField attributeName="effortCertificationDetailLines.account.chartOfAccountsCode" />
+                <lookupField attributeName="effortCertificationDetailLines.account.organizationCode" />
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="universityFiscalYear" />
+                <field attributeName="effortCertificationReportNumber" />
+            	<field attributeName="certificationOrganizations" /> 
+				<field attributeName="documentNumber" />
+				<field attributeName="emplid" />
+                <field attributeName="employee.personName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="effortCertificationDocumentCode" forceUppercase="true">
+                <label>Effort Certification Document Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Effort Certification DocumentCode</summary>
+                <description>Effort Certification LaborDocumentCode description...</description>
+			</attribute>
+			
+			<attribute name="certificationOrganizations" forceUppercase="true">
+                <label>Certification Organizations</label>
+                <shortLabel>organizations</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>Certification Organizations</summary>
+                <description>Certification Organizations</description>
+			</attribute>
+			
+            <attributeReference name="effortCertificationDetailLines.account.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode" />
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+            <attributeReference name="employee.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
+            <attributeReference name="effortCertificationDetailLines.account.chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+        
+        <relationships>
+            <relationship objectAttributeName="employee" >
+				<primitiveAttribute sourceName="emplid" targetName="personPayrollIdentifier" />
+                <supportAttribute sourceName="employee.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+                <supportAttribute sourceName="employee.personName" targetName="personName" />
+            </relationship>
+	    </relationships>         
+    </businessObject>
+</dictionaryEntry>

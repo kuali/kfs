@@ -29,7 +29,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.OutstandingCertificationsByReport;
-import org.kuali.module.effort.bo.OutstandingReportsByOrganization;
+import org.kuali.module.effort.bo.OutstandingCertificationsByOrganization;
 
 /**
  * Searches for documents that are not approved.
@@ -43,10 +43,10 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
         
         LookupService lookupService = SpringContext.getBean(LookupService.class);
-        List<OutstandingReportsByOrganization> reportList = new ArrayList<OutstandingReportsByOrganization>(lookupService.findCollectionBySearch(OutstandingReportsByOrganization.class, fieldValues));
+        List<OutstandingCertificationsByOrganization> reportList = new ArrayList<OutstandingCertificationsByOrganization>(lookupService.findCollectionBySearch(OutstandingCertificationsByOrganization.class, fieldValues));
         HashMap<String, HashMap<String, Integer>> reportNumberCountMap = new HashMap<String, HashMap<String, Integer>>();
         
-        for (OutstandingReportsByOrganization outstandingReportByOrganization : reportList) {
+        for (OutstandingCertificationsByOrganization outstandingReportByOrganization : reportList) {
             String reportNumber = outstandingReportByOrganization.getEffortCertificationReportNumber();
             String[] chartOrgArray = outstandingReportByOrganization.getCertificationOrganizations().split(",");
             for (String chartOrg : chartOrgArray) {

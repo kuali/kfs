@@ -64,7 +64,7 @@
             <lookupFields>
             	<lookupField attributeName="effortCertificationDocumentBuild.universityFiscalYear" required="true" />
                 <lookupField attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" required="true" />
-                <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="false" />
+                <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="true" />
             </lookupFields>
 
             <resultFields>                                                            

@@ -15,16 +15,12 @@
  */
 package org.kuali.module.cams.service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.AssetRetirementDocument;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 import org.kuali.module.cams.service.impl.RetirementInfoServiceImpl;

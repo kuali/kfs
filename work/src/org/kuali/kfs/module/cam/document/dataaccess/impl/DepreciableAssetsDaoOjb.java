@@ -47,7 +47,6 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.bo.AssetRetirementDocument;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetTransferDocument;
 import org.kuali.module.cams.dao.DepreciableAssetsDao;
@@ -265,7 +264,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         ReportQueryByCriteria arSubQuery;
         arCriteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
 
-        arSubQuery = QueryFactory.newReportQuery(AssetRetirementDocument.class, arCriteria);
+        arSubQuery = QueryFactory.newReportQuery(AssetRetirementGlobal.class, arCriteria);
         arSubQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.DOCUMENT_NUMBER });
 
         // transferred assets sub query

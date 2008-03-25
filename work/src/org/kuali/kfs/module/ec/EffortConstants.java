@@ -96,4 +96,9 @@ public class EffortConstants extends JstlConstants {
     public static final String EFFORT_CERTIFICATION_TAB_ERRORS = "newDetailLine.*,document.effortCertificationDetailLines*";
     
     public static final String RECREATED_DOCUMENT_MESSAGE_KEY = "message.effort.recreatedDocumentMessage";
+    
+    public class DocumentRoutingLevelName{
+        public static final String FISCAL_OFFICER_VIEW = "Account View";
+        public static final String PROJECT_DIRECTOR_VIEW = "Project Director";
+    }
 }

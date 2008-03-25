@@ -56,12 +56,11 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
      */
     public EffortCertificationDocumentRuleUtilTest() {
         super();
-        String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/effortCertificationDocumentRuleUtil.properties";
+        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
+        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationDocumentRuleUtil.properties";
 
-        TestDataGenerator generator = new TestDataGenerator(propertiesFileName, messageFileName);
-        properties = generator.getProperties();
-        message = generator.getMessage();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);
 
         deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
 
@@ -323,7 +322,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
 
         List<EffortCertificationDetail> details = document.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : details) {
-            assertTrue(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(detailLine));
+            assertTrue(EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(detailLine));
         }
     }
 
@@ -336,7 +335,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
 
         List<EffortCertificationDetail> details = document.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : details) {
-            assertFalse(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(detailLine));
+            assertFalse(EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(detailLine));
         }
     }
 
@@ -347,7 +346,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         String testTarget = "isPayrollAmountChanged.document.yes.";
         EffortCertificationDocument document = this.loadEffortCertificationDocument(testTarget);
 
-        assertTrue(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(document));
+        assertTrue(EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(document));
     }
 
     /**
@@ -357,7 +356,7 @@ public class EffortCertificationDocumentRuleUtilTest extends KualiTestBase {
         String testTarget = "isPayrollAmountChanged.document.no.";
         EffortCertificationDocument document = this.loadEffortCertificationDocument(testTarget);
 
-        assertFalse(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(document));
+        assertFalse(EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(document));
     }
 
     /**

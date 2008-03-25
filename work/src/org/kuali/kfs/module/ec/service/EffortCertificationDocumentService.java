@@ -15,8 +15,19 @@
  */
 package org.kuali.module.effort.service;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.AdHocRoutePerson;
+import org.kuali.core.bo.AdHocRouteRecipient;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * To define the services related to the effort certification document
@@ -63,5 +74,12 @@ public interface EffortCertificationDocumentService {
      * 
      * @param effortCertificationDocument the given effort certification document
      */
-    public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument);    
+    public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument);
+
+    /**
+     * add the adHoc route recipient into the given document when the effort on any detail line has been changed.
+     * 
+     * @param effortCertificationDocument the given effort certification document
+     */
+    public void addRouteLooping(EffortCertificationDocument effortCertificationDocument);    
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
@@ -48,6 +49,8 @@ import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -179,6 +182,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
 
+        if(valid) {            
+            effortCertificationDocumentService.addRouteLooping(effortCertificationDocument);
+        }
+
         return valid;
     }
 
@@ -194,7 +201,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return true;
         }
 
-        if (EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(effortCertificationDocument)) {
+        if (EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(effortCertificationDocument)) {
             List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
             if (notes == null || notes.isEmpty()) {
                 reportError(KFSConstants.DOCUMENT_NOTES_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);

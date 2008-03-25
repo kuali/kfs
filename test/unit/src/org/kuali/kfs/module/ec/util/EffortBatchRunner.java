@@ -55,12 +55,11 @@ public class EffortBatchRunner {
     private Class<? extends LaborLedgerEntry> ledgerEntryClass;
 
     public EffortBatchRunner() {
-        String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/effortCertificationExtractServiceProformance.properties";
+        String messageFileName = "org/kuali/module/effort/testdata/message.properties";
+        String propertiesFileName = "org/kuali/module/effort/testdata/effortCertificationExtractServiceProformance.properties";
 
-        TestDataGenerator generator = new TestDataGenerator(propertiesFileName, messageFileName);
-        properties = generator.getProperties();
-        message = generator.getMessage();
+        properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
+        message = TestDataPreparator.loadPropertiesFromClassPath(messageFileName);
 
         deliminator = properties.getProperty("deliminator");
 

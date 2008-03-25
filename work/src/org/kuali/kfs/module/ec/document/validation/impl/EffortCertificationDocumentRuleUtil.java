@@ -209,12 +209,12 @@ public class EffortCertificationDocumentRuleUtil {
     }
 
     /**
-     * determine if there is a change on the payroll amount of the given detail line
+     * determine if there is a change on the payroll amount of the given detail line comparing to its original payroll amount
      * 
      * @param detailLine the given effort certification detail line
-     * @return true if there is a change on the payroll amount of the given detail line
+     * @return true if there is a change on the payroll amount of the given detail line comparing to its original payroll amount
      */
-    public static boolean isPayrollAmountChanged(EffortCertificationDetail detailLine) {
+    public static boolean isPayrollAmountChangedFromOriginal(EffortCertificationDetail detailLine) {
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
         KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
         KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount);
@@ -228,16 +228,34 @@ public class EffortCertificationDocumentRuleUtil {
      * @param document the given effort certification document
      * @return true if there is the change on the payroll amount of any detail line in the given document
      */
-    public static boolean isPayrollAmountChanged(EffortCertificationDocument document) {
+    public static boolean isPayrollAmountChangedFromOriginal(EffortCertificationDocument document) {
         List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailLines();
 
         for (EffortCertificationDetail line : detailLines) {
-            if (isPayrollAmountChanged(line)) {
+            if (isPayrollAmountChangedFromOriginal(line)) {
                 return true;
             }
         }
 
         return false;
+    }
+    
+    /**
+     * determine if there is a change on the payroll amount of the given detail line comparing to its persisted payroll amount
+     * 
+     * @param detailLine the given effort certification detail line
+     * @return true if there is a change on the payroll amount of the given detail line comparing to its persisted payroll amount
+     */
+    public static boolean isPayrollAmountChangedFromPersisted(EffortCertificationDetail detailLine) {
+        KualiDecimal persistedAmount = detailLine.getPersistedPayrollAmount();
+        KualiDecimal difference = KualiDecimal.ZERO;
+        
+        if(ObjectUtils.isNotNull(persistedAmount)) {       
+            KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
+            difference = persistedAmount.subtract(payrollAmount);
+        }
+
+        return difference.isNonZero();
     }
 
     /**
@@ -334,4 +352,6 @@ public class EffortCertificationDocumentRuleUtil {
             detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         }
     }
+    
+    //public static boolean 
 }

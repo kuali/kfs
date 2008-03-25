@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.service;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -40,4 +43,15 @@ public interface ReportGenerationService {
      * @param reportFileName the full name of the generated PDF file
      */
     public void generateReportToPdfFile(Map<String, Object> reportData, Object dataSource, String template, String reportFileName);
+
+    /**
+     * build a full file name with the given information. The format of the file name is <absolute path><filename>_<timestamp>.<extension> 
+     * 
+     * @param directory the directory where the file would be located
+     * @param fileName the given file name without file extension
+     * @param extension the given file extension
+     * @param runDate the run date which is used to generate a timestamp
+     * @return a full file name built from the given information.
+     */
+    public String buildFullFileName(Date runDate, String directory, String fileName, String extension);
 }

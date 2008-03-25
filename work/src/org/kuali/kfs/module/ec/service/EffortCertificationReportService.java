@@ -17,20 +17,18 @@ package org.kuali.module.effort.service;
 
 import java.util.Date;
 
-import org.kuali.module.effort.report.EffortReportRegistry;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 
-/** 
- * To generate the working progress reports for the effort certification  
+/**
+ * To generate the working progress reports for the effort certification
  */
 public interface EffortCertificationReportService {
-    
+
     /**
      * generate report for effort certification extract process witht the given report data and information
+     * 
      * @param reportDataHolder the given report data holder
-     * @param reportInfo the primary elements of a report, such as report title and report file name 
-     * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, Date runDate);
 }

@@ -17,7 +17,10 @@ package org.kuali.kfs.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +93,16 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             LOG.error(e);
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * @see org.kuali.kfs.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {
+        String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(runDate);
+        String fileNamePattern = "{0}/{1}_{2}{3}";
+
+        return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp, "." + extension);
     }
 
     /**

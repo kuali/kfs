@@ -24,10 +24,11 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
-import org.kuali.module.effort.report.EffortReportRegistry;
+import org.kuali.kfs.KFSConstants.ReportGeneration;
+import org.kuali.kfs.service.ReportGenerationService;
+import org.kuali.kfs.util.ReportInfo;
 import org.kuali.module.effort.service.EffortCertificationReportService;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
-import org.kuali.module.effort.util.ReportGenerator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,83 +38,46 @@ import org.springframework.transaction.annotation.Transactional;
 public class EffortCertificationReportServiceImpl implements EffortCertificationReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportServiceImpl.class);
 
-    private String resourceBundleBaseName;
-    private String reportTemplateClassPath;
-    private Map<String, String> subReports;
+    private ReportGenerationService reportGenerationService;
+    private ReportInfo effortExtractProcessReportInfo;
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationReportService#generate(org.kuali.module.effort.util.ExtractProcessReportDataHolder,
-     *      org.kuali.module.effort.util.EffortReportRegistry, java.lang.String, java.util.Date)
+     * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        String template = reportTemplateClassPath + reportInfo.getReportTemplateName();
-
-        String fullReportFileName = this.buildFullFileName(reportsDirectory, reportInfo.reportFilename(), runDate);
+    public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, Date runDate) {
+        String reportFileName = effortExtractProcessReportInfo.getReportFileName();
+        String reportDirectory = effortExtractProcessReportInfo.getReportsDirectory();
+        String reportTemplateClassPath = effortExtractProcessReportInfo.getReportTemplateClassPath();
+        String reportTemplateName = effortExtractProcessReportInfo.getReportTemplateName();
+        ResourceBundle resourceBundle = effortExtractProcessReportInfo.getResourceBundle();
+        String subReportTemplateClassPath = effortExtractProcessReportInfo.getSubReportTemplateClassPath();
+        Map<String, String> subReports = effortExtractProcessReportInfo.getSubReports();
 
         Map<String, Object> reportData = reportDataHolder.getReportData();
-        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
-        reportData.put(ReportGenerator.PARAMETER_NAME_SUBREPORT_DIR, reportTemplateClassPath);
-        reportData.put(ReportGenerator.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
+        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
 
-        ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
-
-        LOG.info(reportDataHolder);
+        String template = reportTemplateClassPath + reportTemplateName;
+        String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "");
+        reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
     }
-
+    
     /**
-     * build a full file name with the given information
+     * Sets the effortExtractProcessReportInfo attribute value.
      * 
-     * @param directory the directory where the file would be located
-     * @param fileName the file name
-     * @param runDate the run date
-     * @return a full file name built from the given information
+     * @param effortExtractProcessReportInfo The effortExtractProcessReportInfo to set.
      */
-    private String buildFullFileName(String directory, String fileName, Date runDate) {
-        String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(runDate);
-        String fileNamePattern = "{0}/{1}_{2}";
-
-        return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp);
+    public void setEffortExtractProcessReportInfo(ReportInfo effortExtractProcessReportInfo) {
+        this.effortExtractProcessReportInfo = effortExtractProcessReportInfo;
     }
 
     /**
-     * get the resource bundle
-     */
-    private ResourceBundle getResourceBundle() {
-        return ResourceBundle.getBundle(resourceBundleBaseName, Locale.getDefault());
-    }
-
-    /**
-     * Sets the resourceBundleBaseName attribute value. The base name includes the full-qualified package name. If a resource bundle
-     * is org/kuali/module/effort/report/messages.properties, the base name can be org/kuali/module/effort/report/messages.
+     * Sets the reportGenerationService attribute value.
      * 
-     * @param resourceBundleBaseName The resourceBundleBaseName to set.
+     * @param reportGenerationService The reportGenerationService to set.
      */
-    public void setResourceBundleBaseName(String resourceBundleBaseName) {
-        this.resourceBundleBaseName = resourceBundleBaseName;
-    }
-
-    /**
-     * Sets the reportTemplateClassPath attribute value.
-     * 
-     * @param reportTemplateClassPath The reportTemplateClassPath to set.
-     */
-    public void setReportTemplateClassPath(String reportTemplateClassPath) {
-        this.reportTemplateClassPath = reportTemplateClassPath;
-    }
-
-    /**
-     * Gets the subReports attribute. 
-     * @return Returns the subReports.
-     */
-    public Map<String, String> getSubReports() {
-        return subReports;
-    }
-
-    /**
-     * Sets the subReports attribute value.
-     * @param subReports The subReports to set.
-     */
-    public void setSubReports(Map<String, String> subReports) {
-        this.subReports = subReports;
+    public void setReportGenerationService(ReportGenerationService reportGenerationService) {
+        this.reportGenerationService = reportGenerationService;
     }
 }

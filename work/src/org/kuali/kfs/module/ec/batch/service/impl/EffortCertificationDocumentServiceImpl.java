@@ -21,8 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.AdHocRoutePerson;
+import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -33,16 +35,20 @@ import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.effort.EffortConstants.DocumentRoutingLevelName;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
@@ -50,9 +56,11 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 @Transactional
 public class EffortCertificationDocumentServiceImpl implements EffortCertificationDocumentService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentServiceImpl.class);
+    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentServiceImpl.class);
 
     private LaborModuleService laborModuleService;
+    public ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
 
@@ -64,7 +72,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             LOG.debug("The given document has not beeen approved.");
             return;
         }
-        // TODO: add logic here
+
+        // add logic here if any
     }
 
     /**
@@ -121,7 +130,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, effortCertificationDocument.getDocumentNumber());
-        
+
         businessObjectService.deleteMatching(EffortCertificationDetail.class, fieldValues);
     }
 
@@ -148,6 +157,68 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             throw new RuntimeException(we);
         }
         return true;
+    }
+    
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.module.effort.document.EffortCertificationDocument)
+     */
+    @Logged
+    public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
+        String routeLevelName = null;
+        try {
+            routeLevelName = effortCertificationDocument.getDocumentHeader().getWorkflowDocument().getDocRouteLevelName();
+        }
+        catch (WorkflowException we) {
+            LOG.error(we);
+            throw new RuntimeException(we);
+        }
+
+        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        List<AdHocRouteRecipient> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
+
+        for (EffortCertificationDetail detailLine : detailLines) {
+            boolean hasBeenChanged = EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromPersisted(detailLine);
+
+            if (!hasBeenChanged) {
+                continue;
+            }
+
+            Account account = detailLine.getAccount();
+            String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
+            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.FISCAL_OFFICER_VIEW);
+            adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
+
+            String accountProjectDirectorPersonUserId = contractsAndGrantsModuleService.getProjectDirectorForAccount(account).getPersonUserIdentifier();
+            String actionRequestOfDirector = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.PROJECT_DIRECTOR_VIEW);
+            adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
+        }
+    }
+
+    /**
+     * determine the action request according to the current route level and expected route level
+     * 
+     * @param routeLevelName the current route level
+     * @param expectedRouteLevelName the expected route level
+     * @return the action request determined from the current route level and expected route level
+     */
+    private String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
+        boolean isExpectedRouteLevel = StringUtils.equals(routeLevelName, expectedRouteLevelName);
+        return isExpectedRouteLevel ? EdenConstants.ACTION_REQUEST_APPROVE_REQ : EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
+    }
+
+    /**
+     * build an adhoc route recipient from the given person user id and action request
+     * 
+     * @param personUserId the given person user id
+     * @param actionRequest the given action request
+     * @return an adhoc route recipient built from the given information
+     */
+    private AdHocRouteRecipient buildAdHocRouteRecipient(String personUserId, String actionRequest) {
+        AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
+        adHocRouteRecipient.setActionRequested(actionRequest);
+        adHocRouteRecipient.setId(personUserId);
+
+        return adHocRouteRecipient;
     }
 
     /**
@@ -267,9 +338,19 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the contractsAndGrantsModuleService attribute value.
+     * 
+     * @param contractsAndGrantsModuleService The contractsAndGrantsModuleService to set.
+     */
+    public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
+        this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
     }
 }

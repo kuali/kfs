@@ -144,14 +144,28 @@
 	</bean>	
 	
 	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="effortExtractProcessReportInfo">
+			<ref bean="effortExtractProcessReportInfo" />
+		</property>
+	</bean>
+	
+	<bean id="effortExtractProcessReportInfo" class="org.kuali.kfs.util.ReportInfoHolder" >
+		<property name="reportTitle" value="Effort Certification Extract Process" />
+		<property name="reportFileName" value="effort_extract_summary" />
+		<property name="reportsDirectory" value="${reports.directory}/" />
 		<property name="resourceBundleBaseName" value="org/kuali/module/effort/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/module/effort/report/" />
+		<property name="reportTemplateName" value="EffortExtractProcessReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/module/effort/report/" />
 		<property name="subReports">
 			<map>
 				<entry key="extractErrors" value="ExtractErrors"/>
 			</map>
 		</property>
-	</bean>	
+	</bean>		
 	
 	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >
 		<property name="effortCertificationDetailBuildService">
@@ -167,6 +181,9 @@
 	<bean id="effortCertificationDocumentService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentServiceImpl" >
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
+		</property>
+		<property name="contractsAndGrantsModuleService">
+			<ref bean="contractsAndGrantsModuleService" />
 		</property>	
 		<property name="documentService">
 			<ref bean="documentService" />

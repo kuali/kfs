@@ -44,7 +44,6 @@ import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.report.EffortReportRegistry;
 import org.kuali.module.effort.rules.LedgerBalanceFieldValidator;
 import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
@@ -117,9 +116,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         effortCertificationDocumentBuildService.removeExistingDocumentBuild(fieldValues);
         this.generateDocumentBuild(reportDefinition, employees, reportDataHolder, parameters);
 
-        String reportsDirectory = EffortReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
-        effortCertificationReportService.generateReportForExtractProcess(reportDataHolder, EffortReportRegistry.EFFORT_EXTRACT_SUMMARY, reportsDirectory, runDate);
+        effortCertificationReportService.generateReportForExtractProcess(reportDataHolder, runDate);
     }
 
     /**

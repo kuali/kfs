@@ -15,6 +15,7 @@
  */
 package org.kuali.module.ar.document;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
@@ -35,6 +36,11 @@ public class PaymentApplicationDocument extends AccountingDocumentBase {
     
     public PaymentApplicationDocument() {
         super();
+        this.appliedPayments = new ArrayList<InvoicePaidApplied>();
+        this.nonInvoicedPayments = new ArrayList<NonInvoiced>();
+        this.nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
+        this.nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
+        this.nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
     }
 
     /**

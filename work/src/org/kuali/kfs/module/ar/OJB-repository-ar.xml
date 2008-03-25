@@ -1248,6 +1248,10 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
     <collection-descriptor name="nonAppliedHoldings" element-class-ref="org.kuali.module.ar.bo.NonAppliedHolding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
     </collection-descriptor>
+    
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 
 </class-descriptor>
 

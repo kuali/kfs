@@ -15,23 +15,22 @@
  */
 package org.kuali.module.budget.dao;
 
-public interface BudgetConstructionLevelSummaryReportDao {
+public interface BudgetConstructionMonthSummaryReportDao {
 
     /**
-     *  cleans Level Summary table.
+     *  cleans month summary table.
      * 
      * @param personUserIdentifier
      * @return
      */
-    public void cleanReportsLevelSummaryTable(String personUserIdentifier);
+    public void cleanReportsMonthSummaryTable(String personUserIdentifier);
 
     /**
-     *  updates Level Summary table.
+     *  updates month summary table.
      * 
      * @param personUserIdentifier
      * @return
      */
-    public void updateReportsLevelSummaryTable(String personUserIdentifier, String idForSession);
+    public void updateReportsMonthSummaryTable(String personUserIdentifier);
 
-    
 }

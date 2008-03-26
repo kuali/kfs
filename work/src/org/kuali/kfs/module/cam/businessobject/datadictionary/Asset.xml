@@ -33,8 +33,8 @@
                         <field attributeName="financialDocumentPostingYear" />
                         <field attributeName="insuranceChargeAccountNumber" />
                         <field attributeName="insuranceChartOfAccountsCode" />
-                         <field attributeName="inventoryScannedCode" />
-                        <field attributeName="inventoryStatusCode" />
+                        <field attributeName="inventoryScannedCode" />
+                        <field attributeName="inventoryStatus.inventoryStatusCode"/>
                         <field attributeName="lastInventoryDate" />
                         <field attributeName="loanDate" />
                         <field attributeName="loanReturnDate" />
@@ -44,7 +44,7 @@
                         <field attributeName="organizationInventoryName" />
                         <field attributeName="organizationOwnerAccountNumber" />
                         <field attributeName="organizationOwnerChartOfAccountsCode" />
-                        <field attributeName="primaryDepreciationMethodCode" />
+						<field attributeName="assetPrimaryDepreciationMethod.depreciationMethodCode" />
                         <field attributeName="receiveDate" />
                         <field attributeName="replacementAmount" />
                         <field attributeName="representativeUniversalIdentifier" />
@@ -71,8 +71,7 @@
             <title>Asset Lookup</title>
 
             <menubar>
-                <!-- [CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal"><img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]-->
-                <![CDATA[<img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal"><img src="${externalizable.images.url}tinybutton-crenewretglo.gif" alt="create new retirement global" width="156" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetLocationGlobal"><img src="${externalizable.images.url}tinybutton-crenewloctagglo.gif" alt="create new location/tag global" width="161" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${externalizable.images.url}tinybutton-crenewaddasglo.gif" alt="create new add asset global" width="151" height="15"/></a>]]>
             </menubar>
 
             <instructions>Look up an Asset</instructions>
@@ -128,7 +127,7 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>capitalAssetNumber</titleAttribute>
+		<titleAttribute>capitalAssetNumber</titleAttribute>
 
         <attributes>
 
@@ -766,7 +765,7 @@
 			</attributeReference>
 			<!-- ## for use with AssetGlobal ## -->
 			<attribute name="landCountyName" forceUppercase="true">
-				<label>Land Country</label>
+				<label>Land County</label>
 				<shortLabel>landCountyName</shortLabel>
 				<maxLength>4</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
@@ -1036,6 +1035,9 @@
             </attributeReference>
             
             <attributeReference name="offCampusLocation.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetLocation" sourceAttributeName="versionNumber"/>
+            <attributeReference name="assetStatus.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode"/>
+            <attributeReference name="assetPrimaryDepreciationMethod.depreciationMethodCode" sourceClassName="org.kuali.module.cams.bo.AssetDepreciationMethod" sourceAttributeName="depreciationMethodCode"/>
+            
         </attributes>
                     
         <relationships>

@@ -223,6 +223,10 @@
 	<collection-descriptor name="assetRetirementHistory" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
+	<reference-descriptor name="assetPrimaryDepreciationMethod" class-ref="org.kuali.module.cams.bo.AssetDepreciationMethod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="primaryDepreciationMethodCode" />
+	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_DOC_T">
@@ -569,7 +573,7 @@
 	<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
-	
+
 	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="object" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>

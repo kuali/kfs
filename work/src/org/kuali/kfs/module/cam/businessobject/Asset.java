@@ -111,12 +111,13 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetHeader> assetHeaders;
     private List<AssetLocation> assetLocations;
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
+    private AssetDepreciationMethod assetPrimaryDepreciationMethod;
 
     // Non-persisted attributes:
-    private transient KualiDecimal paymentTotalCost;
+    private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
-    private transient KualiDecimal federalContribution;
+    private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
     private EquipmentLoanOrReturn loanOrReturnInfo;
     private AssetLocation offCampusLocation;
@@ -1840,4 +1841,13 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetRetirementHistory = assetRetirementHistory;
     }
 
+    public AssetDepreciationMethod getAssetPrimaryDepreciationMethod() {
+        return assetPrimaryDepreciationMethod;
+    }
+
+    public void setAssetPrimaryDepreciationMethod(AssetDepreciationMethod assetPrimaryDepreciationMethod) {
+        this.assetPrimaryDepreciationMethod = assetPrimaryDepreciationMethod;
+    }
+
+    
 }

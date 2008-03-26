@@ -33,6 +33,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private String governmentTagNumber;
     private String nationalStockNumber;
     
+    private Asset asset;
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -517,7 +518,23 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     public void setOffCampusCountry(Country offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
+    
+    /**
+     * Gets the asset attribute. 
+     * @return Returns the asset.
+     */
+    public Asset getAsset() {
+        return asset;
+    }
 
+    /**
+     * Sets the asset attribute value.
+     * @param asset The asset to set.
+     */
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

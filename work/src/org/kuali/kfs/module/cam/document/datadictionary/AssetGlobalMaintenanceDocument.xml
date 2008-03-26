@@ -63,8 +63,8 @@
 					<maintainableField name="assetHeader.organizationOwnerChartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup" />
 					<maintainableField name="assetHeader.organizationOwnerAccountNumber" required="true" webUILeaveFieldFunction="accountNameLookup" />
 					<!-- org. owner -->
-					<maintainableField name="leoOrganizationOwner" required="false" readOnly="true"/>
-					<maintainableField name="agencyNumber" required="true" />
+					
+					<maintainableField name="assetHeader.agencyNumber" required="true" />
 					<maintainableField name="acquisitionTypeCode" required="true" />
 					<maintainableField name="inventoryStatusCode" required="true" />
 					<maintainableField name="conditionCode" required="true" />
@@ -86,38 +86,21 @@
 					<maintainableField name="capitalAssetInServiceDate" required="false">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
-					<!-- deprec. date -->
-					<maintainableField name="leoDeprecationDate" readOnly="true"/>
+					<maintainableField name="capitalAssetDepreciationDate" />
 					<maintainableField name="landCountyName" required="false" />
-<!-- 
  				    <maintainableField name="landAcreageSize" required="false" />
--->
 				    <maintainableField name="landParcelNumber" required="false" />
-	                <maintainableField name="versionNumber" required="false" />					
+	                <maintainableField name="versionNumber" required="false" />	
+	                				
                     <!-- TODO following is temporary fix to avoid OJB ver# exception -->
 	                <maintainableField name="assetHeader.versionNumber" required="false" readOnly="true"/>
 				</maintainableItems>
             </maintainableSection>
 
-            <maintainableSection title="Unique Asset Information">
-                <maintainableItems>
-                    <!-- nbr of assets to create -->
-                	<maintainableField name="leoAssetsToCreate" readOnly="true" />
-					<maintainableField name="campusTagNumber" required="false" />
-					<maintainableField name="serialNumber" required="false" />
-					<!-- government tag -->
-					<maintainableField name="leoGovernmentTag" required="false" readOnly="true" />
-					<!-- national stock number -->
-					<maintainableField name="leoNationalStockNbr" required="false" readOnly="true" />
-                	<maintainableField name="organizationInventoryName" required="false" />
-                	<maintainableField name="organizationAssetTypeIdentifier" required="false" />
-				</maintainableItems>
-            </maintainableSection>
-
             <maintainableSection title="Campus Location">
                 <maintainableItems>
-                	<!-- <subSectionHeader name="Campus Location" /> -->
-                    <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
+                	 <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
+
 						<!-- <subSectionHeader name="On Campus" /> -->
 						<maintainableField name="capitalAssetNumber" required="false" readOnly="true"/>
                         <maintainableField name="campusCode" required="true" />
@@ -131,7 +114,7 @@
                         <maintainableField name="offCampusStateCode" required="true" />
                         <maintainableField name="offCampusZipCode" required="true" />
                         <maintainableField name="offCampusCountryCode" required="false" />
-                        <maintainableField name="locationQuantity" required="true" />
+                        <maintainableField name="locationQuantity" required="false" />
 	                    <maintainableField name="versionNumber" required="false" />					
                         <summaryFields>
                         	<summaryField name="campusCode" />

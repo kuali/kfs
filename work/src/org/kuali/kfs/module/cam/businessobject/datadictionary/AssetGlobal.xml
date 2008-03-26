@@ -22,28 +22,18 @@
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetGlobal">
         <attributes>
 <!--  ### Asset Detail Information ### -->
-            <attributeReference name="assetHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+            <attributeReference name="assetHeader.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="organizationOwnerChartOfAccountsCode">
                 <label>Owner Chart</label>
             </attributeReference>
 
-            <attributeReference name="assetHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+            <attributeReference name="assetHeader.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="organizationOwnerAccountNumber">
                 <label>Owner Account Number</label>
 			</attributeReference>		
 			
 			<!-- org. owner -->
-			<attribute name="leoOrganizationOwner" forceUppercase="true">
-                <label>Organization Owner</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoOrganizationOwner</summary>
-                <description>leoOrganizationOwner....</description>
-			</attribute>
 			
-			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="agencyNumber">
+			
+			<attributeReference name="assetHeader.agencyNumber" sourceClassName="org.kuali.module.cams.bo.AssetHeader" sourceAttributeName="agencyNumber">
 				<label>Owner</label>
 			</attributeReference>
 			
@@ -59,19 +49,9 @@
                 <label>Asset Condition</label>
             </attributeReference>
 			
-            <attribute name="capitalAssetDescription" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-                <summary>capitalAssetDescription</summary>
-                <description>capitalAssetDescription description...</description>
-			</attribute>
-
-			
+			<attributeReference name="capitalAssetDescription" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetDescription">
+				<label>Description</label>
+			</attributeReference>
 			
             <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode">
                 <label>Asset Condition</label>
@@ -129,6 +109,11 @@
 			<attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
 				<label>In-service Date</label>
 			</attributeReference>
+			
+			<attributeReference name="capitalAssetDepreciationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+				<label>Deprecation Date</label>
+			</attributeReference>
+			
 
 
 
@@ -162,7 +147,7 @@
 			<attribute name="landAcreageSize" forceUppercase="true">
                 <label>Land Acreage</label>
                 <shortLabel>Acreage</shortLabel>
-                <maxLength>10</maxLength>
+                <maxLength>9</maxLength>
                 <validationPattern><numeric /></validationPattern>
                 <control>
                     <text size="7" />
@@ -183,161 +168,11 @@
                 <description>landParcelNumber description...</description>
 			</attribute>			
 			
-			<!-- deprec. date -->
-			<attribute name="leoDeprecationDate" forceUppercase="true">
-                <label>Deprecation Date</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoDeprecationDate</summary>
-                <description>leoDeprecationDate....</description>
-			</attribute>
-
-<!--  ### Unique Asset Information ### -->
-
-			<!-- nbr of assets to create -->
-			<attribute name="leoAssetsToCreate" forceUppercase="true">
-                <label>Number of Assets to Create</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoAssetsToCreate</summary>
-                <description>leoAssetsToCreate....</description>
-			</attribute>
-			
-			<attributeReference name="capitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetNumber">
-				<label>Asset Number</label>
-			</attributeReference>
-			
-			<attributeReference name="campusTagNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="campusTagNumber">
-				<label>Tag Number</label>
-			</attributeReference>
-			
-			<attributeReference name="serialNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="serialNumber">
-				<label>Serial Number</label>
-			</attributeReference>
-
-			<!-- government tag -->
-			<attribute name="leoGovernmentTag" forceUppercase="true">
-                <label>Government Tag</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoGovernmentTag</summary>
-                <description>leoGovernmentTag....</description>
-			</attribute>
-
-			<!-- national stock number -->
-			<attribute name="leoNationalStockNbr" forceUppercase="true">
-                <label>National Stock Number</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoNationalStockNbr</summary>
-                <description>leoNationalStockNbr....</description>
-			</attribute>
-
-			<attributeReference name="organizationInventoryName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationInventoryName">
-				<label>Organization Inventory Name</label>
-			</attributeReference>
-			
-			<attributeReference name="organizationAssetTypeIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationAssetTypeIdentifier">
-				<label>Organization Asset Type</label>
-			</attributeReference>
-
 <!--  ### Add Payment ### -->
-			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="chartOfAccountsCode">
-				<label>Chart</label>
-			</attributeReference>
-
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="accountNumber">
-				<label>Account</label>
-			</attributeReference>
-
-			<attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="subAccountNumber">
-				<label>Sub Account</label>
-			</attributeReference>
-
-			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="financialObjectCode">
-				<label>Object</label>
-			</attributeReference>
-
-			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="financialSubObjectCode">
-				<label>Sub Object</label>
-			</attributeReference>
 			
-			<attributeReference name="projectCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="projectCode">
-				<label>Project</label>
-			</attributeReference>
-
-			<attributeReference name="organizationReferenceId" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="organizationReferenceId">
-				<label>Org. Ref. ID</label>
-			</attributeReference>
-
-			<!-- financial document number -->
-			<attribute name="leoDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
-                <shortLabel>dup/exists???</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>leoDocumentNumber</summary>
-                <description>leoDocumentNumber....</description>
-			</attribute>
-
-			<attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="financialDocumentTypeCode">
-				<label>Document Type Code</label>
-			</attributeReference>
-
-			<attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="purchaseOrderNumber">
-				<label>Purchase Order Number</label>
-			</attributeReference>
-
-			<attributeReference name="requisitionNumber" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="requisitionNumber">
-				<label>Requisition</label>
-			</attributeReference>
-
-			<attributeReference name="financialDocumentPostingDate" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="financialDocumentPostingDate">
-				<label>Financial Post Date</label>
-			</attributeReference>
-
-			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
-				<label>Period</label>
-			</attributeReference>
-
-			<attributeReference name="accountChargeAmount" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="accountChargeAmount">
-				<label>Account Amount</label>
-			</attributeReference>
-
+			
 			<!-- display total cost -->
-            <attribute name="leoAddPaymentsTotalCost">
-                <label>Display Total Cost</label>
-                <shortLabel>total</shortLabel>
-                <maxLength>19</maxLength>
-                <validationPattern>
-                    <fixedPoint allowNegative="false" precision="19" scale="2" />
-                </validationPattern>
-                <required>true</required>
-                <control>
-                    <text size="8" />
-                </control>
-                <summary>leoAddPaymentsTotalCost</summary>
-                <description>leoAddPaymentsTotalCost....</description>
-            </attribute>	
+            	
 
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
@@ -349,13 +184,15 @@
 				<supportAttribute sourceName="assetHeader.assetRepresentative.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
 				<supportAttribute sourceName="assetHeader.assetRepresentative.personName" targetName="personName" />
         	</relationship>
-			<relationship objectAttributeName="assetHeader.organizationOwnerChartOfAccounts" >
+        	<relationship objectAttributeName="assetHeader.organizationOwnerChartOfAccounts" >
 	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
 	        </relationship>
 			<relationship objectAttributeName="assetHeader.organizationOwnerAccount" >
 	            <primitiveAttribute sourceName="assetHeader.organizationOwnerChartOfAccountsCode" targetName="chartOfAccountsCode" />
 	            <primitiveAttribute sourceName="assetHeader.organizationOwnerAccountNumber" targetName="accountNumber" />
 	        </relationship>
+        	
+			
         </relationships>
 
         <objectLabel>Asset Global</objectLabel>

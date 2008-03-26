@@ -41,14 +41,12 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupService lookupService = SpringContext.getBean(LookupService.class);
         List<EffortCertificationDocumentBuild> reportList = new ArrayList<EffortCertificationDocumentBuild>(lookupService.findCollectionBySearch(EffortCertificationDocumentBuild.class, fieldValues));
-        String[] reportNumbers = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER).split(",");
-        ArrayList<String> reportNumberList = new ArrayList<String>(Arrays.asList(reportNumbers));
         
         setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
-        return findEmployeesWithPayOnMoreThanOneEffortCertificationReport(reportList, reportNumberList);
+        return findEmployeesWithPayOnMoreThanOneEffortCertificationReport(reportList);
     }
     
     @Override
@@ -64,7 +62,7 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
      * @param reportList
      * @return
      */
-    private List<DuplicateCertificationsReport> findEmployeesWithPayOnMoreThanOneEffortCertificationReport(List<EffortCertificationDocumentBuild> reportList, List<String> reportNumbers) {
+    private List<DuplicateCertificationsReport> findEmployeesWithPayOnMoreThanOneEffortCertificationReport(List<EffortCertificationDocumentBuild> reportList) {
         ArrayList<DuplicateCertificationsReport> returnResults = new ArrayList<DuplicateCertificationsReport>();
         HashMap<String, List<String>> employeeIdReportNumberMap = findDuplicatesMap(reportList);
         

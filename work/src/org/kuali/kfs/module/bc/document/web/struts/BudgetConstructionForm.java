@@ -30,6 +30,7 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCPropertyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
@@ -241,6 +242,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     private void initNewLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue) {
 
+        OptionsService optionsService = SpringContext.getBean(OptionsService.class);
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
 
         line.setDocumentNumber(tdoc.getDocumentNumber());
@@ -248,15 +250,15 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         line.setChartOfAccountsCode(tdoc.getChartOfAccountsCode());
         line.setAccountNumber(tdoc.getAccountNumber());
         line.setSubAccountNumber(tdoc.getSubAccountNumber());
-        line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
+        line.setFinancialBalanceTypeCode(optionsService.getOptions(tdoc.getUniversityFiscalYear()).getBaseBudgetFinancialBalanceTypeCd());
         line.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
         line.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
 
         if (isRevenue) {
-            line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
+            line.setFinancialObjectTypeCode(optionsService.getOptions(tdoc.getUniversityFiscalYear()).getFinObjectTypeIncomecashCode());
         }
         else {
-            line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
+            line.setFinancialObjectTypeCode(optionsService.getOptions(tdoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd());
         }
 
     }

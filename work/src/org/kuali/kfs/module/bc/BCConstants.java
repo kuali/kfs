@@ -111,9 +111,6 @@ public class BCConstants extends JstlConstants {
 
     public static final String INSERT_REVENUE_LINE_METHOD = "insertRevenueLine";
     public static final String INSERT_EXPENDITURE_LINE_METHOD = "insertExpenditureLine";
-    public static final String FINANCIAL_BALANCE_TYPE_CODE_BB = "BB";
-    public static final String FINANCIAL_OBJECT_TYPE_CODE_REV = "IN";
-    public static final String FINANCIAL_OBJECT_TYPE_CODE_EXP = "EX";
     public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
     
     public final static String SELECTION_SUB_TREE_ORGS = "selectionSubTreeOrgs";

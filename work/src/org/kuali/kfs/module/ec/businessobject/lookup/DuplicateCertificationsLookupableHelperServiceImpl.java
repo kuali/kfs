@@ -16,6 +16,7 @@
 package org.kuali.module.effort.lookup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,10 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.DuplicateCertificationsReport;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.OutstandingCertificationsByOrganization;
 
 /**
  * Searches for documents that are not approved.
@@ -40,30 +39,16 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
      * @see org.kuali.core.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, "!" + KFSConstants.DocumentStatusCodes.APPROVED);
-        
         LookupService lookupService = SpringContext.getBean(LookupService.class);
         List<EffortCertificationDocumentBuild> reportList = new ArrayList<EffortCertificationDocumentBuild>(lookupService.findCollectionBySearch(EffortCertificationDocumentBuild.class, fieldValues));
-        //ArrayList<DuplicateCertificationsReport> returnResults = new ArrayList<DuplicateCertificationsReport>();
-        
-        /*for (OutstandingCertificationsByOrganization outstandingReportByOrganization : reportList) {
-            
-            DuplicateCertificationsReport temp = new DuplicateCertificationsReport();
-            
-            //TODO: are these the correct field property names
-            
-            temp.setEffortCertificationReportNumber(outstandingReportByOrganization.getEffortCertificationReportNumber());
-            temp.setUniversityFiscalYear(outstandingReportByOrganization.getUniversityFiscalYear());
-            temp.setEmplid(outstandingReportByOrganization.getEmplid());
-            
-            returnResults.add(temp);
-        }*/
+        String[] reportNumbers = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER).split(",");
+        ArrayList<String> reportNumberList = new ArrayList<String>(Arrays.asList(reportNumbers));
         
         setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
         
-        return findEmployeesWithPayOnMoreThanOneEffortCertificationReport(reportList);
+        return findEmployeesWithPayOnMoreThanOneEffortCertificationReport(reportList, reportNumberList);
     }
     
     @Override
@@ -79,29 +64,9 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
      * @param reportList
      * @return
      */
-    private List<DuplicateCertificationsReport> findEmployeesWithPayOnMoreThanOneEffortCertificationReport(List<EffortCertificationDocumentBuild> reportList) {
+    private List<DuplicateCertificationsReport> findEmployeesWithPayOnMoreThanOneEffortCertificationReport(List<EffortCertificationDocumentBuild> reportList, List<String> reportNumbers) {
         ArrayList<DuplicateCertificationsReport> returnResults = new ArrayList<DuplicateCertificationsReport>();
-        HashMap<String, List<String>> employeeIdReportNumberMap = new HashMap<String, List<String>>();
-        
-        //build up map of emplid/ report number list to use later to determine which records should be returned
-        for (EffortCertificationDocumentBuild effortCertificationDocumentBuild : reportList) {
-            String reportNumber = effortCertificationDocumentBuild.getEffortCertificationReportNumber();
-            String emplid = effortCertificationDocumentBuild.getEmplid();
-            
-            if (employeeIdReportNumberMap.containsKey(emplid)) {
-                List<String> reportNumbers = employeeIdReportNumberMap.get(emplid);
-                if (!reportNumbers.contains(reportNumber)) {
-                    reportNumbers.add(reportNumber);
-                    //TODO: !!!REMOVE THIS BEFORE COMMITTING !!!
-                    if (employeeIdReportNumberMap.get(emplid).contains(reportNumber)) System.out.println("true!!!");
-                    else System.out.println("false!!!");
-                }
-            } else {
-                List<String> reportNumbers = new ArrayList<String>();
-                reportNumbers.add(reportNumber);
-                employeeIdReportNumberMap.put(emplid, reportNumbers);
-            }
-        }
+        HashMap<String, List<String>> employeeIdReportNumberMap = findDuplicatesMap(reportList);
         
         //return only records for employees that appear on more than one report
         for (EffortCertificationDocumentBuild effortCertificationDocumentBuild : reportList) {
@@ -123,18 +88,35 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     }
     
     /**
-     * This method is called when user did not enters report numbers in search criteria. 
-     * If the user enters more than one report number the results will include all employees that appear in two or more effort certification report.
-     * If the user only enters one report number, 
-     * 
-     * @param reportNumbers
+     * Returns a map of emplids and the effort certification report numbers they are associated with. To be used to determine which employees appear in more than one report.
+     * This method...
      * @param reportList
      * @return
      */
-    private List<DuplicateCertificationsReport> findEmployeesWithPayOnMoreThanOneEffortCertificationReport(List<String> reportNumbers, List<OutstandingCertificationsByOrganization> reportList) {
-        ArrayList<DuplicateCertificationsReport> returnResults = new ArrayList<DuplicateCertificationsReport>();
+    private HashMap<String, List<String>> findDuplicatesMap(List<EffortCertificationDocumentBuild> reportList) {
+        HashMap<String, List<String>> employeeIdReportNumberMap = new HashMap<String, List<String>>();
         
-        return returnResults;
+        //build up map of emplid/ report number list 
+        for (EffortCertificationDocumentBuild effortCertificationDocumentBuild : reportList) {
+            String reportNumber = effortCertificationDocumentBuild.getEffortCertificationReportNumber();
+            String emplid = effortCertificationDocumentBuild.getEmplid();
+            
+            if (employeeIdReportNumberMap.containsKey(emplid)) {
+                List<String> reportNumbers = employeeIdReportNumberMap.get(emplid);
+                if (!reportNumbers.contains(reportNumber)) {
+                    reportNumbers.add(reportNumber);
+                    //TODO: !!!REMOVE THIS BEFORE COMMITTING !!!
+                    if (employeeIdReportNumberMap.get(emplid).contains(reportNumber)) System.out.println("true!!!");
+                    else System.out.println("false!!!");
+                }
+            } else {
+                List<String> reportNumbers = new ArrayList<String>();
+                reportNumbers.add(reportNumber);
+                employeeIdReportNumberMap.put(emplid, reportNumbers);
+            }
+        }
+        
+        return employeeIdReportNumberMap;
     }
 }
 

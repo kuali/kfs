@@ -418,12 +418,6 @@
                 <summary>paymentSequenceNumber</summary>
                 <description>paymentSequenceNumber description...</description>
 			</attribute>
-			
-			<attributeReference name="paymentSequenceNumberCopy" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="paymentSequenceNumber" >
-                <control>
-	                <hidden />
-                </control>
-			</attributeReference>
 
             <attribute name="period10Depreciation1Amount" forceUppercase="true">
                 <label>Period10 Depreciation1 Amount</label>

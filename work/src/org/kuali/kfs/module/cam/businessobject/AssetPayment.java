@@ -24,7 +24,6 @@ public class AssetPayment extends PersistableBusinessObjectBase {
 
     private Long capitalAssetNumber;
     private Long paymentSequenceNumber;
-    private Long paymentSequenceNumberCopy;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -85,8 +84,8 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
     private Options option;
-    
-    //  Non-persisted attributes:
+
+    // Non-persisted attributes:
     private KualiDecimal yearToDate;
 
     /**
@@ -1391,19 +1390,4 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     public void setYearToDate(KualiDecimal yearToDate) {
         this.yearToDate = yearToDate;
     }
-
-    public Long getPaymentSequenceNumberCopy() {
-        return getPaymentSequenceNumber();
-    }
-
-    /**
-     * 
-     * This method...
-     * @param paymentSequenceNumberCopy
-     * @deprecated
-     */
-    public void setPaymentSequenceNumberCopy(Long paymentSequenceNumberCopy) {
-        this.paymentSequenceNumberCopy = paymentSequenceNumberCopy;
-    }
-
 }

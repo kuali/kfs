@@ -573,7 +573,7 @@
 	<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
-
+	
 	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="object" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
@@ -886,10 +886,10 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
+<class-descriptor class="org.kuali.module.cams.document.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
@@ -908,7 +908,7 @@
 	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="interdepartmentalSalesIndicator" column="AST_INTRDPTSALE_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -940,8 +940,15 @@
         <foreignkey field-ref="buildingCode" />
         <foreignkey field-ref="buildingRoomNumber" />
     </reference-descriptor>
+    <reference-descriptor name="assetHeader" class-ref="org.kuali.module.cams.bo.AssetHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+    <!-- General ledger entries  -->
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
-
 <class-descriptor class="org.kuali.module.cams.bo.EquipmentLoanOrReturn" table="CM_EQPLNRTRN_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

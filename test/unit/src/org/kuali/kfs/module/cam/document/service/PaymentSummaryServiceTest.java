@@ -19,8 +19,12 @@ package org.kuali.module.cams.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.bo.ParameterDetailType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.service.ParameterEvaluator;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
@@ -45,6 +49,15 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
         assetPayments.add(PaymentSummaryFixture.PAYMENT4.newAssetPayment());
         asset.setAssetPayments(assetPayments);
         paymentSummaryService = new PaymentSummaryServiceImpl();
+        paymentSummaryService.setParameterService(new ParameterServiceImpl() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public List<String> getParameterValues(Class componentClass, String parameterName) {
+                List<String> list = new ArrayList<String>();
+                list.add("BF");
+                return list;
+            }
+        });
 
         UniversityDateService universityDateService = new UniversityDateServiceImpl() {
             public UniversityDate getCurrentUniversityDate() {

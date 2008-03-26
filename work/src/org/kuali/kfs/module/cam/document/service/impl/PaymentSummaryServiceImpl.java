@@ -22,9 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
@@ -38,8 +41,6 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     // Total no of months in a financial year
     private static final int TOTAL_MONTHS = 12;
-    // TODO:replaced by system parameter
-    public static final String FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES = "BF,CF,CO,LF,UF,UO";
 
     private static Map<Integer, Method> DEPR_AMT_FIELDS = new HashMap<Integer, Method>();
     /**
@@ -69,6 +70,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     }
 
     private UniversityDateService universityDateService;
+    private ParameterService parameterService;
 
     private KualiDecimal addAmount(KualiDecimal amount, KualiDecimal addend) {
         if (addend != null) {
@@ -121,7 +123,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
             if (ObjectUtils.isNull(payment.getFinancialObject())) {
                 payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             }
-            if (StringUtils.contains(FEDERAL_CONTRIBUTIONS_SUB_TYPE_CODES, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            if (ArrayUtils.contains(parameterService.getParameterValues(Asset.class, "FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES").toArray(), payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }
@@ -314,5 +316,13 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

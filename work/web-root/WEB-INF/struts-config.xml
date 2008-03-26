@@ -113,6 +113,7 @@
         <form-bean name="PdpFormatSummaryForm" type="org.kuali.module.pdp.form.format.FormatSummaryForm" />
 
         <!-- CAMs Module Bean Definitions -->
+        <form-bean name="AssetTransferForm" type="org.kuali.module.cams.web.struts.form.AssetTransferForm" />
         
         <!-- Effort Certification Bean Definitions -->
         <form-bean name="EffortCertificationForm" type="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />

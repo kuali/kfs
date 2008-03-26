@@ -15,10 +15,13 @@
  */
 package org.kuali.module.cams.lookup;
 
+import java.util.Properties;
+
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.bo.Asset;
 
 /**
  * This class overrids the base getActionUrls method
@@ -34,9 +37,9 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     public String getActionUrls(BusinessObject bo) {
         StringBuffer actions = new StringBuffer();
 
-        /** TODO per authorization don't show some links **/
-        /** TODO per Asset status don't show some links **/
-        
+        /** TODO per authorization don't show some links * */
+        /** TODO per Asset status don't show some links * */
+
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.LOAN);
@@ -47,8 +50,14 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.SEPARATE);
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.TRANSFER);
-        
+        actions.append(getTransferUrl(bo));
+
         return actions.toString();
     }
+
+    private String getTransferUrl(BusinessObject bo) {
+        Asset asset = (Asset) bo;
+        return "<a href=\"../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.TRANSFER + "</a>";
+    }
+    
 }

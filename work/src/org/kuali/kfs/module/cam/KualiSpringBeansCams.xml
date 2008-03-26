@@ -221,6 +221,9 @@
     	<property name="universityDateService">
     		<ref bean="universityDateService" />
     	</property>
+    	<property name="parameterService">
+    		<ref bean="parameterService" />
+    	</property>
     </bean>
     
     <bean id="assetComponentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetComponentDaoOjb"/>

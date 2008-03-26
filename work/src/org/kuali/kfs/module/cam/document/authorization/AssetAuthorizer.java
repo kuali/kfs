@@ -16,15 +16,13 @@
 package org.kuali.module.cams.document.authorization;
 
 import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.AGENCY_NUMBER;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.OLD_TAG_NUMBER;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.VENDOR_NAME;
+import static org.kuali.module.cams.CamsPropertyConstants.Asset.*;
+
+import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.user.UniversalUser;
@@ -34,18 +32,24 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 
 /**
  * AssetAuthorizer for Asset edit.
  */
 public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
+    // TODO Use system parameter
     private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
-    private static String[] DEFAULT_READONLY_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, AGENCY_NUMBER, VENDOR_NAME, OLD_TAG_NUMBER, GOVERNMENT_TAG_NUMBER, NATIONAL_STOCK_NUMBER, ASSET_DATE_OF_SERVICE };
-    private static final String[] CM_ASSET_MERGE_SEPARATE_USERS_READONLY_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, VENDOR_NAME, ASSET_DATE_OF_SERVICE };
-    private static String[] CM_SUPER_USERS_READONLY_FIELDS = new String[] {};
+
+    // TODO Use System parameter
+    private static final String[] CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, VENDOR_NAME, ASSET_DATE_OF_SERVICE };
+
+    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
 
     /**
@@ -57,20 +61,35 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
+
+        if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+            hideFields(auths, CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS);
+        }
+        else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+            // If departmental user
+            hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS, CamsConstants.Parameters.DENY_CONSTRAINT));
+        }
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-        if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-            setReadonlyAuthorizations(auths, CM_SUPER_USERS_READONLY_FIELDS);
-        }
-        else if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-            setReadonlyAuthorizations(auths, CM_ASSET_MERGE_SEPARATE_USERS_READONLY_FIELDS);
-        }
-        else {
-            setReadonlyAuthorizations(auths, DEFAULT_READONLY_FIELDS);
-        }
+        hidePaymentSequence(auths, asset);
         return auths;
     }
 
-    private void setReadonlyAuthorizations(MaintenanceDocumentAuthorizations auths, String[] readOnlyFields) {
+    private void hidePaymentSequence(MaintenanceDocumentAuthorizations auths, Asset asset) {
+        int size = asset.getAssetPayments().size();
+        for (int i = 0; i < size; i++) {
+            auths.addHiddenAuthField(CamsPropertyConstants.Asset.ASSET_PAYMENTS + "[" + i + "]." + CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER);
+        }
+    }
+
+
+    private void hideFields(MaintenanceDocumentAuthorizations auths, List<String> readOnlyFields) {
+        for (String field : readOnlyFields) {
+            auths.addHiddenAuthField(field);
+        }
+    }
+
+    // TODO To be removed
+    private void hideFields(MaintenanceDocumentAuthorizations auths, String[] readOnlyFields) {
         for (String field : readOnlyFields) {
             auths.addHiddenAuthField(field);
         }

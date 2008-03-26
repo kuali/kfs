@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.cams.document.AssetTransferDocument</documentClass>
+		<businessRulesClass>org.kuali.module.cams.rules.AssetTransferDocumentRule</businessRulesClass>
+		
+        <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetTransferDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+        <documentTypeName>AssetTransferDocument</documentTypeName>
+        <documentTypeCode>AT</documentTypeCode>
+        <label>Asset Transfer</label>
+        <attributes>
+            <attribute name="buildingCode" forceUppercase="true">
+                <label>Building Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="12" />
+                </control>
+                <summary>buildingCode</summary>
+                <description>buildingCode description...</description>
+			</attribute>
+
+            <attribute name="buildingRoomNumber" forceUppercase="true">
+                <label>Building Room Number</label>
+                <shortLabel>Number</shortLabel>
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>buildingRoomNumber</summary>
+                <description>buildingRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="buildingSubRoomNumber" forceUppercase="true">
+                <label>Building Sub Room Number</label>
+                <shortLabel>Number</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>buildingSubRoomNumber</summary>
+                <description>buildingSubRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="interdepartmentalSalesIndicator" forceUppercase="true">
+                <label>Interdepartmental Sales Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>interdepartmentalSalesIndicator</summary>
+                <description>interdepartmentalSalesIndicator description...</description>
+			</attribute>
+			
+            <attribute name="offCampusAddress" forceUppercase="true">
+                <label>Address</label>
+                <shortLabel>Address</shortLabel>
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="32" />
+                </control>
+                <summary>offCampusAddress</summary>
+                <description>offCampusAddress description...</description>
+			</attribute>
+
+            <attribute name="offCampusCityName" forceUppercase="true">
+                <label>City Name</label>
+                <shortLabel>Name</shortLabel>
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="27" />
+                </control>
+                <summary>offCampusCityName</summary>
+                <description>offCampusCityName description...</description>
+			</attribute>
+
+            <attribute name="offCampusStateCode" forceUppercase="true">
+                <label>State</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>offCampusStateCode</summary>
+                <description>offCampusStateCode description...</description>
+			</attribute>
+
+            <attribute name="offCampusZipCode" forceUppercase="true">
+                <label>Zip</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="11" />
+                </control>
+                <summary>offCampusZipCode</summary>
+                <description>offCampusZipCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationInventoryName" forceUppercase="true">
+                <label>Organization Inventory Name</label>
+                <shortLabel>Name</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationInventoryName</summary>
+                <description>organizationInventoryName description...</description>
+			</attribute>
+
+            <attribute name="organizationOwnerAccountNumber" forceUppercase="true">
+                <label>Organization Owner Account Number</label>
+                <shortLabel>Number</shortLabel>
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+				<required>true</required>
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>organizationOwnerAccountNumber</summary>
+                <description>organizationOwnerAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationOwnerChartOfAccountsCode" forceUppercase="true">
+                <label>Organization Owner Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+				<required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>organizationOwnerChartOfAccountsCode</summary>
+                <description>organizationOwnerChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organizationTagNumber" forceUppercase="true">
+                <label>Organization Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationTagNumber</summary>
+                <description>organizationTagNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationText" forceUppercase="true">
+                <label>Organization Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>organizationText</summary>
+                <description>organizationText description...</description>
+			</attribute>
+            <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
+                <label>Transfer Of Funds Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>transferOfFundsFinancialDocumentNumber</summary>
+                <description>transferOfFundsFinancialDocumentNumber description...</description>
+			</attribute>
+			<attributeReference name="representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier" >
+				<label>Asset Representative</label>
+				<shortLabel>Representative</shortLabel>
+				<displayLabelAttribute>assetRepresentative.personUserIdentifier</displayLabelAttribute>
+                <required>false</required>
+                <control>
+                	<hidden />
+                </control>
+			</attributeReference>
+			
+			<attributeReference name="assetRepresentative.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Asset Representative</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="representativeUniversalIdentifier" userIdAttributeName="assetRepresentative.personUserIdentifier" personNameAttributeName="assetRepresentative.personName" />
+                </control>
+            </attributeReference>
+			
+			<attributeReference name="assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
+				<label>Asset Representative Name</label>
+				<shortLabel>Representative</shortLabel>
+                <required>false</required>
+                <control>
+                	<hidden />
+                </control>
+			</attributeReference>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+			<!-- Attributes for display -->
+            <attribute name="ownerOrganizationCode" forceUppercase="true">
+                <label>Owner Org Code</label>
+                <shortLabel>Org</shortLabel>
+                
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+            </attribute>
+          </attributes>
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>
+        	Asset Transfer Document
+        </description>        
+        <allowsCopy>false</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+    </transactionalDocument>
+</dictionaryEntry>

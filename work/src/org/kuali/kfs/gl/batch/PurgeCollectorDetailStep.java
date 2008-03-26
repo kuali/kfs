@@ -42,6 +42,7 @@ public class PurgeCollectorDetailStep extends AbstractStep {
      */
     public boolean execute(String jobName) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ID_BILL_T_BEFORE_YEAR);
+        LOG.info("PurgeEntryStep was run with year = "+yearStr);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {

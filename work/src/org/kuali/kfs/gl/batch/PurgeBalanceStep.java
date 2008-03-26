@@ -42,6 +42,7 @@ public class PurgeBalanceStep extends AbstractStep {
      */
     public boolean execute(String jobName) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
+        LOG.info("PurgeEntryStep was run with year = "+yearStr);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {

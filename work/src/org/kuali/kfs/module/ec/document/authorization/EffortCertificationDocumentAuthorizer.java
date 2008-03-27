@@ -28,6 +28,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
 import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -83,24 +84,26 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             String routeLevelName = KualiWorkflowUtils.getRoutingLevelName(workflowDocument);
             
-            if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.PROJECT_DIRECTOR)) {
-                editMode = EffortCertificationEditMode.PROJECT_ENTRY;
-            }
-            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW)) {
-                editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
-            }
-            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW)) {
-                editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
-            }
-            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.CG_WORKGROUP)) {
-                editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
-            }
-            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.RECREATE_WORKGROUP)) {
-                editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
+            Map<String, String> editModes = this.getEditModeSetup();
+            if(editModes.containsKey(routeLevelName)) {
+                editMode = editModes.get(routeLevelName); 
             }
         }
 
         editModeMap.put(editMode, Boolean.TRUE.toString());
         return editModeMap;
+    }
+    
+    // setup the edit map where its key is route level name and its value the edit mode.
+    private Map<String, String> getEditModeSetup(){
+        Map<String, String> editModes = new HashMap<String, String>();
+        
+        editModes.put(RouteLevelNames.PROJECT_DIRECTOR, EffortCertificationEditMode.PROJECT_ENTRY);
+        editModes.put(RouteLevelNames.ACCOUNT_REVIEW, EffortCertificationEditMode.EXPENSE_ENTRY);
+        editModes.put(RouteLevelNames.ORG_REVIEW, EffortCertificationEditMode.EXPENSE_ENTRY);
+        editModes.put(RouteLevelNames.CG_WORKGROUP, EffortCertificationEditMode.EXPENSE_ENTRY);
+        editModes.put(RouteLevelNames.RECREATE_WORKGROUP, EffortCertificationEditMode.EXPENSE_ENTRY);
+        
+        return editModes;
     }
 }

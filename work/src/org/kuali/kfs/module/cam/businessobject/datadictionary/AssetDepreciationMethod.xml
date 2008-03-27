@@ -62,7 +62,7 @@
                 <description>depreciationMethodCode description...</description>
 			</attribute>
 
-            <attribute name="depreciationMethodName" forceUppercase="true">
+            <attribute name="depreciationMethodName" forceUppercase="false">
                 <label>Depreciation Method Name</label>
                 <shortLabel>Name</shortLabel>
 

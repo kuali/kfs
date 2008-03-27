@@ -61,7 +61,7 @@
                 <description>Acquisition type code.</description>
 			</attribute>
 
-            <attribute name="acquisitionTypeName" forceUppercase="true">
+            <attribute name="acquisitionTypeName" forceUppercase="false">
                 <label>Acquisition Type Name</label>
                 <shortLabel>Name</shortLabel>
                 <maxLength>40</maxLength>

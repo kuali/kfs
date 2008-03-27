@@ -18,7 +18,7 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 
 /**
  * Labor contract methods to accounting line implementations for Expense Transfer Documents.

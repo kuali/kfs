@@ -17,7 +17,7 @@ package org.kuali.module.effort.util;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
 
 /**
  * To hold the neccessary information of ledger balance for the report generation

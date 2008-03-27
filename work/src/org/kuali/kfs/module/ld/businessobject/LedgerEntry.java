@@ -24,8 +24,6 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerEntry;
-import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.Account;
@@ -39,6 +37,8 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
+import org.kuali.module.integration.bo.LaborLedgerEntry;
+import org.kuali.module.integration.bo.LaborLedgerObject;
 
 /**
  * Labor business object for LedgerEntry

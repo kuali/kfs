@@ -27,7 +27,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -35,6 +34,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.integration.service.LaborModuleService;
 
 /**
  * Business Object for the Effort Certification Detail Table.

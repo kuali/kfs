@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
 
 /**
  * To provide a set of utilities to consolidate/group the specified ledger balances and build a returning ledger balance Map.

@@ -30,8 +30,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
@@ -54,6 +52,8 @@ import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

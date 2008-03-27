@@ -16,7 +16,7 @@
 package org.kuali.module.labor.service;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;

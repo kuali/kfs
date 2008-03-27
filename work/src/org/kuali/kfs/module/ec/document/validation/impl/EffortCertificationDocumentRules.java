@@ -34,7 +34,6 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -49,6 +48,7 @@ import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
+import org.kuali.module.integration.service.LaborModuleService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

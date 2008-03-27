@@ -23,7 +23,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;

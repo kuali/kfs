@@ -18,9 +18,9 @@ package org.kuali.module.effort.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
 
 /**
  * Provides the facilities that can generate detail line (build) for effort certification from the given labor ledger balance record

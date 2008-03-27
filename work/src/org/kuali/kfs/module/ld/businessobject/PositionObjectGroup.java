@@ -19,7 +19,7 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
+import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
 
 /**
  * Labor business object for PositionObjectGroup

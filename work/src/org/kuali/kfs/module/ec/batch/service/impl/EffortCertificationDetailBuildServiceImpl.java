@@ -21,8 +21,6 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
@@ -30,6 +28,8 @@ import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

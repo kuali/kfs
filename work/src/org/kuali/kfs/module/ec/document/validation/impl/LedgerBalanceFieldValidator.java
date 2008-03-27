@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.chart.bo.Account;
@@ -30,6 +29,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a

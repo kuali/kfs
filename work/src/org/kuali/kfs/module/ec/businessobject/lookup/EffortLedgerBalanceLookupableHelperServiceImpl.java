@@ -27,12 +27,12 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.service.LaborModuleService;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

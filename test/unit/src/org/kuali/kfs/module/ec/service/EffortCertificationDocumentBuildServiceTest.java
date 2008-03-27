@@ -22,16 +22,16 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 

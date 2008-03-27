@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.module.integration.bo.LaborLedgerObject;
 
 /**
  * Labor business object for special case <code>{@link TargetAccountingLine}</code> type for

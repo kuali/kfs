@@ -28,10 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerObject;
-import org.kuali.kfs.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -41,6 +38,9 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 //import org.kuali.module.labor.bo.LaborObject;
 //import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.module.integration.bo.LaborLedgerObject;
+import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
+import org.kuali.module.integration.service.LaborModuleService;
 
 
 /**

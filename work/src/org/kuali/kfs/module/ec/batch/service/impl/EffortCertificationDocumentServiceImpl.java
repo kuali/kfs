@@ -31,8 +31,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.Account;
@@ -45,7 +43,9 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rules.EffortCertificationDocumentRuleUtil;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
+import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.effort.util;
 
-import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +24,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
-import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.context.Log4jConfigurer;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.test.ConfigureContext;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.bo.LaborLedgerEntry;
+import org.kuali.module.integration.service.LaborModuleService;
 import org.kuali.test.util.SpringContextForBatchRunner;
 import org.kuali.test.util.TestDataPreparator;
 

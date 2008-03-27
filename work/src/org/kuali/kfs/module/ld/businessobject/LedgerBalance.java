@@ -26,13 +26,13 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.LaborLedgerBalance;
-import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**

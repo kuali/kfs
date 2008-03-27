@@ -26,12 +26,12 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
+import org.kuali.module.integration.service.LaborModuleService;
 
 public class EffortLedgerBalanceInquirableImpl extends AbstractGLInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortLedgerBalanceInquirableImpl.class);

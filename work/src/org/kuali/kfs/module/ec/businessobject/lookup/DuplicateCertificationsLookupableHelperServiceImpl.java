@@ -86,7 +86,7 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     
     /**
      * Returns a map of emplids and the effort certification report numbers they are associated with. To be used to determine which employees appear in more than one report.
-     * This method...
+     * 
      * @param reportList
      * @return
      */

@@ -24,7 +24,7 @@
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode" %>              
               
 <kul:tab tabTitle="Cash Control Details" defaultOpen="true" tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
-    <div class="tab-container" align=center>		
+    <div id="cashControlDetails" class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Cash control Details">
             <tr>
                 <td colspan="8" class="subhead">Cash Control Details</td>

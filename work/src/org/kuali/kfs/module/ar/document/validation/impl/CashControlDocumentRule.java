@@ -59,9 +59,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         CashControlDocument ccDocument = (CashControlDocument) document;
 
         isValid &= checkUserOrgOptions(ccDocument);
-//        isValid &= checkPaymentMedium(ccDocument);
+        // isValid &= checkPaymentMedium(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
         isValid &= validateCashControlDetails(ccDocument);
+        isValid &= checkCashControlDocumentHasDetails(ccDocument);
 
         return true;
 
@@ -81,7 +82,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= checkPaymentMedium(cashControlDocument);
         isValid &= checkOrgDocNumber(cashControlDocument);
         isValid &= validateCashControlDetails(cashControlDocument);
-        isValid &= checkTotalAmountNotZero(cashControlDocument);
+        // isValid &= checkTotalAmountNotZero(cashControlDocument);
+        isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
 
         return isValid;
 
@@ -102,7 +104,8 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= checkPaymentMedium(cashControlDocument);
         isValid &= checkOrgDocNumber(cashControlDocument);
         isValid &= validateCashControlDetails(cashControlDocument);
-        isValid &= checkTotalAmountNotZero(cashControlDocument);
+        // isValid &= checkTotalAmountNotZero(cashControlDocument);
+        isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
 
         return isValid;
 
@@ -129,7 +132,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
 
     }
-    
+
     /**
      * This method checks if document total amount is zero
      * 
@@ -153,6 +156,27 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         return isValid;
 
+    }
+
+    /**
+     * This method checks if the CashControlDocument has any details to be processed.
+     * 
+     * @param cashControlDocument the CashControlDocument
+     * @return true if it has details, false otherwise
+     */
+    public boolean checkCashControlDocumentHasDetails(CashControlDocument cashControlDocument) {
+        
+        boolean isValid = true;
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+
+        if (cashControlDocument.getCashControlDetails().isEmpty()) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArConstants.ERROR_NO_LINES_TO_PROCESS);
+        }
+
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+
+        return isValid;
+        
     }
 
     /**

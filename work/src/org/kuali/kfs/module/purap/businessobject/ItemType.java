@@ -62,6 +62,10 @@ public class ItemType extends PersistableBusinessObjectBase {
         this.quantityBasedGeneralLedgerIndicator = quantityBasedGeneralLedgerIndicator;
     }
 
+    public boolean isItemTypeBelowTheLineIndicator() {
+        return !itemTypeAboveTheLineIndicator;
+    }
+
     public boolean isItemTypeAboveTheLineIndicator() {
         return itemTypeAboveTheLineIndicator;
     }

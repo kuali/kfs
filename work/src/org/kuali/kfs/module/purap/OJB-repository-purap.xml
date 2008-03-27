@@ -2979,8 +2979,8 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementPaymentChangeAccount" table="AP_PMT_CHG_ACCT_T">
-    <field-descriptor name="capitalAssetManagementPaymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
+<class-descriptor class="org.kuali.module.purap.bo.PaymentChangeAccount" table="AP_PMT_CHG_ACCT_T">
+    <field-descriptor name="paymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
     <field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="generalLedgerPendingEntryIdentifier" column="GL_PENDING_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -2988,8 +2988,8 @@
     <field-descriptor name="itemAccountTotalAmount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementPaymentChange" table="AP_PMT_CHG_T">
-    <field-descriptor name="capitalAssetManagementPaymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
+<class-descriptor class="org.kuali.module.purap.bo.PaymentChange" table="AP_PMT_CHG_T">
+    <field-descriptor name="paymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER"/>

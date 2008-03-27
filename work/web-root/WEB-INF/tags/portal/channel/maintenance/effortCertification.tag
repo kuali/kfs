@@ -17,49 +17,40 @@
 
 <channel:portalChannelTop channelTitle="Effort Certification" />
 <div class="body">
-	<ul class="chan">
-		<!-- 			
+	<ul class="chan">		
 		<li>
-			<portal:portalLink displayTitle="true" title="Detail Table Search"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDocumentForLookup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		
-		<li>
-			<portal:portalLink displayTitle="true" title="Detail Build Lookup"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDocumentBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		
-		-->
-		
-		<li>
-			<portal:portalLink displayTitle="true" title="Effort Build"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDetailBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>	
-		
-		<li>
-			<portal:portalLink displayTitle="true" title="Effort Certification Report Definition"
+			<portal:portalLink displayTitle="true" title="Report Definition"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		 
-		<li>
-			<portal:portalLink displayTitle="true" title="Report Type"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		
-		<li>
-			<portal:portalLink displayTitle="true" title="Report Status Code"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		
 		<li>
 			<portal:portalLink displayTitle="true" title="Report Earn Paygroup"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		
+		<li>
+			<portal:portalLink displayTitle="true" title="Report Status Code"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		 
+		<li>
+			<portal:portalLink displayTitle="true" title="Report Type"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 	</ul>
 	
 	<strong>Reports</strong><br />
 	
-	<ul class="chan">		
+	<ul class="chan">	
+		<li>
+			<portal:portalLink displayTitle="true" title="Duplicate Certifications Report"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.DuplicateCertificationsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		
+		<li>
+			<portal:portalLink displayTitle="true" title="Effort Build"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDetailBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 		
 		<li>
 			<portal:portalLink displayTitle="true" title="Outstanding Certifications by Chart/Org/Report"
@@ -70,20 +61,6 @@
 			<portal:portalLink displayTitle="true" title="Outstanding Certifications By Report"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingCertificationsByReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		
-		<li>
-			<portal:portalLink displayTitle="true" title="Duplicate Certifications Report"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.DuplicateCertificationsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		
-	</ul>
-	
-	<strong>Document</strong><br />	
-	<ul class="chan">		
-		<li> 
-			<portal:portalLink displayTitle="true" title="Effort Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" />
-		</li>
-		
 	</ul>
 </div>
 <channel:portalChannelBottom />

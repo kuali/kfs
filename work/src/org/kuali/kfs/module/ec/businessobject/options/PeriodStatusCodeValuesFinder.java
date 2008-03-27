@@ -31,7 +31,6 @@ public class PeriodStatusCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        //keyValues.add(new KeyLabelPair(" ", " "));
         keyValues.add(new KeyLabelPair("N", "N"));
         keyValues.add(new KeyLabelPair("O", "O"));
         keyValues.add(new KeyLabelPair("C", "C"));

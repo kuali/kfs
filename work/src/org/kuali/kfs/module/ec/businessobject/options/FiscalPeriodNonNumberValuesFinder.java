@@ -31,7 +31,6 @@ public class FiscalPeriodNonNumberValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(" ", " "));
         keyValues.add(new KeyLabelPair("01", "1"));
         keyValues.add(new KeyLabelPair("02", "2"));
         keyValues.add(new KeyLabelPair("03", "3"));

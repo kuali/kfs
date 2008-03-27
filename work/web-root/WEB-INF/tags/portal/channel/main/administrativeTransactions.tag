@@ -17,6 +17,10 @@
 
 <channel:portalChannelTop channelTitle="Administrative Transactions" />
 <div class="body">
+  <strong>Effort Certification</strong>
+  <ul class="chan">		
+	 <li><portal:portalLink displayTitle="true" title="Certification Recreate" url="effortCertificationRecreate.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" /></li>
+  </ul>
   <strong>Electronic Fund Transfer</strong>
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Electronic Fund Transfer" url="electronicFundTransfer.do?methodToCall=start" /></li>

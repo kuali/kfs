@@ -56,8 +56,7 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
     }
     
     /**
-     * This method is called when user did not enter report number in search criteria. 
-     * In this case records should only be displayed if employee appears on more than one effort certification report
+     * Returns the records for employees who appear on more than one report.
      * 
      * @param reportList
      * @return

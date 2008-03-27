@@ -42,11 +42,12 @@ import org.kuali.module.budget.BCParameterKeyConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.rule.AddPendingBudgetGeneralLedgerLineRule;
+import org.kuali.module.budget.rule.SaveBudgetDocumentRule;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 
-public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger> {
+public class BudgetConstructionRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, SaveBudgetDocumentRule<BudgetConstructionDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRules.class);
 
     // some services used here - other service refs are from parent classes
@@ -66,6 +67,13 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         super();
 
         // TODO may want to get all the system param values here once, instead of the process*Rules methods??
+    }
+
+    public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
+
+        boolean isValid = true;
+
+        return isValid;
     }
 
     /**

@@ -29,13 +29,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortConstants.DocumentRoutingLevelName;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
@@ -46,6 +46,8 @@ import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.workflow.KualiWorkflowUtils;
+import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -158,23 +160,17 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
         return true;
     }
-    
+
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.module.effort.document.EffortCertificationDocument)
      */
     @Logged
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
-        String routeLevelName = null;
-        try {
-            routeLevelName = effortCertificationDocument.getDocumentHeader().getWorkflowDocument().getDocRouteLevelName();
-        }
-        catch (WorkflowException we) {
-            LOG.error(we);
-            throw new RuntimeException(we);
-        }
-
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         List<AdHocRouteRecipient> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
+
+        KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
+        String routeLevelName = KualiWorkflowUtils.getRoutingLevelName(workflowDocument);
 
         for (EffortCertificationDetail detailLine : detailLines) {
             boolean hasBeenChanged = EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromPersisted(detailLine);
@@ -185,11 +181,11 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
-            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.FISCAL_OFFICER);
+            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, RouteLevelNames.ACCOUNT_REVIEW);
             adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
 
             String accountProjectDirectorPersonUserId = contractsAndGrantsModuleService.getProjectDirectorForAccount(account).getPersonUserIdentifier();
-            String actionRequestOfDirector = this.getActionRequest(routeLevelName, DocumentRoutingLevelName.PROJECT_DIRECTOR);
+            String actionRequestOfDirector = this.getActionRequest(routeLevelName, RouteLevelNames.PROJECT_DIRECTOR);
             adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
         }
     }

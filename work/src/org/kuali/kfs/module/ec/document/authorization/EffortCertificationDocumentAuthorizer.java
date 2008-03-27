@@ -26,8 +26,8 @@ import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.effort.EffortConstants.DocumentRoutingLevelName;
 import org.kuali.module.effort.EffortConstants.EffortCertificationEditMode;
+import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -81,38 +81,26 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
-            String routeLevelName = this.getCurrentRoutingLevelName(workflowDocument);
+            String routeLevelName = KualiWorkflowUtils.getRoutingLevelName(workflowDocument);
             
-            System.out.println("====> " + routeLevelName);
-            
-            if(StringUtils.equals(routeLevelName, DocumentRoutingLevelName.PROJECT_DIRECTOR)) {
+            if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.PROJECT_DIRECTOR)) {
                 editMode = EffortCertificationEditMode.PROJECT_ENTRY;
             }
-            else if(StringUtils.equals(routeLevelName, DocumentRoutingLevelName.FISCAL_OFFICER)) {
+            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.ACCOUNT_REVIEW)) {
                 editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
             }
-            else if(StringUtils.equals(routeLevelName, DocumentRoutingLevelName.ORGANAZATION)) {
+            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.ORG_REVIEW)) {
                 editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
             }
-            else if(StringUtils.equals(routeLevelName, DocumentRoutingLevelName.CG_WORKGROUP)) {
+            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.CG_WORKGROUP)) {
                 editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
             }
-            else if(StringUtils.equals(routeLevelName, DocumentRoutingLevelName.RECREATE_WORKGROUP)) {
+            else if(StringUtils.equals(routeLevelName, KualiWorkflowUtils.RouteLevelNames.RECREATE_WORKGROUP)) {
                 editMode = EffortCertificationEditMode.EXPENSE_ENTRY;
             }
         }
 
         editModeMap.put(editMode, Boolean.TRUE.toString());
         return editModeMap;
-    }
-    
-    // get the current routing level name
-    private String getCurrentRoutingLevelName(KualiWorkflowDocument workflowDocument) {
-        try {
-            return workflowDocument.getDocRouteLevelName();
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Fail to determine the document routing level:" + we);
-        }
     }
 }

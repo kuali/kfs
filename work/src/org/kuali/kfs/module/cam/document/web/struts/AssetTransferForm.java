@@ -33,54 +33,12 @@ import org.kuali.module.cams.service.PaymentSummaryService;
 
 public class AssetTransferForm extends KualiAccountingDocumentFormBase {
 
-    private AssetTransferDocument assetTransferDocument;
-
     public AssetTransferForm() {
         super();
-        this.assetTransferDocument = new AssetTransferDocument();
-        setDocument(this.assetTransferDocument);
+        setDocument(new AssetTransferDocument());
     }
 
     public AssetTransferDocument getAssetTransferDocument() {
-        return this.assetTransferDocument;
-    }
-
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-        AssetTransferDocument transferDocument = getAssetTransferDocument();
-        initializeDoc(request, transferDocument);
-        initializeAssetHeader(transferDocument);
-    }
-
-    private void initializeDoc(HttpServletRequest request, AssetTransferDocument transferDocument) {
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        if (transferDocument.getAsset() == null && transferDocument.getAssetHeader() == null) {
-            HashMap<String, Object> keys = new HashMap<String, Object>();
-            String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
-            keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-            Asset asset = (Asset) service.findByPrimaryKey(Asset.class, keys);
-            if (asset != null) {
-                transferDocument.setAsset(asset);
-            }
-            else {
-                throw new RuntimeException("Asset is not found for capital asset number " + capitalAssetNumber);
-            }
-        }
-        else {
-            transferDocument.setAsset((Asset) service.retrieve(transferDocument.getAsset()));
-            Asset currAsset = transferDocument.getAsset();
-            SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(currAsset);
-            SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary(currAsset);
-        }
-    }
-
-    private void initializeAssetHeader(AssetTransferDocument transferDocument) {
-        if (transferDocument.getAsset() != null && transferDocument.getDocumentNumber() != null) {
-            AssetHeader assetHeader = new AssetHeader();
-            assetHeader.setDocumentNumber(transferDocument.getDocumentNumber());
-            assetHeader.setCapitalAssetNumber(transferDocument.getAsset().getCapitalAssetNumber());
-            transferDocument.setAssetHeader(assetHeader);
-        }
+        return (AssetTransferDocument) getDocument();
     }
 }

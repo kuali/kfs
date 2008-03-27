@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ attribute name="documentName" type="java.lang.String" required="true" description="Name of the document in the form" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <kul:tab tabTitle="Asset Depreciation Information" defaultOpen="${!defaultTabHide}"> 
@@ -22,39 +21,39 @@
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.primaryDepreciationMethodCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.primaryDepreciationMethodCode" attributeEntry="${assetAttributes.primaryDepreciationMethodCode}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.primaryDepreciationMethodCode" attributeEntry="${assetAttributes.primaryDepreciationMethodCode}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right">Depreciable Lifelimit:</th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.capitalAssetType.depreciableLifeLimit" attributeEntry="${assetAttributes.capitalAssetType.depreciableLifeLimit}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.capitalAssetType.depreciableLifeLimit" attributeEntry="${assetAttributes.capitalAssetType.depreciableLifeLimit}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.baseAmount}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.baseAmount" attributeEntry="${assetAttributes.baseAmount}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.baseAmount" attributeEntry="${assetAttributes.baseAmount}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.salvageAmount}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.salvageAmount" attributeEntry="${assetAttributes.salvageAmount}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.salvageAmount" attributeEntry="${assetAttributes.salvageAmount}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.accumulatedDepreciation}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.accumulatedDepreciation" attributeEntry="${assetAttributes.accumulatedDepreciation}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.accumulatedDepreciation" attributeEntry="${assetAttributes.accumulatedDepreciation}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.bookValue}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.bookValue" attributeEntry="${assetAttributes.bookValue}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.bookValue" attributeEntry="${assetAttributes.bookValue}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.yearToDateDepreciation}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.yearToDateDepreciation" attributeEntry="${assetAttributes.yearToDateDepreciation}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.yearToDateDepreciation" attributeEntry="${assetAttributes.yearToDateDepreciation}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.currentMonthDepreciation}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.currentMonthDepreciation" attributeEntry="${assetAttributes.currentMonthDepreciation}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.currentMonthDepreciation" attributeEntry="${assetAttributes.currentMonthDepreciation}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.prevYearDepreciation}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${documentName}.asset.prevYearDepreciation" attributeEntry="${assetAttributes.prevYearDepreciation}" readOnly="true"/></td>								
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="document.asset.prevYearDepreciation" attributeEntry="${assetAttributes.prevYearDepreciation}" readOnly="true"/></td>								
 			</tr>
 		</table>
 		</div>

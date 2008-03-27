@@ -20,7 +20,6 @@ import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_DATE_OF_SE
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER;
 import static org.kuali.module.cams.CamsPropertyConstants.Asset.VENDOR_NAME;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.*;
 
 import java.util.List;
 
@@ -61,15 +60,24 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
-
-        if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-            hideFields(auths, CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS);
-        }
-        else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-            // If departmental user
-            hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
-        }
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        
+        if(asset.getCapitalAssetNumber() == null) {
+            // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
+            // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
+            hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
+            hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
+        } else {
+            // Asset edit: workgroup authorization
+            if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+                hideFields(auths, CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS);
+            }
+            else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+                // If departmental user
+                hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
+            }
+        }
+        
         hidePaymentSequence(auths, asset);
         return auths;
     }

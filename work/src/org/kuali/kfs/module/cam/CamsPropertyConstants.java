@@ -46,6 +46,22 @@ public class CamsPropertyConstants {
         public static final String CAPITAL_ASSET_DESCRIPTION = "capitalAssetDescription";
         public static final String ASSET_DEPRECIATION_DATE = "depreciationDate";
         public static final String ASSET_PAYMENTS = "assetPayments";
+        public static final String ESTIMATED_SELLING_PRICE = "estimatedSellingPrice";
+        public static final String ESTIMATED_FABRICATION_COMPLETION_DATE = "estimatedFabricationCompletionDate";
+        public static final String FABRICATION_ESTIMATED_TOTAL_AMOUNT = "fabricationEstimatedTotalAmount";
+        public static final String MANUFACTURER_NAME = "manufacturerName";
+        public static final String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
+        public static final String CREATE_DATE = "createDate";
+        public static final String FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE = "financialDocumentPostingPeriodCode";
+        public static final String FINANCIAL_DOCUMENT_POSTING_YEAR = "financialDocumentPostingYear";
+        public static final String REPRESENTATIVE_UNIVERSAL_IDENTIFIER = "representativeUniversalIdentifier";
+        public static final String ASSET_REPRESENTATIVE = "assetRepresentative";
+        public static final String RECEIVE_DATE = "receiveDate";
+        public static final String REPLACEMENT_AMOUNT = "replacementAmount";
+        public static final String SERIAL_NUMBER = "serialNumber";
+        public static final String LAST_INVENTORY_DATE = "lastInventoryDate";
+        public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
+        public static final String FEDERAL_CONTRIBUTION = "federalContribution";
     }
     
     public static class AssetLocation {
@@ -79,6 +95,13 @@ public class CamsPropertyConstants {
         public static final String PROJECT_CODE = "projectCode";
         public static final String PAYMENT_SEQ_NUMBER = "paymentSequenceNumber";
         public static final String TRANSACTION_DC_CODE = "transactionDebitCreditCode";
+        public static final String ORGANIZATION_REFERENCE_ID = "organizationReferenceId";
+        public static final String PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
+        public static final String REQUISITION_NUMBER = "requisitionNumber";
+        public static final String FINANCIAL_DOCUMENT_POSTING_DATE = "financialDocumentPostingDate";
+        public static final String FINANCIAL_DOCUMENT_POSTING_YEAR = "financialDocumentPostingYear";
+        public static final String FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE = "financialDocumentPostingPeriodCode";
+        public static final String ACCOUNT_CHARGE_AMOUNT = "accountChargeAmount";
         
         public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
         public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";        
@@ -105,4 +128,9 @@ public class CamsPropertyConstants {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
 	}
+    
+    public static class AssetOrganization {
+        public static final String ASSET_ORGANIZATION = "assetOrganization";
+        public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";
+    }
 }

@@ -196,7 +196,7 @@
     <bean id="assetLookupableHelperService" class="org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>
 
-    <bean id="assetLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="assetLookupable" class="org.kuali.module.cams.lookup.AssetLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
         </property>

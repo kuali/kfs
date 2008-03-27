@@ -102,9 +102,6 @@ public class DuplicateCertificationsLookupableHelperServiceImpl extends KualiLoo
                 List<String> reportNumbers = employeeIdReportNumberMap.get(emplid);
                 if (!reportNumbers.contains(reportNumber)) {
                     reportNumbers.add(reportNumber);
-                    //TODO: !!!REMOVE THIS BEFORE COMMITTING !!!
-                    if (employeeIdReportNumberMap.get(emplid).contains(reportNumber)) System.out.println("true!!!");
-                    else System.out.println("false!!!");
                 }
             } else {
                 List<String> reportNumbers = new ArrayList<String>();

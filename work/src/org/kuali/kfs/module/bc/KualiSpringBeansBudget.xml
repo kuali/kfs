@@ -71,6 +71,15 @@
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>
+		<property name="documentDao">
+			<ref bean="documentDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>	
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.module.budget.service.impl.BudgetOrganizationTreeServiceImpl">

@@ -120,7 +120,7 @@
                  </maintainableItems>
             </maintainableSection>
 
-            <maintainableSection title="Asset Fabrication Information" id="fabricationInformation">
+            <maintainableSection title="Fabrication Information" id="fabricationInformation">
                 <maintainableItems> 
                     <maintainableField name="estimatedFabricationCompletionDate" />
                     <maintainableField name="fabricationEstimatedTotalAmount" />				

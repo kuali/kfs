@@ -15,8 +15,12 @@
  */
 package org.kuali.module.budget.service;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
@@ -35,6 +39,12 @@ public interface BudgetDocumentService {
      */
     public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
 
+    public Document saveDocument(Document document) throws WorkflowException, ValidationException;
+    
+    public Document saveDocument(Document document, Class kualiDocumentEventClass) throws WorkflowException, ValidationException;
+    
+    
+    
     /**
      * Sets the budgetConstructionDao attribute value.
      * 

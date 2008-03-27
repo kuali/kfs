@@ -39,6 +39,7 @@ import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -48,6 +49,7 @@ import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.RouteContext;
+import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.util.KeyLabelPair;
@@ -133,6 +135,9 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
 
+        public static final String PROJECT_DIRECTOR = "Project Director";
+        public static final String CG_WORKGROUP = "Award Workgroup";
+        public static final String RECREATE_WORKGROUP = "Recreate Workgroup";
     }
 
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
@@ -417,7 +422,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
         return new Row(chartFields);
     }
-    
+
     /**
      * This method builds a workflow-lookup-screen Row of type DROPDOWN.
      * 
@@ -430,7 +435,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @param optionMap The map of value, text pairs that will be used to constuct the dropdown list.
      * @return A populated and ready-to-use workflow lookupable.Row.
      */
-    public static edu.iu.uis.eden.lookupable.Row buildDropdownRow(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map <String, String> optionMap, boolean addBlankRow) {
+    public static edu.iu.uis.eden.lookupable.Row buildDropdownRow(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map<String, String> optionMap, boolean addBlankRow) {
         if (propertyClass == null) {
             throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
         }
@@ -440,24 +445,24 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         if (StringUtils.isBlank(workflowPropertyKey)) {
             throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
         }
-        if (optionMap == null){
+        if (optionMap == null) {
             throw new IllegalArgumentException("Method parameter 'optionMap' was passed a NULL value.");
         }
         List chartFields = new ArrayList();
         org.kuali.core.web.ui.Field field;
         field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-        //Fields in KEW/Rice are different from fields in KFS and there is no common ancestor.
+        // Fields in KEW/Rice are different from fields in KFS and there is no common ancestor.
         Field workflowField = new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.DROPDOWN, false, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey);
         ArrayList optionList = new ArrayList<String>();
-        if (addBlankRow){
-            optionList.add(new KeyLabelPair(null," "));
+        if (addBlankRow) {
+            optionList.add(new KeyLabelPair(null, " "));
         }
-        Iterator <String> options =optionMap.keySet().iterator();
-        while (options.hasNext()){
-            String key =  options.next();
+        Iterator<String> options = optionMap.keySet().iterator();
+        while (options.hasNext()) {
+            String key = options.next();
             optionList.add(new KeyLabelPair(key, optionMap.get(key)));
         }
-        
+
         workflowField.setFieldValidValues(optionList);
         chartFields.add(workflowField);
         return new Row(chartFields);
@@ -504,4 +509,19 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         }
     }
 
+
+    /**
+     * get the route level name of the given workflow document
+     * 
+     * @param workflowDocument the given workflow document
+     * @return the route level name
+     */
+    public static String getRoutingLevelName(KualiWorkflowDocument workflowDocument) {
+        try {
+            return workflowDocument.getDocRouteLevelName();
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Fail to determine the document routing level:" + we);
+        }
+    }
 }

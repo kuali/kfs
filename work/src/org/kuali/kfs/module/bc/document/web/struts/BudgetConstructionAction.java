@@ -242,14 +242,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);  
 
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
         // and calc benefits flag checking and calc benefits if needed
         bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
-        documentService.updateDocument(bcDocument);
+//        documentService.updateDocument(bcDocument);
 
-        // TODO use this instead? research the differences - may need to extend DocumentService and roll our own
+        // TODO use this instead? research the differences - may need to inject DocumentService and roll our own bcdocservice
         // documentService.saveDocument(document);
+        budgetDocumentService.saveDocument(bcDocument);
 
 
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);

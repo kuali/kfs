@@ -28,6 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
@@ -123,7 +124,8 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
             if (ObjectUtils.isNull(payment.getFinancialObject())) {
                 payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             }
-            if (ArrayUtils.contains(parameterService.getParameterValues(Asset.class, "FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES").toArray(), payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            Object[] fedContrTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).toArray();
+            if (ArrayUtils.contains(fedContrTypes, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }

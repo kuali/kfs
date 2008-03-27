@@ -67,7 +67,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         }
         else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
             // If departmental user
-            hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS, CamsConstants.Parameters.DENY_CONSTRAINT));
+            hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
         }
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         hidePaymentSequence(auths, asset);

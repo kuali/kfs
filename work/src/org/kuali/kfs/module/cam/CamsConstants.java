@@ -129,6 +129,7 @@ public class CamsConstants {
         public static final String SECTION_ID_LAND_INFORMATION = "landInformation";
         public static final String SECTION_ID_PAYMENT_INFORMATION = "paymentInformation";
         public static final String SECTION_ID_DEPRECIATION_INFORMATION = "depreciationInformation";
+        public static final String SECTION_ID_HISTORY = "history";
         public static final String SECTION_ID_RETIREMENT_INFORMATION = "retirementInformation";
         public static final String SECTION_ID_EQUIPMENT_LOAN_INFORMATION = "equipmentLoanInformation";
         public static final String SECTION_ID_WARRENTY = "warrenty";
@@ -140,7 +141,7 @@ public class CamsConstants {
             CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.CREATE_DATE, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE,
             CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_YEAR, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER,
             CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT,
-            CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION};
+            CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER};
         public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String [] {
             CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER,
             CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE + "." + KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER,

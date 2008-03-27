@@ -59,7 +59,12 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     public BudgetConstructionForm() {
         super();
+
+        // create objects used to hold data filled later either from this.populate or Action.loadDocument
         setDocument(new BudgetConstructionDocument());
+        this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
+        this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+
         LOG.debug("creating BudgetConstructionForm");
     }
 
@@ -173,9 +178,10 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         // final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject",
         // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
         final List REFRESH_FIELDS;
-        if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())){
+        if (StringUtils.isNotBlank(line.getFinancialSubObjectCode())) {
             REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, KFSPropertyConstants.FINANCIAL_SUB_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
-        } else {
+        }
+        else {
             REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.FINANCIAL_OBJECT, BCPropertyConstants.BUDGET_CONSTRUCTION_MONTHLY }));
         }
         // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
@@ -197,10 +203,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the newExpenditureLine.
      */
     public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
-        if (this.newExpenditureLine == null) {
-            this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
-            this.initNewLine(newExpenditureLine, false);
-        }
         return newExpenditureLine;
     }
 
@@ -219,10 +221,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the newRevenueLine.
      */
     public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
-        if (this.newRevenueLine == null) {
-            this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-            this.initNewLine(newRevenueLine, true);
-        }
         return newRevenueLine;
     }
 
@@ -236,11 +234,14 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * This sets the default fields not setable by the user for added lines
+     * Sets the defaults for fields not setable by the user for added lines. This assumes the document has been explictly loaded and
+     * contains primary and candidate key values as in BudgetConstructionAction.loadDocument() or that populate reloads the values
+     * from the JSP.
      * 
      * @param line
+     * @param isRevenue
      */
-    private void initNewLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue) {
+    public void initNewLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue) {
 
         OptionsService optionsService = SpringContext.getBean(OptionsService.class);
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();

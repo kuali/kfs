@@ -149,6 +149,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
+        
+        // init the new line objects
+        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine(),true);
+        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewExpenditureLine(),false);
 
         // need this here to do totaling on initial load
         budgetConstructionForm.populatePBGLLines();
@@ -577,6 +581,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // TODO do things specific to returning from MonthlyBudget
             // like refreshing the line itself if the monthly budget process overrides the annual request
             // this would need to know what line to operate on
+            // might not need since monthly process should just update the value directly in DB and form session object
 
         }
         // TODO populate should already handle all this

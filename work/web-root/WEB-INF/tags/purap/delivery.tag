@@ -28,7 +28,7 @@
 <c:set var="displayReceivingAddress" value="${(not empty KualiForm.editingMode['displayReceivingAddress'])}" />
 <c:set var="lockAddressToVendor" value="${(not empty KualiForm.editingMode['lockAddressToVendor'])}" />
 
-<kul:tab tabTitle="Delivery" defaultOpen="false" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
+<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
     
     	<!---- Final Delivery ---->

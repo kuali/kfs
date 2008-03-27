@@ -53,7 +53,7 @@
   </c:otherwise> 
 </c:choose>  
 
-<kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
         <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.vendorDetailAssignedIdentifier" />

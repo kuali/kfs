@@ -15,6 +15,8 @@
  */
 package org.kuali.module.vendor.rules;
 
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +41,7 @@ import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.PersistenceService;
@@ -793,9 +796,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
             String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + ".";
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
-            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_LINE_1, KFSKeyConstants.ERROR_REQUIRED, KFSPropertyConstants.ADDRESS_LINE1);
-            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_CITY, KFSKeyConstants.ERROR_REQUIRED, KFSPropertyConstants.CITY);
-            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_COUNTRY, KFSKeyConstants.ERROR_REQUIRED, KFSPropertyConstants.COUNTRY_CODE);
+            String addressLine1Label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_LINE_1);
+            String addressCityLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_CITY);
+            String addressCountryLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_COUNTRY);
+            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_LINE_1, KFSKeyConstants.ERROR_REQUIRED, addressLine1Label);
+            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_CITY, KFSKeyConstants.ERROR_REQUIRED, addressCityLabel);
+            putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_COUNTRY, KFSKeyConstants.ERROR_REQUIRED, addressCountryLabel);
             valid = false;
 
         }

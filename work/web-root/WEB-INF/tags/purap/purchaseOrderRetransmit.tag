@@ -68,9 +68,9 @@
                 </tr>
                 <tr>
                     <th align=left valign=top class="datacell" colspan=8>
-                        <input type="image" name="methodToCall.selectAllForRetransmit" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
+                        <input type="image" name="methodToCall.selectAllForRetransmit" src="${ConfigProperties.externalizable.images.url}tinybutton-selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
 		  		        &nbsp;&nbsp;
-                        <input type="image" name="methodToCall.deselectAllForRetransmit" src="${ConfigProperties.externalizable.images.url}buttonsmall_deselect.gif" alt="Deselect all items." hspace=4 align=absmiddle>
+                        <input type="image" name="methodToCall.deselectAllForRetransmit" src="${ConfigProperties.externalizable.images.url}tinybutton-deselectall.gif" alt="Deselect all items." hspace=4 align=absmiddle>
                     </th>
                 </tr>
                 <tr>

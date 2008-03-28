@@ -253,7 +253,6 @@
 	</bean>
 
 	<bean id="budgetConstructionOrganizationJasperReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationJasperReportsServiceImpl">
-	<property name="resourceBundleBaseName" value="org/kuali/module/budget/report/BudgetOrgReport" />
 	</bean>
 
 	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">

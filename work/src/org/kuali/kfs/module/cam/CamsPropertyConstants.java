@@ -25,7 +25,7 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String PRIMARY_DEPRECIATION_METHOD = "primaryDepreciationMethodCode";
-        public static final String SALVAGE_AMOUNT = "salvageAmount";        
+        public static final String SALVAGE_AMOUNT = "salvageAmount";
         public static final String ASSET_DATE_OF_SERVICE = "capitalAssetInServiceDate";
         public static final String ASSET_RETIREMENT_FISCAL_YEAR = "retirementFiscalYear";
         public static final String ASSET_RETIREMENT_FISCAL_MONTH = "retirementPeriodCode";
@@ -63,7 +63,7 @@ public class CamsPropertyConstants {
         public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
         public static final String FEDERAL_CONTRIBUTION = "federalContribution";
     }
-    
+
     public static class AssetLocation {
         public static final String ASSET_LOCATION_CONTACT_NAME = "offCampusLocation.assetLocationContactName";
         public static final String ASSET_LOCATION_STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -73,11 +73,12 @@ public class CamsPropertyConstants {
         public static final String ASSET_LOCATION_COUNTRY_CODE = "offCampusLocation.assetLocationCountryCode";
     }
 
-	public static class AssetHeader {
+    public static class AssetHeader {
         public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String DOCUMENT_HEADER = "documentHeader";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
-    
+
     public static class AssetObject {
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
@@ -102,33 +103,33 @@ public class CamsPropertyConstants {
         public static final String FINANCIAL_DOCUMENT_POSTING_YEAR = "financialDocumentPostingYear";
         public static final String FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE = "financialDocumentPostingPeriodCode";
         public static final String ACCOUNT_CHARGE_AMOUNT = "accountChargeAmount";
-        
+
         public static final String PRIMARY_DEPRECIATION_BASE_AMOUNT = "primaryDepreciationBaseAmount";
-        public static final String ACCUMULATED_DEPRECIATION_AMOUNT="accumulatedPrimaryDepreciationAmount";        
-        public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT="previousYearPrimaryDepreciationAmount";
-        public static final String PERIOD_1_DEPRECIATION_AMOUNT="period1Depreciation1Amount";
-        public static final String PERIOD_2_DEPRECIATION_AMOUNT="period2Depreciation1Amount";
-        public static final String PERIOD_3_DEPRECIATION_AMOUNT="period3Depreciation1Amount";
-        public static final String PERIOD_4_DEPRECIATION_AMOUNT="period4Depreciation1Amount";
-        public static final String PERIOD_5_DEPRECIATION_AMOUNT="period5Depreciation1Amount";
-        public static final String PERIOD_6_DEPRECIATION_AMOUNT="period6Depreciation1Amount";
-        public static final String PERIOD_7_DEPRECIATION_AMOUNT="period7Depreciation1Amount";
-        public static final String PERIOD_8_DEPRECIATION_AMOUNT="period8Depreciation1Amount";
-        public static final String PERIOD_9_DEPRECIATION_AMOUNT="period9Depreciation1Amount";
-        public static final String PERIOD_10_DEPRECIATION_AMOUNT="period10Depreciation1Amount";
-        public static final String PERIOD_11_DEPRECIATION_AMOUNT="period11Depreciation1Amount";
-        public static final String PERIOD_12_DEPRECIATION_AMOUNT="period12Depreciation1Amount";        
+        public static final String ACCUMULATED_DEPRECIATION_AMOUNT = "accumulatedPrimaryDepreciationAmount";
+        public static final String PREVIOUS_YEAR_DEPRECIATION_AMOUNT = "previousYearPrimaryDepreciationAmount";
+        public static final String PERIOD_1_DEPRECIATION_AMOUNT = "period1Depreciation1Amount";
+        public static final String PERIOD_2_DEPRECIATION_AMOUNT = "period2Depreciation1Amount";
+        public static final String PERIOD_3_DEPRECIATION_AMOUNT = "period3Depreciation1Amount";
+        public static final String PERIOD_4_DEPRECIATION_AMOUNT = "period4Depreciation1Amount";
+        public static final String PERIOD_5_DEPRECIATION_AMOUNT = "period5Depreciation1Amount";
+        public static final String PERIOD_6_DEPRECIATION_AMOUNT = "period6Depreciation1Amount";
+        public static final String PERIOD_7_DEPRECIATION_AMOUNT = "period7Depreciation1Amount";
+        public static final String PERIOD_8_DEPRECIATION_AMOUNT = "period8Depreciation1Amount";
+        public static final String PERIOD_9_DEPRECIATION_AMOUNT = "period9Depreciation1Amount";
+        public static final String PERIOD_10_DEPRECIATION_AMOUNT = "period10Depreciation1Amount";
+        public static final String PERIOD_11_DEPRECIATION_AMOUNT = "period11Depreciation1Amount";
+        public static final String PERIOD_12_DEPRECIATION_AMOUNT = "period12Depreciation1Amount";
     }
-    
+
     public static class AssetType {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }
-    
+
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
-	}
-    
+    }
+
     public static class AssetOrganization {
         public static final String ASSET_ORGANIZATION = "assetOrganization";
         public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";

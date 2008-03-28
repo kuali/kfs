@@ -15,23 +15,28 @@
  */
 package org.kuali.module.cams.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.bo.Building;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.bo.State;
-import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
-public class AssetTransferDocument extends AccountingDocumentBase {
+public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
 
     private String representativeUniversalIdentifier;
     private String campusCode;
@@ -645,11 +650,27 @@ public class AssetTransferDocument extends AccountingDocumentBase {
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
+        String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
         // if status is approved
-        // save new asset location details to asset table, inventory date
-        // create new asset payment records and offset payment records
+        if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
+            // save new asset location details to asset table, inventory date
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+            List<PersistableBusinessObject> objects = new ArrayList<PersistableBusinessObject>();
+            savechangesToAsset(boService, objects);
+            boService.save(objects);
+            // create new asset payment records and offset payment records
+        }
     }
 
+
+    private void savechangesToAsset(BusinessObjectService boService, List<PersistableBusinessObject> objects) {
+        Asset saveAsset = new Asset();
+        saveAsset.setCapitalAssetNumber(getAssetHeader().getCapitalAssetNumber());
+        saveAsset = (Asset) boService.retrieve(saveAsset);
+        saveAsset.setOrganizationOwnerAccountNumber(getOrganizationOwnerAccountNumber());
+        saveAsset.setOrganizationOwnerChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
+        objects.add(saveAsset);
+    }
 
     public Asset getAsset() {
         return asset;
@@ -662,15 +683,9 @@ public class AssetTransferDocument extends AccountingDocumentBase {
 
 
     @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public void prepareForSave() {
         super.prepareForSave();
-        System.out.println("Check values from input");
+
     }
 
 

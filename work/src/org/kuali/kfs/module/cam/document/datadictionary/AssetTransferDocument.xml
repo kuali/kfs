@@ -39,7 +39,7 @@
                 <label>Building Code</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
                 <control>
                     <text size="12" />
                 </control>
@@ -51,7 +51,7 @@
                 <label>Building Room Number</label>
                 <shortLabel>Number</shortLabel>
                 <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
                 <control>
                     <text size="10" />
                 </control>
@@ -63,7 +63,7 @@
                 <label>Building Sub Room Number</label>
                 <shortLabel>Number</shortLabel>
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>
                     <text size="4" />
                 </control>
@@ -75,7 +75,7 @@
                 <label>Campus</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
                 <control>
                     <text size="4" />
                 </control>
@@ -98,7 +98,7 @@
                 <label>Address</label>
                 <shortLabel>Address</shortLabel>
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>
                     <text size="32" />
                 </control>
@@ -110,7 +110,7 @@
                 <label>City Name</label>
                 <shortLabel>Name</shortLabel>
                 <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>
                     <text size="27" />
                 </control>
@@ -122,7 +122,7 @@
                 <label>State</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
                 <control>
                     <text size="4" />
                 </control>
@@ -134,7 +134,7 @@
                 <label>Zip</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>
                     <text size="11" />
                 </control>
@@ -146,7 +146,7 @@
                 <label>Organization Code</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
                 <control>
                     <text size="6" />
                 </control>
@@ -158,7 +158,7 @@
                 <label>Organization Inventory Name</label>
                 <shortLabel>Name</shortLabel>
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>
                     <text size="42" />
                 </control>
@@ -171,7 +171,7 @@
                 <label>Organization Owner Account Number</label>
                 <shortLabel>Number</shortLabel>
                 <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
 				<required>true</required>
                 <control>
                     <text size="9" />
@@ -185,7 +185,7 @@
                 <label>Organization Owner Chart Of Accounts Code</label>
                 <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
 				<required>true</required>
                 <control>
                     <text size="4" />
@@ -200,7 +200,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="10" />
@@ -215,7 +215,7 @@
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>
@@ -229,7 +229,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
 
                 <control>
                     <text size="16" />
@@ -273,7 +273,7 @@
                 
                 <maxLength>4</maxLength>
                 <validationPattern>
-                    <anyCharacter />
+                    <anyCharacter allowWhitespace="false" />
                 </validationPattern>
                 <required>false</required>
 
@@ -289,7 +289,6 @@
         	Asset Transfer Document
         </description>        
         <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>
-        
+        <allowsErrorCorrection>false</allowsErrorCorrection>        
     </transactionalDocument>
 </dictionaryEntry>

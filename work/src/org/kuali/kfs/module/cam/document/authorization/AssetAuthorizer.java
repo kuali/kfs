@@ -42,8 +42,6 @@ import org.kuali.module.cams.bo.Asset;
  * AssetAuthorizer for Asset edit.
  */
 public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    // TODO Use system parameter
-    private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
 
     // TODO Use System parameter
     private static final String[] CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, VENDOR_NAME, ASSET_DATE_OF_SERVICE };
@@ -61,13 +59,14 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-        
-        if(asset.getCapitalAssetNumber() == null) {
+
+        if (asset.getCapitalAssetNumber() == null) {
             // fabrication request asset creation. Hide fields that are only applicable to asset fabrication. For
             // sections that are to be hidden on asset fabrication see AssetMaintainableImpl.getCoreSections
             hideFields(auths, CamsConstants.Asset.EDIT_DETAIL_INFORMATION_FIELDS);
             hideFields(auths, CamsConstants.Asset.EDIT_ORGANIZATION_INFORMATION_FIELDS);
-        } else {
+        }
+        else {
             // Asset edit: workgroup authorization
             if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
                 hideFields(auths, CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS);
@@ -77,7 +76,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
                 hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.DEPARTMENT_VIEWABLE_FIELDS));
             }
         }
-        
+
         hidePaymentSequence(auths, asset);
         return auths;
     }
@@ -109,7 +108,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        if (ArrayUtils.contains(RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+        if (ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

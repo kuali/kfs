@@ -27,6 +27,8 @@ public class CamsConstants {
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
     public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
     public static final String TRANSFER_PAYMENT_CODE_N = "N";
+    //TODO System parameter
+    public static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
 
     public static class AssetActions {
         public static final String LOAN = "loan";
@@ -114,6 +116,7 @@ public class CamsConstants {
     // TODO:replaced by system parameter
     public static final String CAPITAL_ASSET_STATUS_CODES = "A,C,U,S,R";
     public static final String DOC_APPROVED = "A";
+    public static final String DOC_INITIATED = "?";
 
     public static class AssetHeader {
         public static final String DOCUMENT_HEADER = "documentHeader";

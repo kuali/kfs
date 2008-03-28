@@ -15,23 +15,10 @@
  */
 package org.kuali.module.cams.web.struts.form;
 
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.AssetOrganization;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.service.AssetLocationService;
-import org.kuali.module.cams.service.PaymentSummaryService;
 
-public class AssetTransferForm extends KualiAccountingDocumentFormBase {
+public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
 
     public AssetTransferForm() {
         super();

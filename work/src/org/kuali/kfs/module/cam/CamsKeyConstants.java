@@ -67,4 +67,9 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_ASSET_STATUS_CHANGE = "error.invalid.asset.status.change";
     public static final String ERROR_ASSET_RETIRED_NOEDIT = "error.asset.retired.noedit";
     
+    public static class Transfer{
+        public static final String ERROR_ASSET_DOCS_PENDING = "error.asset.pending.docs";
+        public static final String ERROR_ASSET_RETIRED_NOTRANSFER = "error.asset.retired.notransfer";
+    }
+    
 }

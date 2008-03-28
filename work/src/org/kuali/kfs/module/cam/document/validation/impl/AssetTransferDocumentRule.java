@@ -18,24 +18,24 @@ package org.kuali.module.cams.rules;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 
-public class AssetTransferDocumentRule extends AccountingDocumentRuleBase {
+public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
+    public static final String DOCUMENT_NUMBER_PATH = "documentNumber";
+    public static final String DOCUMENT_PATH = "document";
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        // TODO Auto-generated method stub
         return true;
     }
 

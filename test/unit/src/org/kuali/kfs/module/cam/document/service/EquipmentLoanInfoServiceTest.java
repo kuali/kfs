@@ -17,13 +17,12 @@ package org.kuali.module.cams.service;
 
 import java.util.Date;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.EquipmentLoanOrReturn;
+import org.kuali.module.cams.service.impl.AssetHeaderServiceImpl;
 import org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl;
 
 public class EquipmentLoanInfoServiceTest extends KualiTestBase {
@@ -38,10 +37,11 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         equipmentLoanInfoService = new EquipmentLoanInfoServiceImpl();
-        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderService() {
+        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderServiceImpl() {
             public boolean isDocumentApproved(AssetHeader assetHeader) {
                 return true;
             }
+
         });
         this.asset = new Asset();
     }
@@ -76,7 +76,7 @@ public class EquipmentLoanInfoServiceTest extends KualiTestBase {
     }
 
     public void testSetEquipmentLoanInfo_Disapproved() throws Exception {
-        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderService() {
+        this.equipmentLoanInfoService.setAssetHeaderService(new AssetHeaderServiceImpl() {
             public boolean isDocumentApproved(AssetHeader assetHeader) {
                 return false;
             }

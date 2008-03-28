@@ -15,12 +15,13 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true" htmlFormAction="camsAssetTransfer" documentTypeName="AssetTransferDocument" renderMultipart="true" showTabButtons="true">
-	<kul:hiddenDocumentFields />
+	<kul:hiddenDocumentFields isFinancialDocument="false" />
 	<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<html:hidden property="document.asset.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.documentNumber" />
+	<html:hidden property="document.assetHeader.versionNumber" />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<kul:tab tabTitle="Asset" defaultOpen="true"> 
 	    <div class="tab-container" align="center">
@@ -206,8 +207,8 @@
 		</table>
 		</div>
 	</kul:tab>		
-	<cams:viewDepreciationInfo defaultTabHide="true" />
 	<cams:viewPayments defaultTabHide="true" assetPayments="${KualiForm.document.asset.assetPayments}" />
+	<cams:viewDepreciationInfo defaultTabHide="true" />
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

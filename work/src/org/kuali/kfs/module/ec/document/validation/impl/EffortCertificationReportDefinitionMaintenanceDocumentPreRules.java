@@ -19,9 +19,9 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
@@ -39,7 +39,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
         boolean preRulesFlag = true;
         EffortCertificationReportDefinition reportDefinition = (EffortCertificationReportDefinition) ((MaintenanceDocument) arg0).getNewMaintainableObject().getBusinessObject();
 
-        //if any of these required fields is null, do not check rule - allow framework to do required fields validations first
+        // if any of these required fields is null, do not check rule - allow framework to do required fields validations first
         if (reportDefinition.getEffortCertificationReportBeginFiscalYear() == null || reportDefinition.getEffortCertificationReportBeginPeriodCode() == null || reportDefinition.getEffortCertificationReportEndFiscalYear() == null || reportDefinition.getEffortCertificationReportEndPeriodCode() == null)
             return true;
 
@@ -49,9 +49,9 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
     }
 
     /**
+     * Checks for exisiting report definitions whoose periods overlap this report definition and warns the user. User can decide to
+     * continue or correct the report defintion
      * 
-     * Checks for exisiting report definitions whoose periods overlap this report definition and warns the user.
-     * User can decide to continue or correct the report defintion
      * @param reportDefinition
      * @return boolean true to continue, false to correct the report definition
      */
@@ -59,8 +59,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
         boolean isOverlapping = SpringContext.getBean(EffortCertificationAutomaticReportPeriodUpdateService.class).isAnOverlappingReportDefinition(reportDefinition);
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
         if (isOverlapping) {
-            //TODO what should be used for the key value?
-            boolean correctOverlappingReportDefinition = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
+            boolean correctOverlappingReportDefinition = super.askOrAnalyzeYesNoQuestion(EffortConstants.GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID, questionText);
             if (correctOverlappingReportDefinition) {
                 super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                 return false;

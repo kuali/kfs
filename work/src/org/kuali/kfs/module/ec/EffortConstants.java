@@ -98,6 +98,8 @@ public class EffortConstants extends JstlConstants {
     
     public static final String RECREATED_DOCUMENT_MESSAGE_KEY = "message.effort.recreatedDocumentMessage";
     
+    public static final String GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID = "GenerateDefinitionQuestion";
+    
     public static class EffortCertificationEditMode extends TransactionalEditMode {
         public static final String PROJECT_ENTRY = "projectEntry";
     }

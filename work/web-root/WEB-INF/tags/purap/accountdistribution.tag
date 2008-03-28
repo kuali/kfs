@@ -31,12 +31,12 @@
 	<c:if test="${KualiForm.hideDistributeAccounts}">
 		<html:image
 		property="methodToCall.setupAccountDistribution"
-		src="${ConfigProperties.externalizable.images.url}tinybutton-setaccdist.gif"
+		src="${ConfigProperties.externalizable.images.url}tinybutton-setdist.gif"
 		alt="setup account distribution" title="setup account distribution"
 		styleClass="tinybutton" />
 	</c:if>
 	<c:if test="${!KualiForm.hideDistributeAccounts}">
-		<img src="${ConfigProperties.externalizable.images.url}tinybutton-setaccdist-dis.gif"
+		<img src="${ConfigProperties.externalizable.images.url}tinybutton-setdist1.gif"
 		alt="setup account distribution" border="0"
 		styleClass="tinybutton" />
 	</c:if>
@@ -49,7 +49,7 @@
 	
     <html:image
     property="methodToCall.clearItemsCommodityCodes"
-    src="${ConfigProperties.externalizable.images.url}tinybutton-clear1.gif"
+    src="${ConfigProperties.externalizable.images.url}tinybutton-remcomcod.gif"
     alt="remove commodity codes from all items"
     title="remove commodity codes from all items" styleClass="tinybutton" />
     </div>

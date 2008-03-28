@@ -27,11 +27,11 @@ public class ArConstants {
     public static final String ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG = "error.ar.OrganizationOptionsMustBeSet";
     public static final String ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL = "error.ar.CustomerPaymentMediumCannotBeNull";
     public static final String ERROR_PAYMENT_MEDIUM_IS_NOT_VALID = "error.ar.CustomerPaymentMediumIsNotValid";
-    public static final String ERROR_ONLY_ONE_NEGATIVE_LINE_AMOUNT_ALLOWED = "error.ar.OnlyOneNegativeLineAmountAllowed";
     public static final String ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED = "error.ar.AllApplicationDocumentsMustBeApproved";
-    public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN ="error.ar.DeleteAddApplicationDocNotAllowedAfterRefDocGenerated";
-    public static final String ERROR_NO_LINES_TO_PROCESS ="error.ar.NoLinesToProcess";
-    public static final String MESSAGE_NEGATIVE_LINE_AMOUNTS_ARCORRECTIONS_ONE_PER_CTRL_DOC = "message.ar.NegativeLineAmountsARCorrectionsOnePerCTRLDoc";
+    public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN = "error.ar.DeleteAddApplicationDocNotAllowedAfterRefDocGenerated";
+    public static final String ERROR_NO_LINES_TO_PROCESS = "error.ar.NoLinesToProcess";
+    public static final String ERROR_LINE_AMOUNT_CANNOT_BE_ZERO = "error.ar.LineAmountCannotBeZero";
+    public static final String ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE = "error.ar.LineAmountCannotBeNegative";
     public static final String CASH_CONTROL_TOTAL = "ar.CashControlTotal";
     
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
@@ -102,10 +102,6 @@ public class ArConstants {
     public static class OrganizationAccountingOptionsConstants {
         public static final String SHOW_EDIT_PAYMENTS_DEFAULTS_TAB = "3";
         public static final String NAME_OF_THE_TAB_TO_HIDE = "Edit Organization Accounting Payment Defaults";
-    }
-    
-    public static class CashControlDocumentConstants {
-        public static final String AR_CORRECTION_DOCUMENT_NBR_VAL = "--------------";
     }
     
 }

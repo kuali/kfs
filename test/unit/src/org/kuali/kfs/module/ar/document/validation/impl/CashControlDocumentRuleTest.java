@@ -79,30 +79,18 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
         document.addCashControlDetail(detail1);
 
-        CashControlDetail detail2 = new CashControlDetail();
-        detail2.setFinancialDocumentLineAmount(NEGATIVE_AMOUNT);
-        document.addCashControlDetail(detail2);
-
         assertTrue(rule.validateCashControlDetails(document));
 
     }
 
     /**
-     * This method tests if validateCashControlDetails rule returns false when passed more than one negative line amount
+     * This method tests if validateCashControlDetails rule returns false when passed a negative line amount
      */
-    public void testValidateCashControlDetails_One_Negative_False() {
+    public void testValidateCashControlDetails_Negative_False() {
 
         CashControlDetail detail1 = new CashControlDetail();
-        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+        detail1.setFinancialDocumentLineAmount(NEGATIVE_AMOUNT);
         document.addCashControlDetail(detail1);
-
-        CashControlDetail detail2 = new CashControlDetail();
-        detail2.setFinancialDocumentLineAmount(NEGATIVE_AMOUNT);
-        document.addCashControlDetail(detail2);
-
-        CashControlDetail detail3 = new CashControlDetail();
-        detail3.setFinancialDocumentLineAmount(NEGATIVE_AMOUNT);
-        document.addCashControlDetail(detail3);
 
         assertFalse(rule.validateCashControlDetails(document));
     }
@@ -250,27 +238,6 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         assertFalse(rule.checkReferenceDocumentNumberNotGenerated(document));
 
-    }
-    
-    /**
-     * This method that checkTotalAmountNotZero rule returns true if cash control total amount is not zero
-     */
-    public void testCheckTotalAmountNotZero_True() {
-
-        CashControlDetail detail = new CashControlDetail();
-        detail.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
-        document.addCashControlDetail(detail);
-
-        assertTrue(rule.checkTotalAmountNotZero(document));
-
-    }
-
-    /**
-     * This method that checkTotalAmountNotZero rule returns false if cash control total amount is zero
-     */
-    public void testCheckTotalAmountNotZero_False() {
-
-        assertFalse(rule.checkTotalAmountNotZero(document));
     }
 
 }

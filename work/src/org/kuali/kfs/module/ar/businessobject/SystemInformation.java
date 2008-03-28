@@ -1,26 +1,15 @@
 package org.kuali.module.ar.bo;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.core.bo.user.*;
-import org.kuali.module.kra.routingform.bo.*;
 import java.util.LinkedHashMap;
-import org.kuali.module.financial.bo.*;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.cg.bo.*;
-import org.kuali.module.chart.bo.codes.*;
-import org.kuali.module.purap.bo.*;
-import org.kuali.module.cams.bo.*;
-import org.kuali.kfs.bo.*;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.*;
-import org.kuali.module.kra.budget.bo.*;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.ar.bo.*;
-import org.kuali.module.budget.bo.*;
-import org.kuali.module.labor.bo.*;
+
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.State;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.core.bo.*;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -42,7 +31,15 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private String creditCardObjectCode;
 	private String lockboxNumber;
 	private boolean active;
-
+    private String organizationRemitToAddressName;
+    private String organizationRemitToLine1StreetAddress;
+    private String organizationRemitToLine2StreetAddress;
+    private String organizationRemitToCityName;
+    private String organizationRemitToStateCode;
+    private String organizationRemitToZipCode;
+    private String organizationCheckPayableToName;
+    private String financialDocumentInitiatorIdentifier;
+   
     private ObjectCode adjustmentFinancialObject;
 	private ObjectCode salesTaxFinancialObject;
 	private ObjectCode creditCardFinancialObject;
@@ -56,6 +53,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private Chart universityClearingChartOfAccounts;
     private SubAccount universityClearingSubAccount;
     private ObjectCode universityFiscalY;
+    private State organizationRemitToState;
     
 	/**
 	 * Default constructor.
@@ -378,8 +376,135 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 		this.active = active;
 	}
 
-
 	/**
+     * Gets the financialDocumentInitiatorIdentifier attribute. 
+     * @return Returns the financialDocumentInitiatorIdentifier.
+     */
+    public String getFinancialDocumentInitiatorIdentifier() {
+        return financialDocumentInitiatorIdentifier;
+    }
+
+    /**
+     * Sets the financialDocumentInitiatorIdentifier attribute value.
+     * @param financialDocumentInitiatorIdentifier The financialDocumentInitiatorIdentifier to set.
+     */
+    public void setFinancialDocumentInitiatorIdentifier(String financialDocumentInitiatorIdentifier) {
+        this.financialDocumentInitiatorIdentifier = financialDocumentInitiatorIdentifier;
+    }
+
+    /**
+     * Gets the organizationCheckPayableToName attribute. 
+     * @return Returns the organizationCheckPayableToName.
+     */
+    public String getOrganizationCheckPayableToName() {
+        return organizationCheckPayableToName;
+    }
+
+    /**
+     * Sets the organizationCheckPayableToName attribute value.
+     * @param organizationCheckPayableToName The organizationCheckPayableToName to set.
+     */
+    public void setOrganizationCheckPayableToName(String organizationCheckPayableToName) {
+        this.organizationCheckPayableToName = organizationCheckPayableToName;
+    }
+
+    /**
+     * Gets the organizationRemitToAddressName attribute. 
+     * @return Returns the organizationRemitToAddressName.
+     */
+    public String getOrganizationRemitToAddressName() {
+        return organizationRemitToAddressName;
+    }
+
+    /**
+     * Sets the organizationRemitToAddressName attribute value.
+     * @param organizationRemitToAddressName The organizationRemitToAddressName to set.
+     */
+    public void setOrganizationRemitToAddressName(String organizationRemitToAddressName) {
+        this.organizationRemitToAddressName = organizationRemitToAddressName;
+    }
+
+    /**
+     * Gets the organizationRemitToCityName attribute. 
+     * @return Returns the organizationRemitToCityName.
+     */
+    public String getOrganizationRemitToCityName() {
+        return organizationRemitToCityName;
+    }
+
+    /**
+     * Sets the organizationRemitToCityName attribute value.
+     * @param organizationRemitToCityName The organizationRemitToCityName to set.
+     */
+    public void setOrganizationRemitToCityName(String organizationRemitToCityName) {
+        this.organizationRemitToCityName = organizationRemitToCityName;
+    }
+
+    /**
+     * Gets the organizationRemitToLine1StreetAddress attribute. 
+     * @return Returns the organizationRemitToLine1StreetAddress.
+     */
+    public String getOrganizationRemitToLine1StreetAddress() {
+        return organizationRemitToLine1StreetAddress;
+    }
+
+    /**
+     * Sets the organizationRemitToLine1StreetAddress attribute value.
+     * @param organizationRemitToLine1StreetAddress The organizationRemitToLine1StreetAddress to set.
+     */
+    public void setOrganizationRemitToLine1StreetAddress(String organizationRemitToLine1StreetAddress) {
+        this.organizationRemitToLine1StreetAddress = organizationRemitToLine1StreetAddress;
+    }
+
+    /**
+     * Gets the organizationRemitToLine2StreetAddress attribute. 
+     * @return Returns the organizationRemitToLine2StreetAddress.
+     */
+    public String getOrganizationRemitToLine2StreetAddress() {
+        return organizationRemitToLine2StreetAddress;
+    }
+
+    /**
+     * Sets the organizationRemitToLine2StreetAddress attribute value.
+     * @param organizationRemitToLine2StreetAddress The organizationRemitToLine2StreetAddress to set.
+     */
+    public void setOrganizationRemitToLine2StreetAddress(String organizationRemitToLine2StreetAddress) {
+        this.organizationRemitToLine2StreetAddress = organizationRemitToLine2StreetAddress;
+    }
+
+    /**
+     * Gets the organizationRemitToStateCode attribute. 
+     * @return Returns the organizationRemitToStateCode.
+     */
+    public String getOrganizationRemitToStateCode() {
+        return organizationRemitToStateCode;
+    }
+
+    /**
+     * Sets the organizationRemitToStateCode attribute value.
+     * @param organizationRemitToStateCode The organizationRemitToStateCode to set.
+     */
+    public void setOrganizationRemitToStateCode(String organizationRemitToStateCode) {
+        this.organizationRemitToStateCode = organizationRemitToStateCode;
+    }
+
+    /**
+     * Gets the organizationRemitToZipCode attribute. 
+     * @return Returns the organizationRemitToZipCode.
+     */
+    public String getOrganizationRemitToZipCode() {
+        return organizationRemitToZipCode;
+    }
+
+    /**
+     * Sets the organizationRemitToZipCode attribute value.
+     * @param organizationRemitToZipCode The organizationRemitToZipCode to set.
+     */
+    public void setOrganizationRemitToZipCode(String organizationRemitToZipCode) {
+        this.organizationRemitToZipCode = organizationRemitToZipCode;
+    }
+
+    /**
 	 * Gets the adjustmentFinancialObject attribute.
 	 * 
 	 * @return Returns the adjustmentFinancialObject
@@ -617,6 +742,23 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     }    
     
 	/**
+     * Gets the organizationRemitToState attribute. 
+     * @return Returns the organizationRemitToState.
+     */
+    public State getOrganizationRemitToState() {
+        return organizationRemitToState;
+    }
+
+    /**
+     * Sets the organizationRemitToState attribute value.
+     * @param organizationRemitToState The organizationRemitToState to set.
+     * @deprecated
+     */
+    public void setOrganizationRemitToState(State organizationRemitToState) {
+        this.organizationRemitToState = organizationRemitToState;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

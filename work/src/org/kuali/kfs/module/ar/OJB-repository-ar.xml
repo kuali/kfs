@@ -818,6 +818,14 @@
 	<field-descriptor name="creditCardObjectCode" column="PMT_CLR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lockboxNumber" column="AR_LOCKBOX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="organizationRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToLine1StreetAddress" column="ORG_REMIT_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToLine2StreetAddress" column="ORG_REMIT_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToCityName" column="ORG_REMIT_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToStateCode" column="ORG_REMIT_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="adjustmentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -879,6 +887,9 @@
 	<reference-descriptor name="universityClearingChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 	</reference-descriptor>
+    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="organizationRemitToStateCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.InvoicePaidAppliedMove" table="AR_INV_PD_APLD_MT">

@@ -1240,6 +1240,10 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+
     <collection-descriptor name="appliedPayments" element-class-ref="org.kuali.module.ar.bo.InvoicePaidApplied" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

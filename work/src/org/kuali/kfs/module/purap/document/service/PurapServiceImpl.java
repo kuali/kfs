@@ -39,7 +39,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -47,18 +46,14 @@ import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.bo.PurapEnterableItem;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurapItemOperations;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.LogicContainer;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
-import org.kuali.module.purap.service.PurapAccountingService;
-import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.vendor.service.VendorService;
@@ -392,17 +387,16 @@ public class PurapServiceImpl implements PurapService {
      * 
      * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
      */
-    public void deleteUnenteredItems(AccountsPayableDocument apDocument) {
+    public void deleteUnenteredItems(PurapItemOperations document) {
         LOG.debug("deleteUnenteredItems() started");
         
-        List<AccountsPayableItem> deletionList = new ArrayList<AccountsPayableItem>();
-        for (PurApItem item : (List<PurApItem>) apDocument.getItems()) {
-            AccountsPayableItem apItem = (AccountsPayableItem) item;
-            if (!apItem.isConsideredEntered()) {
-                deletionList.add(apItem);
+        List<PurapEnterableItem> deletionList = new ArrayList<PurapEnterableItem>();
+        for (PurapEnterableItem item : (List<PurapEnterableItem>) document.getItems()) {
+            if (!item.isConsideredEntered()) {
+                deletionList.add(item);
             }
         }
-        apDocument.getItems().removeAll(deletionList);
+        document.getItems().removeAll(deletionList);
     }
 
     /**

@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Purap Item Business Object.
  */
-public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware {
+public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware, PurapEnterableItem {
 
     public abstract Integer getItemIdentifier();
 
@@ -125,8 +125,6 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
     public void setItemQuantity(KualiDecimal itemQuantity);
 
     public String getItemIdentifierString();
-
-    public abstract boolean isConsideredEntered();
 
     public PurApSummaryItem getSummaryItem();
 

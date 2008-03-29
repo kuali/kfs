@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
@@ -25,7 +26,7 @@ import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.vendor.bo.VendorDetail;
 
 
-public interface ReceivingDocument {
+public interface ReceivingDocument extends TransactionalDocument, PurapItemOperations {
 
     public String getCarrierCode();
 

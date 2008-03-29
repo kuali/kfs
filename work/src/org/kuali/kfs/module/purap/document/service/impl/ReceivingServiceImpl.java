@@ -25,6 +25,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.dao.ReceivingDao;
@@ -32,6 +33,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
     private KualiConfigurationService configurationService;    
+    private PurapService purapService;
     
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -67,6 +70,10 @@ public class ReceivingServiceImpl implements ReceivingService {
         this.configurationService = configurationService;
     }
 
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+    
     /**
      * 
      * @see org.kuali.module.purap.service.ReceivingService#populateReceivingLineFromPurchaseOrder(org.kuali.module.purap.document.ReceivingLineDocument)
@@ -266,6 +273,16 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param receivingDocument receiving document
      */
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
+        //delete unentered items
+        purapService.deleteUnenteredItems(receivingDocument);
         
+        //TODO: save receiving and po? also clean this up (i.e. move to separate method like other docs)
+        try {
+            documentService.saveDocument(receivingDocument, DocumentSystemSaveEvent.class);
+        }
+        catch (WorkflowException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

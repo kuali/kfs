@@ -16,16 +16,19 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.KFSResourceLoader;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.Carrier;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
+import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.ReceivingService;
@@ -69,6 +72,9 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
     private String alternateVendorName;
+    
+    //Collections
+    private List<ReceivingLineItem> items;
 
     //not persisted in db
     private boolean deliveryBuildingOther;
@@ -84,6 +90,7 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
 
     public ReceivingDocumentBase(){
         super();
+        items = new TypedArrayList(getItemClass());   
     }
         
     /**
@@ -873,8 +880,32 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
         super.handleRouteStatusChange();
         if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             //delete unentered items and update po totals and save po
-            SpringContext.getBean(ReceivingService.class);
+            SpringContext.getBean(ReceivingService.class).completeReceivingDocument(this);
         }
+    }
+    
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.getItems());
+        return managedLists;
+    }
+
+    public List getItems() {
+        return items;
+    }
+
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public ReceivingLineItem getItem(int pos) {
+        return (ReceivingLineItem) items.get(pos);
+    }
+
+    public abstract Class getItemClass();
+
+    public void addItem(ReceivingLineItem item) {
+        getItems().add(item);
     }
 
 }

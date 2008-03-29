@@ -87,18 +87,6 @@ public class ReceivingCorrectionDocument extends ReceivingDocumentBase {
         return ReceivingCorrectionItem.class;
     }
 
-    public List getItems() {
-        return items;
-    }
-
-    public void setItems(List items) {
-        this.items = items;
-    }
-
-    public ReceivingCorrectionItem getItem(int pos) {
-        return (ReceivingCorrectionItem) items.get(pos);
-    }
-
     @Override
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         // TODO Auto-generated method stub

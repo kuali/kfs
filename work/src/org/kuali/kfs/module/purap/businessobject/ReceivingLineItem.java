@@ -19,7 +19,7 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingLineItem extends PersistableBusinessObjectBase {
+public class ReceivingLineItem extends PersistableBusinessObjectBase implements PurapEnterableItem {
 
     private Integer receivingLineItemIdentifier;
     private String documentNumber;
@@ -72,7 +72,13 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
         this.setItemOrderedQuantity( poi.getItemQuantity() );
         this.setItemUnitOfMeasureCode( poi.getItemUnitOfMeasureCode() );
 
-        this.setItemReceivedPriorQuantity( poi.getItemReceivedTotalQuantity() );
+        //TODO: Chris - look into this it appears this is null rather than zero on amendment, find out why!
+        if(ObjectUtils.isNull(poi.getItemReceivedTotalQuantity())) {
+            this.setItemReceivedPriorQuantity(KualiDecimal.ZERO);
+        } else {
+            this.setItemReceivedPriorQuantity( poi.getItemReceivedTotalQuantity() );
+        }
+        
         this.setItemReceivedToBeQuantity( this.getItemOrderedQuantity().subtract(this.getItemReceivedPriorQuantity()));        
         
         //should determine whether this is prefilled be based on the parameter that allows loading from po
@@ -490,6 +496,13 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase {
             m.put("receivingLineItemIdentifier", this.receivingLineItemIdentifier.toString());
         }
         return m;
+    }
+
+    public boolean isConsideredEntered() {
+        //if all are not null then return true
+        return !((ObjectUtils.isNull(this.getItemReceivedTotalQuantity()) || this.getItemReceivedTotalQuantity().isZero()) &&
+                (ObjectUtils.isNull(this.getItemDamagedTotalQuantity()) || this.getItemDamagedTotalQuantity().isZero()) &&
+                (ObjectUtils.isNull(this.getItemReturnedTotalQuantity()) || this.getItemReturnedTotalQuantity().isZero()));
     }
 
 }

@@ -28,16 +28,14 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     //not mapped in ojb
     private transient PurchaseOrderDocument purchaseOrderDocument;
     
-    //Collections
-    private List<ReceivingLineItem> items;
+
      
     
     /**
      * Default constructor.
      */
     public ReceivingLineDocument() {
-        super();
-        items = new TypedArrayList(getItemClass());       
+        super();    
     }
 
     public void initiateDocument(){
@@ -167,10 +165,6 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         return m;
     }
 
-    public Class getItemClass() {
-        return ReceivingLineItem.class;
-    }
-
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
      */
@@ -196,69 +190,8 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         }
     }
     
-    public List getItems() {
-        return items;
-    }
-
-    public void setItems(List items) {
-        this.items = items;
-    }
-
-    /*public void addItem(ReceivingLineItem item) {
-        int itemLinePosition = getItemLinePosition();
-        if (ObjectUtils.isNotNull(item.getItemLineNumber()) && (item.getItemLineNumber() > 0) && (item.getItemLineNumber() <= itemLinePosition)) {
-            itemLinePosition = item.getItemLineNumber().intValue() - 1;
-        }
-        items.add(itemLinePosition, item);
-        renumberItems(itemLinePosition);
-    }
-
-    public void deleteItem(int lineNum) {
-        if (items.remove(lineNum) == null) {
-            // throw error here
-        }
-        renumberItems(lineNum);
-    }
-
-    public void renumberItems(int start) {
-        for (int i = start; i < items.size(); i++) {
-            ReceivingLineItem item = (ReceivingLineItem) items.get(i);
-            item.setItemLineNumber(new Integer(i + 1));
-        }
-    }
-
-    public void itemSwap(int positionFrom, int positionTo) {
-        // if out of range do nothing
-        if ((positionTo < 0) || (positionTo >= getItemLinePosition())) {
-            return;
-        }
-        ReceivingLineItem item1 = this.getItem(positionFrom);
-        ReceivingLineItem item2 = this.getItem(positionTo);
-        Integer oldFirstPos = item1.getItemLineNumber();
-        // swap line numbers
-        item1.setItemLineNumber(item2.getItemLineNumber());
-        item2.setItemLineNumber(oldFirstPos);
-        // fix ordering in list
-        items.remove(positionFrom);
-        items.add(positionTo, item1);
-    }
-
-    public int getItemLinePosition() {
-        int belowTheLineCount = 0;
-        for (ReceivingLineItem item : items) {
-            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                belowTheLineCount++;
-            }
-        }
-        return items.size() - belowTheLineCount;
-    }*/
-
-    public ReceivingLineItem getItem(int pos) {
-        return (ReceivingLineItem) items.get(pos);
-    }
-
-    public void addItem(ReceivingLineItem item) {
-        items.add(item);
+    public Class getItemClass() {
+        return ReceivingLineItem.class;
     }
 
     @Override

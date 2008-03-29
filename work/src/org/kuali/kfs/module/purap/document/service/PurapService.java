@@ -22,7 +22,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.document.PurapItemOperations;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -163,5 +163,5 @@ public interface PurapService {
      * 
      * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
      */
-    public void deleteUnenteredItems(AccountsPayableDocument apDocument);
+    public void deleteUnenteredItems(PurapItemOperations document);
 }

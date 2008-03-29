@@ -34,7 +34,7 @@ import org.kuali.module.vendor.bo.VendorDetail;
 /**
  * Interface for Purchasing-Accounts Payable Documents.
  */
-public interface PurchasingAccountsPayableDocument extends AccountingDocument {
+public interface PurchasingAccountsPayableDocument extends AccountingDocument, PurapItemOperations {
 
     /**
      * Returns the Item Class.

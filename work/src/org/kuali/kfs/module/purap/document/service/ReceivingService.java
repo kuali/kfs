@@ -18,6 +18,7 @@ package org.kuali.module.purap.service;
 import java.util.HashMap;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.ReceivingDocument;
 import org.kuali.module.purap.document.ReceivingLineDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -79,4 +80,11 @@ public interface ReceivingService {
      * @return true if po is not in a status that allows amendments
      */
     public boolean awaitingPurchaseOrderOpen(String documentNumber);
+
+    /**
+     * 
+     * This method deletes unneeded items and updates the totals on the po and does any additional processing based on items i.e. FYI etc
+     * @param receivingDocument receiving document
+     */
+    public void completeReceivingDocument(ReceivingDocument receivingDocument);
 }

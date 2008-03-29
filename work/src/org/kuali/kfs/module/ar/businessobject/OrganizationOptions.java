@@ -17,7 +17,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationCode;
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
-	private boolean printInvoiceIndicator;
+	private String printInvoiceIndicator;
 	private String organizationPaymentTermsText;
 	private String organizationMessageText;
 	private String organizationRemitToAddressName;
@@ -134,7 +134,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the printInvoiceIndicator
 	 * 
 	 */
-	public boolean isPrintInvoiceIndicator() { 
+	public String getPrintInvoiceIndicator() { 
 		return printInvoiceIndicator;
 	}
 
@@ -144,7 +144,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @param printInvoiceIndicator The printInvoiceIndicator to set.
 	 * 
 	 */
-	public void setPrintInvoiceIndicator(boolean printInvoiceIndicator) {
+	public void setPrintInvoiceIndicator(String printInvoiceIndicator) {
 		this.printInvoiceIndicator = printInvoiceIndicator;
 	}
 

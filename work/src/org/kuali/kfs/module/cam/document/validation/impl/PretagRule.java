@@ -162,12 +162,34 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         boolean newDetailLine = true;
         if (detail.isActive()) {
+
             detail.setPurchaseOrderNumber(pretag.getPurchaseOrderNumber());
             detail.setLineItemNumber(pretag.getLineItemNumber());
 
+            success &= checkDuplicateTagNumber(pretag, detail.getCampusTagNumber());
             success &= checkTotalDetailCount(pretag, newDetailLine);
             success &= isCampusTagNumberValid(detail);
             success &= isCampusBuildingRoomValid(detail);
+        }
+
+        return success;
+    }
+
+    /**
+     * This method check to see if duplicate tag exists
+     * 
+     * @return boolean indicating if validation succeeded
+     */
+    protected boolean checkDuplicateTagNumber(Pretag pretag, String tagNumber) {
+        LOG.info("checkForDuplicate called");
+        boolean success = true;
+
+        for (PretagDetail dtl : pretag.getPretagDetails()) {
+            if (dtl.getCampusTagNumber().equals(tagNumber) && dtl.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
+                success &= false;
+            }
         }
 
         return success;

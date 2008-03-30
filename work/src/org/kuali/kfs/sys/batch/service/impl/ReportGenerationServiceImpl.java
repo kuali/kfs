@@ -15,12 +15,17 @@
  */
 package org.kuali.kfs.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,9 +99,44 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
-     * @see org.kuali.kfs.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.service.ReportGenerationService#generateReportToOutputStream(java.util.Map, java.lang.Object,
+     *      java.lang.String, java.io.ByteArrayOutputStream)
+     */
+    public void generateReportToOutputStream(Map<String, Object> reportData, Object dataSource, String template, ByteArrayOutputStream baos) {
+        ClassPathResource resource = getReportTemplateClassPathResource(template);
+        if (resource == null || !resource.exists()) {
+            throw new IllegalArgumentException("Cannot find the template file: " + template);
+        }
+
+        try {
+            if (reportData != null && reportData.containsKey(PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME)) {
+                Map<String, String> subReports = (Map<String, String>) reportData.get(PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME);
+                String subReportDirectory = (String) reportData.get(PARAMETER_NAME_SUBREPORT_DIR);
+                compileSubReports(subReports, subReportDirectory);
+            }
+
+            String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
+            String designTemplateName = realTemplateNameWithoutExtension.concat(DESIGN_FILE_EXTENSION);
+            String jasperReportName = realTemplateNameWithoutExtension.concat(JASPER_REPORT_EXTENSION);
+            compileReportTemplate(designTemplateName, jasperReportName);
+
+            JRDataSource jrDataSource = JasperReportsUtils.convertReportData(dataSource);
+
+            InputStream inputStream = new FileInputStream(jasperReportName);
+
+            JasperRunManager.runReportToPdfStream(inputStream, (OutputStream) baos, reportData, jrDataSource);
+        }
+        catch (Exception e) {
+            LOG.error(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.service.ReportGenerationService#buildFullFileName(java.util.Date, java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public String buildFullFileName(Date runDate, String directory, String fileName, String extension) {
         String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(runDate);

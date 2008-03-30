@@ -61,7 +61,6 @@ public class OrganizationSelectionTreeForm extends KualiForm {
     private boolean monthObjectSummaryConsolidation = true; 
     
     private String reportMode;    
-    private boolean performBuildPointOfViewFlag;
     
 
     /**
@@ -73,7 +72,6 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         this.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         this.setPullFlagKeyLabels(new TypedArrayList(KeyLabelPair.class));
-        this.setPerformBuildPointOfViewFlag(false);
 
     }
 
@@ -398,14 +396,6 @@ public class OrganizationSelectionTreeForm extends KualiForm {
 
     public void setReportMode(String reportMode) {
         this.reportMode = reportMode;
-    }
-
-    public boolean isPerformBuildPointOfViewFlag() {
-        return performBuildPointOfViewFlag;
-    }
-
-    public void setPerformBuildPointOfViewFlag(boolean performBuildPointOfViewFlag) {
-        this.performBuildPointOfViewFlag = performBuildPointOfViewFlag;
     }
 
     public boolean isAccountObjectDetailConsolidation() {

@@ -15,48 +15,104 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.kuali.module.budget.BCConstants.Report.BuildMode;
+import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 
-
 /**
- * defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include
+ * Defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include
  * BudgetConstructionPullup with methods that populate and depopulate the associated table for a specific user.
  */
 public interface BudgetReportsControlListService {
+
+    /**
+     * Rebuilds the report control list for the given parameters.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     * @param universityFiscalYear - budget fiscal year
+     * @param chartOfAccountsCode - point of view chart of accounts code
+     * @param organizationCode - point of view organization code
+     * @param buildMode - indicates whether the accounts should be restricted to GL pending budget, monthly budget, or bnc
+     *        appointment funding
+     */
+    public void updateReportsControlList(String personUniversalIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
+
+    /**
+     * Rebuilds the subfunds available for selection based on the control list.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     */
+    public void updateReportSubFundGroupSelectList(String personUniversalIdentifier);
+
+    /**
+     * Rebuilds the object codes available for selection based on the control list.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     */
+    public void updateReportObjectCodeSelectList(String personUniversalIdentifier);
+
+    /**
+     * Rebuilds the reason codes available for selection based on the control list.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     */
+    public void updateReportReasonCodeSelectList(String personUniversalIdentifier);
+
+    /**
+     * Retrieves organizations selected by given user.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     * @return Collection<BudgetConstructionPullup> that are selected by the given user
+     */
+    public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String personUniversalIdentifier);
+
+    /**
+     * Retrieves sub funds that are available for selection by the given user.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     * @return Collection<BudgetConstructionSubFundPick> that are selected by the given user
+     */
+    public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String personUniversalIdentifier);
+
+    /**
+     * Retrieves object codes that are available for selection by the given user.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     * @return Collection<BudgetConstructionObjectPick> that are selected by the given user
+     */
+    public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String personUniversalIdentifier);
+
+    /**
+     * Retrieves reason codes that are available for selection by the given user.
+     * 
+     * @param personUniversalIdentifier - current user who is running the report
+     * @return Collection<BudgetConstructionReasonCodePick> that are selected by the given user
+     */
+    public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String personUniversalIdentifier);
     
     /**
-     * updates all control list tables.
+     * Updates the select flag for each sub fund selection record.
      * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @param universityFiscalYear
-     * @return
+     * @param subFundPickList - List containing the updated BudgetConstructionSubFundPick objects
      */
-    public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup);
+    public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList);
+
     /**
-     * changes flags in ld_bcn_pullup_t with Organization and Chart code.
+     * Updates the select flag for each object code selection record.
      * 
-     * @param personUserIdentifier
-     * @param budgetConstructionPullup
-     * @return
+     * @param objectCodePickList - List containing the updated BudgetConstructionObjectPick objects
      */
-    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup);
+    public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList);
+
     /**
-     * updates sub-fund group list
+     * Updates the select flag for each reason code selection record.
      * 
-     * @param personUserIdentifier
-     * @return
+     * @param objectCodePickList - List containing the updated BudgetConstructionReasonCodePick objects
      */
-    public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
-    /**
-     * updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
-     * 
-     * @param personUserIdentifier
-     * @param selectedSubfundGroupCodeList
-     * @return
-     */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList);
+    public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList);
 }

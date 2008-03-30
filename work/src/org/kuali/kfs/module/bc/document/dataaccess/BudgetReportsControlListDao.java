@@ -17,100 +17,67 @@ package org.kuali.module.budget.dao;
 
 import java.util.List;
 
+import org.kuali.module.budget.BCConstants.Report.BuildMode;
+import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
+import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 
 /**
- * data access object for Budget Construction Organization Report.
+ * Data access object for Budget Construction Organization Report.
  */
 public interface BudgetReportsControlListDao {
-
     /**
-     * cleans control list table.
+     * Builds the report controls list for the given user, point of view, and build mode.
      * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @return
+     * @param personUserIdentifier - person id to build data for
+     * @param universityFiscalYear - budget fiscal year
+     * @param chartOfAccountsCode - point of view chart of accounts code
+     * @param organizationCode - point of view organization code
+     * @param buildMode - indicates whether the accounts should be restricted to GL pending budget, monthly budget, or bnc
+     *        appointment funding
      */
-    public void cleanReportsControlList(String personUserIdentifier);
+    public void updateReportControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
 
     /**
-     * cleans control list table 01.
+     * Builds the sub-fund control list table for the given user.
      * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsControlListPart1(String personUserIdentifier);
-
-    /**
-     * cleans control list table 01.
-     * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsControlListPart2(String personUserIdentifier);
-
-    /**
-     * updates control list table 01.
-     * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @param universityFiscalYear
-     * @return
-     */
-    public void updateReportsControlListpart1(String idForSession, String personUserIdentifier, Integer universityFiscalYear);
-
-    /**
-     * updates control list table 02.
-     * 
-     * @param idForSession
-     * @param personUserIdentifier
-     * @param universityFiscalYear
-     * @return
-     */
-    public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
-
-    /**
-     * updates control list table disp1.
-     * 
-     * @param idForSession
-     * @return
-     */
-    public void updateReportsControlListDisp1(String idForSession);
-
-    /**
-     * changes flags in ld_bcn_pullup_t with Organization and Chart code.
-     * 
-     * @param personUserIdentifier
-     * @param budgetConstructionPullup
-     * @return
-     */
-    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
-
-    /**
-     * updates sub-fund group list
-     * 
-     * @param personUserIdentifier
-     * @return
+     * @param personUserIdentifier - person id to build data for
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
 
     /**
-     * cleans sub-fund group list.
+     * Builds the object code control list table for the given user.
      * 
-     * @param personUserIdentifier
-     * @return
+     * @param personUserIdentifier - person id to build data for
      */
-    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
+    public void updateReportsObjectCodeSelectList(String personUserIdentifier);
 
     /**
-     * updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
+     * Builds the reason code control list table for the given user.
      * 
-     * @param personUserIdentifier
-     * @param selectedSubfundGroupCodeList
-     * @return
+     * @param personUserIdentifier - person id to build data for
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList);
+    public void updateReportsReasonCodeSelectList(String personUserIdentifier);
+
+    /**
+     * Updates the select flag for each sub fund selection record.
+     * 
+     * @param subFundPickList - List containing the updated BudgetConstructionSubFundPick objects
+     */
+    public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList);
+
+    /**
+     * Updates the select flag for each object code selection record.
+     * 
+     * @param objectCodePickList - List containing the updated BudgetConstructionObjectPick objects
+     */
+    public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList);
+
+    /**
+     * Updates the select flag for each reason code selection record.
+     * 
+     * @param objectCodePickList - List containing the updated BudgetConstructionReasonCodePick objects
+     */
+    public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList);
 
 }

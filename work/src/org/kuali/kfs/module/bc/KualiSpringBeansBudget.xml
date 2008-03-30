@@ -243,17 +243,16 @@
 	<bean id="budgetReportsControlListService" class="org.kuali.module.budget.service.impl.BudgetReportsControlListServiceImpl">
 		<property name="budgetReportsControlListDao">
 			<ref bean="budgetReportsControlListDao" />
-			</property>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 	
 	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">
 		<property name="budgetConstructionOrganizationReportsDao">
 			<ref bean="budgetConstructionOrganizationReportsDao" />
 		</property>
-	</bean>
-
-	<bean id="budgetConstructionOrganizationJasperReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationJasperReportsServiceImpl">
-	<property name="resourceBundleBaseName" value="org/kuali/module/budget/report/BudgetOrgReport" />
 	</bean>
 
 	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">
@@ -266,7 +265,7 @@
 	<property name="kualiConfigurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
-    </bean>
+	</bean>
 	
 	<bean id="budgetConstructionSubFundSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSubFundSummaryReportServiceImpl">
 	<property name="budgetConstructionAccountSummaryReportDao">

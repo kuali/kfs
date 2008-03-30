@@ -31,11 +31,11 @@ public class BCConstants extends JstlConstants {
     public static final String BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerRevenueLines*,newRevenueLine*";
     public static final String BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS = "document.pendingBudgetConstructionGeneralLedgerExpenditureLines*,newExpenditureLine*";
     public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "document.budgetConstructionMonthlyBudget*";
-    
+
     public static final String NEW_EXPENDITURE_LINE_PROPERTY_NAME = "newExpenditureLine";
     public static final String NEW_REVENUE_LINE_PROPERTY_NAME = "newRevenueLine";
 
-    
+
     public static final String DISABLE_SALARY_SETTING_FLAG = "DISABLE_SALARY_SETTING_FLAG";
     public static final String DISABLE_BENEFITS_CALCULATION_FLAG = "DISABLE_BENEFITS_CALCULATION_FLAG";
 
@@ -47,7 +47,7 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
     public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
-    
+
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }
@@ -74,7 +74,7 @@ public class BCConstants extends JstlConstants {
             return key;
         }
     }
-    
+
     /**
      * return values used by modules used to calculate benefits.  the "failed" value indicates that some system parameters needed for this task are invalid or missing.  
      */
@@ -112,77 +112,85 @@ public class BCConstants extends JstlConstants {
     public static final String INSERT_REVENUE_LINE_METHOD = "insertRevenueLine";
     public static final String INSERT_EXPENDITURE_LINE_METHOD = "insertExpenditureLine";
     public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
-    
+
     public final static String SELECTION_SUB_TREE_ORGS = "selectionSubTreeOrgs";
     public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
     public final static String CURRENT_POINT_OF_VIEW_KEYCODE = "currentPointOfViewKeyCode";
-    
-    
-    
+
+
     /*
-     * fund groups and subfund groups that are NOT loaded to the GL from budget construction  
-     * (these are the constants used, not the ones in KFSConstants/BudgetConstructionConstants
+     * fund groups and subfund groups that are NOT loaded to the GL from budget construction (these are the constants used, not the
+     * ones in KFSConstants/BudgetConstructionConstants
      */
     public final static List<String> NO_BC_GL_LOAD_SUBFUND_GROUPS = Arrays.asList("SIDC");
     public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
-    
+
     // the transaction ledger description for the general ledger budget load
     public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
-    
+
     // this is a pairing of the OJB "property" for the monthly amount and its corresponding accounting period
     public final static ArrayList<String[]> BC_MONTHLY_AMOUNTS = buildMonthlyProperties();
-    private static ArrayList<String[]>  buildMonthlyProperties ()
-    {
+
+    private static ArrayList<String[]> buildMonthlyProperties() {
         ArrayList<String[]> monthlyProperties = new ArrayList<String[]>(12);
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT,KFSConstants.MONTH1}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT,KFSConstants.MONTH2}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT,KFSConstants.MONTH3}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_4_LINE_AMOUNT,KFSConstants.MONTH4}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_5_LINE_AMOUNT,KFSConstants.MONTH5}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT,KFSConstants.MONTH6}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT,KFSConstants.MONTH7}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT,KFSConstants.MONTH8}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT,KFSConstants.MONTH9}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT,KFSConstants.MONTH10}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT,KFSConstants.MONTH11}));
-        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT,KFSConstants.MONTH12}));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT, KFSConstants.MONTH1 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT, KFSConstants.MONTH2 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT, KFSConstants.MONTH3 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_4_LINE_AMOUNT, KFSConstants.MONTH4 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_5_LINE_AMOUNT, KFSConstants.MONTH5 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT, KFSConstants.MONTH6 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT, KFSConstants.MONTH7 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT, KFSConstants.MONTH8 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT, KFSConstants.MONTH9 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT, KFSConstants.MONTH10 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT, KFSConstants.MONTH11 }));
+        monthlyProperties.add((new String[] { KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT, KFSConstants.MONTH12 }));
         return monthlyProperties;
     }
-    
-    public static class Report{
+
+    // budget construction report constants
+    public static class Report {
         public final static String INCOME_EXP_TYPE_A = "A";
         public final static String INCOME_EXP_TYPE_E = "E";
         public final static String INCOME_EXP_TYPE_T = "T";
         public final static String INCOME_EXP_TYPE_X = "X";
-        
-        //selection screen
-        public final static String SELECTION_OPMODE_TITLE = "Sub-Fund List Selection";
-        public final static String SESSION_NAME_SELECTED_ORGS = "selectedOrgs";
+
+        // selection screen
+        public final static String SUB_FUND_SELECTION_TITLE = "Sub-Fund List Selection";
+        public final static String OBJECT_CODE_SELECTION_TITLE = "Salary Object List Selection";
+        public final static String REASON_CODE_SELECTION_TITLE = "Reason Code Selection";
         public final static String REPORT_MODE = "reportMode";
         public final static String BUILD_CONTROL_LIST = "buildControlList";
         public final static String REPORT_CONSOLIDATION = "reportConsolidation";
-        
-        //report file name
-        public final static String FILE_NAME_ORG_ACCOUNT_SUMMARY = "BudgetOrgAccountSummary";
-        public final static String FILE_NAME_ORG_SUBFUND_SUMMARY = "BudgetOrgSubFundSummary";
-        public final static String FILE_EXTENSION_PDF = ".pdf";
-        public final static String FILE_EXTENSION_JASPER = ".jasper";
-        public final static String FILE_EXTENSION_JASPER_XML = ".jrxml";
-        public static final String FILE_LOCATION_JASPER = "/java/projects/kuali_project/work/src/org/kuali/module/budget/report/";
-        public static final String JASPER_FILE_NAME = "BudgetOrgAccountSummary";
-        
-        //report type
-        public static final String ACCOUNT_SUMMARY_REPORT = "AccountSummaryReport";
-        public static final String SUBFUND_SUMMARY_REPORT = "SubFundSummaryReport";
-        
-        public static final String ACCOUNT_OBJECT_DETAIL_REPORT = "accountObjectDetailReport";
-        public static final String MONTH_OBJECT_SUMMARY_REPORT = "monthObjectSummaryReport"; 
-        
-        public static final List<String> reportModeOnlySubfundCodeSelectionMapping = new ArrayList();
-        static {
-            reportModeOnlySubfundCodeSelectionMapping.add(ACCOUNT_SUMMARY_REPORT);
-            reportModeOnlySubfundCodeSelectionMapping.add(SUBFUND_SUMMARY_REPORT);
+        public final static String CONTROL_BUILD_HELPER_SESSION_NAME = "controlBuildHelper";
+        public final static String SUB_FUND_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptySubFundList";
+        public final static String OBJECT_CODE_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptyObjectCodeList";
+        public final static String REASON_CODE_LIST_EMPTY_MESSAGE_KEY = "error.budget.report.emptyReasonCodeList";
+        public final static String THRESHOLD_SELECTION_MESSAGE_KEY = "message.budget.thresholdSelection";
+
+        // report file name
+        public static final String REPORT_TEMPLATE_CLASSPATH = "org/kuali/module/budget/report/";
+        public static final String REPORT_MESSAGES_CLASSPATH = REPORT_TEMPLATE_CLASSPATH + "BudgetOrgReport";
+
+        // Represents the three modes in which report data is restricted
+        public enum BuildMode {
+            PBGL(), MONTH(), BCAF();
+        }
+
+        // Represents the varoius reports criteria selections
+        public enum ReportSelectMode {
+            ACCOUNT(), OBJECT_CODE(), SUBFUND(), REASON();
         }
     }
-   
+
+    // constants that represent a mode for the TempListLookupAction.
+    public static class TempListLookupMode {
+        public final static String TEMP_LIST_LOOKUP_MODE = "tempListLookupMode";
+
+        public final static int INTENDED_INCUMBENT_SELECT = 1;
+        public final static int POSITION_SELECT = 2;
+        public final static int ACCOUNT_SELECT_ABOVE_POV = 3;
+        public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
+    }
+
 }

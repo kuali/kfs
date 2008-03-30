@@ -18,28 +18,31 @@ package org.kuali.module.budget.dao.jdbc;
 import java.util.List;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.core.util.Guid;
+import org.kuali.module.budget.BCConstants.Report.BuildMode;
+import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
+import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 
 /**
- * database queries needed to get valid data for OrganizationReportSelection screen
+ * JCBC implementation of BudgetReportsControlListDaoJdbc
+ * 
+ * @see org.kuali.module.budget.dao.BudgetReportsControlListDao
  */
 public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetReportsControlListDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetReportsControlListDaoJdbc.class);
 
-    private static String[] updateReportsControlList = new String[3];
-    private static String changeFlagOrganizationAndChartOfAccountCodeSelection = new String();
+    private static String[] updateReportsControlList = new String[5];
     private static String updateReportsSubFundGroupSelectList = new String();
-    private static String[] updateReportsSelectedSubFundGroupFlags = new String[2];
+    private static String updateReportsObjectCodeSelectList = new String();
+    private static String updateReportsReasonCodeSelectList = new String();
+    private static String updateReportsSelectedSubFundGroupFlags = new String();
+    private static String updateReportsSelectedObjectCodeFlags = new String();
+    private static String updateReportsSelectedReasonCodeFlags = new String();
 
     @RawSQL
     public BudgetReportsControlListDaoJdbc() {
-        // populate ld_bcn_ctrl_list_t based on a join to one of three sources
-        // the choice of sources is controlled by the cl_disp parameter where
-        // cl_disp=1 pending budget GL
-        // cl_disp=2 monthly budgets
-        // cl_disp=3 bcn appointment funding
-
         // get the accounts for the selected org(s)
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO LD_BCN_BUILD_CTRL_LIST01_MT \n");
@@ -78,7 +81,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         updateReportsControlList[1] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // now insert based on the desired view
+        // constrain accounts to GL pending budget
         sqlText.append("insert into LD_BCN_CTRL_LIST_T \n");
         sqlText.append(" (PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, \n");
         sqlText.append("  HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG, SEL_SUB_FUND_GRP) \n");
@@ -99,17 +102,46 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         updateReportsControlList[2] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // change flag in LD_BCN_PULLUP_T
-        sqlText.append("UPDATE ld_bcn_pullup_t \n");
-        sqlText.append("SET pull_flag = 1 \n");
-        sqlText.append("WHERE person_unvl_id = ? \n");
-        sqlText.append("  AND fin_coa_cd = ? \n");
-        sqlText.append("  AND org_cd = ? \n");
+        // constrain accounts to monthly budget
+        sqlText.append("INSERT INTO LD_BCN_CTRL_LIST_T \n");
+        sqlText.append("  (PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, \n");
+        sqlText.append("  HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG, SEL_SUB_FUND_GRP) \n");
+        sqlText.append("SELECT ctrl.person_unvl_id, ctrl.fdoc_nbr, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr, \n");
+        sqlText.append("    ctrl.hier_org_lvl_cd, ctrl.sel_org_lvl_cd, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_pull_flag, acct.sub_fund_grp_cd \n");
+        sqlText.append("FROM LD_BCN_BUILD_CTRL_LIST02_MT ctrl, CA_ACCOUNT_T acct \n");
+        sqlText.append("WHERE ctrl.sesid = ? \n");
+        sqlText.append("  AND acct.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("  AND acct.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("  AND exists (SELECT * FROM LD_BCNSTR_MONTH_T bmth \n");
+        sqlText.append("               WHERE bmth.fdoc_nbr = ctrl.fdoc_nbr \n");
+        sqlText.append("               AND bmth.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append("               AND bmth.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("               AND bmth.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("               AND bmth.sub_acct_nbr = ctrl.sub_acct_nbr) \n");
 
-        changeFlagOrganizationAndChartOfAccountCodeSelection = sqlText.toString();
+        updateReportsControlList[3] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // takes a subset of the control table to build the subfund pick list
+        // constrain accounts to bcn appointment funding
+        sqlText.append("INSERT INTO LD_BCN_CTRL_LIST_T \n");
+        sqlText.append("  (PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, \n");
+        sqlText.append("  HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG, SEL_SUB_FUND_GRP) \n");
+        sqlText.append("SELECT ctrl.person_unvl_id, ctrl.fdoc_nbr, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr, \n");
+        sqlText.append("    ctrl.hier_org_lvl_cd, ctrl.sel_org_lvl_cd, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_pull_flag, acct.sub_fund_grp_cd \n");
+        sqlText.append("FROM LD_BCN_BUILD_CTRL_LIST02_MT ctrl, CA_ACCOUNT_T acct \n");
+        sqlText.append("WHERE ctrl.sesid = ? \n");
+        sqlText.append("  AND acct.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("  AND acct.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("  AND exists (SELECT * FROM ld_pndbc_apptfnd_t bcaf \n");
+        sqlText.append("             WHERE bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append("               AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("               AND bcaf.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("               AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr) \n");
+
+        updateReportsControlList[4] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // build the sub fund list for selection from the control list accounts
         sqlText.append("INSERT INTO LD_BCN_SUBFUND_PICK_T (PERSON_UNVL_ID, SUB_FUND_GRP_CD, REPORT_FLAG)\n");
         sqlText.append("SELECT DISTINCT  ?, ctrl.sel_sub_fund_grp, 0 \n");
         sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl \n");
@@ -118,108 +150,155 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         updateReportsSubFundGroupSelectList = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // change flag in UPDATE LD_BCN_SUBFUND_PICK_T as 0 for unselected subFundPick 
+        // build the object code list for selection from the control list accounts and appointment funding table
+        sqlText.append("INSERT INTO LD_BCN_OBJ_PICK_T (PERSON_UNVL_ID, FIN_OBJECT_CD, SELECT_FLAG) \n");
+        sqlText.append("SELECT DISTINCT ?, bcaf.fin_object_cd, 0 \n");
+        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf \n");
+        sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
+        sqlText.append("  AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append("  AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("  AND bcaf.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("  AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+
+        updateReportsObjectCodeSelectList = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // build the reason code list for selection from the account control table, object code control table, and reason code table
+        sqlText.append("INSERT INTO LD_BCN_RSN_CD_PK_T (PERSON_UNVL_ID, APPT_FND_REASON_CD, SELECT_FLAG) \n");
+        sqlText.append("SELECT DISTINCT  ?, brsn.appt_fnd_reason_cd, 0 \n");
+        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t opk, ld_bcn_af_reason_t brsn \n");
+        sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
+        sqlText.append("  AND brsn.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append("  AND brsn.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append("  AND brsn.account_nbr = ctrl.account_nbr \n");
+        sqlText.append("  AND brsn.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+        sqlText.append("  AND brsn.fin_object_cd = opk.fin_object_cd \n");
+        sqlText.append("  AND brsn.emplid != 'VACANT' \n");
+        sqlText.append("  AND ctrl.person_unvl_id = opk.person_unvl_id \n");
+        sqlText.append("  AND opk.select_flag > 0 \n");
+
+        updateReportsReasonCodeSelectList = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // sql to update the select flag of a sub fund option
         sqlText.append("UPDATE LD_BCN_SUBFUND_PICK_T \n");
-        sqlText.append("SET report_flag = 0 \n");
+        sqlText.append("SET report_flag = ? \n");
         sqlText.append("WHERE person_unvl_id = ? \n");
         sqlText.append("  AND sub_fund_grp_cd = ? \n");
 
-        updateReportsSelectedSubFundGroupFlags[0] = sqlText.toString();
+        updateReportsSelectedSubFundGroupFlags = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-        
-        // change flag in UPDATE LD_BCN_SUBFUND_PICK_T as 1 for unselected subFundPick 
-        sqlText.append("UPDATE LD_BCN_SUBFUND_PICK_T \n");
-        sqlText.append("SET report_flag = 1 \n");
+
+        // sql to update the select flag of a sub fund option
+        sqlText.append("UPDATE LD_BCN_OBJ_PICK_T \n");
+        sqlText.append("SET SELECT_FLAG = ? \n");
         sqlText.append("WHERE person_unvl_id = ? \n");
-        sqlText.append("  AND sub_fund_grp_cd = ? \n");
-        
-        updateReportsSelectedSubFundGroupFlags[1] = sqlText.toString();
+        sqlText.append("  AND fin_object_cd = ? \n");
+
+        updateReportsSelectedObjectCodeFlags = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+
+        // sql to update the select flag of a sub fund option
+        sqlText.append("UPDATE LD_BCN_RSN_CD_PK_T \n");
+        sqlText.append("SET SELECT_FLAG = ? \n");
+        sqlText.append("WHERE person_unvl_id = ? \n");
+        sqlText.append("  AND APPT_FND_REASON_CD = ? \n");
+
+        updateReportsSelectedReasonCodeFlags = sqlText.toString();
         sqlText.delete(0, sqlText.length());
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListpart1(java.lang.String,
-     *      java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportControlList(java.lang.String, java.lang.Integer,
+     *      java.lang.String, java.lang.String, org.kuali.module.budget.BCConstants.Report.BuildMode)
      */
-    public void updateReportsControlListpart1(String idForSession, String personUserIdentifier, Integer universityFiscalYear) {
-        getSimpleJdbcTemplate().update(updateReportsControlList[0], idForSession, personUserIdentifier, universityFiscalYear);
-    }
+    public void updateReportControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
+        // clear out previous data for user
+        clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", personUserIdentifier);
 
-    /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListpart2(java.lang.String,
-     *      java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
-        getSimpleJdbcTemplate().update(updateReportsControlList[1], idForSession, personUserIdentifier, chartOfAccountsCode, organizationCode, idForSession);
-    }
+        Guid idForSession = new Guid();
 
-    /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListDisp1(java.lang.String)
-     */
-    public void updateReportsControlListDisp1(String idForSession) {
-        getSimpleJdbcTemplate().update(updateReportsControlList[2], idForSession);
-    }
+        // build 1st temp table with list of accounts for the selected organizations
+        getSimpleJdbcTemplate().update(updateReportsControlList[0], idForSession.toString(), personUserIdentifier, universityFiscalYear);
 
-    /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#changeFlagOrganizationAndChartOfAccountCodeSelection(java.lang.String,
-     *      java.lang.String, java.lang.String)
-     */
-    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
-        getSimpleJdbcTemplate().update(changeFlagOrganizationAndChartOfAccountCodeSelection, personUserIdentifier, chartOfAccountsCode, organizationCode);
+        // build 2nd temp table with list of accounts from 1 temp table that are also contained in user's point of view
+        getSimpleJdbcTemplate().update(updateReportsControlList[1], idForSession.toString(), personUserIdentifier, chartOfAccountsCode, organizationCode, idForSession.toString());
+
+        // constrain account list further based on buildMode
+        switch (buildMode) {
+            case PBGL:
+                getSimpleJdbcTemplate().update(updateReportsControlList[2], idForSession.toString());
+                break;
+            case MONTH:
+                getSimpleJdbcTemplate().update(updateReportsControlList[3], idForSession.toString());
+                break;
+            case BCAF:
+                getSimpleJdbcTemplate().update(updateReportsControlList[4], idForSession.toString());
+                break;
+        }
+
+        // clear out temp tables
+        clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST01_MT", "SESID", idForSession.toString());
+        clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST02_MT", "SESID", idForSession.toString());
     }
 
     /**
      * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier) {
+        // clear out previous sub-fund list for user
+        clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
+
+        // rebuild sub-fund list
         getSimpleJdbcTemplate().update(updateReportsSubFundGroupSelectList, personUserIdentifier, personUserIdentifier);
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSelectedSubFundGroupFlags(java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsObjectCodeSelectList(java.lang.String)
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList) {
-        // set the flag 1 or 0 based on user's selection
-        for (BudgetConstructionSubFundPick bcSubFundPick: subfundGroupCodeList){
-            if (bcSubFundPick.getReportFlag() == null || bcSubFundPick.getReportFlag().equals(new Integer(0))){
-                getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags[0], personUserIdentifier, bcSubFundPick.getSubFundGroupCode());
-            } else {
-                getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags[1], personUserIdentifier, bcSubFundPick.getSubFundGroupCode());
-            }
+    public void updateReportsObjectCodeSelectList(String personUserIdentifier) {
+        // clear out previous object code list for user
+        clearTempTableByUnvlId("LD_BCN_OBJ_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
+
+        // rebuild object code list
+        getSimpleJdbcTemplate().update(updateReportsObjectCodeSelectList, personUserIdentifier, personUserIdentifier);
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsReasonCodeSelectList(java.lang.String)
+     */
+    public void updateReportsReasonCodeSelectList(String personUserIdentifier) {
+        // clear out previous reason code list for user
+        clearTempTableByUnvlId("LD_BCN_RSN_CD_PK_T", "PERSON_UNVL_ID", personUserIdentifier);
+
+        // rebuild reason code list
+        getSimpleJdbcTemplate().update(updateReportsReasonCodeSelectList, personUserIdentifier, personUserIdentifier);
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateObjectCodeSelectFlags(java.util.List)
+     */
+    public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList) {
+        for (BudgetConstructionObjectPick budgetConstructionObjectPick : objectCodePickList) {
+            getSimpleJdbcTemplate().update(updateReportsSelectedObjectCodeFlags, budgetConstructionObjectPick.getSelectFlag().intValue(), budgetConstructionObjectPick.getPersonUniversalIdentifier(), budgetConstructionObjectPick.getFinancialObjectCode());
         }
     }
 
-
     /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReasonCodeSelectFlags(java.util.List)
      */
-    @RawSQL
-    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier) {
-        clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
+    public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
+        for (BudgetConstructionReasonCodePick budgetConstructionReasonCodePick : reasonCodePickList) {
+            getSimpleJdbcTemplate().update(updateReportsSelectedReasonCodeFlags, budgetConstructionReasonCodePick.getSelectFlag().intValue(), budgetConstructionReasonCodePick.getPersonUniversalIdentifier(), budgetConstructionReasonCodePick.getAppointmentFundingReasonCode());
+        }
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlList(java.lang.String)
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateSubFundSelectFlags(java.util.List)
      */
-    @RawSQL
-    public void cleanReportsControlList(String personUserIdentifier) {
-        clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", personUserIdentifier);
-    }
-
-    /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlListPart1(java.lang.String)
-     */
-    @RawSQL
-    public void cleanReportsControlListPart1(String idForSession) {
-        clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST01_MT", "SESID", idForSession);
-    }
-
-    /**
-     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlListPart2(java.lang.String)
-     */
-    @RawSQL
-    public void cleanReportsControlListPart2(String idForSession) {
-        clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST02_MT", "SESID", idForSession);
+    public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
+        for (BudgetConstructionSubFundPick budgetConstructionSubFundPick : subFundPickList) {
+            getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags, budgetConstructionSubFundPick.getReportFlag().intValue(), budgetConstructionSubFundPick.getPersonUniversalIdentifier(), budgetConstructionSubFundPick.getSubFundGroupCode());
+        }
     }
 }

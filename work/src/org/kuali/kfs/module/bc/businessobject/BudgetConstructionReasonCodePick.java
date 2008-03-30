@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * Business object that represents a selected/unselected funding reason code for a user.
  */
 public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectBase {
 
@@ -35,7 +35,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
      * Default constructor.
      */
     public BudgetConstructionReasonCodePick() {
-
+        selectFlag = new Integer(0);
     }
 
     /**

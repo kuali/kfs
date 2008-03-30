@@ -24,12 +24,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.Guid;
+import org.kuali.core.util.KualiPercent;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
+import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
@@ -38,17 +42,22 @@ import org.kuali.module.budget.service.BudgetReportsControlListService;
  * Struts Action Form for the Organization Report Selection Screen.
  */
 public class OrganizationReportSelectionForm extends KualiForm {
-
-    private List<BudgetConstructionSubFundPick> bcSubFunds = new TypedArrayList(BudgetConstructionSubFundPick.class);
-    private String operatingModeTitle;
-    private Integer universityFiscalYear;
     private String backLocation;
     private String returnAnchor;
     private String docFormKey;
+
     private String reportMode;
-    private boolean buildControlList;
+    private Integer universityFiscalYear;
     private boolean reportConsolidation;
-    private boolean refreshSubFundList;
+    private String currentPointOfViewKeyCode;
+
+    private String operatingModeTitle;
+
+    private List<BudgetConstructionSubFundPick> subFundPickList;
+    private List<BudgetConstructionObjectPick> objectCodePickList;
+    private List<BudgetConstructionReasonCodePick> reasonCodePickList;
+
+    private BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings;
 
 
     /**
@@ -56,38 +65,66 @@ public class OrganizationReportSelectionForm extends KualiForm {
      */
     public OrganizationReportSelectionForm() {
         super();
+
+        subFundPickList = new TypedArrayList(BudgetConstructionSubFundPick.class);
+        objectCodePickList = new TypedArrayList(BudgetConstructionObjectPick.class);
+        reasonCodePickList = new TypedArrayList(BudgetConstructionReasonCodePick.class);
+
+        budgetConstructionReportThresholdSettings = new BudgetConstructionReportThresholdSettings();
     }
 
     /**
-     * Gets the bcSubfundList
+     * Gets the subFundPickList
      * 
-     * @return Returns the bcSubfundList
+     * @return Returns the subFundPickList
      */
-    public List<BudgetConstructionSubFundPick> getBcSubFunds() {
-        return bcSubFunds;
+    public List<BudgetConstructionSubFundPick> getSubFundPickList() {
+        return subFundPickList;
     }
 
     /**
-     * Sets the bcSubfundList
+     * Sets the subFundPickList
      * 
-     * @param bcSubfundList The bcSubfundList to set.
+     * @param subFundPickList The subFundPickList to set.
      */
-    public void setBcSubFunds(List<BudgetConstructionSubFundPick> bcSubFunds) {
-        this.bcSubFunds = bcSubFunds;
+    public void setSubFundPickList(List<BudgetConstructionSubFundPick> bcSubFunds) {
+        this.subFundPickList = bcSubFunds;
     }
-    
-    /**
-     * Keeps bcSubFundList in the form.
-     * 
-     * @param index
-     * @return
-     */
-    public BudgetConstructionSubFundPick getBcSubFund(int index) {
-        while (getBcSubFunds().size() <= index) {
-            getBcSubFunds().add(new BudgetConstructionSubFundPick());
-        }
 
-        return (BudgetConstructionSubFundPick) getBcSubFunds().get(index);
+    /**
+     * Gets the objectCodePickList attribute.
+     * 
+     * @return Returns the objectCodePickList.
+     */
+    public List<BudgetConstructionObjectPick> getObjectCodePickList() {
+        return objectCodePickList;
+    }
+
+    /**
+     * Sets the objectCodePickList attribute value.
+     * 
+     * @param objectCodePickList The objectCodePickList to set.
+     */
+    public void setObjectCodePickList(List<BudgetConstructionObjectPick> objectCodePickList) {
+        this.objectCodePickList = objectCodePickList;
+    }
+
+    /**
+     * Gets the reasonCodePickList attribute.
+     * 
+     * @return Returns the reasonCodePickList.
+     */
+    public List<BudgetConstructionReasonCodePick> getReasonCodePickList() {
+        return reasonCodePickList;
+    }
+
+    /**
+     * Sets the reasonCodePickList attribute value.
+     * 
+     * @param reasonCodePickList The reasonCodePickList to set.
+     */
+    public void setReasonCodePickList(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
+        this.reasonCodePickList = reasonCodePickList;
     }
 
     /**
@@ -182,24 +219,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
     }
 
     /**
-     * Gets the buildControlList
-     * 
-     * @return Returns the buildControlList
-     */
-    public boolean isBuildControlList() {
-        return buildControlList;
-    }
-
-    /**
-     * Sets the buildControlList
-     * 
-     * @param docFormKey The docFormKey to set.
-     */
-    public void setBuildControlList(boolean buildControlList) {
-        this.buildControlList = buildControlList;
-    }
-
-    /**
      * Gets the reportConsolidation
      * 
      * @return Returns the reportConsolidation
@@ -236,20 +255,38 @@ public class OrganizationReportSelectionForm extends KualiForm {
     }
 
     /**
-     * Gets the refreshSubFundList
+     * Gets the currentPointOfViewKeyCode attribute.
      * 
-     * @return Returns the refreshSubFundList
+     * @return Returns the currentPointOfViewKeyCode.
      */
-    public boolean isRefreshListFlag() {
-        return refreshSubFundList;
+    public String getCurrentPointOfViewKeyCode() {
+        return currentPointOfViewKeyCode;
     }
 
     /**
-     * Sets the refreshSubFundList
+     * Sets the currentPointOfViewKeyCode attribute value.
      * 
-     * @param refreshSubFundList The refreshSubFundList to set.
+     * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
      */
-    public void setRefreshListFlag(boolean refreshSubFundList) {
-        this.refreshSubFundList = refreshSubFundList;
+    public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
+        this.currentPointOfViewKeyCode = currentPointOfViewKeyCode;
+    }
+
+    /**
+     * Gets the budgetConstructionReportThresholdSettings attribute.
+     * 
+     * @return Returns the budgetConstructionReportThresholdSettings.
+     */
+    public BudgetConstructionReportThresholdSettings getBudgetConstructionReportThresholdSettings() {
+        return budgetConstructionReportThresholdSettings;
+    }
+
+    /**
+     * Sets the budgetConstructionReportThresholdSettings attribute value.
+     * 
+     * @param budgetConstructionReportThresholdSettings The budgetConstructionReportThresholdSettings to set.
+     */
+    public void setBudgetConstructionReportThresholdSettings(BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+        this.budgetConstructionReportThresholdSettings = budgetConstructionReportThresholdSettings;
     }
 }

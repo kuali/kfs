@@ -29,8 +29,17 @@ public interface OrganizationBCDocumentSearchDao {
      */
     public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear);
     
-    
-    public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
+    /**
+     * Populates BudgetConstructionAccountSelect with accounts that are above the user's current point of view
+     * and returns the number of rows inserted (which equates to number of accounts above).
+     * 
+     * @param personUserIdentifier - user who we are building the list for
+     * @param universityFiscalYear - budget year for records to look at
+     * @param chartOfAccountsCode - chart code of user's current point of view
+     * @param organizationCode - organization code of user's current point of view
+     * @return int - number of rows inserted
+     */
+    public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
     
     
     /**

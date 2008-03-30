@@ -58,7 +58,7 @@
         <attributes>
 
             <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -101,6 +101,13 @@
                 <summary>selectFlag</summary>
                 <description>selectFlag description...</description>
 			</attribute>
+			
+			<attributeReference name="objectCodeDescription" 
+			                    sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
+			                    sourceAttributeName="financialObjectCodeName" >
+			     <label>Object Description</label>
+			     <required>false</required>               
+			</attributeReference>                    
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

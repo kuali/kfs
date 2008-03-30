@@ -16,12 +16,21 @@
 
 package org.kuali.module.budget.bo;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl;
 
 /**
- * 
+ * Business object that represents a selected/unselected object code for a user.
  */
 public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase {
 
@@ -33,7 +42,7 @@ public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase 
      * Default constructor.
      */
     public BudgetConstructionObjectPick() {
-
+        selectFlag = new Integer(0);
     }
 
     /**
@@ -62,6 +71,34 @@ public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase 
      */
     public Integer getSelectFlag() {
         return selectFlag;
+    }
+
+    /**
+     * We only care about a general description for the object code regardless of chart. Therefore we need to do a query and return
+     * first row (if multiple).
+     * 
+     * @return String - Object code description
+     */
+    public String getObjectCodeDescription() {
+        Map criteria = new HashMap();
+
+        List activeBudgetYears = SpringContext.getBean(FiscalYearFunctionControlServiceImpl.class).getActiveBudgetYear();
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, activeBudgetYears.get(0));
+        criteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+
+        Collection results = SpringContext.getBean(BusinessObjectService.class).findMatching(ObjectCode.class, criteria);
+        if (results != null && results.size() > 0) {
+            ObjectCode objectCode = (ObjectCode) results.iterator().next();
+            return objectCode.getFinancialObjectCodeName();
+        }
+
+        return "";
+    }
+    
+    /**
+     * Dummy setter for UI.
+     */
+    public void setObjectCodeDescription(String objectCodeDescription) {
     }
 
     /**

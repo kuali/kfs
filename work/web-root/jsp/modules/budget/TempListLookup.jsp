@@ -52,6 +52,7 @@
 	<html-el:hidden name="KualiForm" property="currentPointOfViewKeyCode" />
 	<html-el:hidden name="KualiForm" property="buildControlList" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
+	<html-el:hidden name="KualiForm" property="tempListLookupMode" />
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
@@ -88,11 +89,11 @@
                 --> 					
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline">
-					<c:if test="${KualiForm.reportMode != null}">
-					<html:image
-						property="methodToCall.submitReport" value="submit"
-						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
-						alt="submit" title="submit" border="0" />
+					<c:if test="${KualiForm.tempListLookupMode != BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
+					  <html:image
+					  	  property="methodToCall.submitReport" value="submit"
+						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
+						  alt="submit" title="submit" border="0" />
 					</c:if>
 					<html:image
 						property="methodToCall.search" value="search"

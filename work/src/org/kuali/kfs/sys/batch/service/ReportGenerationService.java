@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.service;
 
+import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +44,16 @@ public interface ReportGenerationService {
      * @param reportFileName the full name of the generated PDF file
      */
     public void generateReportToPdfFile(Map<String, Object> reportData, Object dataSource, String template, String reportFileName);
+    
+    /**
+     * generate a report as PDF file and outputs to stream
+     * 
+     * @param reportData the data being written into the PDF report file
+     * @param dataSource the data source being used for the PDF report
+     * @param template the report template full file name
+     * @param reportFileName the output stream for sending back contents
+     */
+    public void generateReportToOutputStream(Map<String, Object> reportData, Object dataSource, String template, ByteArrayOutputStream baos);
 
     /**
      * build a full file name with the given information. The format of the file name is <absolute path><filename>_<timestamp>.<extension> 

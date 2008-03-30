@@ -64,6 +64,18 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
         budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
+    
+    /**
+     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#updateReportsAccountSummaryTable(java.lang.String, boolean)
+     */
+    public void updateReportsAccountSummaryTable(String personUserIdentifier, boolean consolidated) {
+        if (consolidated) {
+            updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
+        }
+        else {
+            updateReportsAccountSummaryTable(personUserIdentifier);
+        }
+    }
 
     /**
      * sets budgetConstructionAccountSummaryReportDao
@@ -451,7 +463,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
         
         return returnList;
-    }
+}
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
         this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;

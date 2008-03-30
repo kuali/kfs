@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<c:set var="subFundAttribute" value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />	
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetOrganizationReportSelection" renderMultipart="true"
@@ -26,61 +25,32 @@
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="docFormKey" />
 	<html-el:hidden name="KualiForm" property="reportMode" />
-	<html-el:hidden name="KualiForm" property="buildControlList" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
-	<html-el:hidden name="KualiForm" property="refreshListFlag" />
 	<html-el:hidden name="KualiForm" property="operatingModeTitle" />
+	<html-el:hidden name="KualiForm" property="budgetConstructionReportThresholdSettings.lockThreshold" />
 	
-    <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
+    <kul:errors errorTitle="Errors found on Page:" />
     <kul:messages/>
+    
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
+    
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
         <tr>
             <th class="grid" colspan="6" align="left">
 				<br> ${KualiForm.operatingModeTitle} <br> <br>
 			</th>
         </tr>
-	    <tr>
-            <th class="grid"> <br> Select <br> <br> </th>
-		    <th class="grid"> <br>	    
-		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute.subFundGroupCode}" useShortLabel="false" /> <br> <br> </th>
-		    <th class="grid" > <br>
-		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute['subFundGroup.subFundGroupDescription']}" useShortLabel="false" /> <br> <br> </th>
-	    </tr>
-
-		<logic:iterate name="KualiForm" id="bcSubFund" property="bcSubFunds" indexId="ctr">
-		    <tr align="center">
-				<td class="grid" valign="center">
-					<center>
-		            <html:checkbox property="bcSubFunds[${ctr}].reportFlag" value="1" />
-					</center>
-				</td>
-				<td class="grid" valign="center">
-					<center>
-						<kul:htmlControlAttribute 
-						property="bcSubFunds[${ctr}].subFundGroupCode"
-			            attributeEntry="${subFundAttribute.subFundGroupCode}"
-        		        readOnly="true"/>
-            		<center>
-				</td>				
-				<td class="grid" valign="center">
-					<center>
-						<kul:htmlControlAttribute 
-						property="bcSubFunds[${ctr}].subFundGroup.subFundGroupDescription"
-			            attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}"
-	        	        readOnly="true"/>
- 					</center>
-				</td>				
-			</tr>
-		</logic:iterate>
-		</tr>
-        </table>
-
-    <div id="globalbuttons" class="globalbuttons">
-    	<html:image property="methodToCall.selectAllSubFundGroup" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif"  title="Select" alt="Select All Sub-Fund Group" styleClass="smallbutton" />
-		<html:image property="methodToCall.unSelectAllSubFundGroup" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_unselall.gif"  title="Unselect" alt="Unselect All Sub-Fund Group" styleClass="smallbutton" />
-		<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.perform${KualiForm.reportMode}" title="perform${KualiForm.reportMode}" alt="submit" onclick="excludeSubmitRestriction=true" />
-        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
-    </div>
+       
+       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.SUB_FUND_SELECTION_TITLE}" >
+         <bc:subFundPick />
+       </c:if>
+       
+       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.OBJECT_CODE_SELECTION_TITLE}" >
+         <bc:objectCodePick />
+       </c:if>
+       
+       <c:if test="${KualiForm.operatingModeTitle eq BCConstants.Report.REASON_CODE_SELECTION_TITLE}" >
+         <bc:reasonCodePick />
+       </c:if>
 
 </kul:page>

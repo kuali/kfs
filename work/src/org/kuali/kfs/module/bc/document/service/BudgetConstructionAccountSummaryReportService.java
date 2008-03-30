@@ -29,7 +29,6 @@ public interface BudgetConstructionAccountSummaryReportService {
      * updates account summary table.
      * 
      * @param personUserIdentifier
-     * @return
      */
     public void updateReportsAccountSummaryTable(String personUserIdentifier);
 
@@ -37,9 +36,16 @@ public interface BudgetConstructionAccountSummaryReportService {
      * updates account summary table when users choose consolidation.
      * 
      * @param personUserIdentifier
-     * @return
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+    
+    /**
+     * updates account summary table.
+     * 
+     * @param personUserIdentifier - user requesting the report
+     * @param consolidated - whether to produce a consolidate report
+     */
+    public void updateReportsAccountSummaryTable(String personUserIdentifier, boolean consolidated);
 
     /**
      * 
@@ -47,7 +53,6 @@ public interface BudgetConstructionAccountSummaryReportService {
      * 
      * @param universityFiscalYear
      * @param accountSummaryList
-     * @return Collection
      */
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
     

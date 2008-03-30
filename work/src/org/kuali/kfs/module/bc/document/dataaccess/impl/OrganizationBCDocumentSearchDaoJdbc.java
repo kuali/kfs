@@ -24,14 +24,14 @@ import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
 public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJdbcBase implements OrganizationBCDocumentSearchDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
-    
+
     private static String[] buildAccountSelectPullListTemplates = new String[1];
-    
+
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
-    
+
     @RawSQL
     public OrganizationBCDocumentSearchDaoJdbc() {
-        
+
         StringBuilder sqlText = new StringBuilder(500);
 
         sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
@@ -75,7 +75,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr\n");
         buildAccountSelectPullListTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-                
+
         sqlText.append("INSERT INTO LD_BCN_ACCTSEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FDOC_NBR, \n");
         sqlText.append(" ORG_LEVEL_CD, ORG_FIN_COA_CD, ORG_CD, FDOC_STATUS_CD, FDOC_CREATE_DT) \n");
@@ -116,7 +116,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append(" AND ah.account_nbr = head.account_nbr \n");
         sqlText.append(" AND ah.org_level_cd = head.org_level_cd \n");
         buildBudgetedAccountsAbovePointsOfView[0] = sqlText.toString();
-            
+
     }
 
     /**
@@ -125,28 +125,28 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      */
     @RawSQL
     public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
-
         LOG.debug("buildAccountSelectPullList() started");
 
         int rowsAffected = getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
         return rowsAffected;
     }
-    
-    @RawSQL
-    public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
 
+    /**
+     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @RawSQL
+    public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
         LOG.debug("buildBudgetedAccountsAbovePointsOfView() started");
 
-        getSimpleJdbcTemplate().update(buildBudgetedAccountsAbovePointsOfView[0], personUserIdentifier, personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildBudgetedAccountsAbovePointsOfView[0], personUserIdentifier, personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode);
+        return rowsAffected;
     }
-
-    
 
     /**
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
      */
     public void cleanAccountSelectPullList(String personUserIdentifier) {
-
         clearTempTableByUnvlId("ld_bcn_acctsel_t", "PERSON_UNVL_ID", personUserIdentifier);
     }
 

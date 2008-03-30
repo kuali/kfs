@@ -1081,5 +1081,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public final static String DESIGN_FILE_EXTENSION = ".jrxml";
         public final static String JASPER_REPORT_EXTENSION = ".jasper";
         public final static String PDF_FILE_EXTENSION = ".pdf";
+        public final static String PDF_MIME_TYPE = "application/pdf";
     }
 }

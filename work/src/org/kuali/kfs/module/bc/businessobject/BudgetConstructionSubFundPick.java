@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.SubFundGroup;
 
 /**
- * 
+ * Business Object that represents selected/unselected sub fund group code for a user.
  */
 public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase {
 
@@ -36,7 +36,7 @@ public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase
      * Default constructor.
      */
     public BudgetConstructionSubFundPick() {
-
+        reportFlag = new Integer(0);
     }
 
     /**

@@ -247,6 +247,24 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
         this.reportsToChartOfAccounts = reportsToChartOfAccounts;
     }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        boolean isEqual = true;
+        if (obj == null || !(obj instanceof BudgetConstructionPullup)) {
+            isEqual = false;
+        }
+        else {
+            if (!this.toString().equals(obj.toString())) {
+               isEqual = false; 
+            }
+        }
+        
+        return isEqual;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

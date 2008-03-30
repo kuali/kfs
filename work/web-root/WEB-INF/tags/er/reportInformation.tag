@@ -66,7 +66,7 @@
 					</kul:inquiry>
 					
 					<c:if test="${document.effortCertificationDocumentCode}" >
-					  &nbsp;&nbsp;<font color="red"><bean:write name="KualiForm" property="${EffortConstants.RECREATED_DOCUMENT_MESSAGE_KEY}" /></font>
+					  &nbsp;&nbsp;<font color="red"><bean:message key="${EffortConstants.RECREATED_DOCUMENT_MESSAGE_KEY}" /></font>
 					</c:if>
 				</td>
 			

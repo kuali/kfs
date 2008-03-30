@@ -18,36 +18,25 @@ package org.kuali.module.budget.web.struts.form;
 import org.kuali.core.web.struts.form.LookupForm;
 
 /**
- * This class...
+ * Action Form for budget special lookup screens.
  */
 public class TempListLookupForm extends LookupForm {
-    // holds the BC fiscal year that is currently active
     private Integer universityFiscalYear;
     private String personUniversalIdentifier;
     private String reportMode;
     private String currentPointOfViewKeyCode;
     private boolean buildControlList;
     private boolean reportConsolidation;
-    // controls automatic initial display of results
     private boolean showInitialResults;
-    
+    private int tempListLookupMode;
 
     /**
-     * Gets the universityFiscalYear attribute.
+     * Gets the currentPointOfViewKeyCode attribute.
      * 
-     * @return Returns the universityFiscalYear.
+     * @return Returns the currentPointOfViewKeyCode.
      */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+    public String getCurrentPointOfViewKeyCode() {
+        return currentPointOfViewKeyCode;
     }
 
     /**
@@ -60,12 +49,39 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Gets the reportMode attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @return Returns the reportMode.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public String getReportMode() {
+        return reportMode;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Gets the buildControlList attribute.
+     * 
+     * @return Returns the buildControlList.
+     */
+    public boolean isBuildControlList() {
+        return buildControlList;
+    }
+
+    /**
+     * Gets the reportConsolidation attribute.
+     * 
+     * @return Returns the reportConsolidation.
+     */
+    public boolean isReportConsolidation() {
+        return reportConsolidation;
     }
 
     /**
@@ -78,6 +94,51 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
+     * Sets the buildControlList attribute value.
+     * 
+     * @param buildControlList The buildControlList to set.
+     */
+    public void setBuildControlList(boolean buildControlList) {
+        this.buildControlList = buildControlList;
+    }
+
+    /**
+     * Sets the currentPointOfViewKeyCode attribute value.
+     * 
+     * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
+     */
+    public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
+        this.currentPointOfViewKeyCode = currentPointOfViewKeyCode;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the reportConsolidation attribute value.
+     * 
+     * @param reportConsolidation The reportConsolidation to set.
+     */
+    public void setReportConsolidation(boolean reportConsolidation) {
+        this.reportConsolidation = reportConsolidation;
+    }
+
+    /**
+     * Sets the reportMode attribute value.
+     * 
+     * @param reportMode The reportMode to set.
+     */
+    public void setReportMode(String reportMode) {
+        this.reportMode = reportMode;
+    }
+
+    /**
      * Sets the showInitialResults attribute value.
      * 
      * @param showInitialResults The showInitialResults to set.
@@ -86,37 +147,31 @@ public class TempListLookupForm extends LookupForm {
         this.showInitialResults = showInitialResults;
     }
 
-    public String getReportMode() {
-        return reportMode;
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 
-    public void setReportMode(String reportMode) {
-        this.reportMode = reportMode;
+    /**
+     * Gets the tempListLookupMode attribute.
+     * 
+     * @return Returns the tempListLookupMode.
+     */
+    public int getTempListLookupMode() {
+        return tempListLookupMode;
     }
 
-    public String getCurrentPointOfViewKeyCode() {
-        return currentPointOfViewKeyCode;
+    /**
+     * Sets the tempListLookupMode attribute value.
+     * 
+     * @param tempListLookupMode The tempListLookupMode to set.
+     */
+    public void setTempListLookupMode(int tempListLookupMode) {
+        this.tempListLookupMode = tempListLookupMode;
     }
-
-    public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
-        this.currentPointOfViewKeyCode = currentPointOfViewKeyCode;
-    }
-
-    public boolean isBuildControlList() {
-        return buildControlList;
-    }
-
-    public void setBuildControlList(boolean buildControlList) {
-        this.buildControlList = buildControlList;
-    }
-
-    public boolean isReportConsolidation() {
-        return reportConsolidation;
-    }
-
-    public void setReportConsolidation(boolean reportConsolidation) {
-        this.reportConsolidation = reportConsolidation;
-    }
-
 
 }

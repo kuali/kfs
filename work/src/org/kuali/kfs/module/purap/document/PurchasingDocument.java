@@ -453,7 +453,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * 
      * @param vendorContract the specified Vendor Contract.
      */
-    public void templateVendorContract(VendorContract vendorContract);
+    public void templateVendorContract(VendorContract vendorContract, VendorDetail vendorDetail);
 
     /**
      * Sets billing address fields based on the specified Billing Address.

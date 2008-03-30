@@ -166,12 +166,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.module.vendor.bo.VendorContract)
      */
-    public void templateVendorContract(VendorContract vendorContract) {
+    public void templateVendorContract(VendorContract vendorContract, VendorDetail vendorDetail) {
         if (vendorContract == null) {
             return;
         }
         this.setVendorContract(vendorContract);
         this.setVendorContractName(vendorContract.getVendorContractName());
+        vendorDetail.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
+        vendorDetail.refreshReferenceObject("vendorShippingTitle");
+        vendorDetail.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
+        vendorDetail.refreshReferenceObject("vendorPaymentTerms");
+        vendorDetail.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
+        vendorDetail.refreshReferenceObject("vendorShippingPaymentTerms");
+        this.setVendorDetail(vendorDetail);
+        this.setVendorShippingTitleCode(vendorContract.getVendorShippingTitleCode());
+        this.setVendorPaymentTermsCode(vendorContract.getVendorPaymentTermsCode());
+        this.setVendorShippingPaymentTermsCode(vendorContract.getVendorShippingPaymentTermsCode());
     }
 
     /**

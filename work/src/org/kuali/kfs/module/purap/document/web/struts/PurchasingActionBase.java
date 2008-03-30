@@ -107,7 +107,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(document.getVendorContractGeneratedIdentifier());
                 refreshVendorContract = (VendorContract) businessObjectService.retrieve(refreshVendorContract);
-                document.templateVendorContract(refreshVendorContract);
 
                 // Need to reset the vendor header and detail id of the document from the refreshVendorContract as well
                 // so that we can continue to do the other lookups (address, customer number) using the correct vendor ids.
@@ -122,6 +121,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
                 document.refreshReferenceObject("vendorDetail");
                 document.templateVendorDetail(document.getVendorDetail());
+                
+                document.templateVendorContract(refreshVendorContract, document.getVendorDetail());
 
                 // populate default address from selected vendor
                 VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
@@ -147,13 +148,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 refreshVendorAddress = (VendorAddress) businessObjectService.retrieve(refreshVendorAddress);
                 document.templateVendorAddress(refreshVendorAddress);
             }
-        }
-
-        // We're supposed to refresh vendor again based on the vendor header and detail id on the requisition, unless if
-        // this was a refresh for contract lookup or refresh for vendor lookup
-        if (!(StringUtils.equals(refreshCaller, VendorConstants.VENDOR_CONTRACT_LOOKUPABLE_IMPL) || (StringUtils.equalsIgnoreCase(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL)))) {
-            document.refreshReferenceObject("vendorDetail");
-            document.templateVendorDetail(document.getVendorDetail());
         }
 
         // Refreshing corresponding fields after returning from various kuali lookups 

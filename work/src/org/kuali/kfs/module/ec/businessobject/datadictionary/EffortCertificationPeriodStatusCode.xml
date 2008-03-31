@@ -31,7 +31,7 @@
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Period Status Code Lookup</title>
+            <title>Report Status Code Lookup</title>
 
             <instructions>Look up an Effort Certification Period Status Code</instructions>
 
@@ -54,7 +54,7 @@
         <attributes>
 
             <attribute name="effortCertificationReportPeriodStatusCode" forceUppercase="true">
-                <label>Effort Certification Report Period Status Code</label>
+                <label>Report Period Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -69,7 +69,7 @@
 			</attribute>
 
             <attribute name="effortCertificationReportPeriodStatusDescription" forceUppercase="true">
-                <label>Effort Certification Report Period Status Description</label>
+                <label>Report Period Status Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>

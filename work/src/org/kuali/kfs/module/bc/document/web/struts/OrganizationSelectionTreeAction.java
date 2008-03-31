@@ -540,7 +540,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, BCConstants.TempListLookupMode.POSITION_SELECT);
+            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.POSITION_SELECT));
 
             // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
@@ -592,7 +592,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT);
+            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT));
 
             // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
@@ -646,7 +646,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
-            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS);
+            parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_BUDGETED_DOCUMENTS));
 
             // String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.GL_MODIFIED_INQUIRY_ACTION, parameters);
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetTempListLookup.do", parameters);
@@ -869,7 +869,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, organizationSelectionTreeForm.getReportMode());
-        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV);
+        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV));
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, organizationSelectionTreeForm.getCurrentPointOfViewKeyCode());
 
         if ((organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountSummaryConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.ACCOUNT_OBJECT_DETAIL_REPORT.reportModeName) && organizationSelectionTreeForm.isAccountObjectDetailConsolidation()) || (organizationSelectionTreeForm.getReportMode().equals(BudgetConstructionReportMode.MONTH_SUMMARY_REPORT.reportModeName) && organizationSelectionTreeForm.isMonthObjectSummaryConsolidation())) {

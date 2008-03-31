@@ -7,62 +7,271 @@
  
         <inquiry>
             <title>Asset Inquiry</title>
-             
+			<inquirableClass>org.kuali.module.cams.web.inquirable.AssetInquirableImpl</inquirableClass>
+			             
             <inquirySections>
-                <inquirySection title="Asset Details">
-                    <inquiryFields>
-                        <field attributeName="acquisitionTypeCode" />
-                        <field attributeName="agencyNumber" />
-                        <field attributeName="buildingCode" />
-                        <field attributeName="buildingRoomNumber" />
-                        <field attributeName="buildingSubRoomNumber" />
-                        <field attributeName="campusCode" />
-                        <field attributeName="campusPoliceDepartmentCaseNumber" />
-                        <field attributeName="campusTagNumber" />
-                        <field attributeName="capitalAssetDescription" />
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="capitalAssetTypeCode" />
-                        <field attributeName="cashReceiptFinancialDocumentNumber" />
-                        <field attributeName="conditionCode" />
-                        <field attributeName="createDate" />
-                        <field attributeName="estimatedFabricationCompletionDate" />
-                        <field attributeName="estimatedSellingPrice" />
-                        <field attributeName="expectedReturnDate" />
-                        <field attributeName="fabricationEstimatedTotalAmount" />
-                        <field attributeName="financialDocumentPostingPeriodCode" />
-                        <field attributeName="financialDocumentPostingYear" />
-                        <field attributeName="insuranceChargeAccountNumber" />
-                        <field attributeName="insuranceChartOfAccountsCode" />
-                        <field attributeName="inventoryScannedCode" />
-                        <field attributeName="inventoryStatus.inventoryStatusCode"/>
-                        <field attributeName="lastInventoryDate" />
-                        <field attributeName="loanDate" />
-                        <field attributeName="loanReturnDate" />
-                        <field attributeName="manufacturerModelNumber" />
-                        <field attributeName="manufacturerName" />
-                        <field attributeName="oldTagNumber" />
-                        <field attributeName="organizationInventoryName" />
-                        <field attributeName="organizationOwnerAccountNumber" />
-                        <field attributeName="organizationOwnerChartOfAccountsCode" />
+	            <inquirySection title="Asset Detail Information">
+	                <inquiryFields>
+	                    <field attributeName="capitalAssetNumber" />
+	                    <field attributeName="organizationOwnerChartOfAccountsCode" />
+	                    <field attributeName="organizationOwnerAccountNumber" />
+	                    <field attributeName="organizationOwnerAccount.organizationCode" />
+	                    <field attributeName="agencyNumber" />
+	                    <field attributeName="acquisitionTypeCode" />
+	                    <field attributeName="inventoryStatus.inventoryStatusCode" />
+	                    <field attributeName="conditionCode" />
+	                    <field attributeName="capitalAssetDescription" />
+	                    <field attributeName="capitalAssetTypeCode" />
+	                    <field attributeName="vendorName" />
+	                    <field attributeName="manufacturerName" />
+	                    <field attributeName="manufacturerModelNumber" />
+						<field attributeName="serialNumber" />
+	                    <field attributeName="campusTagNumber" />
+	                    <field attributeName="oldTagNumber" />
+	                    <field attributeName="governmentTagNumber" />
+	                    <field attributeName="nationalStockNumber" />
+	                    <field attributeName="lastInventoryDate" />
+	                    <field attributeName="createDate" />
+	                    <field attributeName="financialDocumentPostingYear" />
+	                    <field attributeName="financialDocumentPostingPeriodCode" />
+	                    <field attributeName="capitalAssetInServiceDate" />
+	                    <field attributeName="totalCostAmount" />
+	                    <field attributeName="federalContribution" />
+	                </inquiryFields>
+	            </inquirySection>
+
+	            <inquirySection title="Asset Location">
+		            <inquiryFields> 
+						<inquirySubSectionHeader name="On Campus" />
+						<field attributeName="campusCode" />
+						<field attributeName="buildingCode" />
+						<field attributeName="buildingRoomNumber" />
+						<field attributeName="buildingSubRoomNumber" />
+						
+						<inquirySubSectionHeader name="Off Campus" />					
+						<field attributeName="offCampusLocation.assetLocationContactName" />
+						<field attributeName="offCampusLocation.assetLocationStreetAddress" />
+						<field attributeName="offCampusLocation.assetLocationCityName" />
+						<field attributeName="offCampusLocation.assetLocationState.postalStateCode" />
+						<field attributeName="offCampusLocation.assetLocationZipCode" />
+						<field attributeName="offCampusLocation.assetLocationCountry.postalCountryName" />
+					</inquiryFields>
+	            </inquirySection>
+	            
+	            <inquirySection title="Organization Information">
+	                <inquiryFields>
+	                	<field attributeName="organizationInventoryName" />
+	                	<field attributeName="representativeUniversalIdentifier" />
+	                	<field attributeName="assetRepresentative.personUserIdentifier" />
+	                	<field attributeName="assetRepresentative.personName" />
+	                	<field attributeName="assetOrganization.organizationText" />
+	                	<field attributeName="assetOrganization.organizationTagNumber" />
+	                	<field attributeName="assetOrganization.organizationAssetTypeIdentifier" />
+	                	<field attributeName="receiveDate" />
+	                	<field attributeName="replacementAmount" />
+	                	<field attributeName="estimatedSellingPrice" />
+	                 </inquiryFields>
+	            </inquirySection>
+	
+	            <inquirySection title="Fabrication Information">
+	                <inquiryFields> 
+	                    <field attributeName="estimatedFabricationCompletionDate" />
+	                    <field attributeName="fabricationEstimatedTotalAmount" />				
+	                </inquiryFields>
+	            </inquirySection>
+	
+				<inquirySection title="Land Information">
+					<inquiryFields>
+						<field attributeName="landCountyName" />
+						<field attributeName="landAcreageSize" />
+						<field attributeName="landParcelNumber" />
+					</inquiryFields>
+				</inquirySection>
+
+				<inquirySection title="Payment Information" >
+	                <inquiryFields>
+	                    <inquiryCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" numberOfColumns="2" summaryTitle="Payment">
+	                        <field attributeName="chartOfAccountsCode" />
+	                        <field attributeName="accountNumber" />
+	                        <field attributeName="subAccountNumber" />
+	                        <field attributeName="financialObjectCode" />
+	                        <field attributeName="projectCode" /> 
+	                        <field attributeName="organizationReferenceId" />
+	                        <field attributeName="documentNumber" />
+	                        <field attributeName="financialDocumentTypeCode" />
+	                        <field attributeName="purchaseOrderNumber" />
+	                        <field attributeName="requisitionNumber" />
+	                        <field attributeName="financialDocumentPostingDate" />
+	                        <field attributeName="financialDocumentPostingYear" />
+	                        <field attributeName="financialDocumentPostingPeriodCode" />
+	                        <field attributeName="transferPaymentCode" />
+	                        <field attributeName="accountChargeAmount" />
+	                        <field attributeName="accumulatedPrimaryDepreciationAmount" />
+	                        <field attributeName="yearToDate" />
+	                        <field attributeName="previousYearPrimaryDepreciationAmount" />
+	                        <field attributeName="period1Depreciation1Amount" />
+	                        <field attributeName="period2Depreciation1Amount" />
+	                        <field attributeName="period3Depreciation1Amount" />
+	                        <field attributeName="period4Depreciation1Amount" />
+	                        <field attributeName="period5Depreciation1Amount" />
+	                        <field attributeName="period6Depreciation1Amount" />
+	                        <field attributeName="period7Depreciation1Amount" />
+	                        <field attributeName="period8Depreciation1Amount" />
+	                        <field attributeName="period9Depreciation1Amount" />
+	                        <field attributeName="period10Depreciation1Amount" />
+	                        <field attributeName="period11Depreciation1Amount" />
+	                        <field attributeName="period12Depreciation1Amount" />
+	                        <field attributeName="paymentSequenceNumber" />
+                            <inquirySummaryFields>
+                              <inquirySummaryField attributeName="paymentSequenceNumber" />
+                              <inquirySummaryField attributeName="financialDocumentPostingDate" />
+                              <inquirySummaryField attributeName="accountChargeAmount" />
+                            </inquirySummaryFields>
+	   		            </inquiryCollection>
+		          		<!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
+	                    <!-- field attributeName="paymentTotalCost" / -->
+			        </inquiryFields>
+			    </inquirySection>
+
+	            <inquirySection title="Asset Depreciation Information">
+					 <inquiryFields>
 						<field attributeName="assetPrimaryDepreciationMethod.depreciationMethodCode" />
-                        <field attributeName="receiveDate" />
-                        <field attributeName="replacementAmount" />
-                        <field attributeName="representativeUniversalIdentifier" />
-                        <field attributeName="retirementAccountNumber" />
-                        <field attributeName="retirementChartOfAccountsCode" />
-                        <field attributeName="retirementFiscalYear" />
-                        <field attributeName="retirementPeriodCode" />
-                        <field attributeName="retirementReasonCode" />
-                        <field attributeName="salePrice" />
-                        <field attributeName="salvageAmount" />
-                        <field attributeName="secondaryDepreciationMethodCode" />
-                        <field attributeName="serialNumber" />
-                        <field attributeName="signatureCode" />
-                        <field attributeName="totalCostAmount" />
-                        <field attributeName="transferOfFundsFinancialDocumentNumber" />
-                        <field attributeName="vendorName" />
-                    </inquiryFields>
-                </inquirySection>
+						<field attributeName="capitalAssetType.depreciableLifeLimit" />
+						<field attributeName="baseAmount" />
+						<field attributeName="salvageAmount" />					
+						<field attributeName="accumulatedDepreciation" />
+						<field attributeName="bookValue" />
+						<field attributeName="yearToDateDepreciation" />
+						<field attributeName="currentMonthDepreciation" />
+						<field attributeName="prevYearDepreciation" />
+					</inquiryFields>
+				</inquirySection>
+	          
+	            <inquirySection title="View Asset History">
+	            	<inquiryFields>
+	                	<inquirySubSectionHeader name="View Merge History" />
+	                	<field attributeName="assetMergeHistory.originalCapitalAssetNumber" />
+	                	<field attributeName="assetMergeHistory.dispositionDate" />
+	                	<inquirySubSectionHeader name="View Separate History" />
+	                    <field attributeName="assetSeparateHistory.originalCapitalAssetNumber" />
+	                	<field attributeName="assetSeparateHistory.dispositionDate" />
+	            	</inquiryFields>
+	            </inquirySection>
+	            
+	            <inquirySection title="View Retirement Information">
+		          	<inquiryFields>
+		          		<field attributeName="retirementInfo.documentNumber" />
+		          		<field attributeName="retirementReasonCode" />
+		          		<field attributeName="retirementInfo.assetRetirementGlobal.retirementDate" />
+		          		<inquirySubSectionHeader name="Sale" />
+		          		<field attributeName="salePrice" />
+		          		<field attributeName="estimatedSellingPrice" />
+		          		<field attributeName="cashReceiptFinancialDocumentNumber" />
+		          		<field attributeName="retirementChartOfAccountsCode" />
+		          		<field attributeName="retirementAccountNumber" />
+		          		<inquirySubSectionHeader name="Stolen" />
+		          		<field attributeName="campusPoliceDepartmentCaseNumber" />
+		          		<inquirySubSectionHeader name="External Transfer/Gift" />
+		          		<field attributeName="retirementInfo.retirementContactName" />
+		          		<field attributeName="retirementInfo.retirementInstitutionName" />
+		          		<field attributeName="retirementInfo.retirementStreetAddress" />
+		          		<field attributeName="retirementInfo.retirementCityName" />
+		          		<field attributeName="retirementInfo.retirementStateCode" />
+		          		<field attributeName="retirementInfo.retirementZipCode" />
+		          		<field attributeName="retirementInfo.retirementCountryCode" />
+		          		<field attributeName="retirementInfo.retirementPhoneNumber" />          		
+		          	</inquiryFields>
+	            </inquirySection>
+	            
+	            <inquirySection title="View Equipment Loan Information">              	
+	              	<inquiryFields>
+	            		<field attributeName="loanDate" />	
+						<field attributeName="expectedReturnDate" />
+						<field attributeName="loanReturnDate" />
+						<inquirySubSectionHeader name="Borrower Address" />
+						<field attributeName="loanOrReturnInfo.borrowerUniversalUser.personName" />
+						<field attributeName="loanOrReturnInfo.borrowerAddress" />
+						<field attributeName="loanOrReturnInfo.borrowerCityName" />
+						<field attributeName="loanOrReturnInfo.borrowerState.postalStateCode" />
+						<field attributeName="loanOrReturnInfo.borrowerZipCode" />
+						<field attributeName="loanOrReturnInfo.borrowerCountry.postalCountryName" />
+						<field attributeName="loanOrReturnInfo.borrowerPhoneNumber" />
+						<inquirySubSectionHeader name="Stored at Address" />
+						<field attributeName="loanOrReturnInfo.borrowerStorageAddress" />
+						<field attributeName="loanOrReturnInfo.borrowerStorageCityName" />
+						<field attributeName="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
+						<field attributeName="loanOrReturnInfo.borrowerStorageZipCode" />
+						<field attributeName="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+						<field attributeName="loanOrReturnInfo.borrowerStoragePhoneNumber" />
+	                </inquiryFields>
+	            </inquirySection>
+	
+	            <inquirySection title="Warranty">
+		          	<inquiryFields>
+		          		<field attributeName="assetWarranty.warrantyNumber" />
+		          		<field attributeName="assetWarranty.warrantyContactName" />
+		          		<field attributeName="assetWarranty.warrantyPhoneNumber" />
+		          		<field attributeName="assetWarranty.warrantyPurchaseOrderNumber" />
+		          		<!-- TODO KFSMI-646: Commenting in the following two causes ClassCastException -->
+		          		<!-- field attributeName="assetWarranty.warrantyBeginningDate" /-->
+		          		<!-- field attributeName="assetWarranty.warrantyEndingDate" /-->
+		          		<field attributeName="assetWarranty.warrantyText" />       		
+		          	</inquiryFields>
+	            </inquirySection>
+
+	            <inquirySection title="Repair History" >
+		          	<inquiryFields>
+		          		<inquiryCollection name="assetRepairHistory" businessObjectClass="org.kuali.module.cams.bo.AssetRepairHistory" numberOfColumns="2" >
+		          			<field attributeName="incidentDate" />
+		          			<field attributeName="problemDescription" />
+		          			<field attributeName="repairContactName" />
+		          			<field attributeName="estimatedRepairDate" />
+		          			<field attributeName="repairDate" />
+		          			<field attributeName="repairAmount" />
+		          			<field attributeName="repairSolutionDescription" />
+		          			<field attributeName="repairNoteText" />
+		          		</inquiryCollection>
+		          	</inquiryFields>
+	            </inquirySection>
+	            
+	            <inquirySection title="Components" >
+		          	<inquiryFields>
+		          		<inquiryCollection name="assetComponents" businessObjectClass="org.kuali.module.cams.bo.AssetComponent" numberOfColumns="2" >
+		          			<field attributeName="componentNumber" />
+		          			<field attributeName="componentDescription" />
+		          			<field attributeName="componentConditionCode" />
+		          			<field attributeName="componentVendorName" />
+		          			<field attributeName="componentManufacturerName" />
+		          			<field attributeName="componentManufacturerModelNumber" />
+		          			<field attributeName="componentSerialNumber" />
+		          			<field attributeName="componentOrganizationTagNumber" />
+		          			<field attributeName="componentContactPhoneNumber" />
+		          			<field attributeName="componentOrganizationText" />
+		          			<field attributeName="componentEstimatedLifetimeLimit" />
+		          			<field attributeName="componentReplacementAmount" />
+		          			<field attributeName="governmentTagNumber" />
+		          			<field attributeName="nationalStockNumber" />
+		          			<field attributeName="componentWarrantyNumber" />
+		          			<field attributeName="componentWarrantyContactName" />
+		          			<field attributeName="componentWarrantyPhoneNumber" />
+		          			<field attributeName="componentWarrantyPurchaseOrderNumber" />
+		          			<field attributeName="componentWarrantyBeginningDate" />
+		          			<field attributeName="componentWarrantyEndingDate" />
+		          			<field attributeName="componentWarrantyText" />
+		          			<inquiryCollection name="componentRepairHistory" businessObjectClass="org.kuali.module.cams.bo.ComponentRepairHistory" numberOfColumns="2" >
+								<field attributeName="componentIncidentDate" />
+								<field attributeName="componentProblemDescription" />
+								<field attributeName="componentRepairContactName" />
+								<field attributeName="componentEstimatedRepairDate" />
+								<field attributeName="componentRepairDate" />
+								<field attributeName="componentRepairAmount" />
+								<field attributeName="componentRepairSolutionDescription" />
+								<field attributeName="componentRepairNoteText" />
+		          			</inquiryCollection>
+		          		</inquiryCollection>
+		          	</inquiryFields>
+	            </inquirySection>
+
             </inquirySections>  
         </inquiry>
 
@@ -1038,6 +1247,15 @@
             <attributeReference name="assetStatus.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode"/>
             <attributeReference name="assetPrimaryDepreciationMethod.depreciationMethodCode" sourceClassName="org.kuali.module.cams.bo.AssetDepreciationMethod" sourceAttributeName="depreciationMethodCode"/>
             
+            <!-- TODO KFSMI-637: Below might not be necessary anymore if it's improved at some point. -->
+            <attributeReference name="inventoryStatus.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.AssetStatus" sourceAttributeName="inventoryStatusCode"/> 
+            <attributeReference name="offCampusLocation.assetLocationState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
+            <attributeReference name="offCampusLocation.assetLocationCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
+            <attributeReference name="loanOrReturnInfo.borrowerState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
+            <attributeReference name="loanOrReturnInfo.borrowerCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
+            <attributeReference name="loanOrReturnInfo.borrowerStorageState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
+            <attributeReference name="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
+
         </attributes>
                     
         <relationships>

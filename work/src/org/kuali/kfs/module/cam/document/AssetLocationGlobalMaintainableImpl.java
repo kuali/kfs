@@ -16,14 +16,23 @@
 package org.kuali.module.cams.maintenance;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.bo.AssetLocationGlobal;
 import org.kuali.module.cams.bo.AssetLocationGlobalDetail;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location assets
@@ -32,6 +41,48 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalMaintainableImpl.class);
 
+    /**
+     * Populates any empty fields from Asset primary key
+     * 
+     * @see org.kuali.core.maintenance.Maintainable#addNewLineToCollection(java.lang.String)
+     */
+    
+    @Override
+    public void addNewLineToCollection(String collectionName) {
+  
+        // get AssetLocationGlobalDetail List from AssetLocationGlobal
+        AssetLocationGlobalDetail addAssetLine = (AssetLocationGlobalDetail) newCollectionLines.get(collectionName);
+        
+        // validate and place PK into Map
+        HashMap map = new HashMap();
+        map.put("capitalAssetNumber", addAssetLine.getCapitalAssetNumber());
+        
+        // retrieve Asset object by PK
+        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
+        
+        if (ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) { 
+            if (StringUtils.isBlank(addAssetLine.getCampusCode())) {
+                addAssetLine.setCampusCode(asset.getCampusCode());
+            }
+            if (StringUtils.isBlank(addAssetLine.getBuildingCode())) {
+                addAssetLine.setBuildingCode(asset.getBuildingCode());
+            }
+            if (StringUtils.isBlank(addAssetLine.getBuildingRoomNumber())) {
+                addAssetLine.setBuildingRoomNumber(asset.getBuildingRoomNumber());
+            }
+            if (StringUtils.isBlank(addAssetLine.getBuildingSubRoomNumber())) {
+                addAssetLine.setBuildingSubRoomNumber(asset.getBuildingSubRoomNumber());
+            }
+            if(StringUtils.isBlank(addAssetLine.getCampusTagNumber())) { 
+                addAssetLine.setCampusTagNumber(asset.getCampusTagNumber());
+            }
+            addAssetLine.setNewCollectionRecord(true);
+            //Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
+            //maintCollection.add(addAssetLine);
+        }
+        super.addNewLineToCollection(collectionName);
+    }
+    
     /**
      * This creates the particular locking representation for this global location document.
      * 

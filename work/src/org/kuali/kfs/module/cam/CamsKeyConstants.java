@@ -21,6 +21,7 @@ package org.kuali.module.cams;
  */
 public class CamsKeyConstants {
 
+    public static final String ERROR_INVALID_CAPITAL_ASSET_NUMBER = "error.invalid.capital.asset.number";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
     public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";

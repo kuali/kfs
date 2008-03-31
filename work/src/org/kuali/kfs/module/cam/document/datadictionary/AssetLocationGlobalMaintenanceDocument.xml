@@ -22,7 +22,8 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.AssetLocationGlobal</businessObjectClass>
         <maintainableClass>org.kuali.module.cams.maintenance.AssetLocationGlobalMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
+        <businessRulesClass>org.kuali.module.cams.rules.AssetLocationGlobalRule</businessRulesClass> 
+        <!-- <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass> -->
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
@@ -52,12 +53,12 @@
                     <maintainableCollection name="assetLocationGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetLocationGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetLocationGlobalDetails" summaryTitle="Asset">
 
                         <maintainableField name="capitalAssetNumber" template="capitalAssetNumber" required="true" readOnlyAfterAdd="true" />
-                        <maintainableField name="campusCode" template="campusCode" />
-                        <maintainableField name="buildingCode" template="buildingCode" />
-                        <maintainableField name="buildingRoomNumber" template="buildingRoomNumber" />
-                        <maintainableField name="buildingSubRoomNumber" template="buildingSubRoomNumber" />
-                        <maintainableField name="campusTagNumber" template="campusTagNumber" />
-                        <maintainableField name="versionNumber" />
+                        <maintainableField name="campusCode" template="campusCode" required="false" />
+                        <maintainableField name="buildingCode" template="buildingCode" required="false" />
+                        <maintainableField name="buildingRoomNumber" template="buildingRoomNumber" required="false" />
+                        <maintainableField name="buildingSubRoomNumber" template="buildingSubRoomNumber" required="false" />
+                        <maintainableField name="campusTagNumber" template="campusTagNumber" required="false" />
+                        <maintainableField name="versionNumber" required="false" />
                         <summaryFields>
                             <summaryField name="capitalAssetNumber" />
                         </summaryFields>

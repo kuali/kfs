@@ -21,9 +21,7 @@ import org.kuali.kfs.context.SpringContext;
 public class AssetLocationGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
 	private String documentNumber;
-
     private DocumentHeader documentHeader;
-
     private List<AssetLocationGlobalDetail> assetLocationGlobalDetails;
     
 	/**

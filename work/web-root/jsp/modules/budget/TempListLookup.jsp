@@ -89,7 +89,7 @@
                 --> 					
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline">
-					<c:if test="${KualiForm.tempListLookupMode != BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
+					<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
 					  <html:image
 					  	  property="methodToCall.submitReport" value="submit"
 						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"

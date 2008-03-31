@@ -58,7 +58,7 @@
 		</defaultExistenceChecks>
 		
 	    <maintainableSections>
-	        <maintainableSection title="Edit Effort Certification Report">
+	        <maintainableSection title="Edit Report Definition">
 	        	<maintainableItems>
 	        		<maintainableField name="universityFiscalYear" required="true" />
 	                <maintainableField name="effortCertificationReportNumber" required="true" />

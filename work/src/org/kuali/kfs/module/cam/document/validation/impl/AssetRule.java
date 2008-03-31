@@ -240,7 +240,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
         // TODO: Fix this with the right method parameters and property constants:
-        valid = valid && parameterService.getParameterEvaluator(newAsset.getClass(), "VALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , "INVALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(Asset.class, "aValidPropertyConstant");
+        //valid = valid && parameterService.getParameterEvaluator(newAsset.getClass(), "VALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , "INVALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(Asset.class, "aValidPropertyConstant");
         if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(oldAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
             putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
             valid &= false;

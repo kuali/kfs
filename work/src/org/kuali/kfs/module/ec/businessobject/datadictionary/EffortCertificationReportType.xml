@@ -57,7 +57,7 @@
         <attributes>
 
             <attribute name="effortCertificationReportDescription" forceUppercase="true">
-                <label>Effort Certification Report Description</label>
+                <label>Report Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -72,7 +72,7 @@
 			</attribute>
 
             <attribute name="effortCertificationReportTypeCode" forceUppercase="true">
-                <label>Effort Certification Report Type Code</label>
+                <label>Report Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>

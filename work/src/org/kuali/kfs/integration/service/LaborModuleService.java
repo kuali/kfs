@@ -79,7 +79,7 @@ public interface LaborModuleService {
      * @param salaryAmount the given salary amount
      * @return the fringe benefit amount for the given labor object and salary amount
      */
-    public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
     
     /**
      * calculate the fringe benefit amount for the given object code and salary amount

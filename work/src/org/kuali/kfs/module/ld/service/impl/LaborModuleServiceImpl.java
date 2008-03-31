@@ -30,6 +30,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
@@ -38,8 +39,15 @@ import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerBalanceForEffortCertification;
+import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.module.labor.bo.PositionObjectGroup;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
@@ -55,30 +63,12 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class LaborModuleServiceImpl implements LaborModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborModuleServiceImpl.class);
 
-    private LaborBenefitsCalculationService laborBenefitsCalculationService;
-    private LaborLedgerEntryService laborLedgerEntryService;
-    private LaborLedgerBalanceService laborLedgerBalanceService;
-
-    private DocumentService documentService;
-    private DocumentTypeService documentTypeService;
-    private UniversityDateService universityDateService;
-    private BusinessObjectService businessObjectService;
-
-    private Class<? extends LaborLedgerBalance> laborLedgerBalanceClass;
-    private Class<? extends LaborLedgerEntry> laborLedgerEntryClass;
-    private Class<? extends LaborLedgerObject> laborLedgerObjectClass;
-    private Class<? extends LaborLedgerPositionObjectBenefit> laborLedgerPositionObjectBenefitClass;
-    private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
-    private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferSourceAccountingLineClass;
-    private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass;
-    private Class<? extends LaborLedgerBalance> laborLedgerBalanceForEffortCertificationClass;
-
     /**
      * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(org.kuali.kfs.bo.LaborLedgerObject,
      *      org.kuali.core.util.KualiDecimal)
      */
-    public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
-        return laborBenefitsCalculationService.calculateFringeBenefit(laborLedgerObject, salaryAmount);
+    public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
+        return getLaborBenefitsCalculationService().calculateFringeBenefit(laborLedgerObject, salaryAmount);
     }
 
     /**
@@ -86,7 +76,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
-        return laborBenefitsCalculationService.calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
+        return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
     }
 
     /**
@@ -96,7 +86,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     public void createSalaryExpenseTransferDocument(String documentDescription, String explanation, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
         LOG.info("createSalaryExpenseTransferDocument() start");
 
-        SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) documentService.getNewDocument(SalaryExpenseTransferDocument.class);
+        SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) getDocumentService().getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
 
@@ -107,14 +97,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setFinancialDocumentDescription(documentDescription);
         documentHeader.setExplanation(explanation);
 
-        documentService.blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
+        getDocumentService().blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#countPendingSalaryExpenseTransfer(java.lang.String)
      */
     public int countPendingSalaryExpenseTransfer(String emplid) {
-        String documentTypeCode = documentTypeService.getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
+        String documentTypeCode = getDocumentTypeService().getDocumentTypeCodeByClass(SalaryExpenseTransferDocument.class);
 
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -124,7 +114,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         Map<String, Object> negativeFieldValues = new HashMap<String, Object>();
         negativeFieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, approvedCodes);
 
-        return businessObjectService.countMatching(LaborLedgerPendingEntry.class, positiveFieldValues, negativeFieldValues);
+        return getBusinessObjectService().countMatching(LaborLedgerPendingEntry.class, positiveFieldValues, negativeFieldValues);
     }
 
     /**
@@ -132,7 +122,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.util.Map)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
-        return laborLedgerEntryService.findEmployeesWithPayType(payPeriods, balanceTypes, earnCodePayGroupMap);
+        return getLaborLedgerEntryService().findEmployeesWithPayType(payPeriods, balanceTypes, earnCodePayGroupMap);
     }
 
     /**
@@ -140,7 +130,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
-        return laborLedgerEntryService.isEmployeeWithPayType(emplid, payPeriods, balanceTypes, earnCodePayGroupMap);
+        return getLaborLedgerEntryService().isEmployeeWithPayType(emplid, payPeriods, balanceTypes, earnCodePayGroupMap);
     }
 
     /**
@@ -150,7 +140,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     public Collection<LaborLedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypes, List<String> positionObjectGroupCodes) {
         Collection<LaborLedgerBalance> LaborLedgerBalances = new ArrayList<LaborLedgerBalance>();
 
-        Collection<LedgerBalance> ledgerBalances = laborLedgerBalanceService.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+        Collection<LedgerBalance> ledgerBalances = getLaborLedgerBalanceService().findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
         for (LedgerBalance balance : ledgerBalances) {
             LaborLedgerBalances.add(balance);
         }
@@ -161,42 +151,42 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
-        return this.laborLedgerBalanceClass;
+        return LedgerBalance.class;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerEntryClass()
      */
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass() {
-        return this.laborLedgerEntryClass;
+        return LedgerEntry.class;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerObjectClass()
      */
     public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass() {
-        return laborLedgerObjectClass;
+        return LaborObject.class;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
-        return this.laborLedgerPositionObjectBenefitClass;
+        return PositionObjectBenefit.class;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
-        return this.laborLedgerPositionObjectGroupClass;
+        return PositionObjectGroup.class;
     }
-    
+
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass() {
-        return laborLedgerBalanceForEffortCertificationClass;
+        return LedgerBalanceForEffortCertification.class;
     }
 
     /**
@@ -205,140 +195,76 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @return Returns the expenseTransferSourceAccountingLineClass.
      */
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferSourceAccountingLineClass() {
-        return expenseTransferSourceAccountingLineClass;
+        return ExpenseTransferSourceAccountingLine.class;
     }
 
     /**
-     * Gets the expenseTransferTargetAccountingLineClass attribute.
-     * 
-     * @return Returns the expenseTransferTargetAccountingLineClass.
+     * @see org.kuali.module.integration.service.LaborModuleService#getExpenseTransferTargetAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferTargetAccountingLineClass() {
-        return expenseTransferTargetAccountingLineClass;
+        return ExpenseTransferTargetAccountingLine.class;
     }
 
     /**
-     * Sets the laborBenefitsCalculationService attribute value.
+     * Gets the laborBenefitsCalculationService attribute.
      * 
-     * @param laborBenefitsCalculationService The laborBenefitsCalculationService to set.
+     * @return Returns the laborBenefitsCalculationService.
      */
-    public void setLaborBenefitsCalculationService(LaborBenefitsCalculationService laborBenefitsCalculationService) {
-        this.laborBenefitsCalculationService = laborBenefitsCalculationService;
+    public LaborBenefitsCalculationService getLaborBenefitsCalculationService() {
+        return SpringContext.getBean(LaborBenefitsCalculationService.class);
     }
 
     /**
-     * Sets the laborLedgerBalanceClass attribute value.
+     * Gets the laborLedgerEntryService attribute.
      * 
-     * @param laborLedgerBalanceClass The laborLedgerBalanceClass to set.
+     * @return Returns the laborLedgerEntryService.
      */
-    public void setLaborLedgerBalanceClass(Class<? extends LaborLedgerBalance> laborLedgerBalanceClass) {
-        this.laborLedgerBalanceClass = laborLedgerBalanceClass;
+    public LaborLedgerEntryService getLaborLedgerEntryService() {
+        return SpringContext.getBean(LaborLedgerEntryService.class);
     }
 
     /**
-     * Sets the laborLedgerBalanceService attribute value.
+     * Gets the laborLedgerBalanceService attribute.
      * 
-     * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
+     * @return Returns the laborLedgerBalanceService.
      */
-    public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
-        this.laborLedgerBalanceService = laborLedgerBalanceService;
+    public LaborLedgerBalanceService getLaborLedgerBalanceService() {
+        return SpringContext.getBean(LaborLedgerBalanceService.class);
     }
 
     /**
-     * Sets the documentService attribute value.
+     * Gets the documentService attribute.
      * 
-     * @param documentService The documentService to set.
+     * @return Returns the documentService.
      */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    public DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
     }
 
     /**
-     * Sets the laborLedgerEntryClass attribute value.
+     * Gets the documentTypeService attribute.
      * 
-     * @param laborLedgerEntryClass The laborLedgerEntryClass to set.
+     * @return Returns the documentTypeService.
      */
-    public void setLaborLedgerEntryClass(Class<? extends LaborLedgerEntry> laborLedgerEntryClass) {
-        this.laborLedgerEntryClass = laborLedgerEntryClass;
+    public DocumentTypeService getDocumentTypeService() {
+        return SpringContext.getBean(DocumentTypeService.class);
     }
 
     /**
-     * Sets the laborLedgerEntryService attribute value.
+     * Gets the universityDateService attribute.
      * 
-     * @param laborLedgerEntryService The laborLedgerEntryService to set.
+     * @return Returns the universityDateService.
      */
-    public void setLaborLedgerEntryService(LaborLedgerEntryService laborLedgerEntryService) {
-        this.laborLedgerEntryService = laborLedgerEntryService;
+    public UniversityDateService getUniversityDateService() {
+        return SpringContext.getBean(UniversityDateService.class);
     }
 
     /**
-     * Sets the laborLedgerObjectClass attribute value.
+     * Gets the businessObjectService attribute.
      * 
-     * @param laborLedgerObjectClass The laborLedgerObjectClass to set.
+     * @return Returns the businessObjectService.
      */
-    public void setLaborLedgerObjectClass(Class<? extends LaborLedgerObject> laborLedgerObjectClass) {
-        this.laborLedgerObjectClass = laborLedgerObjectClass;
-    }
-
-    /**
-     * Sets the laborLedgerPositionObjectBenefitClass attribute value.
-     * 
-     * @param laborLedgerPositionObjectBenefitClass The laborLedgerPositionObjectBenefitClass to set.
-     */
-    public void setLaborLedgerPositionObjectBenefitClass(Class<? extends LaborLedgerPositionObjectBenefit> laborLedgerPositionObjectBenefitClass) {
-        this.laborLedgerPositionObjectBenefitClass = laborLedgerPositionObjectBenefitClass;
-    }
-
-    /**
-     * Sets the laborLedgerPositionObjectGroupClass attribute value.
-     * 
-     * @param laborLedgerPositionObjectGroupClass The laborLedgerPositionObjectGroupClass to set.
-     */
-    public void setLaborLedgerPositionObjectGroupClass(Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass) {
-        this.laborLedgerPositionObjectGroupClass = laborLedgerPositionObjectGroupClass;
-    }
-
-    /**
-     * Sets the expenseTransferSourceAccountingLineClass attribute value.
-     * 
-     * @param expenseTransferSourceAccountingLineClass The expenseTransferSourceAccountingLineClass to set.
-     */
-    public void setExpenseTransferSourceAccountingLineClass(Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferSourceAccountingLineClass) {
-        this.expenseTransferSourceAccountingLineClass = expenseTransferSourceAccountingLineClass;
-    }
-
-    /**
-     * Sets the expenseTransferTargetAccountingLineClass attribute value.
-     * 
-     * @param expenseTransferTargetAccountingLineClass The expenseTransferTargetAccountingLineClass to set.
-     */
-    public void setExpenseTransferTargetAccountingLineClass(Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass) {
-        this.expenseTransferTargetAccountingLineClass = expenseTransferTargetAccountingLineClass;
-    }
-
-    /**
-     * Sets the documentTypeService attribute value.
-     * 
-     * @param documentTypeService The documentTypeService to set.
-     */
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the laborLedgerBalanceForEffortCertificationClass attribute value.
-     * @param laborLedgerBalanceForEffortCertificationClass The laborLedgerBalanceForEffortCertificationClass to set.
-     */
-    public void setLaborLedgerBalanceForEffortCertificationClass(Class<? extends LaborLedgerBalance> laborLedgerBalanceForEffortCertificationClass) {
-        this.laborLedgerBalanceForEffortCertificationClass = laborLedgerBalanceForEffortCertificationClass;
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
     }
 }

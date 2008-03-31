@@ -2,4 +2,6 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<bean id="contractsAndGrantsModuleService" class="org.kuali.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" />
+				
+	<bean id="laborModuleService" class="org.kuali.module.labor.service.impl.LaborModuleServiceImpl" />
 </beans>

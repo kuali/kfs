@@ -56,6 +56,7 @@
             </relationship>
             <relationship objectAttributeName="effortCertificationReportDefinition" >
 				<primitiveAttribute sourceName="effortCertificationReportNumber" targetName="effortCertificationReportNumber" />
+				<primitiveAttribute sourceName="universityFiscalYear" targetName="universityFiscalYear" />
             </relationship>
 	    </relationships>     
     </businessObject>

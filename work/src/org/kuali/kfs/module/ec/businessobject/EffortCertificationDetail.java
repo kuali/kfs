@@ -326,6 +326,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
         this.financialDocumentPostingYear = financialDocumentPostingYear;
+        this.universityFiscalYear = financialDocumentPostingYear;
     }
 
     /**

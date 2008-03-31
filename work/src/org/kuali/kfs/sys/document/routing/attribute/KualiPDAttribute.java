@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -157,8 +158,8 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
         return new ArrayList(projectDirectors);
     }
 
-    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
-        try {
+    public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) {
+        
             List<Id> members = new ArrayList();
             String annotation = "";
             ProjectDirectorRole role = getUnqualifiedProjectDirectorRole(qualifiedRole);
@@ -167,33 +168,23 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
             if (projectDirectorUniversalId != null) {
                 members.add(projectDirectorUniversalId);
             }
-            else {
-                throw new IllegalStateException("Project Director not found for chart/account " + role.chart + "/" + role.accountNumber);
-            }
             return new ResolvedQualifiedRole(roleName, members, annotation);
-        }
-        catch (IllegalStateException ise) {
-            throw ise;
-        }
-        catch (Exception e) {
-
-            throw new RuntimeException("KualiPDAttribute encountered exception while attempting to resolve qualified role", e);
-        }
+        
     }
 
-    private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) throws Exception {// fix this
-        String projectDirectorUniversalId = null;
+    private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) {
+        UniversalUser projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
-            projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber).getPersonUniversalIdentifier();
+            projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
         }
 
         // if we cant find a Project Director, log it.
-        if (StringUtils.isBlank(projectDirectorUniversalId)) {
-            LOG.debug(new StringBuffer("Could not locate the project director for the given account ").append(role.accountNumber).toString());
+        if (null==projectDirectorUniversalId) {
+            LOG.debug(new StringBuffer("Could not locate the project director for the given account ").append(role.chart).append(" ").append(role.accountNumber).toString());
             return null;
         }
 
-        return new UuId(projectDirectorUniversalId);
+        return new UuId(projectDirectorUniversalId.getPersonUniversalIdentifier());
 
     }
 

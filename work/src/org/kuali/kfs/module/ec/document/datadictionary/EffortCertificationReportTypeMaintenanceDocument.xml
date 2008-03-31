@@ -35,7 +35,7 @@
 		<documentTypeName>EffortCertificationReportTypeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARTY</documentTypeCode>
 
-		<label>Report Type Code Document</label>
+		<label>Report Type Document</label>
 		<shortLabel>Effort Cert Report Type Maintenance Document</shortLabel>
 		
 		<summary>Report Type Code Document</summary>
@@ -46,7 +46,7 @@
 		</lockingKeys>         
 
 	    <maintainableSections>
-	        <maintainableSection title="Edit Report Type Code">
+	        <maintainableSection title="Edit Report Type">
 	        	<maintainableItems>
 	            	<maintainableField name="effortCertificationReportTypeCode" required="true" />
 	            	<maintainableField name="effortCertificationReportDescription" required="true" />

@@ -51,7 +51,7 @@
 		</defaultExistenceChecks>
 		
 	    <maintainableSections>
-	        <maintainableSection title="Edit Effort Certification Report">
+	        <maintainableSection title="Edit Report Earn Paygroup">
 	        	<maintainableItems>
 	        		<maintainableField name="universityFiscalYear" required="true" />
 	                <maintainableField name="effortCertificationReportTypeCode" required="true" />

@@ -35,7 +35,7 @@
 		<documentTypeName>EffortCertificationPeriodStatusCodeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPS</documentTypeCode>
 
-		<label>Period Status Code  Maintenance Document</label>
+		<label>Report Period Status Code  Maintenance Document</label>
 		<shortLabel>Effort Cert Prd Status Code Maint Doc</shortLabel>
 		
 		<summary>Period Status Code  Maintenance Document</summary>
@@ -48,7 +48,7 @@
         <allowsNewOrCopy>false</allowsNewOrCopy>
 
 	    <maintainableSections>
-	        <maintainableSection title="Edit Period Status Code">
+	        <maintainableSection title="Edit Report Period Status Code">
 	        	<maintainableItems>
 	            	<maintainableField name="effortCertificationReportPeriodStatusCode" readOnly="true" />
 	            	<maintainableField name="effortCertificationReportPeriodStatusDescription" required="true" />

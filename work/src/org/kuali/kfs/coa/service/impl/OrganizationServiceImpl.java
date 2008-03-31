@@ -15,9 +15,12 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 import org.kuali.kfs.context.SpringContext;
@@ -36,6 +39,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
     private ParameterService parameterService;
     private ChartService chartService;
+    private BusinessObjectService boService;
 
     /**
      * 
@@ -108,6 +112,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 
+     * @see org.kuali.module.chart.service.OrganizationService#getActiveFinancialOrgs()
+     */
+    public List<Org> getActiveFinancialOrgs() {
+        Map<String, Object> criteriaMap = new HashMap<String, Object>();
+        criteriaMap.put("organizationInFinancialProcessingIndicator", Boolean.TRUE);
+        criteriaMap.put("organizationActiveIndicator", Boolean.TRUE);
+        return (List<Org>)boService.findMatching(Org.class, criteriaMap);
+    }
+    
+    /**
+     * 
      * @see org.kuali.module.chart.service.OrganizationService#getRootOrganizationCode()
      */
     public String[] getRootOrganizationCode() {
@@ -140,6 +155,14 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     public void setOrganizationDao(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
+    }
+
+    /**
+     * Sets the boService attribute value.
+     * @param boService The boService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.boService = boService;
     }
 
 }

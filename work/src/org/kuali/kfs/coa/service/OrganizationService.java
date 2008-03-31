@@ -75,6 +75,14 @@ public interface OrganizationService {
      */
     public List<Org> getActiveOrgsByType(String organizationTypeCode);
 
+    
+    /**
+     * Returns a list of active financial processing organizations.
+     * 
+     * @return A List of Orgs that are active and financial processing.
+     */
+    public List<Org> getActiveFinancialOrgs();
+    
     /**
      * returns the chart and organization of the ACTIVE root-level organization
      */

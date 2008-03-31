@@ -133,6 +133,7 @@
 		</property>
         <property name="parameterService" ref="parameterService" />
         <property name="chartService" ref="chartService" />
+        <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">

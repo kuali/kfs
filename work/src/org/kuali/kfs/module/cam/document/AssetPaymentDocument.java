@@ -15,17 +15,27 @@
  */
 package org.kuali.module.cams.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
-import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
-public class AssetPaymentDocument extends AccountingDocumentBase {
+public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
+    private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
+    
     private Long   capitalAssetNumber;
     private String representativeUniversalIdentifier;
     private String organizationOwnerChartOfAccountsCode;
@@ -40,14 +50,33 @@ public class AssetPaymentDocument extends AccountingDocumentBase {
     private Chart           organizationOwnerChartOfAccounts;
     private Campus          campus;
     private Building        building;
+    private List<AssetPaymentDetail> assetPaymentDetails;
+    private Asset asset;
+    //private AssetPaymentDetail assetPaymentDetail;
+    
+    public AssetPaymentDocument() {
+        super();
+        LOG.info("*******AssetPaymentDocument - Constructor");
+        assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
 
+        /*documentHeader;
+        organizationOwnerAccount;
+        organizationOwnerChartOfAccounts;
+        campus;
+        building;*/
+        
+        asset  = new Asset();
+
+    }
     
     /**
-     * Determines if the given AccountingLine (as a GeneralLedgerPendingEntrySourceDetail) is a credit or a debit, in terms of GLPE generation
-     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail)
+     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
      */
+
+    
     @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable)  {  
         // TODO Auto-generated method stub
         return false;
     }
@@ -56,9 +85,134 @@ public class AssetPaymentDocument extends AccountingDocumentBase {
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
-    public Class getSourceAccountingLineClass() {
-        return CustomerInvoiceDetail.class;
+    public Class<AssetPaymentDetail> getSourceAccountingLineClass() {
+        LOG.info("*******getSourceAccountingLineClass");
+        return AssetPaymentDetail.class;
     }
+
+        
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
+
+    
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
+
+    public String getRepresentativeUniversalIdentifier() {
+        return representativeUniversalIdentifier;
+    }
+
+    public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
+        this.representativeUniversalIdentifier = representativeUniversalIdentifier;
+    }
+
+    public String getOrganizationOwnerChartOfAccountsCode() {
+        return organizationOwnerChartOfAccountsCode;
+    }
+
+    public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
+        this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
+    }
+
+    public String getOrganizationOwnerAccountNumber() {
+        return organizationOwnerAccountNumber;
+    }
+
+    public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
+        this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
+    }
+
+    public String getAgencyNumber() {
+        return agencyNumber;
+    }
+
+    public void setAgencyNumber(String agencyNumber) {
+        this.agencyNumber = agencyNumber;
+    }
+
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        this.buildingCode = buildingCode;
+    }
+
+    public Integer getNextCapitalAssetPaymentLineNumber() {
+        return nextCapitalAssetPaymentLineNumber;
+    }
+
+    public void setNextCapitalAssetPaymentLineNumber(Integer nextCapitalAssetPaymentLineNumber) {
+        this.nextCapitalAssetPaymentLineNumber = nextCapitalAssetPaymentLineNumber;
+    }
+
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+    public Account getOrganizationOwnerAccount() {
+        return organizationOwnerAccount;
+    }
+
+    public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
+        this.organizationOwnerAccount = organizationOwnerAccount;
+    }
+
+    public Chart getOrganizationOwnerChartOfAccounts() {
+        return organizationOwnerChartOfAccounts;
+    }
+
+    public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
+        this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
+    }
+
+    public Campus getCampus() {
+        return campus;
+    }
+
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public List<AssetPaymentDetail> getAssetPaymentDetails() {
+        return assetPaymentDetails;
+    }
+
+    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
+        this.assetPaymentDetails = assetPaymentDetails;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    
     
     /**
      * Still need implement.

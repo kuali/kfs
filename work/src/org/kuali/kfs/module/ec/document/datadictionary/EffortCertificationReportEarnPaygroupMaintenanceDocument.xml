@@ -33,10 +33,10 @@
 		<documentTypeName>EffortCertificationReportEarnPaygroupMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPG</documentTypeCode>
 
-		<label>Effort Certification Report Earn Paygroup Document</label>
+		<label>Report Earn Paygroup Document</label>
 		<shortLabel>Effort Certification Report Earn Pay Document</shortLabel>
 		
-		<summary>Effort Certification Report Earn Pay Document</summary>
+		<summary>Report Earn Pay Document</summary>
 		<description>Document used to create or update Effort Certification Report Earn Pay Document</description>
 
         <lockingKeys>

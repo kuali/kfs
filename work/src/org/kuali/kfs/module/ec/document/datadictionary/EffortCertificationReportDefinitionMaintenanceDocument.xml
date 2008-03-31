@@ -34,7 +34,7 @@
 		<documentTypeName>EffortCertificationReportDefinitionMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPT</documentTypeCode>
 
-		<label>Effort Certification Report Definition Maintenance Document</label>
+		<label>Report Definition Maintenance Document</label>
 		<shortLabel>Effort Cert Report Maint Doc</shortLabel>
 		
 		<summary>Effort Certification Report Definition Maintenance Document</summary>

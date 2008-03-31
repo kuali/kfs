@@ -113,6 +113,9 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
 
+    // Persisted Fabrication document (part of Asset MD) field
+    private Integer estimatedFabricationLifetimeLimitNumber;
+    
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
@@ -1849,5 +1852,19 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetPrimaryDepreciationMethod = assetPrimaryDepreciationMethod;
     }
 
-    
+    /**
+     * Gets the estimatedFabricationLifetimeLimitNumber attribute. 
+     * @return Returns the estimatedFabricationLifetimeLimitNumber.
+     */
+    public Integer getEstimatedFabricationLifetimeLimitNumber() {
+        return estimatedFabricationLifetimeLimitNumber;
+    }
+
+    /**
+     * Sets the estimatedFabricationLifetimeLimitNumber attribute value.
+     * @param estimatedFabricationLifetimeLimitNumber The estimatedFabricationLifetimeLimitNumber to set.
+     */
+    public void setEstimatedFabricationLifetimeLimitNumber(Integer estimatedFabricationLifetimeLimitNumber) {
+        this.estimatedFabricationLifetimeLimitNumber = estimatedFabricationLifetimeLimitNumber;
+    }
 }

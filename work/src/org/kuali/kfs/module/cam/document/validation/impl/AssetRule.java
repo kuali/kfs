@@ -83,32 +83,40 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         initializeAttributes(document);
 
-        setAssetComponentNumbers(newAsset);
-
-        PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-        paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
-        paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
-
-        AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-        assetDispService.setAssetDispositionHistory(oldAsset);
-        assetDispService.setAssetDispositionHistory(newAsset);
-
-        RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-        retirementInfoService.setRetirementInfo(oldAsset);
-        retirementInfoService.setRetirementInfo(newAsset);
-
-        EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-        equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
-        equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
-
-        boolean valid = processAssetValidation(document);
-        valid &= validateWarrantyInformation(newAsset);
-
-        valid &= super.processCustomSaveDocumentBusinessRules(document);
-        if (valid) {
-            AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
-            assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
+        boolean valid = false;
+        
+        if (newAsset.getCapitalAssetNumber() == null) {
+            // TODO KULCAP-214 ... fabrication request rules go here
+            valid = true;
+        } else {
+            setAssetComponentNumbers(newAsset);
+    
+            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+            paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
+            paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
+    
+            AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
+            assetDispService.setAssetDispositionHistory(oldAsset);
+            assetDispService.setAssetDispositionHistory(newAsset);
+    
+            RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
+            retirementInfoService.setRetirementInfo(oldAsset);
+            retirementInfoService.setRetirementInfo(newAsset);
+    
+            EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
+            equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
+            equipmentLoanInfoService.setEquipmentLoanInfo(newAsset);
+    
+            valid = processAssetValidation(document);
+            valid &= validateWarrantyInformation(newAsset);
+    
+            valid &= super.processCustomSaveDocumentBusinessRules(document);
+            if (valid) {
+                AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
+                assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
+            }
         }
+        
         return valid;
     }
 
@@ -135,7 +143,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
-    boolean processAssetValidation(MaintenanceDocument document) {
+    private boolean processAssetValidation(MaintenanceDocument document) {
         boolean valid = true;
 
         // validate Inventory Status Code.

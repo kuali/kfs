@@ -123,7 +123,8 @@
             <maintainableSection title="Fabrication Information" id="fabricationInformation">
                 <maintainableItems> 
                     <maintainableField name="estimatedFabricationCompletionDate" />
-                    <maintainableField name="fabricationEstimatedTotalAmount" />				
+                    <maintainableField name="fabricationEstimatedTotalAmount" />
+                    <maintainableField name="estimatedFabricationLifetimeLimitNumber" />
                 </maintainableItems>
             </maintainableSection>
 

@@ -58,8 +58,8 @@
            <maintainableSection title="Contract Managers">
            		<maintainableItems>
 	            	<maintainableCollection name="commodityContractManagers" businessObjectClass="org.kuali.module.vendor.bo.CommodityContractManager" summaryTitle="Contract Managers">
-	 					<maintainableField name="campusCode"/>
-	 					<maintainableField name="contractManagerCode"/>
+	 					<maintainableField name="campusCode" required="true"/>
+	 					<maintainableField name="contractManagerCode" required="true"/>
 	 					<maintainableField name="versionNumber"/>
 	 					<maintainableField name="newCollectionRecord"/>
 	 				</maintainableCollection>

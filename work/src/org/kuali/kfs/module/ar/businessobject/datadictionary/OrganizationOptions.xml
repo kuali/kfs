@@ -292,12 +292,12 @@
 
                 <maxLength>99</maxLength>
 
-                <control>
-                    <checkbox />
-                 </control>
-<!--					<control>-->
-<!--					<select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintOptionsValuesFinder" />-->
-<!--					  </control>-->
+<!--                <control>-->
+<!--                    <checkbox />-->
+<!--                 </control>-->
+                	<control>
+					<select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintOptionsValuesFinder" />
+					</control>
 
                 <summary>printInvoiceIndicator</summary>
                 <description>printInvoiceIndicator description...</description>

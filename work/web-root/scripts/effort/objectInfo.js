@@ -143,6 +143,26 @@ EffortAmountUpdator.prototype.removeDelimator = function(stringObject, delimator
 	return stringObject.replace(delimator, "").trim();
 };
 
+// format the given number as the currency format
+EffortAmountUpdator.prototype.formatNumberAsCurrency = function(number, currencySymbol) {
+	if(currencySymbol == null){
+		currencySymbol = "";
+	}
+	
+	// get the fraction part of the given number
+	var fractionRegex = /\.\d{1,}/;	
+	var fractionPart = (fractionRegex.test(number)) ? fractionRegex.exec(number) : "";
+	
+	// get the integer part of the given number and format it through putting commas
+	var integerPart = parseInt(number,10).toString( );
+	var integerRegex = /(-?\d+)(\d{3})/;	
+	while (integerRegex.test(integerPart)) {
+		integerPart = integerPart.replace(integerRegex, "$1,$2");
+	}
+	
+	return currencySymbol + integerPart + fractionPart;
+};
+
 EffortAmountUpdator.prototype.updateTotals = function(){
 	// update the payroll amount totals
 	totalFieldId = "document.totalPayrollAmount";
@@ -190,14 +210,14 @@ EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amo
  	
  	var formattedFederalTotal, formattedOtherTotal, formattedGrandTotal;
  	if(!isPercent){
-	 	formattedFederalTotal = new Number(federalTotal).toFixed(2);
-	 	formattedOtherTotal = new Number(otherTotal).toFixed(2);
-	 	formattedGrandTotal = new Number(federalTotal + otherTotal).toFixed(2);
+	 	formattedFederalTotal = this.formatNumberAsCurrency(new Number(federalTotal).toFixed(2));
+	 	formattedOtherTotal = this.formatNumberAsCurrency(new Number(otherTotal).toFixed(2));
+	 	formattedGrandTotal = this.formatNumberAsCurrency(new Number(federalTotal + otherTotal).toFixed(2));
  	}
  	else{
- 		formattedFederalTotal = Math.round(federalTotal) + percentageSign;
-	 	formattedOtherTotal = Math.round(otherTotal) + percentageSign;
-	 	formattedGrandTotal = Math.round(federalTotal + otherTotal) + percentageSign;
+ 		formattedFederalTotal = this.formatNumberAsCurrency(Math.round(federalTotal)) + percentageSign;
+	 	formattedOtherTotal = this.formatNumberAsCurrency(Math.round(otherTotal)) + percentageSign;
+	 	formattedGrandTotal = this.formatNumberAsCurrency(Math.round(federalTotal + otherTotal)) + percentageSign;
  	}
  	
  	this.setValueByElementId( federalTotalFieldId, formattedFederalTotal);

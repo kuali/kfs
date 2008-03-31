@@ -35,7 +35,7 @@
 <c:forTokens var="fieldName" items="${detailFieldNames}" delims=",">
 	<kul:htmlAttributeHeaderCell attributeEntry="${attributes[fieldName]}">		
 		<c:if test="${fn:contains(sortableFieldNames,fieldName)}">
-			<html:image property="methodToCall.sortDetailLineByColumn.${fieldName}" 
+			&nbsp;<html:image property="methodToCall.sortDetailLineByColumn.${fieldName}" 
 				src="${ConfigProperties.kr.externalizable.images.url}sort.gif" 
 				title="Sort by ${attributes[fieldName].label}" 
 				alt="Sort by ${attributes[fieldName].label}" 

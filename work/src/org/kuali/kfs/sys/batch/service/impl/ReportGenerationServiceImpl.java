@@ -142,7 +142,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
         String runtimeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(runDate);
         String fileNamePattern = "{0}/{1}_{2}{3}";
 
-        return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp, "." + extension);
+        return MessageFormat.format(fileNamePattern, directory, fileName, runtimeStamp, extension);
     }
 
     /**

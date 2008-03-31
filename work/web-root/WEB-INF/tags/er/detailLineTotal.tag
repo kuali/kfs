@@ -33,7 +33,7 @@
 	<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
 	<td class="infoline">
 		<div id="document.${fieldName}${readonlySuffix}" class="right">
-			${KualiForm.document[fieldName]}${percent}
+			<fmt:formatNumber value="${KualiForm.document[fieldName]}" currencySymbol="" type="currency"/>${percent}
 		</div>
 	</td>
 </c:forTokens>

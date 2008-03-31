@@ -58,7 +58,6 @@
 	    var kualiElements = kualiForm.elements;
 	</SCRIPT>
 	
-	<script type='text/javascript' src="dwr/interface/LaborModuleService.js"></script>
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
 	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
@@ -68,6 +67,7 @@
 	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/LaborModuleService.js"></script>
 	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
 	
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
@@ -79,8 +79,10 @@
 <c:set var="inquirable" value="${not empty inquirableUrl}" />  
 <c:set var="numericFormatter" value="org.kuali.core.web.format.CurrencyFormatter,org.kuali.core.web.format.IntegerFormatter"/> 
 <c:set var="entryFormatter" value="${attributeEntry.formatterClass}" /> 
-<c:set var="styleClass" value="${empty entryFormatter || !fn:contains(numericFormatter, entryFormatter) ? 'left' : 'right' }" /> 
+<c:set var="isNumeric" value="${not empty entryFormatter && fn:contains(numericFormatter, entryFormatter)}" />
+<c:set var="styleClass" value="${isNumeric ? 'right' : '' }" /> 
 <c:set var="readonlySuffix" value="${readOnlySection ? '.readonly' : ''}" /> 
+<c:set var="percent" value="${fn:contains(fieldFormName, 'Percent') ? '%' : '' }" />
                    
 <kul:htmlControlAttribute
 	property="${fieldFormName}"
@@ -88,22 +90,28 @@
 	onblur="${onblur}"
 	onchange="${onchange}"
 	readOnly="${readOnly}"
-	readOnlyBody="${readOnly}">
+	readOnlyBody="${readOnly}"
+	styleClass="${styleClass}">
 	
 	<c:set var="spanName" value="${fieldFormName}.span${readonlySuffix}" />
 	<c:set var="divName" value="${fieldFormName}.div${readonlySuffix}" />
+	<c:set var="formatNumber" value="${fieldValue}" />
+	
+	<c:if test="${isNumeric}">
+	    <fmt:formatNumber var="formatNumber" value="${fieldValue}" currencySymbol="" type="currency"/>
+	</c:if>
      	
     <c:choose>
       	<c:when test="${inquirable}">
       		<a href="${inquirableUrl}" target="_blank">
 	    		<span class="${styleClass}" style="text-decoration: underline;" id="${spanName}" name="${spanName}">
-	    			${fieldValue}
+	    			${formatNumber}${percent}
 	    		</span>
     		</a>
 		</c:when>
 		<c:otherwise>
     		<span class="${styleClass}" id="${spanName}" name="${spanName}">
-    			${fieldValue}
+    			${formatNumber}${percent}
     		</span>
 		</c:otherwise>
 	</c:choose>

@@ -88,10 +88,8 @@
 		<c:set var="onblur" value="${onblurForEditableFieldNamesArray[onblurIndex]}(this.name, '${onblurableInfoFieldName}');" />
 	</c:if>
 	
-	<td class="datacell-nowrap">
-		<c:set var="percent" value="${fn:contains(fieldName, 'Percent') ? '%' : '' }" />
-	
-		<er:detailLineDataCell fieldValue="${detailLine[fieldName]}${percent}"
+	<td class="datacell-nowrap">	
+		<er:detailLineDataCell fieldValue="${detailLine[fieldName]}"
 			fieldFormName="${detailLineFormName}.${fieldName}"
 			withHiddenForm="${withHiddenFormWhenReadonly}"
 			fieldFormNamePrefix="${detailLineFormName}"

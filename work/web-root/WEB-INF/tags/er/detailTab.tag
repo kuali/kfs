@@ -66,7 +66,7 @@
 				onblurForEditableFieldNames="effortAmountUpdator.recalculatePayrollAmount,effortAmountUpdator.recalculateEffortPercent"
 				onblurForExtraEditableFieldNames="loadChartInfo,loadAccountInfo,loadSubAccountInfo,loadObjectCodeInfo, "
 				onblurableInfoFieldNames=""	
-				onblurableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName,financialObject.financialObjectCodeName"			
+				onblurableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName,financialObject.financialObjectCodeName,"			
 				relationshipMetadata="${KualiForm.relationshipMetadata}"
 				ferderalTotalFieldNames="federalTotalOriginalEffortPercent,federalTotalEffortPercent,federalTotalOriginalPayrollAmount,federalTotalPayrollAmount,federalTotalOriginalFringeBenefit,federalTotalFringeBenefit" 
 				nonFerderalTotalFieldNames="otherTotalOriginalEffortPercent,otherTotalEffortPercent,otherTotalOriginalPayrollAmount,otherTotalPayrollAmount,otherTotalOriginalFringeBenefit,otherTotalFringeBenefit"

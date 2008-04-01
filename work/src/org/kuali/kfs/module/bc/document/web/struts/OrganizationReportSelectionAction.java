@@ -161,16 +161,16 @@ public class OrganizationReportSelectionAction extends KualiAction {
         }
 
         // build report data and populate report objects for rendering
-        Collection reportData = buildReportData(reportMode, organizationReportSelectionForm.getUniversityFiscalYear(), personUserIdentifier, organizationReportSelectionForm.isReportConsolidation(), organizationReportSelectionForm.getBudgetConstructionReportThresholdSettings());
+        Collection reportSet = buildReportData(reportMode, organizationReportSelectionForm.getUniversityFiscalYear(), personUserIdentifier, organizationReportSelectionForm.isReportConsolidation(), organizationReportSelectionForm.getBudgetConstructionReportThresholdSettings());
 
         // build pdf and stream back
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
        
         ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
-        Map<String, Object> reportConfig = new HashMap<String, Object>();
-        reportConfig.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        Map<String, Object> reportData = new HashMap<String, Object>();
+        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
         
-        SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(null, reportData, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + reportMode.jasperFileName, baos);
+        SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + reportMode.jasperFileName, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportMode.jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
 
         return null;

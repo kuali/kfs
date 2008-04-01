@@ -212,7 +212,7 @@
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="negativePaymentRequestApprovalLimitService">
             <ref bean="negativePaymentRequestApprovalLimitService" />
-        </property>	        
+        </property>	               
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>	        
@@ -335,6 +335,12 @@
 		</property>
 	</bean>
 
+	<bean id="receivingAddressService" class="org.kuali.module.purap.service.impl.ReceivingAddressServiceImpl">
+		<property name="receivingAddressDao">
+			<ref bean="receivingAddressDao" />
+		</property>
+	</bean>
+
 	<bean id="processPdpCancelPaidService" class="org.kuali.module.purap.service.impl.ProcessPdpCancelPaidServiceImpl">
 		<property name="paymentGroupService">
 			<ref bean="pdpPaymentGroupService"/>
@@ -394,6 +400,9 @@
 	<bean id="negativePaymentRequestApprovalLimitDao" parent="platformAwareDao" 
 		class="org.kuali.module.purap.dao.ojb.NegativePaymentRequestApprovalLimitDaoOjb" />
 	
+	<bean id="receivingAddressDao" parent="platformAwareDao" 
+		class="org.kuali.module.purap.dao.ojb.ReceivingAddressDaoOjb" />
+
 	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
 	
 	<!--  Batch Jobs -->

@@ -2424,7 +2424,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.ReceivingAddress" table="PUR_RCVNG_ADDR_T">
-    <field-descriptor name="receivingAddressIdentifier" column="PUR_RCVNG_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="RCVNG_ADDR_ID"/>
+    <field-descriptor name="receivingAddressIdentifier" column="PUR_RCVNG_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_RCVNG_ADDR_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>

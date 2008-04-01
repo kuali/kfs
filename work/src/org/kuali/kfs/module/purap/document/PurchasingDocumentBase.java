@@ -16,6 +16,7 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.service.ReceivingAddressService;
 import org.kuali.module.purap.util.ItemParser;
 import org.kuali.module.purap.util.ItemParserBase;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
@@ -238,6 +240,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * Loads the default receiving address from database corresponding to the chart/org of this document.
      */
     public void loadReceivingAddress() {
+        /*
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, this.getOrganizationCode());
@@ -247,8 +250,10 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         if (addresses != null && addresses.size()>0 ) 
             this.templateReceivingAddress(addresses.get(0));        
         else // if no address is found, fill with null
-            this.templateReceivingAddress(null);        
-        //TODO what if more than one is found? throw an exception
+            this.templateReceivingAddress(null);
+        */
+        ReceivingAddress address = SpringContext.getBean(ReceivingAddressService.class).findUniqueDefaultByChartOrg(getChartOfAccountsCode(),getOrganizationCode());      
+        this.templateReceivingAddress(address);
     }
     
     /**

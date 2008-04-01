@@ -15,20 +15,16 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.ReceivingAddress;
+import org.kuali.module.purap.service.ReceivingAddressService;
 
 /**
  * Business Prerules applicable to ReceivingAddressMaintenanceDocument. 
@@ -73,12 +69,15 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          * We only need to search within the same chart/org group, since we don't allow editting on chart/org.
          * However, we need to exclude the current address being edited if it is not a new one and was active.
          */ 
+        /*
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, raNew.getChartOfAccountsCode());
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, raNew.getOrganizationCode());
         //criteria.put(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, true);        
         criteria.put(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, true);        
         int count = SpringContext.getBean(BusinessObjectService.class).countMatching(ReceivingAddress.class, criteria);
+        */
+        int count = SpringContext.getBean(ReceivingAddressService.class).countActiveByChartOrg(raNew.getChartOfAccountsCode(),raNew.getOrganizationCode());      
         boolean existOther = wasActive ? (count>1) : (count>0);
             
         /* Case 1 - adding the first active address: 

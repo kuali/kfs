@@ -16,9 +16,8 @@
 package org.kuali.module.purap.maintenance;
 
 import java.security.GeneralSecurityException;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
@@ -30,10 +29,9 @@ import org.kuali.core.service.EncryptionService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.ReceivingAddress;
+import org.kuali.module.purap.service.ReceivingAddressService;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -43,7 +41,7 @@ import org.kuali.rice.KNSServiceLocator;
  */
 public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingAddressMaintainableImpl.class);
-
+    
     /**
      * Generates the appropriate maintenance locks for {@link ReceivingAddress}
      * 
@@ -146,12 +144,15 @@ public class ReceivingAddressMaintainableImpl extends KualiMaintainableImpl {
         KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
         // this code is only executed when the final approval occurs
         if (workflowDoc.stateIsProcessed()) {
+            /*
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ra.getChartOfAccountsCode());
             criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, ra.getOrganizationCode());
             criteria.put(PurapPropertyConstants.RCVNG_ADDR_DFLT_IND, true);        
             criteria.put(PurapPropertyConstants.RCVNG_ADDR_ACTIVE, true);        
             List<ReceivingAddress> addresses = (List)SpringContext.getBean(BusinessObjectService.class).findMatching(ReceivingAddress.class, criteria);
+            */            
+            Collection<ReceivingAddress> addresses  = SpringContext.getBean(ReceivingAddressService.class).findDefaultByChartOrg(ra.getChartOfAccountsCode(),ra.getOrganizationCode());                  
             for ( ReceivingAddress rai : addresses ) {
                 if ( !rai.getReceivingAddressIdentifier().equals(ra.getReceivingAddressIdentifier()) ) {
                     rai.setDefaultIndicator(false);

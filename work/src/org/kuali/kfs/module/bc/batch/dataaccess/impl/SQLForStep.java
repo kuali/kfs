@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.sql.SQLException;
+
 /**
  * 
  * implements a type to hold the raw SQL for each step in a process.  allows us to have an insertion point for system parameters which can only be 
@@ -24,8 +28,9 @@ package org.kuali.module.budget.dao.jdbc;
 
 public class SQLForStep {
 
-    // location in the StringBuilder in which a run-time parameter string is to be incorporated
-    private int insertionPoint = -1;
+    // locations in the StringBuilder in which a run-time parameter string is to be incorporated
+    // (maybe an int[] will be faster when a user is waiting for the SQL to be built 
+    private int[] insertionPoints = {};
     // string buffers are thread-safe, while string builders are not
     // string builders are more efficient, so use one here and never modify it in our public methods
     private StringBuilder sqlBuilder;
@@ -37,21 +42,33 @@ public class SQLForStep {
         this.sqlBuilder = new StringBuilder(sqlBuilder);
     }
     
-    public SQLForStep(StringBuilder sqlBuilder, int insertionPoint)
+    public SQLForStep(StringBuilder sqlBuilder, ArrayList<Integer> insertionPoints)
     {
-        // use this constructor when there is a run-time string to be inserted into the SQL
+        // use this constructor when there are run-time strings to be inserted into the SQL
         this.sqlBuilder = new StringBuilder(sqlBuilder);
-        this.insertionPoint = insertionPoint;
+        int pointCount = insertionPoints.size();
+        this.insertionPoints = new int[pointCount];
+        for (int idx = 0; idx < pointCount; idx++) 
+        {
+            this.insertionPoints[idx] = (int) insertionPoints.get(idx);
+        }
     }
     
-    public String getSQL(String parameterToInsert)
+    public String getSQL(ArrayList<String> parameterToInsert)
     {
         // make a copy of the SQL, so this routine is thread-safe, and evey caller gets her own copy of the static SQL to change.
         // string buffers are thread-safe, while string builders are not, but making a copy puts everything on the stack of the local thread anyway,
         // so we don't need the string buffer synchronization and can use the more efficient StringBuilder.
-        // the StringBuilder will throw and out of bounds exception if we try to insert at -1 because no insertion point has been set.
+        if (parameterToInsert.size() != insertionPoints.length) {
+            // throw an out of bounds exception if there is a mismatch
+            // we can't build the SQL
+            throw(new IndexOutOfBoundsException("the number of strings to be inserted into SQL does not match the number of insertion points"));
+        }
         StringBuilder unfinishedSQL = new StringBuilder(sqlBuilder);
-        unfinishedSQL.insert(insertionPoint,parameterToInsert);
+        for (int idx = 0; idx < insertionPoints.length; idx++)
+        {
+            unfinishedSQL.insert(insertionPoints[idx],parameterToInsert.get(idx));
+        }
         return(unfinishedSQL.toString());
     }
     

@@ -51,7 +51,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     {
 
         StringBuilder sqlBuilder = new StringBuilder(5000);
-        int insertionPoint;
+        ArrayList<Integer> insertionPoints = new ArrayList<Integer>();
         // delete all rows for a given key from the budget construction monthly table  
         sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n"); 
         sqlBuilder.append("WHERE (fdoc_nbr = ?)\n"); 
@@ -60,14 +60,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("  AND (account_nbr = ?)\n"); 
         sqlBuilder.append("  AND (sub_acct_nbr = ?)\n"); 
         sqlBuilder.append("  AND (fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
         // revenue
-        deleteAllSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        deleteAllSql.add(new SQLForStep(sqlBuilder,insertionPoints));
         // expenditure (exact same thing at present)
-        deleteAllSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        deleteAllSql.add(new SQLForStep(sqlBuilder,insertionPoints));
         sqlBuilder.delete(0,sqlBuilder.length());
-        
+        insertionPoints.clear();
         
         // SQL needed to spread revenue
         // delete existing revenue for this key, so it can be spread again
@@ -78,9 +78,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("  AND (account_nbr = ?)\n"); 
         sqlBuilder.append("  AND (sub_acct_nbr = ?)\n"); 
         sqlBuilder.append("  AND (fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
-        spreadRevenueSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        spreadRevenueSql.add(new SQLForStep(sqlBuilder,insertionPoints));
+        insertionPoints.clear();
 
         sqlBuilder.delete(0,sqlBuilder.length());
         // insert ALL revenue (since we do not re-calculate benefits on revenue, any revenue benefits object classes should be spread along with the other object classes
@@ -109,9 +110,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("          AND (account_nbr = ?)\n");
         sqlBuilder.append("          AND (sub_acct_nbr = ?)\n");
         sqlBuilder.append("          AND (fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))");
-        spreadRevenueSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        spreadRevenueSql.add(new SQLForStep(sqlBuilder,insertionPoints));
+        insertionPoints.clear();
 
         sqlBuilder.delete(0,sqlBuilder.length());
         
@@ -124,14 +126,15 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("  AND (account_nbr = ?)\n"); 
         sqlBuilder.append("  AND (sub_acct_nbr = ?)\n"); 
         sqlBuilder.append("  AND (fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")\n");
         sqlBuilder.append("AND (NOT EXISTS (SELECT 1\n");
         sqlBuilder.append("                 FROM LD_BENEFITS_CALC_T\n");
         sqlBuilder.append("                 WHERE (LD_BENEFITS_CALC_T.UNIV_FISCAL_YR = ?)\n");
         sqlBuilder.append("                   AND (LD_BENEFITS_CALC_T.FIN_COA_CD = ?)\n");
         sqlBuilder.append("                    AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_BCNSTR_MONTH_T.FIN_OBJECT_CD)))\n");
-        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoints));
+        insertionPoints.clear();
         
         sqlBuilder.delete(0,sqlBuilder.length());
         // spread the general ledger expenditure anew over the 12 months
@@ -165,9 +168,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("                   AND (LD_BENEFITS_CALC_T.FIN_COA_CD = ?)\n");
         sqlBuilder.append("                  AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))\n");
         sqlBuilder.append("          AND (fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))");
-        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoints));
+        insertionPoints.clear();
 
         sqlBuilder.delete(0,sqlBuilder.length());
         // count the number of object classes eligible for fringe benefits, to signal the caller that benefits need to be recalculated and spread.
@@ -182,9 +186,10 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("  AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = ?)\n");
         sqlBuilder.append("  AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = ?)\n");
         sqlBuilder.append("  AND (LD_BCNSTR_MONTH_T.FIN_OBJ_TYP_CD IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")\n");
-        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoint));
+        spreadExpenditureSql.add(new SQLForStep(sqlBuilder,insertionPoints));
+        insertionPoints.clear();
         
     }
     
@@ -196,8 +201,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
 
         // get the revenue object types as an SQL IN list
-        String inSqlString = getRevenueINList();
-
+        ArrayList<String> inSqlString = new ArrayList<String>();
+        inSqlString.add(getRevenueINList());
+        
         //run the delete-all SQL with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(0).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
         LOG.warn(String.format("\n%s\n Expenditure (all) rows deleted for (%s,%d,%s,%s,%s) = %d",getDbPlatform().toString(),documentNumber, fiscalYear,chartCode,accountNumber, subAccountNumber, returnCount));
@@ -211,7 +217,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
     public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)throws IOException, NoSuchFieldException {
 
         // get the expenditure object types as an SQL IN list
-        String inSqlString = getExpenditureINList();
+        ArrayList<String> inSqlString = new ArrayList<String>();
+        inSqlString.add(getExpenditureINList());
         
         // run the delete-all SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(1).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
@@ -228,7 +235,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // for revenue, we delete all existing rows, and spread all the corresponding rows in the general ledger
         // if there is any revenue for benefits, it will be spread, not calculated based on non-benefits rows as expenditure benefits will be
         // get the revenue IN list
-        String inSqlString = getRevenueINList();
+        ArrayList<String> inSqlString = new ArrayList<String>();
+        inSqlString.add(getRevenueINList());
 
         
         // delete what is there now for this document for the revenue object classes
@@ -250,7 +258,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
         // spread general ledger expenditures across 12 months, excluding benefits object types.  benefits object expenditure will be recalculated and spread later, because several object codes eligible for benefits can target the same fringe benefit object
         // get the expenditure object types as an SQL IN list
-        String inSqlString = getExpenditureINList();
+        ArrayList<String> inSqlString = new ArrayList<String>();
+        inSqlString.add(getExpenditureINList());
         
         // run the delete-all-except-benefits SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(spreadExpenditureSql.get(0).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);

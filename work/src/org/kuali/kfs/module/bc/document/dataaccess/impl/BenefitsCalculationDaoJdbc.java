@@ -59,7 +59,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         defaultSubObjectCode = LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE;
 
         StringBuilder sqlBuilder = new StringBuilder(2500);
-        int insertionPoint;
+        ArrayList<Integer> insertionPoints = new ArrayList<Integer>();
         /**
          * this needs to be done before we can get rid of annual fringe benefits objects with no base.
          * LD_BNCSTR_MNTH_T has an RI child constraint on LD_PND_BCNSTR_GL_T.  So, before we eliminate any Budget Construction
@@ -171,10 +171,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("              WHERE (sesid = ?)\n");
         sqlBuilder.append("                AND (ld_pnd_bcnstr_gl_t.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
-        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoint));
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
+        insertionPoints.clear();
         /**
          * now re-insert rows with zero base which still have benefits-eligible object codes in pending BC GL.  all budget construction GL lines added by the budget construction application have an object type code of FinObjTypeExpenditureexpCd, which we pass at run time as a parameter.  we have an IN clause to check for other object types which may have been loaded in the base from the general ledger.  the request for such lines will not have this object type.
          * 
@@ -209,10 +210,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append(budgetBalanceTypeCode);
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
-        insertionPoint = sqlBuilder.length();
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))))");
-        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoint));
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
+        insertionPoints.clear();
         /**
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
          */
@@ -332,10 +334,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
         // if the benefits portion of budget construction is not in use at a particular site, then doing it this way will have no impact.
         
-        String inListToInsert;
+        ArrayList<String> inListToInsert = new ArrayList<String>();
         try
         {
-            inListToInsert =  this.getExpenditureINList();
+            inListToInsert.add(getExpenditureINList());
         }
         catch (NoSuchFieldException nsfex)
         {

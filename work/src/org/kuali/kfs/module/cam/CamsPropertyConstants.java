@@ -134,4 +134,14 @@ public class CamsPropertyConstants {
         public static final String ASSET_ORGANIZATION = "assetOrganization";
         public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";
     }
+
+    public static class AssetTransferDocument {
+        public static final String ORGANIZATION = "organization";
+        public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+    }
+
+    public static class AssetComponent {
+        public static final String COMPONENT_NUMBER = "componentNumber";
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    }
 }

@@ -48,8 +48,8 @@ import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
-import org.kuali.module.cams.bo.AssetTransferDocument;
 import org.kuali.module.cams.dao.DepreciableAssetsDao;
+import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.chart.bo.Account;
 
 public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements DepreciableAssetsDao {
@@ -130,7 +130,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
                     LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Initializing asset payment - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber());
                     getPersistenceBrokerTemplate().store(assetPayment);
-                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Initializing asset payment - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber()+" was successfully saved.");                    
+                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Initializing asset payment - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber() + " was successfully saved.");
                 }
             }
         }
@@ -188,8 +188,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Saving depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber());
         businessObjectService.save(assetPayment);
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber()+" was saved successfully.");
-        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber() + " was saved successfully.");
+
         LOG.debug("updateAssetPayments() -  ended");
     }
 
@@ -235,8 +235,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetHeader.class, criteria);
         q.setAttributes(new String[] { CamsPropertyConstants.AssetHeader.CAPITAL_ASSET_NUMBER });
 
-        LOG.debug("getPendingAssetDocumentSubquery() -  Ended");        
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished done creating subqueries for assets with pending transfers and retirement documents.");        
+        LOG.debug("getPendingAssetDocumentSubquery() -  Ended");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished done creating subqueries for assets with pending transfers and retirement documents.");
         return q;
     }
 
@@ -248,7 +248,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return Object
      */
     private Object getNumberOfAssetsBeingRetiredAndTransferred() {
-        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");        
+        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
         List<String> notPendingDocStatuses = new ArrayList<String>();
@@ -289,16 +289,15 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         Object[] data = (Object[]) i.next();
 
-        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Ended");                
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");        
+        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Ended");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");
         return data[0];
     }
 
 
     /**
      * 
-     * This method creates the criteria that the program uses in order to retrieve the asset payments eligible
-     * for depreciation
+     * This method creates the criteria that the program uses in order to retrieve the asset payments eligible for depreciation
      * 
      * @param fiscalYear
      * @param fiscalMonth
@@ -411,17 +410,18 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         criteria.addNotIn(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, this.getPendingAssetDocumentSubquery());
 
         LOG.debug("createDepreciationCriteria() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);
         return criteria;
     }
 
     /**
      * 
-     * @see org.kuali.module.cams.dao.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String, java.lang.Integer, java.lang.Integer, java.util.Calendar)
+     * @see org.kuali.module.cams.dao.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String, java.lang.Integer,
+     *      java.lang.Integer, java.util.Calendar)
      */
     public List<String[]> generateStatistics(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("generateStatistics() -  started");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "generating statistics for report - "+(beforeDepreciationReport?"Before part.":"After part"));
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
 
         List<String[]> reportLine = new ArrayList<String[]>();
         boolean processAlreadyRan = false;
@@ -726,7 +726,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         if (processAlreadyRan && beforeDepreciationReport) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.DEPRECIATION_ALREADY_RAN_MSG));
         }
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished generating statistics for report - "+(beforeDepreciationReport?"Before part.":"After part"));        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
         return reportLine;
     }
 
@@ -770,7 +770,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
         }
         LOG.debug("DepreciableAssetsDaoOjb.getFullyDepreciatedAssetCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finised getting the number of assets fully depreciated.");        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finised getting the number of assets fully depreciated.");
         return fullyDepreciatedCounter;
     }
 
@@ -809,7 +809,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
 
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of federally owned asset payments.");        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of federally owned asset payments.");
         return data[0];
     }
 
@@ -839,7 +839,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
 
         LOG.debug("DepreciableAssetsDaoOjb.getCOAsCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finised getting the number of campus plant fund accounts.");        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finised getting the number of campus plant fund accounts.");
         return data[0];
     }
 
@@ -850,13 +850,13 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @return
      */
     private List<String> getFederallyOwnedObjectSubTypes() {
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");        
-        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");
+
         List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
         if (parameterService.parameterExists(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
             federallyOwnedObjectSubTypes = parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
         }
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the federally owned object subtype codes which are:"+federallyOwnedObjectSubTypes.toString());                
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the federally owned object subtype codes which are:" + federallyOwnedObjectSubTypes.toString());
         return federallyOwnedObjectSubTypes;
     }
 
@@ -868,13 +868,13 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
         LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
-        
+
         Collection<AssetObjectCode> assetObjectCodesCollection;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
 
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:"+assetObjectCodesCollection.toString());
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
         LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodes() -  ended");
         return assetObjectCodesCollection;
     }
@@ -889,7 +889,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private List<String> getExpenseObjectCodes(Integer fiscalYear) {
         LOG.debug("AssetDepreciationServiceImpl.getExpenseObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
-        
+
         List<String> depreExpObjCodes = new ArrayList<String>();
         Collection<AssetObjectCode> assetObjectCodesCollection = this.getAssetObjectCodes(fiscalYear);
 
@@ -903,7 +903,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             }
         }
         LOG.debug("AssetDepreciationServiceImpl.getExpenseObjectCodes() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting expense object codes which are:"+depreExpObjCodes.toString());        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting expense object codes which are:" + depreExpObjCodes.toString());
         return depreExpObjCodes;
     }
 
@@ -931,7 +931,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 accumulatedDepreciationObjCodes.add(objCode);
             }
         }
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting accum depreciation object codes which are:"+accumulatedDepreciationObjCodes.toString());                
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting accum depreciation object codes which are:" + accumulatedDepreciationObjCodes.toString());
         LOG.debug("AssetDepreciationServiceImpl.getAccumulatedDepreciationObjectCodes() -  ended");
         return accumulatedDepreciationObjCodes;
     }
@@ -947,7 +947,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private Object getAssetObjectCodesCount(Integer fiscalYear) {
         LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodesCount() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object code count.");
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
@@ -956,7 +956,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         Object[] data = (Object[]) i.next();
 
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finisned getting asset object code count which is: "+data[0]);        
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finisned getting asset object code count which is: " + data[0]);
         LOG.debug("AssetDepreciationServiceImpl.getAssetObjectCodesCount() -  ended");
         return data[0];
     }

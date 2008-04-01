@@ -23,7 +23,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 public class AssetPayment extends PersistableBusinessObjectBase {
 
     private Long capitalAssetNumber;
-    private Long paymentSequenceNumber;
+    private Integer paymentSequenceNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -122,7 +122,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @return Returns the paymentSequenceNumber
      * 
      */
-    public Long getPaymentSequenceNumber() {
+    public Integer getPaymentSequenceNumber() {
         return paymentSequenceNumber;
     }
 
@@ -132,7 +132,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
      * @param paymentSequenceNumber The paymentSequenceNumber to set.
      * 
      */
-    public void setPaymentSequenceNumber(Long paymentSequenceNumber) {
+    public void setPaymentSequenceNumber(Integer paymentSequenceNumber) {
         this.paymentSequenceNumber = paymentSequenceNumber;
     }
 

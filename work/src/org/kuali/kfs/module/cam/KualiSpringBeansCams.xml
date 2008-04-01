@@ -246,4 +246,10 @@
     <bean id="assetLocationService" class="org.kuali.module.cams.service.impl.AssetLocationServiceImpl" />
     <bean id="assetHeaderService" class="org.kuali.module.cams.service.impl.AssetHeaderServiceImpl" />
     
+    <bean id="assetPaymentDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.AssetPaymentDaoOjb"/>
+    <bean id="assetPaymentService" class="org.kuali.module.cams.service.impl.AssetPaymentServiceImpl">
+    	<property name="assetPaymentDao">
+    		<ref bean="assetPaymentDao" />
+    	</property>
+    </bean>
 </beans>

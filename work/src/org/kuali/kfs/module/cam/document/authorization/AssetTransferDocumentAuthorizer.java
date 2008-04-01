@@ -26,7 +26,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -35,8 +34,6 @@ import org.kuali.module.cams.service.AssetHeaderService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
-
-    private static final String DOC_HEADER_PATH = AssetTransferDocumentRule.DOCUMENT_PATH + "." + AssetTransferDocumentRule.DOCUMENT_NUMBER_PATH;
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -49,7 +46,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
      *      org.kuali.core.bo.user.UniversalUser)
      * 
      * This method determines if user can continue with transfer action or not, following conditions are checked to decide
-     * <li>Check is asset is active and not retired</li>
+     * <li>Check if asset is active and not retired</li>
      * <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
      */
     @Override
@@ -61,7 +58,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         boolean transferable = true;
         if (ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
             transferable = false;
-            GlobalVariables.getErrorMap().putError(DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER);
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }
         // check if any pending transactions
         if (transferable) {
@@ -74,7 +71,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
                     headerNos[pos] = assetHeader.getDocumentNumber();
                     pos++;
                 }
-                GlobalVariables.getErrorMap().putError(DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, headerNos);
+                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, headerNos);
             }
         }
         // Disable the buttons, if not transferable

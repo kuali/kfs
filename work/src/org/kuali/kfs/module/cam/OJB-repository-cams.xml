@@ -197,6 +197,7 @@
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
  		<orderby name="financialDocumentPostingDate" sort="ASC" />
+ 		<orderby name="paymentSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="capitalAssetNumber" />
     </collection-descriptor>
 	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -330,7 +331,7 @@
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetPayment" table="CM_AST_PAYMENT_T">
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
-	<field-descriptor name="paymentSequenceNumber" column="AST_PMT_SEQ_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="paymentSequenceNumber" column="AST_PMT_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>

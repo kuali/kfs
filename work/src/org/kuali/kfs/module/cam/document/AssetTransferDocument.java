@@ -15,29 +15,43 @@
  */
 package org.kuali.module.cams.document;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.bo.AssetPayment;
+import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
-public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
-
+public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
     private String representativeUniversalIdentifier;
     private String campusCode;
     private String buildingCode;
@@ -66,6 +80,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
     private State offCampusState;
     private Building building;
     private Room buildingRoom;
+    private List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables;
 
     // Transient attributes
     private transient Asset asset;
@@ -656,17 +671,56 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
             // save new asset location details to asset table, inventory date
             BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             List<PersistableBusinessObject> objects = new ArrayList<PersistableBusinessObject>();
-            savechangesToAsset(boService, objects);
-            boService.save(objects);
+            Asset saveAsset = new Asset();
+            saveAsset.setCapitalAssetNumber(getAssetHeader().getCapitalAssetNumber());
+            saveAsset = (Asset) boService.retrieve(saveAsset);
+            changeAssetOwner(saveAsset, objects);
+            if (saveAsset.getAssetPayments() == null) {
+                saveAsset.refreshReferenceObject("assetPayments");
+            }
+
+            List<AssetPayment> originalPayments = saveAsset.getAssetPayments();
+            Integer maxSequence = null;
+            for (AssetPayment assetPayment : originalPayments) {
+                if ("N".equals(assetPayment.getTransferPaymentCode())) {
+                    // copy and create an offset payment
+                    AssetPayment offsetPayment;
+                    try {
+                        if (maxSequence == null) {
+                            maxSequence = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
+                        }
+                        assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                        offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
+                        offsetPayment.setPaymentSequenceNumber(++maxSequence);
+                        offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                        Method[] methods = AssetPayment.class.getMethods();
+                        for (Method method : methods) {
+                            if (method.getReturnType().isAssignableFrom(KualiDecimal.class)) {
+                                String setterName = "set" + method.getName().substring(3);
+                                Method setter = AssetPayment.class.getMethod(setterName, KualiDecimal.class);
+                                KualiDecimal amount = (KualiDecimal) method.invoke(offsetPayment);
+                                if (setter != null && amount != null) {
+                                    // reverse the amounts
+                                    setter.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
+                                }
+                            }
+                        }
+                        objects.add(assetPayment);
+                        objects.add(offsetPayment);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             // create new asset payment records and offset payment records
+            boService.save(objects);
+
         }
     }
 
-
-    private void savechangesToAsset(BusinessObjectService boService, List<PersistableBusinessObject> objects) {
-        Asset saveAsset = new Asset();
-        saveAsset.setCapitalAssetNumber(getAssetHeader().getCapitalAssetNumber());
-        saveAsset = (Asset) boService.retrieve(saveAsset);
+    private void changeAssetOwner(Asset saveAsset, List<PersistableBusinessObject> objects) {
         saveAsset.setOrganizationOwnerAccountNumber(getOrganizationOwnerAccountNumber());
         saveAsset.setOrganizationOwnerChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
         objects.add(saveAsset);
@@ -684,7 +738,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
 
     @Override
     public void prepareForSave() {
+        // generate postables
+        this.generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         super.prepareForSave();
+
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
 
     }
 
@@ -706,6 +767,50 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase {
 
     public void setOwnerOrganizationCode(String ownerOrganizationCode) {
         this.ownerOrganizationCode = ownerOrganizationCode;
+    }
+
+
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        System.out.println("************* FLOW " + "customizeExplicitGeneralLedgerPendingEntry" + "***********************");
+
+    }
+
+
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        System.out.println("************* FLOW " + "customizeOffsetGeneralLedgerPendingEntry" + "***********************");
+        return false;
+    }
+
+
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        System.out.println("************* FLOW " + "generateDocumentGeneralLedgerPendingEntries" + "***********************");
+        return true;
+    }
+
+
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+        System.out.println("************* FLOW " + "getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable" + "***********************");
+        return null;
+    }
+
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+        System.out.println("************* FLOW " + "getGeneralLedgerPostables" + "***********************");
+
+        return this.generalLedgerPostables;
+    }
+
+
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        System.out.println("************* FLOW " + "getGeneralLedgerPostingHelper" + "***********************");
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
+        return glPostingHelpers.get(GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    }
+
+
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        System.out.println("************* FLOW " + "isDebit" + "***********************");
+        return false;
     }
 
 

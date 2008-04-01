@@ -108,48 +108,6 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
         
         return inBuilder.toString();
     }
-    
-    /**
-     * 
-     * return a SQL IN list containing the budget construction expenditure object types
-     * @return a null string if the system parameter does not exist or is empty
-     */
-    protected String expenditureINList()
-    {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES))
-        {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-            return new String("");
-        }
-        ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-        if (expenditureObjectTypes.isEmpty())
-        {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-            return new String("");
-        }
-        return inString(expenditureObjectTypes);
-    }
-    
-    /**
-     * 
-     * return a SQL IN list containing the budget construction revenue object types
-     * @return a null string if the system parameter does not exist or is empty
-     */
-    protected String revenueINList()
-    {
-        if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES))
-        {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
-            return new String("");
-        }
-        ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
-        if (revenueObjectTypes.isEmpty())
-        {
-            LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
-            return new String("");
-        }
-        return inString(revenueObjectTypes);
-    }
 
     /**
      * 

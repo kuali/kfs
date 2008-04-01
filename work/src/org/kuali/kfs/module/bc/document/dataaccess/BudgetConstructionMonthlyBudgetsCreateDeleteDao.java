@@ -36,7 +36,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
      * @param subAccountNumber
      * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
      */
-      public void deleteBudgetConstructionMonthlyBudgetsRevenueI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
+      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
              throws IOException, NoSuchFieldException;
       
       /**
@@ -49,7 +49,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param subAccountNumber
        * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
        */ 
-       public void deleteBudgetConstructionMonthlyBudgetsExpenditureI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
 
        /**
         * 
@@ -61,7 +61,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
         * @param subAccountNumber
         * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
         */
-       public void spreadBudgetConstructionMonthlyBudgetsRevenueI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
 
        /**
         * 
@@ -74,55 +74,6 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
         * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
         * @return true benefits need to be recomputed, false otherwise
         */
-       public boolean spreadBudgetConstructionMonthlyBudgetsExpenditureI(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
        
-
-     /**
-      * 
-      * remove the existing revenue monthly budgets for this key
-      * @param documentNumber  the budget construction document number
-      * @param fiscalYear      the fiscal year for which the budget is being built
-      * @param chartCode
-      * @param accountNumber
-      * @param subAccountNumber
-      * @return NO_BENEFITS or FAILED
-      */
-       public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenueII(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-      
-     /**
-      * 
-      * remove the existing expenditure monthly budgets for this key
-      * @param documentNumber  the budget construction document number
-      * @param fiscalYear      the fiscal year for which the budget is being built
-      * @param chartCode
-      * @param accountNumber
-      * @param subAccountNumber
-      * @return NO_BENEFITS or FAILED
-      */ 
-      public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditureII(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-
-      /**
-       * 
-       * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
-       * @param documentNumber  the budget construction document number
-       * @param fiscalYear      the fiscal year for which the budget is being built
-       * @param chartCode
-       * @param accountNumber
-       * @param subAccountNumber
-       * @return NO_BENEFITS or FAILED
-       */
-      public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenueII(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-
-      /**
-       * 
-       * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month 
-       * @param documentNumber  the budget construction document number
-       * @param fiscalYear      the fiscal year for which the budget is being built
-       * @param chartCode
-       * @param accountNumber
-       * @param subAccountNumber
-       * @return BENEFITS, NO_BENEFITS, or FAILED
-       */
-      public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditureII(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-
 }

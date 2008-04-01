@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service;
 
 import org.kuali.module.budget.BCConstants;
+import java.io.IOException;
 
 /**
  * 
@@ -36,7 +37,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
    * @param subAccountNumber
    * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
    */
-    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
     
    /**
     * 
@@ -48,7 +49,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
     * @param subAccountNumber
     * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
     */ 
-    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
 
     /**
      * 
@@ -60,7 +61,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param subAccountNumber
      * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
      */
-    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
 
     /**
      * 
@@ -72,7 +73,7 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteService {
      * @param subAccountNumber
      * @return FAILED if the SQL could not be built, BENEFITS if benefits need to be recalculated, NO_BENEFITS otherwise
      */
-    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
     
     /**
      * 

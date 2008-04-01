@@ -109,7 +109,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         /**
          * set the request to 0 for fringe benefits objects with base
          */
-        sqlBuilder.append("UPDATE LD_PND_BCNSTR_GL_T\nSET LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT =0\n");
+        sqlBuilder.append("UPDATE LD_PND_BCNSTR_GL_T\n");
+        sqlBuilder.append("SET ACLN_ANNL_BAL_AMT =0\n");
         sqlBuilder.append("WHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n");
@@ -149,7 +150,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
          * re-set the request amount for the appropriate benefits code
          */
         sqlBuilder.append("UPDATE ld_pnd_bcnstr_gl_t\n");
-        sqlBuilder.append("SET ld_pnd_bcnstr_gl_t.acln_annl_bal_amt =\n");
+        sqlBuilder.append("SET acln_annl_bal_amt =\n");
         sqlBuilder.append("        (SELECT ld_bcn_benefits_recalc01_mt.fb_sum\n");
         sqlBuilder.append("         FROM ld_bcn_benefits_recalc01_mt\n");
         sqlBuilder.append("        WHERE (ld_bcn_benefits_recalc01_mt.sesid = ?)\n");
@@ -182,7 +183,13 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
         sqlBuilder.append(" FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT)\n");
         sqlBuilder.append("(SELECT ?, ?, ?, ?, ?,\n");
-        sqlBuilder.append("ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd, ?, ?, ?,\n");
+        sqlBuilder.append("ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd,\n");
+        sqlBuilder.append(" '");
+        sqlBuilder.append(defaultSubObjectCode);
+        sqlBuilder.append("', '");
+        sqlBuilder.append(budgetBalanceTypeCode);
+        sqlBuilder.append("', ");
+        sqlBuilder.append("?, \n");
         sqlBuilder.append("ld_bcn_benefits_recalc01_mt.fb_sum, 0\n");
         sqlBuilder.append("FROM ld_bcn_benefits_recalc01_mt\n");
         sqlBuilder.append("WHERE (ld_bcn_benefits_recalc01_mt.sesid = ?)\n");
@@ -195,8 +202,12 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.account_nbr = ?)\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.sub_acct_nbr = ?)\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd)\n");
-        sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_sub_obj_cd = ?)\n");
-        sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_balance_typ_cd = ?)\n");
+        sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_sub_obj_cd = '");
+        sqlBuilder.append(defaultSubObjectCode);
+        sqlBuilder.append("')\n");
+        sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_balance_typ_cd = '");
+        sqlBuilder.append(budgetBalanceTypeCode);
+        sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
         insertionPoint = sqlBuilder.length();
         sqlBuilder.append("))))");
@@ -217,7 +228,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND EXISTS\n");
         sqlBuilder.append("        (SELECT 1\n");
         sqlBuilder.append("         FROM ld_benefits_calc_t\n");
-        sqlBuilder.append("        WHERE ld_benefits_calc_t.univ_fiscal_yr = ?");
+        sqlBuilder.append("        WHERE ld_benefits_calc_t.univ_fiscal_yr = ?\n");
         sqlBuilder.append("          AND ld_benefits_calc_t.fin_coa_cd = ?\n");
         sqlBuilder.append("          AND ld_bcnstr_month_t.fin_object_cd = ld_benefits_calc_t.pos_frngben_obj_cd)");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
@@ -235,7 +246,13 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("    ?,\n");
-        sqlBuilder.append("   ld_benefits_calc_t.pos_frngben_obj_cd, ?, ?, ?,\n    ");
+        sqlBuilder.append("   ld_benefits_calc_t.pos_frngben_obj_cd,");
+        sqlBuilder.append(" '");
+        sqlBuilder.append(defaultSubObjectCode);
+        sqlBuilder.append("', '");
+        sqlBuilder.append(budgetBalanceTypeCode);
+        sqlBuilder.append("', ");
+        sqlBuilder.append("?, \n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo2_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo3_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
@@ -335,7 +352,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(inListToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(inListToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(inListToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
     }
 
@@ -348,7 +365,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         String idForSession = (new Guid()).toString();
 
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
     }
 }

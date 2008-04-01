@@ -75,13 +75,6 @@ public class BCConstants extends JstlConstants {
         }
     }
 
-    /**
-     * return values used by modules used to calculate benefits.  the "failed" value indicates that some system parameters needed for this task are invalid or missing.  
-     */
-    public enum benefitsResult {FAILED(0), BENEFITS(1), NO_BENEFITS(2);
-                                private int resultValue;
-                                private benefitsResult(int resultValue){this.resultValue = resultValue;}};  
-
 
     
     

@@ -41,32 +41,32 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenueII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public BCConstants.benefitsResult deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditureII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsRevenue(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return(budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenueII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
+        budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
     }
 
     /**
      * 
      * @see org.kuali.module.budget.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#spreadBudgetConstructionMonthlyBudgetsExpenditure(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public BCConstants.benefitsResult spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditureII(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
+    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
+        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber));
     }
 
     /**
@@ -86,30 +86,16 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
     {
         
-       LOG.warn(String.format("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure returned %s for (%s, %d, %s, %s, %s)\n\n",
-            deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
-            document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-       LOG.warn(String.format("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue returned %s for (%s, %d, %s, %s, %s)\n\n", 
-                deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
-                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue returned %s for (%s, %d, %s, %s, %s)\n\n", 
-                spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
-                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-       LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %s for (%s,%d,%s,%s,%s)\n\n",
-                               spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
-                               document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-       // added code to test the versions which throw exceptions
-       // take this out when we settle on whether we will use the enum or the exceptions
        try
        {
-          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditureI\n\n");
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditureI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenueI\n\n"); 
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenueI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenueI\n\n"); 
-          budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenueI(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
-          LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditureI returned %b for (%s,%b,%s,%s,%s): ",
-                  budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditureI(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
+          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure\n\n");
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn("\n\nspreadBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
+          budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
+          LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %b for (%s,%b,%s,%s,%s): ",
+                  budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
                                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
        }
        catch (IOException ioex)

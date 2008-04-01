@@ -21,13 +21,18 @@
 		<converter id="kualinumber" class="org.kuali.kfs.web.dwr.converter.KualiNumberConverter"/>
 	</init>
 	<allow>		
-		<create creator="new" javascript="PayrollAmountUtil">
+		<create creator="new" javascript="PayrollAmountUtil" scope="application">
 	    	<param name="class" value="org.kuali.module.effort.util.PayrollAmountHolder" />
 	    	<include method="recalculatePayrollAmount" />
 	    	<include method="recalculateEffortPercent" />
 	    </create>	
 	    
-	    <create creator="spring" javascript="LaborModuleService">
+	    <create creator="new" javascript="EffortCertificationForm" scope="application">
+	    	<param name="class" value="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />
+	    	<include method="loadAccountInfo" />
+	    </create>	
+		
+		<create creator="spring" javascript="LaborModuleService">
 	    	<param name="beanName" value="laborModuleService" />
 			<include method="calculateFringeBenefit" />
 		</create>

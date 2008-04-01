@@ -69,6 +69,7 @@
 	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
 	<script type='text/javascript' src="dwr/interface/LaborModuleService.js"></script>
 	<script type='text/javascript' src="dwr/interface/PayrollAmountUtil.js"></script>
+	<script type='text/javascript' src="dwr/interface/EffortCertificationForm.js"></script>
 	
 	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
 	<script language="JavaScript" type="text/javascript" src="scripts/effort/objectInfo.js"></script>

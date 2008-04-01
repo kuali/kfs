@@ -23,6 +23,10 @@ function EffortAmountUpdator(){
 	objectCodeFieldNameSuffix = ".financialObjectCode";
 	chartOfAccountsCodeFieldNameSuffix = ".chartOfAccountsCode";
 	
+	accountNumberSuffix = ".accountNumber";
+	accountNameSuffix = ".account.accountName";
+	chartCodeSuffix = ".chartOfAccountsCode";
+	
 	payrollAmountFieldNameSuffix = ".effortCertificationPayrollAmount";
 	effortPercentFieldNameSuffix = ".effortCertificationUpdatedOverallPercent";
 	fringeBenefitFieldNameSuffix = ".fringeBenefitAmount"
@@ -132,6 +136,38 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 	}
 };
 
+EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
+    var coaCode = DWRUtil.getValue( elPrefix + chartCodeSuffix );
+
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+	} else if (coaCode=='') {
+		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && data.length >0 ) {
+				setRecipientValue( accountNameFieldName, data );
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+			}
+		};
+		EffortCertificationForm.loadAccountInfo( coaCode, accountCode, dwrReply );
+	}	
+}
+
 EffortAmountUpdator.prototype.setValueByElementId = function(elementId, value){
 	if(document.getElementById(elementId) != null || document.getElementsByName(elementId).length > 0){
 		DWRUtil.setValue( elementId, value);
@@ -163,6 +199,7 @@ EffortAmountUpdator.prototype.formatNumberAsCurrency = function(number, currency
 	return currencySymbol + integerPart + fractionPart;
 };
 
+// update all values in total fields
 EffortAmountUpdator.prototype.updateTotals = function(){
 	// update the payroll amount totals
 	totalFieldId = "document.totalPayrollAmount";
@@ -183,6 +220,7 @@ EffortAmountUpdator.prototype.updateTotals = function(){
 	this.updateTotalField(editableDetailLineTableId, fringeBenefitFieldNameSuffix, false, totalFieldId, federalTotalFieldId, otherTotalFieldId);
 };
 
+// update the specific total fields
 EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, amountFieldSuffix, isPercent, totalFieldId, federalTotalFieldId, otherTotalFieldId){
 	var federalTotal = 0.0;
 	var otherTotal = 0.0;

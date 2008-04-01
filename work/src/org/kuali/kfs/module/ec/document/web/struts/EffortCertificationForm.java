@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.BusinessObjectRelationship;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.inquiry.Inquirable;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.PersistenceStructureService;
@@ -38,12 +40,14 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailLineOverride;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.inquiry.EffortLedgerBalanceInquirableImpl;
 import org.kuali.module.effort.util.PayrollAmountHolder;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 
 /**
  * Action form for Effort Certification Document.
@@ -65,13 +69,13 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
 
         newDetailLine = this.createNewDetailLine();
     }
-    
+
     public EffortCertificationDetail createNewDetailLine() {
         EffortCertificationDetail detailLine = new EffortCertificationDetail();
         detailLine.setEffortCertificationUpdatedOverallPercent(null);
         detailLine.setEffortCertificationPayrollAmount(null);
         detailLine.setSubAccountNumber(null);
-        
+
         return detailLine;
     }
 
@@ -305,7 +309,9 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
             Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
 
             fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
-            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
+
+            String accountInfo = buildAccountInfo(detailLine.getAccount());
+            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountInfo);
 
             SubAccount subAccount = detailLine.getSubAccount();
             if (subAccount != null) {
@@ -345,5 +351,38 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
      */
     private Inquirable getInquirable() {
         return new EffortLedgerBalanceInquirableImpl();
+    }
+
+    /**
+     * build the descriptive information of the given account. The information includes account name and project director's name if
+     * any
+     * 
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param accountNumber the given account number
+     * @return the descriptive information of the given account
+     */
+    public static String buildAccountInfo(Account account) {
+        if (account == null) {
+            return KFSConstants.EMPTY_STRING;
+        }
+
+        ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
+        UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+        String projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getPersonName()) : KFSConstants.EMPTY_STRING;
+
+        return MessageFormat.format("{0}{1}", account.getAccountName(), projectDirectorName);
+    }
+
+    /**
+     * load the descriptive information of the given account
+     * 
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param accountNumber the given account number
+     * @return the descriptive information of the given account
+     */
+    public static String loadAccountInfo(String chartOfAccountsCode, String accountNumber) {
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
+
+        return buildAccountInfo(account);
     }
 }

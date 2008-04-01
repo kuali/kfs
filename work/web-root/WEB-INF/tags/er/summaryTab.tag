@@ -40,7 +40,7 @@
 					detailFieldNames="${newLineDetailFieldNames}"
 					hiddenFieldNames="${newLineHiddenFieldNames}"
 					editableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
-					onblurForEditableFieldNames="loadChartInfo,loadAccountInfo,loadSubAccountInfo"
+					onblurForEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo"
 					onblurableInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName"
 					relationshipMetadata ="${KualiForm.relationshipMetadata}"
 					hasActions="true" actions="add" actionImageFileNames="tinybutton-add1.gif" />
@@ -60,7 +60,7 @@
 			editableFieldNames="effortCertificationUpdatedOverallPercent,effortCertificationPayrollAmount"
 			extraEditableFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber"
 			onblurForEditableFieldNames="effortAmountUpdator.recalculatePayrollAmount,effortAmountUpdator.recalculateEffortPercent"
-			onblurForExtraEditableFieldNames="loadChartInfo,loadAccountInfo,loadSubAccountInfo"
+			onblurForExtraEditableFieldNames="loadChartInfo,effortAmountUpdator.loadAccountInfo,loadSubAccountInfo"
 			onblurableInfoFieldNames=""	
 			onblurableExtraInfoFieldNames="chartOfAccounts.finChartOfAccountDescription,account.accountName,subAccount.subAccountName"			
 			relationshipMetadata="${KualiForm.relationshipMetadata}"

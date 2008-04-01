@@ -69,7 +69,6 @@
 	                	<field attributeName="assetOrganization.organizationAssetTypeIdentifier" />
 	                	<field attributeName="receiveDate" />
 	                	<field attributeName="replacementAmount" />
-	                	<field attributeName="estimatedSellingPrice" />
 	                 </inquiryFields>
 	            </inquirySection>
 	

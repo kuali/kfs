@@ -30,7 +30,7 @@
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="universityFiscalYear" />
+            	<lookupField attributeName="universityFiscalYear" required="true"/>
                 <lookupField attributeName="effortCertificationReportNumber" />
                 <lookupField attributeName="effortCertificationDetailLines.account.chartOfAccountsCode" />
                 <lookupField attributeName="effortCertificationDetailLines.account.organizationCode" />

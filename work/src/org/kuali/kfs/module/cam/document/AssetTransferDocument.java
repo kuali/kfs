@@ -15,8 +15,10 @@
  */
 package org.kuali.module.cams.document;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -41,16 +44,18 @@ import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+    private static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
     private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
     private String representativeUniversalIdentifier;
     private String campusCode;
@@ -85,6 +90,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     // Transient attributes
     private transient Asset asset;
     private transient String ownerOrganizationCode;
+    private UniversityDateService universityDateService;
 
     public AssetTransferDocument() {
     }
@@ -666,57 +672,134 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
         String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
+
         // if status is approved
         if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
             // save new asset location details to asset table, inventory date
             BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            List<PersistableBusinessObject> objects = new ArrayList<PersistableBusinessObject>();
+            List<PersistableBusinessObject> persistableObjects = new ArrayList<PersistableBusinessObject>();
             Asset saveAsset = new Asset();
             saveAsset.setCapitalAssetNumber(getAssetHeader().getCapitalAssetNumber());
             saveAsset = (Asset) boService.retrieve(saveAsset);
-            changeAssetOwner(saveAsset, objects);
+            changeAssetOwner(saveAsset, persistableObjects);
             if (saveAsset.getAssetPayments() == null) {
-                saveAsset.refreshReferenceObject("assetPayments");
+                saveAsset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
             }
 
             List<AssetPayment> originalPayments = saveAsset.getAssetPayments();
-            Integer maxSequence = null;
-            for (AssetPayment assetPayment : originalPayments) {
-                if ("N".equals(assetPayment.getTransferPaymentCode())) {
-                    // copy and create an offset payment
-                    AssetPayment offsetPayment;
-                    try {
-                        if (maxSequence == null) {
-                            maxSequence = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
-                        }
-                        assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                        offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-                        offsetPayment.setPaymentSequenceNumber(++maxSequence);
-                        offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                        Method[] methods = AssetPayment.class.getMethods();
-                        for (Method method : methods) {
-                            if (method.getReturnType().isAssignableFrom(KualiDecimal.class)) {
-                                String setterName = "set" + method.getName().substring(3);
-                                Method setter = AssetPayment.class.getMethod(setterName, KualiDecimal.class);
-                                KualiDecimal amount = (KualiDecimal) method.invoke(offsetPayment);
-                                if (setter != null && amount != null) {
-                                    // reverse the amounts
-                                    setter.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
-                                }
-                            }
-                        }
-                        objects.add(assetPayment);
-                        objects.add(offsetPayment);
+            if (this.universityDateService == null) {
+                this.universityDateService = SpringContext.getBean(UniversityDateService.class);
+            }
+            Integer maxSequence = createOffsetPayments(persistableObjects, originalPayments);
+            maxSequence = createNewPayments(persistableObjects, originalPayments, maxSequence);
+            updateOriginalPayments(persistableObjects, originalPayments);
+
+            // create new asset payment records and offset payment records
+            boService.save(persistableObjects);
+
+        }
+    }
+
+
+    private void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
+        for (AssetPayment assetPayment : originalPayments) {
+            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+                try {
+                    // change payment code
+                    assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                    persistableObjects.add(assetPayment);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+
+    private Integer createNewPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
+        Integer maxSequenceNo = maxSequence;
+        for (AssetPayment assetPayment : originalPayments) {
+            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+                // copy and create new payment
+                AssetPayment newPayment;
+                try {
+                    if (maxSequenceNo == null) {
+                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
                     }
-                    catch (Exception e) {
-                        e.printStackTrace();
+                    // create new payment info
+                    newPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
+                    newPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                    newPayment.setAccountNumber(getOrganizationOwnerAccountNumber());
+                    newPayment.setChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
+                    newPayment.setSubAccountNumber(null);
+                    newPayment.setDocumentNumber(getDocumentNumber());
+                    newPayment.setFinancialDocumentTypeCode(ASSET_TRANSFER_DOCTYPE_CD);
+                    newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
+                    newPayment.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
+                    newPayment.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+                    adjustAmounts(newPayment, false);
+                    // add new payment
+                    persistableObjects.add(newPayment);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return maxSequenceNo;
+    }
+
+
+    private Integer createOffsetPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
+        Integer maxSequenceNo = null;
+        for (AssetPayment assetPayment : originalPayments) {
+            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
+                // copy and create an offset payment
+                AssetPayment offsetPayment;
+                try {
+                    if (maxSequenceNo == null) {
+                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
+                    }
+                    offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
+                    offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
+                    offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                    offsetPayment.setDocumentNumber(getDocumentNumber());
+                    offsetPayment.setFinancialDocumentTypeCode(ASSET_TRANSFER_DOCTYPE_CD);
+                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
+                    offsetPayment.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
+                    offsetPayment.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+                    adjustAmounts(offsetPayment, true);
+                    // add offset payment
+                    persistableObjects.add(offsetPayment);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return maxSequenceNo;
+    }
+
+
+    private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method[] methods = AssetPayment.class.getMethods();
+        for (Method method : methods) {
+            if (method.getReturnType().isAssignableFrom(KualiDecimal.class)) {
+                String setterName = "set" + method.getName().substring(3);
+                Method setter = AssetPayment.class.getMethod(setterName, KualiDecimal.class);
+                KualiDecimal amount = (KualiDecimal) method.invoke(offsetPayment);
+                if (setter != null && amount != null) {
+                    if (setterName.contains("Depreciation")) {
+                        Object[] nullVal = new Object[] { null };
+                        setter.invoke(offsetPayment, nullVal);
+                    }
+                    else if (reverseAmount) {
+                        // reverse the amounts
+                        setter.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
                     }
                 }
             }
-
-            // create new asset payment records and offset payment records
-            boService.save(objects);
-
         }
     }
 
@@ -811,6 +894,21 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         System.out.println("************* FLOW " + "isDebit" + "***********************");
         return false;
+    }
+
+
+    public void setGeneralLedgerPostables(List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables) {
+        this.generalLedgerPostables = generalLedgerPostables;
+    }
+
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 

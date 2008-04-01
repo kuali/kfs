@@ -1097,7 +1097,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[c]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{header.institution}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>

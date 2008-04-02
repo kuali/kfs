@@ -31,6 +31,9 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -44,8 +47,6 @@ import org.kuali.module.cams.bo.AssetRetirementGlobal;
  * AssetAuthorizer for Asset edit.
  */
 public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase {
-
-    private static final String[] CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, VENDOR_NAME, ASSET_DATE_OF_SERVICE };
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
@@ -62,10 +63,18 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
         AssetRetirementGlobal assetGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         if (StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER, assetGlobal.getRetirementReasonCode()) || StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.AUCTION, assetGlobal.getRetirementReasonCode())) {
-            //auths.addEditableAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
+            // auths.addEditableAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." +
+            // CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
         }
         return auths;
+    }
+
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+            throw new DocumentInitiationAuthorizationException(new String[] { CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, documentTypeName });
+        }
     }
 
 }

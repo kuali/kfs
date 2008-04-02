@@ -14,9 +14,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dictionaryEntry SYSTEM
-    "C:\java\projects\rice\kns\src\main\resources\org\kuali\core\datadictionary\dataDictionary-1_0.dtd">
-
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+    
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.AssetRetirementGlobal</businessObjectClass>
@@ -77,7 +78,7 @@
                 	<maintainableField name="sharedRetirementInfo.paidCaseNumber"  />
 	            </maintainableItems>
             </maintainableSection>
-       		 <maintainableSection title="Asset Detail Information">
+       		<maintainableSection title="Asset Detail Information">
             	<maintainableItems>
             		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
 	                <subSectionHeader name="Asset Detail Information" />
@@ -91,8 +92,6 @@
             		</maintainableCollection>
             	</maintainableItems>
             </maintainableSection>     
-                 
-
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

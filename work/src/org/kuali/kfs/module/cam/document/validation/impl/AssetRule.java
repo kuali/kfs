@@ -145,7 +145,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         // validate Vender Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
-            valid &= validateVenderName();
+            valid &= validateVendorName();
         }
 
         // validate Tag Number.
@@ -312,7 +312,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset
      * @return
      */
-    private boolean validateVenderName() {
+    private boolean validateVendorName() {
         boolean valid = true;
 
         if (isCapitalEquipment(newAsset)) {
@@ -535,12 +535,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isBlank(asset.getBuildingCode())) {
             putFieldError(CamsPropertyConstants.Asset.BUILDING_CODE, CamsKeyConstants.ERROR_ASSET_BUILDING_CODE_NULL);
-            valid &= true;
+            valid &= false;
         }
 
         if (StringUtils.isBlank(asset.getBuildingRoomNumber())) {
             putFieldError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_ASSET_BUILDING_ROOMNO_NULL);
-            valid &= true;
+            valid &= false;
         }
         return valid;
     }

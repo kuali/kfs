@@ -35,6 +35,7 @@ public class AssetDispositionServiceImpl implements AssetDispositionService {
         for (AssetDisposition disposition : assetDispositons) {
             if (CamsConstants.Dispositon.ASSET_MERGE_CODE.equalsIgnoreCase(disposition.getDispositionCode())) {
                 asset.setAssetMergeHistory(disposition);
+                break;
             }
         }
     }
@@ -45,6 +46,7 @@ public class AssetDispositionServiceImpl implements AssetDispositionService {
         for (AssetDisposition disposition : assetDispositon) {
             if (CamsConstants.Dispositon.ASSET_SEPARATE_CODE.equalsIgnoreCase(disposition.getDispositionCode())) {
                 asset.setAssetSeparateHistory(disposition);
+                break;
             }
         }
     }

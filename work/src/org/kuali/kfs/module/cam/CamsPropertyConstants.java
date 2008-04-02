@@ -16,6 +16,7 @@
 package org.kuali.module.cams;
 
 
+
 /**
  * Constants for cams business object property names.
  */
@@ -134,8 +135,8 @@ public class CamsPropertyConstants {
         public static final String ASSET_ORGANIZATION = "assetOrganization";
         public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";
     }
-
-    public static class AssetTransferDocument {
+    
+        public static class AssetTransferDocument {
         public static final String ORGANIZATION = "organization";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
     }
@@ -143,5 +144,29 @@ public class CamsPropertyConstants {
     public static class AssetComponent {
         public static final String COMPONENT_NUMBER = "componentNumber";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    }
+    
+    public static class AssetRetirementGlobal {
+        public static final String SHARED_RETIREMENT_INFO = "sharedRetirementInfo";
+    }
+    
+    public static class AssetRetirementGlobalDetail {
+        public static final String RETIREMENT_CHART_OF_ACCOUNTS_CODE = "retirementChartOfAccountsCode";
+        public static final String RETIREMENT_ACCOUNT_NUMBER = "retirementAccountNumber";
+        public static final String RETIREMENT_CONTACT_NAME = "retirementContactName";
+        public static final String RETIREMENT_INSTITUTION_NAME = "retirementInstitutionName";
+        public static final String RETIREMENT_STREET_ADDRESS = "retirementStreetAddress";
+        public static final String RETIREMENT_CITY_NAME = "retirementCityName";
+        public static final String RETIREMENT_STATE_CODE = "retirementStateCode";
+        public static final String RETIREMENT_ZIP_CODE = "retirementZipCode";
+        public static final String RETIREMENT_COUNTRY_CODE = "retirementCountryCode";
+        public static final String RETIREMENT_PHONE_NUMBER = "retirementPhoneNumber";
+        public static final String ESTIMATED_SELLING_PRICE = "estimatedSellingPrice";
+        public static final String SALE_PRICE = "salePrice";
+        public static final String CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER = "cashReceiptFinancialDocumentNumber";
+        public static final String HANDLING_FEE_AMOUNT = "handlingFeeAmount";
+        public static final String PREVENTIVE_MAINTENANCE_AMOUNT = "preventiveMaintenanceAmount";
+        public static final String BUYER_DESCRIPTION = "buyerDescription";
+        public static final String PAID_CASE_NUMBER = "paidCaseNumber";
     }
 }

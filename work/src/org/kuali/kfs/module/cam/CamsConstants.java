@@ -50,6 +50,9 @@ public class CamsConstants {
         public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES = "NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES";
         public static final String DEPARTMENT_VIEWABLE_FIELDS = "DEPARTMENT_VIEWABLE_FIELDS";
         public static final String FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES = "FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES";
+        public static final String VALID_INVENTROY_STATUS_CODE_CHANGE = "VALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE";
+        public static final String INVALID_INVENTROY_STATUS_CODE_CHANGE = "INVALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE";
+        public static final String CAPITAL_ASSET_STATUS_CODES = "CAPITAL_ASSET_STATUS_CODES";
     }
 
     public static class Report {
@@ -112,8 +115,6 @@ public class CamsConstants {
         public static final String OFF_CAMPUS = "O";
     }
 
-    // TODO:replaced by system parameter
-    public static final String CAPITAL_ASSET_STATUS_CODES = "A,C,U,S,R";
     public static final String DOC_APPROVED = "A";
     public static final String DOC_INITIATED = "?";
 
@@ -124,6 +125,15 @@ public class CamsConstants {
 
     public static class AssetRetirementGlobal {
         public static final String DOCUMENT_HEADER = "documentHeader";
+    }
+    
+    public static class AssetRetirementReasonCode {
+        public static final String SOLD = "1";
+        public static final String GIFT = "6";
+        public static final String THEFT = "7";
+        public static final String EXTERNAL_TRANSFER = "9";
+        public static final String AUCTION = "A";
+        public static final String MERGED = "M";
     }
 
     public static class Asset {
@@ -141,4 +151,6 @@ public class CamsConstants {
         public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.CREATE_DATE, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_PERIOD_CODE, CamsPropertyConstants.Asset.FINANCIAL_DOCUMENT_POSTING_YEAR, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER };
         public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ASSET_REPRESENTATIVE + "." + KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
     }
+    
+  
 }

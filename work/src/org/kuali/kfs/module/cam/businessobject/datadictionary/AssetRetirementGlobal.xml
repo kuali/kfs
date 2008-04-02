@@ -96,21 +96,11 @@
                 <description>mergedTargetCapitalAssetNumber description...</description>
 			</attribute>
 
-            <attribute name="retirementDate" forceUppercase="true">
+            <attributeReference name="retirementDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Retirement Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>retirementDate</summary>
-                <description>retirementDate description...</description>
-			</attribute>
-
+            </attributeReference>
+            
             <attribute name="retirementReasonCode" forceUppercase="true">
                 <label>Retirement Reason Code</label>
                 <shortLabel>Code</shortLabel>
@@ -126,6 +116,24 @@
                 <description>retirementReasonCode description...</description>
 			</attribute>
 
+            <attributeReference name="sharedRetirementInfo.retirementChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementChartOfAccountsCode" />
+            <attributeReference name="sharedRetirementInfo.retirementAccountNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementAccountNumber" />
+            <attributeReference name="sharedRetirementInfo.retirementContactName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementContactName" />
+            <attributeReference name="sharedRetirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementInstitutionName" />
+            <attributeReference name="sharedRetirementInfo.retirementStreetAddress" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStreetAddress" />
+            <attributeReference name="sharedRetirementInfo.retirementCityName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCityName" />
+            <attributeReference name="sharedRetirementInfo.retirementStateCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementStateCode" />
+            <attributeReference name="sharedRetirementInfo.retirementZipCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementZipCode" />
+            <attributeReference name="sharedRetirementInfo.retirementCountryCode" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementCountryCode" />
+            <attributeReference name="sharedRetirementInfo.retirementPhoneNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementPhoneNumber" />
+            <attributeReference name="sharedRetirementInfo.estimatedSellingPrice" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="estimatedSellingPrice" />
+            <attributeReference name="sharedRetirementInfo.salePrice" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="salePrice" />
+            <attributeReference name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="cashReceiptFinancialDocumentNumber" />
+            <attributeReference name="sharedRetirementInfo.handlingFeeAmount" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="handlingFeeAmount" />
+            <attributeReference name="sharedRetirementInfo.preventiveMaintenanceAmount" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="preventiveMaintenanceAmount" />
+            <attributeReference name="sharedRetirementInfo.buyerDescription" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="buyerDescription" />
+            <attributeReference name="sharedRetirementInfo.paidCaseNumber" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="paidCaseNumber" />
+            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

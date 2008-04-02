@@ -79,6 +79,7 @@
                     <maintainableField name="financialDocumentPostingYear" readOnly="true" />
                     <maintainableField name="financialDocumentPostingPeriodCode" readOnly="true" />
                     <maintainableField name="capitalAssetInServiceDate" />
+                    <maintainableField name="depreciationDate" readOnly="true" />
                     <maintainableField name="totalCostAmount" readOnly="true" />
                     <maintainableField name="federalContribution" readOnly="true" />
                     <maintainableField name="versionNumber" />					
@@ -121,7 +122,7 @@
             </maintainableSection>
 
             <maintainableSection title="Fabrication Information" id="fabricationInformation">
-                <maintainableItems> 
+				<maintainableItems>
                     <maintainableField name="estimatedFabricationCompletionDate" />
                     <maintainableField name="fabricationEstimatedTotalAmount" />
                     <maintainableField name="estimatedFabricationLifetimeLimitNumber" />

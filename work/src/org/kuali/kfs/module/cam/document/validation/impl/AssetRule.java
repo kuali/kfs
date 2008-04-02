@@ -57,24 +57,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private Asset oldAsset;
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-    // TODO - This code will be replaced using System Parameter service
-    private static Map<String, String[]> VALID_INVENTROY_STATUS_CODE_CHANGE = new HashMap<String, String[]>();
-    static {
-        try {
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT, new String[] { CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED, null);
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003 });
-            VALID_INVENTROY_STATUS_CODE_CHANGE.put(CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED_2003, new String[] { CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_ACTIVE_2003 });
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
@@ -246,15 +228,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * Validate Inventory Status Code Change
      */
     private boolean validateInventoryStatusCode() {
-        boolean valid = true;
-        // TODO: Fix this with the right method parameters and property constants:
-        //valid = valid && parameterService.getParameterEvaluator(newAsset.getClass(), "VALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , "INVALID_INVENTORY_STATUS_CODES_BY_PRIOR_INVENTORY_STATUS_CODE" , oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(Asset.class, "aValidPropertyConstant");
-        if (!ArrayUtils.contains(VALID_INVENTROY_STATUS_CODE_CHANGE.get(oldAsset.getInventoryStatusCode()), newAsset.getInventoryStatusCode())) {
-            putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_INVALID_ASSET_STATUS_CHANGE, new String[] { oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode() });
-            valid &= false;
-        }
-
-        return valid;
+        return parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
     }
 
 
@@ -270,16 +244,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return StringUtils.isNotBlank(oldAsset.getCampusTagNumber()) && ObjectUtils.isNotNull(oldAsset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(oldAsset.getFinancialDocumentPostingYear());
     }
 
-    /**
-     * @return boolean
-     */
-    private boolean isAssetTagged() {
-        return ObjectUtils.isNotNull(oldAsset.getCampusTagNumber());
-    }
-
 
     /**
-     * The Tag Number check excludes value of "N" and retired assets. This method...
+     * The Tag Number check excludes value of "N" and retired assets. 
      * 
      * @return
      */
@@ -311,7 +278,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean anyFound = false;
 
 
-        if (isAssetTagged()) {
+        if (ObjectUtils.isNotNull(oldAsset.getCampusTagNumber())) {
             putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_RESTRICT_CHANGE);
             valid &= false;
         }
@@ -357,8 +324,15 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * 
+     * This method checks if the asset is capital asset.
+     * @param asset
+     * @return
+     */
     private boolean isCapitalEquipment(Asset asset) {
-        return StringUtils.contains(CamsConstants.CAPITAL_ASSET_STATUS_CODES, asset.getInventoryStatusCode());
+        Object[] capitalAssetCodes = parameterService.getParameterValues(Asset.class,CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).toArray();
+        return ArrayUtils.contains(capitalAssetCodes, asset.getInventoryStatusCode());
     }
 
 
@@ -444,8 +418,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates Asset On Campus loaction information when "moving" code is 'Y'. Campus, Building and Room are mandatory and shall
-     * be validated.
+     * when asset type code with the flag "moving code" checked, this asset must have a location for it, either on campus or off
+     * campus. i) if one of these two fields(building code and room number) is entered, it is supposed to be on campus. On campus
+     * fields are: building code - mandatory, valid room number - mandatory, valid. At this situation, all off campus fields are not
+     * allowed to enter. ii) if both of these fields:building code and room number are not entered, the off campus fields are
+     * required.
      * 
      * @param asset the Asset object to be validated
      * @return boolean false if the on campus location information is invalid
@@ -548,7 +525,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Required fields for on campus: building code, building room number This method...
+     * Required fields for on campus: building code, building room number.
      * 
      * @param asset
      * @return

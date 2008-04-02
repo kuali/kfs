@@ -20,16 +20,13 @@ import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetLocationGlobal;
-import org.kuali.module.cams.bo.AssetLocationGlobalDetail;
 
 /**
- * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location assets
+ * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
+ * assets
  */
 public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
 
     /**
@@ -40,8 +37,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
-        //TODO:generate locks for each asset retirement detail
+        // TODO:generate locks for each asset retirement detail
         return maintenanceLocks;
     }
-}
 
+}

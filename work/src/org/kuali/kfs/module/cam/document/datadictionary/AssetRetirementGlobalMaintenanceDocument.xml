@@ -14,28 +14,29 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<!DOCTYPE dictionaryEntry SYSTEM
+    "C:\java\projects\rice\kns\src\main\resources\org\kuali\core\datadictionary\dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.AssetRetirementGlobal</businessObjectClass>
         <maintainableClass>org.kuali.module.cams.maintenance.AssetRetirementGlobalMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetRetirementAuthorizer</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>CM_ADMINISTRATORS</workgroup>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                    <!--workgroup>CM_ASSET_MERGE_SEPARATE_USERS</workgroup-->
+                    <!--workgroup>CM_SUPER_USERS</workgroup-->
                 </workgroups>
             </authorization>
         </authorizations>
 
         <documentTypeName>AssetRetirementGlobalMaintenanceDocument</documentTypeName>
         <documentTypeCode>AR</documentTypeCode>
-
+        
         <label>Asset Retirement Global</label>
 
         <summary>Retirement Global Asset Maintenance Document</summary>
@@ -50,25 +51,48 @@
                 <maintainableItems>
 	                <subSectionHeader name="Retirement Reason" />
                 	<maintainableField name="retirementReasonCode" required="true" />
+                	<maintainableField name="retirementDate" required="true">
+                		<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                    </maintainableField>
                 </maintainableItems>
             </maintainableSection>
-            <maintainableSection title="Asset Detail Information">
+            <maintainableSection title="Retirement Details" id="retirementDetails">
+	            <maintainableItems>
+                	<maintainableField name="sharedRetirementInfo.retirementChartOfAccountsCode"  />
+                	<maintainableField name="sharedRetirementInfo.retirementAccountNumber"  />
+                	<maintainableField name="sharedRetirementInfo.retirementContactName"  />
+                	<maintainableField name="sharedRetirementInfo.retirementInstitutionName"  />
+                	<maintainableField name="sharedRetirementInfo.retirementStreetAddress"  />
+                	<maintainableField name="sharedRetirementInfo.retirementCityName"  />
+                	<maintainableField name="sharedRetirementInfo.retirementStateCode"  />
+                	<maintainableField name="sharedRetirementInfo.retirementZipCode"  />
+                	<maintainableField name="sharedRetirementInfo.retirementCountryCode"  />
+                	<maintainableField name="sharedRetirementInfo.retirementPhoneNumber"  />
+                	<maintainableField name="sharedRetirementInfo.estimatedSellingPrice"  />
+                	<maintainableField name="sharedRetirementInfo.salePrice"  />
+                	<maintainableField name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber"  />
+                	<maintainableField name="sharedRetirementInfo.handlingFeeAmount"  />
+                	<maintainableField name="sharedRetirementInfo.preventiveMaintenanceAmount"  />
+                	<maintainableField name="sharedRetirementInfo.buyerDescription"  />
+                	<maintainableField name="sharedRetirementInfo.paidCaseNumber"  />
+	            </maintainableItems>
+            </maintainableSection>
+       		 <maintainableSection title="Asset Detail Information">
             	<maintainableItems>
-            		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetRetirementGlobalDetails" summaryTitle="Asset Retired">
-	                <subSectionHeader name="Asset" />
-                	<maintainableField name="capitalAssetNumber" template="capitalAssetNumber" readOnlyAfterAdd="true" />
-                	<maintainableField name="versionNumber" />
+            		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
+	                <subSectionHeader name="Asset Detail Information" />
+                	<maintainableField name="capitalAssetNumber" required="true" readOnlyAfterAdd="true" />
                 	<summaryFields>
                         <summaryField name="capitalAssetNumber" />
                     </summaryFields>
                     <duplicateIdentificationFields>
-                        <duplicateIdentificationField name="capitalAssetNumber"/>
-                    </duplicateIdentificationFields> 
-	                <!--subSectionHeader name="Asset Detail Information" />
-            		<maintainableField name="asset.organizationOwnerChartOfAccountsCode" /-->
+                    	<duplicateIdentificationField name="capitalAssetNumber"/>
+                    </duplicateIdentificationFields>
             		</maintainableCollection>
             	</maintainableItems>
-            </maintainableSection>
+            </maintainableSection>     
+                 
+
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

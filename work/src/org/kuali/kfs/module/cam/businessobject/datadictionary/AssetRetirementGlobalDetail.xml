@@ -383,9 +383,9 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 			
-            <attributeReference name="asset.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode" />
+			<attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
+			<attributeReference name="asset.capitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetNumber" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-        </attributes>
+         </attributes>
     </businessObject>
 </dictionaryEntry>

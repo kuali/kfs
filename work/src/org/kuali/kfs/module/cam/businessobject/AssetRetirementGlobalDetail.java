@@ -1,11 +1,13 @@
 package org.kuali.module.cams.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.Account;
@@ -45,11 +47,12 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     private Country retirementCountry;
     private AssetRetirementGlobal assetRetirementGlobal;
 
+    // Non-persistent
+
     /**
      * Default constructor.
      */
     public AssetRetirementGlobalDetail() {
-
     }
 
     /**
@@ -576,6 +579,16 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         this.assetRetirementGlobal = assetRetirementGlobal;
     }
 
+
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -587,14 +600,4 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
         }
         return m;
     }
-
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
-
 }

@@ -1,6 +1,7 @@
 package org.kuali.module.cams.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -9,7 +10,10 @@ import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.Account;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -27,6 +31,19 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private AssetStatus inventoryStatus;
     private DocumentHeader documentHeader;
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
+    // non-persistent relation
+    private AssetRetirementGlobalDetail sharedRetirementInfo;
+
+
+    public AssetRetirementGlobalDetail getSharedRetirementInfo() {
+        return sharedRetirementInfo;
+    }
+
+
+    public void setSharedRetirementInfo(AssetRetirementGlobalDetail sharedRetirementInfo) {
+        this.sharedRetirementInfo = sharedRetirementInfo;
+    }
+
 
     /**
      * Default constructor.
@@ -46,12 +63,17 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         // TODO Auto-generated method stub
+        List<PersistableBusinessObject> persistables = new ArrayList();
+
+        /*
+         * for (AssetRetirementGlobalDetail detail: assetRetirementGlobalDetails ) { // load the object by keys Asset asset =
+         * (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, detail.getPrimaryKeys()); }
+         */
         return null;
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        // TODO Auto-generated method stub
-        return null;
+        return getAssetRetirementGlobalDetails();
     }
 
     public boolean isPersistable() {

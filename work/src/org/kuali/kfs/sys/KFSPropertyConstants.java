@@ -553,6 +553,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_CASH_OBJECT_CODE = "financialCashObjectCode";
     public static final String FINANCIAL_CONSOLIDATION_OBJECT = "financialConsolidationObject";
     public static final String FINANCIAL_CONSOLIDATION_OBJECT_CODE = "financialConsolidationObjectCode";
+    public static final String FINANCIAL_CONSOLIDATION_SORT_CODE = "financialConsolidationSortCode";
     public static final String FINANCIAL_DOCUMENT = "financialDocument";
     public static final String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
     public static final String FINANCIAL_DOCUMENT_ATTACHMENT_FILE_SIZE = "financialDocumentAttachmentFileSize";
@@ -599,6 +600,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_HIGHER_ED_FUNCTION = "financialHigherEdFunction";
     public static final String FINANCIAL_HIGHER_ED_FUNCTION_CD = "financialHigherEdFunctionCd";
     public static final String FINANCIAL_ICR_SERIES_IDENTIFIER = "financialIcrSeriesIdentifier";
+    public static final String FINANCIAL_LEVEL_SORT_CODE = "financialLevelSortCode";
     public static final String FINANCIAL_OBJECT = "financialObject";
     public static final String FINANCIAL_OBJECT_ACTIVE_CODE = "financialObjectActiveCode";
     public static final String FINANCIAL_OBJECT_CHART_OF_ACCOUNT = "financialObjectChartOfAccount";

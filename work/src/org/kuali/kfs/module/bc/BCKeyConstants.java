@@ -41,9 +41,11 @@ public class BCKeyConstants {
     public static final String MSG_REPORT_HEADER_REQ_AMOUNT = "message.budget.report.header.reqAmount";
     public static final String MSG_REPORT_HEADER_CHANGE = "message.budget.report.header.change";
     public static final String MSG_REPORT_INCOME_EXP_DESC_REVENUE = "message.budget.report.incomeExpDescRevenue";
+    public static final String MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE = "message.budget.report.incomeExpDescUppercaseRevenue";
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXP_GROSS = "message.budget.report.incomeExpDescExpGross";
     public static final String MSG_REPORT_INCOME_EXP_DESC_TRNFR_IN = "message.budget.report.incomeExpDescTrnfrIn";
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXP_NET_TRNFR = "message.budget.report.incomeExpDescExpNetTrnfr";
+    public static final String MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR = "message.budget.report.incomeExpDescExpenditureNetTrnfr";
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE = "message.budget.report.incomeExpDescExpenditure";
     
     public static final String MSG_REPORT_HEADER_SUBFUND = "message.budget.report.header.subFund";

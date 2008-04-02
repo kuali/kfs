@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.core.util.Guid;
 import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
 import org.kuali.module.budget.dao.BudgetConstructionLevelSummaryReportDao;
 
@@ -223,11 +224,11 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.delete(0, sqlText.length());
 
         /* cleanup mt tables */
-        sqlText.append("DELETE ld_build_levlsumm02_mt WHERE sesid = ? ");
+        sqlText.append("DELETE LD_BCN_BUILD_LEVLSUMM02_MT WHERE sesid = ? ");
         updateReportsLevelSummaryTable[7] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        sqlText.append("DELETE ld_build_levlsumm03_mt WHERE sesid = ? ");
+        sqlText.append("DELETE LD_BCN_BUILD_LEVLSUMM03_MT WHERE sesid = ? ");
         updateReportsLevelSummaryTable[8] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
     }
@@ -236,7 +237,11 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         clearTempTableByUnvlId("ld_bcn_levl_summ_t", "PERSON_UNVL_ID", personUserIdentifier);
     }
 
-    public void updateReportsLevelSummaryTable(String personUserIdentifier, String idForSession) {
+    public void updateReportsLevelSummaryTable(String personUserIdentifier) {
+        
+        Guid guid = new Guid();
+        String idForSession = guid.toString();
+        
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable[0], personUserIdentifier, personUserIdentifier);
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable[1], personUserIdentifier, personUserIdentifier);
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable[2], idForSession, personUserIdentifier);

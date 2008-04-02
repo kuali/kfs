@@ -31,7 +31,7 @@ public interface BudgetConstructionLevelSummaryReportDao {
      * @param personUserIdentifier
      * @return
      */
-    public void updateReportsLevelSummaryTable(String personUserIdentifier, String idForSession);
+    public void updateReportsLevelSummaryTable(String personUserIdentifier);
 
     
 }

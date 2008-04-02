@@ -16,7 +16,6 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,12 +32,10 @@ import net.sf.jasperreports.engine.JRParameter;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ReportGenerationService;
@@ -47,14 +44,12 @@ import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.BudgetConstructionReportMode;
 import org.kuali.module.budget.BCConstants.Report.ReportSelectMode;
 import org.kuali.module.budget.bo.BudgetConstructionObjectPick;
-import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
-import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
-import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
@@ -245,6 +240,10 @@ public class OrganizationReportSelectionAction extends KualiAction {
             case SUBFUND_SUMMARY_REPORT:
                 SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).updateSubFundSummaryReport(personUserIdentifier);
                 reportData = SpringContext.getBean(BudgetConstructionSubFundSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+            case LEVEL_SUMMARY_REPORT:
+                SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).updateLevelSummaryReport(personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
         }
 

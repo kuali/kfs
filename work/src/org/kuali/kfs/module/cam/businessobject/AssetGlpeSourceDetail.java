@@ -47,6 +47,7 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     private String referenceOriginCode;
     private String referenceTypeCode;
     private String subAccountNumber;
+    private boolean source;
 
 
     public Account getAccount() {
@@ -216,6 +217,16 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
 
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+
+    public boolean isSource() {
+        return source;
+    }
+
+
+    public void setSource(boolean source) {
+        this.source = source;
     }
 
 

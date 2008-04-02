@@ -16,9 +16,7 @@
 package org.kuali.module.cams.rules;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -40,6 +38,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         // validate if location info is available, campus or off-campus
         return true;
     }
+
 
     private void validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);

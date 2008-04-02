@@ -18,6 +18,7 @@ package org.kuali.module.cams.maintenance;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
@@ -33,7 +34,6 @@ import org.kuali.module.cams.service.RetirementInfoService;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
- * 
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
 
@@ -74,40 +74,46 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
 
         super.processAfterEdit(document, parameters);
     }
-    
+
     /**
      * Hide a few sections if this is a create new (fabrication request)
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.core.document.MaintenanceDocument)
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     public List<Section> getCoreSections(Maintainable oldMaintainable) {
         List<Section> sections = super.getCoreSections(oldMaintainable);
-        
-        if (((Asset) getBusinessObject()).getCapitalAssetNumber() == null) {
-          // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
-          // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
-          for (Section section : sections) {
-            if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_HISTORY.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_WARRENTY.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(section.getSectionId()) ||
-                    CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(section.getSectionId())) {
-                section.setHidden(true);
+
+        Asset asset = (Asset) getBusinessObject();
+        if ((asset).getCapitalAssetNumber() == null) {
+            // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
+            // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
+            for (Section section : sections) {
+                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId())
+                        || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(section.getSectionId())
+                        || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId())
+                        || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(section.getSectionId())
+                        || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(section.getSectionId())) {
+                    section.setHidden(true);
+                }
+
             }
-          }
-        } else {
+        }
+        else {
             // asset edit. Hide sections that are only applicable to fabrication request
             for (Section section : sections) {
                 if (CamsConstants.Asset.SECTION_ID_FABRICATION_INFORMATION.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
+                // if asset is retired
+                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+                    section.setHidden(true);
+                }
             }
         }
-        
+
+
         return sections;
     }
 

@@ -70,10 +70,10 @@
 				</td>				
 			</tr>
 			<tr>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.ownerOrganizationCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.ownerOrganizationCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.ownerOrganizationCode}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.ownerOrganizationCode}" readOnly="true" /></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationCode}" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationOwnerAccount.organizationCode" attributeEntry="${assetTransferAttributes.organizationCode}" readOnly="true" /></td>
 			</tr>
 			<tr>
 				<td class="tab-subhead" colspan="4" width="100%">Interdepartmental Sale</td>

@@ -265,22 +265,7 @@
                 	<hidden />
                 </control>
 			</attributeReference>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			<!-- Attributes for display -->
-            <attribute name="ownerOrganizationCode" forceUppercase="true">
-                <label>Owner Org Code</label>
-                <shortLabel>Org</shortLabel>
-                
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="false" />
-                </validationPattern>
-                <required>false</required>
-
-                <control>
-                    <text size="4" />
-                </control>
-            </attribute>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />			
           </attributes>
         <summary>
             <![CDATA[&nbsp;]]>

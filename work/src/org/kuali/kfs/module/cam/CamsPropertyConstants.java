@@ -16,7 +16,6 @@
 package org.kuali.module.cams;
 
 
-
 /**
  * Constants for cams business object property names.
  */
@@ -63,6 +62,7 @@ public class CamsPropertyConstants {
         public static final String LAST_INVENTORY_DATE = "lastInventoryDate";
         public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
         public static final String FEDERAL_CONTRIBUTION = "federalContribution";
+        public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
     }
 
     public static class AssetLocation {
@@ -135,8 +135,8 @@ public class CamsPropertyConstants {
         public static final String ASSET_ORGANIZATION = "assetOrganization";
         public static final String ORGANIZATION_TAG_NUMBER = "organizationTagNumber";
     }
-    
-        public static class AssetTransferDocument {
+
+    public static class AssetTransferDocument {
         public static final String ORGANIZATION = "organization";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
     }

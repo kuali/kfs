@@ -365,10 +365,17 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
         if (account == null) {
             return KFSConstants.EMPTY_STRING;
         }
-
-        ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
-        UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
-        String projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getPersonName()) : KFSConstants.EMPTY_STRING;
+        
+        String projectDirectorName = KFSConstants.EMPTY_STRING;
+        
+        try {
+            ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
+            UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getPersonName()) : KFSConstants.EMPTY_STRING;
+        }
+        catch(Exception e) {
+            LOG.error("Cannot find a project director for the account:" + account);
+        }
 
         return MessageFormat.format("{0}{1}", account.getAccountName(), projectDirectorName);
     }

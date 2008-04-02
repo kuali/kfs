@@ -149,9 +149,9 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         // retrieve Asset object by PK
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
         //Asset asset = (Asset) getBoService().findByPrimaryKey(Asset.class, map);
-        LOG.info("LEO checkCapitalAssetNumber() ASSET '" + asset.getCapitalAssetNumber() +"'");
+        //LOG.info("LEO checkCapitalAssetNumber() ASSET '" + asset.getCapitalAssetNumber() +"'");
         
-        if (ObjectUtils.isNull(asset.getCapitalAssetNumber())) {
+        if (ObjectUtils.isNull(asset) || ObjectUtils.isNull(asset.getCapitalAssetNumber())) {
             LOG.info("LEO checkCapitalAssetNumber() IN...");
             GlobalVariables.getErrorMap().putError("capitalAssetNumber", CamsKeyConstants.ERROR_INVALID_CAPITAL_ASSET_NUMBER);
             //putFieldError("capitalAssetNumber", CamsKeyConstants.ERROR_INVALID_CAPITAL_ASSET_NUMBER);

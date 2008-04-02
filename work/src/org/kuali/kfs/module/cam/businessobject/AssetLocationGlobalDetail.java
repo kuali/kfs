@@ -30,6 +30,7 @@ public class AssetLocationGlobalDetail extends GlobalBusinessObjectDetailBase {
 	private String buildingSubRoomNumber;
 	private String campusTagNumber;
 
+    private Asset asset;
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -186,9 +187,24 @@ public class AssetLocationGlobalDetail extends GlobalBusinessObjectDetailBase {
 	public void setCampusTagNumber(String campusTagNumber) {
 		this.campusTagNumber = campusTagNumber;
 	}
-
-
+    
 	/**
+     * Gets the asset attribute. 
+     * @return Returns the asset.
+     */
+    public Asset getAsset() {
+        return asset;
+    }
+
+    /**
+     * Sets the asset attribute value.
+     * @param asset The asset to set.
+     */
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    /**
 	 * Gets the campus attribute.
 	 * 
 	 * @return Returns the campus

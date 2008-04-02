@@ -60,7 +60,7 @@ public class AssetLocationGlobalMaintainableImpl extends KualiGlobalMaintainable
         // retrieve Asset object by PK
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
         
-        if (ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) { 
+        if (ObjectUtils.isNotNull(asset) && ObjectUtils.isNotNull(asset.getCapitalAssetNumber())) { 
             if (StringUtils.isBlank(addAssetLine.getCampusCode())) {
                 addAssetLine.setCampusCode(asset.getCampusCode());
             }

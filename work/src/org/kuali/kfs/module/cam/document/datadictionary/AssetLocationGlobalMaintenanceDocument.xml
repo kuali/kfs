@@ -45,7 +45,11 @@
         <lockingKeys>
             <field attributeName="documentNumber" />
         </lockingKeys>
- 
+        
+        <defaultExistenceChecks>
+            <reference collection="assetLocationGlobalDetails" attributeName="asset" attributeToHighlightOnFail="capitalAssetNumber" />
+        </defaultExistenceChecks>
+        
         <maintainableSections>
 
             <maintainableSection title="Edit List of Assets">

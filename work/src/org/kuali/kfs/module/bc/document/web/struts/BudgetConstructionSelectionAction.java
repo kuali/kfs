@@ -237,11 +237,11 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Request Import");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String lookupUrl = basePath + "/" + "budgetBudgetConstructionImport.do";
+        
+        return new ActionForward(lookupUrl, true);
+        
     }
 
     public ActionForward performOrgPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

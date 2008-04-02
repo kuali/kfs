@@ -26,9 +26,7 @@ import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.util.Message;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAccountSummary;
@@ -48,7 +46,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
     BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     KualiConfigurationService kualiConfigurationService;
-    
+
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
@@ -64,9 +62,10 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
         budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
-    
+
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#updateReportsAccountSummaryTable(java.lang.String, boolean)
+     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#updateReportsAccountSummaryTable(java.lang.String,
+     *      boolean)
      */
     public void updateReportsAccountSummaryTable(String personUserIdentifier, boolean consolidated) {
         if (consolidated) {
@@ -87,7 +86,8 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer, java.util.Collection)
+     * @see org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer,
+     *      java.util.Collection)
      */
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
@@ -96,15 +96,15 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         // build searchCriteria
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-        
-        //build order list
+
+        // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionAccountSummary> accountSummaryList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionAccountSummary.class, searchCriteria, orderList);
-      
-        
+
+
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List simpleList = deleteDuplicated((List) accountSummaryList);
-        
+
         // Calculate Total Section
         orgAccountSummaryReportTotalList = calculateTotal((List) accountSummaryList, simpleList);
         for (BudgetConstructionAccountSummary accountSummaryEntry : accountSummaryList) {
@@ -316,7 +316,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @param List simpleList
      */
     public List calculateTotal(List bcasList, List simpleList) {
-        
+
         BigDecimal totalRevenueBaseAmount = BigDecimal.ZERO;
         BigDecimal totalGrossBaseAmount = BigDecimal.ZERO;
         BigDecimal totalTransferInBaseAmount = BigDecimal.ZERO;
@@ -442,15 +442,14 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
         return returnList;
     }
-    
+
 
     /**
-     * 
      * builds orderByList for sort order.
      * 
      * @return returnList
      */
-    public List<String> buildOrderByList(){
+    public List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
@@ -461,9 +460,9 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
-        
+
         return returnList;
-}
+    }
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
         this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;

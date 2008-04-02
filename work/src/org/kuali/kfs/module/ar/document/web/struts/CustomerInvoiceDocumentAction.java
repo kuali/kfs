@@ -123,9 +123,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
         if (rulePassed) {
-            // recalculate the amount for the accounting line
-            KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
-            customerInvoiceDetail.setAmount(amount);
+            customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -179,7 +177,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocumentForm.getNewSourceLine();
         
-        //make sure amount is up to date
+        //make sure amount is up to date before rules
         customerInvoiceDetail.updateAmountBasedOnQuantityAndUnitPrice();
         
         boolean rulePassed = true;
@@ -188,12 +186,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         if (rulePassed) {
 
-            // update amount just in case unit price of quantity changed
-            KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice().multiply(new KualiDecimal(customerInvoiceDetail.getInvoiceItemQuantity()));
-            customerInvoiceDetail.setAmount(amount);
-
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
+            customerInvoiceDetail.update();
             insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
 
             // clear the used newTargetLine

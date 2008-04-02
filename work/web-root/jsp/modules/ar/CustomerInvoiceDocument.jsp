@@ -39,9 +39,11 @@
     <ar:customerInvoiceAddress
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}" />        
      
+	<c:if test="${!empty KualiForm.editingMode['showReceivableFAU']}">
      <ar:customerInvoiceReceivableAccountingLine
       	documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" readOnly="${readOnly}"
       	receivableValuesMap="${KualiForm.document.valuesMap}"  />
+    </c:if>
      
 	<c:set var="actionInfixVar" value="" scope="request" />
 	<c:set var="accountingLineIndexVar" value="" scope="request" />     
@@ -49,6 +51,7 @@
 	    editingMode="${KualiForm.editingMode}"
 	    editableAccounts="${KualiForm.editableAccounts}"
 	    optionalFields="invoiceItemCode,invoiceItemQuantity,invoiceItemDescription,invoiceItemServiceDate,invoiceItemUnitOfMeasureCode,invoiceItemUnitPrice,taxableIndicator,invoiceItemTaxAmount"
+	    extraHiddenFields=",accountsReceivableObjectCode"
 	    isOptionalFieldsInNewRow="true"
 	    sourceAccountingLinesOnly="true"
 	    forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"

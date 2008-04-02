@@ -17,7 +17,6 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 
 	private String documentNumber;
 	private String customerNumber;
-	private String customerName;  //not persisted in the DB
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
 	private Date entryDate;
@@ -245,31 +244,9 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
         m.put("documentNumber", this.documentNumber);
 	    return m;
     }
-
-    /**
-     * Used for displaying customer name on JSP
-     * @return
-     */
-    public String getCustomerName() {
-        
-        refreshReferenceObject("customer");
-        if(ObjectUtils.isNotNull(this.customer)){
-            return this.customer.getCustomerName();
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * Sets the customer name attribute value
-     * @param customerName
-     */
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
     
     /**
-     * Get a string reprezentation for processing organization
+     * Get a string representation for processing organization
      * @return
      */
     public String getProcessingChartOfAccCodeAndOrgCode()

@@ -131,19 +131,6 @@
                 <description>processingOrganizationCode description...</description>
 			</attribute>
 			
-            <attribute name="customerName" forceUppercase="true">
-                <label>Customer Name</label>
-                <shortLabel>Customer Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="45" />
-                </control>
-
-			</attribute>	
-			
 			<attribute name="processingChartOfAccCodeAndOrgCode" forceUppercase="true">
                 <label>Processing Org</label>
                 <shortLabel>Processing Org</shortLabel>

@@ -807,7 +807,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     }
 	
 	/**
-	 * This method sets the default values for an customer invoice
+	 * This method sets the default values for an customer invoice on load
 	 */
 	public void setupDefaultValues(){
 	    ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
@@ -826,13 +826,18 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         setDefaultBillingDate(dateTimeService);
         
         
-        
-        
         //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
         //can't find this one
+        
+        setReceivableAccountingInfo();
 	}
 	
-	/**
+	private void setReceivableAccountingInfo() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
 	 * This method sets the invoice terms text from whatever is currently set in organization options
 	 */
 	public void setInvoiceTermsText(ChartUser currentUser){

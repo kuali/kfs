@@ -17,8 +17,6 @@ package org.kuali.module.ar.rules;
 
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.KFSConstants.ZERO;
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
-import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -26,10 +24,9 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -37,6 +34,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.Customer;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
@@ -44,12 +42,6 @@ import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.RecalculateCustomerInvoiceDetailRule;
 import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements RecalculateCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
@@ -120,12 +112,12 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         success &= isValidAndActiveCustomerNumber(doc);
         success &= isValidBilledByChartOfAccountsCode(doc);
         success &= isValidBilledByOrganizationCode(doc);
-        success &= isValidInvoiceDueDate(doc, doc.getDocumentHeader().getWorkflowDocument().getCreateDate());
+        success &= isValidInvoiceDueDate(doc, new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         success &= hasAtLeastOneCustomerInvoiceDetail(doc);
         
-        //TODO Only check if System Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD == 3
-        /*
-        if(true){ 
+        //validate receivable FAU line if system parameter for receivable is set to 3
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
             success &= isValidPaymentChartOfAccountsCode(doc);
             success &= isValidPaymentFinancialObjectCode(doc);
             success &= isValidPaymentFinancialSubObjectCode(doc);
@@ -133,7 +125,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
             success &= isValidPaymentAccountNumber(doc);
             success &= isValidPaymentSubAccountNumber(doc);
             success &= isValidPaymentProjectCode(doc);
-        }*/
+        }
 
         return success;
     }
@@ -306,25 +298,31 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
     /**
      * This method returns true if invoice due date is less than or equal to 90 days from today's date because invoice due date
-     * cannot be more than 90 days from invoice creation date
+     * cannot be more than 90 days from invoice billing date
      * 
      * @param doc
      * @param creationDate passing creationDate
      * @return true if invoice due date is less than or equal to 90 days from today's date
      */
-    protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc, Timestamp creationDate) {
+    protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc, Timestamp billingDateTimestamp) {
 
-        Timestamp invoiceDueDateTime = new Timestamp(doc.getInvoiceDueDate().getTime());
+        Timestamp dueDateTimestamp = new Timestamp(doc.getInvoiceDueDate().getTime());
 
         // TODO should the # of valid days be a system parameter?
-        double diffInDays = DateUtils.getDifferenceInDays(creationDate, invoiceDueDateTime);
-        if (diffInDays > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
-            GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE);
+        
+        if( dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp) ){
+            GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
             return false;
+        } else {
+            double diffInDays = DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
+            if (diffInDays > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
+                GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS);
+                return false;
+            }
+        
         }
 
         return true;
-
     }
 
     /**

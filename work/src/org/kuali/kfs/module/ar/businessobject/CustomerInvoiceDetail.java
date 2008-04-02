@@ -7,6 +7,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 
@@ -280,6 +284,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
         return m;
     }
 
+    /**
+     * Update line amount based on quantity and unit price
+     */
     public void updateAmountBasedOnQuantityAndUnitPrice() {
         if (ObjectUtils.isNotNull(this.invoiceItemQuantity) && ObjectUtils.isNotNull(this.invoiceItemUnitPrice)) {
             setAmount(getInvoiceItemUnitPrice().multiply(new KualiDecimal(getInvoiceItemQuantity())));
@@ -304,5 +311,27 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
 
     public void setReceivableIndicator(boolean receivableIndicator) {
         this.receivableIndicator = receivableIndicator;
+    }
+    
+    /**
+     * This method updates values for customer invoice detail
+     */
+    public void update(){
+        updateAmountBasedOnQuantityAndUnitPrice();
+        updateARObjectCode();
+    }
+
+
+    /**
+     * This method updates the AR Object Code for invoices
+     */
+    public void updateARObjectCode() {
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART.equals( receivableOffsetOption ) ){
+            setAccountsReceivableObjectCode(getChart().getFinAccountsReceivableObj().getFinancialObjectCode());
+        } else if ( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals( receivableOffsetOption )) {
+            //get AR object code from sub fund group code
+            //setAccountsReceivableObjectCode(getAccount().getSubFundGroup().getFinAccountsReceivableObj().getFinancialObjectCode());
+        }
     }
 }

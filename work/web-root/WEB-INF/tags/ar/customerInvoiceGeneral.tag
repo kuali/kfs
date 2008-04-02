@@ -93,14 +93,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.billingDate}" /></div>
                 </th>     
                 <td>
-	               	<c:choose>
-	                    <c:when test="${readOnly}">
-	                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingDate}" property="document.billingDate" readOnly="${readOnly}" />
-	                    </c:when>
-	                    <c:otherwise>
-	                        <kul:dateInput attributeEntry="${documentAttributes.billingDate}" property="document.billingDate"/>
-	                    </c:otherwise>
-	                </c:choose>
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingDate}" property="document.billingDate" readOnly="true" />
                 </td>  
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDueDate }" /></div>

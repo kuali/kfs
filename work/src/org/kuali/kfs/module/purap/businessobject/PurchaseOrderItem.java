@@ -40,10 +40,12 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private KualiDecimal itemDamagedTotalQuantity;
+    private Integer capitalAssetManagementSystemNumber;    
     
     private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
     private PurchaseOrderDocument purchaseOrder;
+    private RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem;
     
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
@@ -196,6 +198,39 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     public void setPurchaseOrderItemCapitalAssets(List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets) {
         this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
+    }
+
+    /**
+     * Gets the capitalAssetManagementSystemNumber attribute. 
+     * @return Returns the capitalAssetManagementSystemNumber.
+     */
+    public Integer getCapitalAssetManagementSystemNumber() {
+        return capitalAssetManagementSystemNumber;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystemNumber attribute value.
+     * @param capitalAssetManagementSystemNumber The capitalAssetManagementSystemNumber to set.
+     */
+    public void setCapitalAssetManagementSystemNumber(Integer capitalAssetManagementSystemNumber) {
+        this.capitalAssetManagementSystemNumber = capitalAssetManagementSystemNumber;
+    }
+
+    /**
+     * Gets the capitalAssetManagementSystem attribute. 
+     * @return Returns the capitalAssetManagementSystem.
+     */
+    public RequisitionCapitalAssetManagementSystem getCapitalAssetManagementSystem() {
+        return capitalAssetManagementSystem;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystem attribute value.
+     * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
+     * @deprecated
+     */
+    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem) {
+        this.capitalAssetManagementSystem = capitalAssetManagementSystem;
     }
 
     /**

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
  * Requisition Item Business Object.
@@ -28,8 +27,10 @@ import org.kuali.module.vendor.bo.CommodityCode;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
+    private Integer capitalAssetManagementSystemNumber;
+    
     private RequisitionDocument requisition;
-
+    private RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem;
     
     /**
      * Default constructor.
@@ -45,12 +46,45 @@ public class RequisitionItem extends PurchasingItemBase {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
     }   
 
+    /**
+     * Gets the capitalAssetManagementSystemNumber attribute. 
+     * @return Returns the capitalAssetManagementSystemNumber.
+     */
+    public Integer getCapitalAssetManagementSystemNumber() {
+        return capitalAssetManagementSystemNumber;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystemNumber attribute value.
+     * @param capitalAssetManagementSystemNumber The capitalAssetManagementSystemNumber to set.
+     */
+    public void setCapitalAssetManagementSystemNumber(Integer capitalAssetManagementSystemNumber) {
+        this.capitalAssetManagementSystemNumber = capitalAssetManagementSystemNumber;
+    }    
+    
     public RequisitionDocument getRequisition() {
         return requisition;
     }
 
     public void setRequisition(RequisitionDocument requisition) {
         this.requisition = requisition;
+    }
+
+    /**
+     * Gets the capitalAssetManagementSystem attribute. 
+     * @return Returns the capitalAssetManagementSystem.
+     */
+    public RequisitionCapitalAssetManagementSystem getCapitalAssetManagementSystem() {
+        return capitalAssetManagementSystem;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystem attribute value.
+     * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
+     * @deprecated
+     */
+    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem) {
+        this.capitalAssetManagementSystem = capitalAssetManagementSystem;
     }
 
     /**

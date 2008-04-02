@@ -50,9 +50,9 @@ import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.CapitalAssetManagementSystemType;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurapUser;
-import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.service.PurapService;
@@ -83,6 +83,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate4VendorName;
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    private String capitalAssetManagementSystemTypeCode;
+    
+    private CapitalAssetManagementSystemType capitalAssetManagementSystemType;
     
     private final static String REQUESITION_GL_POSTING_HELPER_BEAN_ID = "kfsDoNothingGeneralLedgerPostingHelper";
     
@@ -450,6 +453,39 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
+    }
+
+    /**
+     * Gets the capitalAssetManagementSystemTypeCode attribute. 
+     * @return Returns the capitalAssetManagementSystemTypeCode.
+     */
+    public String getCapitalAssetManagementSystemTypeCode() {
+        return capitalAssetManagementSystemTypeCode;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystemTypeCode attribute value.
+     * @param capitalAssetManagementSystemTypeCode The capitalAssetManagementSystemTypeCode to set.
+     */
+    public void setCapitalAssetManagementSystemTypeCode(String capitalAssetManagementSystemTypeCode) {
+        this.capitalAssetManagementSystemTypeCode = capitalAssetManagementSystemTypeCode;
+    }
+
+    /**
+     * Gets the capitalAssetManagementSystemType attribute. 
+     * @return Returns the capitalAssetManagementSystemType.
+     */
+    public CapitalAssetManagementSystemType getCapitalAssetManagementSystemType() {
+        return capitalAssetManagementSystemType;
+    }
+
+    /**
+     * Sets the capitalAssetManagementSystemType attribute value.
+     * @param capitalAssetManagementSystemType The capitalAssetManagementSystemType to set.
+     * @deprecated
+     */
+    public void setCapitalAssetManagementSystemType(CapitalAssetManagementSystemType capitalAssetManagementSystemType) {
+        this.capitalAssetManagementSystemType = capitalAssetManagementSystemType;
     }
 
     /**

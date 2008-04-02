@@ -18,7 +18,9 @@
 	<package name="financial" package="org.kuali.module.financial" subpackages="include" needdeclarations="false"/>
 	<package name="gl" package="org.kuali.module.gl" subpackages="include" needdeclarations="false"/>
 	<package name="kfs" package="org.kuali.kfs" subpackages="include" needdeclarations="false"/>
-	<package name="pdp" package="org.kuali.module.pdp" subpackages="include" needdeclarations="false"/>
+	<package name="pdp" package="org.kuali.module.pdp" subpackages="include" needdeclarations="false">
+		<depends>sax</depends>
+	</package>
 	<package name="vendor" package="org.kuali.module.vendor" subpackages="include" needdeclarations="false"/>
 	<package name="integration" package="org.kuali.module.integration" subpackages="include" needdeclarations="false"/>
   

@@ -5,7 +5,6 @@
 	<package name="edu" package="edu" subpackages="include" needdeclarations="false"/>
 	<package name="javax" package="javax" subpackages="include" needdeclarations="false"/>
 	<package name="lowagie" package="com.lowagie" subpackages="include" needdeclarations="false"/>
-	<package name="omg" package="org.omg" subpackages="include" needdeclarations="false"/>
 	<package name="rice" package="org.kuali.rice" subpackages="include" needdeclarations="false"/>
 	<package name="springmodules" package="org.springmodules" subpackages="include" needdeclarations="false"/>
 	<package name="springframework" package="org.springframework" subpackages="include" needdeclarations="false"/>

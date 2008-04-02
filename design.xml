@@ -11,6 +11,7 @@
 	<package name="springframework" package="org.springframework" subpackages="include" needdeclarations="false"/>
 	<package name="w3c" package="org.w3c" subpackages="include" needdeclarations="false"/>
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
+	<package name="sax" package="org.xml.sax" subpackages="include" needdeclarations="false"/>
 
   <!-- Core Kuali packages, from which all dependency begins (theoretically) -->
 	<package name="core" package="org.kuali.core" subpackages="include" needdeclarations="false"/>

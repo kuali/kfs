@@ -44,13 +44,18 @@ function EffortAmountUpdator(){
 EffortAmountUpdator.prototype.recalculatePayrollAmount = function(effortPercentFieldName, payrollAmountFieldName){
 	var fieldNamePrefix = findElPrefix(effortPercentFieldName);
 	var totalPayrollAmount = this.removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma);
-	var effortPercent = parseInt(this.removeDelimator(DWRUtil.getValue(effortPercentFieldName), comma));
+	var effortPercent = this.removeDelimator(DWRUtil.getValue(effortPercentFieldName), comma);
+	var message = "Must be an integer between 0 and 100";
 	
-	if(effortPercent > 100 || effortPercent <0){
+	if(isNaN(effortPercent) || effortPercent > 100 || effortPercent <0){
+		this.displayMessageAfter(effortPercentFieldName, message);
 		return;
 	}
-	
+		
 	if(totalPayrollAmount != '' && effortPercent != ''){
+		this.setValueByElementId(fieldNamePrefix + payrollAmountFieldNameSuffix + divSuffix, "");
+		this.setValueByElementId(effortPercentFieldName + divSuffix, "");
+		
 		var updatePayrollAmount = {
 			callback:function(data) {
 				var amount = new Number(data).toFixed(2);
@@ -69,7 +74,7 @@ EffortAmountUpdator.prototype.recalculatePayrollAmount = function(effortPercentF
 			}
 		};
 		
-		PayrollAmountUtil.recalculatePayrollAmount(totalPayrollAmount, effortPercent, updatePayrollAmount);
+		PayrollAmountUtil.recalculatePayrollAmount(totalPayrollAmount, parseInt(effortPercent), updatePayrollAmount);
 	}
 };
 
@@ -79,11 +84,15 @@ EffortAmountUpdator.prototype.recalculateEffortPercent = function(payrollAmountF
 	var totalPayrollAmount = parseFloat(this.removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma));
 	var payrollAmount = this.removeDelimator(DWRUtil.getValue(payrollAmountFieldName), comma);	
 	
-	if(payrollAmount > totalPayrollAmount || payrollAmount <0){
+	if(isNaN(payrollAmount) || payrollAmount > totalPayrollAmount || payrollAmount <0){
+		this.displayMessageAfter(payrollAmountFieldName, "Must be between 0 and " + totalPayrollAmount);
 		return;
 	}
 	
 	if(totalPayrollAmount != '' && payrollAmount != ''){
+		this.setValueByElementId(fieldNamePrefix + effortPercentFieldNameSuffix + divSuffix, "");
+		this.setValueByElementId(payrollAmountFieldName + divSuffix, "");
+		
 		var updateEffortPercent = {
 			callback:function(data) {
 				var percent = Math.round(data);
@@ -197,6 +206,20 @@ EffortAmountUpdator.prototype.formatNumberAsCurrency = function(number, currency
 	}
 	
 	return currencySymbol + integerPart + fractionPart;
+};
+
+EffortAmountUpdator.prototype.displayMessageAfter = function(elementId, message) {
+	var currentNode = document.getElementById(elementId);	
+	var elementFieldName = elementId + divSuffix;
+	
+	if(document.getElementById(elementFieldName) == null && document.getElementsByName(elementFieldName).length <= 0){
+   		var messageElement = document.createElement('div');
+
+   		messageElement.setAttribute("id", elementFieldName);
+   		messageElement.setAttribute("name", elementFieldName);   		   	
+		currentNode.parentNode.insertBefore(messageElement, currentNode);
+	}   	
+   	this.setValueByElementId(elementFieldName, wrapError(message));	
 };
 
 // update all values in total fields

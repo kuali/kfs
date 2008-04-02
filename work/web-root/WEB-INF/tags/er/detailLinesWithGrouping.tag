@@ -91,12 +91,6 @@
 <c:set var="actionForNewLine" value="recalculate,delete" />
 <c:set var="actionForNewLineImageFileName" value="tinybutton-recalculate.gif,tinybutton-delete1.gif" />
 
-<c:set var="groupDescriptions" value="Federal and Federal Pass Through Accounts,Other Sponsored and Non-sponsored Accounts"/>
-<c:set var="groupDescription" value="${fn:split(groupDescriptions, commaDeliminator)}"/>
-
-<c:set var="subtotalGroups" value="${ferderalTotalFieldNames}${semicolonDeliminator}${nonFerderalTotalFieldNames}"/>
-<c:set var="subtotalGroup" value="${fn:split(subtotalGroups, semicolonDeliminator)}"/>
-
 <c:set var="countOfFerderalFunding" value="0"/>
 <c:set var="countOfOtherFunding" value="0"/> 
 <c:forEach var="detailLine" items="${detailLines}" varStatus="status">
@@ -111,13 +105,26 @@
 <c:set var="federalFund" value="${countOfFerderalFunding > 0 ? 'true' : ''}" />
 <c:set var="otherFund" value="${countOfOtherFunding > 0 ? 'false' : ''}" />
 <c:set var="federalFundingType" value="${federalFund}${commaDeliminator}${otherFund}" /> 
-
 <c:set var="federalFundingIndicators" value="${fn:split(federalFundingType, commaDeliminator)}"/>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" id="${id}">
 	<c:forEach var="federalFunding" items="${federalFundingIndicators}" varStatus="indicatorStatus">
+				
+		<c:set var="subtotalGroup" value=""/>
+		<c:set var="groupDescription" value=""/>
+		<c:if test="${federalFunding}">
+			<c:set var="groupDescription" value="Federal and Federal Pass Through Accounts"/>
+			<c:set var="subtotalGroup" value="${ferderalTotalFieldNames}"/>
+		</c:if>
+		
+		<c:if test="${!federalFunding}">
+			<c:set var="groupDescription" value="Other Sponsored and Non-sponsored Accounts"/>
+			<c:set var="subtotalGroup" value="${nonFerderalTotalFieldNames}"/>
+		</c:if>
+	
 		<tr>
-			<td colspan="${countOfColumns}">
-				<div class="h2-container"  style="width: 100%;"><h2>${groupDescription[indicatorStatus.index]}</h2></div>
+			<td colspan="${countOfColumns}">	
+				<div class="h2-container"  style="width: 100%;"><h2>${groupDescription}</h2></div>
 			</td>		
 		</tr>
 	
@@ -130,7 +137,7 @@
 		</tr> 
 	
 		<!-- populate the table with the given deatil lines -->
-		<c:set var="lineIndex" value="0"/>
+		<c:set var="lineIndex" value="0"/>		
 		<c:forEach var="detailLine" items="${detailLines}" varStatus="status">
 			<c:if test="${detailLine.federalOrFederalPassThroughIndicator == federalFunding}">
 			<tr>
@@ -173,24 +180,24 @@
 			</c:if>		
 		</c:forEach>
 		
-		<c:if test="${fn:length(subtotalGroup[indicatorStatus.index]) > 0}" >
-		<tr>
-			<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Subtotals:</strong></div></td>
-			<er:detailLineTotal totalFieldNames="${subtotalGroup[indicatorStatus.index]}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />						
-		</tr>
+		<c:if test="${fn:length(subtotalGroup) > 0}" >
+			<tr>
+				<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Subtotals:</strong></div></td>
+				<er:detailLineTotal totalFieldNames="${subtotalGroup}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />						
+			</tr>
 		</c:if>	
 	</c:forEach>
 
 	<c:if test="${fn:length(grandTotalFieldNames) > 0}" >
-	<tr>
-		<td colspan="${countOfColumns}">
-			<div class="h2-container" style="width: 100%;"><h2>Grand Totals</h2></div>
-		</td>		
-	</tr>
-
-	<tr>				
-		<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Grand Totals:</strong></div></td>
-		<er:detailLineTotal totalFieldNames="${grandTotalFieldNames}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />		
-	</tr>
+		<tr>
+			<td colspan="${countOfColumns}">
+				<div class="h2-container" style="width: 100%;"><h2>Grand Totals</h2></div>
+			</td>		
+		</tr>
+	
+		<tr>				
+			<td colspan="${colspanOfTotalLabel}" class="infoline"><div class="right"><strong>Grand Totals:</strong></div></td>
+			<er:detailLineTotal totalFieldNames="${grandTotalFieldNames}" readOnlySection="${readOnlySection}" hasActions="${hasActions}" />		
+		</tr>
 	</c:if>
 </table>	      

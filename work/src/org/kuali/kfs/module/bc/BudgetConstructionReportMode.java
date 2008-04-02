@@ -32,20 +32,20 @@ import org.kuali.module.budget.BCConstants.Report.ReportSelectMode;
  * Contains properties related to a budget construction report.
  */
 public enum BudgetConstructionReportMode {
-    ACCOUNT_FUNDING_DETAIL_REPORT("AccountFundingDetailReport", BCAF, OBJECT_CODE, "BudgetAccountFundingDetailSummary", true), 
+    ACCOUNT_FUNDING_DETAIL_REPORT("AccountFundingDetailReport", BCAF, OBJECT_CODE, "BudgetOrgAccountFundingDetailSummary", true), 
     ACCOUNT_OBJECT_DETAIL_REPORT("AccountObjectDetailReport", PBGL, SUBFUND, "", true),
     ACCOUNT_SUMMARY_REPORT("AccountSummaryReport", PBGL, SUBFUND, "BudgetOrgAccountSummary", true), 
-    LEVEL_SUMMARY_REPORT("LevelSummaryReport", PBGL, SUBFUND, "BudgetLevelSummary", true),
-    MONTH_SUMMARY_REPORT("MonthSummaryReport", MONTH, SUBFUND, "BudgetMonthlySummary", true),
-    OBJECT_SUMMARY_REPORT("ObjectSummaryReport", PBGL, SUBFUND, "BudgetObjectSummary", true),    
-    POSITION_DETAIL_REPORT("PositionDetailReport", BCAF, OBJECT_CODE, "BudgetPositionDetailSummary", false), 
-    REASON_STATISTICS_REPORT("ReasonStatisticsReport", BCAF, REASON, "BudgetReasonStatistics", false),
-    REASON_SUMMARY_REPORT("ReasonSummaryReport", BCAF, REASON, "BudgetReasonSummary", false), 
-    SALARY_STATISTICS_REPORT("SalaryStatisticsReport", BCAF, OBJECT_CODE, "BudgetSalaryStatistics", true),
-    SALARY_SUMMARY_REPORT("SalarySummaryReport", BCAF, OBJECT_CODE, "BudgetSalarySummary", false), 
+    LEVEL_SUMMARY_REPORT("LevelSummaryReport", PBGL, SUBFUND, "BudgetOrgLevelSummary", true),
+    MONTH_SUMMARY_REPORT("MonthSummaryReport", MONTH, SUBFUND, "BudgetOrgMonthlySummary", true),
+    OBJECT_SUMMARY_REPORT("ObjectSummaryReport", PBGL, SUBFUND, "BudgetOrgObjectSummary", true),    
+    POSITION_DETAIL_REPORT("PositionDetailReport", BCAF, OBJECT_CODE, "BudgetOrgPositionDetailSummary", false), 
+    REASON_STATISTICS_REPORT("ReasonStatisticsReport", BCAF, REASON, "BudgetOrgReasonStatistics", false),
+    REASON_SUMMARY_REPORT("ReasonSummaryReport", BCAF, REASON, "BudgetOrgReasonSummary", false), 
+    SALARY_STATISTICS_REPORT("SalaryStatisticsReport", BCAF, OBJECT_CODE, "BudgetOrgSalaryStatistics", true),
+    SALARY_SUMMARY_REPORT("SalarySummaryReport", BCAF, OBJECT_CODE, "BudgetOrgSalarySummary", false), 
     SUBFUND_SUMMARY_REPORT("SubFundSummaryReport", PBGL, SUBFUND, "BudgetOrgSubFundSummary", true),
-    SYNCHRONIZATION_PROBLEMS_REPORT("SynchronizationProblemsReport", PBGL, ACCOUNT, "BudgetSynchronizationProblems", true), 
-    TWOPLG_LIST_REPORT("TwoPLGListReport", PBGL, ACCOUNT, "BudgetTwoPLGList", true);
+    SYNCHRONIZATION_PROBLEMS_REPORT("SynchronizationProblemsReport", PBGL, ACCOUNT, "BudgetOrgSynchronizationProblems", true), 
+    TWOPLG_LIST_REPORT("TwoPLGListReport", PBGL, ACCOUNT, "BudgetOrgTwoPLGList", true);
 
 
     public final String reportModeName;

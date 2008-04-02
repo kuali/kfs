@@ -2959,71 +2959,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementStatus" table="PUR_AP_CM_STAT_T">
-    <field-descriptor name="capitalAssetManagementStatusCode" column="CM_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="documentStatusDescription" column="DOC_STAT_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagement" table="PUR_AP_CM_T">
-    <field-descriptor name="capitalAssetManagementDocumentIdentifier" column="CM_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CM_DOC_ID"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="capitalAssetManagementStatusCode" column="CM_STAT_CD" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="capitalAssetManagementTypeIndicator" column="CM_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="capitalAssetManagementSystemIdentifier" column="CM_SYS_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="capitalAssetManagementComplexSystemDescription" column="CM_CMPLX_SYS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentHeaderIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="capitalAssetManagementStatus" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="capitalAssetManagementStatusCode" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementItemLocation" table="PUR_AP_CM_ITM_LOC_T">
-    <field-descriptor name="capitalAssetManagementItemLocationIdentifier" column="CM_ITM_LOC_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CM_ITM_LOC_ID"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="capitalAssetManagementItemIdentifier" column="CM_ITM_ID" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="capitalAssetManagementItemQuantity" column="CM_ITM_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-    <field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementOffCampusIndicator" column="CM_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="buildingName" column="BLDG_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemAddress" column="CM_ITM_ADDR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemCityName" column="CM_ITM_CTY_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemStateCode" column="CM_ITM_ST_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemPostalCode" column="CM_ITM_PSTL_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemCountryCode" column="CM_ITM_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementItem" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="capitalAssetManagementItemIdentifier" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementItem" table="PUR_AP_CM_ITM_T">
-    <field-descriptor name="capitalAssetManagementItemIdentifier" column="CM_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CM_ITM_ID"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="capitalAssetManagementDocumentIdentifier" column="CM_DOC_ID" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="capitalAssetManagementItemNotReceivedCurrentFiscalYearIndicator" column="CM_ITM_NOTRCVD_CUR_FSCL_YR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetTypeDescription" column="CPTLAST_TYP_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemManufacturerIsVendorIndicator" column="CM_ITM_MFR_IS_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="capitalAssetManagementItemManufacturerName" column="CM_ITM_MFR_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="capitalAssetManagementItemModelDescription" column="CM_ITM_MDL_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="capitalAssetManagementDocumentIdentifier" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.purap.bo.PaymentChangeAccount" table="AP_PMT_CHG_ACCT_T">
     <field-descriptor name="paymentChangeIdentifier" column="PMT_CHG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_CHG_ID"/>
     <field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -3041,17 +2976,6 @@
     <field-descriptor name="creditMemoIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="lastUpdateUserId" column="PMT_CHG_LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="PMT_CHG_LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.CapitalAssetManagementSystem" table="PUR_AP_CM_SYS_T">
-    <field-descriptor name="capitalAssetManagementSystemIdentifier" column="CM_SYS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CM_SYS_ID"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="capitalAssetManagementDocumentIdentifier" column="CM_DOC_ID" jdbc-type="INTEGER" index="true"/>
-    <field-descriptor name="capitalAssetManagementSystemDescription" column="CM_SYS_DESC" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagement" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="capitalAssetManagementDocumentIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.OrganizationParameter" table="PUR_AP_ORG_PARM_T">

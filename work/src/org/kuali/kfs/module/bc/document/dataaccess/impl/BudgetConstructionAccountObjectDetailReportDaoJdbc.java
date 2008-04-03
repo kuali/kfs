@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
+import java.io.IOException;
+
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao;
 
@@ -211,6 +213,9 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         clearTempTableByUnvlId("ld_bcn_acct_bal_t", "PERSON_UNVL_ID", personUserIdentifier);
     }
 
+    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) throws NoSuchFieldException, IOException{
+        
+    }
     
     public void updateReportsAccountObjectDetailTable(String personUserIdentifier) {
         //getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable[0], personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);

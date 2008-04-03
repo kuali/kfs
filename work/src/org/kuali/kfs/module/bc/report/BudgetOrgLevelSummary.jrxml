@@ -100,11 +100,11 @@
 		<group  name="SubFundGroup" isStartNewPage="true" >
 			<groupExpression><![CDATA[$F{subFundGroupCode}]]></groupExpression>
 			<groupHeader>
-			<band height="1"  isSplitAllowed="true" >
+			<band height="11"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="93"  isSplitAllowed="true" >
+			<band height="87"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"
@@ -407,18 +407,20 @@
 		<group  name="IncomeExpenseCodeGroup" >
 			<groupExpression><![CDATA[$F{incomeExpenseCode}]]></groupExpression>
 			<groupHeader>
-			<band height="1"  isSplitAllowed="true" >
+			<band height="7"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="46"  isSplitAllowed="true" >
+			<band height="36"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="32"
 						y="4"
 						width="66"
 						height="13"
-						key="textField-102"/>
+						key="textField-102">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font/>
@@ -431,7 +433,9 @@
 						y="4"
 						width="157"
 						height="13"
-						key="textField-103"/>
+						key="textField-103">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font/>
@@ -444,7 +448,9 @@
 						y="4"
 						width="26"
 						height="13"
-						key="textField-104"/>
+						key="textField-104">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font/>
@@ -457,7 +463,9 @@
 						y="4"
 						width="14"
 						height="13"
-						key="textField-105"/>
+						key="textField-105">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font/>
@@ -470,7 +478,9 @@
 						y="4"
 						width="74"
 						height="13"
-						key="textField-108"/>
+						key="textField-108">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font/>
@@ -483,7 +493,9 @@
 						y="4"
 						width="74"
 						height="13"
-						key="textField-111"/>
+						key="textField-111">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font/>
@@ -514,7 +526,9 @@
 						y="4"
 						width="74"
 						height="13"
-						key="textField-112"/>
+						key="textField-112">
+							<printWhenExpression><![CDATA[new Boolean($F{incomeExpenseCode} == "B")]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font/>
@@ -783,6 +797,19 @@
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalConsolidationFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="442"
+						y="10"
+						width="45"
+						height="13"
+						key="textField-98"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{totalConsolidationAppointmentRequestedCsfFteQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1510,6 +1537,19 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{positionCsfLeaveFteQuantity}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="366"
+						y="1"
+						width="74"
+						height="13"
+						key="textField-90"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{financialBeginningBalanceLineAmount}]]></textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="320"
@@ -1548,6 +1588,19 @@
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{appointmentRequestedCsfFteQuantity}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="535"
+						y="1"
+						width="74"
+						height="13"
+						key="textField-93"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{accountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1591,7 +1644,7 @@
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="4"  isSplitAllowed="true" >
+			<band height="18"  isSplitAllowed="true" >
 			</band>
 		</columnFooter>
 		<pageFooter>
@@ -1655,7 +1708,7 @@
 			</band>
 		</lastPageFooter>
 		<summary>
-			<band height="14"  isSplitAllowed="true" >
+			<band height="34"  isSplitAllowed="true" >
 			</band>
 		</summary>
 </jasperReport>

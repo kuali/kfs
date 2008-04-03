@@ -18,11 +18,10 @@ package org.kuali.module.cams.web.inquirable;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.rules.AssetRule;
 import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.AssetLocationService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
@@ -40,25 +39,27 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
     public BusinessObject getBusinessObject(Map fieldValues) {
         Asset asset = (Asset) super.getBusinessObject(fieldValues);
         
-        // Identifies the latest location information
-        AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
-        assetlocationService.setOffCampusLocation(asset);
-
-        // Calculates payment summary and depreciation summary based on available payment records
-        PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-        paymentSummaryService.calculateAndSetPaymentSummary(asset);
-
-        // Identifies the merge history and separation history based on asset disposition records
-        AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-        assetDispService.setAssetDispositionHistory(asset);
-
-        // Finds out the latest retirement info, is asset is currently retired.
-        RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-        retirementInfoService.setRetirementInfo(asset);
-
-        // Finds out the latest equipment loan or return information if available
-        EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
-        equipmentLoanInfoService.setEquipmentLoanInfo(asset);
+        if (ObjectUtils.isNotNull(asset)) {
+            // Identifies the latest location information
+            AssetLocationService assetlocationService = SpringContext.getBean(AssetLocationService.class);
+            assetlocationService.setOffCampusLocation(asset);
+    
+            // Calculates payment summary and depreciation summary based on available payment records
+            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+            paymentSummaryService.calculateAndSetPaymentSummary(asset);
+    
+            // Identifies the merge history and separation history based on asset disposition records
+            AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
+            assetDispService.setAssetDispositionHistory(asset);
+    
+            // Finds out the latest retirement info, is asset is currently retired.
+            RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
+            retirementInfoService.setRetirementInfo(asset);
+    
+            // Finds out the latest equipment loan or return information if available
+            EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
+            equipmentLoanInfoService.setEquipmentLoanInfo(asset);
+        }
         
         return asset;
     }

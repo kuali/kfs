@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
@@ -35,13 +37,10 @@ import org.kuali.module.cams.service.RetirementInfoService;
  */
 public class RetirementInfoServiceImpl implements RetirementInfoService {
 
-    // TODO Change to use system parameters
-    private static final String[] RETIRED_INV_CODES = new String[] { "O", "R", "E" };
-
+    private ParameterService parameterService;
 
     /**
      * Identifies the latest retirement record for the asset if current status is retired
-     * 
      * <li>Sorts all approved retirement documents by retirement date</li>
      * <li>Latest retirement document is identified and assigns to asset</li>
      * 
@@ -50,7 +49,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      */
     public void setRetirementInfo(Asset asset) {
         // If current status is not retired, return empty
-        if (!ArrayUtils.contains(RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+        if (!parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
             return;
         }
         List<AssetRetirementGlobalDetail> retirementHistory = asset.getAssetRetirementHistory();
@@ -87,7 +86,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      * @param assetRetirementDoc Asset Retirement Document
      * @return "true" if approved
      */
-    public boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
+    private boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
         assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
         DocumentHeader documentHeader = assetRetirementDoc.getDocumentHeader();
         if (documentHeader != null && DOC_APPROVED.equals(documentHeader.getFinancialDocumentStatusCode())) {
@@ -95,5 +94,16 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
         }
         return false;
     }
+
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
 
 }

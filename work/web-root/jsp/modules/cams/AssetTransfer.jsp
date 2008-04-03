@@ -42,9 +42,10 @@
 		  </table>   
         </div>
 	  </kul:tab>
-	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true"> 
+	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+			
 			<tr>
 				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
 			</tr>
@@ -90,9 +91,10 @@
 		</div>
 	 </kul:tab>
 	 <cams:viewAssetDetails defaultTabHide="true" /> 
-	  <kul:tab tabTitle="Asset Location" defaultOpen="true"> 
+	  <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.campusCode,document.buildingCode,document.buildingRoomNumber"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+			
 			<tr>
 				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
 			</tr>
@@ -169,9 +171,9 @@
 		</div>
 	</kul:tab>
 	<!-- Organization Information -->
-	<kul:tab tabTitle="Organization Information" defaultOpen="true"> 
+	<kul:tab tabTitle="Organization Information" defaultOpen="true" > 
 		<div class="tab-container" align="center">
-		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">			
 			<tr>
 				<td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">Old</div></td><td class="tab-subhead" colspan="2" width="50%"><div class="tab-subhead-r">New</div></td>
 			</tr>					

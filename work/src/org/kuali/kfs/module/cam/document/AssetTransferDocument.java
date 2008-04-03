@@ -31,7 +31,6 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Building;
@@ -45,13 +44,13 @@ import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.AssetPaymentService;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -657,7 +656,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
             // create new asset payment records and offset payment records
             boService.save(persistableObjects);
-
         }
     }
 
@@ -794,51 +792,135 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     }
 
+    /**
+     * Creates GL Postables using the source plant account number and target plant account number
+     */
     private void createGLPostables() {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         this.asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
         refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
-        List<AssetPayment> assetPayments = getAsset().getAssetPayments();
+        AssetService assetService = SpringContext.getBean(AssetService.class);
+        boolean movableAsset = assetService.isAssetMovable(this.asset);
+        if (assetService.isCapitalAsset(this.asset) && isGLPostable(movableAsset)) {
+            List<AssetPayment> assetPayments = getAsset().getAssetPayments();
+            createSourceGLPostables(universityDateService, assetPayments, movableAsset);
+            createTargetGLPostables(universityDateService, assetPayments, movableAsset);
+        }
+    }
+
+
+    /**
+     * Checks if it is ready for GL Posting by validating the accounts and plant account numbers
+     * 
+     * @return true if all accounts are valid
+     */
+    private boolean isGLPostable(boolean movableAsset) {
+        boolean isGLPostable = true;
 
         Account srcPlantAcct = null;
-        if (this.asset.getOrganizationOwnerAccount() != null) {
-            srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-        }
 
-        if (srcPlantAcct != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                    addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, srcPlantAcct, assetPayment, true));
-                }
+        if (ObjectUtils.isNotNull(this.asset.getOrganizationOwnerAccount())) {
+            if (movableAsset) {
+                srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+            }
+            else {
+                srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
             }
         }
 
+        if (ObjectUtils.isNull(srcPlantAcct)) {
+            isGLPostable &= false;
+        }
         Account targetPlantAcct = null;
-        if (getOrganizationOwnerAccount() != null) {
+        if (ObjectUtils.isNotNull(getOrganizationOwnerAccount())) {
+            if (movableAsset) {
+                targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+            }
+            else {
+                targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+            }
+        }
+        if (ObjectUtils.isNull(targetPlantAcct)) {
+            isGLPostable &= false;
+
+        }
+        return isGLPostable;
+    }
+
+
+    /**
+     * Creates target GL Postable for the receiving organization
+     * 
+     * @param universityDateService University Date Service to get the current fiscal year and period
+     * @param assetPayments Payments for which GL entries needs to be created
+     */
+    private void createTargetGLPostables(UniversityDateService universityDateService, List<AssetPayment> assetPayments, boolean movableAsset) {
+        Account targetPlantAcct = null;
+
+        if (movableAsset) {
             targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
-        if (targetPlantAcct != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                    addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, targetPlantAcct, assetPayment, false));
+        else {
+            targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+        }
+        for (AssetPayment assetPayment : assetPayments) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
+                addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, targetPlantAcct, assetPayment, false));
+            }
+        }
+    }
+
+
+    /**
+     * Creates GL Postables for the source organization
+     * 
+     * @param universityDateService University Date Service to get the current fiscal year and period
+     * @param assetPayments Payments for which GL entries needs to be created
+     */
+    private void createSourceGLPostables(UniversityDateService universityDateService, List<AssetPayment> assetPayments, boolean movableAsset) {
+        Account srcPlantAcct = null;
+
+        if (movableAsset) {
+            srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+        }
+        else {
+            srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+        }
+        for (AssetPayment assetPayment : assetPayments) {
+            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
+                assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+                if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
+                    addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, srcPlantAcct, assetPayment, true));
                 }
             }
         }
     }
 
+    /**
+     * Creates an instance of AssetGlpeSourceDetail depending on the source flag
+     * 
+     * @param universityDateService University Date Service
+     * @param plantAccount Plant account for the organization
+     * @param assetPayment Payment record for which postable is created
+     * @param isSource Indicates if postable is for source organization
+     * @return GL Postable source detail
+     */
     private AssetGlpeSourceDetail createAssetGlpePostable(UniversityDateService universityDateService, Account plantAccount, AssetPayment assetPayment, boolean isSource) {
-        if (assetPayment.getFinancialObject() == null) {
-            assetPayment.refreshReferenceObject("financialObject");
-        }
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setAmount(assetPayment.getAccountChargeAmount());
+        // TODO Balance type code
         postable.setBalanceTypeCode("");
-        postable.setChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
+        if (isSource) {
+            postable.setChartOfAccountsCode(this.asset.getOrganizationOwnerChartOfAccountsCode());
+        }
+        else {
+            postable.setChartOfAccountsCode(this.getOrganizationOwnerChartOfAccountsCode());
+        }
         postable.setDocumentNumber(getDocumentNumber());
-        postable.setFinancialDocumentLineDescription("Asset Transfer Debi Line");
+        postable.setFinancialDocumentLineDescription("Asset Transfer " + (isDebit(postable) ? "Debit" : "Credit") + " Line");
         postable.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
         postable.setObjectCode(assetPayment.getFinancialObject());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
@@ -857,38 +939,31 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        System.out.println("************* FLOW " + "customizeExplicitGeneralLedgerPendingEntry" + "***********************");
 
     }
 
 
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        System.out.println("************* FLOW " + "customizeOffsetGeneralLedgerPendingEntry" + "***********************");
         return false;
     }
 
 
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        System.out.println("************* FLOW " + "generateDocumentGeneralLedgerPendingEntries" + "***********************");
         return true;
     }
 
 
     public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
-        System.out.println("************* FLOW " + "getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable" + "***********************");
         return postable.getAmount();
     }
 
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
-        System.out.println("************* FLOW " + "getGeneralLedgerPostables" + "***********************");
-
         return this.generalLedgerPostables;
     }
 
 
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        System.out.println("************* FLOW " + "getGeneralLedgerPostingHelper" + "***********************");
         Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
         return glPostingHelpers.get(GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
@@ -897,13 +972,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
         boolean isDebit = false;
+        // If source org and amount is negative then true
         if (srcDetail.isSource() && srcDetail.getAmount().isNegative()) {
             isDebit = true;
         }
+        // If target and amount is positive then true
         if (!srcDetail.isSource() && srcDetail.getAmount().isPositive()) {
             isDebit = true;
         }
-        System.out.println("************* FLOW " + "isDebit" + "***********************");
         return isDebit;
     }
 

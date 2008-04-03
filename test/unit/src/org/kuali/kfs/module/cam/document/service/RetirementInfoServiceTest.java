@@ -15,11 +15,14 @@
  */
 package org.kuali.module.cams.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
@@ -34,6 +37,16 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         this.retirementInfoService = new RetirementInfoServiceImpl();
+        this.retirementInfoService.setParameterService(new ParameterServiceImpl() {
+            @Override
+            public List<String> getParameterValues(Class componentClass, String parameterName) {
+                List<String> values = new ArrayList<String>();
+                values.add("O");
+                values.add("R");
+                values.add("E");
+                return values;
+            }
+        });
         this.asset = new Asset();
         this.asset.setInventoryStatusCode("R");
 

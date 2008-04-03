@@ -24,6 +24,7 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.AssetDispositionService;
@@ -36,7 +37,7 @@ import org.kuali.module.cams.service.RetirementInfoService;
  * This class implements custom data preparation for displaying asset edit screen.
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
-
+    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private Asset newAsset;
     private Asset copyAsset;
 
@@ -90,11 +91,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             // fabrication request asset creation. Hide sections that are only applicable to asset edit. For fields
             // that are to be hidden for asset edit, see AssetAuthorizer.getFieldAuthorizations
             for (Section section : sections) {
-                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId())
-                        || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(section.getSectionId())
-                        || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId())
-                        || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(section.getSectionId())
-                        || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(section.getSectionId())) {
+                if (CamsConstants.Asset.SECTION_ID_LAND_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_PAYMENT_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_DEPRECIATION_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_EQUIPMENT_LOAN_INFORMATION.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_WARRENTY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_REPAIR_HISTORY.equals(section.getSectionId()) || CamsConstants.Asset.SECTION_ID_COMPONENTS.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
 
@@ -107,7 +104,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                     section.setHidden(true);
                 }
                 // if asset is retired
-                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
                     section.setHidden(true);
                 }
             }

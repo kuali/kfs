@@ -15,8 +15,10 @@
  */
 package org.kuali.module.cams.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
@@ -32,20 +34,52 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean valid = true;
         // check if selected account has plant fund accounts
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        validateOwnerAccount(assetTransferDocument);
+        valid &= validateOwnerAccount(assetTransferDocument);
         // validate if location info is available, campus or off-campus
-        return true;
+        valid = validateLocation(assetTransferDocument);
+        return valid;
     }
 
 
-    private void validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
+    private boolean validateLocation(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
+        if (!StringUtils.isBlank(assetTransferDocument.getCampusCode())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
+            if (ObjectUtils.isNull(assetTransferDocument.getCampus())) {
+                GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.Transfer.ERROR_INVALID_CAMPUS_CODE);
+                valid &= false;
+            }
+        }
+        if (!StringUtils.isBlank(assetTransferDocument.getBuildingCode())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
+            if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) {
+                GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.Transfer.ERROR_INVALID_BUILDING_CODE);
+                valid &= false;
+            }
+        }
+        if (!StringUtils.isBlank(assetTransferDocument.getBuildingRoomNumber())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
+            if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) {
+                GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.Transfer.ERROR_INVALID_ROOM_NUMBER);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+
+    private boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
         assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
         if (organizationOwnerAccount == null || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {
             // show error if account is not active
+            GlobalVariables.getErrorMap().putError(DOCUMENT_PATH + "." + CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_NOT_ACTIVE);
+            valid &= false;
         }
         else {
             Org ownerOrg = organizationOwnerAccount.getOrganization();
@@ -54,13 +88,16 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
             // if asset is movable, use campus plant account number, alert user if acct not found
             if (campusPlantAccount == null) {
-                GlobalVariables.getErrorMap().putError(DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_CAMPUS_PLANT_FUND_UNKNOWN);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_CAMPUS_PLANT_FUND_UNKNOWN);
+                valid &= false;
             }
             // if asset is immovable use org plant account number, alert user if acct not found
             if (organizationPlantAccount == null) {
-                GlobalVariables.getErrorMap().putError(DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_ORG_PLANT_FUND_UNKNOWN);
+                valid &= false;
             }
         }
+        return valid;
     }
 
 

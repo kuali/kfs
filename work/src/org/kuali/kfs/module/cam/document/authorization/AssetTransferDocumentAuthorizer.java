@@ -24,6 +24,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -34,6 +35,7 @@ import org.kuali.module.cams.service.AssetHeaderService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
+    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -41,13 +43,11 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
     }
 
     /**
-     * 
      * @see org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
-     * 
-     * This method determines if user can continue with transfer action or not, following conditions are checked to decide
-     * <li>Check if asset is active and not retired</li>
-     * <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
+     *      org.kuali.core.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following
+     *      conditions are checked to decide
+     *      <li>Check if asset is active and not retired</li>
+     *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -56,7 +56,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         // check if transfer action is allowed, if not present an error message
         // check if asset is active
         boolean transferable = true;
-        if (ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
             transferable = false;
             GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }
@@ -71,7 +71,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
                     headerNos[pos] = assetHeader.getDocumentNumber();
                     pos++;
                 }
-                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, headerNos);
+                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, headerNos.toString());
             }
         }
         // Disable the buttons, if not transferable

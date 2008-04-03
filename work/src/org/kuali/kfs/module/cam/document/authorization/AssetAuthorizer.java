@@ -43,9 +43,6 @@ import org.kuali.module.cams.bo.Asset;
  */
 public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
-    // TODO Use System parameter
-    private static final String[] CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS = new String[] { ORGANIZATION_OWNER_ACCOUNT_NUMBER, VENDOR_NAME, ASSET_DATE_OF_SERVICE };
-
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
 
@@ -69,7 +66,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         else {
             // Asset edit: workgroup authorization
             if (user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
-                hideFields(auths, CM_ASSET_MERGE_SEPARATE_USERS_DENIED_FIELDS);
+                hideFields(auths, parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MERGE_SEPARATE_VIEWABLE_FIELDS));
             }
             else if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                 // If departmental user
@@ -108,7 +105,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        if (ArrayUtils.contains(CamsConstants.RETIRED_INV_CODES, asset.getInventoryStatusCode())) {
+        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

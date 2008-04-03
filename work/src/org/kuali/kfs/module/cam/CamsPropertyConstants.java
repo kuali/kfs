@@ -15,6 +15,16 @@
  */
 package org.kuali.module.cams;
 
+import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.Room;
+import org.kuali.kfs.bo.State;
+import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.Org;
+
 
 /**
  * Constants for cams business object property names.
@@ -63,6 +73,7 @@ public class CamsPropertyConstants {
         public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
         public static final String FEDERAL_CONTRIBUTION = "federalContribution";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+        public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
     }
 
     public static class AssetLocation {
@@ -139,17 +150,28 @@ public class CamsPropertyConstants {
     public static class AssetTransferDocument {
         public static final String ORGANIZATION = "organization";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
+        public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
+        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
+        public static final String BUILDING_CODE = "buildingCode";
+        public static final String BUILDING = "building";
+        public static final String CAMPUS_CODE = "campusCode";
+        public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+        public static final String ASSET_HEADER = "assetHeader";
+        public static final String CAMPUS = "campus";
+        public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccounts";
+        public static final String OFF_CAMPUS_STATE = "offCampusState";
+        public static final String BUILDING_ROOM = "buildingRoom";
     }
 
     public static class AssetComponent {
         public static final String COMPONENT_NUMBER = "componentNumber";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
-    
+
     public static class AssetRetirementGlobal {
         public static final String SHARED_RETIREMENT_INFO = "sharedRetirementInfo";
     }
-    
+
     public static class AssetRetirementGlobalDetail {
         public static final String RETIREMENT_CHART_OF_ACCOUNTS_CODE = "retirementChartOfAccountsCode";
         public static final String RETIREMENT_ACCOUNT_NUMBER = "retirementAccountNumber";

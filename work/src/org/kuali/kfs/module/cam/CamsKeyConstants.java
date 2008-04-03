@@ -73,6 +73,10 @@ public class CamsKeyConstants {
         public static final String ERROR_ASSET_RETIRED_NOTRANSFER = "error.asset.retired.notransfer";
         public static final String ERROR_CAMPUS_PLANT_FUND_UNKNOWN = "error.campus.plant.fund.unknown";
         public static final String ERROR_ORG_PLANT_FUND_UNKNOWN = "error.org.plant.fund.unknown";
+        public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.account.notactive";
+        public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
+        public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
+        public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.code";
     }
 
 }

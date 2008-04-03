@@ -23,6 +23,8 @@ import org.kuali.module.cams.bo.Asset;
  * The interface defines methods for Asset Document
  */
 public interface AssetService {
+    boolean isAssetMovable(Asset asset);
 
+    boolean isCapitalAsset(Asset asset);
 
 }

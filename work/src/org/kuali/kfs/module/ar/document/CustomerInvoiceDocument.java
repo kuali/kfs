@@ -65,6 +65,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     private String paymentFinancialSubObjectCode;
     private String paymentProjectCode;
     private String paymentOrganizationReferenceIdentifier;
+    private Date printDate;
     
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
@@ -616,6 +617,26 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         this.paymentSubAccountNumber = paymentSubAccountNumber;
     }
 
+    /**
+     * Gets the printDate attribute.
+     * 
+     * @return Returns the printDate
+     * 
+     */
+    public Date getPrintDate() { 
+        return printDate;
+    }
+
+    /**
+     * Sets the printDate attribute.
+     * 
+     * @param printDate The printDate to set.
+     * 
+     */
+    public void setPrintDate(Date printDate) {
+        this.printDate = printDate;
+    }    
+    
     /**
 	 * Gets the accountsReceivableDocumentHeader attribute.
 	 * 

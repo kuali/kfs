@@ -302,6 +302,7 @@
 	<field-descriptor name="paymentFinancialSubObjectCode" column="PMT_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="printDate" column="AR_PRNT_DT" jdbc-type="DATE"/>	
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />

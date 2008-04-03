@@ -21,10 +21,11 @@
 <c:set var="detailLines" value="${KualiForm.detailLines}"/>
 <c:set var="newDetailLine" value="${KualiForm.newDetailLine}"/>
 
+<c:set var="viewOnlyEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.VIEW_ONLY]}" />
 <c:set var="expenseEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.EXPENSE_ENTRY]}" />
 <c:set var="taberrorKey" value="${expenseEntry ? EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS : '' }" />
 
-<kul:tab tabTitle="Effort Detail" defaultOpen="${expenseEntry}" tabErrorKey="${taberrorKey}">	
+<kul:tab tabTitle="Effort Detail" defaultOpen="${expenseEntry || viewOnlyEntry}" tabErrorKey="${taberrorKey}">	
 <c:choose>
 	<c:when test="${expenseEntry}">
 		<div class="tab-container" align=center>

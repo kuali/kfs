@@ -72,14 +72,13 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
      */
     @Override
     public Map<String, String> getEditMode(Document document, UniversalUser universalUser) {
-        Map<String, String> editModeMap = new HashMap<String, String>();
+        Map<String, String> editModeMap = super.getEditMode(document, universalUser);
         String editMode = EffortCertificationEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();  
-        workflowDocument.getRouteHeader().getInitiator();
-        LOG.info("=====> workflowDocument: " + workflowDocument + ":" + workflowDocument.getStatusDisplayValue());
         
-        //String routeLevelName = KualiWorkflowUtils.getRoutingLevelName(workflowDocument);
+        // TODO: to be removed after the routing works
+        LOG.info("=====> workflowDocument: " + workflowDocument + ":" + workflowDocument.getStatusDisplayValue());
         LOG.info("=====> routeLevelName: " + workflowDocument.getCurrentRouteNodeNames() + ":" + workflowDocument.getDocRouteLevel() + ":" + workflowDocument.isApprovalRequested());
         
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
@@ -87,9 +86,8 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());
             }
         }
-        else if (workflowDocument.stateIsEnroute() && this.hasApprovalAuthorization(workflowDocument, universalUser)) {
+        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             String routeLevel = workflowDocument.getCurrentRouteNodeNames();
-            LOG.info("=====> routeLevelName: " + routeLevel);
 
             Map<String, String> editModes = this.getEditModeSetup();
             Map<String,Boolean> editableIndicators = this.getEditableIndicator();
@@ -100,12 +98,6 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
 
         editModeMap.put(editMode, Boolean.TRUE.toString());
         return editModeMap;
-    }
-    
-    boolean hasApprovalAuthorization(KualiWorkflowDocument workflowDocument, UniversalUser universalUser) {
-        LOG.info("=====>" + workflowDocument.getRoutedByUserNetworkId() + ":" + universalUser.getPersonUserIdentifier());
-        workflowDocument.getRoutedByUserNetworkId().equalsIgnoreCase(universalUser.getPersonUserIdentifier());
-        return true;
     }
 
     // setup the edit map where its key is route level name and its value the edit mode.

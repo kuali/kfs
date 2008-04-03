@@ -20,7 +20,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -200,19 +199,19 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
             orgLevelSummaryReportEntry.setFinancialObjectLevelName(levelSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
         }
         if (levelSummary.getPositionCsfLeaveFteQuantity() != null && !levelSummary.getPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-            orgLevelSummaryReportEntry.setPositionCsfLeaveFteQuantity(levelSummary.getPositionCsfLeaveFteQuantity().toString());
+            orgLevelSummaryReportEntry.setPositionCsfLeaveFteQuantity(levelSummary.getPositionCsfLeaveFteQuantity().setScale(2).toString());
         }
 
         if (levelSummary.getCsfFullTimeEmploymentQuantity() != null && !levelSummary.getCsfFullTimeEmploymentQuantity().equals(BigDecimal.ZERO)) {
-            orgLevelSummaryReportEntry.setCsfFullTimeEmploymentQuantity(levelSummary.getCsfFullTimeEmploymentQuantity().toString());
+            orgLevelSummaryReportEntry.setCsfFullTimeEmploymentQuantity(levelSummary.getCsfFullTimeEmploymentQuantity().setScale(2).toString());
         }
 
         if (levelSummary.getAppointmentRequestedCsfFteQuantity() != null && !levelSummary.getAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-            orgLevelSummaryReportEntry.setAppointmentRequestedCsfFteQuantity(levelSummary.getAppointmentRequestedCsfFteQuantity().toString());
+            orgLevelSummaryReportEntry.setAppointmentRequestedCsfFteQuantity(levelSummary.getAppointmentRequestedCsfFteQuantity().setScale(2).toString());
         }
 
         if (levelSummary.getAppointmentRequestedFteQuantity() != null && !levelSummary.getAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-            orgLevelSummaryReportEntry.setAppointmentRequestedFteQuantity(levelSummary.getAppointmentRequestedFteQuantity().toString());
+            orgLevelSummaryReportEntry.setAppointmentRequestedFteQuantity(levelSummary.getAppointmentRequestedFteQuantity().setScale(2).toString());
         }
 
         if (levelSummary.getAccountLineAnnualBalanceAmount() != null) {
@@ -251,18 +250,18 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
                 // The total part shouldn't have null value, so just checking '0'
                 if (!consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfLeaveFteQuantity(consTotal.getTotalConsolidationPositionCsfLeaveFteQuantity().setScale(2).toString());
                 }
                 if (!consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity().toString());
+                    orgLevelSummaryReportEntry.setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(consTotal.getTotalConsolidationPositionCsfFullTimeEmploymentQuantity().setScale(2).toString());
                 }
                 orgLevelSummaryReportEntry.setTotalConsolidationFinancialBeginningBalanceLineAmount(consTotal.getTotalConsolidationFinancialBeginningBalanceLineAmount());
 
                 if (!consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedCsfFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedCsfFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedCsfFteQuantity().setScale(2).toString());
                 }
                 if (!consTotal.getTotalConsolidationAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTotalConsolidationAppointmentRequestedFteQuantity(consTotal.getTotalConsolidationAppointmentRequestedFteQuantity().setScale(2).toString());
                 }
                 orgLevelSummaryReportEntry.setTotalConsolidationAccountLineAnnualBalanceAmount(consTotal.getTotalConsolidationAccountLineAnnualBalanceAmount());
 
@@ -288,18 +287,18 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
                 }
 
                 if (!gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity().setScale(2).toString());
                 }
                 if (!gexpAndTypeTotal.getTypePositionCsfFullTimeEmploymentQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTypePositionCsfFullTimeEmploymentQuantity(gexpAndTypeTotal.getTypePositionCsfFullTimeEmploymentQuantity().toString());
+                    orgLevelSummaryReportEntry.setTypePositionCsfFullTimeEmploymentQuantity(gexpAndTypeTotal.getTypePositionCsfFullTimeEmploymentQuantity().setScale(2).toString());
                 }
                 orgLevelSummaryReportEntry.setTypeFinancialBeginningBalanceLineAmount(gexpAndTypeTotal.getTypeFinancialBeginningBalanceLineAmount());
 
                 if (!gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTypeAppointmentRequestedCsfFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTypeAppointmentRequestedCsfFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedCsfFteQuantity().setScale(2).toString());
                 }
                 if (!gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
-                    orgLevelSummaryReportEntry.setTypeAppointmentRequestedFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity().toString());
+                    orgLevelSummaryReportEntry.setTypeAppointmentRequestedFteQuantity(gexpAndTypeTotal.getTypeAppointmentRequestedFteQuantity().setScale(2).toString());
                 }
 
                 orgLevelSummaryReportEntry.setTypeAccountLineAnnualBalanceAmount(gexpAndTypeTotal.getTypeAccountLineAnnualBalanceAmount());

@@ -57,7 +57,11 @@
     <purap:additional
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
-        
+    
+    <!-- purap:capitalAsset 
+    	documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
+        displayRequisitionFields="true" / -->
+     
     <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
     <purap:summaryaccounts
         itemAttributes="${DataDictionary.RequisitionItem.attributes}"

@@ -167,6 +167,7 @@ public class PurapConstants extends JstlConstants {
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
     public static final String PAYMENT_INFO_ERRORS = "document.paymentInfo";
     public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate";
+    public static final String CAPITAL_ASSET_TAB_ERRORS = "document.capitalAsset";
 
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*";
@@ -680,6 +681,17 @@ public class PurapConstants extends JstlConstants {
         public static final String EXPENSE = "Expense";
         public static final String RECURRING = "Recurring";
         public static final String NON_RECURRING = "Non-recurring";
+    }
+    
+    public static class CapitalAssetTabStrings {
+        public static final String SYSTEM_DEFINITION = "Definition: A system is any group of line items added together to create one or more identical assets. Systems are further defined as line items that work together to perform one function. Each of the line items must be necessary for the system to function.";
+        public static final String INDIVIDUAL_ASSET = "IND";
+        public static final String ONE_SYSTEM = "ONE";
+        public static final String MULTIPLE_SYSTEMS = "MULT";
+        public static final String INDIVIDUAL_ASSETS_DESC = "Each of the lines will be capitalized as individual assets.";
+        public static final String ONE_SYSTEM_DESC = "Line items are being added together to create one system.";
+        public static final String MULTIPLE_SYSTEMS_DESC = "Any of the line items will be added together to create multiple systems.";
+        public static final String ASSET_DATA = "Asset data is on Item Tab.";
     }
 
 }

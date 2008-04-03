@@ -38,5 +38,5 @@ public interface BudgetConstructionAccountObjectDetailReportDao {
      */
     public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) throws NoSuchFieldException, IOException;
 
-    
+    public void cleanReportsAccountObjectDetailTable(String personUserIdentifier);
 }

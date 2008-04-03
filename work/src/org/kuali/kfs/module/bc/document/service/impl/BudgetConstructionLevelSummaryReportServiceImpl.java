@@ -379,10 +379,10 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
                 if (isSameLevelSummaryEntry(simpleBclsEntry, bclsListEntry)) {
                     totalConsolidationFinancialBeginningBalanceLineAmount += new Integer(bclsListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     totalConsolidationAccountLineAnnualBalanceAmount += new Integer(bclsListEntry.getAccountLineAnnualBalanceAmount().intValue());
-                    totalConsolidationPositionCsfLeaveFteQuantity = totalConsolidationPositionCsfLeaveFteQuantity.add(new BigDecimal(bclsListEntry.getPositionCsfLeaveFteQuantity().intValue()));
-                    totalConsolidationPositionCsfFullTimeEmploymentQuantity = totalConsolidationPositionCsfFullTimeEmploymentQuantity.add(new BigDecimal(bclsListEntry.getCsfFullTimeEmploymentQuantity().intValue()));
-                    totalConsolidationAppointmentRequestedCsfFteQuantity = totalConsolidationAppointmentRequestedCsfFteQuantity.add(new BigDecimal(bclsListEntry.getAppointmentRequestedCsfFteQuantity().intValue()));
-                    totalConsolidationAppointmentRequestedFteQuantity = totalConsolidationAppointmentRequestedFteQuantity.add(new BigDecimal(bclsListEntry.getAppointmentRequestedFteQuantity().intValue()));
+                    totalConsolidationPositionCsfLeaveFteQuantity = totalConsolidationPositionCsfLeaveFteQuantity.add(bclsListEntry.getPositionCsfLeaveFteQuantity());
+                    totalConsolidationPositionCsfFullTimeEmploymentQuantity = totalConsolidationPositionCsfFullTimeEmploymentQuantity.add(bclsListEntry.getCsfFullTimeEmploymentQuantity());
+                    totalConsolidationAppointmentRequestedCsfFteQuantity = totalConsolidationAppointmentRequestedCsfFteQuantity.add(bclsListEntry.getAppointmentRequestedCsfFteQuantity());
+                    totalConsolidationAppointmentRequestedFteQuantity = totalConsolidationAppointmentRequestedFteQuantity.add(bclsListEntry.getAppointmentRequestedFteQuantity());
                 }
             }
             bcLevelTotal.setBcls(simpleBclsEntry);
@@ -449,10 +449,10 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
                     typeFinancialBeginningBalanceLineAmount += new Integer(bclsListEntry.getFinancialBeginningBalanceLineAmount().intValue());
                     typeAccountLineAnnualBalanceAmount += new Integer(bclsListEntry.getAccountLineAnnualBalanceAmount().intValue());
-                    typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity.add(new BigDecimal(bclsListEntry.getPositionCsfLeaveFteQuantity().intValue()));
-                    typePositionCsfFullTimeEmploymentQuantity = typePositionCsfFullTimeEmploymentQuantity.add(new BigDecimal(bclsListEntry.getCsfFullTimeEmploymentQuantity().intValue()));
-                    typeAppointmentRequestedCsfFteQuantity = typeAppointmentRequestedCsfFteQuantity.add(new BigDecimal(bclsListEntry.getAppointmentRequestedCsfFteQuantity().intValue()));
-                    typeAppointmentRequestedFteQuantity = typeAppointmentRequestedFteQuantity.add(new BigDecimal(bclsListEntry.getAppointmentRequestedFteQuantity().intValue()));
+                    typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity.add(bclsListEntry.getPositionCsfLeaveFteQuantity());
+                    typePositionCsfFullTimeEmploymentQuantity = typePositionCsfFullTimeEmploymentQuantity.add(bclsListEntry.getCsfFullTimeEmploymentQuantity());
+                    typeAppointmentRequestedCsfFteQuantity = typeAppointmentRequestedCsfFteQuantity.add(bclsListEntry.getAppointmentRequestedCsfFteQuantity());
+                    typeAppointmentRequestedFteQuantity = typeAppointmentRequestedFteQuantity.add(bclsListEntry.getAppointmentRequestedFteQuantity());
 
                     if (bclsListEntry.getIncomeExpenseCode().equals("B") && !bclsListEntry.getFinancialObjectLevelCode().equals("CORI") && !bclsListEntry.getFinancialObjectLevelCode().equals("TRIN")) {
                         grossFinancialBeginningBalanceLineAmount += new Integer(bclsListEntry.getFinancialBeginningBalanceLineAmount().intValue());

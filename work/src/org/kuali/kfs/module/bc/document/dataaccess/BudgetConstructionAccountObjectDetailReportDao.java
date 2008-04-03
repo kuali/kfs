@@ -15,23 +15,28 @@
  */
 package org.kuali.module.budget.dao;
 
+import java.io.IOException;
+
 public interface BudgetConstructionAccountObjectDetailReportDao {
 
-    /**
-     *  cleans acount object detail table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsAccountObjectDetailTable(String personUserIdentifier);
 
+   /**
+   * 
+   * adds rows with object detail to the temporary table used for budget construction account balance reporting.
+   * @param personUserIdentifier: the id of hte user initiating the report
+   * @throws NoSuchFieldException
+   * @throws IOException
+   */
+    public void updateReportsAccountObjectDetailTable(String personUserIdentifier) throws NoSuchFieldException, IOException;
+    
     /**
-     *  updates acount object detail table.
      * 
-     * @param personUserIdentifier
-     * @return
+     * adds rows consolidated at the object code level to the temporary table used for budget construction account balance reporting.
+     * @param personUserIdentifier: the id of the user initiating the report
+     * @throws NoSuchFieldException
+     * @throws IOException
      */
-    public void updateReportsAccountObjectDetailTable(String personUserIdentifier);
+    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) throws NoSuchFieldException, IOException;
 
     
 }

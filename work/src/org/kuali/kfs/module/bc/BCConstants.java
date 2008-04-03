@@ -113,11 +113,22 @@ public class BCConstants extends JstlConstants {
 
     /*
      * fund groups and subfund groups that are NOT loaded to the GL from budget construction (these are the constants used, not the
-     * ones in KFSConstants/BudgetConstructionConstants
+     * ones in KFSConstants/BudgetConstructionConstants)
      */
     public final static List<String> NO_BC_GL_LOAD_SUBFUND_GROUPS = Arrays.asList("SIDC");
     public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
 
+    /*
+     *  values for the CSF funding status flag
+     */
+    public enum csfFundingStatusFlag {
+        LEAVE("L"), VACANT("V"), UNFUNDED("U"), ACTIVE("-");
+        
+        private csfFundingStatusFlag(String flagValue) {this.flagValue = flagValue;}
+        public String getFlagValue() {return flagValue;}
+        private String flagValue;
+    }
+    
     // the transaction ledger description for the general ledger budget load
     public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
 

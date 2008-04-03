@@ -49,15 +49,12 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
     /**
      *  these will be set to constant values in the constructor and used throughout SQL for the various steps.
      */
-    private static String budgetBalanceTypeCode = new String();
-    private static String defaultSubObjectCode  = new String();
 
     @RawSQL
     public BenefitsCalculationDaoJdbc() {
 
-        budgetBalanceTypeCode = KFSConstants.BALANCE_TYPE_BASE_BUDGET;
-        defaultSubObjectCode = LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE;
-
+        //this is a bean constructor, so it is dangerous to access static constants defined in other classes here.  the other classes may not have been loaded yet.
+        //so, we use insertion points to indicate where such constants should be placed in the SQL, and we splice them in a run time.  we also use insertion points to splice in run time constants from SH_PARM_T.
         StringBuilder sqlBuilder = new StringBuilder(2500);
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>();
         /**
@@ -87,7 +84,6 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR)\n");
         sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)\n");
         sqlBuilder.append("         AND (LD_PND_BCNSTR_GL_T.FIN_BEG_BAL_LN_AMT = 0)))\n");
-        String sqlZeroth = sqlBuilder.toString();
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
         sqlBuilder.delete(0,sqlBuilder.length());
         /**
@@ -161,16 +157,19 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.account_nbr = ?)\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.sub_acct_nbr = ?)\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.fin_sub_obj_cd = '");
-        sqlBuilder.append(defaultSubObjectCode);
+        // default sub object code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.fin_balance_typ_cd = '");
-        sqlBuilder.append(budgetBalanceTypeCode);
+        // general ledger budget balance type code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("  AND EXISTS (SELECT 1\n");
         sqlBuilder.append("              FROM ld_bcn_benefits_recalc01_mt\n");
         sqlBuilder.append("              WHERE (sesid = ?)\n");
         sqlBuilder.append("                AND (ld_pnd_bcnstr_gl_t.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
+        // expenditure object types 
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
@@ -186,9 +185,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("(SELECT ?, ?, ?, ?, ?,\n");
         sqlBuilder.append("ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd,\n");
         sqlBuilder.append(" '");
-        sqlBuilder.append(defaultSubObjectCode);
+        // default sub object code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', '");
-        sqlBuilder.append(budgetBalanceTypeCode);
+        // general ledger budget balance type code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
         sqlBuilder.append("?, \n");
         sqlBuilder.append("ld_bcn_benefits_recalc01_mt.fb_sum, 0\n");
@@ -204,12 +205,15 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.sub_acct_nbr = ?)\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd)\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_sub_obj_cd = '");
-        sqlBuilder.append(defaultSubObjectCode);
+        // default sub object code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_balance_typ_cd = '");
-        sqlBuilder.append(budgetBalanceTypeCode);
+        // general ledger budget balance type code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
+        //  expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))))");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
@@ -250,9 +254,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("   ld_benefits_calc_t.pos_frngben_obj_cd,");
         sqlBuilder.append(" '");
-        sqlBuilder.append(defaultSubObjectCode);
+        // default sub object code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', '");
-        sqlBuilder.append(budgetBalanceTypeCode);
+        // general ledger budget balance type code
+        insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
         sqlBuilder.append("?, \n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
@@ -282,8 +288,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = ld_lbr_obj_bene_t.fin_coa_cd\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.pos_benefit_typ_cd = ld_lbr_obj_bene_t.finobj_bene_typ_cd\n");
         sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd");
-        sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder,insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
+        insertionPoints.clear();
 
 
         /**
@@ -334,10 +341,12 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
         // if the benefits portion of budget construction is not in use at a particular site, then doing it this way will have no impact.
         
-        ArrayList<String> inListToInsert = new ArrayList<String>();
+        ArrayList<String> stringsToInsert = new ArrayList<String>();
+        stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
+        stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         try
         {
-            inListToInsert.add(getExpenditureINList());
+            stringsToInsert.add(getExpenditureINList());
         }
         catch (NoSuchFieldException nsfex)
         {
@@ -353,8 +362,12 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(inListToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(inListToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        // re-set general ledger amount for existing fringe benefits object codes 
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
+        // insert general ledger lines for new fringe benefits object codes.
+        stringsToInsert.set(2,stringsToInsert.get(0));
+        stringsToInsert.set(3,stringsToInsert.get(1));
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
     }
 
@@ -366,8 +379,15 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
         String idForSession = (new Guid()).toString();
 
+        ArrayList<String> stringsToInsert = new ArrayList<String>();
+        stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
+        stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+
+        // get rid of existing monthly budgets for this key       
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        // add any rounding errors to the first month
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
     }
 }

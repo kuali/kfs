@@ -17,8 +17,10 @@ package org.kuali.module.ar;
 
 public class ArConstants {
     
+    //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
+    public static final String MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE = "MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE";
     
     //constants for CashControlDocument
     public static final String ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.OrganizationDocNumberCannotBeNullforPaymentMediumCash";

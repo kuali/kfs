@@ -40,7 +40,7 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
     private static final String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
     private static final String INVALID_ORGANIZATION_CODE = "XXXX";
     private static final String VALID_ORGANIZATION_CODE = "VPIT";
-    private static final String INVOICE_CREATION_DATE = "2008-01-01";
+    private static final String INVOICE_FINALIZE_DATE = "2008-01-01";
     private static final String VALID_INVOICE_DUE_DATE_STRING = "2008-03-31";
     private static final String INVALID_INVOICE_DUE_DATE_STRING = "2008-04-02";
     private static final String CUSTOMER_INVOICE_DOCUMENT_TYPE = "CustomerInvoiceDocument";
@@ -125,9 +125,9 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
      */
     public void testIsValidInvoiceDueDate_True() {
         
-        Date creationDate = Date.valueOf(INVOICE_CREATION_DATE);
+        Date finalizeDate = Date.valueOf(INVOICE_FINALIZE_DATE);
         document.setInvoiceDueDate( Date.valueOf(VALID_INVOICE_DUE_DATE_STRING));
-        assertTrue(rule.isValidInvoiceDueDate(document, new Timestamp( creationDate.getTime() ) ) );
+        assertTrue(rule.isValidInvoiceDueDate(document, new Timestamp( finalizeDate.getTime() ) ) );
     }
     
     /**
@@ -135,7 +135,7 @@ public class CustomerInvoiceDocumentRuleTest extends KualiTestBase {
      */    
     public void testIsValidInvoiceDueDate_False() {
         
-        Date creationDate = Date.valueOf(INVOICE_CREATION_DATE);
+        Date creationDate = Date.valueOf(INVOICE_FINALIZE_DATE);
         document.setInvoiceDueDate( Date.valueOf(INVALID_INVOICE_DUE_DATE_STRING));
         assertFalse(rule.isValidInvoiceDueDate(document, new Timestamp( creationDate.getTime() ) ) );
     }

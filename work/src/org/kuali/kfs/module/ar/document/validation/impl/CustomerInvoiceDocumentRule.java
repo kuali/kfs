@@ -307,16 +307,15 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     protected boolean isValidInvoiceDueDate(CustomerInvoiceDocument doc, Timestamp billingDateTimestamp) {
 
         Timestamp dueDateTimestamp = new Timestamp(doc.getInvoiceDueDate().getTime());
-
-        // TODO should the # of valid days be a system parameter?
         
         if( dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp) ){
             GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
             return false;
         } else {
             double diffInDays = DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
-            if (diffInDays > ArConstants.VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE) {
-                GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS);
+            int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
+            if (diffInDays >= maxNumOfDaysAfterCurrentDateForInvoiceDueDate) {
+                GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
                 return false;
             }
         

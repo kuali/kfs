@@ -70,6 +70,7 @@
                   <html:hidden property="newRevenueLine.financialBalanceTypeCode"/>
                   <html:hidden property="newRevenueLine.financialObjectTypeCode"/>
                   <html:hidden property="newRevenueLine.versionNumber"/>
+                  <html:hidden property="newRevenueLine.financialBeginningBalanceLineAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"

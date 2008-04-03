@@ -73,6 +73,7 @@
                   <html:hidden property="newExpenditureLine.financialBalanceTypeCode"/>
                   <html:hidden property="newExpenditureLine.financialObjectTypeCode"/>
                   <html:hidden property="newExpenditureLine.versionNumber"/>
+                  <html:hidden property="newExpenditureLine.financialBeginningBalanceLineAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.rules;
 
+import static org.kuali.kfs.KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
 
@@ -71,11 +72,11 @@ public class EffortCertificationDocumentRuleUtil {
         if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
             detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
         }
-        
+
         if (ObjectUtils.isNull(detailLine.getEffortCertificationCalculatedOverallPercent())) {
             detailLine.setEffortCertificationCalculatedOverallPercent(0);
         }
-        
+
         if (ObjectUtils.isNull(detailLine.getEffortCertificationUpdatedOverallPercent())) {
             detailLine.setEffortCertificationUpdatedOverallPercent(0);
         }
@@ -239,7 +240,7 @@ public class EffortCertificationDocumentRuleUtil {
 
         return false;
     }
-    
+
     /**
      * determine if there is a change on the payroll amount of the given detail line comparing to its persisted payroll amount
      * 
@@ -249,8 +250,8 @@ public class EffortCertificationDocumentRuleUtil {
     public static boolean isPayrollAmountChangedFromPersisted(EffortCertificationDetail detailLine) {
         KualiDecimal persistedAmount = detailLine.getPersistedPayrollAmount();
         KualiDecimal difference = KualiDecimal.ZERO;
-        
-        if(ObjectUtils.isNotNull(persistedAmount)) {       
+
+        if (ObjectUtils.isNotNull(persistedAmount)) {
             KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
             difference = persistedAmount.subtract(payrollAmount);
         }
@@ -278,9 +279,9 @@ public class EffortCertificationDocumentRuleUtil {
     public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
         KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(EffortConstants.ONE_HUNDRED).abs();
+        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();
 
-        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * EffortConstants.ONE_HUNDRED.intValue();
+        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * HUNDRED_DOLLAR_AMOUNT.intValue();
     }
 
     /**
@@ -352,6 +353,6 @@ public class EffortCertificationDocumentRuleUtil {
             detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
         }
     }
-    
-    //public static boolean 
+
+    // public static boolean
 }

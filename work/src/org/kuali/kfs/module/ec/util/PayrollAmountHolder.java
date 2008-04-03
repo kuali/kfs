@@ -15,17 +15,16 @@
  */
 package org.kuali.module.effort.util;
 
-import java.math.BigDecimal;
+import static org.kuali.kfs.KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.effort.EffortConstants;
 
 /**
  * To hold the payroll amount and percent
  */
 public class PayrollAmountHolder {
-    
+
     private KualiDecimal payrollAmount;
     private Integer payrollPercent;
 
@@ -33,9 +32,10 @@ public class PayrollAmountHolder {
 
     private KualiDecimal accumulatedAmount;
     private Integer accumulatedPercent;
-     
+
     /**
      * Constructs a PayrollAmountHolder.java.
+     * 
      * @param totalAmount the total payroll amount
      * @param accumulatedAmount the accumulated payroll amount
      * @param accumulatedPercent the accumulated payroll percent
@@ -136,7 +136,7 @@ public class PayrollAmountHolder {
     public void setAccumulatedPercent(Integer accumulatedPercent) {
         this.accumulatedPercent = accumulatedPercent;
     }
-    
+
     /**
      * calculate the payroll percentage based on the given information in payroll amount holder
      * 
@@ -153,17 +153,17 @@ public class PayrollAmountHolder {
         accumulatedAmount = accumulatedAmount.add(payrollAmount);
 
         int accumulatedPercent = payrollAmountHolder.getAccumulatedPercent();
-        int quotientOne = Math.round(payrollAmount.multiply(EffortConstants.ONE_HUNDRED).divide(totalAmount).floatValue());
+        int quotientOne = Math.round(payrollAmount.multiply(HUNDRED_DOLLAR_AMOUNT).divide(totalAmount).floatValue());
         accumulatedPercent = accumulatedPercent + quotientOne;
 
-        int quotientTwo = Math.round(accumulatedAmount.multiply(EffortConstants.ONE_HUNDRED).divide(totalAmount).floatValue());
+        int quotientTwo = Math.round(accumulatedAmount.multiply(HUNDRED_DOLLAR_AMOUNT).divide(totalAmount).floatValue());
         quotientTwo = quotientTwo - accumulatedPercent;
 
         payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
     }
-      
+
     /**
      * recalculate the payroll amount based on the given total amount and effort percent
      * 
@@ -172,11 +172,11 @@ public class PayrollAmountHolder {
      * @return the payroll amount calculated from the given total amount and effort percent
      */
     public static KualiDecimal recalculatePayrollAmount(KualiDecimal totalPayrollAmount, Integer effortPercent) {
-        double amount = totalPayrollAmount.doubleValue() * effortPercent/EffortConstants.ONE_HUNDRED.doubleValue();
-        
+        double amount = totalPayrollAmount.doubleValue() * effortPercent / HUNDRED_DOLLAR_AMOUNT.doubleValue();
+
         return new KualiDecimal(amount);
     }
-    
+
     /**
      * recalculate the effort percent based on the given total amount and payroll amount
      * 
@@ -185,11 +185,11 @@ public class PayrollAmountHolder {
      * @return the effort percent calculated from the given total amount and payroll amount
      */
     public static Double recalculateEffortPercent(KualiDecimal totalPayrollAmount, KualiDecimal payrollAmount) {
-        double percent = payrollAmount.doubleValue() * EffortConstants.ONE_HUNDRED.doubleValue() / totalPayrollAmount.doubleValue();
-               
+        double percent = payrollAmount.doubleValue() * HUNDRED_DOLLAR_AMOUNT.doubleValue() / totalPayrollAmount.doubleValue();
+
         return percent;
     }
-    
+
     /**
      * recalculate the effort percent based on the given total amount and payroll amount and return it as of type String
      * 
@@ -199,10 +199,10 @@ public class PayrollAmountHolder {
      */
     public static String recalculateEffortPercentAsString(KualiDecimal totalPayrollAmount, KualiDecimal payrollAmount) {
         double actualPercentAsDouble = 0;
-        if(totalPayrollAmount.isNonZero()) {
+        if (totalPayrollAmount.isNonZero()) {
             actualPercentAsDouble = recalculateEffortPercent(totalPayrollAmount, payrollAmount);
         }
-        
-        return String.format("%.4f%s", actualPercentAsDouble, KFSConstants.PERCENTAGE_SIGN); 
+
+        return String.format("%.4f%s", actualPercentAsDouble, KFSConstants.PERCENTAGE_SIGN);
     }
 }

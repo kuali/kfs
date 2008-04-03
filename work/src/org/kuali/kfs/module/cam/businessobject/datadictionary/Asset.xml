@@ -331,8 +331,6 @@
                 <field attributeName="capitalAssetDescription" />
                 <field attributeName="capitalAssetTypeCode" />
                 <field attributeName="capitalAssetInServiceDate" />
-                <field attributeName="createDate" />
-                <field attributeName="agencyNumber" />
             </resultFields>
         </lookup>
 

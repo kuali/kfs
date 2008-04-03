@@ -21,7 +21,7 @@
 <c:set var="detailLines" value="${KualiForm.detailLines}"/>
 <c:set var="newDetailLine" value="${KualiForm.newDetailLine}"/>
 
-<c:set var="expenseEntry" value="${true}" />
+<c:set var="expenseEntry" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.EXPENSE_ENTRY]}" />
 <c:set var="taberrorKey" value="${expenseEntry ? EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS : '' }" />
 
 <kul:tab tabTitle="Effort Detail" defaultOpen="${expenseEntry}" tabErrorKey="${taberrorKey}">	

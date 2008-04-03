@@ -70,6 +70,11 @@ public class EffortConstants extends JstlConstants {
         
         public static final String RUN_IND = "RUN_IND";
         public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
+        
+        public static final String ORGANIZATION_ROUTING_EDITABLE_IND = "ORGANIZATION_ROUTING_EDITABLE_IND";
+        public static final String AWARD_ROUTING_EDITABLE_IND = "AWARD_ROUTING_EDITABLE_IND";
+        public static final String ADMINISTRATOR_ROUTING_EDITABLE_IND = "ADMINISTRATOR_ROUTING_EDITABLE_IND";
+        public static final String FEDERAL_ONLY_ROUTE_IND = "FEDERAL_ONLY_ROUTE_IND";
     }
 
     public static final String DASH_ACCOUNT_NUMBER = "-------";   

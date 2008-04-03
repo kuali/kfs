@@ -23,6 +23,7 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.batch.EffortCertificationCreateStep;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
+import org.kuali.module.effort.document.EffortCertificationDocument;
 
 /**
  * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification module.
@@ -129,5 +130,32 @@ public class EffortCertificationParameterFinder {
      */
     public static String getCreateReportNumber() {
         return parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.CREATE_REPORT_NUMBER);
+    }
+
+    /**
+     * get the organization routing editable indicator setup in system paremters
+     * 
+     * @return the organization routing editable indicator setup in system paremters
+     */
+    public static boolean getOrganizationRoutingEditableIndicator() {
+        return parameterService.getIndicatorParameter(EffortCertificationDocument.class, SystemParameters.ORGANIZATION_ROUTING_EDITABLE_IND);
+    }
+
+    /**
+     * get the award routing editable indicator setup in system paremters
+     * 
+     * @return the award routing editable indicator setup in system paremters
+     */
+    public static boolean getAwardRoutingEditableIndicator() {
+        return parameterService.getIndicatorParameter(EffortCertificationDocument.class, SystemParameters.AWARD_ROUTING_EDITABLE_IND);
+    }
+
+    /**
+     * get the administrator routing editable indicator setup in system paremters
+     * 
+     * @return the administrator routing editable indicator setup in system paremters
+     */
+    public static boolean getAdministrationRoutingEditableIndicator() {
+        return parameterService.getIndicatorParameter(EffortCertificationDocument.class, SystemParameters.ADMINISTRATOR_ROUTING_EDITABLE_IND);
     }
 }

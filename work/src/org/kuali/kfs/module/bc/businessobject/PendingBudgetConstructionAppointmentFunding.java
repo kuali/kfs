@@ -104,7 +104,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
                 percentChange = null;
             }
             else {
-                BigDecimal diffRslt = (appointmentRequestedAmount.bigDecimalValue().setScale(4)).subtract(csfLine.getCsfAmount().bigDecimalValue().setScale(4));
+                BigDecimal diffRslt = (getAppointmentRequestedAmount().bigDecimalValue().setScale(4)).subtract(csfLine.getCsfAmount().bigDecimalValue().setScale(4));
                 BigDecimal divRslt = diffRslt.divide((csfLine.getCsfAmount().bigDecimalValue().setScale(4)), KualiDecimal.ROUND_BEHAVIOR);
                 percentChange = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2));
             }
@@ -392,6 +392,9 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @return Returns the appointmentRequestedAmount
      */
     public KualiInteger getAppointmentRequestedAmount() {
+        if (appointmentRequestedAmount == null){
+            appointmentRequestedAmount = KualiInteger.ZERO;
+        }
         return appointmentRequestedAmount;
     }
 

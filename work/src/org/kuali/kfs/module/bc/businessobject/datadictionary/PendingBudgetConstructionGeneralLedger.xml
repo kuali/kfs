@@ -86,7 +86,7 @@
                 <shortLabel>Requested</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><floatingPoint allowNegative="true" /></validationPattern>
                 <required>true</required>
 
                 <control>
@@ -147,7 +147,7 @@
                 <shortLabel>Base Budget</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><floatingPoint allowNegative="true" /></validationPattern>
 
                 <control>
                     <text size="21" />
@@ -161,10 +161,10 @@
                 <label>Percent Change</label>
                 <shortLabel>% Change</shortLabel>
 
-                <maxLength>6</maxLength>
+                <maxLength>20</maxLength>
 
                 <control>
-                    <text size="8" />
+                    <text size="9" />
                 </control>
 
                 <summary>percentChange</summary>

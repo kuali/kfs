@@ -98,7 +98,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
             setPercentChange(null);
         }
         else {
-            BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
+            BigDecimal diffRslt = (getAccountLineAnnualBalanceAmount().bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
             BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)), KualiDecimal.ROUND_BEHAVIOR);
             setPercentChange(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)));
         }
@@ -292,6 +292,9 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns the accountLineAnnualBalanceAmount.
      */
     public KualiInteger getAccountLineAnnualBalanceAmount() {
+        if (accountLineAnnualBalanceAmount == null){
+            accountLineAnnualBalanceAmount = KualiInteger.ZERO;
+        }
         return accountLineAnnualBalanceAmount;
     }
 

@@ -279,7 +279,7 @@
 	<field-descriptor name="invoiceAttentionLineText" column="AR_INV_ATTN_LN_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceDueDate" column="AR_INV_DUE_DT" jdbc-type="DATE"/>
 	
-	<!-- <field-descriptor name="billingDate" column="AR_BILLING_DT" jdbc-type="DATE"/> -->
+	<field-descriptor name="billingDate" column="AR_BILLING_DT" jdbc-type="DATE"/>
 	<field-descriptor name="invoiceTermsText" column="AR_INV_TERMS_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInvoiceNumber" column="ORG_INV_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffIndicator" column="AR_WRITEOFF_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

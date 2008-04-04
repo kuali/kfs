@@ -25,6 +25,8 @@
                  
 <c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
+<html:hidden property="document.accountsReceivableDocumentHeader.versionNumber" />
+
 <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
     <div class="tab-container" align=center>	
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Invoice Section">
@@ -90,10 +92,10 @@
             
             <tr>
 				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.billingDate}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.billingDateForDisplay}" /></div>
                 </th>     
                 <td>
-					<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingDate}" property="document.billingDate" readOnly="true" />
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingDateForDisplay}" property="document.billingDateForDisplay" readOnly="true" />
                 </td>  
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDueDate }" /></div>

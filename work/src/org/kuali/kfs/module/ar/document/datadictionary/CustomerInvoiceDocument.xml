@@ -412,6 +412,17 @@
 			    <required>false</required>
 			    <description>The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType.</description>
 			</attributeReference>            
+			
+			<attributeReference name="billingDateForDisplay"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Billing Date</label>
+                <shortLabel>Billing Date</shortLabel>
+                <required>true</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this invoice was billed</description>
+            </attributeReference>			
 			 			
             
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

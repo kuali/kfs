@@ -5,13 +5,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -23,7 +22,6 @@ import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.OrganizationOptions;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -43,6 +41,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private String invoiceAttentionLineText;
 	private Date invoiceDueDate;
 	private Date billingDate;
+	private Date billingDateForDisplay;
 	private String invoiceTermsText;
 	private String organizationInvoiceNumber;
 	private boolean writeoffIndicator;
@@ -844,7 +843,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         setDefaultInvoiceDueDate(dateTimeService);
-        setDefaultBillingDate(dateTimeService);
         
         
         //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
@@ -868,16 +866,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
             setInvoiceTermsText(orgOptions.getOrganizationPaymentTermsText());
         }
 	}
-	
-	/**
-	 * This method sets billing date equal to todays date by default
-	 * @param dateTimeService
-	 */
-	public void setDefaultBillingDate(DateTimeService dateTimeService){
-	    Date today = dateTimeService.getCurrentSqlDate();
-        this.setBillingDate(today);
-	}
-	
+
     /**
      * This method sets due date equal to todays date +30 days by default
      * @param dateTimeService
@@ -966,5 +955,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         valuesMap.put("paymentFinancialSubObjectCode", getPaymentFinancialSubObjectCode());
         valuesMap.put("paymentProjectCode", getPaymentProjectCode());
         return valuesMap;
-    }    
+    }
+
+    public Date getBillingDateForDisplay() {
+        if( ObjectUtils.isNotNull( getBillingDate() ) ){
+            return getBillingDate();
+        } else {
+            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        }
+    }  
+    
+    public void setBillingDateForDisplay(Date date){
+        //do nothing
+    }
 }

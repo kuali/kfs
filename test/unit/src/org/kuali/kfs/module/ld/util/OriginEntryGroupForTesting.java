@@ -27,7 +27,7 @@ public class OriginEntryGroupForTesting extends OriginEntryGroup {
 
     @Override
     public boolean equals(Object otherOriginEntryGroup) {
-        return ObjectUtil.compareObject(this, otherOriginEntryGroup, this.getKeyValueList());
+        return ObjectUtil.equals(this, otherOriginEntryGroup, this.getKeyValueList());
     }
 
     public Map getKeyValueMap() {

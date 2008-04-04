@@ -18,11 +18,11 @@ package org.kuali.module.effort.web.struts.form;
 import java.sql.Date;
 import java.util.Calendar;
 
+import org.kuali.kfs.util.DynamicCollectionComparator;
+import org.kuali.kfs.util.DynamicCollectionComparator.SortOrder;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.util.DynamicCollectionComparator;
-import org.kuali.module.effort.util.DynamicCollectionComparator.SortOrder;
 
 /**
  * Action form for Effort Certification Document.

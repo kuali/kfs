@@ -251,7 +251,7 @@ public class ObjectUtil {
      * @param keyFields the specified fields
      * @return true if the two objects have the same values in the specified fields; otherwise, false
      */
-    public static boolean compareObject(Object targetObject, Object sourceObject, List<String> keyFields) {
+    public static boolean equals(Object targetObject, Object sourceObject, List<String> keyFields) {
         if (targetObject == sourceObject) {
             return true;
         }

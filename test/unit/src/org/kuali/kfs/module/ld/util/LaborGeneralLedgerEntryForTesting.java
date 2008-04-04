@@ -28,7 +28,7 @@ public class LaborGeneralLedgerEntryForTesting extends LaborGeneralLedgerEntry {
 
     @Override
     public boolean equals(Object otherEntry) {
-        return ObjectUtil.compareObject(this, otherEntry, LaborConstants.consolidationAttributesOfOriginEntry());
+        return ObjectUtil.equals(this, otherEntry, LaborConstants.consolidationAttributesOfOriginEntry());
     }
 
     public Map getPrimaryKeyMap() {

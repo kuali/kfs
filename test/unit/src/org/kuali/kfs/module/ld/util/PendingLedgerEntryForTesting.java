@@ -27,7 +27,7 @@ public class PendingLedgerEntryForTesting extends LaborLedgerPendingEntry {
 
     @Override
     public boolean equals(Object otherPendingLedgerEntry) {
-        return ObjectUtil.compareObject(this, otherPendingLedgerEntry, getPrimaryKeyList());
+        return ObjectUtil.equals(this, otherPendingLedgerEntry, getPrimaryKeyList());
     }
 
     public Map getPrimaryKeyMap() {

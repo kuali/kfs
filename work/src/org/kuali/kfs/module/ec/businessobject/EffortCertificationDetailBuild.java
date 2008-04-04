@@ -93,7 +93,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
      */
     @Override
     public boolean equals(Object otherEntry) {
-        return ObjectUtil.compareObject(this, otherEntry, getKeyList());
+        return ObjectUtil.equals(this, otherEntry, getKeyList());
     }
 
     /**

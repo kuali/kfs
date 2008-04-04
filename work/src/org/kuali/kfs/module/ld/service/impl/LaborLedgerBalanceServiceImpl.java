@@ -89,7 +89,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction, List<String> keyList) {
         for (T ledgerBalance : ledgerBalanceCollection) {
-            boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, keyList);
+            boolean found = ObjectUtil.equals(ledgerBalance, transaction, keyList);
             if (found) {
                 return ledgerBalance;
             }
@@ -103,7 +103,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public <T extends LedgerBalance> T findLedgerBalance(Collection<T> ledgerBalanceCollection, LaborTransaction transaction) {
         for (T ledgerBalance : ledgerBalanceCollection) {
-            boolean found = ObjectUtil.compareObject(ledgerBalance, transaction, ledgerBalance.getPrimaryKeyList());
+            boolean found = ObjectUtil.equals(ledgerBalance, transaction, ledgerBalance.getPrimaryKeyList());
             if (found) {
                 return ledgerBalance;
             }

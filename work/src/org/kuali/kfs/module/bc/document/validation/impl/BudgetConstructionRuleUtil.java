@@ -49,7 +49,7 @@ public class BudgetConstructionRuleUtil {
             newLine.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         for (PendingBudgetConstructionGeneralLedger line : existingLines) {
-            if (ObjectUtil.compareObject(line, newLine, comparableFields)) {
+            if (ObjectUtil.equals(line, newLine, comparableFields)) {
                 isFound = true;
                 break;
             }

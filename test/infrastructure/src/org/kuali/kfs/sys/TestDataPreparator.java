@@ -269,7 +269,7 @@ public class TestDataPreparator {
      */
     public static <T> boolean contains(List<T> collection, T object, List<String> keyFields) {
         for (T objectInCollection : collection) {
-            boolean contains = ObjectUtil.compareObject(objectInCollection, object, keyFields);
+            boolean contains = ObjectUtil.equals(objectInCollection, object, keyFields);
 
             if (contains) {
                 return true;

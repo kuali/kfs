@@ -122,7 +122,7 @@ public class LaborLedgerUnitOfWork {
      * @return true if the given origin entry has the same key as the current unit of work; otherwise, false
      */
     public boolean hasSameKey(LaborOriginEntry laborOriginEntry) {
-        return ObjectUtil.compareObject(workingEntry, laborOriginEntry, this.getKeyFields());
+        return ObjectUtil.equals(workingEntry, laborOriginEntry, this.getKeyFields());
     }
 
     /**

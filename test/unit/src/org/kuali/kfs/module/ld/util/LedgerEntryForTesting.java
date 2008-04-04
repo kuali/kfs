@@ -26,7 +26,7 @@ import org.kuali.module.labor.bo.LedgerEntry;
 public class LedgerEntryForTesting extends LedgerEntry {
     @Override
     public boolean equals(Object otherLedgerEntry) {
-        return ObjectUtil.compareObject(this, otherLedgerEntry, getPrimaryKeyList());
+        return ObjectUtil.equals(this, otherLedgerEntry, getPrimaryKeyList());
     }
 
     public Map getPrimaryKeyMap() {

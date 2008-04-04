@@ -27,7 +27,7 @@ public class LedgerBalanceForTesting extends LedgerBalance {
 
     @Override
     public boolean equals(Object otherLedgerBalance) {
-        return ObjectUtil.compareObject(this, otherLedgerBalance, getPrimaryKeyList());
+        return ObjectUtil.equals(this, otherLedgerBalance, getPrimaryKeyList());
     }
 
     public Map getPrimaryKeyMap() {

@@ -32,7 +32,7 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
 
     @Override
     public boolean equals(Object otherOriginEntry) {
-        return ObjectUtil.compareObject(this, otherOriginEntry, this.getKeyValueList());
+        return ObjectUtil.equals(this, otherOriginEntry, this.getKeyValueList());
     }
 
     public Map getKeyValueMap() {

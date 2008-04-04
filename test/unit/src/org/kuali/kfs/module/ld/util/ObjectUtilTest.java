@@ -71,23 +71,23 @@ public class ObjectUtilTest extends TestCase {
         propertyList.add("zip");
 
         targetAddress = new SimpleAddress(null, null, null, 9999);
-        assertFalse(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertFalse(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
 
         targetAddress = new SimpleAddress("1000 Main Street", "Source City", "Kuali", 10000);
-        assertTrue(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertTrue(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
 
         targetAddress = sourceAddress;
-        assertTrue(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertTrue(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
 
         targetAddress = new SimpleAddress(null, null, null, 9999);
         ObjectUtil.buildObject(targetAddress, sourceAddress);
-        assertTrue(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertTrue(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
 
         sourceAddress.setZip(2000);
-        assertFalse(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertFalse(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
 
         propertyList.remove("zip");
-        assertTrue(ObjectUtil.compareObject(targetAddress, sourceAddress, propertyList));
+        assertTrue(ObjectUtil.equals(targetAddress, sourceAddress, propertyList));
     }
 
     public void testBuildPropertyMap() throws Exception {

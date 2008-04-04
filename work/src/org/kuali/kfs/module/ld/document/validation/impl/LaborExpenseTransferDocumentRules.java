@@ -310,7 +310,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         int counter = 0;
         for (AccountingLine sourceAccountingLine : sourceAccountingLines) {
-            boolean isExisting = ObjectUtil.compareObject(accountingLine, sourceAccountingLine, key);
+            boolean isExisting = ObjectUtil.equals(accountingLine, sourceAccountingLine, key);
             counter = isExisting ? counter + 1 : counter;
 
             if (counter > 1) {

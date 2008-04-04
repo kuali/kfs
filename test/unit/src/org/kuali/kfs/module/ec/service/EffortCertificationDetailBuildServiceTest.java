@@ -146,7 +146,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         EffortCertificationDetailBuild expectedDetailBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator);
 
         String errorMessage = message.getProperty("error.detailBuildService.unexpectedDetailLineGenerated");
-        assertTrue(errorMessage, ObjectUtil.compareObject(detailBuild, expectedDetailBuild, keyFields));
+        assertTrue(errorMessage, ObjectUtil.equals(detailBuild, expectedDetailBuild, keyFields));
     }
 
     /**

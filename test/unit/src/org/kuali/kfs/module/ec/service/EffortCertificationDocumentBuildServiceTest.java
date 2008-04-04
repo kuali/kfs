@@ -161,7 +161,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         List<EffortCertificationDetailBuild> expectedDetailsBuild = TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator, numberOfExpectedDetails);
 
         String errorMessage = message.getProperty("error.documentBuildService.unexpectedDocumentGenerated");
-        assertTrue(errorMessage, ObjectUtil.compareObject(documentBuild, expectedDocumentBuild, documentKeyFields));
+        assertTrue(errorMessage, ObjectUtil.equals(documentBuild, expectedDocumentBuild, documentKeyFields));
 
         assertEquals(errorMessage, expectedDetailsBuild.size(), detailBuild.size());
 
@@ -169,7 +169,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
             EffortCertificationDetailBuild expected = expectedDetailsBuild.get(i);
             EffortCertificationDetailBuild actual = detailBuild.get(i);
 
-            assertTrue(errorMessage, ObjectUtil.compareObject(actual, expected, detailKeyFields));
+            assertTrue(errorMessage, ObjectUtil.equals(actual, expected, detailKeyFields));
         }
     }
 
@@ -199,7 +199,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
             for (int i = 0; i < numberOfExpectedDocuments - j; i++) {
                 EffortCertificationDocumentBuild actual = documentBuildList.get(i);
 
-                contain = ObjectUtil.compareObject(actual, expected, documentKeyFields);
+                contain = ObjectUtil.equals(actual, expected, documentKeyFields);
                 if (contain) {
                     documentBuildList.remove(i);
                     break;

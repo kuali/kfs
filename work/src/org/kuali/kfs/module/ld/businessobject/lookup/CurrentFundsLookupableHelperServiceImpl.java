@@ -141,7 +141,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private void updateJuly1BalanceAmount(Collection<AccountStatusCurrentFunds> searchResultsCollection, Collection<July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
         for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
             for (AccountStatusCurrentFunds accountStatus : searchResultsCollection) {
-                boolean found = ObjectUtil.compareObject(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
+                boolean found = ObjectUtil.equals(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
                 if (found) {
                     accountStatus.setJuly1BudgetAmount(accountStatus.getJuly1BudgetAmount().add(july1PositionFunding.getJuly1BudgetAmount()));
                 }

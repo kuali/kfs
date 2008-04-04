@@ -84,7 +84,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      */
     private LaborCalculatedSalaryFoundationTracker findCSFTracker(List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection, Object anotherObject) {
         for (LaborCalculatedSalaryFoundationTracker CSFTracker : CSFTrackerCollection) {
-            boolean found = ObjectUtil.compareObject(CSFTracker, anotherObject, CSFTracker.getKeyFieldList());
+            boolean found = ObjectUtil.equals(CSFTracker, anotherObject, CSFTracker.getKeyFieldList());
             if (found) {
                 return CSFTracker;
             }

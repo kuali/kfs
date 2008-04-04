@@ -132,7 +132,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      * @see org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
      */
     public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
-        this.clearTempTableByUnvlId("LD)BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
+        this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
     }
 
     /**

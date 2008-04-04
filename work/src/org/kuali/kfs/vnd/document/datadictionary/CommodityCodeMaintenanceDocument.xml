@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>PURAP_PUR_CONTR_MGR</workgroup>
+                    <workgroup>PA_PUR_CONTRACT_MANAGERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

@@ -38,8 +38,8 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 /**
  * Tests the BatchInputFileService. TEST DEPENDENCIES The following are external configurations not setup by the test case that are
  * necessary for the test to run correctly: 1) User identified by the constant Data4_USER_ID2 must be a member of the workgroup
- * given by constant Data2.KUALI_FMSOPS. 2) User identified by the constant Data4_USER_ID1 must NOT be a member of the workgroup
- * given by constant Data2.KUALI_FMSOPS. 3) Five xml files must exist in the PCDO staging directory. Name of files is not important.
+ * given by constant Data2.FP_OPERATIONS. 2) User identified by the constant Data4_USER_ID1 must NOT be a member of the workgroup
+ * given by constant Data2.FP_OPERATIONS. 3) Five xml files must exist in the PCDO staging directory. Name of files is not important.
  * 4) One Collector files must exist in Collector staging directory. File name should not contain the usernames given by constants
  * Data4_USER_ID2 and Data4_USER_ID1. Note the files in #3 & #4 are created by the project build from files located in project
  * folder buld/configurationFiles/externalConfigDirectory/static/staging/

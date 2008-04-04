@@ -29,7 +29,7 @@
             <authorization action="initiate">
                 <workgroups>
                     <!-- workgroup>kualiUniversalGroup</workgroup-->
-                    <workgroup>KUALI_DVUSERS</workgroup>
+                    <workgroup>FP_DISBURSEMENT_VOUCHER_USERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

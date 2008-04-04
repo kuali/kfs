@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_SUPERVISOR</workgroup>
+                    <workgroup>SY_FUNCTIONAL_SUPER_USERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

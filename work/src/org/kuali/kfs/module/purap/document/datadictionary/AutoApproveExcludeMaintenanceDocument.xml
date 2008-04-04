@@ -33,7 +33,7 @@
 		<authorizations>
 			<authorization action="initiate">
 				<workgroups>
-					<workgroup>PURAP_AP_ADMIN</workgroup>
+					<workgroup>PA_AP_MAINTENANCE_USERS</workgroup>
 				</workgroups>
 			</authorization>
 		</authorizations>

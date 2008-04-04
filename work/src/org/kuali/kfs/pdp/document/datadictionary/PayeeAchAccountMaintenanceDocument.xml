@@ -28,7 +28,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_PDP_ACH</workgroup>
+                    <workgroup>PD_VIEW_ACH</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

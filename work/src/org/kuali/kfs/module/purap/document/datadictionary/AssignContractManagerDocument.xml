@@ -26,7 +26,7 @@
 		<authorizations>
 			<authorization action="initiate">
 				<workgroups>
-					<workgroup>KUALI_PURAP_PURCHASING</workgroup>
+					<workgroup>PA_PUR_USERS</workgroup>
 				</workgroups>
 			</authorization>
 		</authorizations>

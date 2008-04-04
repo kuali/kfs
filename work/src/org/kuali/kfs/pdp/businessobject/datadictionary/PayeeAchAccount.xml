@@ -102,7 +102,7 @@
                     <text size="17" />
                 </control>
                 <attributeAuthorization>
-					<displayWorkgroup>KUALI_PDP_ACH</displayWorkgroup>
+					<displayWorkgroup>PD_VIEW_ACH</displayWorkgroup>
 					<displayMask>
 						<maskLiteral literal="*****************" />
 					</displayMask>

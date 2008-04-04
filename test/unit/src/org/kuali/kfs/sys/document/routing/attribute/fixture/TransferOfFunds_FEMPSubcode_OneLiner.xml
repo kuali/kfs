@@ -419,7 +419,7 @@
                                 </groupUsers>
                             </org.kuali.core.bo.user.KualiGroup>
                             <org.kuali.core.bo.user.KualiGroup>
-                                <groupName>KUALI_ROLE_ADMINISTRATOR</groupName>
+                                <groupName>SY_BLANKET_APPROVERS</groupName>
                                 <groupDescription>Kuali Administrator User Role</groupDescription>
                                 <groupUsers>
                                     <string>KHUNTLEY</string>

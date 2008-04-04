@@ -37,7 +37,7 @@ import org.kuali.module.cg.service.CfdaUpdateResults;
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
  * Kuali. Codes set to be managed automatically are reconciled with what's on the web page. Codes managed manually are left alone.
- * Finally an email containing a summary of what was done by the step execution is sent to the member of the KUALI_CGCFDA workgroup.
+ * Finally an email containing a summary of what was done by the step execution is sent to the member of the CG_CFDA_BATCH_NOTIFY workgroup.
  */
 public class CfdaBatchStep extends AbstractStep {
 

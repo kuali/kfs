@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>SY_MAINTAINENANCE_USERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

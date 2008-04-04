@@ -26,7 +26,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_PURAP_PO_REMOVE_HOLD</workgroup>
+                    <workgroup>PA_PURCHASE_ORDER_REMOVE_HOLD_USERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

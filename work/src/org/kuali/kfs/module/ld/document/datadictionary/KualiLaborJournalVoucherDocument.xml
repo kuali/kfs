@@ -27,7 +27,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_LABOR_JOURNAL_VOUCHER_DOCUMENT_USER</workgroup>
+                    <workgroup>LD_LABOR_JOURNAL_VOUCHER_USERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

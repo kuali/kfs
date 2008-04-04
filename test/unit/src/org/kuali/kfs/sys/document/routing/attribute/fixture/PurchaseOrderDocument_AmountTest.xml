@@ -2433,7 +2433,7 @@
                           <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription>
                           <controlAttributeTypeCode>A</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>5</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType>
                             <controlAttributeTypeCode>A</controlAttributeTypeCode>
@@ -2466,7 +2466,7 @@
                           <researchRiskTypeDescription>Animals</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>10</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType>
                             <controlAttributeTypeCode>S</controlAttributeTypeCode>
@@ -2499,7 +2499,7 @@
                           <researchRiskTypeDescription>Biosafety</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>15</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>9</versionNumber>
@@ -2523,7 +2523,7 @@
                           <researchRiskTypeDescription>Human Tissue/Fluids</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>20</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>4</versionNumber>
@@ -2547,7 +2547,7 @@
                           <researchRiskTypeDescription>Pathogenic Agent</researchRiskTypeDescription>
                           <controlAttributeTypeCode>S</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>25</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType reference="../../../org.kuali.module.cg.bo.ProposalResearchRisk[2]/researchRiskType/controlAttributeType"/>
                           <versionNumber>8</versionNumber>
@@ -2571,7 +2571,7 @@
                           <researchRiskTypeDescription>Financial Conflict of Interest</researchRiskTypeDescription>
                           <controlAttributeTypeCode>D</controlAttributeTypeCode>
                           <researchRiskTypeSortNumber>30</researchRiskTypeSortNumber>
-                          <researchRiskTypeNotificationGroupText>KRA_PRE_AWARD_ADMIN</researchRiskTypeNotificationGroupText>
+                          <researchRiskTypeNotificationGroupText>RA_PRE_AWARD_MAINTENANCE_USERS</researchRiskTypeNotificationGroupText>
                           <researchRiskTypeNotificationValue>Y</researchRiskTypeNotificationValue>
                           <controlAttributeType>
                             <controlAttributeTypeCode>D</controlAttributeTypeCode>

@@ -93,7 +93,7 @@
                 </control>
 
                 <attributeAuthorization>
-                  <displayWorkgroup>KUALI_PURAP_TAXNBR_ACCESSIBLE</displayWorkgroup>
+                  <displayWorkgroup>PA_TAX_NUMBER_USERS</displayWorkgroup>
                   <displayMask><maskLiteral literal="*********"/></displayMask>
                 </attributeAuthorization>
 

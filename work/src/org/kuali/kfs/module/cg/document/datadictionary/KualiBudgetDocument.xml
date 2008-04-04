@@ -33,12 +33,12 @@
             </authorization>
             <authorization action="modify">
             	<workgroups>
-            		<workgroup>KUALI_KRA_DEV</workgroup>
+            		<workgroup>RA_DEVELOPERS</workgroup>
             	</workgroups>
             </authorization>
             <authorization action="view">
             	<workgroups>
-            		<workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+            		<workgroup>RA_PRE_AWARD_MAINTENANCE_USERS</workgroup>
             	</workgroups>
             </authorization>
         </authorizations>

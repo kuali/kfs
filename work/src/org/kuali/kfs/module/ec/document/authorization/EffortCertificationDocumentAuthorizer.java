@@ -119,12 +119,9 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
 
         editableIndicators.put(RouteLevelNames.PROJECT_DIRECTOR, true);
         editableIndicators.put(RouteLevelNames.ACCOUNT_REVIEW, true);
-        editableIndicators.put(RouteLevelNames.ORG_REVIEW, true);
-        editableIndicators.put(RouteLevelNames.CG_WORKGROUP, true);
-        editableIndicators.put(RouteLevelNames.RECREATE_WORKGROUP, true);
-        //editableIndicators.put(RouteLevelNames.ORG_REVIEW, EffortCertificationParameterFinder.getOrganizationRoutingEditableIndicator());
-        //editableIndicators.put(RouteLevelNames.CG_WORKGROUP, EffortCertificationParameterFinder.getAwardRoutingEditableIndicator());
-        //editableIndicators.put(RouteLevelNames.RECREATE_WORKGROUP, EffortCertificationParameterFinder.getAdministrationRoutingEditableIndicator());
+        editableIndicators.put(RouteLevelNames.ORG_REVIEW, EffortCertificationParameterFinder.getOrganizationRoutingEditableIndicator());
+        editableIndicators.put(RouteLevelNames.CG_WORKGROUP, EffortCertificationParameterFinder.getAwardRoutingEditableIndicator());
+        editableIndicators.put(RouteLevelNames.RECREATE_WORKGROUP, EffortCertificationParameterFinder.getAdministrationRoutingEditableIndicator());
 
         return editableIndicators;
     }

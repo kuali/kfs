@@ -35,7 +35,7 @@
         <documentTypeName>EffortCertificationDocument</documentTypeName>
         <documentTypeCode>A21</documentTypeCode>
 
-        <label>Effort Certification Document</label>
+        <label>Effort Certification</label>
         
         <attributes>
             <attribute name="effortCertificationDocumentCode" forceUppercase="true">

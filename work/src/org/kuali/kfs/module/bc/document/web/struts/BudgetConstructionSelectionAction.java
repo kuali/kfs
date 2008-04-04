@@ -238,7 +238,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        String lookupUrl = basePath + "/" + "budgetBudgetConstructionImport.do";
+        String lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do";
         
         return new ActionForward(lookupUrl, true);
         

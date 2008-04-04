@@ -34,17 +34,17 @@ public class PdpConstants {
 
     public static class Groups {
         // Security Workgroup names
-        public static String CANCEL_GROUP = "KUALI_PDP_CANCEL";
-        public static String HOLD_GROUP = "KUALI_PDP_HOLD";
-        public static String LIMITEDVIEW_GROUP = "KUALI_PDP_LIMITEDVIEW";
-        public static String PROCESS_GROUP = "KUALI_PDP_PROCESS";
-        public static String RANGES_GROUP = "KUALI_PDP_RANGES";
-        public static String SUBMIT_GROUP = "KUALI_PDP_SUBMIT";
-        public static String SYSADMIN_GROUP = "KUALI_PDP_SYSADMIN";
-        public static String TAXHOLDERS_GROUP = "KUALI_PDP_TAXHOLDERS";
-        public static String VIEWALL_GROUP = "KUALI_PDP_VIEWALL";
-        public static String VIEWID_GROUP = "KUALI_PDP_VIEWID";
-        public static String VIEWBANK_GROUP = "KUALI_PDP_VIEWBANK";
+        public static String CANCEL_GROUP = "PD_CANCEL_USERS";
+        public static String HOLD_GROUP = "PD_HOLD_USERS";
+        public static String LIMITEDVIEW_GROUP = "PD_LIMITED_VIEW";
+        public static String PROCESS_GROUP = "PD_PROCESS_PAYMENTS";
+        public static String RANGES_GROUP = "PD_RANGE_USERS";
+        public static String SUBMIT_GROUP = "PD_SUBMIT_PAYMENT_FILE_USERS";
+        public static String SYSADMIN_GROUP = "PD_SUPER_USERS";
+        public static String TAXHOLDERS_GROUP = "PD_TAX_HOLD_USERS";
+        public static String VIEWALL_GROUP = "PD_VIEW_ALL";
+        public static String VIEWID_GROUP = "PD_VIEW_ID";
+        public static String VIEWBANK_GROUP = "PD_VIEW_BANK";
     }
 
     public static class ApplicationParameterKeys {

@@ -342,7 +342,7 @@ public class FormatServiceImpl implements FormatService {
             processParam.setParameterTypeCode("CONFG");
             processParam.setParameterName(PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
             processParam.setParameterConstraintCode("A");
-            processParam.setParameterWorkgroupName("KUALI_FMSOPS");
+            processParam.setParameterWorkgroupName("FP_OPERATIONS");
         }
         processParam.setParameterValue(id.toString());
         businessObjectService.save(processParam);

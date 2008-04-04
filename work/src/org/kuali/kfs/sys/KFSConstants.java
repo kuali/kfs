@@ -634,7 +634,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public static final String TEST_CASH_RECEIPT_VERIFICATION_UNIT = "HAWAII_CR_VERIFICATION_UNIT";
         public static final String TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE = "HI";
 
-        public static final String DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT = "KUALI_ROLE_CASH_RECEIPT_VERIFICATION_GROUP";
         public static final String DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE = "??";
 
         public static final String CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME = "campusLocationCode";

@@ -50,7 +50,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 @ConfigureContext(session = TWATSON)
 public class CashManagementServiceTest extends KualiTestBase {
-    static final String CMST_WORKGROUP = "KUALI_BRSR_KO";
+    static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
 
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;

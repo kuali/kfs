@@ -42,7 +42,7 @@ import org.kuali.module.cg.service.CfdaUpdateResults;
 public class CfdaBatchStep extends AbstractStep {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CfdaBatchStep.class);
-    private static String MAIL_RECIPIENTS_GROUP_NAME = "KUALI_CGCFDA";
+    private static String MAIL_RECIPIENTS_GROUP_NAME = "CG_CFDA_BATCH_NOTIFY";
 
     private CfdaService cfdaService;
     private MailService mailService;

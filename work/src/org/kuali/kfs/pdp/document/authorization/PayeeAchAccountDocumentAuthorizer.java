@@ -36,7 +36,7 @@ public class PayeeAchAccountDocumentAuthorizer extends MaintenanceDocumentAuthor
         Map editMode = super.getEditMode(document, user);
         // String viewAllWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PayeeAchAccount.class,
         // PdpConstants.Groups.VIEWALL_GROUP);
-        String viewAllWorkgroup = "KUALI_PDP_ACH";
+        String viewAllWorkgroup = "PD_VIEW_ACH";
 
         if (user.isMember(viewAllWorkgroup)) {
             editMode.put(PdpAuthorizationConstants.PDPEditMode.ENTRY, "TRUE");

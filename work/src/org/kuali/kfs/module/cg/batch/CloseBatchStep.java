@@ -38,7 +38,7 @@ import org.kuali.module.cg.service.CloseService;
 public class CloseBatchStep extends AbstractStep {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CloseBatchStep.class);
-    private static String MAIL_RECIPIENTS_GROUP_NAME = "KUALI_CGCFDA";
+    private static String MAIL_RECIPIENTS_GROUP_NAME = "CG_CFDA_BATCH_NOTIFY";
     private static String STATUS_SUBJECT = "Close Batch Step: ";
 
     private CloseService closeService;

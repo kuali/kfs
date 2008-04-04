@@ -37,7 +37,7 @@ public class GenesisBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
     private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to know because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
-    private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "KUALI_FMSOPS";
+    private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
 
     public boolean execute(String jobName) {
         genesisService = SpringContext.getBean(GenesisService.class);

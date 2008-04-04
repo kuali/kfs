@@ -50,10 +50,10 @@ public interface KualiTestConstants {
         public static class Data2 {
             public final static String AUTHENTICATION_USER_ID = "KHUNTLEY";
             public final static String AUTHENTICATION_USER_ID_THAT_IS_SUPERVISOR = "HEAGLE";
-            public static final String KUALI_JV_USER_WORKGROUP = "KUALI_ROLE_JOURNAL_VOUCHER_DOCUMENT_USER";
+            public static final String KUALI_JV_USER_WORKGROUP = "FP_JOURNAL_VOUCHER_USERS";
             public static final String WORKFLOW_ADMIN_WORKGROUP = "WorkflowAdmin";
-            public static final String KUALI_DV_ADMIN_WORKGROUP = "KUALI_ROLE_DV_ADMIN";
-            public static final String KUALI_FMSOPS = "KUALI_FMSOPS";
+            public static final String KUALI_DV_ADMIN_WORKGROUP = "FP_DISBURSEMENT_VOUCHER_PARAMETER_USERS";
+            public static final String KUALI_FMSOPS = "FP_OPERATIONS";
         }
 
         public static class Data3 {

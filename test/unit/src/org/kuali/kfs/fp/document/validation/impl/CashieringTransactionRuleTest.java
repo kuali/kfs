@@ -44,7 +44,7 @@ import org.kuali.test.fixtures.UserNameFixture;
 
 @ConfigureContext(session = UserNameFixture.TWATSON)
 public class CashieringTransactionRuleTest extends KualiTestBase {
-    static final String CMST_WORKGROUP = "KUALI_BRSR_KO";
+    static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
 
     public void testMoneyInOutBalanceRule() {
         CashManagementDocument cmDoc = this.cashManagementDocumentFixture("testMoneyInNoNegatives");

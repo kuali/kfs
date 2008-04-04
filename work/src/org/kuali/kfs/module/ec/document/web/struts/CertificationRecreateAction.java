@@ -35,6 +35,8 @@ public class CertificationRecreateAction extends EffortCertificationAction {
     public ActionForward loadDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CertificationRecreateForm recreateForm = (CertificationRecreateForm) form;
         EffortCertificationDocument effortCertificationDocument = recreateForm.getEffortCertificationDocument();
+        effortCertificationDocument.getEffortCertificationDetailLines().clear();
+        
         recreateForm.forceInputAsUpperCase();
 
         if (recreateForm.validateImporingFieldValues()) {

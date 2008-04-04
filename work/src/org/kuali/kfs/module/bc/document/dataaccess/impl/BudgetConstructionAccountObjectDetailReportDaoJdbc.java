@@ -23,11 +23,10 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao;
 import org.kuali.module.budget.BCConstants;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * A class to do the database queries needed to get valid data for 
+ *  builds the report table that supports the Organization Account Object Detail report.  the report is customized by user, so the table rows are labeled with the user id
  */
 
 public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountObjectDetailReportDao {
@@ -241,7 +240,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         insertionPoints.clear();
     }
     
-    private void buildInitialAccountBalances(String sessionId, String personUserIdentifier) throws NoSuchFieldException, IOException
+    private void buildInitialAccountBalances(String sessionId, String personUserIdentifier) 
     {
         // remove any rows previously processed by this user
         cleanReportsAccountObjectDetailTable(personUserIdentifier);
@@ -277,7 +276,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
      */
-    public void updateReportsAccountObjectDetailTable(String personUserIdentifier) throws NoSuchFieldException, IOException {
+    public void updateReportsAccountObjectDetailTable(String personUserIdentifier) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();
@@ -296,7 +295,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
      */
-    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) throws NoSuchFieldException, IOException {
+    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();

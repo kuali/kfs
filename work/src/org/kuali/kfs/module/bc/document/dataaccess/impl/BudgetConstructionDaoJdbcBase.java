@@ -17,7 +17,6 @@ package org.kuali.module.budget.dao.jdbc;
 
 import java.util.ArrayList;
 import java.lang.Exception;
-import java.io.IOException;
 
 import org.kuali.kfs.service.ParameterService;
 
@@ -114,19 +113,19 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * return a SQL IN list containing the budget construction expenditure object types
      * @return a null string if the system parameter does not exist or is empty
      */
-    protected String getExpenditureINList() throws NoSuchFieldException, IOException
+    protected String getExpenditureINList() 
     {
         if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES))
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-            IOException ioex = new IOException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
+            IllegalArgumentException ioex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
         ArrayList<String> expenditureObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
         if (expenditureObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
-            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            IllegalArgumentException bfex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
             throw (bfex);
         }
         return inString(expenditureObjectTypes);
@@ -137,19 +136,19 @@ public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * return a SQL IN list containing the budget construction revenue object types
      * @return a null string if the system parameter does not exist or is empty
      */
-    protected String getRevenueINList() throws NoSuchFieldException, IOException
+    protected String getRevenueINList() 
     {
         if (! parameterService.parameterExists(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES))
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s does not exist\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
-            IOException ioex = new IOException("parameter "+BCParameterKeyConstants.REVENUE_OBJECT_TYPES+" does not exist");
+            IllegalArgumentException ioex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.REVENUE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
         ArrayList<String>revenueObjectTypes = new ArrayList<String>(parameterService.getParameterValues(BudgetConstructionDocument.class,BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
         if (revenueObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
-            NoSuchFieldException bfex = new NoSuchFieldException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
+            IllegalArgumentException bfex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES+" is empty");
             throw (bfex);
         }
         return inString(revenueObjectTypes);

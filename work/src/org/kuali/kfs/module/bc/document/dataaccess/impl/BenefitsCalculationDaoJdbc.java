@@ -15,7 +15,6 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
-import java.io.IOException;
 import java.lang.String;
 import java.lang.StringBuilder;
 import java.util.ArrayList;
@@ -344,18 +343,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        try
-        {
-            stringsToInsert.add(getExpenditureINList());
-        }
-        catch (NoSuchFieldException nsfex)
-        {
-          throw(new IllegalArgumentException(nsfex.getMessage()));  
-        }
-        catch (IOException ioex)
-        {
-            throw(new IllegalArgumentException(ioex.getMessage()));  
-        }
+        stringsToInsert.add(getExpenditureINList());
         String idForSession = (new Guid()).toString();
 
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);

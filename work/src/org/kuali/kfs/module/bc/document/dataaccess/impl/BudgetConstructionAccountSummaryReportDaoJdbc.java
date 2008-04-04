@@ -35,7 +35,9 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
         
         //builds and updates AccountSummaryReports
-        StringBuilder sqlText = new StringBuilder(500);
+        
+        //report the detail
+        StringBuilder sqlText = new StringBuilder(10000);
         sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append("  ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
@@ -127,7 +129,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         updateReportsAccountSummaryTable[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
-        //builds and updates AccountSummaryReports with consolidation
+        //report at the account level
         sqlText.append("INSERT INTO ld_bcn_acct_summ_t (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");

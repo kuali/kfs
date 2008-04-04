@@ -16,7 +16,6 @@
 package org.kuali.module.budget.dao;
 
 import org.kuali.module.budget.BCConstants;
-import java.io.IOException;
 
 /**
  * 
@@ -34,10 +33,8 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
-     * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
      */
-      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
-             throws IOException, NoSuchFieldException;
+      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
       
       /**
        * 
@@ -47,9 +44,8 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
        * @param chartCode
        * @param accountNumber
        * @param subAccountNumber
-       * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
        */ 
-       public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
        /**
         * 
@@ -59,9 +55,8 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
         * @param chartCode
         * @param accountNumber
         * @param subAccountNumber
-        * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
         */
-       public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
 
        /**
         * 
@@ -71,9 +66,8 @@ public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
         * @param chartCode
         * @param accountNumber
         * @param subAccountNumber
-        * @throws IOException (no parameter exists) or NoSuchFieldException (parameter is null)
         * @return true benefits need to be recomputed, false otherwise
         */
-       public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException;
+       public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
        
 }

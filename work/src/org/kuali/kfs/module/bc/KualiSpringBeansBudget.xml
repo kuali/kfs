@@ -297,6 +297,12 @@
 	<bean id="budgetConstructionLevelSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionLevelSummaryReportDaoJdbc">
 	</bean>
 
+	<bean id="budgetConstructionAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountObjectDetailReportDaoJdbc">
+	</bean>
+
+	<bean id="budgetConstructionObjectSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionObjectSummaryReportDaoJdbc">
+	</bean>
+
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
 		
     <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">

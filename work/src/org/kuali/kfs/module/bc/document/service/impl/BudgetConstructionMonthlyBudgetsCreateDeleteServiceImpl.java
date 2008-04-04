@@ -85,9 +85,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      */
     public void testMethod(String document, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber)
     {
-        
-       try
-       {
           LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsExpenditure\n\n");
           budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber);
           LOG.warn("\n\ndeleteBudgetConstructionMonthlyBudgetsRevenue\n\n"); 
@@ -97,15 +94,6 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
           LOG.warn(String.format("\n\nspreadBudgetConstructionMonthlyBudgetsExpenditure returned %b for (%s,%b,%s,%s,%s): ",
                   budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(document, fiscalYear, chartCode, accountNumber, subAccountNumber),
                                document, fiscalYear, chartCode, accountNumber, subAccountNumber));
-       }
-       catch (IOException ioex)
-       {
-           LOG.warn(String.format("\n\nIOException thrown: %s",ioex.getMessage()));
-       }
-       catch (NoSuchFieldException nsfex)
-       {
-           LOG.warn(String.format("\n\nNoSuchFieldException thrown: %s",nsfex.getMessage()));
-       }
     }
     
 

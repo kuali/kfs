@@ -153,7 +153,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateTagNumber();
         }
 
-        // validade location.
+        // validate location.
         if (isOnCampusLocationChanged() || isOffCampusLocationChanged()) {
             valid &= validateLocation();
         }
@@ -315,24 +315,22 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateVendorName() {
         boolean valid = true;
 
-        if (isCapitalEquipment(newAsset)) {
-            if (StringUtils.isBlank(newAsset.getVendorName())) {
-                putFieldError(CamsPropertyConstants.Asset.VENDOR_NAME, CamsKeyConstants.ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED);
-                valid &= false;
-            }
+        if (isCapitalEquipment(newAsset) && StringUtils.isBlank(newAsset.getVendorName())) {
+            putFieldError(CamsPropertyConstants.Asset.VENDOR_NAME, CamsKeyConstants.ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED);
+            valid &= false;
+
         }
         return valid;
     }
 
     /**
-     * 
      * This method checks if the asset is capital asset.
+     * 
      * @param asset
      * @return
      */
     private boolean isCapitalEquipment(Asset asset) {
-        Object[] capitalAssetCodes = parameterService.getParameterValues(Asset.class,CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).toArray();
-        return ArrayUtils.contains(capitalAssetCodes, asset.getInventoryStatusCode());
+        return parameterService.getParameterValues(Asset.class,CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
 

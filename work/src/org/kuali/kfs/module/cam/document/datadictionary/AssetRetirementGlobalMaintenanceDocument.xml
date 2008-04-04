@@ -51,16 +51,15 @@
             <maintainableSection title="Retirement Information">
                 <maintainableItems>
 	                <subSectionHeader name="Retirement Reason" />
-                	<maintainableField name="retirementReasonCode" required="true" />
+                	<maintainableField name="versionNumber"  />
+                	<maintainableField name="retirementReasonCode"  readOnly="true"/>
                 	<maintainableField name="retirementDate" required="true">
                 		<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
                 </maintainableItems>
             </maintainableSection>
-            <maintainableSection title="Retirement Details" id="retirementDetails">
+            <maintainableSection title="External Transfer or Gift" id="ExternalTransferOrGift">
 	            <maintainableItems>
-                	<maintainableField name="sharedRetirementInfo.retirementChartOfAccountsCode"  />
-                	<maintainableField name="sharedRetirementInfo.retirementAccountNumber"  />
                 	<maintainableField name="sharedRetirementInfo.retirementContactName"  />
                 	<maintainableField name="sharedRetirementInfo.retirementInstitutionName"  />
                 	<maintainableField name="sharedRetirementInfo.retirementStreetAddress"  />
@@ -69,19 +68,30 @@
                 	<maintainableField name="sharedRetirementInfo.retirementZipCode"  />
                 	<maintainableField name="sharedRetirementInfo.retirementCountryCode"  />
                 	<maintainableField name="sharedRetirementInfo.retirementPhoneNumber"  />
-                	<maintainableField name="sharedRetirementInfo.estimatedSellingPrice"  />
+               </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Theft" id="Theft">
+            	<maintainableItems>
+                	<maintainableField name="sharedRetirementInfo.paidCaseNumber"  />
+                </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Auction or Sold" id="AuctionOrSold">
+            	<maintainableItems>
+                	<maintainableField name="sharedRetirementInfo.buyerDescription"  />
                 	<maintainableField name="sharedRetirementInfo.salePrice"  />
-                	<maintainableField name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber"  />
+                	<maintainableField name="sharedRetirementInfo.estimatedSellingPrice"  />
                 	<maintainableField name="sharedRetirementInfo.handlingFeeAmount"  />
                 	<maintainableField name="sharedRetirementInfo.preventiveMaintenanceAmount"  />
-                	<maintainableField name="sharedRetirementInfo.buyerDescription"  />
-                	<maintainableField name="sharedRetirementInfo.paidCaseNumber"  />
+                	<maintainableField name="sharedRetirementInfo.cashReceiptFinancialDocumentNumber"  />
+                	<maintainableField name="sharedRetirementInfo.retirementChartOfAccountsCode"  />
+                	<maintainableField name="sharedRetirementInfo.retirementAccountNumber"  />
 	            </maintainableItems>
             </maintainableSection>
        		<maintainableSection title="Asset Detail Information">
             	<maintainableItems>
             		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
 	                <subSectionHeader name="Asset Detail Information" />
+            		<maintainableField name="versionNumber"  />
                 	<maintainableField name="capitalAssetNumber" required="true" readOnlyAfterAdd="true" />
                 	<summaryFields>
                         <summaryField name="capitalAssetNumber" />

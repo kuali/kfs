@@ -59,7 +59,8 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
+        return super.getFieldAuthorizations(document, user);
+        /*MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
         if (StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER, assetGlobal.getRetirementReasonCode()) || StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.AUCTION, assetGlobal.getRetirementReasonCode())) {
@@ -67,7 +68,7 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
             // CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
         }
-        return auths;
+        return auths;*/
     }
 
     @Override

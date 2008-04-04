@@ -125,6 +125,9 @@ public class CamsConstants {
 
     public static class AssetRetirementGlobal {
         public static final String DOCUMENT_HEADER = "documentHeader";
+        public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
+        public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
+        public static final String SECTION_ID_THEFT = "Theft";
     }
 
     public static class AssetRetirementReasonCode {

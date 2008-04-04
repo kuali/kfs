@@ -99,7 +99,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="27" />
@@ -109,114 +109,43 @@
                 <description>buyerDescription description...</description>
 			</attribute>
 
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute>
-
-            <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
+			<attributeReference name="cashReceiptFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" >
                 <label>Cash Receipt Financial Document Number</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
                 <summary>cashReceiptFinancialDocumentNumber</summary>
                 <description>cashReceiptFinancialDocumentNumber description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+			<attributeReference name="capitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetNumber" />
+			<attributeReference name="paidCaseNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="campusPoliceDepartmentCaseNumber" />
+			<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="estimatedSellingPrice" forceUppercase="true">
+            <attributeReference name="estimatedSellingPrice" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
                 <label>Estimated Selling Price</label>
                 <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>estimatedSellingPrice</summary>
                 <description>estimatedSellingPrice description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
-            <attribute name="handlingFeeAmount" forceUppercase="true">
+			</attributeReference>
+			
+            <attributeReference name="handlingFeeAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
                 <label>Handling Fee Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>handlingFeeAmount</summary>
                 <description>handlingFeeAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="paidCaseNumber" forceUppercase="true">
-                <label>Paid Case Number</label>
-                <shortLabel>Number</shortLabel>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>paidCaseNumber</summary>
-                <description>paidCaseNumber description...</description>
-			</attribute>
-
-            <attribute name="preventiveMaintenanceAmount" forceUppercase="true">
+            <attributeReference name="preventiveMaintenanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount" >
                 <label>Preventive Maintenance Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
                 <summary>preventiveMaintenanceAmount</summary>
                 <description>preventiveMaintenanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
-
+			</attributeReference>
+			
             <attribute name="retirementAccountNumber" forceUppercase="true">
                 <label>Retirement Account Number</label>
                 <shortLabel>Number</shortLabel>

@@ -217,6 +217,14 @@
         </property>
     </bean> 
     
+    <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.module.cams.lookup.AssetRetirementReasonLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+
+	<bean id="assetRetirementReasonLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="assetRetirementReasonLookupableHelperService" />
+		</property>
+	</bean>
+    
     <bean id="paymentSummaryService" class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
     	<property name="universityDateService">
     		<ref bean="universityDateService" />

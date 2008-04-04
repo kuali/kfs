@@ -2,10 +2,14 @@ package org.kuali.module.cams.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -13,7 +17,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,7 +55,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      */
     public AssetRetirementGlobal() {
         this.assetRetirementGlobalDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
-
     }
 
 
@@ -62,14 +66,27 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
-        // TODO Auto-generated method stub
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         List<PersistableBusinessObject> persistables = new ArrayList();
+        
+        for(AssetRetirementGlobalDetail detail:assetRetirementGlobalDetails) {
+            // load the object by key
+            Map pkMap = new HashMap();
+            pkMap.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, detail.getCapitalAssetNumber());
+            
+            Asset asset = (Asset) boService.findByPrimaryKey(Asset.class, pkMap);
+                
+            asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED);
+            
+            if (CamsConstants.AssetRetirementReasonCode.THEFT.equalsIgnoreCase(retirementReasonCode) && StringUtils.isNotBlank(sharedRetirementInfo.getPaidCaseNumber())) {
+                    asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
+            }
+            
+            persistables.add(asset);
+        }
 
-        /*
-         * for (AssetRetirementGlobalDetail detail: assetRetirementGlobalDetails ) { // load the object by keys Asset asset =
-         * (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, detail.getPrimaryKeys()); }
-         */
-        return null;
+        
+        return persistables;
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
@@ -256,8 +273,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         return assetRetirementGlobalDetails;
     }
 
-    public void setAssetRetirementGlobalDetails(List<AssetRetirementGlobalDetail> retiredAssetDetails) {
-        this.assetRetirementGlobalDetails = retiredAssetDetails;
+    public void setAssetRetirementGlobalDetails(List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails) {
+        this.assetRetirementGlobalDetails = assetRetirementGlobalDetails;
     }
 
 

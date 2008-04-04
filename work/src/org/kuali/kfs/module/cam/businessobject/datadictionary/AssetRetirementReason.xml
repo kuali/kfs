@@ -21,6 +21,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>assetRetirementReasonLookupable</lookupableID>
             <title>Asset Retirement Reason Lookup</title>
 
             <instructions>Look up an Asset Retirement Reason</instructions>

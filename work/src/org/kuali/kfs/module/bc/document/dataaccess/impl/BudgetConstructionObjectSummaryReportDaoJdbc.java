@@ -76,7 +76,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("    AND (ca_object_code_t.fin_object_cd = ld_pnd_bcnstr_gl_t.fin_object_cd)\n");
        sqlBuilder.append("    AND (ca_obj_level_t.fin_coa_cd = ca_object_code_t.fin_coa_cd)\n");
        sqlBuilder.append("    AND (ca_obj_level_t.fin_obj_level_cd = ca_object_code_t.fin_obj_level_cd)\n");
-       sqlBuilder.append("    AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd ");
+       sqlBuilder.append("    AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
        // income object type IN list
        insertionPoints.add(sqlBuilder.length());
        sqlBuilder.append(")\n");
@@ -111,7 +111,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("        ca_object_code_t,\n");
        sqlBuilder.append("        ca_obj_level_t,\n");
        sqlBuilder.append("        ca_obj_consoldtn_t\n");
-       sqlBuilder.append("  WHERE (ld_bcn_subfund_pick_t.person_unvl_id = ?\n)"); 
+       sqlBuilder.append("  WHERE (ld_bcn_subfund_pick_t.person_unvl_id = ?)\n"); 
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.report_flag > 0)\n");
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.sub_fund_grp_cd = ld_bcn_ctrl_list_t.sel_sub_fund_grp)\n"); 
        sqlBuilder.append("    AND (ld_bcn_subfund_pick_t.person_unvl_id = ld_bcn_ctrl_list_t.person_unvl_id)\n");
@@ -123,7 +123,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("    AND (ca_object_code_t.fin_object_cd = ld_pnd_bcnstr_gl_t.fin_object_cd)\n");
        sqlBuilder.append("    AND (ca_obj_level_t.fin_coa_cd = ca_object_code_t.fin_coa_cd)\n");
        sqlBuilder.append("    AND (ca_obj_level_t.fin_obj_level_cd = ca_object_code_t.fin_obj_level_cd)\n");
-       sqlBuilder.append("    AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd ");
+       sqlBuilder.append("    AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
        // expenditure object type IN list
        insertionPoints.add(sqlBuilder.length());
        sqlBuilder.append(")\n");

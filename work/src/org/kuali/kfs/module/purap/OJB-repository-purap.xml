@@ -3605,7 +3605,7 @@
 	<field-descriptor name="capitalAssetManagementSystemTypeCode" column="CM_SYS_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="capitalAssetManagementSystemDescription" column="CM_SYS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="capitalAssetManagementSystemDescription" column="CM_SYS_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 

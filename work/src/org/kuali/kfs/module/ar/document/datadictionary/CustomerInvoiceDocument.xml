@@ -95,6 +95,18 @@
                 <summary><![CDATA[&nbsp;]]> </summary>
                 <description>The date that this invoice was billed</description>
             </attributeReference>
+            
+			<attributeReference name="printDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Print Date</label>
+                <shortLabel>Print Date</shortLabel>
+                <required>false</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this invoice was printed</description>
+            </attributeReference>
+                        
             <attribute name="invoiceTermsText">
                 <label>Terms</label>
                 <shortLabel>Terms</shortLabel>

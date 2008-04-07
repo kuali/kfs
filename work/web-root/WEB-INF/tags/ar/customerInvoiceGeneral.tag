@@ -156,12 +156,12 @@
                 	</c:when>
 				</c:choose>
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right">Print Date</div>
+				<th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${ documentAttributes.printDate }" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    &nbsp;
-                </td>       
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.printDate }" property="document.printDate" readOnly="true"/>
+                </td>     
             </tr>        
         </table>
     </div>

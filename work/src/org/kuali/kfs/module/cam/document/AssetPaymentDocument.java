@@ -28,6 +28,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.bo.AssetPaymentDetail;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -45,28 +46,18 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private String buildingCode;
     private Integer nextCapitalAssetPaymentLineNumber;
 
-    private DocumentHeader  documentHeader;
     private Account         organizationOwnerAccount;
     private Chart           organizationOwnerChartOfAccounts;
     private Campus          campus;
     private Building        building;
-    private List<AssetPaymentDetail> assetPaymentDetails;
+    private List<AssetPaymentDetail> assetPaymentDetail;
     private Asset asset;
-    //private AssetPaymentDetail assetPaymentDetail;
     
     public AssetPaymentDocument() {
         super();
-        LOG.info("*******AssetPaymentDocument - Constructor");
-        assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
-
-        /*documentHeader;
-        organizationOwnerAccount;
-        organizationOwnerChartOfAccounts;
-        campus;
-        building;*/
-        
-        asset  = new Asset();
-
+        //LOG.info("*******AssetPaymentDocument - Constructor");
+        assetPaymentDetail = new ArrayList<AssetPaymentDetail>();        
+        asset          = new Asset();
     }
     
     /**
@@ -77,20 +68,34 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable)  {  
-        // TODO Auto-generated method stub
         return false;
     }
+    
     
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override
     public Class<AssetPaymentDetail> getSourceAccountingLineClass() {
-        LOG.info("*******getSourceAccountingLineClass");
         return AssetPaymentDetail.class;
     }
 
-        
+    /**
+     * 
+     * @see org.kuali.kfs.document.AccountingDocumentBase#addSourceAccountingLine(org.kuali.kfs.bo.SourceAccountingLine)
+     */
+    @Override    
+    public void addSourceAccountingLine(SourceAccountingLine line) {
+        AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail)line;
+        assetPaymentDetail.setFinancialDocumentLineNumber(this.getNextSourceLineNumber());
+        assetPaymentDetail.setAccountChargeAmount(line.getAmount());
+
+        line = (SourceAccountingLine)assetPaymentDetail;
+        this.sourceAccountingLines.add(line);
+        this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);        
+        this.setNextCapitalAssetPaymentLineNumber(this.nextSourceLineNumber);
+    }
+    
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
@@ -156,14 +161,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.nextCapitalAssetPaymentLineNumber = nextCapitalAssetPaymentLineNumber;
     }
 
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    public void setDocumentHeader(DocumentHeader documentHeader) {
-        this.documentHeader = documentHeader;
-    }
-
     public Account getOrganizationOwnerAccount() {
         return organizationOwnerAccount;
     }
@@ -196,12 +193,12 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         this.building = building;
     }
 
-    public List<AssetPaymentDetail> getAssetPaymentDetails() {
-        return assetPaymentDetails;
+    public List<AssetPaymentDetail> getAssetPaymentDetailLines() {
+        return assetPaymentDetail;
     }
 
-    public void setAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentDetails) {
-        this.assetPaymentDetails = assetPaymentDetails;
+    public void setAssetPaymentDetailLines(List<AssetPaymentDetail> assetPaymentDetail) {
+        this.assetPaymentDetail = assetPaymentDetail;
     }
 
     public Asset getAsset() {
@@ -211,19 +208,4 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-
-    
-    
-    /**
-     * Still need implement.
-     * 
-     * @param financialDocument submitted financial document
-     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
-     * @return true if there are no issues creating GLPE's
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     *
-    @Override
-    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        //TODO Still need to implement.
-    } */       
 }

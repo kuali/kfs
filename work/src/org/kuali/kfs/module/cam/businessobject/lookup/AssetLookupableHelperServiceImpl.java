@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.lookup;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.kuali.core.bo.BusinessObject;
@@ -46,7 +48,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.MERGE);
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.PAYMENT);
+        actions.append(getPaymentUrl(bo));
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.SEPARATE);
         actions.append("&nbsp;&nbsp;");
@@ -55,9 +57,27 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return actions.toString();
     }
 
-    private String getTransferUrl(BusinessObject bo) {
+    private String getTransferUrl(BusinessObject bo) {        
         Asset asset = (Asset) bo;
         return "<a href=\"../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.TRANSFER + "</a>";
+    }
+
+    private String getPaymentUrl(BusinessObject bo) {        
+        Asset asset     = (Asset) bo;
+        String anchor   = CamsConstants.AssetActions.PAYMENT;
+        
+        /** TODO ADD SYSTEM PARAMETER TO STORE THE VALID STATUSES ( ‘A’, ‘C’, ‘S’, ‘U’) **/
+        List activeAssetStatusCodes = new ArrayList();
+        activeAssetStatusCodes.add("A");
+        activeAssetStatusCodes.add("C");
+        activeAssetStatusCodes.add("S");
+        activeAssetStatusCodes.add("U");
+        
+        //Only active assets will have the payment option available.
+        if (activeAssetStatusCodes.contains(asset.getInventoryStatusCode()))
+            anchor= "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
+        
+        return anchor;
     }
     
 }

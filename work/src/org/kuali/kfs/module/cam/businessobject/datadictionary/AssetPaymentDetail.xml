@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd"
+    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
+    
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetPaymentDetail">
         <attributes>
@@ -21,9 +23,9 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
-            <attribute name="accountNumber" forceUppercase="true">
+            <!-- attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Account Number</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -66,129 +68,9 @@
                 <description>documentNumber description...</description>
 			</attribute>
 
-            <attribute name="expenditureFinancialDocumentNumber" forceUppercase="true">
-                <label>Expenditure Financial Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>expenditureFinancialDocumentNumber</summary>
-                <description>expenditureFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialDocumentPostedDate" forceUppercase="true">
-                <label>Expenditure Financial Document Posted Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>expenditureFinancialDocumentPostedDate</summary>
-                <description>expenditureFinancialDocumentPostedDate description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Expenditure Financial Document Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>expenditureFinancialDocumentTypeCode</summary>
-                <description>expenditureFinancialDocumentTypeCode description...</description>
-			</attribute>
-
-            <attribute name="expenditureFinancialSystemOriginationCode" forceUppercase="true">
-                <label>Expenditure Financial System Origination Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>expenditureFinancialSystemOriginationCode</summary>
-                <description>expenditureFinancialSystemOriginationCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentLineNumber" forceUppercase="true">
-                <label>Financial Document Line Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>financialDocumentLineNumber</summary>
-                <description>financialDocumentLineNumber description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
-                <label>Financial Document Override Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>financialDocumentOverrideCode</summary>
-                <description>financialDocumentOverrideCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
-                <label>Financial Document Posting Period Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>financialDocumentPostingPeriodCode</summary>
-                <description>financialDocumentPostingPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
-                <label>Financial Document Posting Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
-			</attribute>
-
             <attribute name="financialObjectCode" forceUppercase="true">
                 <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Object</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -203,7 +85,7 @@
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
                 <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Sub-Object</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -231,15 +113,165 @@
                 <description>organizationReferenceId description...</description>
 			</attribute>
 
+            <attribute name="projectCode" forceUppercase="true">
+                <label>Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>projectCode</summary>
+                <description>projectCode description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute-->
+
+            <attribute name="expenditureFinancialDocumentNumber" forceUppercase="true">
+                <label>Expenditure Financial Document Number</label>
+                <shortLabel>Fin. Doc#</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>expenditureFinancialDocumentNumber</summary>
+                <description>expenditureFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="expenditureFinancialDocumentPostedDate" forceUppercase="true">
+                <label>Expenditure Financial Document Posted Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+                <summary>expenditureFinancialDocumentPostedDate</summary>
+                <description>expenditureFinancialDocumentPostedDate description...</description>
+			</attribute>
+
+            <attribute name="expenditureFinancialDocumentTypeCode" forceUppercase="true">
+                <label>Expenditure Financial Document Type Code</label>
+                <shortLabel>Doc. Type</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+    			<required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>expenditureFinancialDocumentTypeCode</summary>
+                <description>expenditureFinancialDocumentTypeCode description...</description>
+			</attribute>
+
+            <attribute name="expenditureFinancialSystemOriginationCode" forceUppercase="true">
+                <label>Expenditure Financial System Origination Code</label>
+                <shortLabel>Org. CD</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>expenditureFinancialSystemOriginationCode</summary>
+                <description>expenditureFinancialSystemOriginationCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineNumber" forceUppercase="true">
+                <label>Financial Document Line Number</label>
+                <shortLabel>Line#</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>financialDocumentLineNumber</summary>
+                <description>financialDocumentLineNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
+                <label>Financial Document Override Code</label>
+                <shortLabel>Override CD</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>financialDocumentOverrideCode</summary>
+                <description>financialDocumentOverrideCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
+                <label>Financial Document Posting Period Code</label>
+                <shortLabel>Fiscal Month</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentPostingPeriodCode</summary>
+                <description>financialDocumentPostingPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+                <label>Financial Document Posting Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentPostingYear</summary>
+                <description>financialDocumentPostingYear description...</description>
+			</attribute>
+
+
             <attribute name="paymentApplicationDate" forceUppercase="true">
                 <label>Payment Application Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
-
+				<required>true</required>
                 <control>
-                    <text size="9" />
+                    <text size="12" />
                 </control>
 
                 <summary>paymentApplicationDate</summary>
@@ -262,24 +294,10 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
-			</attribute>
 
             <attribute name="purchaseOrderNumber" forceUppercase="true">
                 <label>Purchase Order Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>PO. #</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -294,7 +312,7 @@
 
             <attribute name="requisitionNumber" forceUppercase="true">
                 <label>Requisition Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Req. #</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -323,24 +341,10 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
 
             <attribute name="transferPaymentIndicator" forceUppercase="true">
                 <label>Transfer Payment Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Transf. Code</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -352,7 +356,10 @@
                 <description>transferPaymentIndicator description...</description>
 			</attribute>
 
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+  	        &accountingLineBaseAttributes;
+
+            <!-- attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" /-->
+
 
         </attributes>
     </businessObject>

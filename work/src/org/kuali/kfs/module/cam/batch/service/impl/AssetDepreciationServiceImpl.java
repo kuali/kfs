@@ -144,8 +144,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
 
             //***************** GET RID OF THESE LINES WHEN DONE TESTING **********
-            //depreciationDateParameter = "2008-03-01";
-            //currentDate.setTime(dateFormat.parse("2008-03-01"));
+            depreciationDateParameter = "2008-02-01";
+            currentDate.setTime(dateFormat.parse("2008-02-01"));
             // *********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
@@ -420,11 +420,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     this.populateDepreciationTransaction(depreciationTransaction, assetPayment, transactionType, transactionAmount, plantCOA, plantAccount, accumulatedDepreciationFinancialObjectCode, depreciationExpenseFinancialObjectCode, financialObject, depreciationTransactionSummary);
                 }
             } // end for
-
-//            for (Object key : depreciationTransactionSummary.keySet()) {
-//                AssetDepreciationTransaction t = depreciationTransactionSummary.get(key);
-//                LOG.info("XXX " + t.getAccountNumber() + " - " + t.getCapitalAssetNumber() + " " + t.getTransactionType() + " " + t.getTransactionAmount());
-//            }
 
             return depreciationTransactionSummary;
         }

@@ -198,7 +198,6 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
      */
     public void copyFrom(ExpenseTransferAccountingLine from) {
         super.copyFrom(from);
-        System.out.println("******8Source - Copy from XXXXXXXXXXXXXX");
         this.setPayrollTotalHours(from.getPayrollTotalHours());
         this.setPositionNumber(from.getPositionNumber());
         this.setPayrollEndDateFiscalYear(from.getPayrollEndDateFiscalYear());

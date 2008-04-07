@@ -133,7 +133,11 @@ public class CamsPropertyConstants {
         public static final String PERIOD_11_DEPRECIATION_AMOUNT = "period11Depreciation1Amount";
         public static final String PERIOD_12_DEPRECIATION_AMOUNT = "period12Depreciation1Amount";
     }
-
+    
+    public static class AssetPaymentDetail {
+        public static final String DOCUMENT_TYPE_CODE="expenditureFinancialDocumentTypeCode";
+    }
+    
     public static class AssetType {
         public static final String ASSET_DEPRECIATION_LIFE_LIMIT = "depreciableLifeLimit";
     }

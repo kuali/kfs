@@ -75,7 +75,7 @@
 	            <inquirySection title="Fabrication Information">
 	                <inquiryFields> 
 	                    <field attributeName="estimatedFabricationCompletionDate" />
-	                    <field attributeName="fabricationEstimatedTotalAmount" />
+	                    <field attributeName="fabricationEstimatedTotalAmount" />				
                         <field attributeName="estimatedFabricationLifetimeLimitNumber" />
 	                </inquiryFields>
 	            </inquirySection>
@@ -462,6 +462,11 @@
             <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Create Date</label>
                 <shortLabel>Create Date</shortLabel>
+            </attributeReference>
+
+            <attributeReference name="depreciationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Depreciation Date</label>
+                <shortLabel>Depreciation Date</shortLabel>
             </attributeReference>
 
             <attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -1135,7 +1140,6 @@
 				<label>Contact Name</label>
 				<shortLabel>name</shortLabel>
 			</attributeReference>
-			
 			<attributeReference name="retirementInfo.retirementInstitutionName" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="retirementInstitutionName" >
 				<label>Institution</label>
 				<shortLabel>Institution</shortLabel>
@@ -1275,7 +1279,6 @@
             <attributeReference name="loanOrReturnInfo.borrowerCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
             <attributeReference name="loanOrReturnInfo.borrowerStorageState.postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode"/> 
             <attributeReference name="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryName"/> 
-
         </attributes>
                     
         <relationships>

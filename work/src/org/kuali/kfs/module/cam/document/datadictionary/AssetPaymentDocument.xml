@@ -33,128 +33,15 @@
         <documentTypeName>AssetPaymentDocument</documentTypeName>
         <documentTypeCode>MPAY</documentTypeCode>
         <label>Asset Payments</label>
-        
+       
         <attributes>
-			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="agencyNumber"/>
-			        
-            <!-- attribute name="agencyNumber" forceUppercase="true">
-                <label>Owner</label>
-                <shortLabel>Agency#</shortLabel>
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>agencyNumber</summary>
-                <description>agencyNumber description...</description>
-			</attribute-->
-
-			<attributeReference name="buildingCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="buildingCode" >
-				<label>Building Code</label>
-			</attributeReference>
-            <!-- attribute name="buildingCode" forceUppercase="true">
-                <label>Building#</label>
-                <shortLabel>Building#</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>buildingCode</summary>
-                <description></description>
-			</attribute-->
-
 			<attributeReference name="capitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetNumber"/>
-            <!-- attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Capital Asset Number</label>
-                <shortLabel>Asset Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-				<required>true</required>
-                <control>
-                    <text size="14" />
-                </control>
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
-			</attribute-->
-
-			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccountNumber" >
-                <label>Owner Account</label>
-			</attributeReference>
-            <!-- attribute name="organizationOwnerAccountNumber" forceUppercase="true">
-                <label>Owner Account</label>
-                <shortLabel>Owner Account</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-				
-                <summary>organizationOwnerAccountNumber</summary>
-                <description>organizationOwnerAccountNumber description...</description>
-			</attribute-->
-			
-			<attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode" >
-                <label>Owner Chart (COA)</label>
-			</attributeReference>
-            <!-- attribute name="organizationOwnerChartOfAccountsCode" forceUppercase="true">
-                <label>Owner Chart (COA)</label>
-                <shortLabel>COA</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-			    <required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-				
-                <summary>organizationOwnerChartOfAccountsCode</summary>
-                <description>organizationOwnerChartOfAccountsCode description...</description>
-			</attribute-->
-
-			<attributeReference name="asset.campusTagNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="campusTagNumber"/>
-
-			<!-- attributeReference name="serialNumber"    sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="serialNumber"/>
-            <attributeReference name="acquisitionTypeCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="acquisitionTypeCode"> 
-                <label>Acquisition Type</label>
-			</attributeReference>
-            <attributeReference name="inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="inventoryStatusCode"/>			
-            <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="createDate"/>
-            <attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="capitalAssetInServiceDate"/>
-			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="lastInventoryDate"/>
-			<attributeReference name="depreciationDate" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="depreciationDate"/>
-			<attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="capitalAssetTypeCode"/>
-			<attributeReference name="organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText" >
-				<label>Organization Text</label>
-			</attributeReference>		
-			<attributeReference name="vendorName" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="vendorName"/>
-			<attributeReference name="manufacturerName" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="manufacturerName"/>
-			<attributeReference name="capitalAssetDescription" sourceClassName="org.kuali.core.bo.Asset" sourceAttributeName="capitalAssetDescription"/>
--->
-            <attribute name="representativeUniversalIdentifier" forceUppercase="true">
-                <label>Representative Universal Identifier</label>
-                <shortLabel>Rep. ID</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>representativeUniversalIdentifier</summary>
-                <description>representativeUniversalIdentifier description...</description>
-			</attribute>
-
+			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccountNumber"/>
+			<attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode"/>            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="agencyNumber"/>
+			<attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode"/>			
+			<attributeReference name="buildingCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="buildingCode"/>			
         </attributes>
         
         <summary>

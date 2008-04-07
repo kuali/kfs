@@ -274,7 +274,6 @@
                 <c:when test="${not empty KualiForm.forcedLookupOptionalFields[currentField]}">
                     <c:set var="key" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[0]}"/>
                     <c:set var="boClassFullName" value="${fn:split(KualiForm.forcedLookupOptionalFields[currentField], &quot;,&quot;)[1]}"/>
-                    
  			        <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 				        accountingLine="${accountingLine}"
 				        baselineAccountingLine="${baselineAccountingLine}" lookup="true"

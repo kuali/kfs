@@ -202,7 +202,7 @@
                 <c:set var="lookupParameters" value="${lookupParameters}${withAccountingLine}:${key}"/>
                 <c:set var="fieldConversions" value="${fieldConversions}${key}:${withAccountingLine},"/>
             </c:forTokens>
-            
+
             <kul:lookup
                 boClassName="${boClassName}"
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"

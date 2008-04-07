@@ -20,7 +20,7 @@
 <div class="body">
 	<ul class="chan">
 		<li>
-			<portal:portalLink displayTitle="true"
+             <portal:portalLink displayTitle="true"
 				title="Asset Acquisition Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetAcquisitionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />				
 		</li>		
@@ -53,9 +53,9 @@
 			<portal:portalLink displayTitle="true"
 				title="Asset Retirement Reason"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementReason&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>		
-		<li>
-			<portal:portalLink displayTitle="true"
+		</li>
+        <li>
+             <portal:portalLink displayTitle="true"
 				title="Asset Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

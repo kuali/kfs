@@ -88,8 +88,8 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         // create an empty editableAccounts map, for safety's sake
         editableAccounts = new HashMap();
         accountingLineEditableFields = new HashMap();
-        forcedReadOnlyFields = new HashMap();
-        forcedLookupOptionalFields = new HashMap();
+        forcedReadOnlyFields         = new HashMap();
+        forcedLookupOptionalFields   = new HashMap();
 
         // initialize accountingLine lists
         baselineSourceAccountingLines = new ArrayList();

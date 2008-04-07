@@ -74,6 +74,7 @@ public class CamsPropertyConstants {
         public static final String FEDERAL_CONTRIBUTION = "federalContribution";
         public static final String ORGANIZATION_OWNER_ACCOUNT = "organizationOwnerAccount";
         public static final String CAPITAL_ASSET_TYPE = "capitalAssetType";
+        public static final String RETIREMENT_INFO_MERGED_TARGET = "retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber";
     }
 
     public static class AssetLocation {
@@ -161,6 +162,7 @@ public class CamsPropertyConstants {
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS = "organizationOwnerChartOfAccounts";
         public static final String OFF_CAMPUS_STATE = "offCampusState";
         public static final String BUILDING_ROOM = "buildingRoom";
+        public static final String OFF_CAMPUS_STATE_CODE = "offCampusStateCode";
     }
 
     public static class AssetComponent {

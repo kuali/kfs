@@ -19,5 +19,8 @@ import org.kuali.module.cams.bo.AssetComponent;
 import org.kuali.module.cams.bo.AssetPayment;
 
 public interface AssetPaymentService {
+
     Integer getMaxSequenceNumber(AssetPayment assetPayment);
+
+    boolean isPaymentFederalContribution(AssetPayment assetPayment);
 }

@@ -224,6 +224,9 @@
 	<collection-descriptor name="assetRetirementHistory" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
+	<collection-descriptor name="retirementGlobals" element-class-ref="org.kuali.module.cams.bo.AssetRetirementGlobal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<inverse-foreignkey field-ref="mergedTargetCapitalAssetNumber" />
+	</collection-descriptor>
 	<reference-descriptor name="assetPrimaryDepreciationMethod" class-ref="org.kuali.module.cams.bo.AssetDepreciationMethod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="primaryDepreciationMethodCode" />
 	</reference-descriptor>

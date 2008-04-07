@@ -15,6 +15,11 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.dao.AssetPaymentDao;
 import org.kuali.module.cams.service.AssetPaymentService;
@@ -24,6 +29,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class AssetPaymentServiceImpl implements AssetPaymentService {
 
     private AssetPaymentDao assetPaymentDao;
+    ParameterService parameterService;
+
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
 
     public AssetPaymentDao getAssetPaymentDao() {
@@ -40,5 +56,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         return this.assetPaymentDao.getMaxSquenceNumber(assetPayment);
     }
 
+    public boolean isPaymentFederalContribution(AssetPayment assetPayment) {
+        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+        if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
+            return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        }
+        return false;
+    }
 
 }

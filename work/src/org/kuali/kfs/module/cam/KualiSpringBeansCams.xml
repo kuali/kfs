@@ -248,6 +248,9 @@
     	<property name="parameterService">
     		<ref bean="parameterService" />
     	</property>
+    	<property name="assetService">
+    		<ref bean="assetService" />
+    	</property>
     </bean>
     <bean id="equipmentLoanInfoService" class="org.kuali.module.cams.service.impl.EquipmentLoanInfoServiceImpl">
     	<property name="assetHeaderService">
@@ -263,10 +266,27 @@
     	<property name="assetPaymentDao">
     		<ref bean="assetPaymentDao" />
     	</property>
+    	<property name="parameterService">
+    		<ref bean="parameterService" />
+    	</property>
     </bean>
      <bean id="assetService" class="org.kuali.module.cams.service.impl.AssetServiceImpl" >
     	<property name="parameterService">
     		<ref bean="parameterService" />
+    	</property>
+    </bean>
+    <bean id="assetTransferService" class="org.kuali.module.cams.service.impl.AssetTransferServiceImpl" >
+    	<property name="assetService">
+    		<ref bean="assetService" />
+    	</property>
+    	<property name="universityDateService">
+    		<ref bean="universityDateService" />
+    	</property>
+    	<property name="businessObjectService">
+    		<ref bean="businessObjectService" />
+    	</property>
+    	<property name="assetPaymentService">
+    		<ref bean="assetPaymentService" />
     	</property>
     </bean>
 </beans>

@@ -117,6 +117,7 @@ public class CamsConstants {
 
     public static final String DOC_APPROVED = "A";
     public static final String DOC_INITIATED = "?";
+    public static final String RETIREMENT_REASON_CODE_M = "M";
 
     public static class AssetHeader {
         public static final String DOCUMENT_HEADER = "documentHeader";

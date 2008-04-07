@@ -112,10 +112,11 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetLocation> assetLocations;
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
+    private List<AssetRetirementGlobal> retirementGlobals;
 
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
-    
+
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
@@ -143,6 +144,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetHeaders = new TypedArrayList(AssetHeader.class);
         this.assetLocations = new TypedArrayList(AssetLocation.class);
         this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
+        this.retirementGlobals = new TypedArrayList(AssetRetirementGlobal.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {
@@ -1853,7 +1855,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the estimatedFabricationLifetimeLimitNumber attribute. 
+     * Gets the estimatedFabricationLifetimeLimitNumber attribute.
+     * 
      * @return Returns the estimatedFabricationLifetimeLimitNumber.
      */
     public Integer getEstimatedFabricationLifetimeLimitNumber() {
@@ -1862,9 +1865,19 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the estimatedFabricationLifetimeLimitNumber attribute value.
+     * 
      * @param estimatedFabricationLifetimeLimitNumber The estimatedFabricationLifetimeLimitNumber to set.
      */
     public void setEstimatedFabricationLifetimeLimitNumber(Integer estimatedFabricationLifetimeLimitNumber) {
         this.estimatedFabricationLifetimeLimitNumber = estimatedFabricationLifetimeLimitNumber;
     }
+
+    public List<AssetRetirementGlobal> getRetirementGlobals() {
+        return retirementGlobals;
+    }
+
+    public void setRetirementGlobals(List<AssetRetirementGlobal> retirementGlobals) {
+        this.retirementGlobals = retirementGlobals;
+    }
+
 }

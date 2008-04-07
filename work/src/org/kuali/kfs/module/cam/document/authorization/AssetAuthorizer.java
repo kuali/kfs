@@ -37,6 +37,7 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.service.AssetService;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -44,6 +45,7 @@ import org.kuali.module.cams.bo.Asset;
 public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
 
     /**
@@ -75,6 +77,11 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         }
 
         hidePaymentSequence(auths, asset);
+        if (!CamsConstants.RETIREMENT_REASON_CODE_M.equals(asset.getRetirementReasonCode())) {
+            // hide merge target capital asset number
+            auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
+
+        }
         return auths;
     }
 
@@ -105,7 +112,7 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
-        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
+        if (assetService.isAssetRetired(asset)) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

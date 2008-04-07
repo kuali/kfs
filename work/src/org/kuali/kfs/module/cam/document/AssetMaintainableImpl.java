@@ -29,6 +29,7 @@ import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
@@ -38,6 +39,7 @@ import org.kuali.module.cams.service.RetirementInfoService;
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private Asset newAsset;
     private Asset copyAsset;
 
@@ -103,8 +105,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
                 if (CamsConstants.Asset.SECTION_ID_FABRICATION_INFORMATION.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
-                // if asset is retired
-                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
+                // if asset is not retired, hide retirement information
+                if (CamsConstants.Asset.SECTION_ID_RETIREMENT_INFORMATION.equals(section.getSectionId()) && !assetService.isAssetRetired(asset)) {
                     section.setHidden(true);
                 }
             }

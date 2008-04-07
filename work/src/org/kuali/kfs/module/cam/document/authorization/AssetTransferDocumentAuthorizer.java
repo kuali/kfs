@@ -32,10 +32,12 @@ import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.rules.AssetTransferDocumentRule;
 import org.kuali.module.cams.service.AssetHeaderService;
+import org.kuali.module.cams.service.AssetService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
@@ -56,7 +58,7 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         // check if transfer action is allowed, if not present an error message
         // check if asset is active
         boolean transferable = true;
-        if (parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
+        if (assetService.isAssetRetired(asset)) {
             transferable = false;
             GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }

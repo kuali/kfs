@@ -26,6 +26,7 @@ import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.service.impl.AssetServiceImpl;
 import org.kuali.module.cams.service.impl.RetirementInfoServiceImpl;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
@@ -37,7 +38,17 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         this.retirementInfoService = new RetirementInfoServiceImpl();
-        this.retirementInfoService.setParameterService(new ParameterServiceImpl() {
+        this.retirementInfoService.setParameterService(createParameterService());
+        AssetServiceImpl assetServiceImpl = new AssetServiceImpl();
+        assetServiceImpl.setParameterService(createParameterService());
+        this.retirementInfoService.setAssetService(assetServiceImpl);
+        this.asset = new Asset();
+        this.asset.setInventoryStatusCode("R");
+
+    }
+
+    private ParameterServiceImpl createParameterService() {
+        return new ParameterServiceImpl() {
             @Override
             public List<String> getParameterValues(Class componentClass, String parameterName) {
                 List<String> values = new ArrayList<String>();
@@ -46,10 +57,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
                 values.add("E");
                 return values;
             }
-        });
-        this.asset = new Asset();
-        this.asset.setInventoryStatusCode("R");
-
+        };
     }
 
     private AssetRetirementGlobalDetail createRetirementDetail(String docNumber, int daysToAdd, String docStatus) {

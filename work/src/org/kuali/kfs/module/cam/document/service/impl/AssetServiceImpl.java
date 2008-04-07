@@ -43,4 +43,8 @@ public class AssetServiceImpl implements AssetService {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
+    public boolean isAssetRetired(Asset asset) {
+        return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode());
+    }
+
 }

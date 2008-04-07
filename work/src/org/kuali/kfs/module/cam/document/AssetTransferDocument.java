@@ -15,21 +15,15 @@
  */
 package org.kuali.module.cams.document;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -51,14 +45,15 @@ import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
-    private static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
-    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
+    public final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
     private String representativeUniversalIdentifier;
     private String campusCode;
     private String buildingCode;
@@ -91,11 +86,65 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     // Transient attributes
     private Asset asset;
+
     private UniversityDateService universityDateService;
+    private AssetPaymentService assetPaymentService;
+    private AssetService assetService;
+    private AssetTransferService assetTransferService;
 
     public AssetTransferDocument() {
     }
 
+
+    public void addGeneralLedgerPostables(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail) {
+        if (this.generalLedgerPostables != null) {
+            this.generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
+        }
+    }
+
+
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+
+    }
+
+
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        return false;
+    }
+
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        return true;
+    }
+
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public AssetHeader getAssetHeader() {
+        return assetHeader;
+    }
+
+
+    public AssetPaymentService getAssetPaymentService() {
+        if (this.assetPaymentService == null) {
+            this.assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
+
+        }
+        return assetPaymentService;
+    }
+
+    public UniversalUser getAssetRepresentative() {
+        return assetRepresentative;
+    }
+
+
+    public AssetService getAssetService() {
+        if (this.assetService == null) {
+            this.assetService = SpringContext.getBean(AssetService.class);
+        }
+        return assetService;
+    }
 
     /**
      * Gets the building attribute.
@@ -106,6 +155,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return building;
     }
 
+
     /**
      * Gets the buildingCode attribute.
      * 
@@ -114,7 +164,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public String getBuildingCode() {
         return buildingCode;
     }
-
 
     /**
      * Gets the buildingRoom attribute.
@@ -125,6 +174,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return buildingRoom;
     }
 
+
     /**
      * Gets the buildingRoomNumber attribute.
      * 
@@ -133,7 +183,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public String getBuildingRoomNumber() {
         return buildingRoomNumber;
     }
-
 
     /**
      * Gets the buildingSubRoomNumber attribute.
@@ -144,6 +193,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return buildingSubRoomNumber;
     }
 
+
     /**
      * Gets the campus attribute.
      * 
@@ -152,7 +202,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public Campus getCampus() {
         return campus;
     }
-
 
     /**
      * Gets the campusCode attribute.
@@ -163,6 +212,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return campusCode;
     }
 
+
     /**
      * Gets the documentHeader attribute.
      * 
@@ -172,7 +222,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return documentHeader;
     }
 
-
     /**
      * Gets the documentNumber attribute.
      * 
@@ -180,6 +229,20 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public String getDocumentNumber() {
         return documentNumber;
+    }
+
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
+        return postable.getAmount();
+    }
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+        return this.generalLedgerPostables;
+    }
+
+
+    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
+        return glPostingHelpers.get(GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
 
     /**
@@ -323,7 +386,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return representativeUniversalIdentifier;
     }
 
-
     /**
      * Gets the transferOfFundsFinancialDocument attribute.
      * 
@@ -342,6 +404,38 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return transferOfFundsFinancialDocumentNumber;
     }
 
+    public UniversityDateService getUniversityDateService() {
+        if (this.universityDateService == null) {
+            this.universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+        }
+        return universityDateService;
+    }
+
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
+        // if status is approved
+        if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
+            getAssetTransferService().saveApprovedChanges(this);
+        }
+    }
+
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
+        boolean isDebit = false;
+        // If source org and amount is negative then true
+        if (srcDetail.isSource() && srcDetail.getAmount().isNegative()) {
+            isDebit = true;
+        }
+        // If target and amount is positive then true
+        if (!srcDetail.isSource() && srcDetail.getAmount().isPositive()) {
+            isDebit = true;
+        }
+        return isDebit;
+    }
+
 
     /**
      * Gets the interdepartmentalSalesIndicator attribute.
@@ -350,6 +444,41 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public boolean isInterdepartmentalSalesIndicator() {
         return interdepartmentalSalesIndicator;
+    }
+
+
+    @Override
+    public void prepareForSave() {
+        // generate postables
+        super.prepareForSave();
+        this.generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        getAssetTransferService().createGLPostables(this);
+
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
+
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    public void setAssetHeader(AssetHeader assetHeader) {
+        this.assetHeader = assetHeader;
+    }
+
+    public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
+        this.assetPaymentService = assetPaymentService;
+    }
+
+    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+        this.assetRepresentative = assetRepresentative;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 
     /**
@@ -372,6 +501,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.buildingCode = buildingCode;
     }
 
+
     /**
      * Sets the buildingRoom attribute value.
      * 
@@ -382,7 +512,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.buildingRoom = buildingRoom;
     }
 
-
     /**
      * Sets the buildingRoomNumber attribute.
      * 
@@ -391,6 +520,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setBuildingRoomNumber(String buildingRoomNumber) {
         this.buildingRoomNumber = buildingRoomNumber;
     }
+
 
     /**
      * Sets the buildingSubRoomNumber attribute.
@@ -412,6 +542,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.campus = campus;
     }
 
+
     /**
      * Sets the campusCode attribute.
      * 
@@ -420,7 +551,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setCampusCode(String campusCode) {
         this.campusCode = campusCode;
     }
-
 
     /**
      * Sets the documentHeader attribute.
@@ -432,6 +562,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.documentHeader = documentHeader;
     }
 
+
     /**
      * Sets the documentNumber attribute.
      * 
@@ -439,6 +570,11 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+
+
+    public void setGeneralLedgerPostables(List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables) {
+        this.generalLedgerPostables = generalLedgerPostables;
     }
 
 
@@ -450,6 +586,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setInterdepartmentalSalesIndicator(boolean interdepartmentalSalesIndicator) {
         this.interdepartmentalSalesIndicator = interdepartmentalSalesIndicator;
     }
+
 
     /**
      * Sets the offCampusAddress attribute.
@@ -479,6 +616,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.offCampusState = offCampusState;
     }
 
+
     /**
      * Sets the offCampusStateCode attribute.
      * 
@@ -488,6 +626,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.offCampusStateCode = offCampusStateCode;
     }
 
+
     /**
      * Sets the offCampusZipCode attribute.
      * 
@@ -496,6 +635,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOffCampusZipCode(String offCampusZipCode) {
         this.offCampusZipCode = offCampusZipCode;
     }
+
 
     /**
      * Sets the organization attribute.
@@ -507,6 +647,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organization = organization;
     }
 
+
     /**
      * Sets the organizationCode attribute.
      * 
@@ -516,6 +657,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organizationCode = organizationCode;
     }
 
+
     /**
      * Sets the organizationInventoryName attribute.
      * 
@@ -524,6 +666,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOrganizationInventoryName(String organizationInventoryName) {
         this.organizationInventoryName = organizationInventoryName;
     }
+
 
     /**
      * Sets the organizationOwnerAccount attribute.
@@ -535,6 +678,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organizationOwnerAccount = organizationOwnerAccount;
     }
 
+
     /**
      * Sets the organizationOwnerAccountNumber attribute.
      * 
@@ -543,6 +687,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
         this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
     }
+
 
     /**
      * Sets the organizationOwnerChartOfAccounts attribute.
@@ -553,6 +698,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
     }
+
 
     /**
      * Sets the organizationOwnerChartOfAccountsCode attribute.
@@ -572,6 +718,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organizationTagNumber = organizationTagNumber;
     }
 
+
     /**
      * Sets the organizationText attribute.
      * 
@@ -581,6 +728,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.organizationText = organizationText;
     }
 
+
     /**
      * Sets the representativeUniversalIdentifier attribute.
      * 
@@ -589,6 +737,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
         this.representativeUniversalIdentifier = representativeUniversalIdentifier;
     }
+
 
     /**
      * Sets the transferOfFundsFinancialDocument attribute value.
@@ -600,6 +749,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.transferOfFundsFinancialDocument = transferOfFundsFinancialDocument;
     }
 
+
     /**
      * Sets the transferOfFundsFinancialDocumentNumber attribute.
      * 
@@ -609,6 +759,25 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.transferOfFundsFinancialDocumentNumber = transferOfFundsFinancialDocumentNumber;
     }
 
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+
+    public AssetTransferService getAssetTransferService() {
+        if (this.assetTransferService == null) {
+            this.assetTransferService = SpringContext.getBean(AssetTransferService.class);
+        }
+        return assetTransferService;
+    }
+
+
+    public void setAssetTransferService(AssetTransferService assetTransferService) {
+        this.assetTransferService = assetTransferService;
+    }
+
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -616,392 +785,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
-    }
-
-
-    public AssetHeader getAssetHeader() {
-        return assetHeader;
-    }
-
-
-    public void setAssetHeader(AssetHeader assetHeader) {
-        this.assetHeader = assetHeader;
-    }
-
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-        String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
-
-        // if status is approved
-        if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
-            // save new asset location details to asset table, inventory date
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            List<PersistableBusinessObject> persistableObjects = new ArrayList<PersistableBusinessObject>();
-            Asset saveAsset = new Asset();
-            saveAsset.setCapitalAssetNumber(getAssetHeader().getCapitalAssetNumber());
-            saveAsset = (Asset) boService.retrieve(saveAsset);
-            changeAssetOwner(saveAsset, persistableObjects);
-            if (saveAsset.getAssetPayments() == null) {
-                saveAsset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
-            }
-
-            List<AssetPayment> originalPayments = saveAsset.getAssetPayments();
-            if (this.universityDateService == null) {
-                this.universityDateService = SpringContext.getBean(UniversityDateService.class);
-            }
-            Integer maxSequence = createOffsetPayments(persistableObjects, originalPayments);
-            maxSequence = createNewPayments(persistableObjects, originalPayments, maxSequence);
-            updateOriginalPayments(persistableObjects, originalPayments);
-
-            // create new asset payment records and offset payment records
-            boService.save(persistableObjects);
-        }
-    }
-
-
-    private void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
-        for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                try {
-                    // change payment code
-                    assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                    persistableObjects.add(assetPayment);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
-
-
-    private Integer createNewPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
-        Integer maxSequenceNo = maxSequence;
-        for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                // copy and create new payment
-                AssetPayment newPayment;
-                try {
-                    if (maxSequenceNo == null) {
-                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
-                    }
-                    // create new payment info
-                    newPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-                    newPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                    newPayment.setAccountNumber(getOrganizationOwnerAccountNumber());
-                    newPayment.setChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
-                    newPayment.setSubAccountNumber(null);
-                    newPayment.setDocumentNumber(getDocumentNumber());
-                    newPayment.setFinancialDocumentTypeCode(ASSET_TRANSFER_DOCTYPE_CD);
-                    newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
-                    newPayment.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
-                    newPayment.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-                    adjustAmounts(newPayment, false);
-                    // add new payment
-                    persistableObjects.add(newPayment);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return maxSequenceNo;
-    }
-
-
-    private Integer createOffsetPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
-        Integer maxSequenceNo = null;
-        for (AssetPayment assetPayment : originalPayments) {
-            if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                // copy and create an offset payment
-                AssetPayment offsetPayment;
-                try {
-                    if (maxSequenceNo == null) {
-                        maxSequenceNo = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(assetPayment);
-                    }
-                    offsetPayment = (AssetPayment) ObjectUtils.fromByteArray(ObjectUtils.toByteArray(assetPayment));
-                    offsetPayment.setPaymentSequenceNumber(++maxSequenceNo);
-                    offsetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                    offsetPayment.setDocumentNumber(getDocumentNumber());
-                    offsetPayment.setFinancialDocumentTypeCode(ASSET_TRANSFER_DOCTYPE_CD);
-                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(new Date()));
-                    offsetPayment.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
-                    offsetPayment.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
-                    adjustAmounts(offsetPayment, true);
-                    // add offset payment
-                    persistableObjects.add(offsetPayment);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return maxSequenceNo;
-    }
-
-
-    private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method[] methods = AssetPayment.class.getMethods();
-        for (Method method : methods) {
-            if (method.getReturnType().isAssignableFrom(KualiDecimal.class)) {
-                String setterName = "set" + method.getName().substring(3);
-                Method setter = AssetPayment.class.getMethod(setterName, KualiDecimal.class);
-                KualiDecimal amount = (KualiDecimal) method.invoke(offsetPayment);
-                if (setter != null && amount != null) {
-                    if (setterName.contains("Depreciation")) {
-                        Object[] nullVal = new Object[] { null };
-                        setter.invoke(offsetPayment, nullVal);
-                    }
-                    else if (reverseAmount) {
-                        // reverse the amounts
-                        setter.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
-                    }
-                }
-            }
-        }
-    }
-
-    private void changeAssetOwner(Asset saveAsset, List<PersistableBusinessObject> objects) {
-        saveAsset.setOrganizationOwnerAccountNumber(getOrganizationOwnerAccountNumber());
-        saveAsset.setOrganizationOwnerChartOfAccountsCode(getOrganizationOwnerChartOfAccountsCode());
-        objects.add(saveAsset);
-    }
-
-    public Asset getAsset() {
-        return asset;
-    }
-
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-
-    @Override
-    public void prepareForSave() {
-        // generate postables
-        super.prepareForSave();
-        this.generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
-        createGLPostables();
-
-        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("general ledger GLPE generation failed");
-        }
-
-    }
-
-    /**
-     * Creates GL Postables using the source plant account number and target plant account number
-     */
-    private void createGLPostables() {
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        this.asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
-        refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
-        AssetService assetService = SpringContext.getBean(AssetService.class);
-        boolean movableAsset = assetService.isAssetMovable(this.asset);
-        if (assetService.isCapitalAsset(this.asset) && isGLPostable(movableAsset)) {
-            List<AssetPayment> assetPayments = getAsset().getAssetPayments();
-            createSourceGLPostables(universityDateService, assetPayments, movableAsset);
-            createTargetGLPostables(universityDateService, assetPayments, movableAsset);
-        }
-    }
-
-
-    /**
-     * Checks if it is ready for GL Posting by validating the accounts and plant account numbers
-     * 
-     * @return true if all accounts are valid
-     */
-    private boolean isGLPostable(boolean movableAsset) {
-        boolean isGLPostable = true;
-
-        Account srcPlantAcct = null;
-
-        if (ObjectUtils.isNotNull(this.asset.getOrganizationOwnerAccount())) {
-            if (movableAsset) {
-                srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-            }
-            else {
-                srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-            }
-        }
-
-        if (ObjectUtils.isNull(srcPlantAcct)) {
-            isGLPostable &= false;
-        }
-        Account targetPlantAcct = null;
-        if (ObjectUtils.isNotNull(getOrganizationOwnerAccount())) {
-            if (movableAsset) {
-                targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-            }
-            else {
-                targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-            }
-        }
-        if (ObjectUtils.isNull(targetPlantAcct)) {
-            isGLPostable &= false;
-
-        }
-        return isGLPostable;
-    }
-
-
-    /**
-     * Creates target GL Postable for the receiving organization
-     * 
-     * @param universityDateService University Date Service to get the current fiscal year and period
-     * @param assetPayments Payments for which GL entries needs to be created
-     */
-    private void createTargetGLPostables(UniversityDateService universityDateService, List<AssetPayment> assetPayments, boolean movableAsset) {
-        Account targetPlantAcct = null;
-
-        if (movableAsset) {
-            targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-        }
-        else {
-            targetPlantAcct = getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-        }
-        for (AssetPayment assetPayment : assetPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-                addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, targetPlantAcct, assetPayment, false));
-            }
-        }
-    }
-
-
-    /**
-     * Creates GL Postables for the source organization
-     * 
-     * @param universityDateService University Date Service to get the current fiscal year and period
-     * @param assetPayments Payments for which GL entries needs to be created
-     */
-    private void createSourceGLPostables(UniversityDateService universityDateService, List<AssetPayment> assetPayments, boolean movableAsset) {
-        Account srcPlantAcct = null;
-
-        if (movableAsset) {
-            srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
-        }
-        else {
-            srcPlantAcct = this.asset.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
-        }
-        for (AssetPayment assetPayment : assetPayments) {
-            if (!CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode())) {
-                assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-                if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-                    addGeneralLedgerPostables(createAssetGlpePostable(universityDateService, srcPlantAcct, assetPayment, true));
-                }
-            }
-        }
-    }
-
-    /**
-     * Creates an instance of AssetGlpeSourceDetail depending on the source flag
-     * 
-     * @param universityDateService University Date Service
-     * @param plantAccount Plant account for the organization
-     * @param assetPayment Payment record for which postable is created
-     * @param isSource Indicates if postable is for source organization
-     * @return GL Postable source detail
-     */
-    private AssetGlpeSourceDetail createAssetGlpePostable(UniversityDateService universityDateService, Account plantAccount, AssetPayment assetPayment, boolean isSource) {
-        AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
-        postable.setSource(isSource);
-        postable.setAccount(plantAccount);
-        postable.setAccountNumber(plantAccount.getAccountNumber());
-        postable.setAmount(assetPayment.getAccountChargeAmount());
-        // TODO Balance type code
-        postable.setBalanceTypeCode("");
-        if (isSource) {
-            postable.setChartOfAccountsCode(this.asset.getOrganizationOwnerChartOfAccountsCode());
-        }
-        else {
-            postable.setChartOfAccountsCode(this.getOrganizationOwnerChartOfAccountsCode());
-        }
-        postable.setDocumentNumber(getDocumentNumber());
-        postable.setFinancialDocumentLineDescription("Asset Transfer " + (isDebit(postable) ? "Debit" : "Credit") + " Line");
-        postable.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
-        postable.setObjectCode(assetPayment.getFinancialObject());
-        postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
-        postable.setPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
-        return postable;
-    }
-
-    public UniversalUser getAssetRepresentative() {
-        return assetRepresentative;
-    }
-
-
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
-        this.assetRepresentative = assetRepresentative;
-    }
-
-
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-
-    }
-
-
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        return false;
-    }
-
-
-    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        return true;
-    }
-
-
-    public KualiDecimal getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(GeneralLedgerPendingEntrySourceDetail postable) {
-        return postable.getAmount();
-    }
-
-
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
-        return this.generalLedgerPostables;
-    }
-
-
-    public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
-    }
-
-
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
-        boolean isDebit = false;
-        // If source org and amount is negative then true
-        if (srcDetail.isSource() && srcDetail.getAmount().isNegative()) {
-            isDebit = true;
-        }
-        // If target and amount is positive then true
-        if (!srcDetail.isSource() && srcDetail.getAmount().isPositive()) {
-            isDebit = true;
-        }
-        return isDebit;
-    }
-
-
-    public void setGeneralLedgerPostables(List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables) {
-        this.generalLedgerPostables = generalLedgerPostables;
-    }
-
-    public void addGeneralLedgerPostables(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail) {
-        if (this.generalLedgerPostables != null) {
-            this.generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
-        }
-    }
-
-
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
     }
 
 

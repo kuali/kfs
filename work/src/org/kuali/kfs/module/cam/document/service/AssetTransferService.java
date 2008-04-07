@@ -15,18 +15,9 @@
  */
 package org.kuali.module.cams.service;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.document.AssetTransferDocument;
 
-
-/**
- * The interface defines methods for Asset Document
- */
-public interface AssetService {
-    boolean isAssetMovable(Asset asset);
-
-    boolean isCapitalAsset(Asset asset);
-
-    boolean isAssetRetired(Asset asset);
-
+public interface AssetTransferService {
+    void saveApprovedChanges(AssetTransferDocument document);
+    void createGLPostables(AssetTransferDocument document);
 }

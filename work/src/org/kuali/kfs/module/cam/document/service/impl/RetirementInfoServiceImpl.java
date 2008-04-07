@@ -22,14 +22,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.RetirementInfoService;
 
 /**
@@ -38,6 +37,7 @@ import org.kuali.module.cams.service.RetirementInfoService;
 public class RetirementInfoServiceImpl implements RetirementInfoService {
 
     private ParameterService parameterService;
+    private AssetService assetService;
 
     /**
      * Identifies the latest retirement record for the asset if current status is retired
@@ -49,7 +49,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      */
     public void setRetirementInfo(Asset asset) {
         // If current status is not retired, return empty
-        if (!parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode())) {
+        if (!assetService.isAssetRetired(asset)) {
             return;
         }
         List<AssetRetirementGlobalDetail> retirementHistory = asset.getAssetRetirementHistory();
@@ -103,6 +103,16 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
     }
 
 

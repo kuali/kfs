@@ -57,7 +57,7 @@
                 <maintainableItems> 
                 	<subSectionHeader name="Asset Detail Info" />
                     <maintainableField name="capitalAssetNumber" readOnly="true" />
-                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
+                    <maintainableField name="organizationOwnerChartOfAccountsCode" />
                     <maintainableField name="organizationOwnerAccountNumber" />
                     <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true"/>
                     <maintainableField name="agencyNumber" />
@@ -209,8 +209,9 @@
           <maintainableSection title="View Retirement Information" id="retirementInformation">
           	<maintainableItems>
           		<maintainableField name="retirementInfo.documentNumber" readOnly="true" />
-          		<maintainableField name="retirementReasonCode" readOnly="true" />
+          		<maintainableField name="retirementReason.retirementReasonName" readOnly="true" />          		
           		<maintainableField name="retirementInfo.assetRetirementGlobal.retirementDate" readOnly="true" />
+          		<maintainableField name="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber" readOnly="true" />
           		<subSectionHeader name="Sale" />
           		<maintainableField name="salePrice" readOnly="true" />
           		<maintainableField name="estimatedSellingPrice" readOnly="true" />

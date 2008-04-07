@@ -67,7 +67,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         sqlText.append(" AND pbgl.fin_obj_typ_cd in \n");
         // list of income object types
         insertionPoints.add(sqlText.length());
-        sqlText.append(")\n");
+        sqlText.append("\n");
         sqlText.append(" AND pbgl.univ_fiscal_yr = objt.univ_fiscal_yr \n");
         sqlText.append(" AND pbgl.fin_coa_cd = objt.fin_coa_cd \n");
         sqlText.append(" AND pbgl.fin_object_cd = objt.fin_object_cd \n");
@@ -94,7 +94,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         sqlText.append(" AND pbgl.fin_obj_typ_cd in \n");
         // list of expense object types
         insertionPoints.add(sqlText.length());
-        sqlText.append(")\n");
+        sqlText.append("\n");
         sqlText.append(" AND pbgl.univ_fiscal_yr = objt.univ_fiscal_yr \n");
         sqlText.append(" AND pbgl.fin_coa_cd = objt.fin_coa_cd \n");
         sqlText.append(" AND pbgl.fin_object_cd = objt.fin_object_cd \n");
@@ -108,95 +108,101 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         updateReportsAccountObjectDetailTable.add(new SQLForStep(sqlText,insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
+        
+        /*  SQL-92 does not permit us to use an alias for the target table in an UPDATE clause--neither, apparently does PostgreSQL (Gennick, p. 156) */
 
         /* get the appointment funding fte */
-        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT ab \n");
+        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT  \n");
         sqlText.append("SET appt_rqst_fte_qty = (SELECT SUM(af.appt_rqst_fte_qty) \n");
         sqlText.append("FROM ld_pndbc_apptfnd_t af \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = af.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = af.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = af.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = af.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = af.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = af.fin_sub_obj_cd),  \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = af.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = af.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = af.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = af.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = af.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = af.fin_sub_obj_cd),  \n");
         sqlText.append(" appt_rqcsf_fte_qty = (SELECT SUM(af.appt_rqst_fte_qty) \n");
         sqlText.append("FROM ld_pndbc_apptfnd_t af \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = af.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = af.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = af.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = af.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = af.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = af.fin_sub_obj_cd) \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = af.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = af.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = af.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = af.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = af.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = af.fin_sub_obj_cd) \n");
         sqlText.append("WHERE sesid = ? \n");
         sqlText.append("AND EXISTS (SELECT 1 FROM ld_pndbc_apptfnd_t af2 \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = af2.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = af2.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = af2.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = af2.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = af2.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = af2.fin_sub_obj_cd) \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = af2.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = af2.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = af2.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = af2.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = af2.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = af2.fin_sub_obj_cd) \n");
         
         updateReportsAccountObjectDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
+
+        /*  SQL-92 does not permit us to use an alias for the target table in an UPDATE clause--neither, apparently does PostgreSQL (Gennick, p. 156) */
+
         /* get the csf regular fte */
-        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT ab \n");
+        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT \n");
         sqlText.append("SET pos_csf_fte_qty = (SELECT SUM(bcsf.pos_csf_fte_qty) \n");
         sqlText.append("FROM ld_bcn_csf_trckr_t bcsf \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = bcsf.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = bcsf.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = bcsf.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = bcsf.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = bcsf.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = bcsf.fin_sub_obj_cd \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = bcsf.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = bcsf.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = bcsf.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = bcsf.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = bcsf.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = bcsf.fin_sub_obj_cd \n");
         sqlText.append("AND bcsf.pos_csf_fndstat_cd <> '");
         // CSF Leave indicator
         insertionPoints.add(sqlText.length());
-        sqlText.append("'\n");
+        sqlText.append("')\n");
         sqlText.append("WHERE sesid = ? \n");
         sqlText.append("AND EXISTS (SELECT 1 FROM ld_bcn_csf_trckr_t bcsf2 \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = bcsf2.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = bcsf2.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = bcsf2.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = bcsf2.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = bcsf2.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = bcsf2.fin_sub_obj_cd \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = bcsf2.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = bcsf2.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = bcsf2.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = bcsf2.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = bcsf2.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = bcsf2.fin_sub_obj_cd \n");
         sqlText.append("AND bcsf2.pos_csf_fndstat_cd <> '"); 
         // CSF leave inndicator
         insertionPoints.add(sqlText.length());
-        sqlText.append("'\n");
+        sqlText.append("')\n");
                    
         updateReportsAccountObjectDetailTable.add(new SQLForStep(sqlText,insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
                      
+        /*  SQL-92 does not permit us to use an alias for the target table in an UPDATE clause--neither, apparently does PostgreSQL (Gennick, p. 156) */
+
         /* get the csf leave fte */
         
-        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT ab \n");
+        sqlText.append("UPDATE LD_BCN_BUILD_ACCTBAL01_MT \n");
         sqlText.append("SET pos_csf_fte_qty = (SELECT SUM(bcsf.pos_csf_fte_qty) \n");
         sqlText.append("FROM ld_bcn_csf_trckr_t bcsf \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = bcsf.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = bcsf.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = bcsf.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = bcsf.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = bcsf.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = bcsf.fin_sub_obj_cd \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = bcsf.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = bcsf.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = bcsf.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = bcsf.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = bcsf.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = bcsf.fin_sub_obj_cd \n");
         sqlText.append("AND bcsf.pos_csf_fndstat_cd = '");
         //CSF leave indicator
         insertionPoints.add(sqlText.length());
-        sqlText.append("'\n");
+        sqlText.append("')\n");
         sqlText.append("WHERE sesid = ? \n");
         sqlText.append("AND EXISTS (SELECT * FROM ld_bcn_csf_trckr_t bcsf2 \n");
-        sqlText.append("WHERE ab.univ_fiscal_yr = bcsf2.univ_fiscal_yr \n");
-        sqlText.append("AND ab.fin_coa_cd = bcsf2.fin_coa_cd \n");
-        sqlText.append("AND ab.account_nbr = bcsf2.account_nbr \n");
-        sqlText.append("AND ab.sub_acct_nbr = bcsf2.sub_acct_nbr \n");
-        sqlText.append("AND ab.fin_object_cd = bcsf2.fin_object_cd \n");
-        sqlText.append("AND ab.fin_sub_obj_cd = bcsf2.fin_sub_obj_cd \n");
+        sqlText.append("WHERE LD_BCN_BUILD_ACCTBAL01_MT.univ_fiscal_yr = bcsf2.univ_fiscal_yr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_coa_cd = bcsf2.fin_coa_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.account_nbr = bcsf2.account_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.sub_acct_nbr = bcsf2.sub_acct_nbr \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_object_cd = bcsf2.fin_object_cd \n");
+        sqlText.append("AND LD_BCN_BUILD_ACCTBAL01_MT.fin_sub_obj_cd = bcsf2.fin_sub_obj_cd \n");
         sqlText.append("AND bcsf2.pos_csf_fndstat_cd = '");
         //CSF leave indicator
         insertionPoints.add(sqlText.length());
-        sqlText.append("'\n");
+        sqlText.append("')\n");
         
         updateReportsAccountObjectDetailTable.add(new SQLForStep(sqlText,insertionPoints));
         sqlText.delete(0, sqlText.length());
@@ -257,9 +263,9 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         stringsToInsert.clear();
         stringsToInsert.add(new String(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue()));
         stringsToInsert.add(new String(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue()));
-        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(2).getSQL(stringsToInsert),sessionId);
+        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(2).getSQL(stringsToInsert), sessionId);
         // fill in the FTE fields that come from CSF for people who are on leave
-        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(3).getSQL(stringsToInsert),sessionId);
+        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(3).getSQL(stringsToInsert), sessionId);
     }
     
     private void cleanReportsAccountObjectDetailTable(String personUserIdentifier) {
@@ -268,7 +274,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     
     private void cleanReportsAccountObjectTemporaryTable(String sessionId)
     {
-      clearTempTableBySesId("ld_bcn_acctbal01_mt","SESID",sessionId);
+      clearTempTableBySesId("ld_bcn_build_acctbal01_mt","SESID",sessionId);
     }
     
 
@@ -285,7 +291,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         this.buildInitialAccountBalances(sessionId, personUserIdentifier);
 
         // fill in the detail rows
-        getSimpleJdbcTemplate().update(insertDetailForReport.get(0).getSQL(),sessionId);
+        getSimpleJdbcTemplate().update(insertDetailForReport.get(0).getSQL(), personUserIdentifier, sessionId);
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    
@@ -307,7 +313,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);
         stringsToInsert.add(KFSConstants.getDashSubAccountNumber());
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
-        getSimpleJdbcTemplate().update(insertSummaryForReport.get(0).getSQL(stringsToInsert),sessionId);
+        getSimpleJdbcTemplate().update(insertSummaryForReport.get(0).getSQL(stringsToInsert), personUserIdentifier, sessionId);
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    

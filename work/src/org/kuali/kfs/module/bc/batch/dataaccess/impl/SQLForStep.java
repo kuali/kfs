@@ -65,9 +65,14 @@ public class SQLForStep {
             throw(new IndexOutOfBoundsException("the number of strings to be inserted into SQL does not match the number of insertion points"));
         }
         StringBuilder unfinishedSQL = new StringBuilder(sqlBuilder);
+        // insertions will add to the length of the String
+        // we need to increase the value of the insertion point based on the leghtns
+        int lengthSoFar = 0;
         for (int idx = 0; idx < insertionPoints.length; idx++)
         {
-            unfinishedSQL.insert(insertionPoints[idx],parameterToInsert.get(idx));
+            String parameterString = parameterToInsert.get(idx);
+            unfinishedSQL.insert(insertionPoints[idx]+lengthSoFar,parameterString);
+            lengthSoFar = lengthSoFar+parameterString.length();
         }
         return(unfinishedSQL.toString());
     }

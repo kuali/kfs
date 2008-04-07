@@ -197,4 +197,23 @@ public class BCConstants extends JstlConstants {
         public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
     }
 
+    public enum RequestImportFieldSeparator {
+        COMMA("COMMA"), TAB("TAB"), OTHER("OTHER");
+        
+        private String separator;
+        
+        private RequestImportFieldSeparator(String separator) {
+            this.separator = separator;
+        }
+    }
+    
+    public enum RequestImportTextFieldDelimiter {
+        QUOTE("QUOTE"), NOTHING("NOTHING"), OTHER("OTHER");
+        
+        private String separator;
+        
+        private RequestImportTextFieldDelimiter(String separator) {
+            this.separator = separator;
+        }
+    }
 }

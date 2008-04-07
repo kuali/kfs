@@ -15,9 +15,6 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,11 +24,13 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
+import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
 
 
@@ -59,15 +58,20 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         //TODO: error checking?
         //TODO: text fields?
         //TODO: different parsing for different file types?
-        /*BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileToParse.getInputStream()));
-        while (fileReader.ready()) {
-            String[] objectAttributes = fileReader.readLine().split(budgetConstructionImportForm.getFieldDelimiter());
-            BudgetConstructionRequestMove objectToSave = createBudgetConstructionRequestMoveObject(objectAttributes);
-            if (objectToSave != null) businessObjectService.save(objectToSave);
-        }*/
         
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        String lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
+        boolean isValid = validateImportRequest(budgetConstructionImportForm);
+        
+        String basePath;
+        String lookupUrl;
+        
+        if (isValid ) {
+            basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
+        } else {
+            basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do";
+        }
+        
         
         return new ActionForward(lookupUrl, true);
       
@@ -92,13 +96,69 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
     }
     
     /**
-     * Creates BudgetConstructionRequestMove objects from each line of the imported file
+     * checks form values against business rules
      * 
-     * @param attributes
+     * @param form
      * @return
      */
-    private BudgetConstructionRequestMove createBudgetConstructionRequestMoveObject(String[] attributes, String textFieldDelimeter) {
+    private boolean validateImportRequest(BudgetConstructionRequestImportForm form) {
+        boolean isValid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         
-        return null;
+        if ( form.getFile() == null) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
+            isValid = false;
+        }
+        if (form.getFile() != null && (form.getFile().getFileName() == null || form.getFile().getFileName().equalsIgnoreCase("")) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
+            isValid = false;
+        }
+        if (form.getFieldDelimiter() == null || form.getFieldDelimiter().equalsIgnoreCase(""))  {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
+            isValid = false;
+        } else if (form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER) && ( form.getOtherFieldDelimiter() == null || form.getOtherFieldDelimiter().equalsIgnoreCase("") ) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
+            isValid = false;
+        }
+        if (form.getTextFieldDelimiter() == null || form.getTextFieldDelimiter().equalsIgnoreCase("")) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
+            isValid = false;
+        } else if (form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER) && ( form.getOtherTextFieldDelimiter() == null || form.getOtherTextFieldDelimiter().equalsIgnoreCase("") ) ) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
+            isValid = false;
+        }
+        
+        if (isValid && getFieldSeparator(form).equalsIgnoreCase(getTextFieldDelimiter(form))) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_DISTINCT_DELIMITERS_REQUIRED);
+            isValid = false;
+        }
+         
+        return isValid;
+    }
+    
+    /**
+     * Returns the field separator
+     * 
+     * @param form
+     * @return
+     */
+    private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
+        String separator = form.getFieldDelimiter();
+        if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER) ) separator = form.getOtherFieldDelimiter();
+        
+        return separator;
+    }
+    
+    /**
+     * Returns the text field delimiter
+     * 
+     * @param form
+     * @return
+     */
+    private String getTextFieldDelimiter(BudgetConstructionRequestImportForm form) {
+        String delimiter = form.getTextFieldDelimiter();
+        if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER) ) delimiter = form.getOtherTextFieldDelimiter();
+        
+        return delimiter;
     }
 }

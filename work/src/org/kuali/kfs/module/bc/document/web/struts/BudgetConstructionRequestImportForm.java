@@ -17,6 +17,7 @@ package org.kuali.module.budget.web.struts.form;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.module.budget.bo.BudgetConstructionRequestImport;
 
 
 /**
@@ -31,9 +32,11 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
     private String textFieldDelimiter;
     private String otherFieldDelimiter;
     private String otherTextFieldDelimiter;
+    private BudgetConstructionRequestImport budgetConstructionRequestImport;
     
     public BudgetConstructionRequestImportForm() {
         super();
+        this.budgetConstructionRequestImport = new BudgetConstructionRequestImport();
     }
     
     /**
@@ -42,7 +45,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @return
      */
     public String getFieldDelimiter() {
-        return fieldDelimiter;
+        return this.budgetConstructionRequestImport.getFieldDelimiter();
     }
     
     /**
@@ -51,7 +54,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @param fieldDelimiter
      */
     public void setFieldDelimiter(String fieldDelimiter) {
-        this.fieldDelimiter = fieldDelimiter;
+        this.budgetConstructionRequestImport.setFieldDelimiter(fieldDelimiter);
     }
     
     /**
@@ -70,6 +73,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      */
     public void setFile(FormFile file) {
         this.file = file;
+        this.budgetConstructionRequestImport.setFieldDelimiter(file.getFileName());
     }
     
     /**
@@ -78,7 +82,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @return
      */
     public String getFileType() {
-        return fileType;
+        return this.budgetConstructionRequestImport.getFileType();
     }
     
     /**
@@ -87,7 +91,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @param fileType
      */
     public void setFileType(String fileType) {
-        this.fileType = fileType;
+        this.budgetConstructionRequestImport.setFileType(fileType);
     }
     
     /**
@@ -96,7 +100,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @return
      */
     public String getTextFieldDelimiter() {
-        return textFieldDelimiter;
+        return this.budgetConstructionRequestImport.getTextFieldDelimiter();
     }
 
     /**
@@ -105,7 +109,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @param textFieldDelimiter
      */
     public void setTextFieldDelimiter(String textFieldDelimiter) {
-        this.textFieldDelimiter = textFieldDelimiter;
+        this.budgetConstructionRequestImport.setTextFieldDelimiter(textFieldDelimiter);
     }
     
     /**
@@ -114,7 +118,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @return
      */
     public String getOtherFieldDelimiter() {
-        return otherFieldDelimiter;
+        return this.budgetConstructionRequestImport.getOtherFieldDelimiter();
     }
     
     /**
@@ -123,7 +127,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @param otherFieldDelimiter
      */
     public void setOtherFieldDelimiter(String otherFieldDelimiter) {
-        this.otherFieldDelimiter = otherFieldDelimiter;
+        this.budgetConstructionRequestImport.setOtherFieldDelimiter(otherFieldDelimiter);
     }
     
     /**
@@ -132,16 +136,34 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      * @return
      */
     public String getOtherTextFieldDelimiter() {
-        return otherTextFieldDelimiter;
+        return this.budgetConstructionRequestImport.getOtherTextFieldDelimiter();
     }
     
     /**
      * Sets text field delimiter
-     * This method...
+     * 
      * @param otherTextFieldDelimiter
      */
     public void setOtherTextFieldDelimiter(String otherTextFieldDelimiter) {
-        this.otherTextFieldDelimiter = otherTextFieldDelimiter;
+        this.budgetConstructionRequestImport.setOtherTextFieldDelimiter(otherTextFieldDelimiter);
+    }
+    
+    /**
+     * 
+     * 
+     * @return
+     */
+    public BudgetConstructionRequestImport getBudgetConstructionRequestImport() {
+        return budgetConstructionRequestImport;
+    }
+
+    /**
+     * 
+     * 
+     * @param budgetConstructionRequestImport
+     */
+    public void setBudgetConstructionRequestImport(BudgetConstructionRequestImport budgetConstructionRequestImport) {
+        this.budgetConstructionRequestImport = budgetConstructionRequestImport;
     }
 
 }

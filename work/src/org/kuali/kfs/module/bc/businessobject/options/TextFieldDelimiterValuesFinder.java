@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.module.budget.BCConstants;
 
 /**
  * returns text field delimiter values
@@ -31,9 +32,9 @@ public class TextFieldDelimiterValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("Quote", "Quote"));
-        keyValues.add(new KeyLabelPair("Nothing", "Nothing"));
-        keyValues.add(new KeyLabelPair("Other", "Other"));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString(), BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString(), BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString(), BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()));
         
         return keyValues;
     }

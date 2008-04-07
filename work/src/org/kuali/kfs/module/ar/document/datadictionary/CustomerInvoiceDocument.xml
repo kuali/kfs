@@ -90,7 +90,7 @@
                 sourceAttributeName="genericDate" >
                 <label>Billing Date</label>
                 <shortLabel>Billing Date</shortLabel>
-                <required>true</required>
+                <required>false</required>
 
                 <summary><![CDATA[&nbsp;]]> </summary>
                 <description>The date that this invoice was billed</description>
@@ -418,7 +418,7 @@
                 sourceAttributeName="genericDate" >
                 <label>Billing Date</label>
                 <shortLabel>Billing Date</shortLabel>
-                <required>true</required>
+                <required>false</required>
 
                 <summary><![CDATA[&nbsp;]]> </summary>
                 <description>The date that this invoice was billed</description>

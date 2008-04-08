@@ -1,80 +1,60 @@
 package org.kuali.kfs.context;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
+import org.kuali.core.authorization.KualiModuleAuthorizerBase;
+import org.kuali.core.service.KualiModuleService;
+import org.kuali.module.ar.bo.ArUser;
+import org.kuali.module.budget.bo.BudgetUser;
+import org.kuali.module.cams.bo.CamsUser;
+import org.kuali.module.cg.bo.CgUser;
+import org.kuali.module.effort.bo.EffortUser;
+import org.kuali.module.kra.budget.bo.KraUser;
+import org.kuali.module.labor.bo.LaborUser;
+import org.kuali.module.purap.bo.PurapUser;
 import org.kuali.test.ConfigureContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestModularization extends KualiTestBase {
     private static final String BASE_SPRING_FILESET = "SpringBeans.xml,SpringDataSourceBeans.xml,SpringRiceBeans.xml,org/kuali/kfs/KualiSpringBeansKfs.xml,org/kuali/module/integration/SpringBeansModules.xml,org/kuali/module/chart/KualiSpringBeansChart.xml,org/kuali/module/financial/KualiSpringBeansFinancial.xml,org/kuali/module/gl/KualiSpringBeansGl.xml,org/kuali/module/pdp/KualiSpringBeansPdp.xml,org/kuali/module/vendor/KualiSpringBeansVendor.xml";
-    private static final Map<String, String> OPTIONAL_MODULE_TEST_FILESETS = new HashMap<String, String>();
+    private static final Set<String> OPTIONAL_MODULE_IDS = new HashSet<String>();
     static {
-        OPTIONAL_MODULE_TEST_FILESETS.put("AR", BASE_SPRING_FILESET + ",org/kuali/module/ar/KualiSpringBeansAr.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("BC", BASE_SPRING_FILESET + ",org/kuali/module/budget/KualiSpringBeansBudget.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("CM", BASE_SPRING_FILESET + ",org/kuali/module/cams/KualiSpringBeansCams.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("CG", BASE_SPRING_FILESET + ",org/kuali/module/cg/KualiSpringBeansCg.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("ER", BASE_SPRING_FILESET + ",org/kuali/module/effort/KualiSpringBeansEffort.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("RA", BASE_SPRING_FILESET + ",org/kuali/module/kra/KualiSpringBeansKra.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("LD", BASE_SPRING_FILESET + ",org/kuali/module/labor/KualiSpringBeansLabor.xml");
-        OPTIONAL_MODULE_TEST_FILESETS.put("PA", BASE_SPRING_FILESET + ",org/kuali/module/purap/KualiSpringBeansPurap.xml");
+        OPTIONAL_MODULE_IDS.add(ArUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(BudgetUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(CamsUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(CgUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(EffortUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(KraUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(LaborUser.MODULE_ID);
+        OPTIONAL_MODULE_IDS.add(PurapUser.MODULE_ID);
     }
-
-    private static final Map<String, File> OPTIONAL_MODULE_OJB_FILESET = new HashMap<String, File>();
-    static {
-        OPTIONAL_MODULE_OJB_FILESET.put("ar", new File("work/src/org/kuali/module/ar/OJB-repository-ar.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("budget", new File("work/src/org/kuali/module/budget/OJB-repository-budget.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("cams", new File("work/src/org/kuali/module/cams/OJB-repository-cams.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("cg", new File("work/src/org/kuali/module/cg/OJB-repository-cg.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("effort", new File("work/src/org/kuali/module/effort/OJB-repository-effort.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("kra", new File("work/src/org/kuali/module/kra/OJB-repository-kra.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("labor", new File("work/src/org/kuali/module/labor/OJB-repository-labor.xml"));
-        OPTIONAL_MODULE_OJB_FILESET.put("purap", new File("work/src/org/kuali/module/purap/OJB-repository-purap.xml"));
-    }
-
-    private static final Map<String, String> OPTIONAL_MODULE_OJB_PACKAGE = new HashMap<String, String>();
-    static {
-        OPTIONAL_MODULE_OJB_PACKAGE.put("ar", "org.kuali.module.ar");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("budget", "org.kuali.module.budget");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("cams", "org.kuali.module.cams");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("cg", "org.kuali.module.cg");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("effort", "org.kuali.module.effort");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("kra", "org.kuali.module.kra");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("labor", "org.kuali.module.labor");
-        OPTIONAL_MODULE_OJB_PACKAGE.put("purap", "org.kuali.module.purap");
-    }
+    private KualiModuleService moduleService;
 
     public void testSpring() throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(BASE_SPRING_FILESET.split(","));
+        moduleService = SpringContext.getBean(KualiModuleService.class);
+        context.close();
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
-        for (String moduleName : OPTIONAL_MODULE_TEST_FILESETS.keySet()) {
-            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleName, errorMessage);
+        for (String moduleId : OPTIONAL_MODULE_IDS) {
+            System.out.println("CHECK");
+            testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
         }
         System.out.print(errorMessage.toString());
         assertTrue(errorMessage.toString(), testSucceeded);
     }
-
-    public void testOjb() throws Exception {
-        boolean testSucceeded = true;
-        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
-        for (String moduleName : OPTIONAL_MODULE_OJB_FILESET.keySet()) {
-            testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(moduleName, errorMessage);
-        }
-        assertTrue(errorMessage.toString(), testSucceeded);
-    }
-
-    private boolean testOptionalModuleSpringConfiguration(String moduleName, StringBuffer errorMessage) {
+    
+    private boolean testOptionalModuleSpringConfiguration(String moduleId, StringBuffer errorMessage) {
         ClassPathXmlApplicationContext context = null;
         try {
-            context = new ClassPathXmlApplicationContext(OPTIONAL_MODULE_TEST_FILESETS.get(moduleName).split(","));
+            context = new ClassPathXmlApplicationContext(new StringBuffer(BASE_SPRING_FILESET).append(",org/kuali/module/").append(moduleId).append("/KualiSpringBeans").append(moduleId.substring(0, 1).toUpperCase()).append(moduleId.substring(1)).append(".xml").toString().split(","));
             return true;
         }
         catch (Exception e) {
-            errorMessage.append("\n").append(moduleName).append("\n\t").append(e.getMessage());
+            errorMessage.append("\n").append(moduleId).append("\n\t").append(e.getMessage());
             return false;
         }
         finally {
@@ -88,28 +68,39 @@ public class TestModularization extends KualiTestBase {
         }
     }
     
-    private boolean testOptionalModuleOjbConfiguration(String moduleName, StringBuffer errorMessage) throws FileNotFoundException {
+    @ConfigureContext
+    public void testOjb() throws Exception {
+        moduleService = SpringContext.getBean(KualiModuleService.class);
         boolean testSucceeded = true;
-        for (String referencedModuleName : OPTIONAL_MODULE_OJB_PACKAGE.keySet()) {
-            if (!moduleName.equals(referencedModuleName)) {
+        StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
+        for (String moduleId : OPTIONAL_MODULE_IDS) {
+            testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(moduleId, errorMessage);
+        }
+        assertTrue(errorMessage.toString(), testSucceeded);
+    }
+
+    private boolean testOptionalModuleOjbConfiguration(String moduleId, StringBuffer errorMessage) throws FileNotFoundException {
+        boolean testSucceeded = true;
+        for (String referencedModuleId : OPTIONAL_MODULE_IDS) {
+            if (!moduleId.equals(referencedModuleId)) {
                 Scanner scanner = null;
-                scanner = new Scanner(OPTIONAL_MODULE_OJB_FILESET.get(moduleName));
+                scanner = new Scanner("work/src/" + moduleService.getModule(referencedModuleId).getDatabaseRepositoryFilePaths().iterator().next());
                 scanner.useDelimiter(" ");
                 int count = 0;
                 while (scanner.hasNext()) {
-                    if (scanner.next().contains(OPTIONAL_MODULE_OJB_PACKAGE.get(referencedModuleName))) {
+                    if (scanner.next().contains(((KualiModuleAuthorizerBase) moduleService.getModule(referencedModuleId).getModuleAuthorizer()).getPackagePrefixes().iterator().next())) {
                         count++;
                     }
                 }
                 if (count > 0) {
                     if (testSucceeded) {
                         testSucceeded = false;
-                        errorMessage.append("\n").append(moduleName).append(": ");
+                        errorMessage.append("\n").append(moduleId).append(": ");
                     }
                     else {
                         errorMessage.append(", ");
                     }
-                    errorMessage.append(count).append(" references to ").append(referencedModuleName);
+                    errorMessage.append(count).append(" references to ").append(referencedModuleId);
                 }
             }
         }

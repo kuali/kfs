@@ -60,7 +60,7 @@
             <reference attributeName="universityClearingAccount" attributeToHighlightOnFail="universityClearingAccountNumber" />
             <reference attributeName="universityClearingChartOfAccounts" attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
             <reference attributeName="universityClearingSubAccount" attributeToHighlightOnFail="universityClearingSubAccountNumber" />
-            <reference attributeName="universityFiscalY" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="universityFiscalYear" attributeToHighlightOnFail="universityFiscalYear" />
         </defaultExistenceChecks>
 
         <maintainableSections>
@@ -69,7 +69,7 @@
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="processingChartOfAccountCode" required="true" />
                     <maintainableField name="processingOrganizationCode" required="true" />
-                    <maintainableField name="lockboxDocumentInitiator" required="false">
+                    <maintainableField name="financialDocumentInitiatorIdentifier" required="false">
                     	<defaultValueFinderClass>
 						org.kuali.module.cg.lookup.valuefinder.CurrentSessionUserValueFinder
                         </defaultValueFinderClass>

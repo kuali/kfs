@@ -24,9 +24,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -42,15 +44,18 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        applyRules(document);
-        return true;
+        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        return checkReferencesExist(assetTransferDocument);
+
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        //TODO - Active loan and pending document edit
-        
-        return applyRules(document);
+        boolean valid = true;
+        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
+        valid &= SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument);
+        valid &= applyRules(document);
+        return valid;
     }
 
     private boolean applyRules(Document document) {
@@ -66,28 +71,110 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     private boolean validateLocation(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
-        if (!StringUtils.isBlank(assetTransferDocument.getCampusCode())) {
+        boolean onCampus = StringUtils.isNotBlank(assetTransferDocument.getCampusCode()) || StringUtils.isNotBlank(assetTransferDocument.getBuildingCode()) || StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber()) || StringUtils.isNotBlank(assetTransferDocument.getBuildingSubRoomNumber());
+        boolean offCampus = StringUtils.isNotBlank(assetTransferDocument.getOffCampusAddress()) || StringUtils.isNotBlank(assetTransferDocument.getOffCampusCityName()) || StringUtils.isNotBlank(assetTransferDocument.getOffCampusStateCode()) || StringUtils.isNotBlank(assetTransferDocument.getOffCampusZipCode());
+
+        if (onCampus && offCampus) {
+            putError(CamsPropertyConstants.AssetTransferDocument.LOCATION_TAB, CamsKeyConstants.Transfer.ERROR_CHOOSE_LOCATION_INFO);
+            valid &= false;
+        }
+        else if (onCampus) {
+            valid = validateOnCampusLocation(assetTransferDocument);
+        }
+        else if (offCampus) {
+            valid = validateOffCampusLocation(assetTransferDocument);
+        }
+        else {
+            putError(CamsPropertyConstants.AssetTransferDocument.LOCATION_TAB, CamsKeyConstants.Transfer.ERROR_LOCATION_INFO_REQUIRED);
+            valid &= false;
+        }
+        return valid;
+    }
+
+    private boolean validateOffCampusLocation(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
+        // when off campus, make sure required fields are populated
+        if (StringUtils.isBlank(assetTransferDocument.getOffCampusAddress())) {
+            putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ADDRESS, CamsKeyConstants.Transfer.ERROR_OFFCAMPUS_ADDRESS_REQUIRED);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(assetTransferDocument.getOffCampusCityName())) {
+            putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_CITY, CamsKeyConstants.Transfer.ERROR_OFFCAMPUS_CITY_REQUIRED);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(assetTransferDocument.getOffCampusStateCode())) {
+            putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.Transfer.ERROR_OFFCAMPUS_STATE_REQUIRED);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(assetTransferDocument.getOffCampusZipCode())) {
+            putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_ZIP, CamsKeyConstants.Transfer.ERROR_OFFCAMPUS_ZIP_REQUIRED);
+            valid &= false;
+        }
+        return valid;
+    }
+
+    private boolean validateOnCampusLocation(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
+        if (StringUtils.isBlank(assetTransferDocument.getCampusCode())) {
+            // validate campus code
+            putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.Transfer.ERROR_ONCAMPUS_CAMPUS_CODE_REQUIRED);
+            valid &= false;
+        }
+        // when on-campus
+        // validate building code
+        if (StringUtils.isBlank(assetTransferDocument.getBuildingCode())) {
+            // enter building code
+            putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.Transfer.ERROR_ONCAMPUS_BUILDING_CODE_REQUIRED);
+            valid &= false;
+        }
+        // if movable asset, validate room number
+        if (getAssetService().isAssetMovable(assetTransferDocument.getAsset())) {
+            if (StringUtils.isBlank(assetTransferDocument.getBuildingRoomNumber())) {
+                putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.Transfer.ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_REQUIRED);
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+
+    private boolean checkReferencesExist(AssetTransferDocument assetTransferDocument) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
+            if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerChartOfAccounts())) {
+                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE, CamsKeyConstants.Transfer.ERROR_OWNER_CHART_CODE_INVALID);
+                valid &= false;
+            }
+        }
+        if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
+            if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerAccount())) {
+                putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID);
+                valid &= false;
+            }
+        }
+        if (StringUtils.isNotBlank(assetTransferDocument.getCampusCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.CAMPUS);
             if (ObjectUtils.isNull(assetTransferDocument.getCampus())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.CAMPUS_CODE, CamsKeyConstants.Transfer.ERROR_INVALID_CAMPUS_CODE);
                 valid &= false;
             }
         }
-        if (!StringUtils.isBlank(assetTransferDocument.getBuildingCode())) {
+        if (StringUtils.isNotBlank(assetTransferDocument.getBuildingCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING);
             if (ObjectUtils.isNull(assetTransferDocument.getBuilding())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_CODE, CamsKeyConstants.Transfer.ERROR_INVALID_BUILDING_CODE);
                 valid &= false;
             }
         }
-        if (!StringUtils.isBlank(assetTransferDocument.getBuildingRoomNumber())) {
+        if (StringUtils.isNotBlank(assetTransferDocument.getBuildingRoomNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM);
             if (ObjectUtils.isNull(assetTransferDocument.getBuildingRoom())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.BUILDING_ROOM_NUMBER, CamsKeyConstants.Transfer.ERROR_INVALID_ROOM_NUMBER);
                 valid &= false;
             }
         }
-        if (!StringUtils.isBlank(assetTransferDocument.getOffCampusStateCode())) {
+        if (StringUtils.isNotBlank(assetTransferDocument.getOffCampusStateCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE);
             if (ObjectUtils.isNull(assetTransferDocument.getOffCampusState())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.Transfer.ERROR_INVALID_OFF_CAMPUS_STATE);
@@ -100,7 +187,6 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     private boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
-        assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
         // check if account is active
         Account organizationOwnerAccount = assetTransferDocument.getOrganizationOwnerAccount();
         if (organizationOwnerAccount == null || organizationOwnerAccount.isExpired() || organizationOwnerAccount.isAccountClosedIndicator()) {

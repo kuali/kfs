@@ -78,6 +78,17 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.code";
         public static final String ERROR_INVALID_OFF_CAMPUS_STATE = "error.invalid.state.code";
+        public static final String ERROR_LOCATION_INFO_REQUIRED = "error.location.info.required";
+        public static final String ERROR_ONCAMPUS_CAMPUS_CODE_REQUIRED = "error.oncampus.campus.code.required";
+        public static final String ERROR_ONCAMPUS_BUILDING_CODE_REQUIRED = "error.oncampus.building.value.required";
+        public static final String ERROR_ONCAMPUS_BUILDING_ROOM_NUMBER_REQUIRED = "error.oncampus.room.number.required";
+        public static final String ERROR_OFFCAMPUS_ADDRESS_REQUIRED = "error.offcampus.address.required";
+        public static final String ERROR_OFFCAMPUS_CITY_REQUIRED = "error.offcampus.city.required";
+        public static final String ERROR_OFFCAMPUS_STATE_REQUIRED = "error.offcampus.state.required";
+        public static final String ERROR_OFFCAMPUS_ZIP_REQUIRED = "error.offcampus.zip.required";
+        public static final String ERROR_OWNER_CHART_CODE_INVALID = "error.receiving.org.chart.code.invalid";
+        public static final String ERROR_OWNER_ACCT_INVALID = "error.receiving.org.acct.invalid";
+        public static final String ERROR_CHOOSE_LOCATION_INFO = "error.location.choose.right";
     }
 
 }

@@ -19,22 +19,33 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.DateUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
+import org.kuali.module.cams.bo.AssetLocation;
+import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
+import org.kuali.module.cams.rules.AssetTransferDocumentRule;
+import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
@@ -48,6 +59,17 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private AssetPaymentService assetPaymentService;
 
 
+    /**
+     * This method uses reflection and performs steps on all Amount fields
+     * <li>If it is a depreciation field, then reset the value to null, so that they don't get copied to offset payments </li>
+     * <li>If it is an amount field, then reverse the amount by multiplying with -1 </li>
+     * 
+     * @param offsetPayment Offset payment
+     * @param reverseAmount true if amounts needs to be multiplied with -1
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method[] methods = AssetPayment.class.getMethods();
         for (Method method : methods) {
@@ -67,14 +89,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 }
             }
         }
-    }
-
-
-    private void changeAssetOwnerData(AssetTransferDocument document, Asset saveAsset, List<PersistableBusinessObject> objects) {
-        saveAsset.setOrganizationOwnerAccountNumber(document.getOrganizationOwnerAccountNumber());
-        saveAsset.setOrganizationOwnerChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
-        saveAsset.setLastInventoryDate(new Timestamp(new Date().getTime()));
-        objects.add(saveAsset);
     }
 
 
@@ -130,6 +144,15 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
 
+    /**
+     * Creates new payment records for new organization account
+     * 
+     * @param document Current document
+     * @param persistableObjects Saveable objects list
+     * @param originalPayments Original payments for the asset
+     * @param maxSequence Payment sequence number
+     * @return Incremented sequence number
+     */
     private Integer createNewPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments, Integer maxSequence) {
         Integer maxSequenceNo = maxSequence;
         for (AssetPayment assetPayment : originalPayments) {
@@ -164,6 +187,14 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     }
 
 
+    /**
+     * Creates offset payment copying the details from original payments and reversing the amounts
+     * 
+     * @param document Current Document
+     * @param persistableObjects List of saveable objects
+     * @param originalPayments Original list of payments
+     * @return Incremented sequence number
+     */
     private Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         // TODO check if object code is active for the payment
         Integer maxSequenceNo = null;
@@ -259,6 +290,28 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         return businessObjectService;
     }
 
+
+    /**
+     * Prepares the list of document URLs that can be used to displayed along with error message
+     * 
+     * @param headerNos Pending headers
+     * @return String with list of document view URLS
+     */
+    private String getHeaders(String[] headerNos) {
+        String value = " [";
+        for (int i = 0; i < headerNos.length; i++) {
+            Properties params = new Properties();
+            params.put("command", "displayDocSearchView");
+            params.put("docId", headerNos[i]);
+            value += "<a href=\"" + UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do", params) + "\">" + headerNos[i] + "</a>";
+            if (i < headerNos.length - 1) {
+                value += ", ";
+            }
+        }
+        value += "]";
+        return value;
+    }
+
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
     }
@@ -301,11 +354,63 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         return isGLPostable;
     }
 
+    /**
+     * Helper method to check conditions if a payment is eligible for GL posting
+     * 
+     * @param assetPayment Asset Payment record
+     * @return True is record can be used for GL entry creation
+     */
     private boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
         // Payment transfer code is not "Y" and is not a Federal Contribution
         return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
     }
 
+    /**
+     * Validates if asset can be transferred or not
+     * <li>Checks for any active documents working on this asset, returns false if any pending documents for asset is found</li>
+     * <li>Checks if asset is active or not, returns false when not active</li>
+     * 
+     * @see org.kuali.module.cams.service.AssetTransferService#isTransferable(org.kuali.module.cams.document.AssetTransferDocument)
+     */
+    public boolean isTransferable(AssetTransferDocument document) {
+        Asset asset = document.getAsset();
+        boolean transferable = true;
+        if (assetService.isAssetRetired(asset)) {
+            transferable &= false;
+            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
+        }
+        // check if any pending transactions
+        if (transferable) {
+            Collection<AssetHeader> pendingHeaders = SpringContext.getBean(AssetHeaderService.class).findPendingHeadersByAsset(asset, document);
+            if (pendingHeaders != null && !pendingHeaders.isEmpty()) {
+                transferable &= false;
+                String[] headerNos = new String[pendingHeaders.size()];
+                int pos = 0;
+                for (AssetHeader assetHeader : pendingHeaders) {
+                    headerNos[pos] = assetHeader.getDocumentNumber();
+                    pos++;
+                }
+                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, getHeaders(headerNos));
+            }
+        }
+        return transferable;
+    }
+
+
+    /**
+     * This method is called when the work flow document is reached its final approval
+     * <ol>
+     * <li>Gets the latest asset details from DB</li>
+     * <li>Save asset owner data</li>
+     * <li>Save location changes </li>
+     * <li>Save organization changes</li>
+     * <li>Create offset payments</li>
+     * <li>Create new payments</li>
+     * <li>Update original payments</li>
+     * </ol>
+     * 
+     * @see org.kuali.module.cams.service.AssetTransferService#saveApprovedChanges(org.kuali.module.cams.document.AssetTransferDocument)
+     */
     public void saveApprovedChanges(AssetTransferDocument document) {
         AssetHeader assetHeader = document.getAssetHeader();
         // save new asset location details to asset table, inventory date
@@ -313,20 +418,93 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         Asset saveAsset = new Asset();
         saveAsset.setCapitalAssetNumber(assetHeader.getCapitalAssetNumber());
         saveAsset = (Asset) getBusinessObjectService().retrieve(saveAsset);
-        changeAssetOwnerData(document, saveAsset, persistableObjects);
-        if (saveAsset.getAssetPayments() == null) {
-            saveAsset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
-        }
+        saveAssetOwnerData(document, saveAsset);
+        saveLocationChanges(document, saveAsset);
+        saveOrganizationChanges(document, saveAsset);
+
         if (getAssetService().isCapitalAsset(saveAsset)) {
+            // for capital assets, create new asset payment records and offset payment records
+            if (saveAsset.getAssetPayments() == null) {
+                saveAsset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
+            }
             List<AssetPayment> originalPayments = saveAsset.getAssetPayments();
             Integer maxSequence = createOffsetPayments(document, persistableObjects, originalPayments);
             maxSequence = createNewPayments(document, persistableObjects, originalPayments, maxSequence);
             updateOriginalPayments(persistableObjects, originalPayments);
         }
-        // create new asset payment records and offset payment records
+        // save asset
+        persistableObjects.add(saveAsset);
         getBusinessObjectService().save(persistableObjects);
     }
 
+
+    /**
+     * Updates organization data for the asset
+     * 
+     * @param document Current document
+     * @param saveAsset Asset
+     */
+    private void saveAssetOwnerData(AssetTransferDocument document, Asset saveAsset) {
+        saveAsset.setOrganizationOwnerAccountNumber(document.getOrganizationOwnerAccountNumber());
+        saveAsset.setOrganizationOwnerChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
+    }
+
+    /**
+     * Updates location details to the asset
+     * 
+     * @param document Current document
+     * @param saveAsset Asset
+     */
+    private void saveLocationChanges(AssetTransferDocument document, Asset saveAsset) {
+        // change inventory date
+        saveAsset.setLastInventoryDate(new Timestamp(new Date().getTime()));
+        // save asset location details
+        saveAsset.setCampusCode(document.getCampusCode());
+        saveAsset.setBuildingCode(document.getBuildingCode());
+        saveAsset.setBuildingRoomNumber(document.getBuildingRoomNumber());
+        saveAsset.setBuildingSubRoomNumber(document.getBuildingSubRoomNumber());
+
+        // save off campus location details
+        AssetLocation offCampusLocation = null;
+        List<AssetLocation> orginalLocations = saveAsset.getAssetLocations();
+        for (AssetLocation assetLocation : orginalLocations) {
+            if (CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equals(assetLocation.getAssetLocationTypeCode())) {
+                offCampusLocation = assetLocation;
+                break;
+            }
+        }
+        if (offCampusLocation == null) {
+            offCampusLocation = new AssetLocation();
+            offCampusLocation.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
+            offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
+            saveAsset.getAssetLocations().add(offCampusLocation);
+        }
+        // save details
+        offCampusLocation.setAssetLocationStreetAddress(document.getOffCampusAddress());
+        offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
+        offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
+        offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
+    }
+
+
+    /**
+     * Updates organization changes
+     * 
+     * @param document Current document
+     * @param saveAsset Asset
+     */
+    private void saveOrganizationChanges(AssetTransferDocument document, Asset saveAsset) {
+        AssetOrganization assetOrganization = null;
+        if ((assetOrganization = saveAsset.getAssetOrganization()) == null) {
+            assetOrganization = new AssetOrganization();
+            assetOrganization.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
+            saveAsset.setAssetOrganization(assetOrganization);
+        }
+        saveAsset.setOrganizationInventoryName(document.getOrganizationInventoryName());
+        saveAsset.setRepresentativeUniversalIdentifier(document.getRepresentativeUniversalIdentifier());
+        assetOrganization.setOrganizationTagNumber(document.getOrganizationTagNumber());
+        assetOrganization.setOrganizationText(document.getOrganizationText());
+    }
 
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
         this.assetPaymentService = assetPaymentService;
@@ -337,27 +515,27 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         this.assetService = assetService;
     }
 
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
 
-
+    /**
+     * Updates original payment records
+     * 
+     * @param persistableObjects List of saveable objects
+     * @param originalPayments Original payments list
+     */
     private void updateOriginalPayments(List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
         for (AssetPayment assetPayment : originalPayments) {
             if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
-                try {
-                    // change payment code
-                    assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
-                    persistableObjects.add(assetPayment);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                // change payment code
+                assetPayment.setTransferPaymentCode(CamsConstants.TRANSFER_PAYMENT_CODE_Y);
+                persistableObjects.add(assetPayment);
             }
         }
     }

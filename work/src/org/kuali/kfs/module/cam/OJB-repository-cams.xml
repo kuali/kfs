@@ -200,7 +200,7 @@
  		<orderby name="paymentSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="capitalAssetNumber" />
     </collection-descriptor>
-	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
 	<reference-descriptor name="assetWarranty" class-ref="org.kuali.module.cams.bo.AssetWarranty" auto-retrieve="true" auto-update="object" auto-delete="true" proxy="true">

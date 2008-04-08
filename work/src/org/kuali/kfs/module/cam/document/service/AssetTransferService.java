@@ -19,5 +19,8 @@ import org.kuali.module.cams.document.AssetTransferDocument;
 
 public interface AssetTransferService {
     void saveApprovedChanges(AssetTransferDocument document);
+
     void createGLPostables(AssetTransferDocument document);
+
+    boolean isTransferable(AssetTransferDocument document);
 }

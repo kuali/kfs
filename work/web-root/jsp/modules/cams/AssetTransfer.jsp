@@ -42,7 +42,7 @@
 		  </table>   
         </div>
 	  </kul:tab>
-	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber"> 
+	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			
@@ -91,7 +91,7 @@
 		</div>
 	 </kul:tab>
 	 <cams:viewAssetDetails defaultTabHide="true" /> 
-	  <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.campusCode,document.buildingCode,document.buildingRoomNumber, document.offCampusStateCode"> 
+	  <kul:tab tabTitle="Asset Location" defaultOpen="true" tabErrorKey="document.locationTabKey,document.campusCode,document.buildingCode,document.buildingRoomNumber,document.offCampus*"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			
@@ -179,7 +179,7 @@
 			</tr>					
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationInventoryName}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetOrganization.organizationDescription" attributeEntry="${assetTransferAttributes.organizationInventoryName}" readOnly="true"/></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationInventoryName" attributeEntry="${assetTransferAttributes.organizationInventoryName}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.organizationInventoryName}" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.organizationInventoryName" attributeEntry="${assetTransferAttributes.organizationInventoryName}" /></td>						
 			</tr>

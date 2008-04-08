@@ -15,24 +15,16 @@
  */
 package org.kuali.module.cams.document.authorization;
 
-import java.util.Collection;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.bo.Asset;
-import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.document.AssetTransferDocument;
-import org.kuali.module.cams.rules.AssetTransferDocumentRule;
-import org.kuali.module.cams.service.AssetHeaderService;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.cams.service.AssetTransferService;
 
 public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
@@ -54,30 +46,9 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         DocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-        Asset asset = ((AssetTransferDocument) document).getAsset();
-        // check if transfer action is allowed, if not present an error message
-        // check if asset is active
-        boolean transferable = true;
-        if (assetService.isAssetRetired(asset)) {
-            transferable = false;
-            GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
-        }
-        // check if any pending transactions
-        if (transferable) {
-            Collection<AssetHeader> pendingHeaders = SpringContext.getBean(AssetHeaderService.class).findPendingHeadersByAsset(asset, document);
-            if (pendingHeaders != null && !pendingHeaders.isEmpty()) {
-                transferable = false;
-                String[] headerNos = new String[pendingHeaders.size()];
-                int pos = 0;
-                for (AssetHeader assetHeader : pendingHeaders) {
-                    headerNos[pos] = assetHeader.getDocumentNumber();
-                    pos++;
-                }
-                GlobalVariables.getErrorMap().putError(AssetTransferDocumentRule.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_DOCS_PENDING, headerNos.toString());
-            }
-        }
+        AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         // Disable the buttons, if not transferable
-        if (!transferable) {
+        if (!SpringContext.getBean(AssetTransferService.class).isTransferable(assetTransferDocument)) {
             actionFlags.setCanAdHocRoute(false);
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);
@@ -86,4 +57,6 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         }
         return actionFlags;
     }
+
+
 }

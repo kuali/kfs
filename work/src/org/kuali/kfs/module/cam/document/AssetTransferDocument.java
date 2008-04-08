@@ -85,7 +85,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables;
 
     // Transient attributes
-    private Asset asset;
+    private transient Asset asset;
 
     private UniversityDateService universityDateService;
     private AssetPaymentService assetPaymentService;

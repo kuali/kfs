@@ -957,6 +957,11 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         return valuesMap;
     }
 
+    /**
+     * This method returns the billing date for display.  If billing date hasn't been set yet, just display current date
+     * 
+     * @return
+     */
     public Date getBillingDateForDisplay() {
         if( ObjectUtils.isNotNull( getBillingDate() ) ){
             return getBillingDate();
@@ -967,5 +972,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     
     public void setBillingDateForDisplay(Date date){
         //do nothing
+    }
+    
+    
+    /**
+     * When document is processed, set the billingDate to today's date.
+     * 
+     * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange(){
+        super.handleRouteStatusChange();
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+        } 
     }
 }

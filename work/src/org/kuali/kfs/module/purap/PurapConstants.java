@@ -685,13 +685,17 @@ public class PurapConstants extends JstlConstants {
     
     public static class CapitalAssetTabStrings {
         public static final String SYSTEM_DEFINITION = "Definition: A system is any group of line items added together to create one or more identical assets. Systems are further defined as line items that work together to perform one function. Each of the line items must be necessary for the system to function.";
-        public static final String INDIVIDUAL_ASSET = "IND";
+        
+        public static final String INDIVIDUAL_ASSETS = "IND";
         public static final String ONE_SYSTEM = "ONE";
         public static final String MULTIPLE_SYSTEMS = "MULT";
-        public static final String INDIVIDUAL_ASSETS_DESC = "Each of the lines will be capitalized as individual assets.";
-        public static final String ONE_SYSTEM_DESC = "Line items are being added together to create one system.";
-        public static final String MULTIPLE_SYSTEMS_DESC = "Any of the line items will be added together to create multiple systems.";
+        public static final String INDIVIDUAL_ASSETS_DESC = "Each of the lines will be capitalized as INDIVIDUAL ASSETS.";
+        public static final String ONE_SYSTEM_DESC = "Line items are being added together to create ONE SYSTEM.";
+        public static final String MULTIPLE_SYSTEMS_DESC = "Any of the line items will be added together to create MULTIPLE SYSTEMS.";
         public static final String ASSET_DATA = "Asset data is on Item Tab.";
+        
+        public static final String QUESTION_SYSTEM_SWITCHING = "question.document.pur.systemTypeSwitching";
+        public static final String SYSTEM_SWITCHING_QUESTION = "SystemSwitchingQuestion";
     }
 
 }

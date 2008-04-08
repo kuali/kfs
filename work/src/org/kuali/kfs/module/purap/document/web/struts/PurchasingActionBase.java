@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
@@ -49,6 +50,7 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.exceptions.ItemParserException;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.rule.event.ImportPurchasingAccountsPayableItemEvent;
@@ -121,7 +123,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 document.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
                 document.refreshReferenceObject("vendorDetail");
                 document.templateVendorDetail(document.getVendorDetail());
-                
+
                 document.templateVendorContract(refreshVendorContract, document.getVendorDetail());
 
                 // populate default address from selected vendor
@@ -150,22 +152,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
         }
 
-        // Refreshing corresponding fields after returning from various kuali lookups 
+        // Refreshing corresponding fields after returning from various kuali lookups
         if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
-            if (request.getParameter("document.deliveryCampusCode") != null) {            
+            if (request.getParameter("document.deliveryCampusCode") != null) {
                 // returning from a building lookup on the delivery tab (update billing address)
                 BillingAddress billingAddress = new BillingAddress();
                 billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
                 Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
                 billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
                 document.templateBillingAddress(billingAddress);
-            }            
+            }
             else if (request.getParameter("document.chartOfAccountsCode") != null) {
                 // returning from a chart/org lookup on the document detail tab (update receiving address)
                 document.loadReceivingAddress();
             }
         }
-        
+
         return super.refresh(mapping, form, request, response);
     }
 
@@ -236,7 +238,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Import items to the document from a spreadsheet.
      * 
@@ -250,37 +252,37 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward importItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("Importing item lines");
 
-        PurchasingFormBase purchasingForm = ( PurchasingFormBase )form;
-        PurchasingDocument purDocument = ( PurchasingDocument )purchasingForm.getDocument();
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         String documentNumber = purDocument.getDocumentNumber();
-        FormFile itemFile = purchasingForm.getItemImportFile();           
+        FormFile itemFile = purchasingForm.getItemImportFile();
         Class itemClass = purDocument.getItemClass();
         List<PurApItem> importedItems = null;
-        String errorPath = PurapConstants.ITEM_TAB_ERRORS;   
+        String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         ItemParser itemParser = purDocument.getItemParser();
         int itemLinePosition = purDocument.getItemLinePosition(); // starting position of the imported items, equals the # of existing above-the-line items.
-            
+
         try {
-            importedItems = itemParser.importItems( itemFile, itemClass, documentNumber );
+            importedItems = itemParser.importItems(itemFile, itemClass, documentNumber);
             // validate imported items
             boolean allPassed = true;
             int itemLineNumber = 0;
-            for (PurApItem item : importedItems ) {
+            for (PurApItem item : importedItems) {
                 // Before the validation, set the item line number to the same as the line number in the import file (starting from 1)
                 // so that the error message will use the correct line number if there're errors for the current item line.
                 item.setItemLineNumber(++itemLineNumber);
-                allPassed &=  SpringContext.getBean(KualiRuleService.class).applyRules(new ImportPurchasingAccountsPayableItemEvent("", purDocument, item)); 
+                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new ImportPurchasingAccountsPayableItemEvent("", purDocument, item));
                 // After the validation, set the item line number to the correct value as if it's added to the item list.
-                item.setItemLineNumber(itemLineNumber+itemLinePosition);
-            }        
+                item.setItemLineNumber(itemLineNumber + itemLinePosition);
+            }
             if (allPassed) {
-                purDocument.getItems().addAll(itemLinePosition, importedItems);            
+                purDocument.getItems().addAll(itemLinePosition, importedItems);
             }
         }
         catch (ItemParserException e) {
-            GlobalVariables.getErrorMap().putError( errorPath, e.getErrorKey(), e.getErrorParameters() );
+            GlobalVariables.getErrorMap().putError(errorPath, e.getErrorKey(), e.getErrorParameters());
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -404,7 +406,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward clearItemsCommodityCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        
+
         Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
         Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
@@ -415,23 +417,23 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             for (PurApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
-                PurchasingItemBase purItem = ((PurchasingItemBase)item);
+                PurchasingItemBase purItem = ((PurchasingItemBase) item);
                 purItem.setPurchasingCommodityCode(null);
                 purItem.setCommodityCode(null);
             }
-            
+
             GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_COMMODITY_CODES_CLEARED);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * Distribute accounting line(s) to the item(s). Does not distribute the accounting line(s) to an item if there are
-     * already accounting lines associated with that item, if the item is a below-the-line item and has no unit cost, or if the item
-     * is inactive. Distribute commodity code to the item(s). Does not distribute the commodity code to an item if the the
-     * item is not above the line item, is inactive or if the commodity code fails the validation (i.e. inactive commodity
-     * code or non existence commodity code).
+     * Distribute accounting line(s) to the item(s). Does not distribute the accounting line(s) to an item if there are 
+	 * already accounting lines associated with that item, if the item is a below-the-line item and has no unit cost, or if the item 
+	 * is inactive. Distribute commodity code to the item(s). Does not distribute the commodity code to an item if the item is not
+     * above the line item, is inactive or if the commodity code fails the validation (i.e. inactive commodity code or non existence
+     * commodity code).
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -443,8 +445,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward doDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
-        PurchasingDocumentRuleBase purchasingDocumentRule = (PurchasingDocumentRuleBase)(SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(purchasingForm.getDocument(), PurchasingDocumentRuleBase.class));
-           
+        PurchasingDocumentRuleBase purchasingDocumentRule = (PurchasingDocumentRuleBase) (SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(purchasingForm.getDocument(), PurchasingDocumentRuleBase.class));
+
         boolean needToDistributeCommodityCode = false;
 
         if (StringUtils.isNotBlank(purchasingForm.getDistributePurchasingCommodityCode())) {
@@ -559,9 +561,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // index of item selected
         int itemIndex = getSelectedLine(request);
         PurApItem item = null;
-        
-        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter( "KFS-PA", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
-        
+
+        boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PA", "Document", PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
+
         if (itemIndex == -2 && !institutionNeedsDistributeAccountValidation) {
             PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
             purchasingForm.addAccountDistributionsourceAccountingLine(line);
@@ -605,5 +607,41 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         SourceAccountingLine line;
         line = (SourceAccountingLine) ObjectUtils.deepCopy(purchasingForm.getAccountDistributionsourceAccountingLines().get(accountIndex));
         return line;
+    }
+   
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward selectSystemType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocumentBase document = (PurchasingDocumentBase) purchasingForm.getDocument();
+
+        Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+        
+        String systemTypeCode = (String)request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        systemTypeCode = StringUtils.substringBetween(systemTypeCode, "selectSystemType.", ".");
+
+        if (question == null) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapConstants.CapitalAssetTabStrings.QUESTION_SYSTEM_SWITCHING);
+
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+        }
+        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+            document.setCapitalAssetManagementSystemTypeCode(systemTypeCode);
+            document.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_TYPE);
+
+            GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_CAPITAL_ASSET_SYSTEM_TYPE_SWITCHED);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

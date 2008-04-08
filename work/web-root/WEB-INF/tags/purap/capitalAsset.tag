@@ -24,7 +24,7 @@
 <%@ attribute name="displayPurchaseOrderFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
 
-<c:set var="systemSelected" value="ONE"/>
+<c:set var="systemSelected" value="${KualiForm.document.capitalAssetManagementSystemTypeCode}"/>
 
 <kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -40,84 +40,92 @@
         		</td>
 			</tr>
 			<tr>
-				<c:choose>
-					<c:when test="${not empty systemSelected}">
-						<th colspan="2" align=center valign=middle class="bord-l-b">
-							<c:choose>
-								<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}">	        			
-			        				<c:out value="${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS_DESC}"/>
-			        			</c:when>
-								<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}">
-			        				<c:out value="${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM_DESC}"/>
-			        			</c:when>
-			        			<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}">
-			        				<c:out value="${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS_DESC}"/>
-			        			</c:when>
-			        		</c:choose>
-			        	</th>
-			        </c:when>	        		
-	        		<c:otherwise>
+	        	<c:choose>
+	        		<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}">
 	        			<th align=right valign=middle class="bord-l-b" width="50%">
 	        				<c:out value="${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS_DESC}"/>
 	        			</th>
 	        			<td align=left valign=middle class="datacell" width="50%">
-	        				<input type="image" name="methodToCall.selectSystemType" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select System Type" alt="Select System Type">
+	        				(selected)
+	        			</td>
+	        		</c:when>
+	        		<c:otherwise>
+			    		<th style="font-weight:normal" align="right" valign="middle" width="50%">
+	        					<c:out value="${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS_DESC}"/>
+	        			</th>
+	        			<td align=left valign=middle class="datacell" width="50%">
+	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select Individual Assets" alt="Select Individual Assets"/>
 	        			</td>
 	        		</c:otherwise>
 	        	</c:choose>
 			</tr>
 			<tr>
-				<th align=right valign=middle class="bord-l-b" width="50%">
-					<c:choose>
-						<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}">							
-							<c:out value="${PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS_DESC}"/>	        						        		
-			        	</c:when>
-						<c:otherwise>
+				<c:choose>
+					<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}">
+						<th align=right valign=middle class="bord-l-b" width="50%">
 			        		<c:out value="${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM_DESC}"/>
-			        	</c:otherwise>
-			        </c:choose>
-				</th>
-				<td align=left valign=middle class="datacell" width="50%">
-	        		<input type="image" name="methodToCall.selectSystemType" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select System Type" alt="Select System Type">
-	        	</td>
+			    		</th>
+			    		<td align=left valign=middle class="datacell" width="50%">
+			    			(selected)
+			    		</td>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<th style="font-weight:normal" align="right" valign="middle" width="50%">
+	        					<c:out value="${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM_DESC}"/>
+	        			</th>
+	        			<td align=left valign=middle class="datacell" width="50%">
+	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select One System" alt="Select One System"/>
+	        			</td>
+			    	</c:otherwise>
+			    </c:choose>
+
 			</tr>
 			<tr>
-				<th align=right valign=middle class="bord-l-b" width="50%">
-					<c:choose>
-						<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}">
-			        		<c:out value="${PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM_DESC}"/>
-			        	</c:when>
-						<c:otherwise>	        			
+				<c:choose>
+					<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}">
+						<th align=right valign=middle class="bord-l-b" width="50%">	        			
 			        		<c:out value="${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS_DESC}"/>
-			        	</c:otherwise>
-	        		</c:choose>
-				</th>
-				<td align=left valign=middle class="datacell" width="50%">
-	        		<input type="image" name="methodToCall.selectSystemType" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select System Type" alt="Select System Type">
-	        	</td>			
+			    		</th>
+			    		<td align=left valign=middle class="datacell" width="50%">
+			    			(selected)
+			    		</td>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<th style="font-weight:normal" align="right" valign="middle" width="50%">
+	        				<c:out value="${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS_DESC}"/>
+	        			</th>
+	        			<td align=left valign=middle class="datacell" width="50%">
+	        				<input type="image" name="methodToCall.selectSystemType.${PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" class="tinybutton" title="Select Multiple Systems" alt="Select Multiple Systems"/>
+	        			</td>
+			    	</c:otherwise>
+			    </c:choose>
 			</tr>
 			<tr>
                 <td colspan="2" class="subhead">Asset Information</td>
             </tr>
             <tr>
-            	<c:choose>
+            	<c:choose>           		
             		<c:when test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.INDIVIDUAL_ASSETS}">
-            			<c:out value="${PurapConstants.CapitalAssetTabStrings.ASSET_DATA}"/>
+            			<tr>
+            				<th colspan="2" align=center valign=middle class="bord-l-b">
+            					<c:out value="${PurapConstants.CapitalAssetTabStrings.ASSET_DATA}"/>
+            				</th>
+            			</tr>
             		</c:when>
             		<c:otherwise>
-           				<tr>
+            			<tr>       
 			            	<th align=right valign=middle class="bord-l-b">
 			            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.systemDescription}" /></div>
 			            	</th>
 			            	<td align=left valign=middle class="datacell">
 			            		<kul:htmlControlAttribute attributeEntry="${documentAttributes.systemDescription}" property="document.systemDescription" readOnly="${not (fullEntryMode)}" />
-			            	</td>
-			            </tr>
-            			<c:if test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}">
-							<tr>
-	            				<!-- Here is where the hook to the Blue Box goes. -->
-	            			</tr>
-	            		</c:if>
+			            	</td>			            
+            				<c:if test="${systemSelected eq PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM}">
+								<td>
+	            					<!-- Here is where the hook to the Blue Box goes. -->
+	            				</td>
+	            			</c:if>
+	            		</tr>			            			
             		</c:otherwise>
             	</c:choose>
             </tr>      

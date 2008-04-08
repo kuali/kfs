@@ -18,14 +18,16 @@ package org.kuali.module.budget.dao.jdbc;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.BudgetConstructionAccountFundingDetailReportDao;
 
+import java.util.ArrayList;
+
 /**
- * A class to do the database queries needed to get valid data for 
+ * 
  */
 
 public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountFundingDetailReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountFundingDetailReportDaoJdbc.class);
 
-    private static String[] updateReportsAccountFundingDetailTable = new String[1];
+    private static ArrayList<SQLForStep> updateReportsAccountFundingDetailTable = new ArrayList<SQLForStep>(1);
         
     @RawSQL
     public BudgetConstructionAccountFundingDetailReportDaoJdbc() {
@@ -46,12 +48,8 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
         sqlText.append(" AND pick.fin_object_cd = af.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-        sqlText.append("UNION \n");
-        sqlText.append("UNION \n");
-        sqlText.append("UNION \n");
-        sqlText.append("UNION \n");
           
-        updateReportsAccountFundingDetailTable[0] = sqlText.toString();
+        updateReportsAccountFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
     }
     public void cleanReportsAccountFundingDetailTable(String personUserIdentifier) {
@@ -59,7 +57,8 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
     }
 
     public void updateReportsAccountFundingDetailTable(String personUserIdentifier) {
-        //getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable[0], personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        cleanReportsAccountFundingDetailTable(personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsAccountFundingDetailTable.get(0).getSQL(), personUserIdentifier, personUserIdentifier);
     }
 
 }

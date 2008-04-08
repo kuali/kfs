@@ -26,11 +26,11 @@ public interface BudgetConstructionMonthSummaryReportDao {
     public void cleanReportsMonthSummaryTable(String personUserIdentifier);
 
     /**
-     *  updates month summary table.
      * 
-     * @param personUserIdentifier
-     * @return
+     * insert rows into the monthly summary report table for this user
+     * @param personUserIdentifier--the user requesting the report
+     * @param consolidateToObjectCodeLevel--true if sub object codes are to be consolidated, false if sub-object detail is desired
      */
-    public void updateReportsMonthSummaryTable(String personUserIdentifier);
+    public void updateReportsMonthSummaryTable(String personUserIdentifier, boolean consolidateToObjectCodeLevel);
 
 }

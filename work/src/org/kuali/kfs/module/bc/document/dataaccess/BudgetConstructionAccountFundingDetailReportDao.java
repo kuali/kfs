@@ -18,18 +18,16 @@ package org.kuali.module.budget.dao;
 public interface BudgetConstructionAccountFundingDetailReportDao {
 
     /**
-     *  cleans Account Funding Detail table.
+     *  cleans out Account Funding Detail table for the personUserIdentifier in question.
      * 
      * @param personUserIdentifier
-     * @return
      */
     public void cleanReportsAccountFundingDetailTable(String personUserIdentifier);
 
     /**
-     *  updates Account Funding Detail table.
+     *  cleans and updates Account Funding Detail table for a new report for the personUserIdentifier in question.
      * 
      * @param personUserIdentifier
-     * @return
      */
     public void updateReportsAccountFundingDetailTable(String personUserIdentifier);
 

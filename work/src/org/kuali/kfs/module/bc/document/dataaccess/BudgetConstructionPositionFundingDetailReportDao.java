@@ -21,16 +21,18 @@ public interface BudgetConstructionPositionFundingDetailReportDao {
      *  cleans Position Funding Detail table.
      * 
      * @param personUserIdentifier
-     * @return
      */
     public void cleanReportsPositionFundingDetailTable(String personUserIdentifier);
 
+
     /**
-     *  updates Position Funding Detail table.
      * 
-     * @param personUserIdentifier
-     * @return
+     * populates the reporting table for PositionFunding so the user can run a report
+     * @param personUserIdentifier--the user making the request
+     * @param applyAThreshold--true if the report will only list people with increases above (or below) a threshold, false otherwise
+     * @param selectOnlyGreaterThanOrEqualToThreshold--true if people at or above the threshold are to be listed: false lists people at or below
+     * @param thresholdPercent--percent (a fraction times 100) increase which marks the threshold 
      */
-    public void updateReportsPositionFundingDetailTable(String personUserIdentifier);
+    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, Number thresholdPercent);
 
 }

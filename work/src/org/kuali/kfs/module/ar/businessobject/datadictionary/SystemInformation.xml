@@ -132,6 +132,21 @@
                 <summary>lockboxNumber</summary>
                 <description>lockboxNumber description...</description>
 			</attribute>
+			
+            <attribute name="financialDocumentInitiatorIdentifier" forceUppercase="true">
+                <label>Lockbox Document Initiator</label>
+                <shortLabel>Initiator</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>financialDocumentInitiatorIdentifier</summary>
+                <description>financialDocumentInitiatorIdentifier description...</description>
+			</attribute>			
 
             <attribute name="creditCardObjectCode" forceUppercase="true">
                 <label>Credit Card Object Code</label>
@@ -149,8 +164,8 @@
 			</attribute>
 
             <attribute name="processingChartOfAccountCode" forceUppercase="true">
-                <label>Processing Chart Of Account Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Processing Chart</label>
+                <shortLabel>Processing Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -164,8 +179,8 @@
 			</attribute>
 
             <attribute name="processingOrganizationCode" forceUppercase="true">
-                <label>Processing Organization Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Processing Organization</label>
+                <shortLabel>Processing Organization</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -209,7 +224,7 @@
 			</attribute>
 
             <attribute name="salesTaxFinancialObjectCode" forceUppercase="true">
-                <label>Sales Tax Financial Object Code</label>
+                <label>Sales Tax Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -272,7 +287,7 @@
 			</attribute>
 -->
             <attribute name="universityClearingSubAccountNumber" forceUppercase="true">
-                <label>University Clearing Sub Account Number</label>
+                <label>Sub Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -323,25 +338,57 @@
 			</attributeReference>
 			
 			<attributeReference name="universityClearingChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>University Clearing Chart Of Accounts Code</label>
+                <label>Chart Of Account</label>
                 <shortLabel>University Clearing Chart Of Accounts Code</shortLabel>
 			</attributeReference>
 			
 			<attributeReference name="universityClearingAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>University Clearing Account Number</label>
+                <label>Account Number</label>
                 <shortLabel>University Clearing Account Number</shortLabel>
 			</attributeReference>
 			
 			<attributeReference name="universityClearingObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>University Clearing Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>University Clearing Object Code</shortLabel>
 			</attributeReference>
 			
 			<attributeReference name="universityClearingSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <label>University Clearing Sub Object Code</label>
+                <label>Sub Object Code</label>
                 <shortLabel>University Clearing Sub Object Code</shortLabel>
 			</attributeReference>
-
+			
+          	<attributeReference name="organizationCheckPayableToName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationCheckPayableToName">
+                <label>Remit to Name</label>
+         	</attributeReference> 
+			
+			<attributeReference name="organizationRemitToAddressName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToAddressName">
+                <label>Address Name</label>
+                <shortLabel>Name</shortLabel>
+         	</attributeReference>
+         	
+            <attributeReference name="organizationRemitToLine1StreetAddress" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToLine1StreetAddress">
+                <label>Line 1 Street Address</label>
+         	</attributeReference>
+         	
+         	<attributeReference name="organizationRemitToLine2StreetAddress" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToLine2StreetAddress">
+                <label>Line 2 Street Address</label>
+         	</attributeReference>
+         	
+         	<attributeReference name="organizationRemitToCityName" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToCityName">
+                <label>City Name</label>
+         	</attributeReference>
+         	
+          	<attributeReference name="organizationRemitToStateCode" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToStateCode">
+                <label>State</label>
+         	</attributeReference>
+         	
+          	<attributeReference name="organizationRemitToZipCode" sourceClassName="org.kuali.module.ar.bo.OrganizationOptions" sourceAttributeName="organizationRemitToZipCode">
+                <label>Zip Code</label>
+         	</attributeReference>       
+  	
+         	
+         	
+         	
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

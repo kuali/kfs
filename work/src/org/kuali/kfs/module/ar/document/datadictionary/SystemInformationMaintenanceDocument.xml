@@ -69,7 +69,11 @@
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="processingChartOfAccountCode" required="true" />
                     <maintainableField name="processingOrganizationCode" required="true" />
-<!--                    <maintainableField name="lockboxDocumentInitiator" required="false" />      (This comes from the FDOC_INITIATOR_ID)-->
+                    <maintainableField name="lockboxDocumentInitiator" required="false">
+                    	<defaultValueFinderClass>
+						org.kuali.module.cg.lookup.valuefinder.CurrentSessionUserValueFinder
+                        </defaultValueFinderClass>
+                    </maintainableField>
                     <maintainableField name="lockboxNumber" required="false" />                    
                     <maintainableField name="salesTaxAccountNumber" required="false" />
                </maintainableItems>
@@ -93,19 +97,15 @@
                 </maintainableItems>
             </maintainableSection>
 			<maintainableSection title="Edit Remit To Information">
-				<maintainableItems>  
-				<!-- 
-    Remit to Name: - - (This comes from the ORG_CHCK_PAY_TO_NM)
-	Address Name:
-	Line 1 Street Address:
-	Line 2 Street Address:
-	City Name:
-	State:
-	Zip Code:
-				
-				 -->       				  
+				<maintainableItems>       				  
 <!--                    <maintainableField name="active" required="false" />                  -->
-					<maintainableField name="versionNumber" />  
+					<maintainableField name="organizationCheckPayableToName" required="false" />
+					<maintainableField name="organizationRemitToAddressName" required="false" />
+					<maintainableField name="organizationRemitToLine1StreetAddress" required="false" />
+					<maintainableField name="organizationRemitToLine2StreetAddress" required="false" />
+					<maintainableField name="organizationRemitToCityName" required="false" />
+					<maintainableField name="organizationRemitToStateCode" required="false" />
+					<maintainableField name="organizationRemitToZipCode" required="false" /> 
 				</maintainableItems>
             </maintainableSection>
             

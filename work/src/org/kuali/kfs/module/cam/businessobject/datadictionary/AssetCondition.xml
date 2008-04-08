@@ -64,7 +64,7 @@
                 <description>assetConditionCode description...</description>
 			</attribute>
 
-            <attribute name="assetConditionName" forceUppercase="true">
+            <attribute name="assetConditionName" forceUppercase="false">
                 <label>Asset Condition Name</label>
                 <shortLabel>Name</shortLabel>
 

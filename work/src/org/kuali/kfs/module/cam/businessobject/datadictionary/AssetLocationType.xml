@@ -62,7 +62,7 @@
                 <description>assetLocationTypeCode description...</description>
 			</attribute>
 
-            <attribute name="assetLocationTypeName" forceUppercase="true">
+            <attribute name="assetLocationTypeName" forceUppercase="false">
                 <label>Asset Location Type Name</label>
                 <shortLabel>Name</shortLabel>
 

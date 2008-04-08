@@ -64,7 +64,7 @@
                 <description>inventoryStatusCode description...</description>
 			</attribute>
 
-            <attribute name="inventoryStatusName" forceUppercase="true">
+            <attribute name="inventoryStatusName" forceUppercase="false">
                 <label>Asset Status Name</label>
                 <shortLabel>Name</shortLabel>
 

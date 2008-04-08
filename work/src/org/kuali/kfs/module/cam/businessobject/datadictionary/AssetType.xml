@@ -71,7 +71,7 @@
                 <description>Capital asset type code</description>
 			</attribute>
 
-            <attribute name="capitalAssetTypeDescription" forceUppercase="true">
+            <attribute name="capitalAssetTypeDescription" forceUppercase="false">
                 <label>Capital Asset Type Description</label>
                 <shortLabel>Description</shortLabel>
 

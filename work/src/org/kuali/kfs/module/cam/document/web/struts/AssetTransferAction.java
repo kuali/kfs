@@ -56,6 +56,7 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
         }
 
         asset = handleRequestFromWorkflow(assetTransferForm, assetTransferDocument, service, assetHeader);
+        asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_LOCATIONS);
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);

@@ -104,6 +104,29 @@ public class ArConstants {
         public static final String PAYMENT_ACCOUNT_NUMBER = "paymentAccountNumber";
         public static final String PAYMENT_SUB_ACCOUNT_NUMBER = "paymentSubAccountNumber";
         public static final String PAYMENT_PROJECT_CODE = "paymentProjectCode";
+        
+        public static final String PAYMENT_CHART_OF_ACCOUNTS = "paymentChartOfAccounts";
+        public static final String PAYMENT_FINANCIAL_OBJECT = "paymentFinancialObject";
+        public static final String PAYMENT_FINANCIAL_SUB_OBJECT = "paymentFinancialSubObject";
+        public static final String PAYMENT_ACCOUNT = "paymentAccount";
+        public static final String PAYMENT_SUB_ACCOUNT = "paymentSubAccount";
+        public static final String PAYMENT_PROJECT = "paymentProject";
+        
+        public static final String CUSTOMER_INVOICE_DETAILS = "accountingLines";
+        public static final String INVOICE_ITEM_CODE = "invoiceItemCode";
+        
+        public static final String CUSTOMER = "customer";
+        public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
+        
+        public static final String INVOICE_DUE_DATE = "invoiceDueDate";
+        public static final String BILLED_BY_ORGANIZATION = "billedByOrganization";
+        public static final String BILLED_BY_ORGANIZATION_CODE = "billedByOrganizationCode";
+        
+        public static final String BILL_BY_CHART_OF_ACCOUNT = "billByChartOfAccount";
+        public static final String BILL_BY_CHART_OF_ACCOUNT_CODE = "billByChartOfAccountCode";
+        
+        public static final String INVOICE_ITEM_UNIT_PRICE = "invoiceItemUnitPrice";
+        public static final String INVOICE_ITEM_QUANTITY = "invoiceItemQuantity";
     }
     
     public static class OrganizationAccountingOptionsConstants {

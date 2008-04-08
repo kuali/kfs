@@ -117,8 +117,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         int index = getSelectedLine(request);
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(index);
 
-        //document.sourceAccountingLine[0].invoiceItemUnitPrice
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "sourceAccountingLine[" + index + "]";
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + index + "]";
 
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
@@ -149,7 +148,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) customerInvoiceDocument.getSourceAccountingLine(index);
 
         //document.sourceAccountingLine[0].invoiceItemUnitPrice
-        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + "sourceAccountingLine[" + index + "]";
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + "[" + index + "]";
 
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));

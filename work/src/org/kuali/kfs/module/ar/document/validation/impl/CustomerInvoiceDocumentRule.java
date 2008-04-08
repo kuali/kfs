@@ -141,7 +141,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
             return false;            
         } else {
-            doc.refreshReferenceObject("paymentAccount");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT);
             if (ObjectUtils.isNull(doc.getPaymentAccount())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
                 return false;
@@ -162,7 +162,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
             return false;            
         } else {
-            doc.refreshReferenceObject("paymentChartOfAccounts");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS);
             if (ObjectUtils.isNull(doc.getPaymentChartOfAccounts())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_CHART_OF_ACCOUNTS_CODE);
                 return false;
@@ -178,11 +178,11 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      * @return
      */
     private boolean isValidPaymentFinancialObjectCode(CustomerInvoiceDocument doc) {
-        if( StringUtils.isEmpty(doc.getPaymentFinancialObjectCode() ) ){
+        if( StringUtils.isEmpty( doc.getPaymentFinancialObjectCode() ) ){
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;            
         } else {
-            doc.refreshReferenceObject("paymentFinancialObject");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT);
             if (ObjectUtils.isNull(doc.getPaymentFinancialObject())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE);
                 return false;
@@ -200,7 +200,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     private boolean isValidPaymentSubAccountNumber(CustomerInvoiceDocument doc) {
         
         if( StringUtils.isNotEmpty(doc.getPaymentSubAccountNumber())){
-            doc.refreshReferenceObject("paymentSubAccount");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT);
             if (ObjectUtils.isNull(doc.getPaymentSubAccount())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_ACCOUNT_NUMBER);
                 return false;
@@ -218,7 +218,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     private boolean isValidPaymentProjectCode(CustomerInvoiceDocument doc) {
         
         if( StringUtils.isNotEmpty(doc.getPaymentProjectCode())){
-            doc.refreshReferenceObject("paymentProject");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT);
             if (ObjectUtils.isNull(doc.getPaymentProject())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_PROJECT_CODE);
                 return false;
@@ -235,7 +235,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */    
     private boolean isValidPaymentFinancialSubObjectCode(CustomerInvoiceDocument doc) {
         if( StringUtils.isNotEmpty(doc.getPaymentFinancialSubObjectCode())){
-            doc.refreshReferenceObject("paymentFinancialSubObject");
+            doc.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT);
             if (ObjectUtils.isNull(doc.getPaymentFinancialSubObject())) {
                 GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE);
                 return false;
@@ -253,7 +253,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     protected boolean hasAtLeastOneCustomerInvoiceDetail(CustomerInvoiceDocument doc) {
 
         if (doc.getSourceAccountingLines().size() == 0) {
-            GlobalVariables.getErrorMap().putError("accountingLines", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS);
             return false;
         }
 
@@ -270,7 +270,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         CustomerInvoiceItemCode customerInvoiceItemCode = SpringContext.getBean(CustomerInvoiceItemCodeService.class).getByPrimaryKey(customerInvoiceDetail.getInvoiceItemCode(), doc.getBillByChartOfAccountCode(), doc.getBilledByOrganizationCode());
         if (ObjectUtils.isNotNull(customerInvoiceDetail)) {
-            GlobalVariables.getErrorMap().putError("invoiceItemCode", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
             return false;
         }
 
@@ -286,10 +286,10 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     protected boolean isValidAndActiveCustomerNumber(CustomerInvoiceDocument doc) {
 
-        doc.getAccountsReceivableDocumentHeader().refreshReferenceObject("customer");
+        doc.getAccountsReceivableDocumentHeader().refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.CUSTOMER);
         Customer customer = doc.getAccountsReceivableDocumentHeader().getCustomer();
         if (ObjectUtils.isNull(customer) || !customer.isCustomerActiveIndicator()) {
-            GlobalVariables.getErrorMap().putError("accountsReceivableDocumentHeader.customerNumber", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
             return false;
         }
 
@@ -309,13 +309,13 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         Timestamp dueDateTimestamp = new Timestamp(doc.getInvoiceDueDate().getTime());
         
         if( dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp) ){
-            GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
             return false;
         } else {
             double diffInDays = DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
             int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
             if (diffInDays >= maxNumOfDaysAfterCurrentDateForInvoiceDueDate) {
-                GlobalVariables.getErrorMap().putError("invoiceDueDate", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
+                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
                 return false;
             }
         
@@ -333,9 +333,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     protected boolean isValidBilledByOrganizationCode(CustomerInvoiceDocument customerInvoiceDocument) {
 
-        customerInvoiceDocument.refreshReferenceObject("billedByOrganization");
+        customerInvoiceDocument.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION);
         if (ObjectUtils.isNull(customerInvoiceDocument.getBilledByOrganization())) {
-            GlobalVariables.getErrorMap().putError("billedByOrganizationCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_ORGANIZATION_CODE);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_ORGANIZATION_CODE);
             return false;
         }
 
@@ -351,9 +351,9 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
      */
     protected boolean isValidBilledByChartOfAccountsCode(CustomerInvoiceDocument customerInvoiceDocument) {
 
-        customerInvoiceDocument.refreshReferenceObject("billByChartOfAccount");
+        customerInvoiceDocument.refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT);
         if (ObjectUtils.isNull(customerInvoiceDocument.getBillByChartOfAccount())) {
-            GlobalVariables.getErrorMap().putError("billByChartOfAccountCode", ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_CHART_OF_ACCOUNTS_CODE);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLED_BY_CHART_OF_ACCOUNTS_CODE);
             return false;
         }
 
@@ -406,7 +406,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
      // amount == 0 or amount < 0
         if (ObjectUtils.isNull(amount) || ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { 
-            GlobalVariables.getErrorMap().putError("invoiceItemUnitPrice", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         return true;
@@ -424,7 +424,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         //amount == 0 or amount < 0
         if (ObjectUtils.isNull(amount) || BigDecimal.ZERO.compareTo(amount) == 0 || BigDecimal.ZERO.compareTo(amount) > 0) { 
-            GlobalVariables.getErrorMap().putError("invoiceItemQuantity", ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_QUANTITY, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         return true;

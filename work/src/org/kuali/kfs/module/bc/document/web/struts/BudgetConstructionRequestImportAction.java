@@ -113,19 +113,35 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
+        
+        //field separator validations
         if (form.getFieldDelimiter() == null || form.getFieldDelimiter().equalsIgnoreCase(""))  {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
             isValid = false;
-        } else if (form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER) && ( form.getOtherFieldDelimiter() == null || form.getOtherFieldDelimiter().equalsIgnoreCase("") ) ) {
+        } else if (form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) && ( form.getOtherFieldDelimiter() == null || form.getOtherFieldDelimiter().equalsIgnoreCase("") ) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
             isValid = false;
+        } else if (!form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator()) &&
+                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.TAB.getSeparator()) &&
+                    !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) {
+                        //user did not pick a valid field separator value
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
+                        isValid = false;    
         }
-        if (form.getTextFieldDelimiter() == null || form.getTextFieldDelimiter().equalsIgnoreCase("")) {
+        
+        //text delimiter validations
+        if (form.getTextFieldDelimiter() == null ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
             isValid = false;
-        } else if (form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER) && ( form.getOtherTextFieldDelimiter() == null || form.getOtherTextFieldDelimiter().equalsIgnoreCase("") ) ) {
+        } else if (form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) && ( form.getOtherTextFieldDelimiter() == null || form.getOtherTextFieldDelimiter().equalsIgnoreCase("") ) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
             isValid = false;
+        } else if (!form.getFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter()) &&
+                !form.getFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter()) &&
+                !form.getFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) {
+                    //user did not pick a valid field separator value
+                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
+                    isValid = false;    
         }
         
         if (isValid && getFieldSeparator(form).equalsIgnoreCase(getTextFieldDelimiter(form))) {
@@ -144,7 +160,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      */
     private String getFieldSeparator(BudgetConstructionRequestImportForm form) {
         String separator = form.getFieldDelimiter();
-        if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER) ) separator = form.getOtherFieldDelimiter();
+        if ( separator.equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) separator = form.getOtherFieldDelimiter();
         
         return separator;
     }
@@ -157,7 +173,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      */
     private String getTextFieldDelimiter(BudgetConstructionRequestImportForm form) {
         String delimiter = form.getTextFieldDelimiter();
-        if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER) ) delimiter = form.getOtherTextFieldDelimiter();
+        if ( delimiter.equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) delimiter = form.getOtherTextFieldDelimiter();
         
         return delimiter;
     }

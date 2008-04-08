@@ -32,9 +32,9 @@ public class TextFieldDelimiterValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString(), BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString(), BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString(), BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.OTHER.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()));
         
         return keyValues;
     }

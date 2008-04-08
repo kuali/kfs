@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 
@@ -36,27 +37,30 @@ public class ImportRequestFileParsingHelper {
      * @param lineToParse
      * @param fieldSeperator
      * @param textDelimiter
-     * @return
+     * @return the BudgetConstructionRequestMove or null if there was an error parsing the line
      */
     public static BudgetConstructionRequestMove parseLine(String lineToParse, String fieldSeperator, String textDelimiter, boolean isAnnual) {
         List<String> attributes = new ArrayList<String>();
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
         
+        int fieldSeparatorCount = StringUtils.countMatches(lineToParse, fieldSeperator);
+        int expectedNumberOfSeparators = isAnnual ? 5 : 16;
+        
         //check if line is in correct format
         if (!isLineCorrectlyFormatted(lineToParse, fieldSeperator, textDelimiter, isAnnual)) return null;
         
-        if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString())) {
+        if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter())) {
             attributes.addAll(Arrays.asList(lineToParse.split(fieldSeperator)));
-        } else if ( !lineContainsEscapedFieldSeparator(lineToParse, fieldSeperator, textDelimiter, true) ) {
+        } else if ( getEscapedFieldSeparatorCount(lineToParse, fieldSeperator, textDelimiter, isAnnual) == 0) {
             lineToParse = StringUtils.remove(lineToParse, textDelimiter);
             attributes.addAll(Arrays.asList(lineToParse.split(fieldSeperator)));
         } else {
             int firstIndexOfTextDelimiter = 0;
             int nextIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, firstIndexOfTextDelimiter + 1);
-            int numberOfSeparators = isAnnual ? 5 : 16;
+            int expectedNumberOfTextDelimiters = 10;
             
-            for (int i = 0; i < numberOfSeparators; i++) {
-                attributes.add(lineToParse.substring(firstIndexOfTextDelimiter + 1, nextIndexOfTextDelimiter - 1));
+            for (int i = 0; i < expectedNumberOfTextDelimiters/2; i++) {
+                attributes.add(lineToParse.substring(firstIndexOfTextDelimiter, nextIndexOfTextDelimiter).replaceAll(textDelimiter, ""));
                 firstIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, nextIndexOfTextDelimiter + 1);
                 nextIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, firstIndexOfTextDelimiter + 1);
             }
@@ -70,58 +74,104 @@ public class ImportRequestFileParsingHelper {
         budgetConstructionRequestMove.setSubAccountNumber(attributes.get(2));
         budgetConstructionRequestMove.setFinancialObjectCode(attributes.get(3));
         budgetConstructionRequestMove.setFinancialSubObjectCode(attributes.get(4));
-        //TODO: what value should be set for request amount
         if (isAnnual) {
-            //budgetConstructionRequestMove.setFinancialDocumentMonth11LineAmount(attributes.get(0));
+            try {
+                budgetConstructionRequestMove.setAccountLineAnnualBalanceAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
+            }
+            catch (NumberFormatException e) {
+                return null;
+            }
         } else {
-            
+            try {
+                budgetConstructionRequestMove.setFinancialDocumentMonth1LineAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth2LineAmount(new KualiInteger(Integer.parseInt(attributes.get(6))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth3LineAmount(new KualiInteger(Integer.parseInt(attributes.get(7))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth4LineAmount(new KualiInteger(Integer.parseInt(attributes.get(8))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth5LineAmount(new KualiInteger(Integer.parseInt(attributes.get(9))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth6LineAmount(new KualiInteger(Integer.parseInt(attributes.get(10))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth7LineAmount(new KualiInteger(Integer.parseInt(attributes.get(11))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth8LineAmount(new KualiInteger(Integer.parseInt(attributes.get(12))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth9LineAmount(new KualiInteger(Integer.parseInt(attributes.get(13))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth10LineAmount(new KualiInteger(Integer.parseInt(attributes.get(14))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth11LineAmount(new KualiInteger(Integer.parseInt(attributes.get(15))));
+                budgetConstructionRequestMove.setFinancialDocumentMonth12LineAmount(new KualiInteger(Integer.parseInt(attributes.get(16))));
+            }
+            catch (NumberFormatException e) {
+                return null;
+            }
         }
 
         return budgetConstructionRequestMove;
     }
     
+    /**
+     * Checks for the correct number of field separators and text delimiters on line (either annual or monthly file). Does not check if the correct field separator and text delimiter are being used (form level validation should do this)
+     * 
+     * @param lineToParse
+     * @param fieldSeperator
+     * @param textDelimiter
+     * @param isAnnual
+     * @return
+     */
     public static boolean isLineCorrectlyFormatted(String lineToParse, String fieldSeperator, String textDelimiter, boolean isAnnual) {
+        int fieldSeparatorCount = StringUtils.countMatches(lineToParse, fieldSeperator);
+        int expectedNumberOfSeparators = isAnnual ? 5 : 16;
         
-        if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString())) {
+        if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter())) {
+            
             if (isAnnual) {
-                if (StringUtils.countMatches(lineToParse, fieldSeperator) != 5) {
-                    //TODO: use correct error message
-                    /*this.errorList.add("line " + this.currentLine + " is incorrectly formatted. Cannot import file");*/
+                if (fieldSeparatorCount != 5) {
                     return false;
                 } 
             } else {
-                if (StringUtils.countMatches(lineToParse, fieldSeperator) != 16) {
-                    //TODO: use correct error message
-                    /*this.errorList.add("line " + this.currentLine + " is incorrectly formatted. Cannot import file");*/
+                if (fieldSeparatorCount != 16) {
                     return false;
                 } 
             }
-            
         } else if (StringUtils.countMatches(lineToParse, textDelimiter) != 10) {
-            //TODO: use correct error message
-            /*this.errorList.add("line " + this.currentLine + " is incorrectly formatted. Cannot import file");*/
+            return false;
+        } else if ( getEscapedFieldSeparatorCount(lineToParse, fieldSeperator, textDelimiter, isAnnual) == -1 || ( fieldSeparatorCount - getEscapedFieldSeparatorCount(lineToParse, fieldSeperator, textDelimiter, isAnnual) != expectedNumberOfSeparators ) ) {
             return false;
         }
-        
         
         return true;
     }
     
     /**
      * Checks if a line of an annual file contains an escaped field separator (convience method to aid in file parsing)
+     * Will not work correctly if text delimiters are not correctly placed in lineToParse (method does not check file formatting)
      * 
      * @param lineToParse
      * @param fieldSeperator
      * @param textDelimiter
-     * @return
+     * @return number of escaped separators or -1 if file is incorrectly formatted
      */
-    public static boolean lineContainsEscapedFieldSeparator(String lineToParse, String fieldSeperator, String textDelimiter, boolean isAnnual) {
-        if (isAnnual) {
-            if ( isLineCorrectlyFormatted(lineToParse, fieldSeperator, textDelimiter, isAnnual) && StringUtils.countMatches(lineToParse, fieldSeperator) > 5) return true;
-        } 
-        else if ( isLineCorrectlyFormatted(lineToParse, fieldSeperator, textDelimiter, isAnnual) && StringUtils.countMatches(lineToParse, fieldSeperator) > 16) return true;
+    private static int getEscapedFieldSeparatorCount(String lineToParse, String fieldSeperator, String textDelimiter, boolean isAnnual) {
+        int firstIndexOfTextDelimiter = 0;
+        int nextIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, firstIndexOfTextDelimiter + 1);
+        int expectedNumberOfSeparators = isAnnual ? 5 : 16;
+        int expectedTextDelimitersCount = 10;
+        int actualNumberOfTextDelimiters = StringUtils.countMatches(lineToParse, textDelimiter);
+        int totalSeparatorsInLineToParse = StringUtils.countMatches(lineToParse, fieldSeperator);
+        int escapedSeparatorsCount = 0;
         
-        return false;
+        //line does not use text delimiters
+        if (textDelimiter.equalsIgnoreCase(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter())) return 0;
+        
+        //line does not contain escaped field separators
+        if (totalSeparatorsInLineToParse == expectedNumberOfSeparators) return 0;
+        
+        //line is incorrectly formatted
+        if ( actualNumberOfTextDelimiters != expectedTextDelimitersCount) return -1;
+        
+        for (int i = 0; i < expectedTextDelimitersCount/2; i++) {
+            String escapedString = lineToParse.substring(firstIndexOfTextDelimiter, nextIndexOfTextDelimiter);
+            escapedSeparatorsCount += StringUtils.countMatches(escapedString, fieldSeperator);
+            firstIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, nextIndexOfTextDelimiter + 1);
+            nextIndexOfTextDelimiter = lineToParse.indexOf(textDelimiter, firstIndexOfTextDelimiter + 1);
+        }
+        
+        return escapedSeparatorsCount;
     }    
     
 }

@@ -205,6 +205,14 @@ public class BCConstants extends JstlConstants {
         private RequestImportFieldSeparator(String separator) {
             this.separator = separator;
         }
+        
+        public String getSeparator() {
+            if ( this.equals(this.COMMA) ) return ",";
+            if ( this.equals(this.TAB) ) return "\t";
+            
+            return this.toString();
+        }
+        
     }
     
     public enum RequestImportTextFieldDelimiter {
@@ -214,6 +222,13 @@ public class BCConstants extends JstlConstants {
         
         private RequestImportTextFieldDelimiter(String separator) {
             this.separator = separator;
+        }
+        
+        public String getDelimiter() {
+            if ( this.equals(this.QUOTE) ) return "\"";
+            if ( this.equals(this.NOTHING) ) return "";
+            
+            return this.toString();
         }
     }
 }

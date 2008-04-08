@@ -21,6 +21,8 @@ import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.KFSUtils;
+import org.kuali.module.integration.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 
@@ -59,9 +61,7 @@ public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance impleme
     public String getAdditionalReturnData(String segmentedPropertyName) {
         String periodCode = LaborConstants.periodCodeMapping.get(segmentedPropertyName);
         KualiDecimal periodAmount = getAmount(periodCode);
-        periodAmount = periodAmount.multiply(new KualiDecimal(100));
-        NumberFormat formatter = NumberFormat.getIntegerInstance();
-        String formattedAmount = formatter.format(periodAmount);
-        return StringUtils.replace(formattedAmount, ",", "");
+        
+        return KFSUtils.convertDecimalIntoInteger(periodAmount);
     }
 }

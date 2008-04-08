@@ -39,7 +39,7 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.labor.bo.SegmentedBusinessObject;
+import org.kuali.module.integration.bo.SegmentedBusinessObject;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
 
 /**
@@ -93,20 +93,20 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
                     LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
+                    
+                    Collection<Column> columns = getColumns(element);
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
+
                     for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
-                        Collection<Column> columns = getColumns(element);
                         columns.add(setupResultsColumn(element, propertyName));
-
-                        ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
-
-                        String extraReturnData = ((SegmentedBusinessObject) element).getAdditionalReturnData(propertyName);
-                        row.setObjectId(((PersistableBusinessObject) element).getObjectId() + "." + propertyName + "." + extraReturnData);
-                        resultTable.add(row);
                     }
+                    
+                    row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                    resultTable.add(row);
                 }
                 else {
                     Collection<Column> columns = getColumns(element);
-
+                    
                     ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);

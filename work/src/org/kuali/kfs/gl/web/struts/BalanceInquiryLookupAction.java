@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
@@ -43,11 +45,14 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.KFSUtils;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
+import org.kuali.module.integration.bo.SegmentedBusinessObject;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most cases, balance
@@ -339,5 +344,69 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         multipleValueLookupForm.setCompositeObjectIdMap(new HashMap<String, String>());
 
         return displayList;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiMultipleValueLookupAction#selectAll(org.kuali.core.web.struts.form.MultipleValueLookupForm,
+     *      int)
+     */
+    @Override
+    protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
+        List<ResultRow> resultTable = null;
+        try {
+            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
+            String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
+
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        }
+        catch (Exception e) {
+            LOG.error("error occured trying to export multiple lookup results", e);
+            throw new RuntimeException("error occured trying to export multiple lookup results");
+        }
+
+        Map<String, String> selectedObjectIds = this.getSelectedObjectIds(multipleValueLookupForm, resultTable);
+
+        multipleValueLookupForm.jumpToPage(multipleValueLookupForm.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
+        multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
+        multipleValueLookupForm.setCompositeObjectIdMap(selectedObjectIds);
+
+        return resultTable;
+    }
+
+    /**
+     * put all enties into select object map. This implmentation only deals with the money amount objects.
+     * 
+     * @param multipleValueLookupForm the given struts form
+     * @param resultTable the given result table that holds all data being presented
+     * @return the map containing all entries available for selection
+     */
+    private Map<String, String> getSelectedObjectIds(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable) {
+        String businessObjectClassName = multipleValueLookupForm.getBusinessObjectClassName();
+        SegmentedBusinessObject segmentedBusinessObject;
+        try {
+            segmentedBusinessObject = (SegmentedBusinessObject) Class.forName(multipleValueLookupForm.getBusinessObjectClassName()).newInstance();
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Fail to create an object of " + businessObjectClassName + e);
+        }
+
+        Map<String, String> selectedObjectIds = new HashMap<String, String>();
+        Collection<String> segmentedPropertyNames = segmentedBusinessObject.getSegmentedPropertyNames();
+        for (ResultRow row : resultTable) {
+            for (Column column : row.getColumns()) {
+                String propertyName = column.getPropertyName();
+                if (segmentedPropertyNames.contains(propertyName)) {
+                    String propertyValue = StringUtils.replace(column.getPropertyValue(), ",", "");
+                    KualiDecimal amount = new KualiDecimal(propertyValue);
+
+                    if (amount.isNonZero()) {
+                        String objectId = row.getObjectId() + "." + propertyName + "." + KFSUtils.convertDecimalIntoInteger(amount);
+                        selectedObjectIds.put(objectId, objectId);
+                    }
+                }
+            }
+        }
+
+        return selectedObjectIds;
     }
 }

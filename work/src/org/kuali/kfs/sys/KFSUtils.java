@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.util;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * Miscalenious Utility Methods.
@@ -41,5 +44,19 @@ public class KFSUtils {
         }
 
         return fileNameList;
+    }
+
+    /**
+     * Convert the given monney amount into an interger string. Since the return string cannot have decimal point, multiplies the
+     * amount by 100 so the decimal places are not lost, for example, 320.15 is converted into 32015. 
+     * 
+     * @return an integer string of the given money amount through multiplicating by 100 and removing the fraction portion.
+     */
+    public final static String convertDecimalIntoInteger(KualiDecimal decimalNumber) {
+        KualiDecimal decimalAmount = decimalNumber.multiply(KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT);
+        NumberFormat formatter = NumberFormat.getIntegerInstance();
+        String formattedAmount = formatter.format(decimalAmount);
+
+        return StringUtils.replace(formattedAmount, ",", "");
     }
 }

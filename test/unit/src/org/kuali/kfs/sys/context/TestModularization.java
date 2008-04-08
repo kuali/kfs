@@ -40,7 +40,6 @@ public class TestModularization extends KualiTestBase {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in Spring configuration:");
         for (String moduleId : OPTIONAL_MODULE_IDS) {
-            System.out.println("CHECK");
             testSucceeded = testSucceeded & testOptionalModuleSpringConfiguration(moduleId, errorMessage);
         }
         System.out.print(errorMessage.toString());

@@ -15,20 +15,20 @@
  */
 package org.kuali.module.ar.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.KFSKeyConstants.CashReceipt;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -59,7 +59,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         CashControlDocument ccDocument = (CashControlDocument) document;
 
         isValid &= checkUserOrgOptions(ccDocument);
-        isValid &= checkOrgDocNumber(ccDocument);
+        isValid &= checkRefDocNumber(ccDocument);
         isValid &= validateCashControlDetails(ccDocument);
        // isValid &= checkCashControlDocumentHasDetails(ccDocument);
 
@@ -78,7 +78,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         isValid &= checkUserOrgOptions(cashControlDocument);
         isValid &= checkPaymentMedium(cashControlDocument);
-        isValid &= checkOrgDocNumber(cashControlDocument);
+        isValid &= checkRefDocNumber(cashControlDocument);
         isValid &= validateCashControlDetails(cashControlDocument);
         isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
 
@@ -96,10 +96,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         CashControlDocument cashControlDocument = (CashControlDocument) approveEvent.getDocument();
 
         isValid &= checkAllAppDocsApproved(cashControlDocument);
-        isValid &= checkReferenceDocument(cashControlDocument);
+        isValid &= checkGLPEsCreated(cashControlDocument);
         isValid &= checkUserOrgOptions(cashControlDocument);
         isValid &= checkPaymentMedium(cashControlDocument);
-        isValid &= checkOrgDocNumber(cashControlDocument);
+        isValid &= checkRefDocNumber(cashControlDocument);
         isValid &= validateCashControlDetails(cashControlDocument);
         isValid &= checkCashControlDocumentHasDetails(cashControlDocument);
 
@@ -139,7 +139,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @return true if it has details, false otherwise
      */
     public boolean checkCashControlDocumentHasDetails(CashControlDocument cashControlDocument) {
-        
+
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
@@ -150,7 +150,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
-        
+
     }
 
     /**
@@ -178,60 +178,55 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * This method checks that organization document number is not null when payment medium is Cash.
+     * This method checks that reference document number is not null when payment medium is Cash.
      * 
      * @param document CashControlDocument
      * @return true if valid, false otherwise
      */
-    public boolean checkOrgDocNumber(CashControlDocument document) {
+    public boolean checkRefDocNumber(CashControlDocument document) {
 
         boolean isValid = true;
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
-            String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
-            if (StringUtils.isBlank(orgDocNumber)) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.ORGANIZATION_DOC_NBR, ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+            String refDocNumber = document.getReferenceFinancialDocumentNumber();
+            if (StringUtils.isBlank(refDocNumber)) {
+                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
             else {
-                boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(orgDocNumber);
+                boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
                 if (!docExists) {
-                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.ORGANIZATION_DOC_NBR, ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
 
             }
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME);
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
     }
 
     /**
-     * This method checks that reference document number is not null
+     * This method checks that the GLPEs have been created
      * 
      * @param document CashControlDocument
      * @return true if not null, false otherwise
      */
-    public boolean checkReferenceDocument(CashControlDocument document) {
+    public boolean checkGLPEsCreated(CashControlDocument cashControlDocument) {
 
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
 
-        String refDocNumber = document.getReferenceFinancialDocumentNumber();
-
-        // if payment medium is not Cash the reference document number must not be null; if payment medium is Cash a Cash Receipt
-        // Document must be created prior to creating the Cash Control
-        // document and it's number should be set in Organization Document number
-        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(document.getCustomerPaymentMediumCode()) && StringUtils.isBlank(refDocNumber)) {
-            GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
+        // if payment medium is not Cash the general ledger pending entries must not be empty; if payment medium is Cash then a Cash
+        // Receipt Document must be created prior to creating the Cash Control document and it's number should be set in Reference
+        // Document number
+        if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && (glpes == null || glpes.isEmpty())) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_GLPES_NOT_CREATED);
             isValid = false;
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
     }
@@ -269,7 +264,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
-        success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+        success &= checkGLPEsNotGenerated(transactionalDocument);
         if (success) {
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
         }
@@ -333,20 +328,19 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * This method checks if reference document has been already generated
+     * This method checks if GLPEs have been already generated
      * 
      * @param cashControlDocument the cash control document
      * @return true if it was not generated, false otherwise
      */
-    public boolean checkReferenceDocumentNumberNotGenerated(CashControlDocument cashControlDocument) {
+    public boolean checkGLPEsNotGenerated(CashControlDocument cashControlDocument) {
 
         boolean success = true;
-        String referenceDocumentNumber = cashControlDocument.getReferenceFinancialDocumentNumber();
-        if (!StringUtils.isBlank(referenceDocumentNumber)) {
+        List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
+
+        if (glpes != null && !glpes.isEmpty()) {
             success = false;
-            GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_REF_DOC_GEN);
-            GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
         }
         return success;
 
@@ -394,7 +388,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
-        success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+        success &= checkGLPEsNotGenerated(transactionalDocument);
         return success;
 
     }
@@ -407,7 +401,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         boolean success = true;
         success &= checkPaymentMedium(transactionalDocument);
         if (success) {
-            success &= checkReferenceDocumentNumberNotGenerated(transactionalDocument);
+            success &= checkGLPEsNotGenerated(transactionalDocument);
         }
         return success;
 

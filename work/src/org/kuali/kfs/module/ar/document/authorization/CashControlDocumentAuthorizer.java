@@ -19,14 +19,18 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
+import org.kuali.module.ar.service.OrganizationOptionsService;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
@@ -98,6 +102,25 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
 
         }
         return result;
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
+        super.canInitiate(documentTypeName, user);
+        // to initiate, the user must have the organization options set up.
+        ChartUser chartUser = ValueFinderUtil.getCurrentChartUser();
+        String chartCode = chartUser.getChartOfAccountsCode();
+        String orgCode = chartUser.getUserOrganizationCode();
+        OrganizationOptionsService service = SpringContext.getBean(OrganizationOptionsService.class);
+        KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
+
+        if (null == service.getByPrimaryKey(chartCode, orgCode)) {
+            throw new DocumentInitiationAuthorizationException(ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
+
+        }
     }
 
 }

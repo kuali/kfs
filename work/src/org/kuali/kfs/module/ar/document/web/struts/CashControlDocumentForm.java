@@ -35,7 +35,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     private String processingChartOfAccCodeAndOrgCode;
 
     private boolean documentSubmitted;
-    private boolean hasGeneratedRefDoc;
+    private boolean hasGeneratedGLPEs;
     private boolean cashPaymentMediumSelected;
 
     /**
@@ -45,10 +45,10 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
         super();
         setDocument(new CashControlDocument());
-        hasGeneratedRefDoc = false;
+        hasGeneratedGLPEs = false;
         cashPaymentMediumSelected = false;
         documentSubmitted = false;
-        
+
     }
 
     /**
@@ -139,21 +139,21 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * This method gets the value for hasGeneratedRefDoc
+     * This method gets the value for hasGeneratedGLPEs
      * 
-     * @return true if a reference document has been generated, false otherwise
+     * @return true if GLPEs have been generated, false otherwise
      */
-    public boolean isHasGeneratedRefDoc() {
-        return hasGeneratedRefDoc;
+    public boolean isHasGeneratedGLPEs() {
+        return hasGeneratedGLPEs;
     }
 
     /**
-     * This method sets hasGeneratedRefDoc value
+     * This method sets hasGeneratedGLPEs value
      * 
-     * @param hasGeneratedRefDoc
+     * @param hasGeneratedGLPEs
      */
-    public void setHasGeneratedRefDoc(boolean hasGeneratedRefDoc) {
-        this.hasGeneratedRefDoc = hasGeneratedRefDoc;
+    public void setHasGeneratedGLPEs(boolean hasGeneratedGLPEs) {
+        this.hasGeneratedGLPEs = hasGeneratedGLPEs;
     }
 
     /**

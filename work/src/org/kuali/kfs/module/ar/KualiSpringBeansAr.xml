@@ -63,7 +63,6 @@
 				<value>org/kuali/module/ar/dwr-ar.xml</value>
 			</list>
 		</property>		
-
 	</bean>
 
 	<!--  AR DAOs  -->
@@ -157,6 +156,22 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="glpeService" ref="generalLedgerPendingEntryService"/>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
+		<property name="systemInformationService">
+			<ref bean="SystemInformationService" />
+		</property>
+	    <property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>
+        <property name="chartService">
+			<ref bean="chartService" />
+		</property>
 	</bean>	
 	
 	<bean id="customerInvoiceDocumentGeneralLedgerPostingHelper" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentGeneralLedgerPostingHelperImpl">

@@ -15,10 +15,10 @@
  */
 package org.kuali.module.ar.service;
 
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -33,7 +33,7 @@ public interface CashControlDocumentService {
      * @throws WorkflowException
      */
     public void addNewCashControlDetail(String descritpion, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException;
-    
+
     /**
      * This method creates a new PaymentApplicationDocument
      * 
@@ -46,31 +46,31 @@ public interface CashControlDocumentService {
     public PaymentApplicationDocument createAndSavePaymentApplicationDocument(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException;
 
     /**
-     * This method creates a new CashReceiptDocument
+     * This method creates the GLPEs with document type CR
      * 
-     * @param cashControlDocument the cash control document
-     * @return the new CashReceiptDocument number
-     * @throws WorkflowException
+     * @param cashControlDocument
+     * @param sequenceHelper
+     * @return true if glpes successfuly created false otherwise
      */
-    public String createCashReceiptDocument(CashControlDocument cashControlDocument) throws WorkflowException;
+    public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
-     * This method creates a new DistributionOfIncomeAndExpenseDocument
+     * This method creates the GLPEs with document type DI
      * 
-     * @param cashControlDocument the cash control document
-     * @return the new DistributionOfIncomeAndExpenseDocument number
-     * @throws WorkflowException
+     * @param cashControlDocument
+     * @param sequenceHelper
+     * @return true if glpes successfuly created false otherwise
      */
-    public String createDistributionOfIncomeAndExpenseDocument(CashControlDocument cashControlDocument) throws WorkflowException;
+    public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
-     * This method creates a new GeneralErrorCorrectionDocument
+     * This method creates the GLPEs with document type GEC
      * 
-     * @param cashControlDocument the cash control document
-     * @return the new GeneralErrorCorrectionDocument number
-     * @throws WorkflowException
+     * @param cashControlDocument
+     * @param sequenceHelper
+     * @return true if glpes successfuly created false otherwise
      */
-    public String createGeneralErrorCorrectionDocument(CashControlDocument cashControlDocument) throws WorkflowException;
+    public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * This method checks if all application documents have been approved
@@ -79,5 +79,13 @@ public interface CashControlDocumentService {
      * @return true if all application documents have been approved
      */
     public boolean hasAllApplicationDocumentsApproved(CashControlDocument cashControlDocument);
+
+    /**
+     * This method saves CashControl document GLPEs in the database
+     * 
+     * @param cashControlDocument
+     * @return
+     */
+    public boolean saveGLPEs(CashControlDocument cashControlDocument);
 
 }

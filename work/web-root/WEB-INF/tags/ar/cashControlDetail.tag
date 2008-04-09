@@ -42,8 +42,6 @@
 		<html:hidden property="${propertyName}.versionNumber" />
 		<html:hidden property="${propertyName}.objectId" />
 		<html:hidden
-			property="${propertyName}.referenceFinancialDocumentNumber" />
-		<html:hidden
 			property="${propertyName}.referenceFinancialDocument.documentNumber" />
 		<html:hidden
 			property="${propertyName}.referenceFinancialDocument.objectId" />
@@ -67,34 +65,47 @@
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerNumber}"
-			property="${propertyName}.customerNumber" />
+			property="${propertyName}.customerNumber" readOnly="${readOnly}" />
+		<c:if test="${not readOnly}">
 		&nbsp;
 		<kul:lookup boClassName="org.kuali.module.ar.bo.Customer"
-			fieldConversions="customerNumber:${propertyName}.customerNumber" />
+				fieldConversions="customerNumber:${propertyName}.customerNumber" />
+		</c:if>
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}"
-			property="${propertyName}.customerPaymentMediumIdentifier" />
+			property="${propertyName}.customerPaymentMediumIdentifier"
+			readOnly="${readOnly}" />
 	</td>
 	<td align=left class="${cssClass}">
-		<kul:dateInput
-			attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
-			property="${propertyName}.customerPaymentDate" />
+		<c:choose>
+			<c:when test="${readOnly}">
+				<kul:htmlControlAttribute
+					attributeEntry="${cashControlDetailAttributes.customerPaymentDat}"
+					property="${propertyName}.customerPaymentDate"
+					readOnly="${readOnly}" />
+			</c:when>
+			<c:otherwise>
+				<kul:dateInput
+					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
+					property="${propertyName}.customerPaymentDate" />
+			</c:otherwise>
+		</c:choose>
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
 			property="${propertyName}.financialDocumentLineAmount"
-			styleClass="right" readOnly="${not addLine}"/>
+			styleClass="right" readOnly="${not addLine and readOnly}" />
 	</td>
 
-	<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
+	<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
 		<td class="${cssClass}" rowspan="2">
 			<div align="center">
 				<html:image property="methodToCall.${actionMethod}"
 					src="${actionImage}" alt="${actionAlt}" title="${actionAlt}"
-					styleClass="tinybutton"/>
+					styleClass="tinybutton" />
 			</div>
 		</td>
 	</c:if>
@@ -106,6 +117,7 @@
 	<td colspan="5" class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}"
-			property="${propertyName}.customerPaymentDescription" />
+			property="${propertyName}.customerPaymentDescription"
+			readOnly="${readOnly}" />
 	</td>
 </tr>

@@ -22,6 +22,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
@@ -142,23 +143,24 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     /**
      * This method tests that checkReferenceDocument rule returns true when reference document number is not null
      */
-    public void testCheckReferenceDocument_True() throws WorkflowException {
+    public void testCheckGLPEsCreated_True() throws WorkflowException {
 
         Document tempDocument = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
+        GeneralLedgerPendingEntry tempEntry =  new GeneralLedgerPendingEntry();
         documentService.saveDocument(tempDocument);
-        document.setReferenceFinancialDocumentNumber(tempDocument.getDocumentNumber());
+        document.getGeneralLedgerPendingEntries().add(tempEntry);
 
-        assertTrue(rule.checkReferenceDocument(document));
+        assertTrue(rule.checkGLPEsCreated(document));
     }
 
     /**
      * This method tests that checkReferenceDocument rule returns false when reference document number is null
      */
-    public void testCheckReferenceDocument_False() {
+    public void testCheckGLPEsCreated_False() {
 
-        document.setReferenceFinancialDocumentNumber(null);
+        document.setGeneralLedgerPendingEntries(null);
 
-        assertFalse(rule.checkReferenceDocument(document));
+        assertFalse(rule.checkGLPEsCreated(document));
     }
 
     /**
@@ -196,36 +198,36 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      * This method that checkOrgDocNumber rule returns true if organization document number is set and valid when payment mewdium is
      * cash
      */
-    public void testCheckOrgDocNumber_True() throws WorkflowException {
+    public void testCheckRefDocNumber_True() throws WorkflowException {
 
         GeneralErrorCorrectionDocument tempDoc = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
         documentService.saveDocument(tempDoc);
         document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
-        document.getDocumentHeader().setOrganizationDocumentNumber(tempDoc.getDocumentNumber());
+        document.setReferenceFinancialDocumentNumber(tempDoc.getDocumentNumber());
 
-        assertTrue(rule.checkOrgDocNumber(document));
+        assertTrue(rule.checkRefDocNumber(document));
     }
 
     /**
      * This method that checkOrgDocNumber rule returns false if organization document number is null when payment mewdium is cash
      */
-    public void testCheckOrgDocNumber_False() {
+    public void testCheckRefDocNumber_False() {
 
         document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
-        document.getDocumentHeader().setOrganizationDocumentNumber(null);
+        document.setReferenceFinancialDocumentNumber(null);
 
-        assertFalse(rule.checkOrgDocNumber(document));
+        assertFalse(rule.checkRefDocNumber(document));
 
     }
 
     /**
      * This method that checkReferenceDocumentNumberNotGenerated rule returns true if reference document number is not generated
      */
-    public void testCheckReferenceDocumentNumberNotGenerated_True() {
+    public void testCheckGLPEsNotGenerated_True() {
 
-        document.setReferenceFinancialDocumentNumber(null);
+        document.setGeneralLedgerPendingEntries(null);
 
-        assertTrue(rule.checkReferenceDocumentNumberNotGenerated(document));
+        assertTrue(rule.checkGLPEsNotGenerated(document));
 
     }
 
@@ -234,9 +236,10 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckReferenceDocumentNumberNotGenerated_False() {
 
-        document.setReferenceFinancialDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
+        GeneralLedgerPendingEntry tempEntry = new GeneralLedgerPendingEntry();
+        document.getGeneralLedgerPendingEntries().add(tempEntry);
 
-        assertFalse(rule.checkReferenceDocumentNumberNotGenerated(document));
+        assertFalse(rule.checkGLPEsNotGenerated(document));
 
     }
 

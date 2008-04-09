@@ -18,7 +18,6 @@ package org.kuali.module.ar.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,6 +32,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -91,8 +91,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocument ccDoc = ccForm.getCashControlDocument();
 
         if (ccDoc != null) {
-            String refFinancialDocNbr = ccDoc.getReferenceFinancialDocumentNumber();
-            ccForm.setHasGeneratedRefDoc(!StringUtils.isEmpty(refFinancialDocNbr));
+            ccForm.setHasGeneratedGLPEs(!ccDoc.getGeneralLedgerPendingEntries().isEmpty());
             ccForm.setCashPaymentMediumSelected(ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(ccDoc.getCustomerPaymentMediumCode()));
             KualiWorkflowDocument workflowDocument = ccDoc.getDocumentHeader().getWorkflowDocument();
             ccForm.setDocumentSubmitted(workflowDocument != null && !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved());
@@ -100,7 +99,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
 
         if (ccForm.hasDocumentId()) {
             ccDoc = ccForm.getCashControlDocument();
-
+            ccDoc.refreshReferenceObject("customerPaymentMedium");
             // recalc b/c changes to the amounts could have happened
             ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc));
         }
@@ -109,6 +108,9 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         return forward;
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
@@ -183,14 +185,14 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-//        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method generates the reference document.
+     * This method generates the GLPEs.
      * 
      * @param mapping action mapping
      * @param form action form
@@ -199,16 +201,27 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
      * @return action forward
      * @throws Exception
      */
-    public ActionForward generateRefDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward generateGLPEs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
         String paymentMediumCode = cashControlDocument.getCustomerPaymentMediumCode();
 
-        String refDocNbr = createReferenceDocument(paymentMediumCode, cashControlDocument);
-        cashControlDocument.setReferenceFinancialDocumentNumber(refDocNbr);
+        // generate the GLPEs
+        GeneralLedgerPendingEntryService generalLedgerPendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        boolean success = generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(cashControlDocument);
 
-        cashControlDocForm.setHasGeneratedRefDoc(true);
+        if (!success) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_GLPES_NOT_CREATED);
+        }
+        // approve the GLPEs
+        cashControlDocument.changeGeneralLedgerPendingEntriesApprovedStatusCode();
+
+        // save the GLPEs in the database
+        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+        cashControlDocumentService.saveGLPEs(cashControlDocument);
+
+        cashControlDocForm.setHasGeneratedGLPEs(true);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
@@ -226,35 +239,6 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
             total = total.add(cashControlDetail.getFinancialDocumentLineAmount());
         }
         return total;
-    }
-
-    /**
-     * This method creates the reference document.
-     * 
-     * @param paymentMediumCode the code of the selected payment medium
-     * @return the reference document number
-     */
-    private String createReferenceDocument(String paymentMediumCode, CashControlDocument cashControlDocument) throws WorkflowException {
-
-        String referenceDocumentNumber = "";
-        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-
-        if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
-            referenceDocumentNumber = cashControlDocumentService.createCashReceiptDocument(cashControlDocument);
-        }
-        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER)) {
-            referenceDocumentNumber = cashControlDocumentService.createDistributionOfIncomeAndExpenseDocument(cashControlDocument);
-        }
-        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CREDIT_CARD)) {
-            referenceDocumentNumber = cashControlDocumentService.createGeneralErrorCorrectionDocument(cashControlDocument);
-        }
-        else if (paymentMediumCode.equalsIgnoreCase(ArConstants.PaymentMediumCode.CASH)) {
-            // no reference document is generated; a Cash Receipt Document must be created prior to creating the Cash Control
-            // document and it's number should be set in Organization Document number
-        }
-
-        return referenceDocumentNumber;
-
     }
 
 }

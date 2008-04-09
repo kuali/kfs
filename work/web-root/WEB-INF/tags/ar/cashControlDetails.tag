@@ -15,46 +15,81 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<%@ attribute name="documentAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for cash control document fields." %>
-              
-<%@ attribute name="cashControlDetailAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for cash control detail fields." %>
-              
-<%@ attribute name="readOnly" required="true" description="If document is in read only mode" %>              
-              
-<kul:tab tabTitle="Cash Control Details" defaultOpen="true" tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
-    <div id="cashControlDetails" class="tab-container" align=center>		
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Cash control Details">
-            <tr>
-                <td colspan="8" class="subhead">Cash Control Details</td>
-            </tr>
+<%@ attribute name="documentAttributes" required="true"
+	type="java.util.Map"
+	description="The DataDictionary entry containing attributes for cash control document fields."%>
+
+<%@ attribute name="cashControlDetailAttributes" required="true"
+	type="java.util.Map"
+	description="The DataDictionary entry containing attributes for cash control detail fields."%>
+
+<%@ attribute name="readOnly" required="true"
+	description="If document is in read only mode"%>
+
+<kul:tab tabTitle="Cash Control Details" defaultOpen="true"
+	tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
+	<div id="cashControlDetails" class="tab-container" align=center>
+		<table cellpadding="0" cellspacing="0" class="datatable"
+			summary="Cash control Details">
 			<tr>
-			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.documentNumber}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.status}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerNumber}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount}" />
-			    <c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
-			    	<kul:htmlAttributeHeaderCell literalLabel="Actions" />
-			    </c:if>
-			</tr>     
-			<c:if test="${not readOnly and not KualiForm.hasGeneratedRefDoc}">
-				<ar:cashControlDetail propertyName="newCashControlDetail" cashControlDetailAttributes="${cashControlDetailAttributes}" addLine="true" readOnly="${readOnly}" rowHeading="add" cssClass="infoline" actionMethod="addCashControlDetail"  actionAlt="Add Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />				
-			</c:if>     
-			<logic:iterate id="cashControlDetail" name="KualiForm" property="document.cashControlDetails" indexId="ctr">
-				<ar:cashControlDetail propertyName="document.cashControlDetail[${ctr}]" cashControlDetailAttributes="${cashControlDetailAttributes}" addLine="false" readOnly="${readOnly}" rowHeading="${ctr+1}" cssClass="datacell" actionMethod="deleteCashControlDetail.line${ctr}" actionAlt="Delete Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
-	        </logic:iterate> 
-	        <tr>
-	 		   <td class="total-line" colspan="6">&nbsp;</td>
-	  		   <td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalCashControlAmount}</strong><html:hidden write="false" property="document.cashControlTotalAmount" /></td>
-               <c:if test="${!readOnly}">
-                   <td class="total-line">&nbsp;</td>
-               </c:if>
-		    </tr> 
-		   
-    	 </table>
-    </div>
+				<td colspan="8" class="subhead">
+					Cash Control Details
+				</td>
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.documentNumber}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.status}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.customerNumber}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount}" />
+				<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
+					<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+				</c:if>
+			</tr>
+			<c:if test="${not readOnly and not KualiForm.hasGeneratedGLPEs}">
+				<ar:cashControlDetail propertyName="newCashControlDetail"
+					cashControlDetailAttributes="${cashControlDetailAttributes}"
+					addLine="true" readOnly="${readOnly}" rowHeading="add"
+					cssClass="infoline" actionMethod="addCashControlDetail"
+					actionAlt="Add Cash Control Detail"
+					actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
+			</c:if>
+			<logic:iterate id="cashControlDetail" name="KualiForm"
+				property="document.cashControlDetails" indexId="ctr">
+				<ar:cashControlDetail
+					propertyName="document.cashControlDetail[${ctr}]"
+					cashControlDetailAttributes="${cashControlDetailAttributes}"
+					addLine="false" readOnly="${readOnly}" rowHeading="${ctr+1}"
+					cssClass="datacell"
+					actionMethod="deleteCashControlDetail.line${ctr}"
+					actionAlt="Delete Cash Control Detail"
+					actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
+			</logic:iterate>
+			<tr>
+				<td class="total-line" colspan="6">
+					&nbsp;
+				</td>
+				<td class="total-line">
+					<strong>Total:
+						${KualiForm.document.currencyFormattedTotalCashControlAmount}</strong>
+					<html:hidden write="false"
+						property="document.cashControlTotalAmount" />
+				</td>
+				<c:if test="${!readOnly}">
+					<td class="total-line">
+						&nbsp;
+					</td>
+				</c:if>
+			</tr>
+
+		</table>
+	</div>
 </kul:tab>

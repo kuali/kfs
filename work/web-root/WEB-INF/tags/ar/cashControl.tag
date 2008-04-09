@@ -32,14 +32,9 @@
 	property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
 <html:hidden
 	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
-<html:hidden
-			property="document.referenceFinancialDocumentNumber" />
-<html:hidden
-	property="hasGeneratedRefDoc" />
-<html:hidden
-	property="cashPaymentMediumSelected" />
-<html:hidden
-	property="documentSubmitted" />
+<html:hidden property="hasGeneratedGLPEs" />
+<html:hidden property="cashPaymentMediumSelected" />
+<html:hidden property="documentSubmitted" />
 
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
@@ -50,13 +45,12 @@
 			</h2>
 		</div>
 
-		<table cellpadding="0" cellspacing="0" class="datatable"
-			summary="General Info">
+		<table cellpadding="0" cellspacing="0" summary="General Info">
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${arDocHeaderAttributes.processingChartOfAccCodeAndOrgCode}"
-					horizontal="true" width="35%" />
+					horizontal="true" width="50%" />
 
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
@@ -71,39 +65,54 @@
 					horizontal="true" forceRequired="true" />
 
 				<td class="datacell-nowrap">
-					<kul:htmlControlAttribute
-						attributeEntry="${documentAttributes.customerPaymentMediumCode}"
-						property="document.customerPaymentMediumCode" readOnly="${KualiForm.hasGeneratedRefDoc or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}"
-					    onchange="submitForm()"/>
+					<c:choose>
+						<c:when
+							test="${not (KualiForm.hasGeneratedGLPEs or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected))}">
+							<kul:htmlControlAttribute
+								attributeEntry="${documentAttributes.customerPaymentMediumCode}"
+								property="document.customerPaymentMediumCode"
+								readOnly="${KualiForm.hasGeneratedGLPEs or (KualiForm.documentSubmitted and KualiForm.cashPaymentMediumSelected)}"
+								readOnlyAlternateDisplay="${document.customerPaymentMedium.customerPaymentMediumDescription}"
+								onchange="submitForm()" />
+						</c:when>
+						<c:otherwise>
+					 ${KualiForm.document.customerPaymentMedium.customerPaymentMediumDescription}
+					 </c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 
-			<tr>
-			
-				<kul:htmlAttributeHeaderCell
-					attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
-					horizontal="true" />
-					
-				<td class="datacell-nowrap">
-				
-					<c:if test="${KualiForm.hasGeneratedRefDoc}">
+
+			<c:if test="${KualiForm.cashPaymentMediumSelected}">
+				<tr>
+					<kul:htmlAttributeHeaderCell
+						attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
+						horizontal="true" />
+
+					<td class="datacell-nowrap">
 						<kul:htmlControlAttribute
 							attributeEntry="${documentAttributes.referenceFinancialDocumentNumber}"
 							property="document.referenceFinancialDocumentNumber"
-							readOnly="true" />
-					</c:if>
-					
-					<c:if test="${not KualiForm.hasGeneratedRefDoc and KualiForm.documentSubmitted and not KualiForm.cashPaymentMediumSelected}">
-						<html:image property="methodToCall.generateRefDoc"
-							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-							alt="Generate Reference Document"
-							title="Generate Reference Document" styleClass="tinybutton" />
-					</c:if>
-					
-				</td>
-				
-			</tr>
+							readOnly="${KualiForm.documentSubmitted}" />
+					</td>
+				</tr>
+			</c:if>
 
+			<c:if
+				test="${not KualiForm.hasGeneratedGLPEs and KualiForm.documentSubmitted and not KualiForm.cashPaymentMediumSelected}">
+				<tr>
+					<kul:htmlAttributeHeaderCell
+						literalLabel="Generate General Ledger Pending Entries"
+						horizontal="true" />
+					<td class="datacell-nowrap">
+						<html:image property="methodToCall.generateGLPEs"
+							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+							alt="Generate General Ledger Pending Entries"
+							title="Generate General Ledger Pending Entries"
+							styleClass="tinybutton" />
+					</td>
+				</tr>
+			</c:if>
 		</table>
 	</div>
 </kul:tab>

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cams.document;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +22,8 @@ import java.util.Map;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
@@ -36,22 +33,17 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
-import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
-import org.kuali.module.cams.bo.AssetPayment;
-import org.kuali.module.cams.service.AssetPaymentService;
-import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
     public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
     public final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
     private String representativeUniversalIdentifier;
@@ -87,12 +79,9 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     // Transient attributes
     private transient Asset asset;
 
-    private UniversityDateService universityDateService;
-    private AssetPaymentService assetPaymentService;
-    private AssetService assetService;
-    private AssetTransferService assetTransferService;
 
     public AssetTransferDocument() {
+        super();
     }
 
 
@@ -126,25 +115,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    public AssetPaymentService getAssetPaymentService() {
-        if (this.assetPaymentService == null) {
-            this.assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
-
-        }
-        return assetPaymentService;
-    }
-
     public UniversalUser getAssetRepresentative() {
         return assetRepresentative;
     }
 
-
-    public AssetService getAssetService() {
-        if (this.assetService == null) {
-            this.assetService = SpringContext.getBean(AssetService.class);
-        }
-        return assetService;
-    }
 
     /**
      * Gets the building attribute.
@@ -404,13 +378,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return transferOfFundsFinancialDocumentNumber;
     }
 
-    public UniversityDateService getUniversityDateService() {
-        if (this.universityDateService == null) {
-            this.universityDateService = SpringContext.getBean(UniversityDateService.class);
-
-        }
-        return universityDateService;
-    }
 
     @Override
     public void handleRouteStatusChange() {
@@ -418,9 +385,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         String financialDocumentStatusCode = getDocumentHeader().getFinancialDocumentStatusCode();
         // if status is approved
         if (CamsConstants.DOC_APPROVED.equals(financialDocumentStatusCode)) {
-            getAssetTransferService().saveApprovedChanges(this);
+            SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
     }
+
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
@@ -447,20 +415,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    @Override
-    public void prepareForSave() {
-        // generate postables
-        super.prepareForSave();
-        this.generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
-        getAssetTransferService().createGLPostables(this);
-
-        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("general ledger GLPE generation failed");
-        }
-
-    }
-
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
@@ -469,17 +423,11 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.assetHeader = assetHeader;
     }
 
-    public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
-        this.assetPaymentService = assetPaymentService;
-    }
 
     public void setAssetRepresentative(UniversalUser assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
 
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
-    }
 
     /**
      * Sets the building attribute value.
@@ -760,24 +708,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
-
-
-    public AssetTransferService getAssetTransferService() {
-        if (this.assetTransferService == null) {
-            this.assetTransferService = SpringContext.getBean(AssetTransferService.class);
-        }
-        return assetTransferService;
-    }
-
-
-    public void setAssetTransferService(AssetTransferService assetTransferService) {
-        this.assetTransferService = assetTransferService;
-    }
-
-
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -786,6 +716,4 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         m.put("documentNumber", this.documentNumber);
         return m;
     }
-
-
 }

@@ -33,6 +33,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -132,6 +133,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         // Create GL entries only for capital assets
         Asset asset = document.getAsset();
         if (getAssetService().isCapitalAsset(asset)) {
+            document.setGeneralLedgerPostables(new ArrayList<GeneralLedgerPendingEntrySourceDetail>());
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
             boolean movableAsset = getAssetService().isAssetMovable(asset);

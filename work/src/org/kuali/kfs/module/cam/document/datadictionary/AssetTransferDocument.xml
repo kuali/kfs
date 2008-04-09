@@ -265,7 +265,9 @@
                 	<hidden />
                 </control>
 			</attributeReference>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />			
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
           </attributes>
         <summary>
             <![CDATA[&nbsp;]]>

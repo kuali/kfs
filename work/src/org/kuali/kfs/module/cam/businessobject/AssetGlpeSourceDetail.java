@@ -233,7 +233,8 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     @Override
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-        map.put("", "");
+        map.put("accountNumber", this.accountNumber);
+        map.put("amount", this.chartOfAccountsCode);
         return map;
     }
 

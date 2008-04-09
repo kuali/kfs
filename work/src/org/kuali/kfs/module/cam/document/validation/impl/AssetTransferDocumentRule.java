@@ -17,11 +17,13 @@ package org.kuali.module.cams.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.cams.CamsKeyConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -45,7 +47,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
-        return checkReferencesExist(assetTransferDocument);
+        if (checkReferencesExist(assetTransferDocument)) {
+            SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
+                throw new ValidationException("general ledger GLPE generation failed");
+            }
+            return true;
+        }
+        return false;
 
     }
 
@@ -146,10 +155,18 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
+
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
             if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerAccount())) {
                 putError(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.Transfer.ERROR_OWNER_ACCT_INVALID);
+                valid &= false;
+            }
+        }
+        if (StringUtils.isNotBlank(assetTransferDocument.getTransferOfFundsFinancialDocumentNumber())) {
+            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.TRANSFER_FUND_FINANCIAL_DOC);
+            if (ObjectUtils.isNull(assetTransferDocument.getTransferOfFundsFinancialDocument())) {
+                putError(CamsPropertyConstants.AssetTransferDocument.TRANSFER_FUND_FINANCIAL_DOC_NUM, CamsKeyConstants.Transfer.ERROR_TRFR_FDOC_INVALID);
                 valid &= false;
             }
         }

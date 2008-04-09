@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.context.SpringContext;
@@ -61,7 +62,6 @@ public class AssetTransferAction extends KualiTransactionalDocumentActionBase {
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
         SpringContext.getBean(AssetLocationService.class).setOffCampusLocation(asset);
         SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary(asset);
-
         return docHandlerForward;
     }
 

@@ -21,7 +21,6 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.document.AssetTransferDocument;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
@@ -57,6 +56,4 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
         }
         return actionFlags;
     }
-
-
 }

@@ -15,13 +15,13 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true" htmlFormAction="camsAssetTransfer" documentTypeName="AssetTransferDocument" renderMultipart="true" showTabButtons="true">
-	<kul:hiddenDocumentFields isFinancialDocument="false" />
 	<c:set var="assetTransferAttributes" value="${DataDictionary.AssetTransferDocument.attributes}" />
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<html:hidden property="document.asset.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.capitalAssetNumber" />
 	<html:hidden property="document.assetHeader.documentNumber" />
 	<html:hidden property="document.assetHeader.versionNumber" />
+	<kul:hiddenDocumentFields isFinancialDocument="false" />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<kul:tab tabTitle="Asset" defaultOpen="true"> 
 	    <div class="tab-container" align="center">
@@ -42,7 +42,7 @@
 		  </table>   
         </div>
 	  </kul:tab>
-	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode"> 
+	  <kul:tab tabTitle="Asset Transfer Information" defaultOpen="true" tabErrorKey="document.organizationOwnerAccountNumber,document.organizationOwnerChartOfAccountsCode,document.transferOfFundsFinancialDocumentNumber"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 			
@@ -85,7 +85,10 @@
 			</tr>
 			<tr>				
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" /></th>
-				<td class="grid" colspan="3"><kul:htmlControlAttribute property="document.transferOfFundsFinancialDocumentNumber" attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" /></td>
+				<td class="grid" colspan="3"><kul:htmlControlAttribute property="document.transferOfFundsFinancialDocumentNumber" attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" />
+				&nbsp;
+                <kul:lookup boClassName="org.kuali.module.cams.bo.AssetHeader" fieldConversions="documentNumber:document.transferOfFundsFinancialDocumentNumber" lookupParameters="document.transferOfFundsFinancialDocumentNumber:documentNumber" />
+				</td>
 			</tr>
 		</table>
 		</div>

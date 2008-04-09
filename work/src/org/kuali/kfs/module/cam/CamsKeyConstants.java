@@ -89,6 +89,7 @@ public class CamsKeyConstants {
         public static final String ERROR_OWNER_CHART_CODE_INVALID = "error.receiving.org.chart.code.invalid";
         public static final String ERROR_OWNER_ACCT_INVALID = "error.receiving.org.acct.invalid";
         public static final String ERROR_CHOOSE_LOCATION_INFO = "error.location.choose.right";
+        public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
     }
 
 }

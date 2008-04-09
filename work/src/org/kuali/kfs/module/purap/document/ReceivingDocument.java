@@ -187,5 +187,9 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther);
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
+    
+    public PurchaseOrderDocument getPurchaseOrderDocument();
+    
+    public void setPurchaseOrderDocument(PurchaseOrderDocument po);
 
 }

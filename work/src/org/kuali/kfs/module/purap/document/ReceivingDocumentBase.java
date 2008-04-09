@@ -31,6 +31,7 @@ import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.rice.resourceloader.ServiceLocator;
@@ -87,6 +88,9 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
     private Carrier carrier;
     private VendorDetail vendorDetail;
     private DeliveryRequiredDateReason deliveryRequiredDateReason;
+    private Integer purchaseOrderIdentifier;
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    private transient PurchaseOrderDocument purchaseOrderDocument;
 
     public ReceivingDocumentBase(){
         super();
@@ -906,6 +910,41 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
 
     public void addItem(ReceivingLineItem item) {
         getItems().add(item);
+    }
+
+    public Integer getPurchaseOrderIdentifier() { 
+        return purchaseOrderIdentifier;
+    }
+
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    }
+
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public PurchaseOrderDocument getPurchaseOrderDocument() {
+        if ((ObjectUtils.isNull(this.purchaseOrderDocument) || ObjectUtils.isNull(this.purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
+            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+        }
+        return this.purchaseOrderDocument;
+    }
+
+    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
+        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+            this.purchaseOrderDocument = null;
+        }
+        else {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
+                setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
+            }
+            this.purchaseOrderDocument = purchaseOrderDocument;
+        }
     }
 
 }

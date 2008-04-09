@@ -4,14 +4,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.rule.event.ContinuePurapEvent;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
-import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.ReceivingService;
 
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
@@ -21,16 +19,6 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
  */
 public class ReceivingLineDocument extends ReceivingDocumentBase {
 
-    private Integer purchaseOrderIdentifier;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    
-
-    //not mapped in ojb
-    private transient PurchaseOrderDocument purchaseOrderDocument;
-    
-
-     
-    
     /**
      * Default constructor.
      */
@@ -129,34 +117,6 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
     }
     
     /**
-     * Gets the purchaseOrderIdentifier attribute.
-     * 
-     * @return Returns the purchaseOrderIdentifier
-     * 
-     */
-    public Integer getPurchaseOrderIdentifier() { 
-        return purchaseOrderIdentifier;
-    }
-
-    /**
-     * Sets the purchaseOrderIdentifier attribute.
-     * 
-     * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
-     * 
-     */
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-    }
-
-    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
-        return accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
-    }    
-    
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -165,31 +125,6 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
         return m;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
-     */
-    public PurchaseOrderDocument getPurchaseOrderDocument() {
-        if ((ObjectUtils.isNull(this.purchaseOrderDocument) || ObjectUtils.isNull(this.purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
-            setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
-        }
-        return this.purchaseOrderDocument;
-    }
-
-    /**
-     * @see org.kuali.module.purap.document.AccountsPayableDocument#setPurchaseOrderDocument(org.kuali.module.purap.document.PurchaseOrderDocument)
-     */
-    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
-        if (ObjectUtils.isNull(purchaseOrderDocument)) {
-            this.purchaseOrderDocument = null;
-        }
-        else {
-            if (ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
-                setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
-            }
-            this.purchaseOrderDocument = purchaseOrderDocument;
-        }
-    }
-    
     public Class getItemClass() {
         return ReceivingLineItem.class;
     }

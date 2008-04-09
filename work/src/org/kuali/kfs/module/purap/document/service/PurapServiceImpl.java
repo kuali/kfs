@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.Note;
+import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -38,11 +39,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurApItem;
@@ -66,6 +67,7 @@ public class PurapServiceImpl implements PurapService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
+    private DocumentService documentService;
 
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -77,6 +79,10 @@ public class PurapServiceImpl implements PurapService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
     /**
@@ -518,4 +524,18 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#saveDocumentNoValidation(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public void saveDocumentNoValidation(Document document) {
+        try {
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+    
     }

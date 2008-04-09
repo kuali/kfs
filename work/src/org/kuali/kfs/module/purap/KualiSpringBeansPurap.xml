@@ -139,6 +139,7 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
         <property name="parameterService" ref="parameterService"/>
+        <property name="documentService" ref="documentService"/>
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">

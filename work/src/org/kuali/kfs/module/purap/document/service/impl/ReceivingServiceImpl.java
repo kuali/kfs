@@ -275,14 +275,9 @@ public class ReceivingServiceImpl implements ReceivingService {
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
         //delete unentered items
         purapService.deleteUnenteredItems(receivingDocument);
-        
-        //TODO: save receiving and po? also clean this up (i.e. move to separate method like other docs)
-        try {
-            documentService.saveDocument(receivingDocument, DocumentSystemSaveEvent.class);
-        }
-        catch (WorkflowException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //TODO update totals on po (is this a good case for documentSpecificService here?)
+        PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
+        //TODO: save receiving and po? 
+        purapService.saveDocumentNoValidation(receivingDocument);
     }
 }

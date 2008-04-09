@@ -18,6 +18,7 @@ package org.kuali.module.purap.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.ItemType;
@@ -164,4 +165,11 @@ public interface PurapService {
      * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
      */
     public void deleteUnenteredItems(PurapItemOperations document);
+    
+    /**
+     * Saves the document without doing validation by invoking the saveDocument method of documentService.
+     * 
+     * @param document The purchase order document to be saved.
+     */
+    public void saveDocumentNoValidation(Document document);
 }

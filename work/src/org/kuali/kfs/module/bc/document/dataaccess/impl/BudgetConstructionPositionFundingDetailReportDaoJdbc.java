@@ -17,6 +17,7 @@ package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.budget.dao.BudgetConstructionPositionFundingDetailReportDao;
 
 import java.util.ArrayList;
@@ -143,7 +144,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * @param personUserIdentifier--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableAboveThreshold(String personUserIdentifier, Number thresholdPercent)
+    private void updateReportsPositionFundingDetailTableAboveThreshold(String personUserIdentifier, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -152,7 +153,10 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         // sum the FTE and amounts into a temporary table
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,personUserIdentifier);
         // fill the reporting table with only those people who are at or above the threshold
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(),personUserIdentifier, personUserIdentifier,thresholdPercent,idForSession);
+        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
+        // (apparently, creating a new value from a cast doesn't help either)
+        Number thresholdValue = thresholdPercent.floatValue();
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(),personUserIdentifier, personUserIdentifier, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
         this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
     }
@@ -163,7 +167,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * @param personUserIdentifier--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableBelowThreshold(String personUserIdentifier, Number thresholdPercent)
+    private void updateReportsPositionFundingDetailTableBelowThreshold(String personUserIdentifier, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -172,7 +176,10 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         // sum the FTE and amounts into a temporary table
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,personUserIdentifier);
         // fill the reporting table with only those people who are at or below the threshold
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(),personUserIdentifier, personUserIdentifier,thresholdPercent,idForSession);
+        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
+        // (apparently, creating a new value from a cast doesn't help either)
+        Number thresholdValue = thresholdPercent.floatValue();
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(),personUserIdentifier, personUserIdentifier, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
         this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
     }
@@ -194,7 +201,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionPositionFundingDetailReportDao#updateReportsPositionFundingDetailTable(java.lang.String, boolean, boolean, java.lang.Number)
      */
-    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, Number thresholdPercent) {
+    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent) {
         // if there is no threshold, just dump everything in and return
         if (! applyAThreshold)
         {

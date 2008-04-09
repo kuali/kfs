@@ -33,7 +33,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         // builds and updates SalaryStatisticsReports
 
         /* get no leave bcaf, bcsf and posn info first */
-        StringBuilder sqlText = new StringBuilder(500);
+        StringBuilder sqlText = new StringBuilder(2500);
         sqlText.append("INSERT INTO ld_bcn_build_saltot01_mt \n");
         sqlText.append("(SESID, EMPLID, POSITION_NBR, SAL_AMT, SAL_PCT, SAL_MTHS, POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
         sqlText.append("SELECT '12345', bcaf.position_nbr, bcaf.emplid, bcaf.appt_rqst_amt, bcaf.appt_rqst_tm_pct, \n");

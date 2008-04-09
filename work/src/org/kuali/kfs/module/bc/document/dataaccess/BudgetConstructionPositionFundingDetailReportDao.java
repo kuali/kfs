@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.dao;
 
+import org.kuali.core.util.KualiDecimal;
+
 public interface BudgetConstructionPositionFundingDetailReportDao {
 
     /**
@@ -33,6 +35,6 @@ public interface BudgetConstructionPositionFundingDetailReportDao {
      * @param selectOnlyGreaterThanOrEqualToThreshold--true if people at or above the threshold are to be listed: false lists people at or below
      * @param thresholdPercent--percent (a fraction times 100) increase which marks the threshold 
      */
-    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, Number thresholdPercent);
+    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent);
 
 }

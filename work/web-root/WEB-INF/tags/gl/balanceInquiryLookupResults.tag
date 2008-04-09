@@ -105,7 +105,7 @@
                                     	<c:set var="checked" value="${empty KualiForm.compositeObjectIdMap[objectId] ? '' : 'checked=checked'}" />
                                     	<c:set var="disabled" value="${amount != 0.0 ? '' : 'disabled=disabled'}" />
                                     	
-										<input type="checkbox" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" value="checked" ${disabled} ${checked}>
+										<input type="checkbox" title="${column.columnTitle}" name="${Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX}${objectId}" value="checked" ${disabled} ${checked}>
 											${column.columnTitle}
 										</input>
                                     	<input type="hidden" name="${Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX}${objectId}" value="onscreen"/>

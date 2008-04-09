@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ tag description="render the given field in the given detail line" %>
+<%@ tag description="render the totals of the given field in the given detail lines" %>
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 

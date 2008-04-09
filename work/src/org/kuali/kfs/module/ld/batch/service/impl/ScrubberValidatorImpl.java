@@ -304,12 +304,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         String chartCode = expiredClosedAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = expiredClosedAccount.getContinuationAccountNumber();
 
-        List checkedAccountNumbers = new ArrayList();
+        List<String> checkedAccountNumbers = new ArrayList<String>();
         for (int i = 0; i < 10; ++i) {
             if (checkedAccountNumbers.contains(chartCode + accountNumber)) {
                 // Something is really wrong with the data because this account has already been evaluated.
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CIRCULAR_DEPENDENCY_IN_CONTINUATION_ACCOUNT_LOGIC), Message.TYPE_FATAL);
             }
+            
+            checkedAccountNumbers.add(chartCode + accountNumber);
 
             if (chartCode == null || accountNumber == null) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
@@ -331,12 +333,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 laborWorkingEntry.setAccount(account);
                 laborWorkingEntry.setAccountNumber(accountNumber);
                 laborWorkingEntry.setChartOfAccountsCode(chartCode);
-
+                laborWorkingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                 laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + expiredClosedAccount.getChartOfAccountsCode() + expiredClosedAccount.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
+                
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + " " + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
-            }
-
-            checkedAccountNumbers.add(chartCode + accountNumber);
+            }  
         }
 
         // We failed to find a valid continuation account.

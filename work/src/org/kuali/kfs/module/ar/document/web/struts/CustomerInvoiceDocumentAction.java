@@ -49,7 +49,11 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
     /**
-     * Makes a call to parent's createDocument method, but this method also defaults values for customer invoice document
+     * Called when customer invoice document is initiated.
+     * 
+     * Makes a call to parent's createDocument method, but also defaults values for customer invoice document.
+     * Line which inserts Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by 
+     * CustomerInvoiceDocumentForm.createNewSourceAccountingLine()
      * 
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */

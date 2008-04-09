@@ -48,17 +48,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     }
     
     /**
-     * By overriding this method, we can add the invoice total amount to the document header
-     * 
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
-     */
-    @Override
-    public KeyLabelPair getAdditionalDocInfo2() {
-        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
-    }
-    
-    
-    /**
      * Reused to create new source accounting line (i.e customer invoice detail line) with defaulted values.
      * 
      * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#createNewSourceAccountingLine(org.kuali.kfs.document.AccountingDocument)
@@ -73,8 +62,18 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             return customerInvoiceDetailService.getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
         }
         catch (Exception e) {
-            throw new InfrastructureException("unable to create a new source accounting line", e);
+            throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);
         }
+    }    
+    
+    /**
+     * By overriding this method, we can add the invoice total amount to the document header
+     * 
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
+     */
+    @Override
+    public KeyLabelPair getAdditionalDocInfo2() {
+        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal()));
     }    
     
     

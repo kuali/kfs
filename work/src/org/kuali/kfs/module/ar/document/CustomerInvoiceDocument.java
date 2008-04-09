@@ -21,6 +21,7 @@ import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -31,6 +32,8 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -817,6 +820,27 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     public void setPaymentSubAccount(SubAccount paymentSubAccount) {
         this.paymentSubAccount = paymentSubAccount;
     }
+    
+    /**
+     * This method returns the billing date for display.  If billing date hasn't been set yet, just display current date
+     * 
+     * @return
+     */
+    public Date getBillingDateForDisplay() {
+        if( ObjectUtils.isNotNull( getBillingDate() ) ){
+            return getBillingDate();
+        } else {
+            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        }
+    }  
+    
+    /**
+     * This method...
+     * @param date
+     */
+    public void setBillingDateForDisplay(Date date){
+        //do nothing
+    }    
 
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -851,6 +875,22 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         
         setReceivableAccountingInfo();
 	}
+	
+    /**
+     * This method defaults the certain values based on the user and the current date after a invoice has been copied.
+     */
+    public void setupDefaultValuesAfterCopy(){
+        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        
+        if(currentUser != null) {
+            setDefaultBillByChartOfAccountsCode(currentUser);
+            setDefaultBilledByOrganizationCode(currentUser);
+            setInvoiceTermsText(currentUser);
+        }
+        
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        setDefaultInvoiceDueDate(dateTimeService);
+    }	
 	
 	private void setReceivableAccountingInfo() {
         // TODO Auto-generated method stub
@@ -957,23 +997,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         valuesMap.put("paymentProjectCode", getPaymentProjectCode());
         return valuesMap;
     }
-
-    /**
-     * This method returns the billing date for display.  If billing date hasn't been set yet, just display current date
-     * 
-     * @return
-     */
-    public Date getBillingDateForDisplay() {
-        if( ObjectUtils.isNotNull( getBillingDate() ) ){
-            return getBillingDate();
-        } else {
-            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        }
-    }  
-    
-    public void setBillingDateForDisplay(Date date){
-        //do nothing
-    }
     
     
     /**
@@ -987,5 +1010,29 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
         } 
+    }
+    
+    
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        
+        //setup values after copy
+        setupDefaultValuesAfterCopy();
+        
+        //save customer number since it will get overwritten when we retreive the accounts receivable document header from service
+        String customerNumber = getAccountsReceivableDocumentHeader().getCustomerNumber();
+        
+        // set up the default values for the AR DOC Header
+        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
+        accountsReceivableDocumentHeader.setDocumentNumber(this.getDocumentNumber());
+        accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
+        setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader); 
+        
+        // set up customer name
     }
 }

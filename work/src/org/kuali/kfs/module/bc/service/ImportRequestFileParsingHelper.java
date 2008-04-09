@@ -43,7 +43,6 @@ public class ImportRequestFileParsingHelper {
         List<String> attributes = new ArrayList<String>();
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
         
-        int fieldSeparatorCount = StringUtils.countMatches(lineToParse, fieldSeperator);
         int expectedNumberOfSeparators = isAnnual ? 5 : 16;
         
         //check if line is in correct format

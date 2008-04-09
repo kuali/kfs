@@ -24,7 +24,27 @@ import com.lowagie.text.DocumentException;
 
 public interface BudgetRequestImportService {
     
+    /**
+     * Takes an import request file (either monthly or annual) and creates the BudgetConstructionMove objects for each line of the file.
+     * If any errors are encounterd, file processing stops.
+     * If no errors are encountered an empty list is returned.
+     * 
+     * @param fileImportStream
+     * @param fieldSeperator
+     * @param textDelimiter
+     * @param fileType
+     * @return list of errors encountered during file processing
+     * @throws IOException
+     */
     public List processImportFile (InputStream fileImportStream, String fieldSeperator, String textDelimiter, String fileType) throws IOException;
     
+    /**
+     * Generates the log file
+     * 
+     * @param errorMessages
+     * @param baos
+     * @throws DocumentException
+     */
     public void generatePdf(List errorMessages, ByteArrayOutputStream baos) throws DocumentException;
+    
 }

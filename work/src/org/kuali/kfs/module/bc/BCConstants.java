@@ -48,6 +48,8 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
     public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
 
+    public static final String REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC = "Bad file format at line";
+    
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
     }
@@ -197,6 +199,16 @@ public class BCConstants extends JstlConstants {
         public final static int ACCOUNT_SELECT_BUDGETED_DOCUMENTS = 4;
     }
 
+    public enum RequestImportFileType {
+        MONTHLY("MONTHLY"), ANNUAL("ANNUAL");
+        
+        private String fileType;
+        
+        private RequestImportFileType(String fileType) {
+            this.fileType = fileType;
+        }
+    }
+    
     public enum RequestImportFieldSeparator {
         COMMA("COMMA"), TAB("TAB"), OTHER("OTHER");
         

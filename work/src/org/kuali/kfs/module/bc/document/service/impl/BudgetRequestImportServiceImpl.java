@@ -27,77 +27,196 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.BCConstants.RequestImportFileType;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 import org.kuali.module.budget.service.BudgetRequestImportService;
+import org.kuali.module.budget.util.ImportRequestFileParsingHelper;
 
 import com.lowagie.text.DocumentException;
 
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
-    BusinessObjectService businessObjectService;
-    List<String> errorList = new ArrayList<String>();
-    Integer currentLine;
+    private BusinessObjectService businessObjectService;
     
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetRequestImportService#generatePdf(java.util.List, java.io.ByteArrayOutputStream)
+     */
     public void generatePdf(List errorMessages, ByteArrayOutputStream baos) throws DocumentException {
         // TODO Auto-generated method stub
         
     }
 
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetRequestImportService#processImportFile(java.io.InputStream, java.lang.String, java.lang.String, java.lang.String)
+     */
     public List processImportFile(InputStream fileImportStream, String fieldSeperator, String textDelimiter, String fileType) throws IOException {
-        this.currentLine = 1;
-        List errors = new ArrayList();
+        List fileErrorList = new ArrayList();
+        List<BudgetConstructionRequestMove> processedRequestList = new ArrayList<BudgetConstructionRequestMove>();
         
+        //TODO: how to handle rollback?
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, new HashMap());
 
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
 
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileImportStream));
-        int rowCount = 1;
+        int currentLine = 1;
         while (fileReader.ready()) {
             String line = StringUtils.strip(fileReader.readLine());
+            boolean isAnnualFile = ( fileType.equalsIgnoreCase(RequestImportFileType.ANNUAL.toString()) ) ? true : false;
+            
             if (StringUtils.isNotBlank(line)) {
-                if (StringUtils.isNotBlank(textDelimiter)) {
-                    budgetConstructionRequestMove.setChartOfAccountsCode(StringUtils.substringBetween(line, textDelimiter, textDelimiter));
-                }
-                else {
-
-                }
+                budgetConstructionRequestMove = ImportRequestFileParsingHelper.parseLine(line, fieldSeperator, textDelimiter, isAnnualFile);
+            }
+            //check if there were errors parsing the line
+            if (budgetConstructionRequestMove == null) {
+                fileErrorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + currentLine + ".");
+                return fileErrorList;
             }
             
-            // validate required fields, field length, and set default dash values
-            if (StringUtils.isBlank(budgetConstructionRequestMove.getAccountNumber())) {
-                // errors.add(new ErrorMessage(BCKeyConstants.ERROR_BUDGET_OBJECT_CODE_NOT_SELECTED));
-                return errors;
-            }
-            else {
-                // check account length
+            List<String> lineValidationErrors = validateLine(budgetConstructionRequestMove, currentLine, isAnnualFile);
+            
+            if ( lineValidationErrors.size() != 0) {
+                fileErrorList.addAll(lineValidationErrors);
+                return fileErrorList;
             }
             
-            
+            //set default values
             if (StringUtils.isBlank(budgetConstructionRequestMove.getSubAccountNumber())) {
                 budgetConstructionRequestMove.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }
             
+            if (StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode())) {
+                budgetConstructionRequestMove.setSubAccountNumber(KFSConstants.getDashFinancialSubObjectCode());
+            }
             
-            // store budgetConstructionRequestMove using businessObjectService
-            businessObjectService.save(budgetConstructionRequestMove);
-            this.currentLine ++;
+            //TODO: should i add all objects to list and only save at the end (in case one of the lines doesn't parse, to avoid rollback issues)? or save lines as they are parsed?
+            //processedRequestList.add(budgetConstructionRequestMove);
+            try {
+                businessObjectService.save(budgetConstructionRequestMove);
+            }
+            catch (RuntimeException e) {
+                fileErrorList.add("Move table store error, import aborted");
+                return fileErrorList;
+            }
+            
+            currentLine ++;
+        }
+        
+        //TODO: update error codes and write to errorList
+        
+        return fileErrorList;
+    }
+    
+    private List<String> validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove, int lineNumber, boolean isAnnual) {
+        List<String> errorList = new ArrayList<String>();
+        
+        if (StringUtils.isBlank(budgetConstructionRequestMove.getAccountNumber()) || budgetConstructionRequestMove.getAccountNumber().length() != 7 ) {
+            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+            return errorList;
+        }
+        
+        if ( StringUtils.isBlank(budgetConstructionRequestMove.getChartOfAccountsCode()) || budgetConstructionRequestMove.getChartOfAccountsCode().length() != 2 ) {
+            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+            return errorList;
+        }
+        
+        if ( StringUtils.isBlank(budgetConstructionRequestMove.getFinancialObjectCode()) || budgetConstructionRequestMove.getFinancialObjectCode().length() != 4 ) {
+            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+            return errorList;
+        }
+        
+        if (!StringUtils.isBlank(budgetConstructionRequestMove.getSubAccountNumber()) && budgetConstructionRequestMove.getSubAccountNumber().length() != 5 ) {
+            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+            return errorList;
+        }
+        
+        if (!StringUtils.isBlank(budgetConstructionRequestMove.getFinancialSubObjectCode()) && budgetConstructionRequestMove.getFinancialSubObjectCode().length() != 3 ) {
+            errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+            return errorList;
+        }
+        
+        if (isAnnual) {
+            if ( budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+        }
+        
+        if (!isAnnual) {
+            
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth1LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth2LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth3LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth4LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth5LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth6LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth7LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth8LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth9LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth10LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth11LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
+            if ( budgetConstructionRequestMove.getFinancialDocumentMonth12LineAmount().compareTo(new KualiInteger(999999999)) >= 0 || budgetConstructionRequestMove.getAccountLineAnnualBalanceAmount().compareTo(new KualiInteger(-999999999)) <= 0 ) {
+                errorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".");
+                return errorList;
+            }
         }
 
-        return errors;
+        return errorList;
+    }
+
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
     
-    public void clearExistingRequest() {
-        
-    }
-    
-    public boolean validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove) {
-        boolean isValid = true;
-        
-        //if line is not valid, update errorList and return false
-        
-        return isValid;
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
  
 }

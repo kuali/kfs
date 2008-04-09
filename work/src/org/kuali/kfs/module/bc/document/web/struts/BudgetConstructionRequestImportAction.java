@@ -31,7 +31,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
+import org.kuali.module.budget.service.BudgetRequestImportService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionRequestImportForm;
+import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
 
 
 /**
@@ -65,6 +67,7 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         String lookupUrl;
         
         if (isValid ) {
+            SpringContext.getBean(BudgetRequestImportService.class).processImportFile(fileToParse.getInputStream(), getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
             basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
         } else {

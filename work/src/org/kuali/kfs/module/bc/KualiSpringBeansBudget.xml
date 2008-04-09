@@ -396,5 +396,10 @@
       </property>
     </bean>
 
+	<bean id="budgetRequestImportService" class="org.kuali.module.budget.service.impl.BudgetRequestImportServiceImpl" >
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>					
+	</bean>
     
 </beans>

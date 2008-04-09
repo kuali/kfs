@@ -24,10 +24,8 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.Section;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 
@@ -39,17 +37,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
 
-    private AssetRetirementGlobal newAssetRetirementGlobal;
-    private AssetRetirementGlobal copyAssetRetirementGlobal;
-
-    private void initializeBOs(MaintenanceDocument document) {
-        if (newAssetRetirementGlobal == null) {
-            newAssetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
-        }
-        if (copyAssetRetirementGlobal == null) {
-            copyAssetRetirementGlobal = (AssetRetirementGlobal) document.getOldMaintainableObject().getBusinessObject();
-        }
-    }
 
     /**
      * This creates the particular locking representation for this global document.
@@ -64,6 +51,8 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     }
 
     /**
+     * Hide retirement detail sections based on the retirement reason code
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
@@ -102,19 +91,34 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         return sections;
     }
 
+    /**
+     * Populate shared columns for each assetRetirementGlobalDetail based sharedRetirementInfo
+     * 
+     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#prepareForSave()
+     */
     @Override
     public void prepareForSave() {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
         if (sharedRetirementInfo != null) {
+            // deep copy for each assetRetirmentDetail
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
-                assetRetirementGlobalDetail.setBuyerDescription(sharedRetirementInfo.getBuyerDescription());
+                Long capitalAssetNumber = assetRetirementGlobalDetail.getCapitalAssetNumber();
+                assetRetirementGlobalDetail = (AssetRetirementGlobalDetail) ObjectUtils.deepCopy(sharedRetirementInfo);
+                assetRetirementGlobalDetail.setCapitalAssetNumber(capitalAssetNumber);
+
+                // assetRetirementGlobalDetail.setBuyerDescription(sharedRetirementInfo.getBuyerDescription());
             }
         }
         super.prepareForSave();
     }
 
+    /**
+     * Restore sharedRetirementInfo by the first assetRetirementGlobalDetail
+     * 
+     * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#processAfterRetrieve()
+     */
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
@@ -126,11 +130,21 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             assetRetirementGlobal.refreshReferenceObject("assetRetirementGlobalDetails");
             sharedRetirementInfo = new AssetRetirementGlobalDetail();
             for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
-                sharedRetirementInfo.setBuyerDescription(assetRetirementGlobalDetail.getBuyerDescription());
+                sharedRetirementInfo = (AssetRetirementGlobalDetail) ObjectUtils.deepCopy(assetRetirementGlobalDetail);
                 assetRetirementGlobal.setSharedRetirementInfo(sharedRetirementInfo);
                 break;
             }
         }
     }
 
+    @Override
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterPost(document, parameters);
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+            assetRetirementGlobalDetail.refreshReferenceObject("asset");
+        }
+
+    }
 }

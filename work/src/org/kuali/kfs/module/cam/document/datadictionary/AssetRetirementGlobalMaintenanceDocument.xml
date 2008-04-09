@@ -22,15 +22,13 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.AssetRetirementGlobal</businessObjectClass>
         <maintainableClass>org.kuali.module.cams.maintenance.AssetRetirementGlobalMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
+        <businessRulesClass>org.kuali.module.cams.rules.AssetRetirementGlobalRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetRetirementAuthorizer</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
                     <workgroup>kualiUniversalGroup</workgroup>
-                    <!--workgroup>CM_ASSET_MERGE_SEPARATE_USERS</workgroup-->
-                    <!--workgroup>CM_SUPER_USERS</workgroup-->
                 </workgroups>
             </authorization>
         </authorizations>
@@ -47,15 +45,18 @@
             <field attributeName="documentNumber" />
         </lockingKeys>
  
+         <defaultExistenceChecks>
+            <reference collection="assetRetirementGlobalDetails" attributeName="asset" attributeToHighlightOnFail="capitalAssetNumber" />
+        </defaultExistenceChecks>
+        
         <maintainableSections>
             <maintainableSection title="Retirement Information">
                 <maintainableItems>
 	                <subSectionHeader name="Retirement Reason" />
                 	<maintainableField name="versionNumber"  />
                 	<maintainableField name="retirementReasonCode"  readOnly="true"/>
-                	<maintainableField name="retirementDate" required="true">
-                		<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
+                	<maintainableField name="defaultRetirementDate" required="true"/>
+                	<maintainableField name="mergedTargetCapitalAssetNumber" />
                 </maintainableItems>
             </maintainableSection>
             <maintainableSection title="External Transfer or Gift" id="ExternalTransferOrGift">
@@ -89,10 +90,36 @@
             </maintainableSection>
        		<maintainableSection title="Asset Detail Information">
             	<maintainableItems>
-            		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
+            		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
 	                <subSectionHeader name="Asset Detail Information" />
             		<maintainableField name="versionNumber"  />
-                	<maintainableField name="capitalAssetNumber" required="true" readOnlyAfterAdd="true" />
+                	<maintainableField name="capitalAssetNumber" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.organizationOwnerChartOfAccountsCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.organizationOwnerAccountNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <!-- maintainableField name="asset.organizationOwnerAccount.organizationCode" readOnly="true" readOnlyAfterAdd="true" /-->
+                    <maintainableField name="asset.agencyNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.acquisitionTypeCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.inventoryStatusCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.conditionCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetDescription" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetTypeCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.vendorName" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.manufacturerName" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.manufacturerModelNumber" readOnly="true" readOnlyAfterAdd="true" />
+					<maintainableField name="asset.serialNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.campusTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.oldTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.governmentTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.nationalStockNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.lastInventoryDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.createDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.financialDocumentPostingYear" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.financialDocumentPostingPeriodCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetInServiceDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.depreciationDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.totalCostAmount" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.federalContribution" readOnly="true" readOnlyAfterAdd="true" />
+                	<maintainableField name="newCollectionRecord" />
                 	<summaryFields>
                         <summaryField name="capitalAssetNumber" />
                     </summaryFields>

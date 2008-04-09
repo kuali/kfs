@@ -15,12 +15,16 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.bo.AssetLocation;
 import org.kuali.module.cams.service.AssetService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetServiceImpl implements AssetService {
     ParameterService parameterService;
@@ -43,8 +47,46 @@ public class AssetServiceImpl implements AssetService {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
-    public boolean isAssetRetired(Asset asset) {
+	public boolean isAssetRetired(Asset asset) {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode());
+    }
+    
+    public boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset) {
+        return ObjectUtils.isNull(oldAsset.getCapitalAssetInServiceDate()) ? ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) : oldAsset.getCapitalAssetInServiceDate().equals(newAsset.getCapitalAssetInServiceDate());
+    }
+    
+    /**
+     * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
+     * the asset created in the current fiscal year
+     * 
+     * @return
+     */
+    public boolean isAssetTaggedInPriorFiscalYear(Asset asset) {
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+        return StringUtils.isNotBlank(asset.getCampusTagNumber()) && ObjectUtils.isNotNull(asset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(asset.getFinancialDocumentPostingYear());
+    }
+    
+    /**
+     * The Tag Number check excludes value of "N" and retired assets. 
+     * 
+     * @return
+     */
+    public boolean isTagNumberCheckExclude(Asset asset) {
+        String status = asset.getInventoryStatusCode();
+
+        return StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(asset.getCampusTagNumber(), CamsConstants.NON_TAGGABLE_ASSET);
+    }
+
+    /**
+     * Test if any of the off campus location field is entered.
+     * 
+     * @param asset
+     * @return
+     */
+    public boolean isOffCampusLocationEntered(Asset asset) {
+        AssetLocation offCampus = asset.getOffCampusLocation();
+        return StringUtils.isNotBlank(offCampus.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampus.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationZipCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationCountryCode());
     }
 
 }

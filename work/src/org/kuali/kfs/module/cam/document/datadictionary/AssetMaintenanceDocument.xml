@@ -196,12 +196,21 @@
 				</maintainableItems>
 			</maintainableSection>
           
-            <maintainableSection title="View Asset History" id="history">
+            <maintainableSection title="View Merge History" id="mergeHistory">
             	<maintainableItems>
-                	<subSectionHeader name="View Merge History" />
-                	 	<maintainableField name="assetMergeHistory.originalCapitalAssetNumber" readOnly="true" />
-                		<maintainableField name="assetMergeHistory.dispositionDate" readOnly="true" />
-                	<subSectionHeader name="View Separate History" />
+            		<maintainableCollection name="mergeHistory" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceAttributeName="mergeHistory" includeAddLine="false" summaryTitle="Source Asset">
+                		<maintainableField name="capitalAssetNumber" readOnly="true" />
+                		<maintainableField name="assetRetirementGlobal.retirementDate" readOnly="true" />
+                		<maintainableField name="versionNumber" />
+                		<summaryFields>
+                        	<summaryField name="capitalAssetNumber" />
+                    	</summaryFields>
+            		</maintainableCollection>
+            	</maintainableItems>
+            </maintainableSection>
+            
+            <maintainableSection title="View Asset Separate History" id="history">
+            	<maintainableItems>
                 		<maintainableField name="assetSeparateHistory.originalCapitalAssetNumber" readOnly="true" />
                 		<maintainableField name="assetSeparateHistory.dispositionDate" readOnly="true" />
             	</maintainableItems>

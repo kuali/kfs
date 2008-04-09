@@ -313,7 +313,38 @@
 			</attribute>
 			
 			<attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
-			<attributeReference name="asset.capitalAssetNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetNumber" />
+            <attributeReference name="asset.organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode" />
+            <attributeReference name="asset.organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccountNumber" />
+            <attributeReference name="asset.organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccount.organizationCode" >
+            	<control>
+                    <hidden/>
+                </control>
+            </attributeReference>
+            
+            <attributeReference name="asset.agencyNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="agencyNumber" />
+            <attributeReference name="asset.acquisitionTypeCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="acquisitionTypeCode" />
+            <attributeReference name="asset.inventoryStatusCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="inventoryStatusCode" />
+            <attributeReference name="asset.conditionCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="conditionCode" />
+            <attributeReference name="asset.capitalAssetDescription" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetDescription" />
+            <attributeReference name="asset.capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetTypeCode" />
+            <attributeReference name="asset.vendorName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="vendorName" />
+            <attributeReference name="asset.manufacturerName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerName" />
+            <attributeReference name="asset.manufacturerModelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerModelNumber" />
+            <attributeReference name="asset.serialNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="serialNumber" />
+            <attributeReference name="asset.campusTagNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="campusTagNumber" />
+            <attributeReference name="asset.oldTagNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="oldTagNumber" />
+            <attributeReference name="asset.governmentTagNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="governmentTagNumber" />
+            <attributeReference name="asset.nationalStockNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="nationalStockNumber" />
+            <attributeReference name="asset.lastInventoryDate" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="lastInventoryDate" />
+            <attributeReference name="asset.createDate" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="createDate" />
+            <attributeReference name="asset.financialDocumentPostingYear" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingYear" />
+            <attributeReference name="asset.financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode" />
+            <attributeReference name="asset.capitalAssetInServiceDate" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="capitalAssetInServiceDate" />
+            <attributeReference name="asset.depreciationDate" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="depreciationDate" />
+            <attributeReference name="asset.totalCostAmount" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="totalCostAmount" />
+            <attributeReference name="asset.federalContribution" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="federalContribution" />
+            
+            <attributeReference name="assetRetirementGlobal.retirementDate" sourceClassName="org.kuali.module.cams.bo.AssetRetirementGlobal" sourceAttributeName="retirementDate" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
          </attributes>
     </businessObject>

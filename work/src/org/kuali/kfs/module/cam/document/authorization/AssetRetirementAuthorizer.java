@@ -15,32 +15,15 @@
  */
 package org.kuali.module.cams.document.authorization;
 
-import static org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER;
-import static org.kuali.module.cams.CamsPropertyConstants.Asset.VENDOR_NAME;
-
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsKeyConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 
 /**
@@ -59,23 +42,28 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        return super.getFieldAuthorizations(document, user);
-        /*MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
+        MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        if (StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER, assetGlobal.getRetirementReasonCode()) || StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.AUCTION, assetGlobal.getRetirementReasonCode())) {
-            // auths.addEditableAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." +
-            // CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
-            auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_CHART_OF_ACCOUNTS_CODE);
+        if (!StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.MERGED, assetGlobal.getRetirementReasonCode())) {
+            auths.addHiddenAuthField("mergedTargetCapitalAssetNumber");
         }
-        return auths;*/
+
+        return auths;
     }
 
+    /**
+     * Asset Retirement can be initiated for CM_ASSET_MERGE_SEPARATE_USERS & CM_SUPER_USERS
+     * 
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
+     *      org.kuali.core.bo.user.UniversalUser)
+     */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
             throw new DocumentInitiationAuthorizationException(new String[] { CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS, CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, documentTypeName });
         }
     }
+
 
 }

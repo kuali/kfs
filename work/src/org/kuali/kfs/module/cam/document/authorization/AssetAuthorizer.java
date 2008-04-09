@@ -31,6 +31,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
@@ -82,7 +83,32 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
             auths.addHiddenAuthField(CamsPropertyConstants.Asset.RETIREMENT_INFO_MERGED_TARGET);
 
         }
+
+        setFieldsReadOnlyAccessMode(auths, asset, user);
         return auths;
+    }
+
+    /**
+     * Check and set view only for campusTagNumber,assetTypeCode and assetDescription
+     * 
+     * @param auths
+     * @param asset
+     */
+    private void setFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
+
+        if (ObjectUtils.isNotNull(asset.getCampusTagNumber()) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+            // Set the Tag Number as view only if the asset is tagged and the user is none of CAMS Administration group nor
+            // CM_ASSET_MERGE_SEPARATE_USERS
+            auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+
+
+            if (assetService.isAssetTaggedInPriorFiscalYear(asset)) {
+                // Set the Asset Type Code & Asset Description if it was tagged in prior FY and the user is none of CAMS
+                // Administration group nor CM_ASSET_MERGE_SEPARATE_USERS
+                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+                auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
+            }
+        }
     }
 
     private void hidePaymentSequence(MaintenanceDocumentAuthorizations auths, Asset asset) {
@@ -99,7 +125,6 @@ public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
         }
     }
 
-    // TODO To be removed
     private void hideFields(MaintenanceDocumentAuthorizations auths, String[] readOnlyFields) {
         for (String field : readOnlyFields) {
             auths.addHiddenAuthField(field);

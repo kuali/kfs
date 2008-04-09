@@ -23,6 +23,7 @@ import org.kuali.module.chart.bo.Chart;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Asset extends PersistableBusinessObjectBase {
+
     private Long capitalAssetNumber;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
@@ -115,11 +116,12 @@ public class Asset extends PersistableBusinessObjectBase {
 
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
-    
+
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
+    private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
     private EquipmentLoanOrReturn loanOrReturnInfo;
@@ -1854,7 +1856,7 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the estimatedFabricationLifetimeLimitNumber attribute. 
+     * Gets the estimatedFabricationLifetimeLimitNumber attribute.
      * 
      * @return Returns the estimatedFabricationLifetimeLimitNumber.
      */
@@ -1878,5 +1880,13 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setRetirementGlobals(List<AssetRetirementGlobal> retirementGlobals) {
         this.retirementGlobals = retirementGlobals;
     }
-    
+
+    public List<AssetRetirementGlobalDetail> getMergeHistory() {
+        return mergeHistory;
+    }
+
+    public void setMergeHistory(List<AssetRetirementGlobalDetail> mergeHistory) {
+        this.mergeHistory = mergeHistory;
+    }
+
 }

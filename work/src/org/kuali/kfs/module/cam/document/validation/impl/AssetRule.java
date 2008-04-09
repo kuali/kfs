@@ -42,6 +42,7 @@ import org.kuali.module.cams.service.AssetComponentService;
 import org.kuali.module.cams.service.AssetDetailInformationService;
 import org.kuali.module.cams.service.AssetDispositionService;
 import org.kuali.module.cams.service.AssetLocationService;
+import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.EquipmentLoanInfoService;
 import org.kuali.module.cams.service.PaymentSummaryService;
 import org.kuali.module.cams.service.RetirementInfoService;
@@ -52,6 +53,7 @@ import org.kuali.module.financial.service.UniversityDateService;
  */
 public class AssetRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
+    private static AssetService assetService = SpringContext.getBean(AssetService.class);
 
     private Asset newAsset;
     private Asset oldAsset;
@@ -84,6 +86,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(oldAsset);
             retirementInfoService.setRetirementInfo(newAsset);
+            
+           // retirementInfoService.setMergeHistory(oldAsset);
+           // retirementInfoService.setMergeHistory(newAsset);
     
             EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
             equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);
@@ -96,6 +101,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             if (valid) {
                 AssetDetailInformationService assetDetailInfoService = SpringContext.getBean(AssetDetailInformationService.class);
                 assetDetailInfoService.checkAndUpdateLastInventoryDate(oldAsset, newAsset);
+                assetDetailInfoService.checkAndUpdateDepreciationDate(oldAsset, newAsset);
             }
         }
         
@@ -132,18 +138,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
             valid &= validateInventoryStatusCode();
         }
-
-        // validate Asset Description
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetDescription(), newAsset.getCapitalAssetDescription())) {
-            valid &= validateAssetDescription();
-        }
-
-        // validate Asset Type Code
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCapitalAssetTypeCode(), newAsset.getCapitalAssetTypeCode())) {
-            valid &= validateAssetTypeCode();
-        }
-
-        // validate Vender Name.
+        
+        // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();
         }
@@ -192,68 +188,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return changed;
     }
 
-    /**
-     * If asset is tagged and created in prior fiscal year, the Asset Type Code is not allowed to change
-     * 
-     * @return boolean
-     */
-    private boolean validateAssetTypeCode() {
-        boolean valid = true;
-
-        if (isAssetTaggedInPriorFiscalYear()) {
-            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.ERROR_ASSET_TYPE_CODE_RESTRICT_CHANGE);
-            valid &= false;
-        }
-        return valid;
-    }
-
-    /**
-     * If asset is tagged and created in prior fiscal year, the Asset Description is not allowed to change
-     * 
-     * @return boolean
-     */
-    private boolean validateAssetDescription() {
-        boolean valid = true;
-
-        if (isAssetTaggedInPriorFiscalYear()) {
-            putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, CamsKeyConstants.ERROR_ASSET_DESCRIPTION_RESTRICT_CHANGE);
-            valid &= false;
-        }
-
-        return valid;
-    }
-
 
     /**
      * Validate Inventory Status Code Change
      */
     private boolean validateInventoryStatusCode() {
         return parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
-    }
-
-
-    /**
-     * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
-     * the asset created in the current fiscal year
-     * 
-     * @return
-     */
-    private boolean isAssetTaggedInPriorFiscalYear() {
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-
-        return StringUtils.isNotBlank(oldAsset.getCampusTagNumber()) && ObjectUtils.isNotNull(oldAsset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(oldAsset.getFinancialDocumentPostingYear());
-    }
-
-
-    /**
-     * The Tag Number check excludes value of "N" and retired assets. 
-     * 
-     * @return
-     */
-    private boolean isTagNumberCheckExclude() {
-        String status = newAsset.getInventoryStatusCode();
-
-        return StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(status, CamsConstants.InventoryStatusCode.NON_CAPITAL_ASSET_RETIRED) || StringUtils.equalsIgnoreCase(newAsset.getCampusTagNumber(), CamsConstants.NON_TAGGABLE_ASSET);
     }
 
 
@@ -278,11 +218,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean anyFound = false;
 
 
-        if (ObjectUtils.isNotNull(oldAsset.getCampusTagNumber())) {
-            putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_RESTRICT_CHANGE);
-            valid &= false;
-        }
-        else if (!isTagNumberCheckExclude()) {
+        if (!assetService.isTagNumberCheckExclude(newAsset)) {
 
             Map fieldValues = new HashMap();
             fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber());
@@ -315,7 +251,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateVendorName() {
         boolean valid = true;
 
-        if (isCapitalEquipment(newAsset) && StringUtils.isBlank(newAsset.getVendorName())) {
+        if (assetService.isCapitalAsset(newAsset) && StringUtils.isBlank(newAsset.getVendorName())) {
             putFieldError(CamsPropertyConstants.Asset.VENDOR_NAME, CamsKeyConstants.ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED);
             valid &= false;
 
@@ -323,15 +259,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    /**
-     * This method checks if the asset is capital asset.
-     * 
-     * @param asset
-     * @return
-     */
-    private boolean isCapitalEquipment(Asset asset) {
-        return parameterService.getParameterValues(Asset.class,CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
-    }
 
 
     /**
@@ -343,7 +270,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private boolean validateLocation() {
         boolean valid = true;
 
-        if (isCapitalEquipment(newAsset)) {
+        if (assetService.isCapitalAsset(newAsset)) {
             valid &= validateCapitalAssetLocation(newAsset);
         }
         else {
@@ -395,23 +322,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(asset.getBuildingCode()) || StringUtils.isNotBlank(asset.getBuildingRoomNumber())) {
             valid &= validateOffCampusLocationNotEntered(asset);
         }
-        else if (isOffCampusLocationChanged() && isOffCampusLocationEntered(asset)) {
+        else if (isOffCampusLocationChanged() && assetService.isOffCampusLocationEntered(asset)) {
             valid &= validateOffCampusLocationAllEntered(asset);
         }
 
         return valid;
-    }
-
-
-    /**
-     * Test if any of the off campus location field is entered.
-     * 
-     * @param asset
-     * @return
-     */
-    private boolean isOffCampusLocationEntered(Asset asset) {
-        AssetLocation offCampus = asset.getOffCampusLocation();
-        return StringUtils.isNotBlank(offCampus.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampus.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampus.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationZipCode()) || StringUtils.isNotBlank(offCampus.getAssetLocationCountryCode());
     }
 
 
@@ -590,7 +505,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        if (isOffCampusLocationChanged() && isOffCampusLocationEntered(asset)) {
+        if (isOffCampusLocationChanged() && assetService.isOffCampusLocationEntered(asset)) {
             valid &= validateOffCampusLocationAllEntered(asset);
         }
 

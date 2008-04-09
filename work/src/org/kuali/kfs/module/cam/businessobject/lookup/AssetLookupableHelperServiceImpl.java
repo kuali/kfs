@@ -46,7 +46,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.AssetActions.LOAN);
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.AssetActions.MERGE);
+        actions.append(getMergeUrl(bo));
         actions.append("&nbsp;&nbsp;");
         actions.append(getPaymentUrl(bo));
         actions.append("&nbsp;&nbsp;");
@@ -57,27 +57,33 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return actions.toString();
     }
 
-    private String getTransferUrl(BusinessObject bo) {        
+    private Object getMergeUrl(BusinessObject bo) {
+        // TODO use system parameter
+        Asset asset = (Asset) bo;
+        return "<a href=\"maintenance.do?methodToCall=newWithExisting&businessObjectClassName=org.kuali.module.cams.bo.AssetRetirementGlobal&" + KFSConstants.OVERRIDE_KEYS + "=retirementReasonCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "mergedTargetCapitalAssetNumber&docFormKey=88888888&retirementReasonCode=M&mergedTargetCapitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.MERGE + "</a>";
+    }
+
+    private String getTransferUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
         return "<a href=\"../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.TRANSFER + "</a>";
     }
 
-    private String getPaymentUrl(BusinessObject bo) {        
-        Asset asset     = (Asset) bo;
-        String anchor   = CamsConstants.AssetActions.PAYMENT;
-        
-        /** TODO ADD SYSTEM PARAMETER TO STORE THE VALID STATUSES ( ‘A’, ‘C’, ‘S’, ‘U’) **/
+    private String getPaymentUrl(BusinessObject bo) {
+        Asset asset = (Asset) bo;
+        String anchor = CamsConstants.AssetActions.PAYMENT;
+
+        /** TODO ADD SYSTEM PARAMETER TO STORE THE VALID STATUSES ( ‘A’, ‘C’, ‘S’, ‘U’) * */
         List activeAssetStatusCodes = new ArrayList();
         activeAssetStatusCodes.add("A");
         activeAssetStatusCodes.add("C");
         activeAssetStatusCodes.add("S");
         activeAssetStatusCodes.add("U");
-        
-        //Only active assets will have the payment option available.
+
+        // Only active assets will have the payment option available.
         if (activeAssetStatusCodes.contains(asset.getInventoryStatusCode()))
-            anchor= "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
-        
+            anchor = "<a href=\"../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber() + "\">" + CamsConstants.AssetActions.PAYMENT + "</a>";
+
         return anchor;
     }
-    
+
 }

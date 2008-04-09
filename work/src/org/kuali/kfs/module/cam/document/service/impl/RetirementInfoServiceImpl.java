@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -113,6 +114,27 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
 
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
+    }
+
+
+    public void setMergeHistory(Asset asset) {
+        List<AssetRetirementGlobal> retirementGlobals = asset.getRetirementGlobals();
+        List<AssetRetirementGlobalDetail> mergeHistory = new ArrayList<AssetRetirementGlobalDetail>();
+
+        // TODO Auto-generated method stub
+        for (AssetRetirementGlobal retirementGlobal : retirementGlobals) {
+            if (CamsConstants.RETIREMENT_REASON_CODE_M.equalsIgnoreCase(retirementGlobal.getRetirementReasonCode())) {
+                List<AssetRetirementGlobalDetail> retirementDetails = retirementGlobal.getAssetRetirementGlobalDetails();
+
+                for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : retirementDetails) {
+                    mergeHistory.add(assetRetirementGlobalDetail);
+                }
+            }
+        }
+
+        if (!mergeHistory.isEmpty()) {
+            asset.setMergeHistory(mergeHistory);
+        }
     }
 
 

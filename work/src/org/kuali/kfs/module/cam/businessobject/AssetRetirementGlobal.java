@@ -9,12 +9,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -38,6 +38,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
+
+    private Date defaultRetirementDate;
 
 
     public AssetRetirementGlobalDetail getSharedRetirementInfo() {
@@ -68,24 +70,24 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         List<PersistableBusinessObject> persistables = new ArrayList();
-        
-        for(AssetRetirementGlobalDetail detail:assetRetirementGlobalDetails) {
+
+        for (AssetRetirementGlobalDetail detail : assetRetirementGlobalDetails) {
             // load the object by key
             Map pkMap = new HashMap();
             pkMap.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, detail.getCapitalAssetNumber());
-            
+
             Asset asset = (Asset) boService.findByPrimaryKey(Asset.class, pkMap);
-                
+
             asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_RETIRED);
-            
+            asset.setRetirementReasonCode(retirementReasonCode);
+
             if (CamsConstants.AssetRetirementReasonCode.THEFT.equalsIgnoreCase(retirementReasonCode) && StringUtils.isNotBlank(sharedRetirementInfo.getPaidCaseNumber())) {
-                    asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
+                asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
             }
-            
+
             persistables.add(asset);
         }
 
-        
         return persistables;
     }
 
@@ -102,7 +104,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -112,7 +113,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -123,7 +123,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Gets the mergedTargetCapitalAssetNumber attribute.
      * 
      * @return Returns the mergedTargetCapitalAssetNumber
-     * 
      */
     public Long getMergedTargetCapitalAssetNumber() {
         return mergedTargetCapitalAssetNumber;
@@ -133,7 +132,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Sets the mergedTargetCapitalAssetNumber attribute.
      * 
      * @param mergedTargetCapitalAssetNumber The mergedTargetCapitalAssetNumber to set.
-     * 
      */
     public void setMergedTargetCapitalAssetNumber(Long mergedTargetCapitalAssetNumber) {
         this.mergedTargetCapitalAssetNumber = mergedTargetCapitalAssetNumber;
@@ -144,7 +142,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Gets the inventoryStatusCode attribute.
      * 
      * @return Returns the inventoryStatusCode
-     * 
      */
     public String getInventoryStatusCode() {
         return inventoryStatusCode;
@@ -154,7 +151,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Sets the inventoryStatusCode attribute.
      * 
      * @param inventoryStatusCode The inventoryStatusCode to set.
-     * 
      */
     public void setInventoryStatusCode(String inventoryStatusCode) {
         this.inventoryStatusCode = inventoryStatusCode;
@@ -165,7 +161,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Gets the retirementReasonCode attribute.
      * 
      * @return Returns the retirementReasonCode
-     * 
      */
     public String getRetirementReasonCode() {
         return retirementReasonCode;
@@ -175,7 +170,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Sets the retirementReasonCode attribute.
      * 
      * @param retirementReasonCode The retirementReasonCode to set.
-     * 
      */
     public void setRetirementReasonCode(String retirementReasonCode) {
         this.retirementReasonCode = retirementReasonCode;
@@ -186,7 +180,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Gets the retirementDate attribute.
      * 
      * @return Returns the retirementDate
-     * 
      */
     public Date getRetirementDate() {
         return retirementDate;
@@ -196,10 +189,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Sets the retirementDate attribute.
      * 
      * @param retirementDate The retirementDate to set.
-     * 
      */
-    public void setRetirementDate(Date retirementDate) {
-        this.retirementDate = retirementDate;
+    public void setRetirementDate(Date remeretirementDatentDate) {
+        this.retirementDate = remeretirementDatentDate;
     }
 
 
@@ -286,4 +278,21 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         m.put("documentNumber", this.documentNumber);
         return m;
     }
+
+
+    public Date getDefaultRetirementDate() {
+        if (this.retirementDate == null) {
+            this.retirementDate = DateUtils.convertToSqlDate(new java.util.Date());
+            this.defaultRetirementDate = this.retirementDate;
+        }
+        return defaultRetirementDate;
+    }
+
+
+    public void setDefaultRetirementDate(Date formattedRetirementDate) {
+        this.retirementDate = formattedRetirementDate;
+        this.defaultRetirementDate = formattedRetirementDate;
+    }
+
+
 }

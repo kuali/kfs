@@ -101,6 +101,11 @@
                 <shortLabel>Date</shortLabel>
             </attributeReference>
             
+            <attributeReference name="defaultRetirementDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Retirement Date</label>
+                <shortLabel>Date</shortLabel>
+            </attributeReference>
+            
             <attribute name="retirementReasonCode" forceUppercase="true">
                 <label>Retirement Reason Code</label>
                 <shortLabel>Code</shortLabel>
@@ -109,7 +114,12 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                	<select
+                		valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+						businessObjectClass="org.kuali.module.cams.bo.AssetRetirementReason"
+						keyAttribute="retirementReasonCode"
+						labelAttribute="retirementReasonName" includeKeyInLabel="true" />
+                    <!-- text size="3" /-->
                 </control>
 
                 <summary>retirementReasonCode</summary>

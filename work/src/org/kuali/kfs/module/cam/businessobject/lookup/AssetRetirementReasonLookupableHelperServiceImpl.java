@@ -62,17 +62,12 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
     public void setFieldConversions(Map fieldConversions) {
         super.setFieldConversions(fieldConversions);
         if (fieldConversions == null || fieldConversions.size() == 0) {
-            // if we don't have any field conversions, then we must be
-            // actually dealing with the model, instead of looking up the model
-            // in order to initalize a new global account delegate
-            //
-            // yeah, it's a hack...but at least a semi-clever hack
             initializingAssetRetirement = false;
         }
     }
 
     /**
-     * Overrides base implementation to remove the action urls if we are initializing the delegate model
+     * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
      */

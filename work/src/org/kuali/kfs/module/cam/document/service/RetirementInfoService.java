@@ -19,4 +19,6 @@ import org.kuali.module.cams.bo.Asset;
 
 public interface RetirementInfoService {
     void setRetirementInfo(Asset asset);
+    
+    void setMergeHistory(Asset asset);
 }

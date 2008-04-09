@@ -27,6 +27,13 @@ public interface AssetService {
 
     boolean isCapitalAsset(Asset asset);
 
-    boolean isAssetRetired(Asset asset);
-
+ 	boolean isAssetRetired(Asset asset);
+ 
+    boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset);
+    
+    boolean isAssetTaggedInPriorFiscalYear(Asset asset);
+    
+    boolean isTagNumberCheckExclude(Asset asset);
+    
+    boolean isOffCampusLocationEntered(Asset asset);
 }

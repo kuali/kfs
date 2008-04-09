@@ -125,7 +125,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <textarea rows="1" cols="45"/>

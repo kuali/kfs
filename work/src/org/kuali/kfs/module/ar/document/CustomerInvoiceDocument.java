@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.core.document.Copyable;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -34,7 +35,7 @@ import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements Copyable {
 
     protected Integer nextInvoiceItemNumber;
 	private String invoiceHeaderText;

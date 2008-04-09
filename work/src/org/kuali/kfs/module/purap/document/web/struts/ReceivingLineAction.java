@@ -154,7 +154,11 @@ public class ReceivingLineAction extends ReceivingBaseAction {
 
         if (rulePassed) {
             item = receivingLineForm.getAndResetNewReceivingItemLine();
-            receivingLineDocument.addItem(item);
+            
+            //set values for a new line
+            item.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
+            
+            receivingLineDocument.addItem(item);                       
             //TODO: we need to set the line number correctly to match up to PO
         }
 

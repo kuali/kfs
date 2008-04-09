@@ -41,7 +41,7 @@ public class ItemReasonAddedValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(ItemReasonAdded.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ItemReasonAdded ira = (ItemReasonAdded) iter.next();
             labels.add(new KeyLabelPair(ira.getItemReasonAddedCode(), ira.getItemReasonAddedDescription()));

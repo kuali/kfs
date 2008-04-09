@@ -80,7 +80,7 @@
 				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDamagedTotalQuantity}" property="newReceivingLineItemLine.itemDamagedTotalQuantity" />
 			</td>
 			<td class="infoline">
-				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newReceivingLineItemLine.itemReasonAdded.itemReasonAddedDescription" />
+				<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemReasonAddedCode}" property="newReceivingLineItemLine.itemReasonAddedCode" />
 			</td>
 
 			<td class="infoline">
@@ -211,9 +211,9 @@
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.itemReasonAdded.itemReasonAddedDescription}"
-				    property="document.item[${ctr}].itemReasonAdded.itemReasonAddedDescription"
-				    readOnly="${not (fullEntryMode)}" />
+				    attributeEntry="${itemAttributes.itemReasonAddedCode}"
+				    property="document.item[${ctr}].itemReasonAddedCode"
+				    readOnly="${true}" />
 			</td>
 
 			<c:if test="${(fullEntryMode or (itemLine.itemTypeCode == null))}">

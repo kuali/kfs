@@ -141,7 +141,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method tests that checkReferenceDocument rule returns true when reference document number is not null
+     * This method tests that checkGLPEsCreated rule returns true when glpes are not null
      */
     public void testCheckGLPEsCreated_True() throws WorkflowException {
 
@@ -154,7 +154,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method tests that checkReferenceDocument rule returns false when reference document number is null
+     * This method tests that checkGLPEsCreated rule returns false when the glpes list is null or empty
      */
     public void testCheckGLPEsCreated_False() {
 
@@ -195,7 +195,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
 
     /**
-     * This method that checkOrgDocNumber rule returns true if organization document number is set and valid when payment mewdium is
+     * This method that checkRefDocNumber rule returns true if the reference document number is set and valid when payment mewdium is
      * cash
      */
     public void testCheckRefDocNumber_True() throws WorkflowException {
@@ -209,7 +209,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method that checkOrgDocNumber rule returns false if organization document number is null when payment mewdium is cash
+     * This method that checkRefDocNumber rule returns false when reference document number is null when payment mewdium is cash
      */
     public void testCheckRefDocNumber_False() {
 
@@ -221,7 +221,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method that checkReferenceDocumentNumberNotGenerated rule returns true if reference document number is not generated
+     * This method that checkGLPEsNotGenerated rule returns true if the glpes are not generated
      */
     public void testCheckGLPEsNotGenerated_True() {
 
@@ -232,9 +232,9 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * This method that checkReferenceDocumentNumberNotGenerated rule returns false if reference document number is generated
+     * This method that checkGLPEsNotGenerated rule returns false if the glpes are generated
      */
-    public void testCheckReferenceDocumentNumberNotGenerated_False() {
+    public void testCheckGLPEsNotGenerated_False() {
 
         GeneralLedgerPendingEntry tempEntry = new GeneralLedgerPendingEntry();
         document.getGeneralLedgerPendingEntries().add(tempEntry);

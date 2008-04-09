@@ -11,10 +11,15 @@ import org.kuali.module.ar.bo.ArUser;
 import org.kuali.module.budget.bo.BudgetUser;
 import org.kuali.module.cams.bo.CamsUser;
 import org.kuali.module.cg.bo.CgUser;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.effort.bo.EffortUser;
+import org.kuali.module.financial.bo.FinancialUser;
+import org.kuali.module.gl.bo.GlUser;
 import org.kuali.module.kra.budget.bo.KraUser;
 import org.kuali.module.labor.bo.LaborUser;
+import org.kuali.module.pdp.bo.PdpUser;
 import org.kuali.module.purap.bo.PurapUser;
+import org.kuali.module.vendor.bo.VendorUser;
 import org.kuali.test.ConfigureContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,6 +35,14 @@ public class TestModularization extends KualiTestBase {
         OPTIONAL_MODULE_IDS.add(KraUser.MODULE_ID);
         OPTIONAL_MODULE_IDS.add(LaborUser.MODULE_ID);
         OPTIONAL_MODULE_IDS.add(PurapUser.MODULE_ID);
+    }
+    private static final Set<String> SYSTEM_MODULE_IDS = new HashSet<String>();
+    static {
+        SYSTEM_MODULE_IDS.add(ChartUser.MODULE_ID);
+        SYSTEM_MODULE_IDS.add(FinancialUser.MODULE_ID);
+        SYSTEM_MODULE_IDS.add(GlUser.MODULE_ID);
+        SYSTEM_MODULE_IDS.add(PdpUser.MODULE_ID);
+        SYSTEM_MODULE_IDS.add(VendorUser.MODULE_ID);
     }
     private KualiModuleService moduleService;
 
@@ -72,7 +85,14 @@ public class TestModularization extends KualiTestBase {
         moduleService = SpringContext.getBean(KualiModuleService.class);
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer("The following optional modules have interdependencies in OJB configuration:");
-        for (String moduleId : OPTIONAL_MODULE_IDS) {
+        HashSet<String> allModuleIds = new HashSet();
+        for(String moduleId : SYSTEM_MODULE_IDS) {
+            allModuleIds.add(moduleId);
+        }
+        for(String moduleId : OPTIONAL_MODULE_IDS) {
+            allModuleIds.add(moduleId);
+        }
+        for (String moduleId : allModuleIds) {
             testSucceeded = testSucceeded & testOptionalModuleOjbConfiguration(moduleId, errorMessage);
         }
         assertTrue(errorMessage.toString(), testSucceeded);

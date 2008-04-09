@@ -18,6 +18,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjSubTyp;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -82,7 +83,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private Integer landAcreageSize;
     private String landParcelNumber;
     private Date depreciationDate;
-
+    private String financialObjectSubTypeCode;
+    
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -113,7 +115,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
     private List<AssetRetirementGlobal> retirementGlobals;
-
+    private ObjSubTyp financialObjectSubType;
+    
     // Persisted Fabrication document (part of Asset MD) field
     private Integer estimatedFabricationLifetimeLimitNumber;
 
@@ -1887,6 +1890,39 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setMergeHistory(List<AssetRetirementGlobalDetail> mergeHistory) {
         this.mergeHistory = mergeHistory;
+    }
+
+    /**
+     * Gets the financialObjectSubTypeCode attribute. 
+     * @return Returns the financialObjectSubTypeCode.
+     */
+    public String getFinancialObjectSubTypeCode() {
+        return financialObjectSubTypeCode;
+    }
+
+    /**
+     * Sets the financialObjectSubTypeCode attribute value.
+     * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
+     */
+    public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
+        this.financialObjectSubTypeCode = financialObjectSubTypeCode;
+    }
+
+    /**
+     * Gets the financialObjectSubType attribute. 
+     * @return Returns the financialObjectSubType.
+     */
+    public ObjSubTyp getFinancialObjectSubType() {
+        return financialObjectSubType;
+    }
+
+    /**
+     * Sets the financialObjectSubType attribute value.
+     * @param financialObjectSubType The financialObjectSubType to set.
+     * @deprecated
+     */
+    public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
+        this.financialObjectSubType = financialObjectSubType;
     }
 
 }

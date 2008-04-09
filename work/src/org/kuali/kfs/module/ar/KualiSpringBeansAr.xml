@@ -47,11 +47,23 @@
 				<value>org/kuali/module/ar/OJB-repository-ar.xml</value>
 			</list>
 		</property>
+
+		<property name="jobNames">
+			<list>
+				<value>lockboxJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>lockboxJobTrigger</value>
+			</list>
+		</property>
 		<property name="scriptConfigurationFilePaths">
 			<list>
 				<value>org/kuali/module/ar/dwr-ar.xml</value>
 			</list>
 		</property>		
+
 	</bean>
 
 	<!--  AR DAOs  -->
@@ -59,6 +71,8 @@
 	<bean id="organizationOptionsDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationOptionsDaoOjb" />
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerDaoOjb" />
 	<bean id="customerInvoiceItemCodeDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.CustomerInvoiceItemCodeDaoOjb" />
+	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.SystemInformationDaoOjb" />
+	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.LockboxDaoOjb" />
 	<bean id="customerPaymentMediumDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.PaymentMediumDaoOjb"/>
 	
 	<!--  AR Services  -->
@@ -73,6 +87,18 @@
 	<bean id="organizationOptionsService" class="org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl">
 		<property name="organizationOptionsDao">
 			<ref bean="organizationOptionsDao" />
+		</property>
+	</bean>
+	
+	<bean id="SystemInformationService" class="org.kuali.module.ar.service.impl.SystemInformationServiceImpl">
+		<property name="systemInformationDao">
+			<ref bean="systemInformationDao" />
+		</property>
+	</bean>
+	
+	<bean id="lockboxService" class="org.kuali.module.ar.service.impl.LockboxServiceImpl">
+		<property name="lockboxDao">
+			<ref bean="lockboxDao" />
 		</property>
 	</bean>
 	
@@ -136,6 +162,25 @@
 	<bean id="customerInvoiceDocumentGeneralLedgerPostingHelper" class="org.kuali.module.ar.service.impl.CustomerInvoiceDocumentGeneralLedgerPostingHelperImpl">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
+		</property>
+	</bean>
+	
+	<bean id="lockboxJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="lockboxJob" />
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
+	</bean>
+	
+	<bean id="lockboxStep" class="org.kuali.module.ar.batch.LockboxStep" parent="step">
+		<property name="lockboxService">
+			<ref bean="lockboxService" />
+		</property>
+	</bean>
+	
+	<bean id="lockboxJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="lockboxStep" />
+			</list>
 		</property>
 	</bean>
 	

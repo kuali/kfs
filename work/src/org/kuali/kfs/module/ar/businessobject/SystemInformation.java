@@ -52,7 +52,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private Account universityClearingAccount;
 	private Chart universityClearingChartOfAccounts;
     private SubAccount universityClearingSubAccount;
-    private ObjectCode universityFiscalY;
+    private ObjectCode universityFiscalYearObject;
     private State organizationRemitToState;
     
 	/**
@@ -772,11 +772,11 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     }
 
     public ObjectCode getUniversityFiscalY() {
-        return universityFiscalY;
+        return universityFiscalYearObject;
     }
 
-    public void setUniversityFiscalY(ObjectCode universityFiscalY) {
-        this.universityFiscalY = universityFiscalY;
+    public void setUniversityFiscalY(ObjectCode universityFiscalYearObject) {
+        this.universityFiscalYearObject = universityFiscalYearObject;
     }
 
 }

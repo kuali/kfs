@@ -9,19 +9,20 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Lockbox extends PersistableBusinessObjectBase {
+public class Lockbox extends PersistableBusinessObjectBase implements Comparable<Lockbox> {
 
-	private Long invoiceSequenceNumber;
-	private String lockboxNumber;
-	private String customerNumber;
-	private String financialDocumentReferenceInvoiceNumber;
-	private Date billingDate;
-	private KualiDecimal invoiceTotalAmount;
-	private KualiDecimal invoicePaidOrAppliedAmount;
-	private Date scannedInvoiceDate;
-	private String customerPaymentMediumCode;
-	private Date processedInvoiceDate;
-	private Integer batchSequenceNumber;
+    private Long invoiceSequenceNumber; //a unique number assigned to the invoice/payment processed.
+	private String lockboxNumber; //a unique number assigned to each processing organization.
+	private String customerNumber; //customer number.
+	private String financialDocumentReferenceInvoiceNumber; //document number of the invoice being processed.
+	private Date billingDate; //the date when the customer was billed.
+	private KualiDecimal invoiceTotalAmount; //the total amount an invoice was billed for.
+	private KualiDecimal invoicePaidOrAppliedAmount; //the amount paid by the customer.
+	private Date scannedInvoiceDate; //the date when the customer paid the invoice.
+	private String customerPaymentMediumCode; //Cash/Check/Credit. It will always be check for lockbox.
+	private Date processedInvoiceDate; //the date when the invoices/payments were processed.
+	private Integer batchSequenceNumber; //a batch of invoices/payments processed.
+	private String proxyInitiator;
 
     private PaymentMedium customerPaymentMedium;
 
@@ -283,7 +284,15 @@ public class Lockbox extends PersistableBusinessObjectBase {
 		this.customerPaymentMedium = customerPaymentMedium;
 	}
 
-	/**
+	
+	public int compareTo(Lockbox lockbox) {
+	   if (this.getBatchSequenceNumber().equals(lockbox.getBatchSequenceNumber()))
+	       if (this.getProcessedInvoiceDate().equals(lockbox.getProcessedInvoiceDate()))
+	           return 0;
+	   return -1;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
@@ -292,5 +301,13 @@ public class Lockbox extends PersistableBusinessObjectBase {
             m.put("invoiceSequenceNumber", this.invoiceSequenceNumber.toString());
         }
 	    return m;
+    }
+
+    public String getProxyInitiator() {
+        return proxyInitiator;
+    }
+
+    public void setProxyInitiator(String proxyInitiator) {
+        this.proxyInitiator = proxyInitiator;
     }
 }

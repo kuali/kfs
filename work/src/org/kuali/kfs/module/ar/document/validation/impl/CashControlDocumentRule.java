@@ -61,7 +61,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkOrgDocNumber(ccDocument);
         isValid &= validateCashControlDetails(ccDocument);
-        isValid &= checkCashControlDocumentHasDetails(ccDocument);
+       // isValid &= checkCashControlDocumentHasDetails(ccDocument);
 
         return true;
 

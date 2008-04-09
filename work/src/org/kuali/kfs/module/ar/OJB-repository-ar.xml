@@ -25,6 +25,7 @@
 	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" />
 	<field-descriptor name="organizationPaymentTermsText" column="ORG_PMT_TERMS_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationMessageText" column="ORG_MSG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine1StreetAddress" column="ORG_REMIT_LN1_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine2StreetAddress" column="ORG_REMIT_LN2_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToCityName" column="ORG_REMIT_CITY_NM" jdbc-type="VARCHAR"/>
@@ -844,7 +845,7 @@
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="creditCardObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="universityFiscalY" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="universityFiscalYearObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="creditCardObjectCode" />

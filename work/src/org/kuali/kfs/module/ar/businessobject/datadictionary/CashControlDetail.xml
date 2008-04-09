@@ -68,12 +68,11 @@
                 <shortLabel>Date</shortLabel>
             </attributeReference>
 
-            <attribute name="customerPaymentDescription" forceUppercase="true">
+            <attribute name="customerPaymentDescription" forceUppercase="false">
                 <label>Customer Payment Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>60</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
                     <text size="62" />

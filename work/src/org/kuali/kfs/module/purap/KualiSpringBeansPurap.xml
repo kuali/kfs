@@ -63,6 +63,12 @@
 		</property>
 	</bean>
 
+    <bean id="workflow-org.kuali.module.purap.bo.RestrictedMaterial-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.purap.bo.RestrictedMaterial</value>
+        </property>
+    </bean>
+    
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
 		<property name="propertyList">
 			<list>

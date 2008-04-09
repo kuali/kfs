@@ -16,33 +16,30 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.bo.Campus;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.ReceivingAddress;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.service.ReceivingAddressService;
 import org.kuali.module.purap.util.ItemParser;
 import org.kuali.module.purap.util.ItemParserBase;
+import org.kuali.module.vendor.bo.CommodityCode;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
@@ -143,6 +140,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
 
+    private List<CommodityCode> commodityCodesForRouting;
+    
     /**
      * Default Constructor.
      */
@@ -265,7 +264,20 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         super.addItem(item);
     }
     
-    
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        super.populateDocumentForRouting();
+        commodityCodesForRouting = new ArrayList<CommodityCode>();
+        for (PurchasingItemBase item : (List<PurchasingItemBase>)this.getItems()) {
+            if (item.getCommodityCode() != null) {
+                commodityCodesForRouting.add(item.getCommodityCode());
+            }
+        }
+    }
+
     // GETTERS AND SETTERS
 
     /**
@@ -975,4 +987,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
         this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
     }
+
+    public List<CommodityCode> getCommodityCodesForRouting() {
+        return commodityCodesForRouting;
+    }
+
+    public void setCommodityCodesForRouting(List<CommodityCode> commodityCodesForRouting) {
+        this.commodityCodesForRouting = commodityCodesForRouting;
+    }
+    
 }

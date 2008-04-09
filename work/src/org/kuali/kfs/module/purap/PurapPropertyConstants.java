@@ -59,7 +59,8 @@ public class PurapPropertyConstants {
     public static final String VENDOR_COUNTRY_CODE = "vendorCountryCode";
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ADDRESS_ID = "vendorAddressGeneratedIdentifier";
-
+    public static final String DELIVERY_CAMPUS_CODE = "deliveryCampusCode";
+    
     // PURCHASING DOCUMENT BASE
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
@@ -120,4 +121,5 @@ public class PurapPropertyConstants {
     
     // Restricted Material
     public static final String WORKGROUP_NAME = "restrictedMaterialWorkgroupName";
+    public static final String RESTRICTED_MATERIAL_CODE = "restrictedMaterialCode";
 }

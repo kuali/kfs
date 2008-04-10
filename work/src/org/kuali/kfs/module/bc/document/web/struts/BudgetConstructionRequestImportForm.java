@@ -73,7 +73,7 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
      */
     public void setFile(FormFile file) {
         this.file = file;
-        this.budgetConstructionRequestImport.setFieldDelimiter(file.getFileName());
+        this.budgetConstructionRequestImport.setFileName(file.getFileName());
     }
     
     /**

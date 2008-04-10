@@ -82,6 +82,19 @@ public class ImportRequestFileParsingHelper {
             }
         } else {
             try {
+                int monthlyLineAmount1 = Integer.parseInt(attributes.get(5));
+                int monthlyLineAmount2 = Integer.parseInt(attributes.get(6));
+                int monthlyLineAmount3 = Integer.parseInt(attributes.get(7));
+                int monthlyLineAmount4 = Integer.parseInt(attributes.get(8));
+                int monthlyLineAmount5 = Integer.parseInt(attributes.get(9));
+                int monthlyLineAmount6 = Integer.parseInt(attributes.get(10));
+                int monthlyLineAmount7 = Integer.parseInt(attributes.get(11));
+                int monthlyLineAmount8 = Integer.parseInt(attributes.get(12));
+                int monthlyLineAmount9 = Integer.parseInt(attributes.get(13));
+                int monthlyLineAmount10 = Integer.parseInt(attributes.get(14));
+                int monthlyLineAmount11 = Integer.parseInt(attributes.get(15));
+                int monthlyLineAmount112 = Integer.parseInt(attributes.get(16));
+                
                 budgetConstructionRequestMove.setFinancialDocumentMonth1LineAmount(new KualiInteger(Integer.parseInt(attributes.get(5))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth2LineAmount(new KualiInteger(Integer.parseInt(attributes.get(6))));
                 budgetConstructionRequestMove.setFinancialDocumentMonth3LineAmount(new KualiInteger(Integer.parseInt(attributes.get(7))));

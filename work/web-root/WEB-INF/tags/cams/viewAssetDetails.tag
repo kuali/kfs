@@ -26,87 +26,67 @@
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerChartOfAccountsCode" attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true"/></td>								
-			</tr>
-			<tr>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerChartOfAccountsCode" attributeEntry="${assetAttributes.organizationOwnerChartOfAccountsCode}" readOnly="true"/></td>								
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccountNumber" attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccountNumber" attributeEntry="${assetAttributes.organizationOwnerAccountNumber}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.agencyNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.agencyNumber" attributeEntry="${assetAttributes.agencyNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.agencyNumber" attributeEntry="${assetAttributes.agencyNumber}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.acquisitionTypeCode" attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.acquisitionTypeCode" attributeEntry="${assetAttributes.acquisitionTypeCode}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.inventoryStatusCode" attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true"/></td>								
-			</tr>
-			<tr>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.inventoryStatusCode" attributeEntry="${assetAttributes.inventoryStatusCode}" readOnly="true"/></td>								
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.conditionCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.conditionCode" attributeEntry="${assetAttributes.conditionCode}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetTypeCode" attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.vendorName}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.vendorName" attributeEntry="${assetAttributes.vendorName}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.manufacturerName}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.manufacturerName" attributeEntry="${assetAttributes.manufacturerName}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.manufacturerModelNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.manufacturerModelNumber" attributeEntry="${assetAttributes.manufacturerModelNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.serialNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.serialNumber" attributeEntry="${assetAttributes.serialNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.campusTagNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.campusTagNumber" attributeEntry="${assetAttributes.campusTagNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.oldTagNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.oldTagNumber" attributeEntry="${assetAttributes.oldTagNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.governmentTagNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.governmentTagNumber" attributeEntry="${assetAttributes.governmentTagNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.nationalStockNumber}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.nationalStockNumber" attributeEntry="${assetAttributes.nationalStockNumber}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.lastInventoryDate" attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.createDate}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.createDate" attributeEntry="${assetAttributes.createDate}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingYear" attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingPeriodCode" attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.conditionCode" attributeEntry="${assetAttributes.conditionCode}" readOnly="true"/></td>								
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true" /></th>
-				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetInServiceDate" attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetInServiceDate" attributeEntry="${assetAttributes.capitalAssetInServiceDate}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetTypeCode" attributeEntry="${assetAttributes.capitalAssetTypeCode}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.vendorName}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.vendorName" attributeEntry="${assetAttributes.vendorName}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.manufacturerName}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.manufacturerName" attributeEntry="${assetAttributes.manufacturerName}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.manufacturerModelNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.manufacturerModelNumber" attributeEntry="${assetAttributes.manufacturerModelNumber}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.serialNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.serialNumber" attributeEntry="${assetAttributes.serialNumber}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.campusTagNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.campusTagNumber" attributeEntry="${assetAttributes.campusTagNumber}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.oldTagNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.oldTagNumber" attributeEntry="${assetAttributes.oldTagNumber}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.governmentTagNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.governmentTagNumber" attributeEntry="${assetAttributes.governmentTagNumber}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.nationalStockNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.nationalStockNumber" attributeEntry="${assetAttributes.nationalStockNumber}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.lastInventoryDate" attributeEntry="${assetAttributes.lastInventoryDate}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.createDate}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.createDate" attributeEntry="${assetAttributes.createDate}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingYear" attributeEntry="${assetAttributes.financialDocumentPostingYear}" readOnly="true"/></td>								
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.financialDocumentPostingPeriodCode" attributeEntry="${assetAttributes.financialDocumentPostingPeriodCode}" readOnly="true"/></td>								
+			</tr>
+			<tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true" /></th>
+				<td class="grid" width="75%" colspan="3"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetDescription" attributeEntry="${assetAttributes.capitalAssetDescription}" readOnly="true"/></td>
 			</tr>
 		</table>
 		</div>

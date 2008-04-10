@@ -70,8 +70,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         retirementInfoService.setRetirementInfo(copyAsset);
         retirementInfoService.setRetirementInfo(newAsset);
         
-       // retirementInfoService.setMergeHistory(copyAsset);
-       // retirementInfoService.setMergeHistory(newAsset);
+        retirementInfoService.setMergeHistory(copyAsset);
+        retirementInfoService.setMergeHistory(newAsset);
 
         // Finds out the latest equipment loan or return information if available
         EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);

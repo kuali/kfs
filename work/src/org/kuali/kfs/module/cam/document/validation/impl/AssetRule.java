@@ -86,9 +86,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(oldAsset);
             retirementInfoService.setRetirementInfo(newAsset);
-            
-           // retirementInfoService.setMergeHistory(oldAsset);
-           // retirementInfoService.setMergeHistory(newAsset);
     
             EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);
             equipmentLoanInfoService.setEquipmentLoanInfo(oldAsset);

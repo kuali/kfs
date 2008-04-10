@@ -135,7 +135,7 @@
 	<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
 	<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="depreciationDate" column="CPTL_AST_DEPR_DT" jdbc-type="DATE"/>
-	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYPE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />

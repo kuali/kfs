@@ -149,6 +149,7 @@ public class Asset extends PersistableBusinessObjectBase {
         this.assetLocations = new TypedArrayList(AssetLocation.class);
         this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
         this.retirementGlobals = new TypedArrayList(AssetRetirementGlobal.class);
+        this.mergeHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
     }
 
     public KualiDecimal getCurrentMonthDepreciation() {

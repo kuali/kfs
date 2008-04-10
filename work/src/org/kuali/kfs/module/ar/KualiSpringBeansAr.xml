@@ -89,7 +89,7 @@
 		</property>
 	</bean>
 	
-	<bean id="SystemInformationService" class="org.kuali.module.ar.service.impl.SystemInformationServiceImpl">
+	<bean id="systemInformationService" class="org.kuali.module.ar.service.impl.SystemInformationServiceImpl">
 		<property name="systemInformationDao">
 			<ref bean="systemInformationDao" />
 		</property>
@@ -114,6 +114,9 @@
 		<property name="customerInvoiceItemCodeService">
 			<ref bean="customerInvoiceItemCodeService" />
 		</property>
+		<property name="systemInformationService">
+			<ref bean="systemInformationService" />
+		</property>		
 	</bean>	
 	
 	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.module.ar.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
@@ -164,7 +167,7 @@
 			<ref bean="optionsService" />
 		</property>
 		<property name="systemInformationService">
-			<ref bean="SystemInformationService" />
+			<ref bean="systemInformationService" />
 		</property>
 	    <property name="documentTypeService">
 			<ref bean="documentTypeService" />

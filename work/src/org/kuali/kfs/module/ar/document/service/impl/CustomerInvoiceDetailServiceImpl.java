@@ -24,9 +24,11 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.service.CustomerInvoiceItemCodeService;
 import org.kuali.module.ar.service.OrganizationAccountingDefaultService;
+import org.kuali.module.ar.service.SystemInformationService;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -39,8 +41,8 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     private DateTimeService dateTimeService;
     private UniversityDateService universityDateService;
     private CustomerInvoiceItemCodeService customerInvoiceItemCodeService;
+    private SystemInformationService systemInformationService;
   
-
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
      *      java.lang.String, java.lang.String)
@@ -120,6 +122,34 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         return getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
+    
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetail(org.kuali.module.ar.bo.CustomerInvoiceDetail, java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
+
+        CustomerInvoiceDetail discountCustomerInvoiceDetail = (CustomerInvoiceDetail)ObjectUtils.deepCopy(customerInvoiceDetail);
+        discountCustomerInvoiceDetail.setAmount(customerInvoiceDetail.getAmount().negated());
+        discountCustomerInvoiceDetail.setInvoiceItemUnitOfMeasureCode( ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT );
+        discountCustomerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
+        discountCustomerInvoiceDetail.setInvoiceItemDescription( ArConstants.CUSTOMER_INVOICE_DETAIL_DISCOUNT_DESCRIPTION_PREFIX + customerInvoiceDetail.getSequenceNumber());
+        
+        SystemInformation systemInformation =  systemInformationService.getByPrimaryKey(universityFiscalYear, chartOfAccountsCode, organizationCode);
+        if ( ObjectUtils.isNotNull(systemInformation) ){
+            discountCustomerInvoiceDetail.setFinancialObjectCode(systemInformation.getDiscountObjectCode());
+        }
+        
+        return discountCustomerInvoiceDetail;
+    }
+
+    /**
+     * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getDiscountCustomerInvoiceDetailForCurrentYear(org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail) {
+        Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
+        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        return getDiscountCustomerInvoiceDetail(customerInvoiceDetail, currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
+    }    
 
     public OrganizationAccountingDefaultService getOrganizationAccountingDefaultService() {
         return organizationAccountingDefaultService;
@@ -152,5 +182,15 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     public void setCustomerInvoiceItemCodeService(CustomerInvoiceItemCodeService customerInvoiceItemCodeService) {
         this.customerInvoiceItemCodeService = customerInvoiceItemCodeService;
     }
+
+    public SystemInformationService getSystemInformationService() {
+        return systemInformationService;
+    }
+
+    public void setSystemInformationService(SystemInformationService systemInformationService) {
+        this.systemInformationService = systemInformationService;
+    }
+
+
 
 }

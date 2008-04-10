@@ -75,6 +75,13 @@
 				property="methodToCall.${recalculateMethod}.anchoraccounting${actionInfixVar}Anchor"
 				src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate a Source Accounting Line"
 				alt="Recalculate Source Accounting Line" styleClass="tinybutton" />			
+			<c:set var="discountMethod"
+				value="discountSourceLine.line${accountingLineIndexVar}"
+				scope="request" />
+			<html:image
+				property="methodToCall.${discountMethod}.anchoraccounting${actionInfixVar}Anchor"
+				src="${ConfigProperties.externalizable.images.url}tinybutton-initiatequote.gif" title="Discount a Source Accounting Line"
+				alt="Discount a Source Accounting Line" styleClass="tinybutton" />
 		</jsp:attribute>
 
 	</fin:accountingLines>

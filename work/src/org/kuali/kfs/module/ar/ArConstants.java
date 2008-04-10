@@ -82,7 +82,10 @@ public class ArConstants {
 
 
     public static final String CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY = "invoiceItemCode";
-
+    
+    
+    public static final String CUSTOMER_INVOICE_DETAIL_DISCOUNT_DESCRIPTION_PREFIX = "Discount to line number ";
+    
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
         public static final String CHECK = "CK";

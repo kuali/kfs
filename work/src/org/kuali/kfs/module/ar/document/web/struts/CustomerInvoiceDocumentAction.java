@@ -157,10 +157,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         boolean rulePassed = true;
         rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new RecalculateCustomerInvoiceDetaiEvent(errorPath, customerInvoiceDocumentForm.getDocument(), customerInvoiceDetail));
         if (rulePassed) {
-            // since this new line will be a discount, set amount as a negative
-            customerInvoiceDetail.setAmount(customerInvoiceDetail.getAmount().negated());
-            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(customerInvoiceDetail);
-            insertAccountingLine(true, customerInvoiceDocumentForm, customerInvoiceDetail);
+            
+            CustomerInvoiceDetail discountCustomerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getDiscountCustomerInvoiceDetailForCurrentYear(customerInvoiceDetail);
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(discountCustomerInvoiceDetail);
+            insertAccountingLine(true, customerInvoiceDocumentForm, discountCustomerInvoiceDetail);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

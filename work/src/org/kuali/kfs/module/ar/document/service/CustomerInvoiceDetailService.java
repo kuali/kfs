@@ -58,8 +58,23 @@ public interface CustomerInvoiceDetailService {
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode( String invoiceItemCode, String chartOfAccountsCode, String organizationCode);
     
     
+    /**
+     * This method returns a discount customer invoice detail based on a customer invoice detail, the chart of accounts code
+     * @param customerInvoiceDetail
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetail( CustomerInvoiceDetail customerInvoiceDetail, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode );
     
     
-
-
+    /**
+     * This method returns a discount customer invoice detail for the current year
+     * 
+     * @param customerInvoiceDetail
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear( CustomerInvoiceDetail customerInvoiceDetail );
 }

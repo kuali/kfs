@@ -558,7 +558,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             apValueCriteria.addOrCriteria(apNullCriteria);
             criteria.addAndCriteria(apValueCriteria);
 
-            fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
         }
 
         if (includeNullFiscalYearInLookup) {
@@ -571,7 +570,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             fyValueCriteria.addOrCriteria(fyNullCriteria);
             criteria.addAndCriteria(fyValueCriteria);
 
-            fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         }
 
         // handle encumbrance balance type

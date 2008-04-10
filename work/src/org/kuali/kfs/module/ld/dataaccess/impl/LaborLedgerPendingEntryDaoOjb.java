@@ -97,10 +97,6 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries(Map, boolean) started");
         
-        // backup fiscal year and period code since they maight be removed by GL pending entry dao
-        Object fiscalYearBackup = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        Object periodCodeBackup = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-
         Collection<LaborLedgerPendingEntry> pendingEntries = super.findPendingEntries(fieldValues, isApproved);
         UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
@@ -118,9 +114,6 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
                 pendingEntry.setUniversityFiscalYear(currentFiscalYear);
             }
         }
-        
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYearBackup);
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, periodCodeBackup);
         
         return pendingEntries;
     }

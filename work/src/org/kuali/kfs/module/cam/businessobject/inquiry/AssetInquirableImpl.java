@@ -55,6 +55,7 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
             // Finds out the latest retirement info, is asset is currently retired.
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(asset);
+            retirementInfoService.setMergeHistory(asset);
     
             // Finds out the latest equipment loan or return information if available
             EquipmentLoanInfoService equipmentLoanInfoService = SpringContext.getBean(EquipmentLoanInfoService.class);

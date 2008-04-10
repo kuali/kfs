@@ -146,13 +146,21 @@
 						<field attributeName="prevYearDepreciation" />
 					</inquiryFields>
 				</inquirySection>
-	          
-	            <inquirySection title="View Asset History">
+            		
+				<inquirySection title="View Asset Merge History">	
+					    <inquiryFields>
+	                    	<inquiryCollection name="mergeHistory" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" summaryTitle="Source Asset">     
+	                		<field attributeName="capitalAssetNumber" />
+	                		<field attributeName="assetRetirementGlobal.retirementDate" />
+	                		<inquirySummaryFields>
+                              <inquirySummaryField attributeName="capitalAssetNumber" />
+                            </inquirySummaryFields>
+	                	</inquiryCollection>
+	                	</inquiryFields>
+	            </inquirySection>
+	            
+	            <inquirySection title="View Asset Separate History">
 	            	<inquiryFields>
-	                	<inquirySubSectionHeader name="View Merge History" />
-	                	<field attributeName="assetMergeHistory.originalCapitalAssetNumber" />
-	                	<field attributeName="assetMergeHistory.dispositionDate" />
-	                	<inquirySubSectionHeader name="View Separate History" />
 	                    <field attributeName="assetSeparateHistory.originalCapitalAssetNumber" />
 	                	<field attributeName="assetSeparateHistory.dispositionDate" />
 	            	</inquiryFields>
@@ -1108,14 +1116,6 @@
 			</attributeReference>
 			<attributeReference name="assetWarranty.versionNumber" sourceClassName="org.kuali.module.cams.bo.AssetWarranty" sourceAttributeName="versionNumber"/>
 			<!-- Merge/Separate Information -->
-			<attributeReference name="assetMergeHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber">
-				<label>Merged Asset Number</label>
-				<shortLabel>MergedAssetNbr</shortLabel>
-			</attributeReference>
-			<attributeReference name="assetMergeHistory.dispositionDate" sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="dispositionDate" >
-				<label>Merge Date</label>
-				<shortLabel>MergeDate</shortLabel>
-			</attributeReference>
 			<attributeReference name="assetSeparateHistory.originalCapitalAssetNumber"	sourceClassName="org.kuali.module.cams.bo.AssetDisposition" sourceAttributeName="originalCapitalAssetNumber" >
 				<label>Original Asset Number</label>
 				<shortLabel>OrigAssetNbr</shortLabel>

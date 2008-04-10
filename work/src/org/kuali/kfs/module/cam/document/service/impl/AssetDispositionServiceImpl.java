@@ -24,21 +24,9 @@ import org.kuali.module.cams.service.AssetDispositionService;
 
 public class AssetDispositionServiceImpl implements AssetDispositionService {
     public void setAssetDispositionHistory(Asset asset) {
-        setAssetMergeHistory(asset);
         setAssetSeparateHistory(asset);
     }
 
-
-    private void setAssetMergeHistory(Asset asset) {
-        List<AssetDisposition> assetDispositons = asset.getAssetDispositions();
-
-        for (AssetDisposition disposition : assetDispositons) {
-            if (CamsConstants.Dispositon.ASSET_MERGE_CODE.equalsIgnoreCase(disposition.getDispositionCode())) {
-                asset.setAssetMergeHistory(disposition);
-                break;
-            }
-        }
-    }
 
     private void setAssetSeparateHistory(Asset asset) {
         List<AssetDisposition> assetDispositon = asset.getAssetDispositions();

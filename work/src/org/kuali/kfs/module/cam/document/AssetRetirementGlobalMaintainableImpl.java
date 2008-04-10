@@ -16,9 +16,11 @@
 package org.kuali.module.cams.maintenance;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
@@ -136,15 +138,33 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
             }
         }
     }
-
+    
+    /**
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterPost(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     */
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
+        refreshReferenceObjectAsset();
+
+    }
+
+    /**
+     * Refresh reference object asset to show the asset detail information whenever the page refreshed. 
+     * This method...
+     */
+    private void refreshReferenceObjectAsset() {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
             assetRetirementGlobalDetail.refreshReferenceObject("asset");
         }
-
     }
+    
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+        // TODO Auto-generated method stub
+        super.processAfterEdit(document, parameters);
+    }
+    
 }

@@ -25,4 +25,5 @@ public interface PaymentSummaryService {
      */
     void calculateAndSetPaymentSummary(Asset asset);
 
+    KualiDecimal calculateFederalContribution(Asset asset);
 }

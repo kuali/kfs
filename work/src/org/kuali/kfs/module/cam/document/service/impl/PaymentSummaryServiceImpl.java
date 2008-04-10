@@ -115,7 +115,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @param asset Asset
      * @return Federal Contribution Amount
      */
-    private KualiDecimal calculateFederalContribution(Asset asset) {
+    public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
 

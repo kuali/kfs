@@ -285,7 +285,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
             this.retirementDate = DateUtils.convertToSqlDate(new java.util.Date());
             this.defaultRetirementDate = this.retirementDate;
         }
-        return defaultRetirementDate;
+        return retirementDate;
     }
 
 

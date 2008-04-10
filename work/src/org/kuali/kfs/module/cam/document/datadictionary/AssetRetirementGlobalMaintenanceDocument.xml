@@ -93,32 +93,32 @@
             		<maintainableCollection name="assetRetirementGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetRetirementGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetRetirementGlobalDetails"  summaryTitle="Asset Retired">
 	                <subSectionHeader name="Asset Detail Information" />
             		<maintainableField name="versionNumber"  />
-                	<maintainableField name="capitalAssetNumber" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.organizationOwnerChartOfAccountsCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.organizationOwnerAccountNumber" readOnly="true" readOnlyAfterAdd="true" />
+                	<maintainableField name="capitalAssetNumber" template="capitalAssetNumber" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.organizationOwnerChartOfAccountsCode" template="organizationOwnerChartOfAccountsCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.organizationOwnerAccountNumber" template="organizationOwnerAccountNumber" readOnly="true" readOnlyAfterAdd="true" />
                     <!-- maintainableField name="asset.organizationOwnerAccount.organizationCode" readOnly="true" readOnlyAfterAdd="true" /-->
-                    <maintainableField name="asset.agencyNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.acquisitionTypeCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.inventoryStatusCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.conditionCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetDescription" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetTypeCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.vendorName" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.manufacturerName" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.manufacturerModelNumber" readOnly="true" readOnlyAfterAdd="true" />
-					<maintainableField name="asset.serialNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.campusTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.oldTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.governmentTagNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.nationalStockNumber" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.lastInventoryDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.createDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.financialDocumentPostingYear" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.financialDocumentPostingPeriodCode" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.capitalAssetInServiceDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.depreciationDate" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.totalCostAmount" readOnly="true" readOnlyAfterAdd="true" />
-                    <maintainableField name="asset.federalContribution" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.agencyNumber" template="agencyNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.acquisitionTypeCode" template="acquisitionTypeCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.inventoryStatusCode" template="inventoryStatusCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.conditionCode" template="conditionCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetDescription" template="capitalAssetDescription" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetTypeCode" template="capitalAssetTypeCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.vendorName" template="vendorName" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.manufacturerName" template="manufacturerName" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.manufacturerModelNumber" template="manufacturerModelNumber" readOnly="true" readOnlyAfterAdd="true" />
+					<maintainableField name="asset.serialNumber" template="serialNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.campusTagNumber" template="campusTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.oldTagNumber" template="oldTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.governmentTagNumber" template="governmentTagNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.nationalStockNumber" template="nationalStockNumber" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.lastInventoryDate" template="lastInventoryDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.createDate" template="createDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.financialDocumentPostingYear" template="financialDocumentPostingYear" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.financialDocumentPostingPeriodCode" template="financialDocumentPostingPeriodCode" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.capitalAssetInServiceDate" template="capitalAssetInServiceDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.depreciationDate" template="depreciationDate" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.totalCostAmount" template="totalCostAmount" readOnly="true" readOnlyAfterAdd="true" />
+                    <maintainableField name="asset.federalContribution" template="federalContribution" readOnly="true" readOnlyAfterAdd="true" />
                 	<maintainableField name="newCollectionRecord" />
                 	<summaryFields>
                         <summaryField name="capitalAssetNumber" />

@@ -122,7 +122,6 @@ public class Asset extends PersistableBusinessObjectBase {
 
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
-    private AssetDisposition assetMergeHistory;
     private AssetDisposition assetSeparateHistory;
     private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
@@ -1747,24 +1746,6 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setAssetDispositions(List<AssetDisposition> assetDispositions) {
         this.assetDispositions = assetDispositions;
-    }
-
-    /**
-     * Gets the assetMergeHistory attribute.
-     * 
-     * @return Returns the assetMergeHistory.
-     */
-    public AssetDisposition getAssetMergeHistory() {
-        return assetMergeHistory;
-    }
-
-    /**
-     * Sets the assetMergeHistory attribute value.
-     * 
-     * @param assetMergeHistory The assetMergeHistory to set.
-     */
-    public void setAssetMergeHistory(AssetDisposition assetMergeHistory) {
-        this.assetMergeHistory = assetMergeHistory;
     }
 
     /**

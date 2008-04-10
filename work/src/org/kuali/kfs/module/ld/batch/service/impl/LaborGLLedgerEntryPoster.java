@@ -64,6 +64,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         laborGeneralLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
 
         laborGeneralLedgerEntryService.save(laborGeneralLedgerEntry);
+        
         return operationType;
     }
 

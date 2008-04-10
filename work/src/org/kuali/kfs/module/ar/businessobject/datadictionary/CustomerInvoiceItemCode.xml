@@ -54,6 +54,7 @@
             </lookupFields>
 
             <resultFields>
+                <field attributeName="customerInvoiceItemCodeDefaultViewer" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="invoiceItemCode" />
@@ -64,7 +65,16 @@
             </resultFields>
         </lookup>
 
+		<titleAttribute>customerInvoiceItemCodeDefaultViewer</titleAttribute>
+
         <attributes>
+
+		    <attribute name="customerInvoiceItemCodeDefaultViewer">
+        		<label>View</label>
+        		<maxLength>50</maxLength>
+        		<required>false</required>
+        		<control><hidden /></control>
+        	</attribute>
 
             <attribute name="active" forceUppercase="true">
                 <label>Active</label>

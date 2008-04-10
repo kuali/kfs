@@ -481,7 +481,7 @@
             </attributeReference>
 
             <attribute name="estimatedFabricationLifetimeLimitNumber" >
-                <label>Estimated Fabrication Lifetime Limit Number</label>
+                <label>Years expected to retain asset once fabrication is complete</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>

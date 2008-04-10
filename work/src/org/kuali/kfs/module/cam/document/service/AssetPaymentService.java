@@ -20,9 +20,27 @@ import org.kuali.module.cams.bo.AssetPayment;
 
 public interface AssetPaymentService {
 
+    /**
+     * Finds out the maximum value of payment sequence for an asset
+     * 
+     * @param assetPayment Asset Payment
+     * @return Maximum sequence value of asset payment within an asset
+     */
     Integer getMaxSequenceNumber(AssetPayment assetPayment);
 
+    /**
+     * Checks if asset payment is federally funder or not
+     * 
+     * @param assetPayment Payment record
+     * @return True if financial object sub type code indicates federal contribution
+     */
     boolean isPaymentFederalContribution(AssetPayment assetPayment);
 
+    /**
+     * Checks active status of financial object of the payment
+     * 
+     * @param assetPayment Payment record
+     * @return True if object is active
+     */
     boolean isPaymentFinancialObjectActive(AssetPayment assetPayment);
 }

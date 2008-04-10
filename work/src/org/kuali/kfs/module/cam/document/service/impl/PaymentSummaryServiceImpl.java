@@ -47,7 +47,6 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     /**
      * Map will store getter method mapped to each primary depreciation period column. Based on the current fiscal month, current
      * month depreciation column can be identified easily from this map
-     * 
      */
     static {
         try {
@@ -81,20 +80,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
     }
 
     /**
-     * @param asset Asset that needs Payment Summary Information computed
      * @see org.kuali.module.cams.service.PaymentSummaryService#calculateAndSetPaymentSummary(org.kuali.module.cams.bo.Asset)
-     *      <ol>
-     *      Computes following information and sets them to asset object
-     *      <li>Federal contribution amount</li>
-     *      <li>Payments till date</li>
-     *      <li>Total Cost of Asset</li>
-     *      <li>Accumulated Depreciation</li>
-     *      <li>Primary Base Amount</li>
-     *      <li>Book Value</li>
-     *      <li>Previous Year Depreciation</li>
-     *      <li>Year to Date Depreciation</li>
-     *      <li>Current month depreciation</li>
-     *      </ol>
      */
 
     public void calculateAndSetPaymentSummary(Asset asset) {
@@ -109,11 +95,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
         asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
     }
 
+
     /**
-     * Sums up federal contribution amount for an asset
-     * 
-     * @param asset Asset
-     * @return Federal Contribution Amount
+     * @see org.kuali.module.cams.service.PaymentSummaryService#calculateFederalContribution(org.kuali.module.cams.bo.Asset)
      */
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);

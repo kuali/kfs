@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ taglib uri="/jsp/modules/cams/tld/cams-func.tld" prefix="camsfunc"%>
 <%@ attribute name="assetPayments" type="java.util.List" required="true" description="Asset payments list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
@@ -47,7 +48,12 @@
 	<c:forEach var="payment" items="${assetPayments}">
 	 	<c:set var="pos" value="${pos+1}" />
 	 	<c:set var="chargeAmount" value="${assetPayments[pos].accountChargeAmount}" />
-	 	<c:set var="totalAmount" value="${totalAmount + chargeAmount}"/>
+	 	<c:if test="${totalAmount != null && chargeAmount != null}" >
+	 		<c:set var="totalAmount" value="${camsfunc:addKualiDecimal(totalAmount,chargeAmount)}"/>
+	 	</c:if>
+	 	<c:if test="${totalAmount == null}" >
+	 		<c:set var="totalAmount" value="${chargeAmount}"/>
+	 	</c:if>  
 			<tr>
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true"/></td>								
@@ -68,7 +74,7 @@
 	</c:forEach>
 			<tr>
 				<th class="grid" align="right" colspan="14">Total</th>
-				<td class="grid" align="right"><c:out value="${totalAmount}" /></td>
+				<td class="grid" align="right"><c:out value="${camsfunc:formatCurrency(totalAmount)}" /></td>
 			</tr>						
 		</table>
 		</div>

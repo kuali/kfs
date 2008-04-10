@@ -18,5 +18,11 @@ package org.kuali.module.cams.service;
 import org.kuali.module.cams.bo.AssetComponent;
 
 public interface AssetComponentService {
+    /**
+     * Finds out the maximum sequence number available for an asset component with respect to an asset
+     * 
+     * @param assetComponent Asset Component class
+     * @return Maximum value of component sequence
+     */
     Integer getMaxSequenceNumber(AssetComponent assetComponent);
 }

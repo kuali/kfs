@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -41,11 +40,6 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
     private AssetService assetService;
 
     /**
-     * Identifies the latest retirement record for the asset if current status is retired
-     * <li>Sorts all approved retirement documents by retirement date</li>
-     * <li>Latest retirement document is identified and assigns to asset</li>
-     * 
-     * @param asset Asset
      * @see org.kuali.module.cams.service.RetirementInfoService#setRetirementInfo(org.kuali.module.cams.bo.Asset)
      */
     public void setRetirementInfo(Asset asset) {

@@ -21,7 +21,7 @@
 </c:if>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 
-<kul:tab tabTitle="Asset Detail Information" defaultOpen="${!defaultTabHide}"> 
+<kul:tab tabTitle="View Asset Details" defaultOpen="${!defaultTabHide}"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 			<tr>

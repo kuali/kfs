@@ -52,10 +52,16 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
 
+    /**
+     * @see org.kuali.module.cams.service.AssetPaymentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetPayment)
+     */
     public Integer getMaxSequenceNumber(AssetPayment assetPayment) {
         return this.assetPaymentDao.getMaxSquenceNumber(assetPayment);
     }
 
+    /**
+     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentFederalContribution(org.kuali.module.cams.bo.AssetPayment)
+     */
     public boolean isPaymentFederalContribution(AssetPayment assetPayment) {
         assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
         if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
@@ -64,6 +70,9 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         return false;
     }
 
+    /**
+     * @see org.kuali.module.cams.service.AssetPaymentService#isPaymentFinancialObjectActive(org.kuali.module.cams.bo.AssetPayment)
+     */
     public boolean isPaymentFinancialObjectActive(AssetPayment assetPayment) {
         assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
         if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {

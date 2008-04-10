@@ -47,30 +47,25 @@ public class AssetServiceImpl implements AssetService {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
 
-	public boolean isAssetRetired(Asset asset) {
+    public boolean isAssetRetired(Asset asset) {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.RETIRED_STATUS_CODES).contains(asset.getInventoryStatusCode());
     }
-    
+
     public boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset) {
         return ObjectUtils.isNull(oldAsset.getCapitalAssetInServiceDate()) ? ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) : oldAsset.getCapitalAssetInServiceDate().equals(newAsset.getCapitalAssetInServiceDate());
     }
-    
+
     /**
-     * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
-     * the asset created in the current fiscal year
-     * 
-     * @return
+     * @see org.kuali.module.cams.service.AssetService#isAssetTaggedInPriorFiscalYear(org.kuali.module.cams.bo.Asset)
      */
     public boolean isAssetTaggedInPriorFiscalYear(Asset asset) {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
         return StringUtils.isNotBlank(asset.getCampusTagNumber()) && ObjectUtils.isNotNull(asset.getFinancialDocumentPostingYear()) && !universityDateService.getCurrentFiscalYear().equals(asset.getFinancialDocumentPostingYear());
     }
-    
+
     /**
-     * The Tag Number check excludes value of "N" and retired assets. 
-     * 
-     * @return
+     * @see org.kuali.module.cams.service.AssetService#isTagNumberCheckExclude(org.kuali.module.cams.bo.Asset)
      */
     public boolean isTagNumberCheckExclude(Asset asset) {
         String status = asset.getInventoryStatusCode();
@@ -79,10 +74,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * Test if any of the off campus location field is entered.
-     * 
-     * @param asset
-     * @return
+     * @see org.kuali.module.cams.service.AssetService#isOffCampusLocationEntered(org.kuali.module.cams.bo.Asset)
      */
     public boolean isOffCampusLocationEntered(Asset asset) {
         AssetLocation offCampus = asset.getOffCampusLocation();

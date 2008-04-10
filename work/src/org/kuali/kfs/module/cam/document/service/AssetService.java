@@ -27,13 +27,30 @@ public interface AssetService {
 
     boolean isCapitalAsset(Asset asset);
 
- 	boolean isAssetRetired(Asset asset);
- 
+    boolean isAssetRetired(Asset asset);
+
     boolean isInServiceDateChanged(Asset oldAsset, Asset newAsset);
-    
+
+    /**
+     * The Asset Type Code is allowed to be changed only: (1)If the tag number has not been assigned or (2)The asset is tagged, and
+     * the asset created in the current fiscal year
+     * 
+     * @return
+     */
     boolean isAssetTaggedInPriorFiscalYear(Asset asset);
-    
+
+    /**
+     * The Tag Number check excludes value of "N" and retired assets.
+     * 
+     * @return
+     */
     boolean isTagNumberCheckExclude(Asset asset);
-    
+
+    /**
+     * Test if any of the off campus location field is entered.
+     * 
+     * @param asset
+     * @return
+     */
     boolean isOffCampusLocationEntered(Asset asset);
 }

@@ -18,9 +18,30 @@ package org.kuali.module.cams.service;
 import org.kuali.module.cams.document.AssetTransferDocument;
 
 public interface AssetTransferService {
+    /**
+     * This method is called when the work flow document is reached its final approval
+     * <ol>
+     * <li>Gets the latest asset details from DB</li>
+     * <li>Save asset owner data</li>
+     * <li>Save location changes </li>
+     * <li>Save organization changes</li>
+     * <li>Create offset payments</li>
+     * <li>Create new payments</li>
+     * <li>Update original payments</li>
+     * </ol>
+     */
     void saveApprovedChanges(AssetTransferDocument document);
 
+    /**
+     * Creates GL Postables using the source plant account number and target plant account number
+     */
     void createGLPostables(AssetTransferDocument document);
 
+
+    /**
+     * Validates if asset can be transferred or not
+     * <li>Checks for any active documents working on this asset, returns false if any pending documents for asset is found</li>
+     * <li>Checks if asset is active or not, returns false when not active</li>
+     */
     boolean isTransferable(AssetTransferDocument document);
 }

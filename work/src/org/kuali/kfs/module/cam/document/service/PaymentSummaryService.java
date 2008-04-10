@@ -20,10 +20,27 @@ import org.kuali.module.cams.bo.Asset;
 
 public interface PaymentSummaryService {
     /**
-     * This method sets the total payment summary on asset object
-     * @param asset Asset
+     * @param asset Asset that needs Payment Summary Information computed
+     *        <ol>
+     *        Computes following information and sets them to asset object
+     *        <li>Federal contribution amount</li>
+     *        <li>Payments till date</li>
+     *        <li>Total Cost of Asset</li>
+     *        <li>Accumulated Depreciation</li>
+     *        <li>Primary Base Amount</li>
+     *        <li>Book Value</li>
+     *        <li>Previous Year Depreciation</li>
+     *        <li>Year to Date Depreciation</li>
+     *        <li>Current month depreciation</li>
+     *        </ol>
      */
     void calculateAndSetPaymentSummary(Asset asset);
 
+    /**
+     * Sums up federal contribution amount for an asset
+     * 
+     * @param asset Asset
+     * @return Federal Contribution Amount
+     */
     KualiDecimal calculateFederalContribution(Asset asset);
 }

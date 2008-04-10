@@ -18,7 +18,14 @@ package org.kuali.module.cams.service;
 import org.kuali.module.cams.bo.Asset;
 
 public interface RetirementInfoService {
+    /**
+     * Identifies the latest retirement record for the asset if current status is retired
+     * <li>Sorts all approved retirement documents by retirement date</li>
+     * <li>Latest retirement document is identified and assigns to asset</li>
+     * 
+     * @param asset Asset
+     */
     void setRetirementInfo(Asset asset);
-    
+
     void setMergeHistory(Asset asset);
 }

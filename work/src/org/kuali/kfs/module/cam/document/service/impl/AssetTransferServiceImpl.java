@@ -108,7 +108,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setAmount(assetPayment.getAccountChargeAmount());
-        // TODO Balance type code
         postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_TR);
         if (isSource) {
             postable.setChartOfAccountsCode(document.getAsset().getOrganizationOwnerChartOfAccountsCode());
@@ -127,7 +126,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
 
     /**
-     * Creates GL Postables using the source plant account number and target plant account number
+     * @see org.kuali.module.cams.service.AssetTransferService#createGLPostables(org.kuali.module.cams.document.AssetTransferDocument)
      */
     public void createGLPostables(AssetTransferDocument document) {
         // Create GL entries only for capital assets
@@ -198,7 +197,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @return Incremented sequence number
      */
     private Integer createOffsetPayments(AssetTransferDocument document, List<PersistableBusinessObject> persistableObjects, List<AssetPayment> originalPayments) {
-        // TODO check if object code is active for the payment
         Integer maxSequenceNo = null;
         for (AssetPayment assetPayment : originalPayments) {
             if (CamsConstants.TRANSFER_PAYMENT_CODE_N.equals(assetPayment.getTransferPaymentCode())) {
@@ -367,11 +365,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && getAssetPaymentService().isPaymentFinancialObjectActive(assetPayment) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
     }
 
+
     /**
-     * Validates if asset can be transferred or not
-     * <li>Checks for any active documents working on this asset, returns false if any pending documents for asset is found</li>
-     * <li>Checks if asset is active or not, returns false when not active</li>
-     * 
      * @see org.kuali.module.cams.service.AssetTransferService#isTransferable(org.kuali.module.cams.document.AssetTransferDocument)
      */
     public boolean isTransferable(AssetTransferDocument document) {
@@ -400,17 +395,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
 
     /**
-     * This method is called when the work flow document is reached its final approval
-     * <ol>
-     * <li>Gets the latest asset details from DB</li>
-     * <li>Save asset owner data</li>
-     * <li>Save location changes </li>
-     * <li>Save organization changes</li>
-     * <li>Create offset payments</li>
-     * <li>Create new payments</li>
-     * <li>Update original payments</li>
-     * </ol>
-     * 
      * @see org.kuali.module.cams.service.AssetTransferService#saveApprovedChanges(org.kuali.module.cams.document.AssetTransferDocument)
      */
     public void saveApprovedChanges(AssetTransferDocument document) {

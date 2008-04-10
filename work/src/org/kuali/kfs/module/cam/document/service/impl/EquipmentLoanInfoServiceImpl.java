@@ -44,15 +44,7 @@ public class EquipmentLoanInfoServiceImpl implements EquipmentLoanInfoService {
         this.assetHeaderService = assetHeaderService;
     }
 
-    /**
-     * Identifies the latest equipment loan or return information available for an asset
-     * 
-     * <li>All approved loan/return documents are sorted descending based on the loan date</li>
-     * <li>Latest record is used for display on the asset edit screen</li>
-     * 
-     * @see org.kuali.module.cams.service.EquipmentLoanInfoService#setEquipmentLoanInfo(org.kuali.module.cams.bo.Asset)
-     * @param asset Asset
-     */
+
     public void setEquipmentLoanInfo(Asset asset) {
         List<AssetHeader> assetHeaders = asset.getAssetHeaders();
         List<EquipmentLoanOrReturn> sortableList = new ArrayList<EquipmentLoanOrReturn>();

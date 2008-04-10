@@ -35,6 +35,9 @@ public class AssetComponentServiceImpl implements AssetComponentService {
     }
 
 
+    /**
+     * @see org.kuali.module.cams.service.AssetComponentService#getMaxSequenceNumber(org.kuali.module.cams.bo.AssetComponent)
+     */
     public Integer getMaxSequenceNumber(AssetComponent assetComponent) {
         return this.assetComponentDao.getMaxSquenceNumber(assetComponent);
     }

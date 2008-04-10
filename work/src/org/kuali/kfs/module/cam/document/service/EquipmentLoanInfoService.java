@@ -19,6 +19,13 @@ import org.kuali.module.cams.bo.Asset;
 
 public interface EquipmentLoanInfoService {
 
+    /**
+     * Identifies the latest equipment loan or return information available for an asset
+     * <li>All approved loan/return documents are sorted descending based on the loan date</li>
+     * <li>Latest record is used for display on the asset edit screen</li>
+     * 
+     * @param asset Asset
+     */
     void setEquipmentLoanInfo(Asset asset);
 
 }

@@ -25,8 +25,6 @@ import org.kuali.module.cams.service.AssetLocationService;
 public class AssetLocationServiceImpl implements AssetLocationService {
 
     /**
-     * The method will set Off Campus Location from the assetLocations collection
-     * 
      * @see org.kuali.module.cams.service.AssetLocationService#setOffCampusLocation(org.kuali.module.cams.bo.Asset)
      */
     public void setOffCampusLocation(Asset asset) {
@@ -50,8 +48,6 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
     /**
-     * Update user input into reference of Asset Location
-     * 
      * @see org.kuali.module.cams.service.AssetLocationService#updateOffCampusLocation(org.kuali.module.cams.bo.Asset)
      */
     public void updateOffCampusLocation(Asset asset) {

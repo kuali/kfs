@@ -18,7 +18,13 @@ package org.kuali.module.cams.service;
 import org.kuali.module.cams.bo.Asset;
 
 public interface AssetLocationService {
+    /**
+     * The method will set Off Campus Location from the assetLocations collection
+     */
     public void setOffCampusLocation(Asset asset);
 
+    /**
+     * Update user input into reference of Asset Location
+     */
     public void updateOffCampusLocation(Asset newAsset);
 }

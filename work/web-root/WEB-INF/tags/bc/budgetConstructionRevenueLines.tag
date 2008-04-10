@@ -75,8 +75,7 @@
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"
                   accountingLine="newRevenueLine"
-                  field="financialObjectCode" detailFunction="loadObjectInfo"
-                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'newRevenueLine.objectType.name', 'newRevenueLine.financialObjectTypeCode', "
+                  field="financialObjectCode" detailFunction="loadObjectCodeInfo"
                   detailField="financialObject.financialObjectCodeName"
                   attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"
@@ -143,8 +142,7 @@
 
               <bc:pbglLineDataCell dataCellCssClass="datacell"
                   accountingLine="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}]"
-                  field="financialObjectCode" detailFunction="loadObjectInfo"
-                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].objectType.name', 'document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectTypeCode', "
+                  field="financialObjectCode" detailFunction="loadObjectCodeInfo"
                   detailField="financialObject.financialObjectCodeShortName"
                   attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"

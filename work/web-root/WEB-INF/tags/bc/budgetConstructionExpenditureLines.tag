@@ -78,8 +78,7 @@
 
               <bc:pbglLineDataCell dataCellCssClass="infoline"
                   accountingLine="newExpenditureLine"
-                  field="financialObjectCode" detailFunction="loadObjectInfo"
-                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'newExpenditureLine.objectType.name', 'newExpenditureLine.financialObjectTypeCode', "
+                  field="financialObjectCode" detailFunction="loadObjectCodeInfo"
                   detailField="financialObject.financialObjectCodeName"
                   attributes="${pbglExpenditureAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"
@@ -157,8 +156,7 @@
 
               <bc:pbglLineDataCell dataCellCssClass="datacell"
                   accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
-                  field="financialObjectCode" detailFunction="loadObjectInfo"
-                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].objectType.name', 'document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectTypeCode', "
+                  field="financialObjectCode" detailFunction="loadObjectCodeInfo"
                   detailField="financialObject.financialObjectCodeShortName"
                   attributes="${pbglExpenditureAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"

@@ -150,11 +150,9 @@
                     <div align="right">Inv Print Option</div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                <c:choose>  
-                	<c:when test="${! readOnly}">
-                		<input type="text">    
-                	</c:when>
-				</c:choose>
+                <kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator }" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>
+                
+               
                 </td>
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${ documentAttributes.printDate }" /></div>

@@ -85,10 +85,7 @@
 			</tr>
 			<tr>				
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" /></th>
-				<td class="grid" colspan="3"><kul:htmlControlAttribute property="document.transferOfFundsFinancialDocumentNumber" attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" />
-				&nbsp;
-                <kul:lookup boClassName="org.kuali.module.cams.bo.AssetHeader" fieldConversions="documentNumber:document.transferOfFundsFinancialDocumentNumber" lookupParameters="document.transferOfFundsFinancialDocumentNumber:documentNumber" />
-				</td>
+				<td class="grid" colspan="3"><kul:htmlControlAttribute property="document.transferOfFundsFinancialDocumentNumber" attributeEntry="${assetTransferAttributes.transferOfFundsFinancialDocumentNumber}" /></td>
 			</tr>
 		</table>
 		</div>

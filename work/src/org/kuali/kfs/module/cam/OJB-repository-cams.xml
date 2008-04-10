@@ -909,7 +909,7 @@
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.module.financial.document.TransferOfFundsDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
 	</reference-descriptor>
     <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">

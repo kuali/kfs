@@ -109,7 +109,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setAccountNumber(plantAccount.getAccountNumber());
         postable.setAmount(assetPayment.getAccountChargeAmount());
         // TODO Balance type code
-        postable.setBalanceTypeCode("");
+        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_TR);
         if (isSource) {
             postable.setChartOfAccountsCode(document.getAsset().getOrganizationOwnerChartOfAccountsCode());
         }
@@ -363,8 +363,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @return True is record can be used for GL entry creation
      */
     private boolean isPaymentEligibleForGLPosting(AssetPayment assetPayment) {
-        // Payment transfer code is not "Y" and is not a Federal Contribution
-        return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
+        // Payment transfer code is not "Y", Financial Object Code is active for the Payment and is not a Federal Contribution
+        return !CamsConstants.TRANSFER_PAYMENT_CODE_Y.equals(assetPayment.getTransferPaymentCode()) && getAssetPaymentService().isPaymentFinancialObjectActive(assetPayment) && !getAssetPaymentService().isPaymentFederalContribution(assetPayment);
     }
 
     /**

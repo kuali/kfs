@@ -41,6 +41,7 @@ import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
@@ -70,7 +71,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
     private Org organization;
-    private DocumentHeader transferOfFundsFinancialDocument;
+    private TransferOfFundsDocument transferOfFundsFinancialDocument;
     private State offCampusState;
     private Building building;
     private Room buildingRoom;
@@ -365,7 +366,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the transferOfFundsFinancialDocument.
      */
-    public DocumentHeader getTransferOfFundsFinancialDocument() {
+    public TransferOfFundsDocument getTransferOfFundsFinancialDocument() {
         return transferOfFundsFinancialDocument;
     }
 
@@ -693,7 +694,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param transferOfFundsFinancialDocument The transferOfFundsFinancialDocument to set.
      * @deprecated
      */
-    public void setTransferOfFundsFinancialDocument(DocumentHeader transferOfFundsFinancialDocument) {
+    public void setTransferOfFundsFinancialDocument(TransferOfFundsDocument transferOfFundsFinancialDocument) {
         this.transferOfFundsFinancialDocument = transferOfFundsFinancialDocument;
     }
 

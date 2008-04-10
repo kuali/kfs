@@ -23,4 +23,6 @@ public interface AssetPaymentService {
     Integer getMaxSequenceNumber(AssetPayment assetPayment);
 
     boolean isPaymentFederalContribution(AssetPayment assetPayment);
+
+    boolean isPaymentFinancialObjectActive(AssetPayment assetPayment);
 }

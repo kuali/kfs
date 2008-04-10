@@ -64,4 +64,12 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         return false;
     }
 
+    public boolean isPaymentFinancialObjectActive(AssetPayment assetPayment) {
+        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+        if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
+            return assetPayment.getFinancialObject().isActive();
+        }
+        return false;
+    }
+
 }

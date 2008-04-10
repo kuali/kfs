@@ -31,7 +31,7 @@ public interface BudgetConstructionSalaryStatisticsReportDao {
      * @param personUserIdentifier
      * @return
      */
-    public void updateReportsSalaryStatisticsTable(String personUserIdentifier);
+    public void updateReportsSalaryStatisticsTable(String personUserIdentifier, Integer previousFiscalYear);
 
 
 }

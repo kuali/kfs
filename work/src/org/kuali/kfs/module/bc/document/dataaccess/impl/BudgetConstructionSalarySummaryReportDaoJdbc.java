@@ -340,9 +340,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReportWithThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.core.util.KualiDecimal)
      */
-    public void salarySummaryReportWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
+    public void salarySummaryReports(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -397,9 +397,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#salarySummaryReportsWithNoThreshold(java.lang.String, boolean)
+     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
      */
-    public void salarySummaryReportsWithNoThreshold(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
+    public void reasonSummaryReports(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
         
         // get the session ID
         Guid guid = new Guid();
@@ -426,21 +426,6 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
     }
-
-    /**
-     * 
-     * @see org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao#updateReportsSalarySummaryTable(java.lang.String, java.lang.Integer, boolean, boolean, boolean, org.kuali.core.util.KualiDecimal)
-     */
-    public void updateReportsSalarySummaryTable(String personUserIdentifier, Integer previousFiscalYear, boolean listSalariesWithReasonCodes, boolean reportWithThreshold, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
-        // report using a threshold
-        if (reportWithThreshold)
-        {
-            salarySummaryReportWithThreshold(personUserIdentifier, previousFiscalYear, reportGreaterThanOrEqualToThreshold, threshold);
-            return;
-        }
-        // don't use a threshold
-        // report either all rows, or only those rows which are associated with a salary increase reason code
-        salarySummaryReportsWithNoThreshold(personUserIdentifier, listSalariesWithReasonCodes);
     }
 
-}
+

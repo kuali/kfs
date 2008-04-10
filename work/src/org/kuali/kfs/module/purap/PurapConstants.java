@@ -117,11 +117,13 @@ public class PurapConstants extends JstlConstants {
         public static final String AWAIT_SUB_ACCT_REVIEW = "ASUB";
         public static final String AWAIT_FISCAL_REVIEW = "AFIS";
         public static final String AWAIT_CHART_REVIEW = "ACHA";
+        public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
         public static final String AWAIT_SEP_OF_DUTY_REVIEW = "ASOD";
         public static final String DAPRVD_CONTENT = "DCNT";
         public static final String DAPRVD_SUB_ACCT = "DSUB";
         public static final String DAPRVD_FISCAL = "DFIS";
         public static final String DAPRVD_CHART = "DCHA";
+        public static final String DAPRVD_COMMODITY_CODE = "DCOM";
         public static final String DAPRVD_SEP_OF_DUTY = "DSOD";
         public static final String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
         
@@ -188,10 +190,12 @@ public class PurapConstants extends JstlConstants {
         public static final String AWAIT_BUDGET_REVIEW = "WBUD";
         public static final String AWAIT_CONTRACTS_GRANTS_REVIEW = "WCG";
         public static final String AWAIT_PURCHASING_REVIEW = "WPUR";
+        public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
         public static final String DAPRVD_TAX = "DTAX";
         public static final String DAPRVD_BUDGET = "DBUD";
         public static final String DAPRVD_CONTRACTS_GRANTS = "DCG";
         public static final String DAPRVD_PURCHASING = "DPUR";
+        public static final String DAPRVD_COMMODITY_CODE = "DCOM";
         public static final String CXML_ERROR = "CXER";
         public static final String PENDING_CXML = "CXPE";
         public static final String PENDING_FAX = "FXPE";

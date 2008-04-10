@@ -23,48 +23,29 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.ar.fixture.CustomerInvoiceItemCodeFixture;
+import org.kuali.module.ar.fixture.OrganizationAccountingDefaultFixture;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
 
-    private static final String CHART_CODE = "BL";
-    private static final String ORGNIZATION_CODE = "AAAM";
-    private static final String INVOICE_ITEM_CODE = "999999";
-    
-    private static final String IIC_CHART_CODE = "BL";
-    private static final String IIC_ACCOUNT_NUMBER = "1031400";
-    private static final String IIC_FINANCIAL_OBJECT_CODE = "5821";
-
-    private static final String OAD_CHART_CODE = "BA";
-    private static final String OAD_ACCOUNT_NUMBER = "1044900";
-    private static final String OAD_FINANCIAL_OBJECT_CODE = "5387";
-
-
     /**
      * This method tests if the CustomerInvoiceDetailService uses invoice item code to default values if the invoice item code exists.
      */
     public void testGetCustomerInvoiceDetailFromCustomerInvoiceItemCode() {
 
+        //get customer invoice item code from fixture and save it
+        CustomerInvoiceItemCode customerInvoiceItemCode = CustomerInvoiceItemCodeFixture.BASE_CIIC.createCustomerInvoiceItemCode();
+        SpringContext.getBean(BusinessObjectService.class).save(customerInvoiceItemCode);
+           
+        //check if CustomerInvoiceDetailService returns the correct customerInvoiceDetail based on the invoice item code.
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-
-        CustomerInvoiceItemCode code = new CustomerInvoiceItemCode();
-        code.setInvoiceItemCode(INVOICE_ITEM_CODE);
-        code.setChartOfAccountsCode(CHART_CODE);
-        code.setOrganizationCode(ORGNIZATION_CODE);
-        code.setDefaultInvoiceChartOfAccountsCode(IIC_CHART_CODE);
-        code.setDefaultInvoiceAccountNumber(IIC_ACCOUNT_NUMBER);
-        code.setDefaultInvoiceFinancialObjectCode(IIC_FINANCIAL_OBJECT_CODE);
-
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.save(code);
-
-        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromCustomerInvoiceItemCode(INVOICE_ITEM_CODE, CHART_CODE, ORGNIZATION_CODE);
-        assertEquals("Customer Invoice Detail's chart code should be " + IIC_CHART_CODE + "but is actually " + customerInvoiceDetail.getChartOfAccountsCode(), IIC_CHART_CODE, customerInvoiceDetail.getChartOfAccountsCode());
-        assertEquals("Customer Invoice Detail's account number should be " + IIC_ACCOUNT_NUMBER + "but is actually " + customerInvoiceDetail.getAccountNumber(), IIC_ACCOUNT_NUMBER, customerInvoiceDetail.getAccountNumber());
-        assertEquals("Customer Invoice Detail's object code should be " + IIC_FINANCIAL_OBJECT_CODE + "but is actually " + customerInvoiceDetail.getFinancialObjectCode(), IIC_FINANCIAL_OBJECT_CODE, customerInvoiceDetail.getFinancialObjectCode());
-
+        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromCustomerInvoiceItemCode(CustomerInvoiceItemCodeFixture.BASE_CIIC.invoiceItemCode, CustomerInvoiceItemCodeFixture.BASE_CIIC.chartOfAccountsCode, CustomerInvoiceItemCodeFixture.BASE_CIIC.organizationCode);
+        assertEquals( CustomerInvoiceItemCodeFixture.BASE_CIIC.defaultInvoiceChartOfAccountsCode, customerInvoiceDetail.getChartOfAccountsCode());
+        assertEquals( CustomerInvoiceItemCodeFixture.BASE_CIIC.defaultInvoiceAccountNumber, customerInvoiceDetail.getAccountNumber());
+        assertEquals( CustomerInvoiceItemCodeFixture.BASE_CIIC.defaultInvoiceFinancialObjectCode, customerInvoiceDetail.getFinancialObjectCode());
     }
 
     /**
@@ -72,23 +53,14 @@ public class CustomerInvoiceDetailServiceTest extends KualiTestBase {
      */
     public void testGetCustomerInvoiceDetailFromOrganizationAccountingDefault() {
 
+        OrganizationAccountingDefault orgAcctDefault = OrganizationAccountingDefaultFixture.BASE_OAD.createOrganizationAccountingDefault();
+        SpringContext.getBean(BusinessObjectService.class).save(orgAcctDefault);
+
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        
-        OrganizationAccountingDefault orgAcctDefault = new OrganizationAccountingDefault();
-        orgAcctDefault.setChartOfAccountsCode(CHART_CODE);
-        orgAcctDefault.setOrganizationCode(ORGNIZATION_CODE);
-        orgAcctDefault.setDefaultInvoiceChartOfAccountsCode(OAD_CHART_CODE);
-        orgAcctDefault.setDefaultInvoiceAccountNumber(OAD_ACCOUNT_NUMBER);
-        orgAcctDefault.setDefaultInvoiceFinancialObjectCode(OAD_FINANCIAL_OBJECT_CODE);
-        orgAcctDefault.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.save(orgAcctDefault);
-
-        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromOrganizationAccountingDefault(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), CHART_CODE, ORGNIZATION_CODE);
-        assertEquals("Customer Invoice Detail's chart code should be " + OAD_CHART_CODE + "but is actually " + customerInvoiceDetail.getChartOfAccountsCode(), OAD_CHART_CODE, customerInvoiceDetail.getChartOfAccountsCode());
-        assertEquals("Customer Invoice Detail's account number should be " + OAD_ACCOUNT_NUMBER + "but is actually " + customerInvoiceDetail.getAccountNumber(), OAD_ACCOUNT_NUMBER, customerInvoiceDetail.getAccountNumber());
-        assertEquals("Customer Invoice Detail's object code should be " + OAD_FINANCIAL_OBJECT_CODE + "but is actually " + customerInvoiceDetail.getFinancialObjectCode(), OAD_FINANCIAL_OBJECT_CODE, customerInvoiceDetail.getFinancialObjectCode());
+        CustomerInvoiceDetail customerInvoiceDetail = service.getCustomerInvoiceDetailFromOrganizationAccountingDefault(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), OrganizationAccountingDefaultFixture.BASE_OAD.chartOfAccountsCode, OrganizationAccountingDefaultFixture.BASE_OAD.organizationCode);
+        assertEquals(OrganizationAccountingDefaultFixture.BASE_OAD.defaultInvoiceChartOfAccountsCode, customerInvoiceDetail.getChartOfAccountsCode());
+        assertEquals(OrganizationAccountingDefaultFixture.BASE_OAD.defaultInvoiceAccountNumber, customerInvoiceDetail.getAccountNumber());
+        assertEquals(OrganizationAccountingDefaultFixture.BASE_OAD.defaultInvoiceFinancialObjectCode, customerInvoiceDetail.getFinancialObjectCode());
     }
 
 }

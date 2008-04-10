@@ -79,7 +79,7 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
         document.setWriteoffIndicator(true);
 
         //Print Invoice Indicator = "Y"
-        document.setPrintInvoiceIndicator(true);
+//        document.setPrintInvoiceIndicator(true);
 
         //Processing Chart = Processing Chart retrieved from Billing Org options
         //convert this into some kind of service maybe?

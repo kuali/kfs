@@ -289,7 +289,7 @@
 	<field-descriptor name="organizationInvoiceNumber" column="ORG_INV_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="writeoffIndicator" column="AR_WRITEOFF_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="customerPurchaseOrderNumber" column="CUST_PO_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceWriteoffAmount" column="AR_INV_WRTOFF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="invoiceDescription" column="AR_INV_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPurchaseOrderDate" column="CUST_PO_DT" jdbc-type="DATE"/>
@@ -897,6 +897,14 @@
     <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="organizationRemitToStateCode" />
     </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.ar.bo.PrintInvoiceOptions" table="AR_PRN_INV_OPTN_T">
+	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="printInvoiceDescription" column="AR_PRN_INV_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.InvoicePaidAppliedMove" table="AR_INV_PD_APLD_MT">

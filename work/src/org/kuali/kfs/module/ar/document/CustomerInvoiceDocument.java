@@ -50,7 +50,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 	private String organizationInvoiceNumber;
 	private boolean writeoffIndicator;
 	private String customerPurchaseOrderNumber;
-	private boolean printInvoiceIndicator;
+	private String printInvoiceIndicator;
 	private KualiDecimal invoiceWriteoffAmount;
 	private String invoiceDescription;
 	private Date customerPurchaseOrderDate;
@@ -277,29 +277,23 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
 		this.customerPurchaseOrderNumber = customerPurchaseOrderNumber;
 	}
 
-
 	/**
-	 * Gets the printInvoiceIndicator attribute.
-	 * 
-	 * @return Returns the printInvoiceIndicator
-	 * 
-	 */
-	public boolean isPrintInvoiceIndicator() { 
-		return printInvoiceIndicator;
-	}
+     * Gets the printInvoiceIndicator attribute. 
+     * @return Returns the printInvoiceIndicator.
+     */
+    public String getPrintInvoiceIndicator() {
+        return printInvoiceIndicator;
+    }
 
-	/**
-	 * Sets the printInvoiceIndicator attribute.
-	 * 
-	 * @param printInvoiceIndicator The printInvoiceIndicator to set.
-	 * 
-	 */
-	public void setPrintInvoiceIndicator(boolean printInvoiceIndicator) {
-		this.printInvoiceIndicator = printInvoiceIndicator;
-	}
+    /**
+     * Sets the printInvoiceIndicator attribute value.
+     * @param printInvoiceIndicator The printInvoiceIndicator to set.
+     */
+    public void setPrintInvoiceIndicator(String printInvoiceIndicator) {
+        this.printInvoiceIndicator = printInvoiceIndicator;
+    }
 
-
-	/**
+    /**
 	 * Gets the invoiceWriteoffAmount attribute.
 	 * 
 	 * @return Returns the invoiceWriteoffAmount
@@ -863,7 +857,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             setInvoiceTermsText(currentUser);
         }
         setWriteoffIndicator(true);
-        setPrintInvoiceIndicator(true);
+//        setPrintInvoiceIndicator(true);
         setOpenInvoiceIndicator(true);
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);

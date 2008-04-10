@@ -42,6 +42,8 @@ import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CashControlDocumentService;
 import org.kuali.module.ar.service.SystemInformationService;
 import org.kuali.module.chart.service.ChartService;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,7 +123,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * @see org.kuali.module.ar.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.module.ar.document.CashControlDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.module.ar.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.module.ar.document.CashControlDocument,
+     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
@@ -150,8 +153,10 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // build an accounting line that will be used to create the glpe
         accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        // get document type for the glpes
+        String documentType = documentTypeService.getDocumentTypeCodeByClass(CashReceiptDocument.class);
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
@@ -197,15 +202,17 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // build dummy accounting line for gl population
         accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        // get document type for the glpes
+        String documentType = documentTypeService.getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class);
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(wireSystemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
-        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options);
+        explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
@@ -242,13 +249,15 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation, systemInformation.getCreditCardObjectCode(), KFSConstants.GL_DEBIT_CODE, cashControlDocument.getCashControlTotalAmount());
+        //get document type for the glpes
+        String documentType = documentTypeService.getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class);
         // create and add the new explicit entry based on this accounting line
-        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options);
+        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
 
         // build dummy accounting line for gl creation
         accountingLine = buildAccountingLine(systemInformation, systemInformation.getUniversityClearingObjectCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // create and add the new explicit entry based on this accounting line
-        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options);
+        createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, documentType);
 
         return success;
     }
@@ -295,15 +304,16 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param sequenceHelper sequence helper
      * @param accountingLine the accounting line based on which the glpe is created
      * @param options the current year oprions
+     * @param documentType the document type to be associated with the glpe
      */
-    private GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, Options options) {
+    private GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, Options options, String documentType) {
 
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
         glpeService.populateExplicitGeneralLedgerPendingEntry(cashControlDocument, accountingLine, sequenceHelper, explicitEntry);
 
         explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
-        explicitEntry.setFinancialDocumentTypeCode(documentTypeService.getDocumentTypeCodeByClass(GeneralErrorCorrectionDocument.class));
+        explicitEntry.setFinancialDocumentTypeCode(documentType);
         explicitEntry.setDocumentNumber(cashControlDocument.getDocumentNumber());
 
         // add the new explicit entry to the document now

@@ -16,6 +16,8 @@
 
 package org.kuali.module.purap.bo;
 
+import static org.kuali.core.util.KualiDecimal.ZERO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -81,6 +83,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setExternalOrganizationB2bProductReferenceNumber(ri.getExternalOrganizationB2bProductReferenceNumber());
         this.setExternalOrganizationB2bProductTypeName(ri.getExternalOrganizationB2bProductTypeName());
 
+        this.setItemReceivedTotalQuantity(ZERO);
+        this.setItemDamagedTotalQuantity(ZERO);
+        
         this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
 

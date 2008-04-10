@@ -302,8 +302,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
             // Set quantities
             item.setItemOutstandingEncumberedQuantity(item.getItemQuantity());
-            item.setItemReceivedTotalQuantity(ZERO);
-//            item.setItemReturnedTotalQuantity(ZERO);
             item.setItemInvoicedTotalQuantity(ZERO);
             item.setItemInvoicedTotalAmount(ZERO);
 

@@ -434,6 +434,9 @@ public class ReceivingLineItem extends PersistableBusinessObjectBase implements 
      * @return Returns the itemType.
      */
     public ItemType getItemType() {
+        if (ObjectUtils.isNull(itemType)) {
+            refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+        }
         return itemType;
     }
 

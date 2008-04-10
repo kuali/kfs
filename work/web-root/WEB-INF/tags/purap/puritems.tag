@@ -301,6 +301,7 @@
                             <html:hidden property="document.item[${ctr}].itemInvoicedTotalQuantity" />
                             <html:hidden property="document.item[${ctr}].itemInvoicedTotalAmount" />
                             <html:hidden property="document.item[${ctr}].itemReceivedTotalQuantity" />
+                            <html:hidden property="document.item[${ctr}].itemDamagedTotalQuantity" />
                             <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedQuantity" />
                             <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedAmount" />
   					    </c:if> 

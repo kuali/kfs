@@ -23,11 +23,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.bo.ItemType;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.ReceivingLineItem;
 import org.kuali.module.purap.dao.ReceivingDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.ReceivingDocument;
@@ -275,9 +279,41 @@ public class ReceivingServiceImpl implements ReceivingService {
     public void completeReceivingDocument(ReceivingDocument receivingDocument) {
         //delete unentered items
         purapService.deleteUnenteredItems(receivingDocument);
-        //TODO update totals on po (is this a good case for documentSpecificService here?)
+        
+        //this should get newest po
         PurchaseOrderDocument poDoc = receivingDocument.getPurchaseOrderDocument();
-        //TODO: save receiving and po? 
+        
+        updateReceivingTotalsOnPurchaseOrder(receivingDocument, poDoc);
+        
+        //TODO: custom doc specific service hook here for correction to do it's receiving doc update
+
+        //TODO: po save
+        
+        //TODO: FYI on damaged items
+        
+        //TODO: save receiving 
         purapService.saveDocumentNoValidation(receivingDocument);
+    }
+
+    private void updateReceivingTotalsOnPurchaseOrder(ReceivingDocument receivingDocument, PurchaseOrderDocument poDoc) {
+        for (ReceivingLineItem receivingItem : (List<ReceivingLineItem>)receivingDocument.getItems()) {
+            ItemType itemType = receivingItem.getItemType();
+            if(!StringUtils.equalsIgnoreCase(itemType.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
+                //TODO: Chris - this method of getting the line out of po should be turned into a method that can get an item based on a combo or itemType and line
+                PurchaseOrderItem poItem = (PurchaseOrderItem) poDoc.getItem(receivingItem.getItemLineNumber().intValue() - 1);
+                if(ObjectUtils.isNotNull(poItem)) {
+                    KualiDecimal poItemTotalDamaged = poItem.getItemDamagedTotalQuantity();
+                    KualiDecimal receivingItemTotalDamaged = receivingItem.getItemDamagedTotalQuantity();
+                    
+                    poItem.setItemDamagedTotalQuantity(poItemTotalDamaged.add(receivingItemTotalDamaged));
+                    
+                    KualiDecimal poTotalReceived = poItem.getItemReceivedTotalQuantity();
+                    KualiDecimal receivingItemTotalReturned = receivingItem.getItemReturnedTotalQuantity();
+                    KualiDecimal receivingItemTotalReceived = receivingItem.getItemReceivedTotalQuantity().subtract(receivingItemTotalReturned);
+                    
+                    poItem.setItemReceivedTotalQuantity(poTotalReceived.add(receivingItemTotalReceived));
+                }
+            }
+        }
     }
 }

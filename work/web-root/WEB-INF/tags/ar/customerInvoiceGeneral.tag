@@ -25,7 +25,6 @@
                  
 <c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 
-<html:hidden property="document.accountsReceivableDocumentHeader.versionNumber" />
 
 <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS}">
     <div class="tab-container" align=center>	
@@ -150,9 +149,7 @@
                     <div align="right">Inv Print Option</div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator }" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>
-                
-               
+                <kul:htmlControlAttribute attributeEntry="${documentAttributes.printInvoiceIndicator }" property="document.printInvoiceIndicator" readOnly="${readOnly}"/>               
                 </td>
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${ documentAttributes.printDate }" /></div>

@@ -264,6 +264,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="balanceTypService">
+			<ref bean="balanceTypService" />
+		</property>
     </bean>
 	
     <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">

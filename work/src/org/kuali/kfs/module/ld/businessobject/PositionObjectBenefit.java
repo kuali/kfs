@@ -22,6 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 
 /**
@@ -247,5 +248,19 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
         m.put("financialObjectBenefitsTypeCode", this.financialObjectBenefitsTypeCode);
 
         return m;
+    }
+
+    /**
+     * @see org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit#getLaborLedgerBenefitsCalculation()
+     */
+    public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation() {
+        return this.getBenefitsCalculation();
+    }
+
+    /**
+     * @see org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit#setLaborLedgerBenefitsCalculation(org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation)
+     */
+    public void setLaborLedgerBenefitsCalculation(LaborLedgerBenefitsCalculation laborLedgerBenefitsCalculation) {
+        benefitsCalculation = (BenefitsCalculation)laborLedgerBenefitsCalculation;
     }
 }

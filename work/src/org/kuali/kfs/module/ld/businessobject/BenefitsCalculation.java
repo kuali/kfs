@@ -23,11 +23,12 @@ import org.kuali.core.util.KualiPercent;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 
 /**
  * Labor business object for Benefits Calculation.
  */
-public class BenefitsCalculation extends PersistableBusinessObjectBase {
+public class BenefitsCalculation extends PersistableBusinessObjectBase implements LaborLedgerBenefitsCalculation {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

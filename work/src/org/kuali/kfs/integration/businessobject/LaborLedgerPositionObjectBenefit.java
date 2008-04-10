@@ -19,6 +19,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.labor.bo.BenefitsCalculation;
 
 public interface LaborLedgerPositionObjectBenefit extends PersistableBusinessObject {
     /**
@@ -122,4 +123,18 @@ public interface LaborLedgerPositionObjectBenefit extends PersistableBusinessObj
     @Deprecated
     public void setUniversityFiscal(Options universityFiscal);
 
+    /**
+     * Gets the laborLedgerBenefitsCalculation
+     * 
+     * @return Returns the laborLedgerBenefitsCalculation.
+     */
+    public LaborLedgerBenefitsCalculation getLaborLedgerBenefitsCalculation();
+
+    /**
+     * Sets the laborLedgerBenefitsCalculation
+     * 
+     * @param laborLedgerBenefitsCalculation The laborLedgerBenefitsCalculation to set.
+     */
+    @Deprecated
+    public void setLaborLedgerBenefitsCalculation(LaborLedgerBenefitsCalculation laborLedgerBenefitsCalculation);
 }

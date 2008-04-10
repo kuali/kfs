@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -47,7 +48,6 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.batch.LaborScrubberStep;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.springframework.util.StringUtils;
 
 /**
  * Service implementation of ScrubberValidator.
@@ -59,6 +59,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private AccountService accountService;
+    private BalanceTypService balanceTypService;
+    
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
@@ -82,11 +84,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
 
-        if (org.apache.commons.lang.StringUtils.isBlank(laborOriginEntry.getEmplid())) {
+        if (StringUtils.isBlank(laborOriginEntry.getEmplid())) {
             laborScrubbedEntry.setEmplid(LaborConstants.getDashEmplId());
         }
 
-        if (org.apache.commons.lang.StringUtils.isBlank(laborOriginEntry.getPositionNumber())) {
+        if (StringUtils.isBlank(laborOriginEntry.getPositionNumber())) {
             laborScrubbedEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
         }
 
@@ -146,23 +148,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
     }
 
-
-    /**
-     * Sets the scrubberValidator attribute value.
-     * 
-     * @param sv The scrubberValidator to set.
-     */
-    public void setScrubberValidator(ScrubberValidator sv) {
-        scrubberValidator = sv;
-    }
-
     /**
      * This method is for validation of payrollEndFiscalYear
      */
     private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateFiscalYear() started");
 
-        if ((laborOriginEntry.getPayrollEndDateFiscalYear() == null) || (laborOriginEntry.getUniversityFiscalYear().intValue() == 0)) {
+        if ((laborOriginEntry.getPayrollEndDateFiscalYear() == null) || laborOriginEntry.getUniversityFiscalYear() == 0) {
             laborOriginEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
             laborWorkingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
 
@@ -189,15 +181,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
-        if (!StringUtils.hasText(laborOriginEntry.getUniversityFiscalPeriodCode())) {
+        if (StringUtils.isNotBlank(laborOriginEntry.getUniversityFiscalPeriodCode())) {
             laborWorkingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
             laborWorkingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
 
             // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(laborOriginEntry, "financialSubObject");
-            persistenceService.retrieveReferenceObject(laborOriginEntry, "financialObject");
-            persistenceService.retrieveReferenceObject(laborOriginEntry, "accountingPeriod");
-            persistenceService.retrieveReferenceObject(laborOriginEntry, "option");
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.OPTION);
         }
         else {
             if (laborOriginEntry.getAccountingPeriod() == null) {
@@ -210,22 +202,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     /**
-     * Sets the persistenceStructureService attribute value.
-     * 
-     * @param persistenceStructureService The persistenceStructureService to set.
-     */
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        this.persistenceStructureService = persistenceStructureService;
-    }
-
-    /**
      * Performs Account Validation.
      */
     private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
         Account account = laborOriginEntry.getAccount();
-        boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (account == null) {
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
@@ -239,15 +222,17 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         laborWorkingEntry.setAccountNumber(account.getAccountNumber());
 
         // no further validation for gl annual doc type
-        String glAnnualClosingType = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
+        String glAnnualClosingType = parameterService.getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
         if (glAnnualClosingType.equals(laborOriginEntry.getFinancialDocumentTypeCode())) {
             return null;
         }
 
-        /* Sub-Fund Wage Exclusion */
-        boolean subfundWageExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
-        String[] nonWageSubfundBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS).toArray(new String[] {});
-        if (subfundWageExclusionInd && !account.getSubFundGroup().isSubFundGroupWagesIndicator() && !ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), nonWageSubfundBypassOriginationCodes)) {
+        // Sub-Fund Wage Exclusion
+        String orginationCode = laborOriginEntry.getFinancialSystemOriginationCode();
+        List<String> nonWageSubfundBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS);
+        boolean subfundWageExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
+        
+        if (subfundWageExclusionInd && !account.getSubFundGroup().isSubFundGroupWagesIndicator() && !nonWageSubfundBypassOriginationCodes.contains(orginationCode)) {
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
             }
@@ -255,14 +240,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message("Sub fund does not accept wages.", Message.TYPE_FATAL);
         }
 
-        /* Account Fringe Validation */
-        boolean accountFringeExclusionInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
-        String[] nonFringeAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS).toArray(new String[] {});
-        if (accountFringeExclusionInd && !ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), nonFringeAccountBypassOriginationCodes)) {
+        // Account Fringe Validation
+        List<String> nonFringeAccountBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS);
+        boolean accountFringeExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER);
+
+        if (accountFringeExclusionInd && !nonFringeAccountBypassOriginationCodes.contains(orginationCode)) {
             return checkAccountFringeIndicator(laborOriginEntry, laborWorkingEntry, account, universityRunDate);
         }
 
-        /* Expired/Closed Validation */
+        // Expired/Closed Validation
         return handleExpiredClosedAccount(laborOriginEntry.getAccount(), laborOriginEntry, laborWorkingEntry, universityRunDate);
     }
 
@@ -271,23 +257,26 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * contination logic.
      */
     private Message handleExpiredClosedAccount(Account account, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
-        boolean continuationAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
-
-        String[] continuationAccountBypassOriginationCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
-        String[] continuationAccountBypassBalanceTypeCodes = SpringContext.getBean(BalanceTypService.class).getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear()).toArray(new String[] {});
-        String[] continuationAccountBypassDocumentTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
+        List<String> continuationAccountBypassBalanceTypeCodes = balanceTypService.getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear());
+        List<String> continuationAccountBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES);
+        List<String> continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES);
 
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-        if (continuationAccountLogicInd && ((account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator())) {
+        boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator();
+        
+        boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
+        if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
-            boolean isOverrideOriginCode = ObjectHelper.isOneOf(laborOriginEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes);
+            boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
             if (isOverrideOriginCode && account.isAccountClosedIndicator()) {
                 return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
             }
-            if (!account.isAccountClosedIndicator() && (isOverrideOriginCode || ObjectHelper.isOneOf(laborOriginEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(laborOriginEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes))) {
+            
+            boolean canBypass = isOverrideOriginCode || continuationAccountBypassBalanceTypeCodes.contains(laborOriginEntry.getFinancialBalanceTypeCode()) || continuationAccountBypassDocumentTypeCodes.contains(laborOriginEntry.getFinancialDocumentTypeCode().trim());
+            if (!account.isAccountClosedIndicator() && canBypass) {
                 return null;
             }
 
@@ -341,7 +330,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         // We failed to find a valid continuation account.
-        boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+        boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (suspenseAccountLogicInd) {
             return useSuspenseAccount(laborWorkingEntry);
         }
@@ -356,7 +345,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate) {
         // check for fringe tranaction type
-        Map fieldValues = new HashMap();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborOriginEntry.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborOriginEntry.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborOriginEntry.getFinancialObjectCode());
@@ -376,7 +365,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
 
             // no alt acct, use suspense acct if active
-            boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
+            boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
             }
@@ -433,8 +422,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * This method changes account to suspenseAccount
      */
     private Message useSuspenseAccount(LaborOriginEntry workingEntry) {
-        String suspenseAccountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
-        String suspenseCOAcode = SpringContext.getBean(ParameterService.class).getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
+        String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
+        String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         if (account == null) {
@@ -445,7 +434,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setAccountNumber(suspenseAccountNumber);
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
 
-        return null;
+        return new Message("Suspense account is Invalid.", Message.TYPE_WARNING);
     }
 
     /**
@@ -503,5 +492,31 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the balanceTypService attribute value.
+     * @param balanceTypService The balanceTypService to set.
+     */
+    public void setBalanceTypService(BalanceTypService balanceTypService) {
+        this.balanceTypService = balanceTypService;
+    }
+
+    /**
+     * Sets the scrubberValidator attribute value.
+     * 
+     * @param sv The scrubberValidator to set.
+     */
+    public void setScrubberValidator(ScrubberValidator sv) {
+        scrubberValidator = sv;
+    }
+
+    /**
+     * Sets the persistenceStructureService attribute value.
+     * 
+     * @param persistenceStructureService The persistenceStructureService to set.
+     */
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

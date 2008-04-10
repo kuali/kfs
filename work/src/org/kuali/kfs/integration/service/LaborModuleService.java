@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.bo.LaborLedgerObject;
@@ -145,6 +146,13 @@ public interface LaborModuleService {
      * @return Returns the laborLedgerPositionObjectBenefitClass.
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass();
+    
+    /**
+     * Gets the laborLedgerBenefitsCalculationClass attribute.
+     * 
+     * @return Returns the laborLedgerBenefitsCalculationClass.
+     */
+    public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass();
 
     /**
      * Gets the expenseTransferSourceAccoutingLineClass attribute.

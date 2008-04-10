@@ -33,12 +33,14 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.integration.bo.LaborLedgerBalance;
+import org.kuali.module.integration.bo.LaborLedgerBenefitsCalculation;
 import org.kuali.module.integration.bo.LaborLedgerEntry;
 import org.kuali.module.integration.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.module.integration.bo.LaborLedgerObject;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.module.integration.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.module.integration.service.LaborModuleService;
+import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -173,6 +175,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
         return PositionObjectBenefit.class;
+    }
+    
+    /**
+     * @see org.kuali.module.integration.service.LaborModuleService#getLaborLedgerBenefitsCalculationClass()
+     */
+    public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass() {
+        return BenefitsCalculation.class;
     }
 
     /**

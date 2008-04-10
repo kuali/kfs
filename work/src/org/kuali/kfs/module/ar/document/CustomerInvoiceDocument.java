@@ -857,7 +857,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
             setInvoiceTermsText(currentUser);
         }
         setWriteoffIndicator(true);
-//        setPrintInvoiceIndicator(true);
+        
+        OrganizationOptionsService orgOptionsService = SpringContext.getBean(OrganizationOptionsService.class);
+        OrganizationOptions orgOption = orgOptionsService.getByPrimaryKey(billByChartOfAccountCode, billedByOrganizationCode);
+        setPrintInvoiceIndicator(orgOption.getPrintInvoiceIndicator());
         setOpenInvoiceIndicator(true);
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);

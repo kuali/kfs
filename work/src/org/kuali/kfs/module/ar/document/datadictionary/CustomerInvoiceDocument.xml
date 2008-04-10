@@ -194,7 +194,7 @@
                 <required>false</required>
 
                 <control>
-                    <checkbox />
+                    <select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintInvoiceOptionsValuesFinder" />
                 </control>
 
                 <summary>Print Invoice Indicator</summary>

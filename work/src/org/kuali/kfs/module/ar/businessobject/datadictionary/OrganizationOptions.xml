@@ -290,13 +290,13 @@
                 <label>Print Options</label>
                 <shortLabel>Indicator</shortLabel>
 
-                <maxLength>99</maxLength>
+                <maxLength>1</maxLength>
 
 <!--                <control>-->
 <!--                    <checkbox />-->
 <!--                 </control>-->
                 	<control>
-					<select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintOptionsValuesFinder" />
+					<select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PrintInvoiceOptionsValuesFinder" />
 					</control>
 
                 <summary>printInvoiceIndicator</summary>

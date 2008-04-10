@@ -3,7 +3,6 @@ package org.kuali.module.ar.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -37,8 +36,10 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private Chart processingChartOfAccount;
 	private Org processingOrganization;
     private State organizationRemitToState;
+    private PrintInvoiceOptions printInvoiceOptions;
     
-	/**
+
+    /**
 	 * Default constructor.
 	 */
 	public OrganizationOptions() {
@@ -528,6 +529,23 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	    return m;
     }
     
+
+    /**
+     * Gets the printOption attribute. 
+     * @return Returns the printOption.
+     */
+    public PrintInvoiceOptions getPrintInvoiceOptions() {
+        return printInvoiceOptions;
+    }
+
+    /**
+     * Sets the printOption attribute value.
+     * @param printOption The printOption to set.
+     */
+    public void setPrintInvoiceOptions(PrintInvoiceOptions printInvoiceOptions) {
+        this.printInvoiceOptions = printInvoiceOptions;
+    }
+	
     /**
      * This method (a hack by any other name...) returns a string so that an organization options can have a link to view its own
      * inquiry page after a look up

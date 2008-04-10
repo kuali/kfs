@@ -30,10 +30,10 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.kfs.util.Message;
+import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.BalanceTypService;
@@ -43,8 +43,8 @@ import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.batch.LaborScrubberStep;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -60,7 +60,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private ParameterService parameterService;
     private AccountService accountService;
     private BalanceTypService balanceTypService;
-    
+
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private PersistenceStructureService persistenceStructureService;
@@ -170,7 +170,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (laborOriginEntry.getOption() == null) {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalYear() + ")", Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + laborOriginEntry.getUniversityFiscalYear(), Message.TYPE_FATAL);
         }
         return null;
     }
@@ -193,7 +193,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             if (laborOriginEntry.getAccountingPeriod() == null) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, laborOriginEntry.getUniversityFiscalPeriodCode(), Message.TYPE_FATAL);
             }
             laborWorkingEntry.setUniversityFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
         }
@@ -213,7 +213,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
             }
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
         }
 
         // default
@@ -231,13 +231,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         String orginationCode = laborOriginEntry.getFinancialSystemOriginationCode();
         List<String> nonWageSubfundBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS);
         boolean subfundWageExclusionInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER);
-        
+
         if (subfundWageExclusionInd && !account.getSubFundGroup().isSubFundGroupWagesIndicator() && !nonWageSubfundBypassOriginationCodes.contains(orginationCode)) {
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
             }
 
-            return new Message("Sub fund does not accept wages.", Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_SUN_FUND_NOT_ACCEPT_WAGES, Message.TYPE_FATAL);
         }
 
         // Account Fringe Validation
@@ -266,15 +266,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
         boolean isAccountExpiredOrClosed = (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) || account.isAccountClosedIndicator();
-        
         boolean continuationAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER);
+        
         if (continuationAccountLogicInd && isAccountExpiredOrClosed) {
             // special checks for origination codes that have override ability
             boolean isOverrideOriginCode = continuationAccountBypassOriginationCodes.contains(laborOriginEntry.getFinancialSystemOriginationCode());
             if (isOverrideOriginCode && account.isAccountClosedIndicator()) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + laborOriginEntry.getAccount().getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT, laborOriginEntry.getChartOfAccountsCode() + "-" + laborOriginEntry.getAccountNumber(), Message.TYPE_FATAL);
             }
-            
+
             boolean canBypass = isOverrideOriginCode || continuationAccountBypassBalanceTypeCodes.contains(laborOriginEntry.getFinancialBalanceTypeCode()) || continuationAccountBypassDocumentTypeCodes.contains(laborOriginEntry.getFinancialDocumentTypeCode().trim());
             if (!account.isAccountClosedIndicator() && canBypass) {
                 return null;
@@ -297,19 +297,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         for (int i = 0; i < 10; ++i) {
             if (checkedAccountNumbers.contains(chartCode + accountNumber)) {
                 // Something is really wrong with the data because this account has already been evaluated.
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CIRCULAR_DEPENDENCY_IN_CONTINUATION_ACCOUNT_LOGIC), Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CIRCULAR_DEPENDENCY_IN_CONTINUATION_ACCOUNT_LOGIC, Message.TYPE_FATAL);
             }
-            
+
             checkedAccountNumbers.add(chartCode + accountNumber);
 
             if (chartCode == null || accountNumber == null) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND, Message.TYPE_FATAL);
             }
 
             // Lookup the account
             Account account = accountService.getByPrimaryId(chartCode, accountNumber);
             if (account == null) {
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND), Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND, Message.TYPE_FATAL);
             }
 
             // check account expiration
@@ -324,9 +324,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 laborWorkingEntry.setChartOfAccountsCode(chartCode);
                 laborWorkingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                 laborWorkingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + expiredClosedAccount.getChartOfAccountsCode() + expiredClosedAccount.getAccountNumber() + laborOriginEntry.getTransactionLedgerEntryDescription());
-                
-                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO) + " " + laborWorkingEntry.getChartOfAccountsCode() + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
-            }  
+
+                return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, laborWorkingEntry.getChartOfAccountsCode() + "-" + laborWorkingEntry.getAccountNumber(), Message.TYPE_WARNING);
+            }
         }
 
         // We failed to find a valid continuation account.
@@ -335,7 +335,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return useSuspenseAccount(laborWorkingEntry);
         }
         else {
-            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED, Message.TYPE_FATAL);
         }
     }
 
@@ -370,7 +370,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 return useSuspenseAccount(laborWorkingEntry);
             }
 
-            return new Message("No alternative account found for non-fringe Account. ", Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_NON_FRINGE_ACCOUNT_ALTERNATIVE_NOT_FOUND, Message.TYPE_FATAL);
         }
 
         return handleExpiredClosedAccount(account, laborOriginEntry, laborWorkingEntry, universityRunDate);
@@ -427,14 +427,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
         if (account == null) {
-            return new Message("Suspense account is Invalid.", Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_INVALID_SUSPENSE_ACCOUNT, Message.TYPE_FATAL);
         }
 
         workingEntry.setAccount(account);
         workingEntry.setAccountNumber(suspenseAccountNumber);
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
 
-        return new Message("Suspense account is Invalid.", Message.TYPE_WARNING);
+        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber);
     }
 
     /**
@@ -496,6 +496,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     /**
      * Sets the balanceTypService attribute value.
+     * 
      * @param balanceTypService The balanceTypService to set.
      */
     public void setBalanceTypService(BalanceTypService balanceTypService) {

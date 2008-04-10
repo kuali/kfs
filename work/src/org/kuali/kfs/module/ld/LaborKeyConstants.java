@@ -40,6 +40,9 @@ public class LaborKeyConstants {
     public static final String ERROR_UNPOSTABLE_OBJECT_CODE = "error.labor.unpostableObjectCode";
     public static final String ERROR_UNPOSTABLE_PERIOD_CODE = "error.labor.unpostablePerioCodes";
     public static final String ERROR_ZERO_TOTAL_AMOUNT = "error.labor.zeroTotalAmount";
+    public static final String ERROR_NON_FRINGE_ACCOUNT_ALTERNATIVE_NOT_FOUND = "error.labor.nonFringeAccountAlternativeNotFound";
+    public static final String ERROR_SUN_FUND_NOT_ACCEPT_WAGES = "error.labor.subFundNotAcceptwages";
+    public static final String ERROR_INVALID_SUSPENSE_ACCOUNT = "error.labor.invalidSuspenseAccount";
     public static final String INVALID_FRINGE_OBJECT_CODE_ERROR = "error.labor.invalidFringeObjectCode";
     public static final String INVALID_PAY_PERIOD_CODE = "error.labor.invalidPayPeriodCodeError";
     public static final String INVALID_PAY_YEAR = "error.labor.invalidPayYearError";
@@ -47,6 +50,9 @@ public class LaborKeyConstants {
     public static final String LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR = "error.labor.missingObjectCode";
     public static final String LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR = "error.labor.llcpInvalidRecordSize";
     public static final String MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON = "message.labor.yearEndTransactionDescription";
+    public static final String MESSAGE_SUSPENSE_ACCOUNT_APPLIED = "message.labor.suspenseAccountApplied";
+    public static final String MESSAGE_WAGES_MOVED_TO = "message.labor.wagesMovedTo";
+    public static final String MESSAGE_FRINGES_MOVED_TO = "message.labor.fringesMovedTo";
     public static final String MISSING_EMPLOYEE_ID = "error.labor.missingEmployeeIdError";
     public static final String PENDING_SALARY_TRANSFER_ERROR = "error.labor.alreadyPendingSalaryTransferError";
 }

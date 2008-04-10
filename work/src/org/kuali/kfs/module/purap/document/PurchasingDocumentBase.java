@@ -269,13 +269,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     @Override
     public void populateDocumentForRouting() {
-        super.populateDocumentForRouting();
         commodityCodesForRouting = new ArrayList<CommodityCode>();
         for (PurchasingItemBase item : (List<PurchasingItemBase>)this.getItems()) {
             if (item.getCommodityCode() != null) {
                 commodityCodesForRouting.add(item.getCommodityCode());
             }
         }
+        super.populateDocumentForRouting();
     }
 
     // GETTERS AND SETTERS

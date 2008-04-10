@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.core.web.format.DateFormatter;
 import org.kuali.module.purap.PurapPropertyConstants;
 
 /**
@@ -84,8 +86,8 @@ public class PaymentRequestView extends AbstractRelatedView {
         this.paymentRequestedCancelIndicator = paymentRequestedCancelIndicator;
     }
 
-    public Date getPaymentRequestPayDate() {
-        return paymentRequestPayDate;
+    public Object getPaymentRequestPayDate() {
+        return new DateFormatter().format(paymentRequestPayDate);
     }
 
     public void setPaymentRequestPayDate(Date paymentRequestPayDate) {
@@ -119,8 +121,8 @@ public class PaymentRequestView extends AbstractRelatedView {
         this.status = status;
     }
 
-    public KualiDecimal getTotalAmount() {
-        return totalAmount;
+    public Object getTotalAmount() {
+        return (new CurrencyFormatter()).format(totalAmount);
     }
 
     public void setTotalAmount(KualiDecimal totalAmount) {

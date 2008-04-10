@@ -74,10 +74,10 @@
 	        				<c:out value="${preqHistory.vendorCustomerNumber}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.totalAmount}" />
+		        			<c:out value="${preqHistory.totalAmount}" />
 		        		</td>
 	        			<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.paymentRequestPayDate}" />
+	        				<c:out value="${preqHistory.paymentRequestPayDate}"/>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 		        		<c:out value="${preqHistory.paymentExtractedDate}" />
@@ -91,7 +91,10 @@
 	        			</c:if>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.paymentPaidDate}" />
+		        			<c:choose>
+		        				<c:when test="${not empty preqHistory.paymentPaidDate}">Yes</c:when>
+	        					<c:otherwise>No</c:otherwise>
+	        				</c:choose>
 		        		</td>
 		        	</tr>
 		       	</logic:iterate>
@@ -171,7 +174,10 @@
 	        			    </c:if>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-
+							<c:choose>
+								<c:when test="${not empty cmHistory.creditMemoPaidTimestamp}">Yes</c:when>
+								<c:otherwise>No</c:otherwise>
+							</c:choose>
 		        		</td>
 		        	</tr>
 		       	</logic:iterate>

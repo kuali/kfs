@@ -23,6 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.core.web.format.DateFormatter;
 import org.kuali.module.purap.PurapPropertyConstants;
 
 
@@ -45,8 +47,8 @@ public class CreditMemoView extends AbstractRelatedView {
     // REFERENCE OBJECTS
     private Status status;
 
-    public Date getAccountsPayableApprovalDate() {
-        return accountsPayableApprovalDate;
+    public Object getAccountsPayableApprovalDate() {
+        return (new DateFormatter()).format(accountsPayableApprovalDate);
     }
 
     public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate) {
@@ -120,8 +122,8 @@ public class CreditMemoView extends AbstractRelatedView {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
-    public KualiDecimal getTotalAmount() {
-        return totalAmount;
+    public Object getTotalAmount() {
+        return (new CurrencyFormatter()).format(totalAmount);
     }
 
     public void setTotalAmount(KualiDecimal totalAmount) {

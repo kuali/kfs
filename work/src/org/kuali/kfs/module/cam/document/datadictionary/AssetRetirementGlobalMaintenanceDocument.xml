@@ -55,7 +55,7 @@
 	                <subSectionHeader name="Retirement Reason" />
                 	<maintainableField name="versionNumber"  />
                 	<maintainableField name="retirementReasonCode"  readOnly="true"/>
-                	<maintainableField name="defaultRetirementDate" required="true"/>
+                	<maintainableField name="retirementDate" required="true"/>
                 	<maintainableField name="mergedTargetCapitalAssetNumber" />
                 </maintainableItems>
             </maintainableSection>

@@ -15,8 +15,13 @@
  */
 package org.kuali.module.cams.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsKeyConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
+import org.kuali.module.cams.bo.AssetRetirementGlobal;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -24,13 +29,13 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalRule.class);
-    
+
     /**
      * Constructs a AssetLocationGlobalRule
      */
     public AssetRetirementGlobalRule() {
     }
-    
+
     /**
      * Processes rules when saving this global.
      * 
@@ -41,7 +46,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        
+
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
+
+        if (StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.MERGED, assetRetirementGlobal.getRetirementReasonCode()) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() == null) {
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_MERGED_TARGET_ASSET_NUMBER_NULL);
+        }
         return success;
     }
 

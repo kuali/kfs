@@ -16,20 +16,23 @@
 package org.kuali.module.cams.maintenance;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Section;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
+import org.kuali.module.cams.service.PaymentSummaryService;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
@@ -38,7 +41,7 @@ import org.kuali.module.cams.bo.AssetRetirementGlobalDetail;
 public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
-
+    private static PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
 
     /**
      * This creates the particular locking representation for this global document.
@@ -47,8 +50,51 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         List<MaintenanceLock> maintenanceLocks = new ArrayList();
-        // TODO:generate locks for each asset retirement detail
+
+        // Lock the merge target capital asset if it exists
+        if (CamsConstants.AssetRetirementReasonCode.MERGED.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode())) {
+            MaintenanceLock maintenanceLock = new MaintenanceLock();
+            StringBuffer lockRep = new StringBuffer();
+
+            lockRep.append(Asset.class.getName());
+            lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+            lockRep.append("documentNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(assetRetirementGlobal.getDocumentNumber());
+            lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+            lockRep.append("capitalAssetNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
+
+            maintenanceLock.setDocumentNumber(assetRetirementGlobal.getDocumentNumber());
+            maintenanceLock.setLockingRepresentation(lockRep.toString());
+
+            maintenanceLocks.add(maintenanceLock);
+        }
+
+        // Lock all source assets
+        for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            MaintenanceLock maintenanceLock = new MaintenanceLock();
+            StringBuffer lockRep = new StringBuffer();
+
+            lockRep.append(Asset.class.getName());
+            lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+            lockRep.append("documentNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(detail.getDocumentNumber());
+            lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+            lockRep.append("capitalAssetNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(detail.getCapitalAssetNumber());
+
+            maintenanceLock.setDocumentNumber(detail.getDocumentNumber());
+            maintenanceLock.setLockingRepresentation(lockRep.toString());
+
+            maintenanceLocks.add(maintenanceLock);
+        }
+
         return maintenanceLocks;
     }
 
@@ -109,8 +155,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
                 Long capitalAssetNumber = assetRetirementGlobalDetail.getCapitalAssetNumber();
                 assetRetirementGlobalDetail = (AssetRetirementGlobalDetail) ObjectUtils.deepCopy(sharedRetirementInfo);
                 assetRetirementGlobalDetail.setCapitalAssetNumber(capitalAssetNumber);
-
-                // assetRetirementGlobalDetail.setBuyerDescription(sharedRetirementInfo.getBuyerDescription());
             }
         }
         super.prepareForSave();
@@ -125,46 +169,54 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-
+        AssetRetirementGlobalDetail sharedRetirementInfo = new AssetRetirementGlobalDetail();
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
-        AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
-        if (sharedRetirementInfo == null) {
-            assetRetirementGlobal.refreshReferenceObject("assetRetirementGlobalDetails");
-            sharedRetirementInfo = new AssetRetirementGlobalDetail();
-            for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+        
+//        assetRetirementGlobal.refreshReferenceObject("assetRetirementGlobalDetails");
+        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
+            if (sharedRetirementInfo == null) {
                 sharedRetirementInfo = (AssetRetirementGlobalDetail) ObjectUtils.deepCopy(assetRetirementGlobalDetail);
                 assetRetirementGlobal.setSharedRetirementInfo(sharedRetirementInfo);
-                break;
+            }
+
+            Asset asset = assetRetirementGlobalDetail.getAsset();
+            // set calculation field
+            if (asset != null) {
+                asset.setFederalContribution(paymentSummaryService.calculateFederalContribution(asset));
             }
         }
     }
-    
+
+
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterPost(org.kuali.core.document.MaintenanceDocument, java.util.Map)
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
-    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterPost(document, parameters);
-        refreshReferenceObjectAsset();
-
-    }
-
-    /**
-     * Refresh reference object asset to show the asset detail information whenever the page refreshed. 
-     * This method...
-     */
-    private void refreshReferenceObjectAsset() {
+    public void addNewLineToCollection(String collectionName) {
+        super.addNewLineToCollection(collectionName);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-        List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
-        for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
-            assetRetirementGlobalDetail.refreshReferenceObject("asset");
+
+        for (AssetRetirementGlobalDetail detail : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            // Refresh reference object asset to show the asset detail information whenever the page refreshed. This method...
+            detail.refreshReferenceObject("asset");
+            Asset asset = detail.getAsset();
+
+            // set calculation field
+            if (asset != null) {
+                asset.setFederalContribution(paymentSummaryService.calculateFederalContribution(asset));
+            }
         }
     }
-    
+
+
     @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        // TODO Auto-generated method stub
-        super.processAfterEdit(document, parameters);
+    public void setupNewFromExisting(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.setupNewFromExisting(document, parameters);
+
+        AssetRetirementGlobal assetRetirementGlobal = ((AssetRetirementGlobal) getBusinessObject());
+        assetRetirementGlobal.setRetirementDate(DateUtils.convertToSqlDate(new java.util.Date()));
+
     }
-    
+
 }

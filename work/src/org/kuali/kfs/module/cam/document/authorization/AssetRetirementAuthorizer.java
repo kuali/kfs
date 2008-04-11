@@ -24,6 +24,7 @@ import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.AssetRetirementGlobal;
 
 /**
@@ -43,10 +44,10 @@ public class AssetRetirementAuthorizer extends MaintenanceDocumentAuthorizerBase
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
-        AssetRetirementGlobal assetGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
 
-        if (!StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.MERGED, assetGlobal.getRetirementReasonCode())) {
-            auths.addHiddenAuthField("mergedTargetCapitalAssetNumber");
+        if (!StringUtils.equalsIgnoreCase(CamsConstants.AssetRetirementReasonCode.MERGED, assetRetirementGlobal.getRetirementReasonCode())) {
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
         }
 
         return auths;

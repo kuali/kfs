@@ -101,11 +101,6 @@
                 <shortLabel>Date</shortLabel>
             </attributeReference>
             
-            <attributeReference name="defaultRetirementDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Retirement Date</label>
-                <shortLabel>Date</shortLabel>
-            </attributeReference>
-            
             <attribute name="retirementReasonCode" forceUppercase="true">
                 <label>Retirement Reason Code</label>
                 <shortLabel>Code</shortLabel>

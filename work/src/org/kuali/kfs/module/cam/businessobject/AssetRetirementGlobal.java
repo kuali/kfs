@@ -14,7 +14,6 @@ import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
@@ -38,9 +37,6 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
     // non-persistent relation
     private AssetRetirementGlobalDetail sharedRetirementInfo;
-
-    private Date defaultRetirementDate;
-
 
     public AssetRetirementGlobalDetail getSharedRetirementInfo() {
         return sharedRetirementInfo;
@@ -278,21 +274,5 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         m.put("documentNumber", this.documentNumber);
         return m;
     }
-
-
-    public Date getDefaultRetirementDate() {
-        if (this.retirementDate == null) {
-            this.retirementDate = DateUtils.convertToSqlDate(new java.util.Date());
-            this.defaultRetirementDate = this.retirementDate;
-        }
-        return retirementDate;
-    }
-
-
-    public void setDefaultRetirementDate(Date formattedRetirementDate) {
-        this.retirementDate = formattedRetirementDate;
-        this.defaultRetirementDate = formattedRetirementDate;
-    }
-
 
 }

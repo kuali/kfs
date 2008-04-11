@@ -92,4 +92,7 @@ public class CamsKeyConstants {
         public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
     }
 
+    public static class Retirement {
+        public static final String ERROR_MERGED_TARGET_ASSET_NUMBER_NULL = "error.merged.target.asset.number.null";
+    }
 }

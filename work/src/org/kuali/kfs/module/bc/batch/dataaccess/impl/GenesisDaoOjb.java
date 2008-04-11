@@ -2746,7 +2746,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // budget construction CSF always contains the vacant EMPLID, not
        // the EMPLID of the last incumbent
        csfBC.setEmplid((vacantLine?
-                       BudgetConstructionConstants.VACANT_EMPLID:
+                       BCConstants.VACANT_EMPLID:
                        csf.getEmplid()));
        csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
        csfBC.setCsfTimePercent(csf.getCsfTimePercent());
@@ -2790,7 +2790,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // budget construction CSF always contains the vacant EMPLID, not
        // the EMPLID of the last incumbent
        csfBC.setEmplid((vacantLine?
-                       BudgetConstructionConstants.VACANT_EMPLID:
+                       BCConstants.VACANT_EMPLID:
                        csf.getEmplid()));
        csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
        csfBC.setCsfTimePercent(csf.getCsfTimePercent());
@@ -2990,7 +2990,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private String buildVacantCSFKey(CalculatedSalaryFoundationTrackerOverride csf)
     {
         boolean vacantLine = isVacantLine(csf);
-        return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
+        return (vacantLine?BCConstants.VACANT_EMPLID:
                 csf.getEmplid())+
                 csf.getPositionNumber()+
                 csf.getAccountNumber()+
@@ -3003,7 +3003,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private String buildVacantCSFKey(CalculatedSalaryFoundationTracker csf)
     {
         boolean vacantLine = isVacantLine(csf);
-        return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
+        return (vacantLine?BCConstants.VACANT_EMPLID:
                 csf.getEmplid())+
                 csf.getPositionNumber()+
                 csf.getAccountNumber()+
@@ -3082,17 +3082,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private boolean isVacantLine(CalculatedSalaryFoundationTracker csf)
     {
        return  ((csf.getCsfFundingStatusCode().equals(
-                 BudgetConstructionConstants.VACANT_CSF_LINE))||
+                 BCConstants.csfFundingStatusFlag.VACANT.getFlagValue()))||
                 (csf.getCsfFundingStatusCode().equals(
-                 BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
+                 BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue())));
     }
     
     private boolean isVacantLine(CalculatedSalaryFoundationTrackerOverride csf)
     {
        return  ((csf.getCsfFundingStatusCode().equals(
-                 BudgetConstructionConstants.VACANT_CSF_LINE))||
+               BCConstants.csfFundingStatusFlag.VACANT.getFlagValue()))||
                 (csf.getCsfFundingStatusCode().equals(
-                 BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
+                        BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue())));
     }
 
     // here are the routines to build BCSF
@@ -3302,7 +3302,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         Criteria vacantCriteria = new Criteria();
         vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
-                                  BudgetConstructionConstants.VACANT_CSF_LINE);
+                BCConstants.csfFundingStatusFlag.VACANT.getFlagValue());
         deleteCriteria.addOrCriteria(vacantCriteria);
         criteriaID.addAndCriteria(deleteCriteria);
         csfOverrideKeys = 
@@ -3456,7 +3456,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         
 //     decide whether the current appointment funding row, missing from BCSF, has
 //     been entered by a user or is due to a CSF row that has since gone away
-    String notOnLeave  = new String(BudgetConstructionConstants.NO_LEAVE_INDICATED);
+    String notOnLeave  = new String(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
     KualiInteger rqstAmount = new KualiInteger(0);
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE     = new BigDecimal(0);
@@ -3507,14 +3507,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       Criteria flagCriteria   = new Criteria();
 //     funding status is "vacant" or "unfunded"
       vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
-                                BudgetConstructionConstants.VACANT_CSF_LINE);
+                                BCConstants.csfFundingStatusFlag.VACANT.getFlagValue());
       flagCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
-                              BudgetConstructionConstants.UNFUNDED_CSF_LINE);
+                              BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue());
       flagCriteria.addOrCriteria(vacantCriteria);
 //     in addition, EMPLID is vacant
       vacantCriteria = new Criteria();
       vacantCriteria.addEqualTo(KFSPropertyConstants.EMPLID,
-                                BudgetConstructionConstants.VACANT_EMPLID);
+                                BCConstants.VACANT_EMPLID);
       vacantCriteria.addAndCriteria(flagCriteria);
 //     OR, the EMPLID in CSF is the same as in BCAF
       flagCriteria = new Criteria();

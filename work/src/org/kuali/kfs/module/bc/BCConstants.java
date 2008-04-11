@@ -130,6 +130,11 @@ public class BCConstants extends JstlConstants {
         public String getFlagValue() {return flagValue;}
         private String flagValue;
     }
+
+    /*
+     * value of employee ID field in a vacant line in budget construction appointment funding or budget construction CSF
+     */
+    public final static String VACANT_EMPLID = "VACANT";
     
     // the transaction ledger description for the general ledger budget load
     public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
@@ -219,8 +224,8 @@ public class BCConstants extends JstlConstants {
         }
         
         public String getSeparator() {
-            if ( this.equals(this.COMMA) ) return ",";
-            if ( this.equals(this.TAB) ) return "\t";
+            if ( this.equals(COMMA) ) return ",";
+            if ( this.equals(TAB) ) return "\t";
             
             return this.toString();
         }
@@ -237,8 +242,8 @@ public class BCConstants extends JstlConstants {
         }
         
         public String getDelimiter() {
-            if ( this.equals(this.QUOTE) ) return "\"";
-            if ( this.equals(this.NOTHING) ) return "";
+            if ( this.equals(QUOTE) ) return "\"";
+            if ( this.equals(NOTHING) ) return "";
             
             return this.toString();
         }

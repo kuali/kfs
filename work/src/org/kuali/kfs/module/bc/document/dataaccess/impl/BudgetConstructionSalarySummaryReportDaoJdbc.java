@@ -23,6 +23,7 @@ import org.kuali.module.budget.dao.BudgetConstructionSalarySummaryReportDao;
 import org.kuali.module.budget.BCConstants;
 
 import java.util.ArrayList;
+import java.math.BigDecimal;
 
 /**
  * builds the underlying data table for the salary summary report in budget construction
@@ -372,7 +373,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         // April 09, 2008: Jdbc (at least Oracle's implementation) chokes on a KualiDecimal, with a message that says "illegal column type"
         // a simple cast to Number has the same result
         // using the code below works
-        Number thresholdValue = threshold.floatValue();
+        BigDecimal thresholdValue = threshold.bigDecimalValue();
         if (reportGreaterThanOrEqualToThreshold)
         {
             getSimpleJdbcTemplate().update(salarySummaryAboveThreshold.get(0).getSQL(), idForSession, idForSession, thresholdValue);

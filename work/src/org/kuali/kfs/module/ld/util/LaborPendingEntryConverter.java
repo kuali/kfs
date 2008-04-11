@@ -15,9 +15,6 @@
  */
 package org.kuali.module.labor.util;
 
-import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
-import static org.kuali.kfs.bo.AccountingLineOverride.CODE.NON_FRINGE_ACCOUNT_USED;
-
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -123,16 +120,10 @@ public class LaborPendingEntryConverter {
     public static LaborLedgerPendingEntry getBenefitPendingEntry(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         LaborLedgerPendingEntry pendingEntry = getDefaultPendingEntry(document, accountingLine);
 
-        // if account doesn't accept fringe charges and override not selected, use reports to account
+        // if account doesn't accept fringe charges, use reports to account
         if (!accountingLine.getAccount().isAccountsFringesBnftIndicator()) {
-            String overrideCode = accountingLine.getOverrideCode();
-            boolean canNonFringeAccountUsed = NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-            canNonFringeAccountUsed = canNonFringeAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-
-            if (!canNonFringeAccountUsed) {
-                pendingEntry.setChartOfAccountsCode(accountingLine.getAccount().getReportsToChartOfAccountsCode());
-                pendingEntry.setAccountNumber(accountingLine.getAccount().getReportsToAccountNumber());
-            }
+            pendingEntry.setChartOfAccountsCode(accountingLine.getAccount().getReportsToChartOfAccountsCode());
+            pendingEntry.setAccountNumber(accountingLine.getAccount().getReportsToAccountNumber());
         }
 
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);

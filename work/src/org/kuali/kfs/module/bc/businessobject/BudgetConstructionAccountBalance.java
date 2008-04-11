@@ -26,7 +26,9 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * 
@@ -59,6 +61,8 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
+    private SubAccount subAccount;
+    private SubObjCd financialSubObject;
     private SubFundGroup subFundGroup;
     private ObjLevel financialObjectLevel;
 
@@ -600,6 +604,22 @@ public class BudgetConstructionAccountBalance extends PersistableBusinessObjectB
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("financialSubObjectCode", this.financialSubObjectCode);
         return m;
+    }
+
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
     }
 
 }

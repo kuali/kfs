@@ -64,8 +64,10 @@ public class BudgetConstructionOrgObjectSummaryReport {
     private String financialObjectLevelCode;
     private String incomeExpenseCode;
     private String financialConsolidationSortCode; 
+    private String financialLevelSortCode;
+    
     // Body parts
-    private String financialObjectLevelName;
+    private String financialObjectName;
     
     //when the values are zero, below fields should be blank, so make them as string.
     private String positionCsfLeaveFteQuantity;
@@ -78,6 +80,17 @@ public class BudgetConstructionOrgObjectSummaryReport {
     private BigDecimal percentChange = BigDecimal.ZERO;
 
     // Total parts
+    
+    private String totalLevelDescription;
+    
+    private String totalLevelPositionCsfLeaveFteQuantity;
+    private String totalLevelPositionCsfFullTimeEmploymentQuantity;
+    private Integer totalLevelFinancialBeginningBalanceLineAmount;
+    private String totalLevelAppointmentRequestedCsfFteQuantity;
+    private String totalLevelAppointmentRequestedFteQuantity;
+    private Integer totalLevelAccountLineAnnualBalanceAmount;
+    private Integer totalLevelAmountChange;
+    private BigDecimal totalLevelPercentChange;
     
     private String totalConsolidationDescription;
     
@@ -616,12 +629,12 @@ public class BudgetConstructionOrgObjectSummaryReport {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
-    public String getFinancialObjectLevelName() {
-        return financialObjectLevelName;
+    public String getFinancialObjectName() {
+        return financialObjectName;
     }
 
-    public void setFinancialObjectLevelName(String financialObjectLevelName) {
-        this.financialObjectLevelName = financialObjectLevelName;
+    public void setFinancialObjectName(String financialObjectName) {
+        this.financialObjectName = financialObjectName;
     }
 
     public Integer getGrossAccountLineAnnualBalanceAmount() {
@@ -910,6 +923,86 @@ public class BudgetConstructionOrgObjectSummaryReport {
 
     public void setIncomeExpenseCode(String incomeExpenseCode) {
         this.incomeExpenseCode = incomeExpenseCode;
+    }
+
+    public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
+        return totalLevelAccountLineAnnualBalanceAmount;
+    }
+
+    public void setTotalLevelAccountLineAnnualBalanceAmount(Integer totalLevelAccountLineAnnualBalanceAmount) {
+        this.totalLevelAccountLineAnnualBalanceAmount = totalLevelAccountLineAnnualBalanceAmount;
+    }
+
+    public Integer getTotalLevelAmountChange() {
+        return totalLevelAmountChange;
+    }
+
+    public void setTotalLevelAmountChange(Integer totalLevelAmountChange) {
+        this.totalLevelAmountChange = totalLevelAmountChange;
+    }
+
+    public String getTotalLevelAppointmentRequestedCsfFteQuantity() {
+        return totalLevelAppointmentRequestedCsfFteQuantity;
+    }
+
+    public void setTotalLevelAppointmentRequestedCsfFteQuantity(String totalLevelAppointmentRequestedCsfFteQuantity) {
+        this.totalLevelAppointmentRequestedCsfFteQuantity = totalLevelAppointmentRequestedCsfFteQuantity;
+    }
+
+    public String getTotalLevelAppointmentRequestedFteQuantity() {
+        return totalLevelAppointmentRequestedFteQuantity;
+    }
+
+    public void setTotalLevelAppointmentRequestedFteQuantity(String totalLevelAppointmentRequestedFteQuantity) {
+        this.totalLevelAppointmentRequestedFteQuantity = totalLevelAppointmentRequestedFteQuantity;
+    }
+
+    public String getTotalLevelDescription() {
+        return totalLevelDescription;
+    }
+
+    public void setTotalLevelDescription(String totalLevelDescription) {
+        this.totalLevelDescription = totalLevelDescription;
+    }
+
+    public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
+        return totalLevelFinancialBeginningBalanceLineAmount;
+    }
+
+    public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
+        this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
+    }
+
+    public BigDecimal getTotalLevelPercentChange() {
+        return totalLevelPercentChange;
+    }
+
+    public void setTotalLevelPercentChange(BigDecimal totalLevelPercentChange) {
+        this.totalLevelPercentChange = totalLevelPercentChange;
+    }
+
+    public String getTotalLevelPositionCsfFullTimeEmploymentQuantity() {
+        return totalLevelPositionCsfFullTimeEmploymentQuantity;
+    }
+
+    public void setTotalLevelPositionCsfFullTimeEmploymentQuantity(String totalLevelPositionCsfFullTimeEmploymentQuantity) {
+        this.totalLevelPositionCsfFullTimeEmploymentQuantity = totalLevelPositionCsfFullTimeEmploymentQuantity;
+    }
+
+    public String getTotalLevelPositionCsfLeaveFteQuantity() {
+        return totalLevelPositionCsfLeaveFteQuantity;
+    }
+
+    public void setTotalLevelPositionCsfLeaveFteQuantity(String totalLevelPositionCsfLeaveFteQuantity) {
+        this.totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity;
+    }
+
+    public String getFinancialLevelSortCode() {
+        return financialLevelSortCode;
+    }
+
+    public void setFinancialLevelSortCode(String financialLevelSortCode) {
+        this.financialLevelSortCode = financialLevelSortCode;
     }
 
 }

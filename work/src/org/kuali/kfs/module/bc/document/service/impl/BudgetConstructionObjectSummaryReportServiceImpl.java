@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.BCConstants;
@@ -33,6 +34,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgObjectSummaryReportTotal;
 import org.kuali.module.budget.dao.BudgetConstructionObjectSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,9 +43,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetConstructionObjectSummaryReportService {
 
-    BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    KualiConfigurationService kualiConfigurationService;
+    private BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
+    private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    private KualiConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
@@ -71,7 +74,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
         BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry;
         // build searchCriteria
-        Map searchCriteria = new HashMap();
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
 
         // build order list
@@ -93,7 +96,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList;
         
         
-        objectSummaryTotalLevelList = calculateLevelTotal((List) objectSummaryList, listForCalculateCons);
+        objectSummaryTotalLevelList = calculateLevelTotal((List) objectSummaryList, listForCalculateLevel);
         objectSummaryTotalConsList = calculateConsTotal((List) objectSummaryList, listForCalculateCons);
         objectSummaryTotalGexpAndTypeList = calculateGexpAndTypeTotal((List) objectSummaryList, listForCalculateGexpAndType);
         objectSummaryTotalList = calculateTotal((List) objectSummaryList, listForCalculateTotal);
@@ -102,8 +105,8 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionObjectSummary objectSummaryEntry : objectSummaryList) {
             orgObjectSummaryReportEntry = new BudgetConstructionOrgObjectSummaryReport();
             buildReportsHeader(universityFiscalYear, orgObjectSummaryReportEntry, objectSummaryEntry);
-            buildReportsBody(orgObjectSummaryReportEntry, objectSummaryEntry);
-            buildReportsTotal(orgObjectSummaryReportEntry, objectSummaryEntry, objectSummaryTotalConsList, objectSummaryTotalGexpAndTypeList, objectSummaryTotalList);
+            buildReportsBody(universityFiscalYear, orgObjectSummaryReportEntry, objectSummaryEntry);
+            buildReportsTotal(orgObjectSummaryReportEntry, objectSummaryEntry, objectSummaryTotalLevelList, objectSummaryTotalConsList, objectSummaryTotalGexpAndTypeList, objectSummaryTotalList);
             reportSet.add(orgObjectSummaryReportEntry);
         }
 
@@ -115,7 +118,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
+    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
         String orgChartDesc = objectSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = objectSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = objectSummary.getOrganization().getOrganizationName();
@@ -186,7 +189,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         orgObjectSummaryReportEntry.setFinancialObjectLevelCode(objectSummary.getFinancialObjectLevelCode());
         orgObjectSummaryReportEntry.setIncomeExpenseCode(objectSummary.getIncomeExpenseCode());
         orgObjectSummaryReportEntry.setFinancialConsolidationSortCode(objectSummary.getFinancialConsolidationSortCode());
-
+        orgObjectSummaryReportEntry.setFinancialLevelSortCode(objectSummary.getFinancialLevelSortCode());
     }
 
     /**
@@ -194,13 +197,30 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
-    public void buildReportsBody(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
-        if (objectSummary.getFinancialConsolidationObjectCode() == null) {
+    private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
+        
+        //To get ObjectName: There is no universityFiscalyear field in BudgetConstructionObjectSummary, 
+        // so we can get ObjectName by getting ObjectCode with Primary key.
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectSummary.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectSummary.getFinancialObjectCode());
+        
+        ObjectCode objectCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
+        String objectName = null; 
+        
+        if (objectCode == null) {
             // TODO Should changed the error message.
-            orgObjectSummaryReportEntry.setFinancialObjectLevelName("error to get blah blah");
-        }
-        else {
-            orgObjectSummaryReportEntry.setFinancialObjectLevelName(objectSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
+            orgObjectSummaryReportEntry.setFinancialObjectName("error to get blah blah");
+        } else { 
+            objectName = objectCode.getFinancialObjectCodeName();
+            if (objectName == null) {
+                //TODO Should changed the error message.
+                orgObjectSummaryReportEntry.setFinancialObjectName("error to get blah blah");
+            } else {
+                orgObjectSummaryReportEntry.setFinancialObjectName(objectName);
+            }
         }
         if (objectSummary.getPositionCsfLeaveFteQuantity() != null && !objectSummary.getPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
             orgObjectSummaryReportEntry.setPositionCsfLeaveFteQuantity(objectSummary.getPositionCsfLeaveFteQuantity().setScale(2).toString());
@@ -246,8 +266,35 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * @param BudgetConstructionObjectSummary bcas
      * @param List reportTotalList
      */
-    public void buildReportsTotal(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList) {
+    private void buildReportsTotal(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList) {
 
+        for (BudgetConstructionOrgObjectSummaryReportTotal levelTotal : objectSummaryTotalLevelList) {
+            if (isSameObjectSummaryEntryForLevel(objectSummary, levelTotal.getBcos())) {
+                orgObjectSummaryReportEntry.setTotalLevelDescription(objectSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
+
+                // The total part shouldn't have null value, so just checking '0'
+                if (!levelTotal.getTotalLevelPositionCsfLeaveFteQuantity().equals(BigDecimal.ZERO)) {
+                    orgObjectSummaryReportEntry.setTotalLevelPositionCsfLeaveFteQuantity(levelTotal.getTotalLevelPositionCsfLeaveFteQuantity().setScale(2).toString());
+                }
+                if (!levelTotal.getTotalLevelPositionCsfFullTimeEmploymentQuantity().equals(BigDecimal.ZERO)) {
+                    orgObjectSummaryReportEntry.setTotalLevelPositionCsfFullTimeEmploymentQuantity(levelTotal.getTotalLevelPositionCsfFullTimeEmploymentQuantity().setScale(2).toString());
+                }
+                orgObjectSummaryReportEntry.setTotalLevelFinancialBeginningBalanceLineAmount(levelTotal.getTotalLevelFinancialBeginningBalanceLineAmount());
+
+                if (!levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity().equals(BigDecimal.ZERO)) {
+                    orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedCsfFteQuantity(levelTotal.getTotalLevelAppointmentRequestedCsfFteQuantity().setScale(2).toString());
+                }
+                if (!levelTotal.getTotalLevelAppointmentRequestedFteQuantity().equals(BigDecimal.ZERO)) {
+                    orgObjectSummaryReportEntry.setTotalLevelAppointmentRequestedFteQuantity(levelTotal.getTotalLevelAppointmentRequestedFteQuantity().setScale(2).toString());
+                }
+                orgObjectSummaryReportEntry.setTotalLevelAccountLineAnnualBalanceAmount(levelTotal.getTotalLevelAccountLineAnnualBalanceAmount());
+
+                orgObjectSummaryReportEntry.setTotalLevelAmountChange(levelTotal.getTotalLevelAmountChange());
+                orgObjectSummaryReportEntry.setTotalLevelPercentChange(levelTotal.getTotalLevelPercentChange());
+
+            }
+        }
+        
         for (BudgetConstructionOrgObjectSummaryReportTotal consTotal : objectSummaryTotalConsList) {
             if (isSameObjectSummaryEntryForCons(objectSummary, consTotal.getBcos())) {
                 orgObjectSummaryReportEntry.setTotalConsolidationDescription(objectSummary.getFinancialConsolidationObject().getFinConsolidationObjectName());
@@ -336,15 +383,65 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
      
     }
-    public List calculateLevelTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    private List calculateLevelTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+
+        BigDecimal totalLevelPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+        BigDecimal totalLevelPositionCsfFullTimeEmploymentQuantity = BigDecimal.ZERO;
+        Integer totalLevelFinancialBeginningBalanceLineAmount = new Integer(0);
+        BigDecimal totalLevelAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+        BigDecimal totalLevelAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+        Integer totalLevelAccountLineAnnualBalanceAmount = new Integer(0);
+        Integer totalLevelAmountChange = new Integer(0);
+        BigDecimal totalLevelPercentChange = BigDecimal.ZERO;
         
         List returnList = new ArrayList();
         
+        for (BudgetConstructionObjectSummary simpleBcosEntry : simpleList) {
+            BudgetConstructionOrgObjectSummaryReportTotal bcObjectTotal = new BudgetConstructionOrgObjectSummaryReportTotal();
+            for (BudgetConstructionObjectSummary bcosListEntry : bcosList) {
+                if (isSameObjectSummaryEntryForLevel(simpleBcosEntry, bcosListEntry)) {
+                    totalLevelFinancialBeginningBalanceLineAmount += new Integer(bcosListEntry.getFinancialBeginningBalanceLineAmount().intValue());
+                    totalLevelAccountLineAnnualBalanceAmount += new Integer(bcosListEntry.getAccountLineAnnualBalanceAmount().intValue());
+                    totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity.add(bcosListEntry.getPositionCsfLeaveFteQuantity());
+                    totalLevelPositionCsfFullTimeEmploymentQuantity = totalLevelPositionCsfFullTimeEmploymentQuantity.add(bcosListEntry.getCsfFullTimeEmploymentQuantity());
+                    totalLevelAppointmentRequestedCsfFteQuantity = totalLevelAppointmentRequestedCsfFteQuantity.add(bcosListEntry.getAppointmentRequestedCsfFteQuantity());
+                    totalLevelAppointmentRequestedFteQuantity = totalLevelAppointmentRequestedFteQuantity.add(bcosListEntry.getAppointmentRequestedFteQuantity());
+                }
+            }
+            bcObjectTotal.setBcos(simpleBcosEntry);
+            bcObjectTotal.setTotalLevelPositionCsfLeaveFteQuantity(totalLevelPositionCsfLeaveFteQuantity);
+            bcObjectTotal.setTotalLevelPositionCsfFullTimeEmploymentQuantity(totalLevelPositionCsfFullTimeEmploymentQuantity);
+            bcObjectTotal.setTotalLevelFinancialBeginningBalanceLineAmount(totalLevelFinancialBeginningBalanceLineAmount);
+            bcObjectTotal.setTotalLevelAppointmentRequestedCsfFteQuantity(totalLevelAppointmentRequestedCsfFteQuantity);
+            bcObjectTotal.setTotalLevelAppointmentRequestedFteQuantity(totalLevelAppointmentRequestedFteQuantity);
+            bcObjectTotal.setTotalLevelAccountLineAnnualBalanceAmount(totalLevelAccountLineAnnualBalanceAmount);
+            totalLevelAmountChange = totalLevelAccountLineAnnualBalanceAmount - totalLevelFinancialBeginningBalanceLineAmount;
+
+            bcObjectTotal.setTotalLevelAmountChange(totalLevelAmountChange);
+            BigDecimal decimalTotalLevelAmountChange = new BigDecimal(totalLevelAmountChange.intValue());
+            BigDecimal decimalTotalLevelFinancialBeginningBalanceLineAmount = new BigDecimal(totalLevelFinancialBeginningBalanceLineAmount.intValue());
+
+            if (!decimalTotalLevelFinancialBeginningBalanceLineAmount.equals(BigDecimal.ZERO)) {
+                totalLevelPercentChange = decimalTotalLevelAmountChange.divide(decimalTotalLevelFinancialBeginningBalanceLineAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+            }
+            bcObjectTotal.setTotalLevelPercentChange(totalLevelPercentChange);
+            returnList.add(bcObjectTotal);
+
+            totalLevelPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
+            totalLevelPositionCsfFullTimeEmploymentQuantity = BigDecimal.ZERO;
+            totalLevelFinancialBeginningBalanceLineAmount = new Integer(0);
+            totalLevelAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
+            totalLevelAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+            totalLevelAccountLineAnnualBalanceAmount = new Integer(0);
+            totalLevelAmountChange = new Integer(0);
+            totalLevelPercentChange = BigDecimal.ZERO;
+
+        }
         return returnList;
         
     }
 
-    public List calculateConsTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    private List calculateConsTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         BigDecimal totalConsolidationPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal totalConsolidationPositionCsfFullTimeEmploymentQuantity = BigDecimal.ZERO;
@@ -411,7 +508,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    public List calculateGexpAndTypeTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    private List calculateGexpAndTypeTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         Integer grossFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer grossAccountLineAnnualBalanceAmount = new Integer(0);
@@ -497,7 +594,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    public List calculateTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    private List calculateTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         Integer revenueFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer revenueAccountLineAnnualBalanceAmount = new Integer(0);
@@ -599,8 +696,8 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    public boolean isSameObjectSummaryEntryForCons(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
-        if (isSameObjectSummaryEntryForLevel(firstBcos, secondBcos) && firstBcos.getFinancialLevelSortCode().equals(secondBcos.getFinancialLevelSortCode())) {
+    private boolean isSameObjectSummaryEntryForLevel(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
+        if (isSameObjectSummaryEntryForCons(firstBcos, secondBcos) && firstBcos.getFinancialLevelSortCode().equals(secondBcos.getFinancialLevelSortCode())) {
             return true;
         }
         else
@@ -608,7 +705,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    public boolean isSameObjectSummaryEntryForLevel(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
+    private boolean isSameObjectSummaryEntryForCons(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
         if (isSameObjectSummaryEntryForGexpAndType(firstBcos, secondBcos) && firstBcos.getFinancialConsolidationSortCode().equals(secondBcos.getFinancialConsolidationSortCode())) {
             return true;
         }
@@ -617,7 +714,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    public boolean isSameObjectSummaryEntryForGexpAndType(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
+    private boolean isSameObjectSummaryEntryForGexpAndType(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
         if (isSameObjectSummaryEntryForTotal(firstBcos, secondBcos) && firstBcos.getIncomeExpenseCode().equals(secondBcos.getIncomeExpenseCode())) {
             return true;
         }
@@ -626,7 +723,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
             return false;
     }
     
-    public boolean isSameObjectSummaryEntryForTotal(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
+    private boolean isSameObjectSummaryEntryForTotal(BudgetConstructionObjectSummary firstBcos, BudgetConstructionObjectSummary secondBcos) {
         if (firstBcos.getOrganizationChartOfAccountsCode().equals(secondBcos.getOrganizationChartOfAccountsCode()) && firstBcos.getOrganizationCode().equals(secondBcos.getOrganizationCode()) && firstBcos.getSubFundGroupCode().equals(secondBcos.getSubFundGroupCode()) && firstBcos.getChartOfAccountsCode().equals(secondBcos.getChartOfAccountsCode())) {
             return true;
         }
@@ -641,7 +738,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
-    public List deleteDuplicated(List list, int mode) {
+    private List deleteDuplicated(List list, int mode) {
 
         // mode 1 is for getting a list of level
         // mode 2 is for getting a list of cons
@@ -697,7 +794,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @return returnList
      */
-    public List<String> buildOrderByList() {
+    private List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
@@ -717,5 +814,9 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

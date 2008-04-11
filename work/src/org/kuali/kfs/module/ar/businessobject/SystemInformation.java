@@ -771,11 +771,11 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	    return m;
     }
 
-    public ObjectCode getUniversityFiscalY() {
+    public ObjectCode getUniversityFiscalYearObject() {
         return universityFiscalYearObject;
     }
 
-    public void setUniversityFiscalY(ObjectCode universityFiscalYearObject) {
+    public void setUniversityFiscalYearObject(ObjectCode universityFiscalYearObject) {
         this.universityFiscalYearObject = universityFiscalYearObject;
     }
 

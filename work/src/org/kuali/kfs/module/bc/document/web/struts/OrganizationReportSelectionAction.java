@@ -48,8 +48,11 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.BudgetConstructionReasonCodePick;
 import org.kuali.module.budget.bo.BudgetConstructionReportThresholdSettings;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
+import org.kuali.module.budget.service.BudgetConstructionAccountFundingDetailReportService;
+import org.kuali.module.budget.service.BudgetConstructionAccountObjectDetailReportService;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionLevelSummaryReportService;
+import org.kuali.module.budget.service.BudgetConstructionObjectSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.util.ReportControlListBuildHelper;
@@ -245,6 +248,20 @@ public class OrganizationReportSelectionAction extends KualiAction {
                 SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).updateLevelSummaryReport(personUserIdentifier);
                 reportData = SpringContext.getBean(BudgetConstructionLevelSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
                 break;
+            case OBJECT_SUMMARY_REPORT:
+                SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).updateObjectSummaryReport(personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionObjectSummaryReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+            case ACCOUNT_OBJECT_DETAIL_REPORT:
+                SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).updateAccountObjectDetailReport(personUserIdentifier, runConsolidated);
+                reportData = SpringContext.getBean(BudgetConstructionAccountObjectDetailReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+            case ACCOUNT_FUNDING_DETAIL_REPORT:
+                SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).updateAccountFundingDetailTable(personUserIdentifier);
+                reportData = SpringContext.getBean(BudgetConstructionAccountFundingDetailReportService.class).buildReports(universityFiscalYear, personUserIdentifier);
+                break;
+                
+                
         }
 
         return reportData;

@@ -183,17 +183,17 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     }
     
     /**
-     * Tests that the amend and the payment hold buttons are displayed.
+     * Tests that the payment hold buttons are displayed.
      * 
      * @throws Exception
      */
     @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
-    public final void testAmendAndPaymentHold() throws Exception {
+    public final void testPaymentHold() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
         PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_CLOSE.createPurchaseOrderDocument();
         PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode);
-        assertTrue(auth.canAmendAndHoldPayment());
+        assertTrue(auth.canHoldPayment());
     }
     
     /**

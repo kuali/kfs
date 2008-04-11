@@ -241,13 +241,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(closeButton);
         }
         
-        if (auth.canAmendAndHoldPayment()) {
+        if (auth.canHoldPayment()) {
             ExtraButton paymentHoldButton = (ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo");
             extraButtons.add(paymentHoldButton);
-            ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
-            extraButtons.add(amendButton);            
         }
 
+        if (auth.canAmend()) {
+            ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
+            extraButtons.add(amendButton);             
+        }
+        
         if (auth.canVoid()) {
             ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
             extraButtons.add(voidButton);

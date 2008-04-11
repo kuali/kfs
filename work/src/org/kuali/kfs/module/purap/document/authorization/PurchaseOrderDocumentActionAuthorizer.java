@@ -16,7 +16,6 @@
 package org.kuali.module.purap.document.authorization;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +30,11 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -54,8 +56,6 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean purchaseOrderAutomatedIndicator;
     private boolean isUserAuthorized;
     private boolean hasPaymentRequest;
-    private List<PaymentRequestDocument> pReqs;
-    
     private Date lastTransmitDate;
 
     private boolean apUser;
@@ -76,8 +76,8 @@ public class PurchaseOrderDocumentActionAuthorizer {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         this.purchaseOrder = po;
         this.editMode = editingMode;
-        this.pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(purchaseOrder.getPurapDocumentIdentifier());
-        this.hasPaymentRequest = ((pReqs != null && pReqs.size() > 0) ? true : false);
+        
+        this.hasPaymentRequest = ((purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() != null && purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() > 0) ? true : false);
         // doc indicators
         this.docStatus = po.getStatusCode();
         this.documentType = po.getDocumentHeader().getWorkflowDocument().getDocumentType();
@@ -204,17 +204,14 @@ public class PurchaseOrderDocumentActionAuthorizer {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
 
             validForDisplayingCloseButton = true;
-
-            if (ObjectUtils.isNotNull(pReqs)) {
-                if (pReqs.size() == 0) {
-                    validForDisplayingCloseButton = false;
-                }
-                else {
+            if (purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() == null || purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() == 0 ) {
+                validForDisplayingCloseButton = false;
+            }
+            else {
+                for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
                     // None of the PREQs against this PO may be in 'In Process' status.
-                    for (PaymentRequestDocument pReq : pReqs) {
-                        if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                            validForDisplayingCloseButton = false;
-                        }
+                    if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                        return false;
                     }
                 }
             }
@@ -229,11 +226,48 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * 
      * @return boolean true if the amend and payment hold buttons can be displayed.
      */
-    public boolean canAmendAndHoldPayment() {
+    public boolean canHoldPayment() {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Determines whether to display the amend button for the purchase order document.
+     * The document status must be open, the purchase order must be current and not pending and the
+     * user must be in purchasing group. These are the conditions for displaying the payment hold
+     * button. In addition to these conditions, we also have to check that there is no In Process
+     * Payment Requests nor Credit Memos associated with the PO.
+     * 
+     * @return boolean true if the amend button can be displayed.
+     */
+    public boolean canAmend() {
+        boolean validForDisplayingAmendButton = false;
+
+        //The other conditions for displaying amend button (apart from the condition about No In Process PREQ and CM) 
+        //are the same as the conditions for displaying the Payment Hold button, so we're reusing that method here.
+        if (canHoldPayment()) {
+           validForDisplayingAmendButton = true;
+
+           if (purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews() != null && purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews().size() > 0) {
+               for (PaymentRequestView preq : purchaseOrder.getRelatedViews().getRelatedPaymentRequestViews()) {
+                   if (StringUtils.equalsIgnoreCase(preq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
+                       return false;
+                   }
+               }
+           }
+            
+            if (purchaseOrder.getRelatedViews().getRelatedCreditMemoViews() != null && purchaseOrder.getRelatedViews().getRelatedCreditMemoViews().size() > 0) {
+                for (CreditMemoView cm : purchaseOrder.getRelatedViews().getRelatedCreditMemoViews()) {
+                    if (StringUtils.equalsIgnoreCase(cm.getCreditMemoStatusCode(), CreditMemoStatuses.IN_PROCESS)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return validForDisplayingAmendButton;
     }
     
     /**

@@ -291,6 +291,52 @@
     </property>
 	</bean>
 	
+	<bean id="budgetConstructionObjectSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionObjectSummaryReportServiceImpl">
+	<property name="budgetConstructionObjectSummaryReportDao">
+		<ref bean="budgetConstructionObjectSummaryReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+		<ref bean="businessObjectService" />
+    </property>
+	</bean>
+	
+	<bean id="budgetConstructionAccountObjectDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountObjectDetailReportServiceImpl">
+	<property name="budgetConstructionAccountObjectDetailReportDao">
+		<ref bean="budgetConstructionAccountObjectDetailReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+	</bean>
+	
+	<bean id="budgetConstructionAccountFundingDetailReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountFundingDetailReportServiceImpl">
+	<property name="budgetConstructionAccountFundingDetailReportDao">
+		<ref bean="budgetConstructionAccountFundingDetailReportDao" />
+	</property>
+	<property name="budgetConstructionOrganizationReportsService">
+		<ref bean="budgetConstructionOrganizationReportsService" />
+	</property>
+	<property name="kualiConfigurationService">
+		<ref bean="kualiConfigurationService" />
+    </property>
+    <property name="businessObjectService">
+		<ref bean="businessObjectService" />
+	</property>
+	<property name="universalUserService">
+		<ref bean="universalUserService" />
+	</property>	
+    
+	</bean>
+	
 	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
 	</bean>
 	
@@ -319,7 +365,8 @@
 	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
-		
+	
+	
     <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">
         <property name="genesisDao">
             <ref bean="genesisDao" />

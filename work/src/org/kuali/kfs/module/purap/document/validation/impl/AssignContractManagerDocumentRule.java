@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
@@ -96,6 +98,10 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
                     isValid = false;
                 }
                 else count++;
+                if (detail.getContractManagerCode().equals(PurapConstants.APO_CONTRACT_MANAGER)) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
+                    isValid = false;
+                }
             }
         }
         

@@ -40,8 +40,9 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class implements the BudgetDocumentService interface Methods here operate on objects associated with the Budget Construction
- * document such as BudgetConstructionHeader
+ * Implements the BudgetDocumentService interface.
+ * Methods here operate on objects associated with the Budget Construction document such as BudgetConstructionHeader
+ * 
  */
 @Transactional
 public class BudgetDocumentServiceImpl implements BudgetDocumentService {
@@ -60,35 +61,61 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         return budgetConstructionDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear);
     }
 
-    public Document saveDocument(Document document) throws WorkflowException, ValidationException {
-        return saveDocument(document, SaveDocumentEvent.class);
-    }
 
-    public Document saveDocument(Document document, Class kualiDocumentEventClass) throws WorkflowException, ValidationException {
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocument(org.kuali.core.document.Document)
+     * 
+     * similar to DocumentService.saveDocument()
+     */
+    public Document saveDocument(Document document) throws WorkflowException, ValidationException {
 
         checkForNulls(document);
-        if (kualiDocumentEventClass == null) {
-            throw new IllegalArgumentException("invalid (null) kualiDocumentEventClass");
-        }
 
-        // if event is not an instance of a SaveDocumentEvent or a SaveOnlyDocumentEvent
-        if (!SaveEvent.class.isAssignableFrom(kualiDocumentEventClass)) {
-            throw new ConfigurationException("The KualiDocumentEvent class '" + kualiDocumentEventClass.getName() + "' does not implement the class '" + SaveEvent.class.getName() + "'");
-        }
+// TODO cleanup commented code in this method when verified it's not needed
+//        if (kualiDocumentEventClass == null) {
+//            throw new IllegalArgumentException("invalid (null) kualiDocumentEventClass");
+//        }
+//
+//        // if event is not an instance of a SaveDocumentEvent or a SaveOnlyDocumentEvent
+//        if (!SaveEvent.class.isAssignableFrom(kualiDocumentEventClass)) {
+//            throw new ConfigurationException("The KualiDocumentEvent class '" + kualiDocumentEventClass.getName() + "' does not implement the class '" + SaveEvent.class.getName() + "'");
+//        }
 
         document.prepareForSave();
 
-        // validateAndPersistDocumentAndSaveAdHocRoutingRecipients(document, generateKualiDocumentEvent(document,
-        // kualiDocumentEventClass));
-        validateAndPersistDocument(document, generateKualiDocumentEvent(document, kualiDocumentEventClass));
+        // validateAndPersistDocumentAndSaveAdHocRoutingRecipients(document, generateKualiDocumentEvent(document, kualiDocumentEventClass));
 
+        // validates and saves the local objects not workflow objects
+        // this eventually calls BudgetConstructionRules.processSaveDocument() which overrides the method in DocumentRuleBase
+        validateAndPersistDocument(document, new SaveDocumentEvent(document));
+
+        // this seems to be the workflow related stuff only needed during a final save from save button or close
+        // and user clicks yes when prompted to save or not.
         documentService.prepareWorkflowDocument(document);
         workflowDocumentService.save(document.getDocumentHeader().getWorkflowDocument(), null);
         GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
-
+        
+        return document;
+    }
+    
+    /**
+     * @see org.kuali.module.budget.service.BudgetDocumentService#saveDocumentNoWorkflow(org.kuali.core.document.Document)
+     * 
+     * TODO use this for saves before calc benefits service, monthly spread service, salary setting, monthly calls
+     * add to interface
+     * this should leave out any calls to workflow related methods maybe call this from saveDocument(doc, eventclass) above
+     * instead of duplicating all the calls up to the point of workflow related calls
+     */
+    public Document saveDocumentNoWorkflow(Document document) throws ValidationException {
+        
         return document;
     }
 
+    /**
+     * Does sanity checks for null document object and null documentNumber
+     * 
+     * @param document
+     */
     protected void checkForNulls(Document document) {
         if (document == null) {
             throw new IllegalArgumentException("invalid (null) document");
@@ -98,6 +125,18 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
     }
 
+    /**
+     * Runs validation and persists a document to the database.
+     * 
+     * TODO This method is just like the one in DocumentServiceImpl. This method exists because the DocumentService Interface does not
+     * define this method, so we can't call it.  Not sure if this is an oversite or by design.  If the interface gets adjusted, fix to
+     * call it, otherwise leave this and remove the marker.
+     *   
+     * @param document
+     * @param event
+     * @throws WorkflowException
+     * @throws ValidationException
+     */
     public void validateAndPersistDocument(Document document, KualiDocumentEvent event) throws WorkflowException, ValidationException {
         if (document == null) {
             LOG.error("document passed to validateAndPersist was null");
@@ -105,10 +144,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
         LOG.info("validating and preparing to persist document " + document.getDocumentNumber());
         
+        // runs business rules event.validate() and creates rule instance and runs rule method recursively
         document.validateBusinessRules(event);
+        
+        // calls overriden method for specific document for anything that needs to happen before the save
+        // currently nothing for BC document
         document.prepareForSave(event);
 
-        // save the document
+        // save the document to the database
         try {
             LOG.info("storing document " + document.getDocumentNumber());
             documentDao.save(document);
@@ -121,51 +164,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         document.postProcessSave(event);
 
 
-    }
-
-    private KualiDocumentEvent generateKualiDocumentEvent(Document document, Class eventClass) throws ConfigurationException {
-        String potentialErrorMessage = "Found error trying to generate Kuali Document Event using event class '" + eventClass.getName() + "' for document " + document.getDocumentNumber();
-        try {
-            Constructor usableConstructor = null;
-            List<Object> paramList = null;
-            for (Constructor currentConstructor : eventClass.getConstructors()) {
-                paramList = new ArrayList<Object>();
-                for (Class parameterClass : currentConstructor.getParameterTypes()) {
-                    if (Document.class.isAssignableFrom(parameterClass)) {
-                        usableConstructor = currentConstructor;
-                        paramList.add(document);
-                    }
-                    else {
-                        paramList.add(null);
-                    }
-                }
-                if (ObjectUtils.isNotNull(usableConstructor)) {
-                    break;
-                }
-            }
-            if (ObjectUtils.isNull(usableConstructor)) {
-                throw new RuntimeException("Cannot find a constructor for class '" + eventClass.getName() + "' that takes in a document parameter");
-            }
-            else {
-                usableConstructor.newInstance(paramList.toArray());
-                return (KualiDocumentEvent) usableConstructor.newInstance(paramList.toArray());
-            }
-        }
-        catch (SecurityException e) {
-            throw new ConfigurationException(potentialErrorMessage, e);
-        }
-        catch (IllegalArgumentException e) {
-            throw new ConfigurationException(potentialErrorMessage, e);
-        }
-        catch (InstantiationException e) {
-            throw new ConfigurationException(potentialErrorMessage, e);
-        }
-        catch (IllegalAccessException e) {
-            throw new ConfigurationException(potentialErrorMessage, e);
-        }
-        catch (InvocationTargetException e) {
-            throw new ConfigurationException(potentialErrorMessage, e);
-        }
     }
 
     /**

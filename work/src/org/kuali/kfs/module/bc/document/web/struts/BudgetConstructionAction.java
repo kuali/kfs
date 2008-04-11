@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -43,6 +45,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -192,9 +195,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                     // SpringContext.getBean(DocumentService.class).saveDocument(docForm.getDocument());
                     // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
-                    docForm.getDocument().getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
-                    SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
 
+//                    SpringContext.getBean(DocumentService.class).updateDocument(docForm.getDocument());
+                    BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);  
+                    budgetDocumentService.saveDocument((BudgetConstructionDocument) docForm.getDocument());
+
+                    // TODO need to move this to after a successful workflow update in BCDocumentService
+                    docForm.getDocument().getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
                 }
                 // else go to close logic below
             }
@@ -241,21 +248,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // return super.save(mapping, form, request, response);
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+//        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);  
 
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
         // and calc benefits flag checking and calc benefits if needed
-        bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
 //        documentService.updateDocument(bcDocument);
 
         // TODO use this instead? research the differences - may need to inject DocumentService and roll our own bcdocservice
         // documentService.saveDocument(document);
+        // rolling own - next line
         budgetDocumentService.saveDocument(bcDocument);
 
+        // TODO need to move this to after a successful workflow update in BCDocumentService
+        bcDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");
 
+        // this call needs to come after the call to logDocumentAction above
+        // TODO why does GlobalVariables.getMessageList() return a null list after the call to logDocumentAction??
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
-
+        
         // TODO not sure this is needed in BC
         budgetConstructionForm.setAnnotation("");
 
@@ -465,7 +476,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             insertPBGLLine(true, budgetConstructionForm, line);
 
             // clear the used newRevenueLine
-            budgetConstructionForm.setNewRevenueLine(null);
+            budgetConstructionForm.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+            budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine(),true);
 
 
         }
@@ -504,7 +516,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             insertPBGLLine(false, budgetConstructionForm, line);
 
             // clear the used newExpenditureLine
-            budgetConstructionForm.setNewExpenditureLine(null);
+            budgetConstructionForm.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
+            budgetConstructionForm.initNewLine(budgetConstructionForm.getNewExpenditureLine(),false);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

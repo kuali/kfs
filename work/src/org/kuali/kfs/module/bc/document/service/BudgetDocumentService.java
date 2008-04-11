@@ -29,7 +29,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public interface BudgetDocumentService {
 
     /**
-     * This method...
+     * Gets a BudgetConstructionHeader by the candidate key instead of primary key
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -39,12 +39,25 @@ public interface BudgetDocumentService {
      */
     public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
 
+    /**
+     * Performs all actions needed to validate and save a Budget Construction document to the database and workflow.
+     * 
+     * @param document
+     * @return
+     * @throws WorkflowException
+     * @throws ValidationException
+     */
     public Document saveDocument(Document document) throws WorkflowException, ValidationException;
     
-    public Document saveDocument(Document document, Class kualiDocumentEventClass) throws WorkflowException, ValidationException;
-    
-    
-    
+    /**
+     * Performs all actions needed to validate and save a Budget Construction document to the database only.
+     * 
+     * @param document
+     * @return
+     * @throws ValidationException
+     */
+    public Document saveDocumentNoWorkflow(Document document) throws ValidationException;
+
     /**
      * Sets the budgetConstructionDao attribute value.
      * 

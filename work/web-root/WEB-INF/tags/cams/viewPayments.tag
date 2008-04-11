@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ taglib uri="/jsp/modules/cams/tld/cams-func.tld" prefix="camsfunc"%>
 <%@ attribute name="assetPayments" type="java.util.List" required="true" description="Asset payments list" %>
 <%@ attribute name="defaultTabHide" type="java.lang.Boolean" required="false" description="Show tab contents indicator" %>
 <%@ attribute name="assetValueObj" type="java.lang.String" required="false" description="Asset object name" %>
@@ -23,8 +22,6 @@
 	</c:if>
 	<c:set var="assetPaymentAttributes" value="${DataDictionary.AssetPayment.attributes}" />
 	<c:set var="pos" value="-1" />
-	<c:set var="totalAmount"/>
-	<c:set var="chargeAmount"/>
 <kul:tab tabTitle="Asset Payments" defaultOpen="${!defaultTabHide}">
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
@@ -47,13 +44,6 @@
 			</tr>
 	<c:forEach var="payment" items="${assetPayments}">
 	 	<c:set var="pos" value="${pos+1}" />
-	 	<c:set var="chargeAmount" value="${assetPayments[pos].accountChargeAmount}" />
-	 	<c:if test="${totalAmount != null && chargeAmount != null}" >
-	 		<c:set var="totalAmount" value="${camsfunc:addKualiDecimal(totalAmount,chargeAmount)}"/>
-	 	</c:if>
-	 	<c:if test="${totalAmount == null}" >
-	 		<c:set var="totalAmount" value="${chargeAmount}"/>
-	 	</c:if>  
 			<tr>
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].chartOfAccountsCode" attributeEntry="${assetPaymentAttributes.chartOfAccountsCode}" readOnly="true"/></td>								
 				<td class="grid"><kul:htmlControlAttribute property="${assetValueObj}.assetPayments[${pos}].accountNumber" attributeEntry="${assetPaymentAttributes.accountNumber}" readOnly="true"/></td>								
@@ -73,8 +63,8 @@
 			</tr>
 	</c:forEach>
 			<tr>
-				<th class="grid" align="right" colspan="14">Total</th>
-				<td class="grid" align="right"><c:out value="${camsfunc:formatCurrency(totalAmount)}" /></td>
+				<th class="grid" align="right" colspan="14"><kul:htmlAttributeLabel noColon="true"  attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true" /></th>
+				<td class="grid" align="right"><kul:htmlControlAttribute property="${assetValueObj}.paymentTotalCost" attributeEntry="${assetPaymentAttributes.paymentTotalCost}" readOnly="true"/></td>
 			</tr>						
 		</table>
 		</div>

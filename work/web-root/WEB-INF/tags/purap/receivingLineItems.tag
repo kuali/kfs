@@ -150,6 +150,7 @@
 
 		<tr>			
 				<td class="infoline" nowrap="nowrap">
+						<html:hidden property="document.item[${ctr}].itemTypeCode" />
 					    <html:hidden property="document.item[${ctr}].receivingLineItemIdentifier" />
 					    <html:hidden property="document.item[${ctr}].itemTypeCode" />
 					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
@@ -214,10 +215,10 @@
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemReasonAddedCode}"
 				    property="document.item[${ctr}].itemReasonAddedCode"
-				    readOnly="${true}" />
+				    readOnly="${not (fullEntryMode) or itemLine.itemLineNumber != null}" />
 			</td>
 
-			<c:if test="${(fullEntryMode or (itemLine.itemTypeCode == null))}">
+			<c:if test="${(fullEntryMode or (itemLine.itemLineNumber == null))}">
 			<td class="infoline">
 			    <div align="center">
 			        <html:image

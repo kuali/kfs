@@ -62,7 +62,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
-        sqlText.append(" AND bcaf.emplid <> 'VACANT' \n");
+        sqlText.append(" AND bcaf.emplid <> '");
+        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        insertionPoints.add(sqlText.length());
+        sqlText.append("' \n");
         sqlText.append(" AND bcaf.appt_fnd_dur_cd = '");
         // default appointment funding duration code
         insertionPoints.add(sqlText.length());
@@ -94,7 +97,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
-        sqlText.append(" AND bcaf.emplid <> 'VACANT' \n");
+        sqlText.append(" AND bcaf.emplid <> '\n");
+        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        insertionPoints.add(sqlText.length());
+        sqlText.append("' \n");
         sqlText.append(" AND bcaf.appt_fnd_dur_cd <> '");
         // defualt appointment funding duration code
         insertionPoints.add(sqlText.length());
@@ -215,7 +221,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
-        sqlText.append(" AND bcaf.emplid <> 'VACANT' \n");
+        sqlText.append(" AND bcaf.emplid <> '");
+        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        insertionPoints.add(sqlText.length());
+        sqlText.append("' \n");
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
@@ -231,8 +240,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND rpk.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND rpk.select_flag <> 0 \n");
 
-        updateReportsSalarySummaryNoThresholdReason.add(new SQLForStep(sqlText));
+        updateReportsSalarySummaryNoThresholdReason.add(new SQLForStep(sqlText,insertionPoints));
         sqlText.delete(0, sqlText.length());
+        insertionPoints.clear();
 
         /* get all EMPLIDs for the selection */
         sqlText.append("INSERT INTO ld_bcn_build_salsumm05_mt \n");
@@ -244,13 +254,17 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
-        sqlText.append(" AND bcaf.emplid <> 'VACANT' \n");
+        sqlText.append(" AND bcaf.emplid <> '");
+        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        insertionPoints.add(sqlText.length());
+        sqlText.append("' \n");
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
         
-        updateReportsSalarySummaryNoThresholdNoReason.add(new SQLForStep(sqlText));
+        updateReportsSalarySummaryNoThresholdNoReason.add(new SQLForStep(sqlText,insertionPoints));
         sqlText.delete(0, sqlText.length());
+        insertionPoints.clear();
         
         /*  these are the two common driving SQL statements for all the reports  */
 
@@ -352,7 +366,8 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         clearUserPreviouSalarySummaryReports(personUserIdentifier);
         
         // default duration code is inserted into a couple of the SQL queries--get it now
-        ArrayList<String> durationCodeDefault = new ArrayList<String>(1);
+        ArrayList<String> durationCodeDefault = new ArrayList<String>(2);
+        durationCodeDefault.add(BCConstants.VACANT_EMPLID);
         durationCodeDefault.add(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
         
         // fetch the base and request salary parameters for people who are marked as not going on leave
@@ -406,6 +421,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         Guid guid = new Guid();
         String idForSession = guid.toString();
         
+        // get the insertion String for the vacant EMPLID
+        ArrayList<String> vacantEmplid = new ArrayList<String>(1);
+        vacantEmplid.add(BCConstants.VACANT_EMPLID);
+        
         // clean out anything left from a previous report requested by this user
         clearUserPreviouSalarySummaryReports(personUserIdentifier);
         
@@ -420,9 +439,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         }
         // populate the holding table with the rows to be reported
         // name records for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(vacantEmplid), personUserIdentifier, personUserIdentifier, idForSession);
         // salary data for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(vacantEmplid), personUserIdentifier, personUserIdentifier, idForSession);
         
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);

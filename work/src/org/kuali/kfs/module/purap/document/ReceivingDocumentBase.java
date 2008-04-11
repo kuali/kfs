@@ -912,6 +912,12 @@ public abstract class ReceivingDocumentBase extends TransactionalDocumentBase im
         getItems().add(item);
     }
 
+    public void deleteItem(int lineNum) {
+        if (getItems().remove(lineNum) == null) {
+            // throw error here
+        }
+    }
+
     public Integer getPurchaseOrderIdentifier() { 
         return purchaseOrderIdentifier;
     }

@@ -25,6 +25,15 @@ public class BudgetConstructionOrgObjectSummaryReportTotal {
     private BudgetConstructionObjectSummary bcos;
 
     // Total parts
+    
+    private BigDecimal totalLevelPositionCsfLeaveFteQuantity;
+    private BigDecimal totalLevelPositionCsfFullTimeEmploymentQuantity;
+    private Integer totalLevelFinancialBeginningBalanceLineAmount;
+    private BigDecimal totalLevelAppointmentRequestedCsfFteQuantity;
+    private BigDecimal totalLevelAppointmentRequestedFteQuantity;
+    private Integer totalLevelAccountLineAnnualBalanceAmount;
+    private Integer totalLevelAmountChange;
+    private BigDecimal totalLevelPercentChange;
 
     private BigDecimal totalConsolidationPositionCsfLeaveFteQuantity;
     private BigDecimal totalConsolidationPositionCsfFullTimeEmploymentQuantity;
@@ -260,6 +269,54 @@ public class BudgetConstructionOrgObjectSummaryReportTotal {
     }
     public void setGrossPercentChange(BigDecimal grossPercentChange) {
         this.grossPercentChange = grossPercentChange;
+    }
+    public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
+        return totalLevelAccountLineAnnualBalanceAmount;
+    }
+    public void setTotalLevelAccountLineAnnualBalanceAmount(Integer totalLevelAccountLineAnnualBalanceAmount) {
+        this.totalLevelAccountLineAnnualBalanceAmount = totalLevelAccountLineAnnualBalanceAmount;
+    }
+    public Integer getTotalLevelAmountChange() {
+        return totalLevelAmountChange;
+    }
+    public void setTotalLevelAmountChange(Integer totalLevelAmountChange) {
+        this.totalLevelAmountChange = totalLevelAmountChange;
+    }
+    public BigDecimal getTotalLevelAppointmentRequestedCsfFteQuantity() {
+        return totalLevelAppointmentRequestedCsfFteQuantity;
+    }
+    public void setTotalLevelAppointmentRequestedCsfFteQuantity(BigDecimal totalLevelAppointmentRequestedCsfFteQuantity) {
+        this.totalLevelAppointmentRequestedCsfFteQuantity = totalLevelAppointmentRequestedCsfFteQuantity;
+    }
+    public BigDecimal getTotalLevelAppointmentRequestedFteQuantity() {
+        return totalLevelAppointmentRequestedFteQuantity;
+    }
+    public void setTotalLevelAppointmentRequestedFteQuantity(BigDecimal totalLevelAppointmentRequestedFteQuantity) {
+        this.totalLevelAppointmentRequestedFteQuantity = totalLevelAppointmentRequestedFteQuantity;
+    }
+    public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
+        return totalLevelFinancialBeginningBalanceLineAmount;
+    }
+    public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
+        this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
+    }
+    public BigDecimal getTotalLevelPercentChange() {
+        return totalLevelPercentChange;
+    }
+    public void setTotalLevelPercentChange(BigDecimal totalLevelPercentChange) {
+        this.totalLevelPercentChange = totalLevelPercentChange;
+    }
+    public BigDecimal getTotalLevelPositionCsfFullTimeEmploymentQuantity() {
+        return totalLevelPositionCsfFullTimeEmploymentQuantity;
+    }
+    public void setTotalLevelPositionCsfFullTimeEmploymentQuantity(BigDecimal totalLevelPositionCsfFullTimeEmploymentQuantity) {
+        this.totalLevelPositionCsfFullTimeEmploymentQuantity = totalLevelPositionCsfFullTimeEmploymentQuantity;
+    }
+    public BigDecimal getTotalLevelPositionCsfLeaveFteQuantity() {
+        return totalLevelPositionCsfLeaveFteQuantity;
+    }
+    public void setTotalLevelPositionCsfLeaveFteQuantity(BigDecimal totalLevelPositionCsfLeaveFteQuantity) {
+        this.totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity;
     }
 
 }

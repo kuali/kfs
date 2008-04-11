@@ -153,15 +153,31 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         boolean rulePassed = true; //SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
 
         if (rulePassed) {
-            item = receivingLineForm.getAndResetNewReceivingItemLine();
-            
-            //set values for a new line
-            item.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
-            
+            item = receivingLineForm.getAndResetNewReceivingItemLine();                       
             receivingLineDocument.addItem(item);                       
             //TODO: we need to set the line number correctly to match up to PO
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    /**
+     * Delete an item from the document.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ReceivingLineForm receivingLineForm = (ReceivingLineForm) form;
+
+        ReceivingLineDocument receivingLineDocument = (ReceivingLineDocument) receivingLineForm.getDocument();
+        receivingLineDocument.deleteItem(getSelectedLine(request));
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

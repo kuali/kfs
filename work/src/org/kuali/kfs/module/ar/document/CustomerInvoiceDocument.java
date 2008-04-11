@@ -69,6 +69,8 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
     private String paymentProjectCode;
     private String paymentOrganizationReferenceIdentifier;
     private Date printDate;
+    private KualiDecimal stateTaxPercent;
+    private KualiDecimal localTaxPercent;
     
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
@@ -634,6 +636,38 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements C
         this.printDate = printDate;
     }    
     
+    /**
+     * Gets the localTaxPercent attribute. 
+     * @return Returns the localTaxPercent.
+     */
+    public KualiDecimal getLocalTaxPercent() {
+        return localTaxPercent;
+    }
+
+    /**
+     * Sets the localTaxPercent attribute value.
+     * @param localTaxPercent The localTaxPercent to set.
+     */
+    public void setLocalTaxPercent(KualiDecimal localTaxPercent) {
+        this.localTaxPercent = localTaxPercent;
+    }
+
+    /**
+     * Gets the stateTaxPercent attribute. 
+     * @return Returns the stateTaxPercent.
+     */
+    public KualiDecimal getStateTaxPercent() {
+        return stateTaxPercent;
+    }
+
+    /**
+     * Sets the stateTaxPercent attribute value.
+     * @param stateTaxPercent The stateTaxPercent to set.
+     */
+    public void setStateTaxPercent(KualiDecimal stateTaxPercent) {
+        this.stateTaxPercent = stateTaxPercent;
+    }
+
     /**
 	 * Gets the accountsReceivableDocumentHeader attribute.
 	 * 

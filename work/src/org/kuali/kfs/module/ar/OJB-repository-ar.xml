@@ -308,6 +308,8 @@
 	<field-descriptor name="paymentProjectCode" column="PMT_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentOrganizationReferenceIdentifier" column="PMT_ORG_REF_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="printDate" column="AR_PRNT_DT" jdbc-type="DATE"/>	
+	<field-descriptor name="stateTaxPercent" column="AR_ST_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="localTaxPercent" column="AR_LOC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />

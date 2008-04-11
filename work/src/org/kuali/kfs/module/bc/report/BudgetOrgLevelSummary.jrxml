@@ -1405,7 +1405,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="9"
-						y="128"
+						y="129"
 						width="230"
 						height="12"
 						key="textField-22"/>
@@ -1439,7 +1439,7 @@
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="274"
-						y="128"
+						y="129"
 						width="45"
 						height="12"
 						key="textField-25"/>
@@ -1473,7 +1473,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="534"
-						y="128"
+						y="129"
 						width="74"
 						height="12"
 						key="textField-27"/>
@@ -1490,7 +1490,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="609"
-						y="128"
+						y="129"
 						width="74"
 						height="12"
 						key="textField-29"/>
@@ -1507,7 +1507,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="128"
+						y="129"
 						width="74"
 						height="12"
 						key="textField-31"/>
@@ -1558,7 +1558,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="10"
-						y="141"
+						y="142"
 						width="229"
 						height="1"
 						key="line-1"/>
@@ -1567,7 +1567,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="274"
-						y="127"
+						y="128"
 						width="165"
 						height="0"
 						key="line-3"/>
@@ -1585,7 +1585,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="609"
-						y="141"
+						y="142"
 						width="74"
 						height="0"
 						key="line-5"/>
@@ -1594,7 +1594,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="684"
-						y="141"
+						y="142"
 						width="74"
 						height="0"
 						key="line-6"/>
@@ -1603,7 +1603,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="534"
-						y="141"
+						y="142"
 						width="74"
 						height="0"
 						key="line-7"/>
@@ -1612,7 +1612,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="274"
-						y="141"
+						y="142"
 						width="45"
 						height="1"
 						key="line-8"/>
@@ -1706,7 +1706,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="366"
-						y="128"
+						y="129"
 						width="74"
 						height="12"
 						key="textField-83"/>
@@ -1723,7 +1723,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="366"
-						y="141"
+						y="142"
 						width="73"
 						height="1"
 						key="line-30"/>
@@ -1749,7 +1749,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="488"
-						y="128"
+						y="129"
 						width="45"
 						height="12"
 						key="textField-85"/>
@@ -1766,7 +1766,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="320"
-						y="128"
+						y="129"
 						width="45"
 						height="12"
 						key="textField-86"/>
@@ -1783,7 +1783,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="320"
-						y="141"
+						y="142"
 						width="45"
 						height="1"
 						key="line-31"/>
@@ -1792,7 +1792,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="442"
-						y="141"
+						y="142"
 						width="45"
 						height="1"
 						key="line-32"/>
@@ -1800,8 +1800,8 @@
 				</line>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="441"
-						y="128"
+						x="442"
+						y="129"
 						width="45"
 						height="12"
 						key="textField-87"/>
@@ -1818,7 +1818,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="488"
-						y="141"
+						y="142"
 						width="45"
 						height="1"
 						key="line-33"/>

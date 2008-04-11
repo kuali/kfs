@@ -25,7 +25,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-fileupload-1.1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-io-1.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-pool-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/db-ojb-1.0.4-kuali-mods-debug.jar"/>
@@ -71,5 +70,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

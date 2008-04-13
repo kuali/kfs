@@ -76,35 +76,26 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionObjectDump> accountFundingDetailList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionObjectDump.class, searchCriteria, orderList);
 
-        
-        
 
-        // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
-        List simpleList = deleteDuplicated((List) accountFundingDetailList);
+        List listForCalculateTotalObject = deleteDuplicated((List) accountFundingDetailList, 1);
+        List listForCalculateTotalAccount = deleteDuplicated((List) accountFundingDetailList, 2);
 
         // Calculate Total Section
-        orgAccountFundingDetailReportTotalList = calculateTotal((List) accountFundingDetailList, simpleList);
+        List<BudgetConstructionOrgAccountFundingDetailReport> fundingDetailTotalObject;
+        List<BudgetConstructionOrgAccountFundingDetailReport> fundingDetailTotalAccount;
+
+        // fundingDetailTotalObject = calculateObjectTotal((List) accountFundingDetailList, fundingDetailTotalObject);
+        // fundingDetailTotalAccount = calculateAccountTotal((List) accountFundingDetailList, fundingDetailTotalAccount);
+
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
-            Collection<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFundingList = new ArrayList();
-       
-            searchCriteria.clear();
-            searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-            searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountFundingDetailEntry.getChartOfAccountsCode());
-            searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountFundingDetailEntry.getAccountNumber());
-            searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountFundingDetailEntry.getSubAccountNumber());
-            searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountFundingDetailEntry.getFinancialObjectCode());
-            pendingBudgetConstructionAppointmentFundingList = businessObjectService.findMatching(PendingBudgetConstructionAppointmentFunding.class, searchCriteria);
-            
-            
-            
-            
-            
-            
-            orgAccountFundingDetailReportEntry = new BudgetConstructionOrgAccountFundingDetailReport();
-            buildReportsHeader(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
-            buildReportsBody(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
-            buildReportsTotal(orgAccountFundingDetailReportEntry, accountFundingDetailEntry, orgAccountFundingDetailReportTotalList);
-            reportSet.add(orgAccountFundingDetailReportEntry);
+
+
+            // orgAccountFundingDetailReportEntry = new BudgetConstructionOrgAccountFundingDetailReport();
+            // buildReportsHeader(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
+            // buildReportsBody(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
+            // buildReportsTotal(orgAccountFundingDetailReportEntry, accountFundingDetailEntry,
+            // orgAccountFundingDetailReportTotalList);
+            // reportSet.add(orgAccountFundingDetailReportEntry);
         }
 
         return reportSet;
@@ -147,34 +138,27 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
         BudgetConstructionPosition budgetConstructionPosition;
         BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker;
-        
-        
-        
+
+
         UniversalUser user = new UniversalUser();
         String emplId;
         try {
             user = universalUserService.getUniversalUser(accountFundingDetail.getPersonUniversalIdentifier());
         }
         catch (UserNotFoundException e) {
-           
+
         }
         emplId = user.getPersonPayrollIdentifier();
-        
-        
-        
-        
+
+
         // get budgetConstructionIntendedIncumbent
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.EMPLID, emplId);
         budgetConstructionIntendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
-      
-      
-        
-      
+
+
     }
-    
-        
-        
+
 
     /**
      * builds report total
@@ -205,8 +189,16 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @param BudgetConstructionObjectDump secondbcod
      * @return true if the given entries are same; otherwise, return false
      */
-    public boolean isSameAccountFundingDetailEntry(BudgetConstructionObjectDump firstbcod, BudgetConstructionObjectDump secondbcod) {
-        if (firstbcod.getOrganizationChartOfAccountsCode().equals(secondbcod.getOrganizationChartOfAccountsCode()) && firstbcod.getOrganizationCode().equals(secondbcod.getOrganizationCode()) && firstbcod.getChartOfAccountsCode().equals(secondbcod.getChartOfAccountsCode()) && firstbcod.getSubFundGroupCode().equals(secondbcod.getSubFundGroupCode())) {
+    private boolean isSameAccountFundingDetailEntryForTotalObject(BudgetConstructionObjectDump firstbcod, BudgetConstructionObjectDump secondbcod) {
+        if (isSameAccountFundingDetailEntryForTotalAccount(firstbcod, secondbcod) && firstbcod.getFinancialObjectCode().equals(secondbcod.getFinancialObjectCode())) {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    private boolean isSameAccountFundingDetailEntryForTotalAccount(BudgetConstructionObjectDump firstbcod, BudgetConstructionObjectDump secondbcod) {
+        if (firstbcod.getChartOfAccountsCode().equals(secondbcod.getChartOfAccountsCode()) && firstbcod.getAccountNumber().equals(secondbcod.getAccountNumber()) && firstbcod.getSubAccountNumber().equals(secondbcod.getSubAccountNumber())) {
             return true;
         }
         else
@@ -219,27 +211,37 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
-    public List deleteDuplicated(List list) {
+    private List deleteDuplicated(List list, int mode) {
+        // mode 1 is for getting a list of total object
+        // mode 2 is for getting a list of total account
         int count = 0;
-        BudgetConstructionObjectDump accountFundingDetailEntry = null;
-        BudgetConstructionObjectDump accountFundingDetailEntryAux = null;
+        BudgetConstructionObjectDump objectDumpEntry = null;
+        BudgetConstructionObjectDump objectDumpEntryAux = null;
         List returnList = new ArrayList();
         if ((list != null) && (list.size() > 0)) {
-            accountFundingDetailEntry = (BudgetConstructionObjectDump) list.get(count);
-            accountFundingDetailEntryAux = (BudgetConstructionObjectDump) list.get(count);
-            returnList.add(accountFundingDetailEntry);
+            objectDumpEntry = (BudgetConstructionObjectDump) list.get(count);
+            objectDumpEntryAux = (BudgetConstructionObjectDump) list.get(count);
+            returnList.add(objectDumpEntry);
             count++;
             while (count < list.size()) {
-                accountFundingDetailEntry = (BudgetConstructionObjectDump) list.get(count);
-
-                if (!isSameAccountFundingDetailEntry(accountFundingDetailEntry, accountFundingDetailEntryAux)) {
-                    returnList.add(accountFundingDetailEntry);
-                    accountFundingDetailEntryAux = accountFundingDetailEntry;
+                objectDumpEntry = (BudgetConstructionObjectDump) list.get(count);
+                switch (mode) {
+                    case 1: {
+                        if (!isSameAccountFundingDetailEntryForTotalObject(objectDumpEntry, objectDumpEntryAux)) {
+                            returnList.add(objectDumpEntry);
+                            objectDumpEntryAux = objectDumpEntry;
+                        }
+                    }
+                    case 2: {
+                        if (!isSameAccountFundingDetailEntryForTotalAccount(objectDumpEntry, objectDumpEntryAux)) {
+                            returnList.add(objectDumpEntry);
+                            objectDumpEntryAux = objectDumpEntry;
+                        }
+                    }
                 }
                 count++;
             }
         }
-
         return returnList;
     }
 
@@ -253,14 +255,27 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);
-        /*
-         * returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE); returnList.add(KFSPropertyConstants.SUB_FUND_SORT_CODE);
-         * returnList.add(KFSPropertyConstants.FUND_GROUP_CODE); returnList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
-         * returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER); returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-         * returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
-         */
+
+        // returnList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE); returnList.add(KFSPropertyConstants.SUB_FUND_SORT_CODE);
+        // returnList.add(KFSPropertyConstants.FUND_GROUP_CODE); returnList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
+        // returnList.add(KFSPropertyConstants.ACCOUNT_NUMBER); returnList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        // returnList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
 
         return returnList;
+    }
+
+
+    private Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump) {
+        Collection<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFundingList = new ArrayList();
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionObjectDump.getChartOfAccountsCode());
+        searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionObjectDump.getAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionObjectDump.getSubAccountNumber());
+        searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, budgetConstructionObjectDump.getFinancialObjectCode());
+        pendingBudgetConstructionAppointmentFundingList = businessObjectService.findMatching(PendingBudgetConstructionAppointmentFunding.class, searchCriteria);
+
+        return pendingBudgetConstructionAppointmentFundingList;
     }
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {

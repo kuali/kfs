@@ -71,10 +71,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     // Body parts
     
     
-    
-    
-    
-    
     //from BudgetConstructionIntendedIncumbent
     private String iuClassificationLevel;
     
@@ -109,66 +105,28 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private Integer appointmentTotalIntendedAmount;
     private String appointmentTotalIntendedFteQuantity;
     
-    
-   
 
     // Total parts
     
-    private String totalLevelDescription;
+    private String totalObjectname;
     
-    private String totalLevelPositionCsfLeaveFteQuantity;
-    private String totalLevelPositionCsfFullTimeEmploymentQuantity;
-    private Integer totalLevelFinancialBeginningBalanceLineAmount;
-    private String totalLevelAppointmentRequestedCsfFteQuantity;
-    private String totalLevelAppointmentRequestedFteQuantity;
-    private Integer totalLevelAccountLineAnnualBalanceAmount;
-    private Integer totalLevelAmountChange;
-    private BigDecimal totalLevelPercentChange;
+    private Integer totalObjectPositionCsfAmount;
+    private Integer totalObjectAppointmentRequestedAmount;
+    private String totalObjectPositionCsfFteQuantity;
+    private String totalObjectAppointmentRequestedQuantity;
+    private Integer totalObjectAmountChange;
+    private BigDecimal totalObjectPercentChange;
     
-    private String totalConsolidationDescription;
+    private String totalAccountname;
+    private String totalSubAccountname;
     
-    private String totalConsolidationPositionCsfLeaveFteQuantity;
-    private String totalConsolidationPositionCsfFullTimeEmploymentQuantity;
-    private Integer totalConsolidationFinancialBeginningBalanceLineAmount;
-    private String totalConsolidationAppointmentRequestedCsfFteQuantity;
-    private String totalConsolidationAppointmentRequestedFteQuantity;
-    private Integer totalConsolidationAccountLineAnnualBalanceAmount;
-    private Integer totalConsolidationAmountChange;
-    private BigDecimal totalConsolidationPercentChange;
-
-    private String grossDescription;
-    private Integer grossFinancialBeginningBalanceLineAmount;
-    private Integer grossAccountLineAnnualBalanceAmount;
-    private Integer grossAmountChange;
-    private BigDecimal grossPercentChange;
-    
-    private String typeDesc;
-    private String typePositionCsfLeaveFteQuantity;
-    private String typePositionCsfFullTimeEmploymentQuantity;
-    private Integer typeFinancialBeginningBalanceLineAmount;
-    private String typeAppointmentRequestedCsfFteQuantity;
-    private String typeAppointmentRequestedFteQuantity;
-    private Integer typeAccountLineAnnualBalanceAmount;
-    private Integer typeAmountChange;
-    private BigDecimal typePercentChange;
-    
-    private String totalSubFundGroupDesc;
-    
-    private Integer revenueFinancialBeginningBalanceLineAmount;
-    private Integer revenueAccountLineAnnualBalanceAmount;
-    private Integer revenueAmountChange;
-    private BigDecimal revenuePercentChange;
-    
-    private Integer expenditureFinancialBeginningBalanceLineAmount;
-    private Integer expenditureAccountLineAnnualBalanceAmount;
-    private Integer expenditureAmountChange;
-    private BigDecimal expenditurePercentChange;
-    
-    private Integer differenceFinancialBeginningBalanceLineAmount;
-    private Integer differenceAccountLineAnnualBalanceAmount;
-    private Integer differenceAmountChange;
-    private BigDecimal differencePercentChange;
-    
+    private Integer totalAccountPositionCsfAmount;
+    private Integer totalAccountAppointmentRequestedAmount;
+    private String totalAccountPositionCsfFteQuantity;
+    private String totalAccountAppointmentRequestedQuantity;
+    private Integer totalAccountAmountChange;
+    private BigDecimal totalAccountPercentChange;
+        
     
     /**
      * Gets the baseFy
@@ -546,86 +504,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
     }
 
-    public Integer getDifferenceAccountLineAnnualBalanceAmount() {
-        return differenceAccountLineAnnualBalanceAmount;
-    }
-
-    public void setDifferenceAccountLineAnnualBalanceAmount(Integer differenceAccountLineAnnualBalanceAmount) {
-        this.differenceAccountLineAnnualBalanceAmount = differenceAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getDifferenceAmountChange() {
-        return differenceAmountChange;
-    }
-
-    public void setDifferenceAmountChange(Integer differenceAmountChange) {
-        this.differenceAmountChange = differenceAmountChange;
-    }
-
-    public Integer getDifferenceFinancialBeginningBalanceLineAmount() {
-        return differenceFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setDifferenceFinancialBeginningBalanceLineAmount(Integer differenceFinancialBeginningBalanceLineAmount) {
-        this.differenceFinancialBeginningBalanceLineAmount = differenceFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getDifferencePercentChange() {
-        return differencePercentChange;
-    }
-
-    public void setDifferencePercentChange(BigDecimal differencePercentChange) {
-        this.differencePercentChange = differencePercentChange;
-    }
-
-    public Integer getExpenditureAccountLineAnnualBalanceAmount() {
-        return expenditureAccountLineAnnualBalanceAmount;
-    }
-
-    public void setExpenditureAccountLineAnnualBalanceAmount(Integer expenditureAccountLineAnnualBalanceAmount) {
-        this.expenditureAccountLineAnnualBalanceAmount = expenditureAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getExpenditureAmountChange() {
-        return expenditureAmountChange;
-    }
-
-    public void setExpenditureAmountChange(Integer expenditureAmountChange) {
-        this.expenditureAmountChange = expenditureAmountChange;
-    }
-
-    public Integer getExpenditureFinancialBeginningBalanceLineAmount() {
-        return expenditureFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setExpenditureFinancialBeginningBalanceLineAmount(Integer expenditureFinancialBeginningBalanceLineAmount) {
-        this.expenditureFinancialBeginningBalanceLineAmount = expenditureFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getExpenditurePercentChange() {
-        return expenditurePercentChange;
-    }
-
-    public void setExpenditurePercentChange(BigDecimal expenditurePercentChange) {
-        this.expenditurePercentChange = expenditurePercentChange;
-    }
-
-    public Integer getGrossAccountLineAnnualBalanceAmount() {
-        return grossAccountLineAnnualBalanceAmount;
-    }
-
-    public void setGrossAccountLineAnnualBalanceAmount(Integer grossAccountLineAnnualBalanceAmount) {
-        this.grossAccountLineAnnualBalanceAmount = grossAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getGrossFinancialBeginningBalanceLineAmount() {
-        return grossFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setGrossFinancialBeginningBalanceLineAmount(Integer grossFinancialBeginningBalanceLineAmount) {
-        this.grossFinancialBeginningBalanceLineAmount = grossFinancialBeginningBalanceLineAmount;
-    }
-
     public String getHeader2a() {
         return header2a;
     }
@@ -650,213 +528,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.header40 = header40;
     }
 
-    public Integer getRevenueAccountLineAnnualBalanceAmount() {
-        return revenueAccountLineAnnualBalanceAmount;
-    }
-
-    public void setRevenueAccountLineAnnualBalanceAmount(Integer revenueAccountLineAnnualBalanceAmount) {
-        this.revenueAccountLineAnnualBalanceAmount = revenueAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getRevenueAmountChange() {
-        return revenueAmountChange;
-    }
-
-    public void setRevenueAmountChange(Integer revenueAmountChange) {
-        this.revenueAmountChange = revenueAmountChange;
-    }
-
-    public Integer getRevenueFinancialBeginningBalanceLineAmount() {
-        return revenueFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setRevenueFinancialBeginningBalanceLineAmount(Integer revenueFinancialBeginningBalanceLineAmount) {
-        this.revenueFinancialBeginningBalanceLineAmount = revenueFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getRevenuePercentChange() {
-        return revenuePercentChange;
-    }
-
-    public void setRevenuePercentChange(BigDecimal revenuePercentChange) {
-        this.revenuePercentChange = revenuePercentChange;
-    }
-
-    public Integer getTotalConsolidationAccountLineAnnualBalanceAmount() {
-        return totalConsolidationAccountLineAnnualBalanceAmount;
-    }
-
-    public void setTotalConsolidationAccountLineAnnualBalanceAmount(Integer totalConsolidationAccountLineAnnualBalanceAmount) {
-        this.totalConsolidationAccountLineAnnualBalanceAmount = totalConsolidationAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getTotalConsolidationAmountChange() {
-        return totalConsolidationAmountChange;
-    }
-
-    public void setTotalConsolidationAmountChange(Integer totalConsolidationAmountChange) {
-        this.totalConsolidationAmountChange = totalConsolidationAmountChange;
-    }
-
-    public String getTotalConsolidationAppointmentRequestedCsfFteQuantity() {
-        return totalConsolidationAppointmentRequestedCsfFteQuantity;
-    }
-
-    public void setTotalConsolidationAppointmentRequestedCsfFteQuantity(String totalConsolidationAppointmentRequestedCsfFteQuantity) {
-        this.totalConsolidationAppointmentRequestedCsfFteQuantity = totalConsolidationAppointmentRequestedCsfFteQuantity;
-    }
-
-    public String getTotalConsolidationAppointmentRequestedFteQuantity() {
-        return totalConsolidationAppointmentRequestedFteQuantity;
-    }
-
-    public void setTotalConsolidationAppointmentRequestedFteQuantity(String totalConsolidationAppointmentRequestedFteQuantity) {
-        this.totalConsolidationAppointmentRequestedFteQuantity = totalConsolidationAppointmentRequestedFteQuantity;
-    }
-
-    public String getTotalConsolidationDescription() {
-        return totalConsolidationDescription;
-    }
-
-    public void setTotalConsolidationDescription(String totalConsolidationDescription) {
-        this.totalConsolidationDescription = totalConsolidationDescription;
-    }
-
-    public Integer getTotalConsolidationFinancialBeginningBalanceLineAmount() {
-        return totalConsolidationFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setTotalConsolidationFinancialBeginningBalanceLineAmount(Integer totalConsolidationFinancialBeginningBalanceLineAmount) {
-        this.totalConsolidationFinancialBeginningBalanceLineAmount = totalConsolidationFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getTotalConsolidationPercentChange() {
-        return totalConsolidationPercentChange;
-    }
-
-    public void setTotalConsolidationPercentChange(BigDecimal totalConsolidationPercentChange) {
-        this.totalConsolidationPercentChange = totalConsolidationPercentChange;
-    }
-
-    public String getTotalConsolidationPositionCsfFullTimeEmploymentQuantity() {
-        return totalConsolidationPositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public void setTotalConsolidationPositionCsfFullTimeEmploymentQuantity(String totalConsolidationPositionCsfFullTimeEmploymentQuantity) {
-        this.totalConsolidationPositionCsfFullTimeEmploymentQuantity = totalConsolidationPositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public String getTotalConsolidationPositionCsfLeaveFteQuantity() {
-        return totalConsolidationPositionCsfLeaveFteQuantity;
-    }
-
-    public void setTotalConsolidationPositionCsfLeaveFteQuantity(String totalConsolidationPositionCsfLeaveFteQuantity) {
-        this.totalConsolidationPositionCsfLeaveFteQuantity = totalConsolidationPositionCsfLeaveFteQuantity;
-    }
-
-    public Integer getTypeAccountLineAnnualBalanceAmount() {
-        return typeAccountLineAnnualBalanceAmount;
-    }
-
-    public void setTypeAccountLineAnnualBalanceAmount(Integer typeAccountLineAnnualBalanceAmount) {
-        this.typeAccountLineAnnualBalanceAmount = typeAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getTypeAmountChange() {
-        return typeAmountChange;
-    }
-
-    public void setTypeAmountChange(Integer typeAmountChange) {
-        this.typeAmountChange = typeAmountChange;
-    }
-
-    public String getTypeAppointmentRequestedCsfFteQuantity() {
-        return typeAppointmentRequestedCsfFteQuantity;
-    }
-
-    public void setTypeAppointmentRequestedCsfFteQuantity(String typeAppointmentRequestedCsfFteQuantity) {
-        this.typeAppointmentRequestedCsfFteQuantity = typeAppointmentRequestedCsfFteQuantity;
-    }
-
-    public String getTypeAppointmentRequestedFteQuantity() {
-        return typeAppointmentRequestedFteQuantity;
-    }
-
-    public void setTypeAppointmentRequestedFteQuantity(String typeAppointmentRequestedFteQuantity) {
-        this.typeAppointmentRequestedFteQuantity = typeAppointmentRequestedFteQuantity;
-    }
-
-    public String getTypeDesc() {
-        return typeDesc;
-    }
-
-    public void setTypeDesc(String typeDesc) {
-        this.typeDesc = typeDesc;
-    }
-
-    public Integer getTypeFinancialBeginningBalanceLineAmount() {
-        return typeFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setTypeFinancialBeginningBalanceLineAmount(Integer typeFinancialBeginningBalanceLineAmount) {
-        this.typeFinancialBeginningBalanceLineAmount = typeFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getTypePercentChange() {
-        return typePercentChange;
-    }
-
-    public void setTypePercentChange(BigDecimal typePercentChange) {
-        this.typePercentChange = typePercentChange;
-    }
-
-    public String getTypePositionCsfFullTimeEmploymentQuantity() {
-        return typePositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public void setTypePositionCsfFullTimeEmploymentQuantity(String typePositionCsfFullTimeEmploymentQuantity) {
-        this.typePositionCsfFullTimeEmploymentQuantity = typePositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public String getTypePositionCsfLeaveFteQuantity() {
-        return typePositionCsfLeaveFteQuantity;
-    }
-
-    public void setTypePositionCsfLeaveFteQuantity(String typePositionCsfLeaveFteQuantity) {
-        this.typePositionCsfLeaveFteQuantity = typePositionCsfLeaveFteQuantity;
-    }
-
-    public String getTotalSubFundGroupDesc() {
-        return totalSubFundGroupDesc;
-    }
-
-    public void setTotalSubFundGroupDesc(String totalSubFundGroupDesc) {
-        this.totalSubFundGroupDesc = totalSubFundGroupDesc;
-    }
-
-    public String getGrossDescription() {
-        return grossDescription;
-    }
-
-    public void setGrossDescription(String grossDescription) {
-        this.grossDescription = grossDescription;
-    }
-
-    public Integer getGrossAmountChange() {
-        return grossAmountChange;
-    }
-
-    public void setGrossAmountChange(Integer grossAmountChange) {
-        this.grossAmountChange = grossAmountChange;
-    }
-
-    public BigDecimal getGrossPercentChange() {
-        return grossPercentChange;
-    }
-
-    public void setGrossPercentChange(BigDecimal grossPercentChange) {
-        this.grossPercentChange = grossPercentChange;
-    }
 
     public String getFinancialObjectLevelCode() {
         return financialObjectLevelCode;
@@ -880,78 +551,6 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
 
     public void setIncomeExpenseCode(String incomeExpenseCode) {
         this.incomeExpenseCode = incomeExpenseCode;
-    }
-
-    public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
-        return totalLevelAccountLineAnnualBalanceAmount;
-    }
-
-    public void setTotalLevelAccountLineAnnualBalanceAmount(Integer totalLevelAccountLineAnnualBalanceAmount) {
-        this.totalLevelAccountLineAnnualBalanceAmount = totalLevelAccountLineAnnualBalanceAmount;
-    }
-
-    public Integer getTotalLevelAmountChange() {
-        return totalLevelAmountChange;
-    }
-
-    public void setTotalLevelAmountChange(Integer totalLevelAmountChange) {
-        this.totalLevelAmountChange = totalLevelAmountChange;
-    }
-
-    public String getTotalLevelAppointmentRequestedCsfFteQuantity() {
-        return totalLevelAppointmentRequestedCsfFteQuantity;
-    }
-
-    public void setTotalLevelAppointmentRequestedCsfFteQuantity(String totalLevelAppointmentRequestedCsfFteQuantity) {
-        this.totalLevelAppointmentRequestedCsfFteQuantity = totalLevelAppointmentRequestedCsfFteQuantity;
-    }
-
-    public String getTotalLevelAppointmentRequestedFteQuantity() {
-        return totalLevelAppointmentRequestedFteQuantity;
-    }
-
-    public void setTotalLevelAppointmentRequestedFteQuantity(String totalLevelAppointmentRequestedFteQuantity) {
-        this.totalLevelAppointmentRequestedFteQuantity = totalLevelAppointmentRequestedFteQuantity;
-    }
-
-    public String getTotalLevelDescription() {
-        return totalLevelDescription;
-    }
-
-    public void setTotalLevelDescription(String totalLevelDescription) {
-        this.totalLevelDescription = totalLevelDescription;
-    }
-
-    public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
-        return totalLevelFinancialBeginningBalanceLineAmount;
-    }
-
-    public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
-        this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
-    }
-
-    public BigDecimal getTotalLevelPercentChange() {
-        return totalLevelPercentChange;
-    }
-
-    public void setTotalLevelPercentChange(BigDecimal totalLevelPercentChange) {
-        this.totalLevelPercentChange = totalLevelPercentChange;
-    }
-
-    public String getTotalLevelPositionCsfFullTimeEmploymentQuantity() {
-        return totalLevelPositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public void setTotalLevelPositionCsfFullTimeEmploymentQuantity(String totalLevelPositionCsfFullTimeEmploymentQuantity) {
-        this.totalLevelPositionCsfFullTimeEmploymentQuantity = totalLevelPositionCsfFullTimeEmploymentQuantity;
-    }
-
-    public String getTotalLevelPositionCsfLeaveFteQuantity() {
-        return totalLevelPositionCsfLeaveFteQuantity;
-    }
-
-    public void setTotalLevelPositionCsfLeaveFteQuantity(String totalLevelPositionCsfLeaveFteQuantity) {
-        this.totalLevelPositionCsfLeaveFteQuantity = totalLevelPositionCsfLeaveFteQuantity;
     }
 
     public String getFinancialLevelSortCode() {

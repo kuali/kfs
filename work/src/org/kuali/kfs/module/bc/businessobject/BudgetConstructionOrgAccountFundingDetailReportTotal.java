@@ -21,16 +21,22 @@ import java.math.BigDecimal;
  * Total Part of Budget Construction Organization Account Funding Detail Total Business Object.
  */
 public class BudgetConstructionOrgAccountFundingDetailReportTotal {
-    BudgetConstructionAccountSummary bcas;
-    private BigDecimal totalRevenueBaseAmount;
-    private BigDecimal totalGrossBaseAmount;
-    private BigDecimal totalTransferInBaseAmount;
-    private BigDecimal totalNetTransferBaseAmount;
-
-    private BigDecimal totalRevenueReqAmount;
-    private BigDecimal totalGrossReqAmount;
-    private BigDecimal totalTransferInReqAmount;
-    private BigDecimal totalNetTransferReqAmount;
+    
+    BudgetConstructionObjectDump budgetConstructionObjectDump;
+    
+    private Integer totalObjectPositionCsfAmount;
+    private Integer totalObjectAppointmentRequestedAmount;
+    private BigDecimal totalObjectPositionCsfFteQuantity;
+    private BigDecimal totalObjectAppointmentRequestedQuantity;
+    private Integer totalObjectAmountChange;
+    private BigDecimal totalObjectPercentChange;
+    
+    private Integer totalAccountPositionCsfAmount;
+    private Integer totalAccountAppointmentRequestedAmount;
+    private BigDecimal totalAccountPositionCsfFteQuantity;
+    private BigDecimal totalAccountAppointmentRequestedQuantity;
+    private Integer totalAccountAmountChange;
+    private BigDecimal totalAccountPercentChange;
 
     /**
      * Default constructor.
@@ -38,165 +44,109 @@ public class BudgetConstructionOrgAccountFundingDetailReportTotal {
     public BudgetConstructionOrgAccountFundingDetailReportTotal() {
     }
 
-    /**
-     * Gets the totalGrossBaseAmount
-     * 
-     * @return Returns the totalGrossBaseAmount.
-     */
-    public BigDecimal getTotalGrossBaseAmount() {
-        return totalGrossBaseAmount;
+    public BudgetConstructionObjectDump getBudgetConstructionObjectDump() {
+        return budgetConstructionObjectDump;
     }
 
-    /**
-     * Sets the totalGrossBaseAmount
-     * 
-     * @param totalGrossBaseAmount The totalGrossBaseAmount to set.
-     */
-    public void setTotalGrossBaseAmount(BigDecimal totalGrossBaseAmount) {
-        this.totalGrossBaseAmount = totalGrossBaseAmount;
+    public void setBudgetConstructionObjectDump(BudgetConstructionObjectDump budgetConstructionObjectDump) {
+        this.budgetConstructionObjectDump = budgetConstructionObjectDump;
     }
 
-    /**
-     * Gets the totalGrossReqAmount
-     * 
-     * @return Returns the totalGrossReqAmount.
-     */
-    public BigDecimal getTotalGrossReqAmount() {
-        return totalGrossReqAmount;
+    public Integer getTotalAccountAmountChange() {
+        return totalAccountAmountChange;
     }
 
-    /**
-     * Sets the totalGrossReqAmount
-     * 
-     * @param totalGrossReqAmount The totalGrossReqAmount to set.
-     */
-    public void setTotalGrossReqAmount(BigDecimal totalGrossReqAmount) {
-        this.totalGrossReqAmount = totalGrossReqAmount;
+    public void setTotalAccountAmountChange(Integer totalAccountAmountChange) {
+        this.totalAccountAmountChange = totalAccountAmountChange;
     }
 
-    /**
-     * Gets the totalNetTransferBaseAmount
-     * 
-     * @return Returns the totalNetTransferBaseAmount.
-     */
-    public BigDecimal getTotalNetTransferBaseAmount() {
-        return totalNetTransferBaseAmount;
+    public Integer getTotalAccountAppointmentRequestedAmount() {
+        return totalAccountAppointmentRequestedAmount;
     }
 
-    /**
-     * Sets the totalNetTransferBaseAmount
-     * 
-     * @param totalNetTransferBaseAmount The totalNetTransferBaseAmount to set.
-     */
-    public void setTotalNetTransferBaseAmount(BigDecimal totalNetTransferBaseAmount) {
-        this.totalNetTransferBaseAmount = totalNetTransferBaseAmount;
+    public void setTotalAccountAppointmentRequestedAmount(Integer totalAccountAppointmentRequestedAmount) {
+        this.totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount;
     }
 
-    /**
-     * Gets the totalNetTransferReqAmount
-     * 
-     * @return Returns the totalNetTransferReqAmount.
-     */
-    public BigDecimal getTotalNetTransferReqAmount() {
-        return totalNetTransferReqAmount;
+    public BigDecimal getTotalAccountAppointmentRequestedQuantity() {
+        return totalAccountAppointmentRequestedQuantity;
     }
 
-    /**
-     * Sets the totalNetTransferReqAmount
-     * 
-     * @param totalNetTransferReqAmount The totalNetTransferReqAmount to set.
-     */
-    public void setTotalNetTransferReqAmount(BigDecimal totalNetTransferReqAmount) {
-        this.totalNetTransferReqAmount = totalNetTransferReqAmount;
+    public void setTotalAccountAppointmentRequestedQuantity(BigDecimal totalAccountAppointmentRequestedQuantity) {
+        this.totalAccountAppointmentRequestedQuantity = totalAccountAppointmentRequestedQuantity;
     }
 
-    /**
-     * Gets the totalRevenueBaseAmount
-     * 
-     * @return Returns the totalRevenueBaseAmount.
-     */
-    public BigDecimal getTotalRevenueBaseAmount() {
-        return totalRevenueBaseAmount;
+    public BigDecimal getTotalAccountPercentChange() {
+        return totalAccountPercentChange;
     }
 
-    /**
-     * Sets the totalRevenueBaseAmount
-     * 
-     * @param totalRevenueBaseAmount The totalRevenueBaseAmount to set.
-     */
-    public void setTotalRevenueBaseAmount(BigDecimal totalRevenueBaseAmount) {
-        this.totalRevenueBaseAmount = totalRevenueBaseAmount;
+    public void setTotalAccountPercentChange(BigDecimal totalAccountPercentChange) {
+        this.totalAccountPercentChange = totalAccountPercentChange;
     }
 
-    /**
-     * Gets the totalRevenueReqAmount
-     * 
-     * @return Returns the totalRevenueReqAmount.
-     */
-    public BigDecimal getTotalRevenueReqAmount() {
-        return totalRevenueReqAmount;
+    public Integer getTotalAccountPositionCsfAmount() {
+        return totalAccountPositionCsfAmount;
     }
 
-    /**
-     * Sets the totalRevenueReqAmount
-     * 
-     * @param totalRevenueReqAmount The totalRevenueReqAmount to set.
-     */
-    public void setTotalRevenueReqAmount(BigDecimal totalRevenueReqAmount) {
-        this.totalRevenueReqAmount = totalRevenueReqAmount;
+    public void setTotalAccountPositionCsfAmount(Integer totalAccountPositionCsfAmount) {
+        this.totalAccountPositionCsfAmount = totalAccountPositionCsfAmount;
     }
 
-    /**
-     * Gets the totalTransferInBaseAmount
-     * 
-     * @return Returns the totalTransferInBaseAmount.
-     */
-    public BigDecimal getTotalTransferInBaseAmount() {
-        return totalTransferInBaseAmount;
+    public BigDecimal getTotalAccountPositionCsfFteQuantity() {
+        return totalAccountPositionCsfFteQuantity;
     }
 
-    /**
-     * Sets the totalTransferInBaseAmount
-     * 
-     * @param totalTransferInBaseAmount The totalTransferInBaseAmount to set.
-     */
-    public void setTotalTransferInBaseAmount(BigDecimal totalTransferInBaseAmount) {
-        this.totalTransferInBaseAmount = totalTransferInBaseAmount;
+    public void setTotalAccountPositionCsfFteQuantity(BigDecimal totalAccountPositionCsfFteQuantity) {
+        this.totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity;
     }
 
-    /**
-     * Gets the totalTransferInReqAmount
-     * 
-     * @return Returns the totalTransferInReqAmount.
-     */
-    public BigDecimal getTotalTransferInReqAmount() {
-        return totalTransferInReqAmount;
+    public Integer getTotalObjectAmountChange() {
+        return totalObjectAmountChange;
     }
 
-    /**
-     * Sets the totalTransferInReqAmount
-     * 
-     * @param totalTransferInReqAmount The totalTransferInReqAmount to set.
-     */
-    public void setTotalTransferInReqAmount(BigDecimal totalTransferInReqAmount) {
-        this.totalTransferInReqAmount = totalTransferInReqAmount;
+    public void setTotalObjectAmountChange(Integer totalObjectAmountChange) {
+        this.totalObjectAmountChange = totalObjectAmountChange;
     }
 
-    /**
-     * Gets the budgetConstructionAccountSummary
-     * 
-     * @return Returns the bcas.
-     */
-    public BudgetConstructionAccountSummary getBcas() {
-        return bcas;
+    public Integer getTotalObjectAppointmentRequestedAmount() {
+        return totalObjectAppointmentRequestedAmount;
     }
 
-    /**
-     * Sets the budgetConstructionAccountSummary
-     * 
-     * @param bcas The budgetConstructionAccountSummary to set.
-     */
-    public void setBcas(BudgetConstructionAccountSummary bcas) {
-        this.bcas = bcas;
+    public void setTotalObjectAppointmentRequestedAmount(Integer totalObjectAppointmentRequestedAmount) {
+        this.totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount;
     }
+
+    public BigDecimal getTotalObjectAppointmentRequestedQuantity() {
+        return totalObjectAppointmentRequestedQuantity;
+    }
+
+    public void setTotalObjectAppointmentRequestedQuantity(BigDecimal totalObjectAppointmentRequestedQuantity) {
+        this.totalObjectAppointmentRequestedQuantity = totalObjectAppointmentRequestedQuantity;
+    }
+
+    public BigDecimal getTotalObjectPercentChange() {
+        return totalObjectPercentChange;
+    }
+
+    public void setTotalObjectPercentChange(BigDecimal totalObjectPercentChange) {
+        this.totalObjectPercentChange = totalObjectPercentChange;
+    }
+
+    public Integer getTotalObjectPositionCsfAmount() {
+        return totalObjectPositionCsfAmount;
+    }
+
+    public void setTotalObjectPositionCsfAmount(Integer totalObjectPositionCsfAmount) {
+        this.totalObjectPositionCsfAmount = totalObjectPositionCsfAmount;
+    }
+
+    public BigDecimal getTotalObjectPositionCsfFteQuantity() {
+        return totalObjectPositionCsfFteQuantity;
+    }
+
+    public void setTotalObjectPositionCsfFteQuantity(BigDecimal totalObjectPositionCsfFteQuantity) {
+        this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
+    }
+
+
 }

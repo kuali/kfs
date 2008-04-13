@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,16 +77,21 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionObjectDump> accountFundingDetailList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionObjectDump.class, searchCriteria, orderList);
 
+        // build entire map of appointmentfunding
+        Map appointmentFundingEntireMap = new HashMap();
+        for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
+            appointmentFundingEntireMap.put(accountFundingDetailList, getPendingBudgetConstructionAppointmentFundingList(universityFiscalYear, accountFundingDetailEntry));
+        }
 
         List listForCalculateTotalObject = deleteDuplicated((List) accountFundingDetailList, 1);
         List listForCalculateTotalAccount = deleteDuplicated((List) accountFundingDetailList, 2);
 
         // Calculate Total Section
-        List<BudgetConstructionOrgAccountFundingDetailReport> fundingDetailTotalObject;
-        List<BudgetConstructionOrgAccountFundingDetailReport> fundingDetailTotalAccount;
+        List<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject;
+        List<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalAccount;
 
-        // fundingDetailTotalObject = calculateObjectTotal((List) accountFundingDetailList, fundingDetailTotalObject);
-        // fundingDetailTotalAccount = calculateAccountTotal((List) accountFundingDetailList, fundingDetailTotalAccount);
+        fundingDetailTotalObject = calculateObjectTotal(appointmentFundingEntireMap, listForCalculateTotalObject);
+        fundingDetailTotalAccount = calculateAccountTotal(appointmentFundingEntireMap, listForCalculateTotalAccount);
 
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
 
@@ -166,7 +172,55 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @param BudgetConstructionObjectDump bcod
      * @param List reportTotalList
      */
-    public void buildReportsTotal(BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, BudgetConstructionObjectDump accountFundingDetail, List reportTotalList) {
+    private List<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateObjectTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalObject) {
+        Integer totalObjectPositionCsfAmount = new Integer(0);
+        Integer totalObjectAppointmentRequestedAmount = new Integer(0);
+        BigDecimal totalObjectPositionCsfFteQuantity = BigDecimal.ZERO; 
+        BigDecimal totalObjectAppointmentRequestedQuantity = BigDecimal.ZERO;
+        Integer totalObjectAmountChange = new Integer(0);
+        BigDecimal totalObjectPercentChange = BigDecimal.ZERO;
+        
+        
+        
+        List<BudgetConstructionOrgAccountFundingDetailReportTotal> returnList = new ArrayList();
+        for (BudgetConstructionObjectDump budgetConstructionObjectDump : listForCalculateTotalObject){
+            Collection<PendingBudgetConstructionAppointmentFunding> accountFundingCollection = new ArrayList();
+            
+            accountFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(listForCalculateTotalObject);
+            for (PendingBudgetConstructionAppointmentFunding accountFundingEntry : accountFundingCollection){
+                
+                //totalObjectPositionCsfAmount = totalObjectPositionCsfAmount + accountFundingEntry.get
+                String testStop = null;
+                
+            }
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        return returnList;
+    }
+
+
+    private List<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Map appointmentFundingEntireMap, List listForCalculateTotalAccount) {
+        List<BudgetConstructionOrgAccountFundingDetailReportTotal> returnList = new ArrayList();
+
+        
+        
+        
+        
+        
+        
+        
+        
+        return returnList;
     }
 
     /**

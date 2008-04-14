@@ -84,8 +84,7 @@ public interface CashControlDocumentService {
      * This method saves CashControl document GLPEs in the database
      * 
      * @param cashControlDocument
-     * @return
      */
-    public boolean saveGLPEs(CashControlDocument cashControlDocument);
+    public void saveGLPEs(CashControlDocument cashControlDocument);
 
 }

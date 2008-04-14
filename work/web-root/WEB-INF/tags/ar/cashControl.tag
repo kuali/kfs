@@ -102,7 +102,7 @@
 				test="${not KualiForm.hasGeneratedGLPEs and KualiForm.documentSubmitted and not KualiForm.cashPaymentMediumSelected}">
 				<tr>
 					<kul:htmlAttributeHeaderCell
-						literalLabel="Generate General Ledger Pending Entries"
+						literalLabel="Generate General Ledger Pending Entries:"
 						horizontal="true" />
 					<td class="datacell-nowrap">
 						<html:image property="methodToCall.generateGLPEs"

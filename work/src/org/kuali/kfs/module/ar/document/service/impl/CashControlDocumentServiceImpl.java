@@ -117,9 +117,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     /**
      * @see org.kuali.module.ar.service.CashControlDocumentService#saveGLPEs(org.kuali.module.ar.document.CashControlDocument)
      */
-    public boolean saveGLPEs(CashControlDocument cashControlDocument) {
+    public void saveGLPEs(CashControlDocument cashControlDocument) {
         businessObjectService.save(cashControlDocument.getGeneralLedgerPendingEntries());
-        return false;
     }
 
     /**

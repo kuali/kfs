@@ -248,4 +248,30 @@ public class BCConstants extends JstlConstants {
             return this.toString();
         }
     }
+    
+    //budget construction request move data validation error codes
+    public enum RequestImportDataValidationErrorFlag {
+        DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE("ACSA"),
+        DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE("CLAC"),
+        DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE("EXAC"),
+        DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE("INSA"),
+        DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE("NOOB"),
+        DATA_VALIDATION_OBJECT_TYPE_INVALID_ERROR_CODE("NOOB"),
+        DATA_VALIDATION_OBJECT_TYPE_INACTIVE_ERROR_CODE("INOB"),
+        DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE("INSO"),
+        DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE("NOSO"),
+        DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE("CMPA"),
+        DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE("CMPA");
+        
+        private String errorCode;
+        
+        private RequestImportDataValidationErrorFlag(String errorCode) {
+            this.errorCode = errorCode;
+        }
+        
+        public String getErrorCode() {
+            return this.errorCode;
+        }
+    }
+    
 }

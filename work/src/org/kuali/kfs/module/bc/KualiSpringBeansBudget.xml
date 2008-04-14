@@ -452,7 +452,13 @@
 	<bean id="budgetRequestImportService" class="org.kuali.module.budget.service.impl.BudgetRequestImportServiceImpl" >
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>	
+		<property name="importRequestDao">
+			<ref bean="importRequestDao" />
 		</property>					
 	</bean>
+	
+	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
+    </bean>
     
 </beans>

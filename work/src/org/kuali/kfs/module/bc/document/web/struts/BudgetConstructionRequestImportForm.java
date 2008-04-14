@@ -17,6 +17,7 @@ package org.kuali.module.budget.web.struts.form;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionRequestImport;
 
 
@@ -37,6 +38,9 @@ public class BudgetConstructionRequestImportForm extends KualiForm {
     public BudgetConstructionRequestImportForm() {
         super();
         this.budgetConstructionRequestImport = new BudgetConstructionRequestImport();
+        setFileType(BCConstants.RequestImportFileType.ANNUAL.toString());
+        setFieldDelimiter(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator());
+        setTextFieldDelimiter(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter());
     }
     
     /**

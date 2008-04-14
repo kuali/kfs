@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.module.budget.BCConstants;
 
 /**
  * returns import file types
@@ -31,8 +32,8 @@ public class FileTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("Annual", "Annual"));
-        keyValues.add(new KeyLabelPair("Monthly", "Monthly"));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFileType.ANNUAL.toString(), BCConstants.RequestImportFileType.ANNUAL.toString()));
+        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFileType.MONTHLY.toString(), BCConstants.RequestImportFileType.MONTHLY.toString()));
         
         return keyValues;
     }

@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,13 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSConstants.ReportGeneration;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.BCKeyConstants;
@@ -54,22 +57,37 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
      */
     public ActionForward importFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionRequestImportForm budgetConstructionImportForm = (BudgetConstructionRequestImportForm) form;
+        BudgetRequestImportService budgetRequestImportService = SpringContext.getBean(BudgetRequestImportService.class);
         
         boolean isValid = validateImportRequest(budgetConstructionImportForm);
         
         String basePath;
         String lookupUrl;
         
-        if (isValid ) {
-            SpringContext.getBean(BudgetRequestImportService.class).processImportFile(budgetConstructionImportForm.getFile().getInputStream(), getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
-            basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-            lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
-        } else {
+        if (!isValid) {
             basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             lookupUrl = basePath + "/" + "budgetBudgetConstructionRequestImport.do";
+            
+            return new ActionForward(lookupUrl, true);
         }
         
+        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
+        if (!parsingErrors.isEmpty()) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            budgetRequestImportService.generatePdf(parsingErrors, baos);
+            WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, "budgetImportLog.pdf");
+            return null;
+        }
         
+        boolean isFileDataValid = budgetRequestImportService.validateData();
+        
+        if (!isFileDataValid) {
+            //write error line to file?
+        }
+        
+        basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
+               
         return new ActionForward(lookupUrl, true);
       
     }

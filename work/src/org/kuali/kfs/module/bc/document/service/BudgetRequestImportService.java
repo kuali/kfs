@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.kuali.module.budget.dao.ImportRequestDao;
+
 import com.lowagie.text.DocumentException;
 
 public interface BudgetRequestImportService {
@@ -45,6 +47,28 @@ public interface BudgetRequestImportService {
      * @param baos
      * @throws DocumentException
      */
-    public void generatePdf(List errorMessages, ByteArrayOutputStream baos) throws DocumentException;
+    public void generatePdf(List<String> errorMessages, ByteArrayOutputStream baos) throws DocumentException;
+    
+    /**
+     * Checks the imported request records for valid data. Sets error codes on invalid records.
+     * 
+     * @return true if data is valid. false otherwise
+     * 
+     */
+    public boolean validateData();
+    
+    /**
+     * Gets ImportRequestDao
+     * 
+     * @return
+     */
+    public ImportRequestDao getImportRequestDao();
+    
+    /**
+     * Sets the ImportRequestDao
+     * 
+     * @param dao
+     */
+    public void setImportRequestDao(ImportRequestDao dao);
     
 }

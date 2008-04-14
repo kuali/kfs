@@ -21,45 +21,25 @@ import java.math.BigDecimal;
  * Total Part of Budget Construction Organization Account Funding Detail Total Business Object.
  */
 public class BudgetConstructionOrgAccountFundingDetailReportTotal {
-    
-    BudgetConstructionObjectDump budgetConstructionObjectDump;
+    private BudgetConstructionObjectDump budgetConstructionObjectDump;
     
     private Integer totalObjectPositionCsfAmount;
     private Integer totalObjectAppointmentRequestedAmount;
     private BigDecimal totalObjectPositionCsfFteQuantity;
-    private BigDecimal totalObjectAppointmentRequestedQuantity;
-    private Integer totalObjectAmountChange;
-    private BigDecimal totalObjectPercentChange;
+    private BigDecimal totalObjectAppointmentRequestedFteQuantity;
     
     private Integer totalAccountPositionCsfAmount;
     private Integer totalAccountAppointmentRequestedAmount;
     private BigDecimal totalAccountPositionCsfFteQuantity;
-    private BigDecimal totalAccountAppointmentRequestedQuantity;
-    private Integer totalAccountAmountChange;
-    private BigDecimal totalAccountPercentChange;
-
+    private BigDecimal totalAccountAppointmentRequestedFteQuantity;
+    
     /**
      * Default constructor.
      */
     public BudgetConstructionOrgAccountFundingDetailReportTotal() {
     }
 
-    public BudgetConstructionObjectDump getBudgetConstructionObjectDump() {
-        return budgetConstructionObjectDump;
-    }
-
-    public void setBudgetConstructionObjectDump(BudgetConstructionObjectDump budgetConstructionObjectDump) {
-        this.budgetConstructionObjectDump = budgetConstructionObjectDump;
-    }
-
-    public Integer getTotalAccountAmountChange() {
-        return totalAccountAmountChange;
-    }
-
-    public void setTotalAccountAmountChange(Integer totalAccountAmountChange) {
-        this.totalAccountAmountChange = totalAccountAmountChange;
-    }
-
+    
     public Integer getTotalAccountAppointmentRequestedAmount() {
         return totalAccountAppointmentRequestedAmount;
     }
@@ -68,20 +48,12 @@ public class BudgetConstructionOrgAccountFundingDetailReportTotal {
         this.totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount;
     }
 
-    public BigDecimal getTotalAccountAppointmentRequestedQuantity() {
-        return totalAccountAppointmentRequestedQuantity;
+    public BigDecimal getTotalAccountAppointmentRequestedFteQuantity() {
+        return totalAccountAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalAccountAppointmentRequestedQuantity(BigDecimal totalAccountAppointmentRequestedQuantity) {
-        this.totalAccountAppointmentRequestedQuantity = totalAccountAppointmentRequestedQuantity;
-    }
-
-    public BigDecimal getTotalAccountPercentChange() {
-        return totalAccountPercentChange;
-    }
-
-    public void setTotalAccountPercentChange(BigDecimal totalAccountPercentChange) {
-        this.totalAccountPercentChange = totalAccountPercentChange;
+    public void setTotalAccountAppointmentRequestedFteQuantity(BigDecimal totalAccountAppointmentRequestedFteQuantity) {
+        this.totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity;
     }
 
     public Integer getTotalAccountPositionCsfAmount() {
@@ -100,14 +72,6 @@ public class BudgetConstructionOrgAccountFundingDetailReportTotal {
         this.totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity;
     }
 
-    public Integer getTotalObjectAmountChange() {
-        return totalObjectAmountChange;
-    }
-
-    public void setTotalObjectAmountChange(Integer totalObjectAmountChange) {
-        this.totalObjectAmountChange = totalObjectAmountChange;
-    }
-
     public Integer getTotalObjectAppointmentRequestedAmount() {
         return totalObjectAppointmentRequestedAmount;
     }
@@ -116,20 +80,12 @@ public class BudgetConstructionOrgAccountFundingDetailReportTotal {
         this.totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount;
     }
 
-    public BigDecimal getTotalObjectAppointmentRequestedQuantity() {
-        return totalObjectAppointmentRequestedQuantity;
+    public BigDecimal getTotalObjectAppointmentRequestedFteQuantity() {
+        return totalObjectAppointmentRequestedFteQuantity;
     }
 
-    public void setTotalObjectAppointmentRequestedQuantity(BigDecimal totalObjectAppointmentRequestedQuantity) {
-        this.totalObjectAppointmentRequestedQuantity = totalObjectAppointmentRequestedQuantity;
-    }
-
-    public BigDecimal getTotalObjectPercentChange() {
-        return totalObjectPercentChange;
-    }
-
-    public void setTotalObjectPercentChange(BigDecimal totalObjectPercentChange) {
-        this.totalObjectPercentChange = totalObjectPercentChange;
+    public void setTotalObjectAppointmentRequestedFteQuantity(BigDecimal totalObjectAppointmentRequestedFteQuantity) {
+        this.totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity;
     }
 
     public Integer getTotalObjectPositionCsfAmount() {
@@ -146,6 +102,16 @@ public class BudgetConstructionOrgAccountFundingDetailReportTotal {
 
     public void setTotalObjectPositionCsfFteQuantity(BigDecimal totalObjectPositionCsfFteQuantity) {
         this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
+    }
+
+
+    public BudgetConstructionObjectDump getBudgetConstructionObjectDump() {
+        return budgetConstructionObjectDump;
+    }
+
+
+    public void setBudgetConstructionObjectDump(BudgetConstructionObjectDump budgetConstructionObjectDump) {
+        this.budgetConstructionObjectDump = budgetConstructionObjectDump;
     }
 
 

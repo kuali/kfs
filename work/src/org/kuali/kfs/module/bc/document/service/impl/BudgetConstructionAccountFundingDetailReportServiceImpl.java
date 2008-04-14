@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
@@ -80,28 +81,29 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         // build entire map of appointmentfunding
         Map appointmentFundingEntireMap = new HashMap();
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
-            appointmentFundingEntireMap.put(accountFundingDetailList, getPendingBudgetConstructionAppointmentFundingList(universityFiscalYear, accountFundingDetailEntry));
+            appointmentFundingEntireMap.put(accountFundingDetailEntry, getPendingBudgetConstructionAppointmentFundingList(universityFiscalYear, accountFundingDetailEntry));
         }
 
-        List listForCalculateTotalObject = deleteDuplicated((List) accountFundingDetailList, 1);
-        List listForCalculateTotalAccount = deleteDuplicated((List) accountFundingDetailList, 2);
+        List<BudgetConstructionObjectDump> listForCalculateTotalObject = deleteDuplicated((List) accountFundingDetailList, 1);
+        List<BudgetConstructionObjectDump> listForCalculateTotalAccount = deleteDuplicated((List) accountFundingDetailList, 2);
 
         // Calculate Total Section
-        List<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject;
-        List<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalAccount;
-
-        fundingDetailTotalObject = calculateObjectTotal(appointmentFundingEntireMap, listForCalculateTotalObject);
-        fundingDetailTotalAccount = calculateAccountTotal(appointmentFundingEntireMap, listForCalculateTotalAccount);
+        Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject = calculateObjectTotal(appointmentFundingEntireMap, listForCalculateTotalObject);
+        Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalAccount = calculateAccountTotal(appointmentFundingEntireMap, listForCalculateTotalAccount);
 
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
+            Collection<PendingBudgetConstructionAppointmentFunding> appointmentFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(accountFundingDetailEntry);
+            for (PendingBudgetConstructionAppointmentFunding appointmentFundingEntry : appointmentFundingCollection) {
+
+                orgAccountFundingDetailReportEntry = new BudgetConstructionOrgAccountFundingDetailReport();
+                buildReportsHeader(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
+                buildReportsBody(universityFiscalYear, orgAccountFundingDetailReportEntry, appointmentFundingEntry);
+                buildReportsTotal(orgAccountFundingDetailReportEntry, accountFundingDetailEntry, fundingDetailTotalObject, fundingDetailTotalAccount);
+                reportSet.add(orgAccountFundingDetailReportEntry);
 
 
-            // orgAccountFundingDetailReportEntry = new BudgetConstructionOrgAccountFundingDetailReport();
-            // buildReportsHeader(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
-            // buildReportsBody(universityFiscalYear, orgAccountFundingDetailReportEntry, accountFundingDetailEntry);
-            // buildReportsTotal(orgAccountFundingDetailReportEntry, accountFundingDetailEntry,
-            // orgAccountFundingDetailReportTotalList);
-            // reportSet.add(orgAccountFundingDetailReportEntry);
+            }
+
         }
 
         return reportSet;
@@ -131,6 +133,11 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         orgAccountFundingDetailReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgAccountFundingDetailReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgAccountFundingDetailReportEntry.setConsHdr("");
+
+        // group
+        orgAccountFundingDetailReportEntry.setFinancialObjectCode(accountFundingDetail.getFinancialObjectCode());
+        orgAccountFundingDetailReportEntry.setAccountNumber(accountFundingDetail.getAccountNumber());
+
     }
 
     /**
@@ -138,31 +145,111 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * 
      * @param BudgetConstructionObjectDump bcod
      */
-    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, BudgetConstructionObjectDump accountFundingDetail) {
+    public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
-        PendingBudgetConstructionAppointmentFunding pendingBudgetConstructionAppointmentFunding;
         BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
         BudgetConstructionPosition budgetConstructionPosition;
-        BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker;
+        BudgetConstructionCalculatedSalaryFoundationTracker budgetConstructionCalculatedSalaryFoundationTracker = appointmentFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
 
 
-        UniversalUser user = new UniversalUser();
-        String emplId;
-        try {
-            user = universalUserService.getUniversalUser(accountFundingDetail.getPersonUniversalIdentifier());
+        // get budgetConstructionIntendedIncumbent, budgetConstructionAdministrativePost, budgetConstructionPosition objects
+        budgetConstructionIntendedIncumbent = getBudgetConstructionIntendedIncumbent(appointmentFundingEntry);
+        budgetConstructionAdministrativePost = getBudgetConstructionAdministrativePost(appointmentFundingEntry);
+        budgetConstructionPosition = getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
+
+        // set report body
+        if (budgetConstructionIntendedIncumbent != null) {
+            orgAccountFundingDetailReportEntry.setPersonName(budgetConstructionIntendedIncumbent.getPersonName());
+            orgAccountFundingDetailReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
         }
-        catch (UserNotFoundException e) {
+
+
+        if (budgetConstructionAdministrativePost != null) {
+            orgAccountFundingDetailReportEntry.setAdministrativePost(budgetConstructionAdministrativePost.getAdministrativePost());
+        }
+
+        if (budgetConstructionPosition != null) {
+            orgAccountFundingDetailReportEntry.setPositionNumber(budgetConstructionPosition.getPositionNumber());
+            orgAccountFundingDetailReportEntry.setNormalWorkMonthsAndiuPayMonths(budgetConstructionPosition.getIuNormalWorkMonths() + "/" + budgetConstructionPosition.getIuPayMonths());
+            orgAccountFundingDetailReportEntry.setPositionSalaryPlanDefault(budgetConstructionPosition.getPositionSalaryPlanDefault());
+            orgAccountFundingDetailReportEntry.setPositionGradeDefault(budgetConstructionPosition.getPositionGradeDefault());
+            orgAccountFundingDetailReportEntry.setPositionStandardHoursDefault(budgetConstructionPosition.getPositionStandardHoursDefault());
+        }
+
+        if (budgetConstructionCalculatedSalaryFoundationTracker != null) {
+            orgAccountFundingDetailReportEntry.setCsfTimePercent(budgetConstructionCalculatedSalaryFoundationTracker.getCsfTimePercent());
+            orgAccountFundingDetailReportEntry.setCsfAmount(new Integer(budgetConstructionCalculatedSalaryFoundationTracker.getCsfAmount().intValue()));
+            orgAccountFundingDetailReportEntry.setCsfFullTimeEmploymentQuantity(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity().toString());
+        }
+
+        if (appointmentFundingEntry != null) {
+            orgAccountFundingDetailReportEntry.setFinancialSubObjectCode(appointmentFundingEntry.getFinancialSubObjectCode());
+            orgAccountFundingDetailReportEntry.setAppointmentFundingMonth(appointmentFundingEntry.getAppointmentFundingMonth());
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedAmount().intValue()));
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedTimePercent(appointmentFundingEntry.getAppointmentRequestedTimePercent());
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedFteQuantity(appointmentFundingEntry.getAppointmentRequestedFteQuantity().toString());
+            orgAccountFundingDetailReportEntry.setAppointmentFundingDurationCode(appointmentFundingEntry.getAppointmentFundingDurationCode());
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedCsfAmount(new Integer(appointmentFundingEntry.getAppointmentRequestedCsfAmount().intValue()));
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedCsfTimePercent(appointmentFundingEntry.getAppointmentRequestedCsfTimePercent());
+            orgAccountFundingDetailReportEntry.setAppointmentRequestedCsfFteQuantity(appointmentFundingEntry.getAppointmentRequestedCsfFteQuantity().toString());
+            orgAccountFundingDetailReportEntry.setAppointmentTotalIntendedAmount(new Integer(appointmentFundingEntry.getAppointmentTotalIntendedAmount().intValue()));
+            orgAccountFundingDetailReportEntry.setAppointmentTotalIntendedFteQuantity(appointmentFundingEntry.getAppointmentTotalIntendedFteQuantity().toString());
+
+            // group
+            orgAccountFundingDetailReportEntry.setEmplid(appointmentFundingEntry.getEmplid());
 
         }
-        emplId = user.getPersonPayrollIdentifier();
 
 
-        // get budgetConstructionIntendedIncumbent
-        Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.EMPLID, emplId);
-        budgetConstructionIntendedIncumbent = (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
+    }
 
 
+    public void buildReportsTotal(BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, BudgetConstructionObjectDump accountFundingDetail, Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject, Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalAccount) {
+        for (BudgetConstructionOrgAccountFundingDetailReportTotal fundingDetailTotalObjectEntry : fundingDetailTotalObject) {
+            if (isSameAccountFundingDetailEntryForTotalObject(fundingDetailTotalObjectEntry.getBudgetConstructionObjectDump(), accountFundingDetail)) {
+
+                if (accountFundingDetail.getFinancialObject() != null) {
+                    orgAccountFundingDetailReportEntry.setTotalObjectname(accountFundingDetail.getFinancialObject().getName());
+                }
+
+
+                orgAccountFundingDetailReportEntry.setTotalObjectPositionCsfAmount(fundingDetailTotalObjectEntry.getTotalObjectPositionCsfAmount());
+                orgAccountFundingDetailReportEntry.setTotalObjectAppointmentRequestedAmount(fundingDetailTotalObjectEntry.getTotalObjectAppointmentRequestedAmount());
+                orgAccountFundingDetailReportEntry.setTotalObjectPositionCsfFteQuantity(fundingDetailTotalObjectEntry.getTotalObjectPositionCsfFteQuantity().toString());
+                orgAccountFundingDetailReportEntry.setTotalObjectAppointmentRequestedFteQuantity(fundingDetailTotalObjectEntry.getTotalObjectAppointmentRequestedFteQuantity().toString());
+                // orgAccountFundingDetailReportEntry.setTotalObjectAmountChange();
+                // orgAccountFundingDetailReportEntry.setTotalObjectPercentChange();
+
+
+            }
+        }
+
+
+        for (BudgetConstructionOrgAccountFundingDetailReportTotal fundingDetailTotalAccountEntry : fundingDetailTotalAccount) {
+            if (isSameAccountFundingDetailEntryForTotalAccount(fundingDetailTotalAccountEntry.getBudgetConstructionObjectDump(), accountFundingDetail)) {
+
+                if (accountFundingDetail.getAccount() != null) {
+                    orgAccountFundingDetailReportEntry.setTotalAccountname(accountFundingDetail.getAccount().getAccountName());
+                }
+
+                try {
+                    if (accountFundingDetail.getSubAccount() != null) {
+                        orgAccountFundingDetailReportEntry.setTotalSubAccountname(accountFundingDetail.getSubAccount().getSubAccountName());
+                    }
+                }
+                catch (PersistenceBrokerException e) {
+                    orgAccountFundingDetailReportEntry.setTotalSubAccountname("Error Getting sub-account description");
+                }
+
+                orgAccountFundingDetailReportEntry.setTotalAccountPositionCsfAmount(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfAmount());
+                orgAccountFundingDetailReportEntry.setTotalAccountAppointmentRequestedAmount(fundingDetailTotalAccountEntry.getTotalAccountAppointmentRequestedAmount());
+                orgAccountFundingDetailReportEntry.setTotalAccountPositionCsfFteQuantity(fundingDetailTotalAccountEntry.getTotalAccountPositionCsfFteQuantity().toString());
+                orgAccountFundingDetailReportEntry.setTotalAccountAppointmentRequestedFteQuantity(fundingDetailTotalAccountEntry.getTotalAccountAppointmentRequestedFteQuantity().toString());
+                // orgAccountFundingDetailReportEntry.setTotalAccountAmountChange();
+                // orgAccountFundingDetailReportEntry.setTotalAccountPercentChange();
+
+            }
+        }
     }
 
 
@@ -172,69 +259,86 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @param BudgetConstructionObjectDump bcod
      * @param List reportTotalList
      */
-    private List<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateObjectTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalObject) {
+    private Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateObjectTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalObject) {
         Integer totalObjectPositionCsfAmount = new Integer(0);
         Integer totalObjectAppointmentRequestedAmount = new Integer(0);
-        BigDecimal totalObjectPositionCsfFteQuantity = BigDecimal.ZERO; 
-        BigDecimal totalObjectAppointmentRequestedQuantity = BigDecimal.ZERO;
-        Integer totalObjectAmountChange = new Integer(0);
-        BigDecimal totalObjectPercentChange = BigDecimal.ZERO;
-        
-        
-        
-        List<BudgetConstructionOrgAccountFundingDetailReportTotal> returnList = new ArrayList();
-        for (BudgetConstructionObjectDump budgetConstructionObjectDump : listForCalculateTotalObject){
+        BigDecimal totalObjectPositionCsfFteQuantity = BigDecimal.ZERO;
+        BigDecimal totalObjectAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+
+        Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> returnCollection = new ArrayList();
+
+        for (BudgetConstructionObjectDump budgetConstructionObjectDump : listForCalculateTotalObject) {
             Collection<PendingBudgetConstructionAppointmentFunding> accountFundingCollection = new ArrayList();
-            
-            accountFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(listForCalculateTotalObject);
-            for (PendingBudgetConstructionAppointmentFunding accountFundingEntry : accountFundingCollection){
-                
-                //totalObjectPositionCsfAmount = totalObjectPositionCsfAmount + accountFundingEntry.get
-                String testStop = null;
-                
+
+            accountFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(budgetConstructionObjectDump);
+            for (PendingBudgetConstructionAppointmentFunding accountFundingEntry : accountFundingCollection) {
+                BudgetConstructionCalculatedSalaryFoundationTracker calculatedSalaryFoundationTracker = accountFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
+                totalObjectPositionCsfAmount = totalObjectPositionCsfAmount + new Integer(calculatedSalaryFoundationTracker.getCsfAmount().intValue());
+                totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity.add(calculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity());
+                totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount + new Integer(accountFundingEntry.getAppointmentRequestedAmount().intValue());
+                totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity.add(accountFundingEntry.getAppointmentRequestedFteQuantity());
             }
-            
-            
-            
-            
-            
-            
+
+            BudgetConstructionOrgAccountFundingDetailReportTotal budgetConstructionOrgAccountFundingDetailReportTotal = new BudgetConstructionOrgAccountFundingDetailReportTotal();
+
+            budgetConstructionOrgAccountFundingDetailReportTotal.setBudgetConstructionObjectDump(budgetConstructionObjectDump);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalObjectPositionCsfAmount(totalObjectPositionCsfAmount);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalObjectPositionCsfFteQuantity(totalObjectPositionCsfFteQuantity);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalObjectAppointmentRequestedAmount(totalObjectAppointmentRequestedAmount);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalObjectAppointmentRequestedFteQuantity(totalObjectAppointmentRequestedFteQuantity);
+
+            returnCollection.add(budgetConstructionOrgAccountFundingDetailReportTotal);
+
+            totalObjectPositionCsfAmount = new Integer(0);
+            totalObjectAppointmentRequestedAmount = new Integer(0);
+            totalObjectPositionCsfFteQuantity = BigDecimal.ZERO;
+            totalObjectAppointmentRequestedFteQuantity = BigDecimal.ZERO;
         }
-        
-        
-        
-        
-        
-        return returnList;
+
+
+        return returnCollection;
     }
 
 
-    private List<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Map appointmentFundingEntireMap, List listForCalculateTotalAccount) {
-        List<BudgetConstructionOrgAccountFundingDetailReportTotal> returnList = new ArrayList();
+    private Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalAccount) {
 
-        
-        
-        
-        
-        
-        
-        
-        
-        return returnList;
+        Integer totalAccountPositionCsfAmount = new Integer(0);
+        Integer totalAccountAppointmentRequestedAmount = new Integer(0);
+        BigDecimal totalAccountPositionCsfFteQuantity = BigDecimal.ZERO;
+        BigDecimal totalAccountAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+
+        Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> returnCollection = new ArrayList();
+
+        for (BudgetConstructionObjectDump budgetConstructionObjectDump : listForCalculateTotalAccount) {
+            Collection<PendingBudgetConstructionAppointmentFunding> accountFundingCollection = new ArrayList();
+
+            accountFundingCollection = (Collection<PendingBudgetConstructionAppointmentFunding>) appointmentFundingEntireMap.get(budgetConstructionObjectDump);
+            for (PendingBudgetConstructionAppointmentFunding accountFundingEntry : accountFundingCollection) {
+                BudgetConstructionCalculatedSalaryFoundationTracker calculatedSalaryFoundationTracker = accountFundingEntry.getBcnCalculatedSalaryFoundationTracker().get(0);
+                totalAccountPositionCsfAmount = totalAccountPositionCsfAmount + new Integer(calculatedSalaryFoundationTracker.getCsfAmount().intValue());
+                totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity.add(calculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity());
+                totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount + new Integer(accountFundingEntry.getAppointmentRequestedAmount().intValue());
+                totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity.add(accountFundingEntry.getAppointmentRequestedFteQuantity());
+            }
+            BudgetConstructionOrgAccountFundingDetailReportTotal budgetConstructionOrgAccountFundingDetailReportTotal = new BudgetConstructionOrgAccountFundingDetailReportTotal();
+            budgetConstructionOrgAccountFundingDetailReportTotal.setBudgetConstructionObjectDump(budgetConstructionObjectDump);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalAccountPositionCsfAmount(totalAccountPositionCsfAmount);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalAccountPositionCsfFteQuantity(totalAccountPositionCsfFteQuantity);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalAccountAppointmentRequestedAmount(totalAccountAppointmentRequestedAmount);
+            budgetConstructionOrgAccountFundingDetailReportTotal.setTotalAccountAppointmentRequestedFteQuantity(totalAccountAppointmentRequestedFteQuantity);
+
+            returnCollection.add(budgetConstructionOrgAccountFundingDetailReportTotal);
+
+            totalAccountPositionCsfAmount = new Integer(0);
+            totalAccountAppointmentRequestedAmount = new Integer(0);
+            totalAccountPositionCsfFteQuantity = BigDecimal.ZERO;
+            totalAccountAppointmentRequestedFteQuantity = BigDecimal.ZERO;
+
+        }
+
+        return returnCollection;
     }
 
-    /**
-     * Calculates total part of report
-     * 
-     * @param List bcodList
-     * @param List simpleList
-     */
-    public List calculateTotal(List bcodList, List simpleList) {
-
-        List returnList = new ArrayList();
-
-        return returnList;
-    }
 
     /**
      * Checks wheather or not the entry of account is same
@@ -331,6 +435,27 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         return pendingBudgetConstructionAppointmentFundingList;
     }
+
+    private BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
+        return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
+    }
+
+    private BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.EMPLID, appointmentFundingEntry.getEmplid());
+        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
+        return (BudgetConstructionAdministrativePost) businessObjectService.findByPrimaryKey(BudgetConstructionAdministrativePost.class, searchCriteria);
+    }
+
+    private BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+        Map searchCriteria = new HashMap();
+        searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
+        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        return (BudgetConstructionPosition) businessObjectService.findByPrimaryKey(BudgetConstructionPosition.class, searchCriteria);
+    }
+
 
     public void setBudgetConstructionOrganizationReportsService(BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService) {
         this.budgetConstructionOrganizationReportsService = budgetConstructionOrganizationReportsService;

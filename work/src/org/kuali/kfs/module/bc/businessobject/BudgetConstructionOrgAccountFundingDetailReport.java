@@ -63,36 +63,28 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String header6;
 
     // Groups
-    private String financialObjectLevelCode;
-    private String incomeExpenseCode;
-    private String financialConsolidationSortCode; 
-    private String financialLevelSortCode;
+    private String financialObjectCode;
+    private String accountNumber;
+    private String emplid;
     
     // Body parts
-    
-    
+    private String personName;
     //from BudgetConstructionIntendedIncumbent
     private String iuClassificationLevel;
-    
     //from PendingBudgetConstructionAppointmentFunding
     private String financialSubObjectCode;
-    
     //from BudgetConstructionAdministrativePost
     private String administrativePost;
-    
     //from BudgetConstructionPosition
     private String positionNumber;
-    private Integer iuNormalWorkMonths;
-    private Integer iuPayMonths;
+    private String normalWorkMonthsAndiuPayMonths;
     private String positionSalaryPlanDefault;
     private String positionGradeDefault;
     private BigDecimal positionStandardHoursDefault;
-    
     //from BudgetConstructionCalculatedSalaryFoundationTracker
     private BigDecimal csfTimePercent;
     private Integer csfAmount;
-    private BigDecimal csfFullTimeEmploymentQuantity;
-    
+    private String csfFullTimeEmploymentQuantity;
     //from PendingBudgetConstructionAppointmentFunding
     private Integer appointmentFundingMonth;
     private Integer appointmentRequestedAmount;
@@ -104,7 +96,8 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String appointmentRequestedCsfFteQuantity;
     private Integer appointmentTotalIntendedAmount;
     private String appointmentTotalIntendedFteQuantity;
-    
+    private Integer amountChange;
+    private BigDecimal percentChange;
 
     // Total parts
     
@@ -113,7 +106,7 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private Integer totalObjectPositionCsfAmount;
     private Integer totalObjectAppointmentRequestedAmount;
     private String totalObjectPositionCsfFteQuantity;
-    private String totalObjectAppointmentRequestedQuantity;
+    private String totalObjectAppointmentRequestedFteQuantity;
     private Integer totalObjectAmountChange;
     private BigDecimal totalObjectPercentChange;
     
@@ -123,7 +116,7 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private Integer totalAccountPositionCsfAmount;
     private Integer totalAccountAppointmentRequestedAmount;
     private String totalAccountPositionCsfFteQuantity;
-    private String totalAccountAppointmentRequestedQuantity;
+    private String totalAccountAppointmentRequestedFteQuantity;
     private Integer totalAccountAmountChange;
     private BigDecimal totalAccountPercentChange;
         
@@ -529,36 +522,325 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     }
 
 
-    public String getFinancialObjectLevelCode() {
-        return financialObjectLevelCode;
+    
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
     }
 
-    public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
-        this.financialObjectLevelCode = financialObjectLevelCode;
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
     }
 
-    public String getFinancialConsolidationSortCode() {
-        return financialConsolidationSortCode;
+    public String getAdministrativePost() {
+        return administrativePost;
     }
 
-    public void setFinancialConsolidationSortCode(String financialConsolidationSortCode) {
-        this.financialConsolidationSortCode = financialConsolidationSortCode;
+    public void setAdministrativePost(String administrativePost) {
+        this.administrativePost = administrativePost;
     }
 
-    public String getIncomeExpenseCode() {
-        return incomeExpenseCode;
+    public String getAppointmentFundingDurationCode() {
+        return appointmentFundingDurationCode;
     }
 
-    public void setIncomeExpenseCode(String incomeExpenseCode) {
-        this.incomeExpenseCode = incomeExpenseCode;
+    public void setAppointmentFundingDurationCode(String appointmentFundingDurationCode) {
+        this.appointmentFundingDurationCode = appointmentFundingDurationCode;
     }
 
-    public String getFinancialLevelSortCode() {
-        return financialLevelSortCode;
+    public Integer getAppointmentFundingMonth() {
+        return appointmentFundingMonth;
     }
 
-    public void setFinancialLevelSortCode(String financialLevelSortCode) {
-        this.financialLevelSortCode = financialLevelSortCode;
+    public void setAppointmentFundingMonth(Integer appointmentFundingMonth) {
+        this.appointmentFundingMonth = appointmentFundingMonth;
+    }
+
+    public Integer getAppointmentRequestedAmount() {
+        return appointmentRequestedAmount;
+    }
+
+    public void setAppointmentRequestedAmount(Integer appointmentRequestedAmount) {
+        this.appointmentRequestedAmount = appointmentRequestedAmount;
+    }
+
+    public Integer getAppointmentRequestedCsfAmount() {
+        return appointmentRequestedCsfAmount;
+    }
+
+    public void setAppointmentRequestedCsfAmount(Integer appointmentRequestedCsfAmount) {
+        this.appointmentRequestedCsfAmount = appointmentRequestedCsfAmount;
+    }
+
+    public BigDecimal getAppointmentRequestedCsfTimePercent() {
+        return appointmentRequestedCsfTimePercent;
+    }
+
+    public void setAppointmentRequestedCsfTimePercent(BigDecimal appointmentRequestedCsfTimePercent) {
+        this.appointmentRequestedCsfTimePercent = appointmentRequestedCsfTimePercent;
+    }
+
+    public BigDecimal getAppointmentRequestedTimePercent() {
+        return appointmentRequestedTimePercent;
+    }
+
+    public void setAppointmentRequestedTimePercent(BigDecimal appointmentRequestedTimePercent) {
+        this.appointmentRequestedTimePercent = appointmentRequestedTimePercent;
+    }
+
+    public Integer getAppointmentTotalIntendedAmount() {
+        return appointmentTotalIntendedAmount;
+    }
+
+    public void setAppointmentTotalIntendedAmount(Integer appointmentTotalIntendedAmount) {
+        this.appointmentTotalIntendedAmount = appointmentTotalIntendedAmount;
+    }
+
+    public String getAppointmentTotalIntendedFteQuantity() {
+        return appointmentTotalIntendedFteQuantity;
+    }
+
+    public void setAppointmentTotalIntendedFteQuantity(String appointmentTotalIntendedFteQuantity) {
+        this.appointmentTotalIntendedFteQuantity = appointmentTotalIntendedFteQuantity;
+    }
+
+    public Integer getCsfAmount() {
+        return csfAmount;
+    }
+
+    public void setCsfAmount(Integer csfAmount) {
+        this.csfAmount = csfAmount;
+    }
+
+    public String getCsfFullTimeEmploymentQuantity() {
+        return csfFullTimeEmploymentQuantity;
+    }
+
+    public void setCsfFullTimeEmploymentQuantity(String csfFullTimeEmploymentQuantity) {
+        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
+    }
+
+    public BigDecimal getCsfTimePercent() {
+        return csfTimePercent;
+    }
+
+    public void setCsfTimePercent(BigDecimal csfTimePercent) {
+        this.csfTimePercent = csfTimePercent;
+    }
+
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    public String getIuClassificationLevel() {
+        return iuClassificationLevel;
+    }
+
+    public void setIuClassificationLevel(String iuClassificationLevel) {
+        this.iuClassificationLevel = iuClassificationLevel;
+    }
+
+    public String getNormalWorkMonthsAndiuPayMonths() {
+        return normalWorkMonthsAndiuPayMonths;
+    }
+
+    public void setNormalWorkMonthsAndiuPayMonths(String normalWorkMonthsAndiuPayMonths) {
+        this.normalWorkMonthsAndiuPayMonths = normalWorkMonthsAndiuPayMonths;
+    }
+
+    public String getPositionGradeDefault() {
+        return positionGradeDefault;
+    }
+
+    public void setPositionGradeDefault(String positionGradeDefault) {
+        this.positionGradeDefault = positionGradeDefault;
+    }
+
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+
+    public String getPositionSalaryPlanDefault() {
+        return positionSalaryPlanDefault;
+    }
+
+    public void setPositionSalaryPlanDefault(String positionSalaryPlanDefault) {
+        this.positionSalaryPlanDefault = positionSalaryPlanDefault;
+    }
+
+    public BigDecimal getPositionStandardHoursDefault() {
+        return positionStandardHoursDefault;
+    }
+
+    public void setPositionStandardHoursDefault(BigDecimal positionStandardHoursDefault) {
+        this.positionStandardHoursDefault = positionStandardHoursDefault;
+    }
+
+    public Integer getTotalAccountAmountChange() {
+        return totalAccountAmountChange;
+    }
+
+    public void setTotalAccountAmountChange(Integer totalAccountAmountChange) {
+        this.totalAccountAmountChange = totalAccountAmountChange;
+    }
+
+    public Integer getTotalAccountAppointmentRequestedAmount() {
+        return totalAccountAppointmentRequestedAmount;
+    }
+
+    public void setTotalAccountAppointmentRequestedAmount(Integer totalAccountAppointmentRequestedAmount) {
+        this.totalAccountAppointmentRequestedAmount = totalAccountAppointmentRequestedAmount;
+    }
+
+    public String getTotalAccountAppointmentRequestedFteQuantity() {
+        return totalAccountAppointmentRequestedFteQuantity;
+    }
+
+    public void setTotalAccountAppointmentRequestedFteQuantity(String totalAccountAppointmentRequestedFteQuantity) {
+        this.totalAccountAppointmentRequestedFteQuantity = totalAccountAppointmentRequestedFteQuantity;
+    }
+
+    public String getTotalAccountname() {
+        return totalAccountname;
+    }
+
+    public void setTotalAccountname(String totalAccountname) {
+        this.totalAccountname = totalAccountname;
+    }
+
+    public BigDecimal getTotalAccountPercentChange() {
+        return totalAccountPercentChange;
+    }
+
+    public void setTotalAccountPercentChange(BigDecimal totalAccountPercentChange) {
+        this.totalAccountPercentChange = totalAccountPercentChange;
+    }
+
+    public Integer getTotalAccountPositionCsfAmount() {
+        return totalAccountPositionCsfAmount;
+    }
+
+    public void setTotalAccountPositionCsfAmount(Integer totalAccountPositionCsfAmount) {
+        this.totalAccountPositionCsfAmount = totalAccountPositionCsfAmount;
+    }
+
+    public String getTotalAccountPositionCsfFteQuantity() {
+        return totalAccountPositionCsfFteQuantity;
+    }
+
+    public void setTotalAccountPositionCsfFteQuantity(String totalAccountPositionCsfFteQuantity) {
+        this.totalAccountPositionCsfFteQuantity = totalAccountPositionCsfFteQuantity;
+    }
+
+    public Integer getTotalObjectAmountChange() {
+        return totalObjectAmountChange;
+    }
+
+    public void setTotalObjectAmountChange(Integer totalObjectAmountChange) {
+        this.totalObjectAmountChange = totalObjectAmountChange;
+    }
+
+    public Integer getTotalObjectAppointmentRequestedAmount() {
+        return totalObjectAppointmentRequestedAmount;
+    }
+
+    public void setTotalObjectAppointmentRequestedAmount(Integer totalObjectAppointmentRequestedAmount) {
+        this.totalObjectAppointmentRequestedAmount = totalObjectAppointmentRequestedAmount;
+    }
+
+    public String getTotalObjectAppointmentRequestedFteQuantity() {
+        return totalObjectAppointmentRequestedFteQuantity;
+    }
+
+    public void setTotalObjectAppointmentRequestedFteQuantity(String totalObjectAppointmentRequestedFteQuantity) {
+        this.totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity;
+    }
+
+    public String getTotalObjectname() {
+        return totalObjectname;
+    }
+
+    public void setTotalObjectname(String totalObjectname) {
+        this.totalObjectname = totalObjectname;
+    }
+
+    public BigDecimal getTotalObjectPercentChange() {
+        return totalObjectPercentChange;
+    }
+
+    public void setTotalObjectPercentChange(BigDecimal totalObjectPercentChange) {
+        this.totalObjectPercentChange = totalObjectPercentChange;
+    }
+
+    public Integer getTotalObjectPositionCsfAmount() {
+        return totalObjectPositionCsfAmount;
+    }
+
+    public void setTotalObjectPositionCsfAmount(Integer totalObjectPositionCsfAmount) {
+        this.totalObjectPositionCsfAmount = totalObjectPositionCsfAmount;
+    }
+
+    public String getTotalObjectPositionCsfFteQuantity() {
+        return totalObjectPositionCsfFteQuantity;
+    }
+
+    public void setTotalObjectPositionCsfFteQuantity(String totalObjectPositionCsfFteQuantity) {
+        this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
+    }
+
+    public String getTotalSubAccountname() {
+        return totalSubAccountname;
+    }
+
+    public void setTotalSubAccountname(String totalSubAccountname) {
+        this.totalSubAccountname = totalSubAccountname;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public Integer getAmountChange() {
+        return amountChange;
+    }
+
+    public void setAmountChange(Integer amountChange) {
+        this.amountChange = amountChange;
+    }
+
+    public BigDecimal getPercentChange() {
+        return percentChange;
+    }
+
+    public void setPercentChange(BigDecimal percentChange) {
+        this.percentChange = percentChange;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getEmplid() {
+        return emplid;
+    }
+
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
     }
 
 }

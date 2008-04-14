@@ -32,7 +32,7 @@ import org.kuali.module.budget.BCConstants.Report.ReportSelectMode;
  * Contains properties related to a budget construction report.
  */
 public enum BudgetConstructionReportMode {
-    ACCOUNT_FUNDING_DETAIL_REPORT("AccountFundingDetailReport", BCAF, OBJECT_CODE, "BudgetOrgAccountFundingDetailSummary", true), 
+    ACCOUNT_FUNDING_DETAIL_REPORT("AccountFundingDetailReport", BCAF, OBJECT_CODE, "BudgetOrgAccountFundingDetail", true), 
     ACCOUNT_OBJECT_DETAIL_REPORT("AccountObjectDetailReport", PBGL, SUBFUND, "BudgetOrgAccountObjectDetail", true),
     ACCOUNT_SUMMARY_REPORT("AccountSummaryReport", PBGL, SUBFUND, "BudgetOrgAccountSummary", true), 
     LEVEL_SUMMARY_REPORT("LevelSummaryReport", PBGL, SUBFUND, "BudgetOrgLevelSummary", true),

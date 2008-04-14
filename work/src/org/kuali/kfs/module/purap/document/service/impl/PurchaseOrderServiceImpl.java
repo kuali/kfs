@@ -771,7 +771,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
                 boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
                 if (!isVendorLocked) {
-                    //vendorMaintDoc.getNewMaintainableObject().processAfterEdit(vendorMaintDoc, null);
                     addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
                     documentService.routeDocument(vendorMaintDoc, null, null);
                 }

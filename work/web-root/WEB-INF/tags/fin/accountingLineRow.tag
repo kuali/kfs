@@ -279,7 +279,7 @@
 				        baselineAccountingLine="${baselineAccountingLine}" lookup="true"
                         boClassFullName="${boClassFullName}" 
 				        field="${currentField}" attributes="${accountingLineAttributes}"
-                        lookupUnkeyedFieldConversions="${currentField}:${accountingLine}.${key}"
+                        conversionField="${key}"
 				        readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
                 </c:when>
                 <c:otherwise>

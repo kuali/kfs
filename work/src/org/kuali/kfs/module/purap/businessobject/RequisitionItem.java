@@ -30,7 +30,7 @@ public class RequisitionItem extends PurchasingItemBase {
     private Integer capitalAssetManagementSystemNumber;
     
     private RequisitionDocument requisition;
-    private RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem;
+    private RequisitionCapitalAssetSystem capitalAssetManagementSystem;
     
     /**
      * Default constructor.
@@ -74,7 +74,7 @@ public class RequisitionItem extends PurchasingItemBase {
      * Gets the capitalAssetManagementSystem attribute. 
      * @return Returns the capitalAssetManagementSystem.
      */
-    public RequisitionCapitalAssetManagementSystem getCapitalAssetManagementSystem() {
+    public RequisitionCapitalAssetSystem getCapitalAssetManagementSystem() {
         return capitalAssetManagementSystem;
     }
 
@@ -83,7 +83,7 @@ public class RequisitionItem extends PurchasingItemBase {
      * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
      * @deprecated
      */
-    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem) {
+    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetSystem capitalAssetManagementSystem) {
         this.capitalAssetManagementSystem = capitalAssetManagementSystem;
     }
 

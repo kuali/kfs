@@ -47,7 +47,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
     private PurchaseOrderDocument purchaseOrder;
-    private RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem;
+    private RequisitionCapitalAssetSystem capitalAssetManagementSystem;
     
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
@@ -225,7 +225,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * Gets the capitalAssetManagementSystem attribute. 
      * @return Returns the capitalAssetManagementSystem.
      */
-    public RequisitionCapitalAssetManagementSystem getCapitalAssetManagementSystem() {
+    public RequisitionCapitalAssetSystem getCapitalAssetManagementSystem() {
         return capitalAssetManagementSystem;
     }
 
@@ -234,7 +234,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * @param capitalAssetManagementSystem The capitalAssetManagementSystem to set.
      * @deprecated
      */
-    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetManagementSystem capitalAssetManagementSystem) {
+    public void setCapitalAssetManagementSystem(RequisitionCapitalAssetSystem capitalAssetManagementSystem) {
         this.capitalAssetManagementSystem = capitalAssetManagementSystem;
     }
 

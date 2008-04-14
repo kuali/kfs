@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderCapitalAssetSystem">
+ 
+        <inquiry>
+            <title>Purchase Order Capital Asset System Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetManufacturerIsVendorIndicator" />
+                        <field attributeName="capitalAssetManufacturerName" />
+                        <field attributeName="capitalAssetModelDescription" />
+                        <field attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
+                        <field attributeName="capitalAssetSystemDescription" />
+                        <field attributeName="capitalAssetSystemNumber" />
+                        <field attributeName="capitalAssetTypeCode" />
+                        <field attributeName="documentNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Capital Asset System Lookup</title>
+
+            <instructions>Look up a Purchase Order Capital Asset System</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="capitalAssetSystemNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetManufacturerIsVendorIndicator" required="false" />
+                <lookupField attributeName="capitalAssetManufacturerName" required="false" />
+                <lookupField attributeName="capitalAssetModelDescription" required="false" />
+                <lookupField attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" required="false" />
+                <lookupField attributeName="capitalAssetSystemDescription" required="false" />
+                <lookupField attributeName="capitalAssetSystemNumber" required="false" />
+                <lookupField attributeName="capitalAssetTypeCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetManufacturerIsVendorIndicator" />
+                <field attributeName="capitalAssetManufacturerName" />
+                <field attributeName="capitalAssetModelDescription" />
+                <field attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
+                <field attributeName="capitalAssetSystemDescription" />
+                <field attributeName="capitalAssetSystemNumber" />
+                <field attributeName="capitalAssetTypeCode" />
+                <field attributeName="documentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetManufacturerIsVendorIndicator" forceUppercase="true">
+                <label>Capital Asset Manufacturer Is Vendor Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>capitalAssetManufacturerIsVendorIndicator</summary>
+                <description>capitalAssetManufacturerIsVendorIndicator description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetManufacturerName" forceUppercase="true">
+                <label>Capital Asset Manufacturer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>capitalAssetManufacturerName</summary>
+                <description>capitalAssetManufacturerName description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetModelDescription" forceUppercase="true">
+                <label>Capital Asset Model Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>capitalAssetModelDescription</summary>
+                <description>capitalAssetModelDescription description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNotReceivedCurrentFiscalYearIndicator" forceUppercase="true">
+                <label>Capital Asset Not Received Current Fiscal Year Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>capitalAssetNotReceivedCurrentFiscalYearIndicator</summary>
+                <description>capitalAssetNotReceivedCurrentFiscalYearIndicator description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetSystemDescription" forceUppercase="true">
+                <label>Capital Asset System Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>4000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>capitalAssetSystemDescription</summary>
+                <description>capitalAssetSystemDescription description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetSystemNumber" forceUppercase="true">
+                <label>Capital Asset System Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>capitalAssetSystemNumber</summary>
+                <description>capitalAssetSystemNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetTypeCode" forceUppercase="true">
+                <label>Capital Asset Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>capitalAssetTypeCode</summary>
+                <description>capitalAssetTypeCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

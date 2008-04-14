@@ -636,7 +636,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-            //document.setCapitalAssetManagementSystemTypeCode(systemTypeCode);
+            //TODO: Uncomment the following line when the variable is moved into the superclass for KULPURAP-2431.
+            //document.setCapitalAssetSystemTypeCode(systemTypeCode);
             document.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_TYPE);
 
             GlobalVariables.getMessageList().add(PurapKeyConstants.PUR_CAPITAL_ASSET_SYSTEM_TYPE_SWITCHED);

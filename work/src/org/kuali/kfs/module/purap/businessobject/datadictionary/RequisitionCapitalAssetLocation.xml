@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionCapitalAssetLocation">
+ 
+        <inquiry>
+            <title>Requisition Capital Asset Location Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="buildingCode" />
+                        <field attributeName="buildingRoomNumber" />
+                        <field attributeName="campusCode" />
+                        <field attributeName="capitalAssetCityName" />
+                        <field attributeName="capitalAssetCountryCode" />
+                        <field attributeName="capitalAssetLine1Address" />
+                        <field attributeName="capitalAssetLocationNumber" />
+                        <field attributeName="capitalAssetPostalCode" />
+                        <field attributeName="capitalAssetStateCode" />
+                        <field attributeName="capitalAssetSystemNumber" />
+                        <field attributeName="itemQuantity" />
+                        <field attributeName="offCampusIndicator" />
+                        <field attributeName="requisitionIdentifier" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Requisition Capital Asset Location Lookup</title>
+
+            <instructions>Look up a Requisition Capital Asset Location</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="requisitionIdentifier" />
+                    <sortAttribute attributeName="capitalAssetSystemNumber" />
+                    <sortAttribute attributeName="capitalAssetLocationNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="buildingCode" required="false" />
+                <lookupField attributeName="buildingRoomNumber" required="false" />
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="capitalAssetCityName" required="false" />
+                <lookupField attributeName="capitalAssetCountryCode" required="false" />
+                <lookupField attributeName="capitalAssetLine1Address" required="false" />
+                <lookupField attributeName="capitalAssetLocationNumber" required="false" />
+                <lookupField attributeName="capitalAssetPostalCode" required="false" />
+                <lookupField attributeName="capitalAssetStateCode" required="false" />
+                <lookupField attributeName="capitalAssetSystemNumber" required="false" />
+                <lookupField attributeName="itemQuantity" required="false" />
+                <lookupField attributeName="offCampusIndicator" required="false" />
+                <lookupField attributeName="requisitionIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+                <field attributeName="campusCode" />
+                <field attributeName="capitalAssetCityName" />
+                <field attributeName="capitalAssetCountryCode" />
+                <field attributeName="capitalAssetLine1Address" />
+                <field attributeName="capitalAssetLocationNumber" />
+                <field attributeName="capitalAssetPostalCode" />
+                <field attributeName="capitalAssetStateCode" />
+                <field attributeName="capitalAssetSystemNumber" />
+                <field attributeName="itemQuantity" />
+                <field attributeName="offCampusIndicator" />
+                <field attributeName="requisitionIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="buildingCode" forceUppercase="true">
+                <label>Building Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>buildingCode</summary>
+                <description>buildingCode description...</description>
+			</attribute>
+
+            <attribute name="buildingRoomNumber" forceUppercase="true">
+                <label>Building Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>buildingRoomNumber</summary>
+                <description>buildingRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetCityName" forceUppercase="true">
+                <label>Capital Asset City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>capitalAssetCityName</summary>
+                <description>capitalAssetCityName description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetCountryCode" forceUppercase="true">
+                <label>Capital Asset Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>capitalAssetCountryCode</summary>
+                <description>capitalAssetCountryCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetLine1Address" forceUppercase="true">
+                <label>Capital Asset Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>capitalAssetLine1Address</summary>
+                <description>capitalAssetLine1Address description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetLocationNumber" forceUppercase="true">
+                <label>Capital Asset Location Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>capitalAssetLocationNumber</summary>
+                <description>capitalAssetLocationNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetPostalCode" forceUppercase="true">
+                <label>Capital Asset Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>capitalAssetPostalCode</summary>
+                <description>capitalAssetPostalCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetStateCode" forceUppercase="true">
+                <label>Capital Asset State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>capitalAssetStateCode</summary>
+                <description>capitalAssetStateCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetSystemNumber" forceUppercase="true">
+                <label>Capital Asset System Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>capitalAssetSystemNumber</summary>
+                <description>capitalAssetSystemNumber description...</description>
+			</attribute>
+
+            <attribute name="itemQuantity" forceUppercase="true">
+                <label>Item Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemQuantity</summary>
+                <description>itemQuantity description...</description>
+			</attribute>
+
+            <attribute name="offCampusIndicator" forceUppercase="true">
+                <label>Off Campus Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>offCampusIndicator</summary>
+                <description>offCampusIndicator description...</description>
+			</attribute>
+
+            <attribute name="requisitionIdentifier" forceUppercase="true">
+                <label>Requisition Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>requisitionIdentifier</summary>
+                <description>requisitionIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

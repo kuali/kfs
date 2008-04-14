@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.CapitalAssetSystemType">
+ 
+        <inquiry>
+            <title>Capital Asset System Type Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                    	<field attributeName="capitalAssetSystemTypeCode" />                       
+                        <field attributeName="capitalAssetSystemTypeDescription" />
+                        <field attributeName="active" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Capital Asset System Type Lookup</title>
+
+            <instructions>Look up a Capital Asset System Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetSystemTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>                
+                <lookupField attributeName="capitalAssetSystemTypeCode" required="false" />
+                <lookupField attributeName="capitalAssetSystemTypeDescription" required="false" />
+                <lookupField attributeName="active" required="false" />               
+            </lookupFields>
+
+            <resultFields>              
+                <field attributeName="capitalAssetSystemTypeCode" />
+                <field attributeName="capitalAssetSystemTypeDescription" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+			<attribute name="capitalAssetSystemTypeCode" forceUppercase="true">
+                <label>Capital Asset System Type Code</label>
+                <shortLabel>System Type Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>capitalAssetSystemTypeCode</summary>
+                <description>capitalAssetSystemTypeCode description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetSystemTypeDescription">
+                <label>Capital Asset System Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47"/>
+                </control>
+
+                <summary>capitalAssetSystemTypeDescription</summary>
+                <description>capitalAssetSystemTypeDescription description...</description>
+			</attribute>
+			
+			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

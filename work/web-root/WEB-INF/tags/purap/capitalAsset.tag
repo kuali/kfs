@@ -24,7 +24,7 @@
 <%@ attribute name="displayPurchaseOrderFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
 
-<c:set var="systemSelected" value="${KualiForm.document.capitalAssetManagementSystemTypeCode}"/>
+<c:set var="systemSelected" value="${KualiForm.document.capitalAssetSystemTypeCode}"/>
 
 <kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
     <div class="tab-container" align=center>

@@ -86,5 +86,10 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        
+        <!-- since routing does not require any attributes, don't bother serializing anything -->
+        <workflowProperties>
+        </workflowProperties>
+        	
     </maintenanceDocument>
 </dictionaryEntry>

@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
  */
-@Transactional
 public class ChartServiceImpl implements ChartService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 

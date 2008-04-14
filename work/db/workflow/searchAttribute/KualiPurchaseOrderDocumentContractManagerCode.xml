@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentContractManagerCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Contract Manager Code</label>
+      <description>Attribute to identify the Contract Manager of the Purchase Order Document using the Contract Manager Code</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentContractManagerCode" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid Contract Manager Code Value.  A valid contract manager code value must be numeric.</message>
+          </validation>
+          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/contractManagerCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

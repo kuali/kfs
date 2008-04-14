@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
@@ -28,10 +30,11 @@ public class NightlyOutStep extends AbstractStep {
      * Runs the nightly out process.
      * 
      * @param jobName the name of the job this step is being run as part of
+     * @param jobRunDate the time/date the job is being run
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#performStep()
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         nightlyOutService.copyApprovedPendingLedgerEntries();
         return true;
     }

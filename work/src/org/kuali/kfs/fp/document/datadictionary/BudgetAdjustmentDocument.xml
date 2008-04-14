@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+<?xml version="1.0" encoding="UTF-8"?>
  Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
@@ -99,5 +99,15 @@
  		<help parameterNamespace="KFS-FP" parameterDetailType="BudgetAdjustment" parameterName="BUDGET_ADJUSTMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="targetAccountingLines" />
+				<workflowProperty path="sourceAccountingLines" />
+				<workflowProperty path="sourceAccountingLines.account" />
+				<workflowProperty path="targetAccountingLines.account" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

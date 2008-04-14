@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentHoldIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Hold Indicator</label>
+      <description>Attribute to identify the Hold Indicator of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestHoldIndicator" title="kuali_dd_short_label(PaymentRequestDocument)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/holdIndicator') = 'true'</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

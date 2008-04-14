@@ -39,7 +39,6 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryGenerationProcess;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -94,14 +93,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public RequisitionDocument() {
         super();
-    }
-
-    /**
-     * @see org.kuali.core.document.Document#getDocumentRepresentationForSerialization()
-     */
-    @Override
-    protected Document getDocumentRepresentationForSerialization() {
-        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
     }
 
     /**

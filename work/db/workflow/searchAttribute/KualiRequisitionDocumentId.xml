@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document ID</label>
+      <description>Attribute to identify the ID field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentRequisitionId" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid REQ Nbr Value.  A valid requisition number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purapDocumentIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

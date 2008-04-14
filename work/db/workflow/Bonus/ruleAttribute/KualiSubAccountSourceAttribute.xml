@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiSubAccountSourceAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>SubAccount Source Routing</label>
+      <description>SubAccount Source Accounting Line Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="subAccountNumber" title="kuali_dd_label(SourceAccountingLine)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="subAccountNumber" draw="true" service="workflow-org.kuali.module.chart.bo.SubAccount-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/subAccountNumber') = wf:ruledata('subAccountNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

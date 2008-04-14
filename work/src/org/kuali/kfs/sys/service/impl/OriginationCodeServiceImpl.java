@@ -20,7 +20,6 @@ import org.kuali.kfs.dao.OriginationCodeDao;
 import org.kuali.kfs.service.OriginationCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class OriginationCodeServiceImpl implements OriginationCodeService {
     private OriginationCodeDao originationCodeDao;
 
@@ -35,24 +34,6 @@ public class OriginationCodeServiceImpl implements OriginationCodeService {
      */
     public OriginationCode getByPrimaryKey(String code) {
         return originationCodeDao.findByCode(code);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.core.service.OriginationCodeService#delete(org.kuali.core.bo.OriginationCode)
-     */
-    public void delete(OriginationCode code) {
-        originationCodeDao.delete(code);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.core.service.OriginationCodeService#save(org.kuali.core.bo.OriginationCode)
-     */
-    public void save(OriginationCode code) {
-        originationCodeDao.save(code);
     }
 
     /*

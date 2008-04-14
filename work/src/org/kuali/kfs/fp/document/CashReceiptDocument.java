@@ -80,7 +80,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public CashReceiptDocument() {
         super();
 
-        setCampusLocationCode(GlobalVariables.getUserSession().getUniversalUser().getCampusCode());
+        if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getUniversalUser() != null && GlobalVariables.getUserSession().getUniversalUser().getCampusCode() != null) {
+            // there are situations where workflow is reindexing this where there is no user session; but in those cases, the campus location code will get set by the db anyway, so just ignore those cases
+            setCampusLocationCode(GlobalVariables.getUserSession().getUniversalUser().getCampusCode());
+        }
         currencyDetail = new CurrencyDetail();
         coinDetail = new CoinDetail();
     }

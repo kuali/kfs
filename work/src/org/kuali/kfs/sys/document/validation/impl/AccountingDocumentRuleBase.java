@@ -21,7 +21,6 @@ import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
 import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN;
-import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE;
@@ -776,13 +775,13 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         // Check for zero amount, or negative on original (non-correction) document; no sign check for documents that are
         // corrections to previous documents
         String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
-        if (ZERO.compareTo(amount) == 0) { // amount == 0
+        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;
         }
         else {
-            if (null == correctsDocumentId && ZERO.compareTo(amount) == 1) { // amount < 0
+            if (null == correctsDocumentId && KualiDecimal.ZERO.compareTo(amount) == 1) { // amount < 0
                 GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION);
                 LOG.info("failing isAmountValid - correctsDocumentId check && amount == 1");
                 return false;
@@ -870,8 +869,8 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         }
 
         // now loop through all of the GLPEs and calculate buckets for debits and credits
-        KualiDecimal creditAmount = new KualiDecimal(0);
-        KualiDecimal debitAmount = new KualiDecimal(0);
+        KualiDecimal creditAmount = KualiDecimal.ZERO;
+        KualiDecimal debitAmount = KualiDecimal.ZERO;
         Iterator i = accountingDocument.getGeneralLedgerPendingEntries().iterator();
         while (i.hasNext()) {
             GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry) i.next();
@@ -1192,12 +1191,11 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         lines.addAll(tranDoc.getSourceAccountingLines());
         lines.addAll(tranDoc.getTargetAccountingLines());
 
-        KualiDecimal sourceLinesTotal = new KualiDecimal(0);
-        KualiDecimal targetLinesTotal = new KualiDecimal(0);
+        KualiDecimal sourceLinesTotal = KualiDecimal.ZERO;
+        KualiDecimal targetLinesTotal = KualiDecimal.ZERO;
 
         // iterate over each accounting line and if it has an account with a
         // fund group that should be balanced, then add that lines amount to the bucket
-        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         for (Iterator i = lines.iterator(); i.hasNext();) {
             AccountingLine line = (AccountingLine) i.next();
             String fundGroupCode = line.getAccount().getSubFundGroup().getFundGroupCode();

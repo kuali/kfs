@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPaymentReasonAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Payment Reason Routing</label>
+      <description>Payment Reason Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="disbVchrPaymentReasonCode" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode') = wf:ruledata('disbVchrPaymentReasonCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

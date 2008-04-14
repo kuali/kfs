@@ -27,33 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * This is the default implementation of the CheckService interface.
  */
-@Transactional
 public class CheckServiceImpl implements CheckService {
     // set up logging
     private static Logger LOG = Logger.getLogger(CheckServiceImpl.class);
 
     private CheckDao checkDao;
-
-    /**
-     * Saves a check to the database.
-     * 
-     * @param check The check to be saved.
-     * @return An instance of the check which was just saved.
-     */
-    public Check save(Check check) {
-        checkDao.save(check);
-
-        return check;
-    }
-
-    /**
-     * Deletes a check from the database.
-     * 
-     * @param check The check to be deleted.
-     */
-    public void deleteCheck(Check check) {
-        checkDao.deleteCheck(check);
-    }
 
     /**
      * Retrieves a List of Checks by using the document header id given to retrieve a document and then 

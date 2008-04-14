@@ -32,7 +32,6 @@ import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {
 
     private BusinessObjectService businessObjectService;

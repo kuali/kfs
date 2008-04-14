@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiAccountFundGroupAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Account Fund Group Routing</label>
+      <description>Account Fund Group Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="fundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="fundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable(workflow-code:fundGroupCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/subFundGroup/fundGroupCode') = wf:ruledata('fundGroupCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

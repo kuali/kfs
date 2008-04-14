@@ -456,9 +456,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         // fp_sasfc:32-1
         if (sfBalances == null) {
             sfBalances = new SufficientFundBalances();
-            sfBalances.setCurrentBudgetBalanceAmount(new KualiDecimal(0));
-            sfBalances.setAccountActualExpenditureAmt(new KualiDecimal(0));
-            sfBalances.setAccountEncumbranceAmount(new KualiDecimal(0));
+            sfBalances.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
+            sfBalances.setAccountActualExpenditureAmt(KualiDecimal.ZERO);
+            sfBalances.setAccountEncumbranceAmount(KualiDecimal.ZERO);
             sfBalances.setChartOfAccountsCode(chartOfAccountsCode);
             sfBalances.setAccountNumber(accountNumber);
             sfBalances.setAccountSufficientFundsCode(account.getAccountSufficientFundsCode());

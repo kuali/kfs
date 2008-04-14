@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentStatusDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Status Description</label>
+      <description>Attribute to use to display the Purchase Order Status display value</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentStatusDescription" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/status/statusDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

@@ -28,7 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.action.BaseAction;
 import org.kuali.module.pdp.exception.PaymentLoadException;
 import org.kuali.module.pdp.form.upload.UploadForm;
@@ -43,17 +46,15 @@ import org.kuali.module.pdp.service.SecurityRecord;
 public class ManualUploadFileAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ManualUploadFileAction.class);
 
-    private PaymentFileService paymentFileService;
-    private String tmpDir = "/tmp";
-
     public ManualUploadFileAction() {
-        setPaymentFileService(SpringContext.getBean(PaymentFileService.class));
     }
 
-    // TODO Fix this
-    public void setTmpDir(String t) {
-        LOG.debug("setTmpDir() setting tmp dir to " + t);
-        tmpDir = t;
+    public String getTmpDir() {
+        String tempDirectoryName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("ManualUploadFileAction.getTmpDir() returning " + tempDirectoryName);
+        }
+        return tempDirectoryName;
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +67,7 @@ public class ManualUploadFileAction extends BaseAction {
 
         UploadForm uForm = (UploadForm) form;
 
-        String filename = tmpDir + "/" + request.getSession().getId() + ".xml";
+        String filename = getTmpDir() + File.separator + PdpConstants.PDP_MANUAL_FILE_UPLOAD_TEMP_FILE_PREFIX + request.getSession().getId() + ".xml";
         LOG.debug("executeLogic() Filename: " + filename);
         File outputFile = new File(filename);
 
@@ -75,7 +76,7 @@ public class ManualUploadFileAction extends BaseAction {
         out.close();
 
         try {
-            LoadPaymentStatus status = paymentFileService.loadPayments(filename, getUser(request));
+            LoadPaymentStatus status = getPaymentFileService().loadPayments(filename, getUser(request));
             if (status.getWarnings().size() > 0) {
                 LOG.debug("executeLogic() There were warnings when loading " + filename);
                 request.setAttribute("errors", status.getWarnings());
@@ -89,15 +90,22 @@ public class ManualUploadFileAction extends BaseAction {
             request.setAttribute("errors", e1.getErrors());
             return mapping.findForward("hard_errors");
         }
-
-        // Delete the file because we're done with it
-        outputFile.delete();
+        finally {
+            try {
+                // Delete the file because we're done with it
+                outputFile.delete();
+            }
+            catch (RuntimeException e) {
+                LOG.error("Error trying to delete temporary file in ManualUploadFileAction.", e);
+            }
+        }
 
         LOG.debug("executeLogic() File load was successful");
         return mapping.findForward("successful");
     }
 
-    public void setPaymentFileService(PaymentFileService p) {
-        this.paymentFileService = p;
+    public PaymentFileService getPaymentFileService() {
+        return SpringContext.getBean(PaymentFileService.class);
     }
+    
 }

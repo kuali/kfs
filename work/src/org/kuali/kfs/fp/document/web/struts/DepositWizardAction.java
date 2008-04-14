@@ -327,7 +327,7 @@ public class DepositWizardAction extends KualiAction {
                             GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
                         }
                     }
-                    KualiDecimal toBeDepositedChecksTotal = new KualiDecimal(0);
+                    KualiDecimal toBeDepositedChecksTotal = KualiDecimal.ZERO;
                     // have we selected the rest of the undeposited checks?
                     for (Check check : SpringContext.getBean(CashManagementService.class).selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
                         if (!selectedCashieringChecks.contains(check.getSequenceId())) {

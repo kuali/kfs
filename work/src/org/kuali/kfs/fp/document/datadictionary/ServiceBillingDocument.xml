@@ -45,5 +45,11 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="ServiceBilling" parameterName="SERVICE_BILLING" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        	    <workflowProperty path="documentHeader" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.batch.pcard;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 
@@ -25,7 +27,10 @@ public class ProcurementCardAutoApproveDocumentsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAutoApproveDocumentsStep.class);
     private ProcurementCardCreateDocumentService procurementCardDocumentService;
 
-    public boolean execute(String jobName) {
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     */
+    public boolean execute(String jobName, Date jobRunDate) {
         return procurementCardDocumentService.autoApproveProcurementCardDocuments();
     }
 

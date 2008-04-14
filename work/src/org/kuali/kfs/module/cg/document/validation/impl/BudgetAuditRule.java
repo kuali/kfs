@@ -101,10 +101,10 @@ public class BudgetAuditRule {
         List<AuditError> costShareAuditErrors = new ArrayList<AuditError>();
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
-        if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
+        if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
             costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
         }
-        if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
+        if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(KualiInteger.ZERO)) {
             costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
         }
 

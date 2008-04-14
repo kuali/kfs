@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.batch;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class GenesisBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
     private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
 
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         genesisService = SpringContext.getBean(GenesisService.class);
         // @@TODO: in production, we will use the current fiscal year, not the last one
         Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday() - 1;

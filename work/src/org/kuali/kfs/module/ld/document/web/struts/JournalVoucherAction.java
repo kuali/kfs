@@ -27,6 +27,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
+import org.kuali.module.labor.bo.PositionData;
 
 /**
  * Struts Action Form for the Labor Ledger Journal Voucher. This class piggy backs on all of the functionality in the
@@ -47,14 +48,19 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
         String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
 
-        if (!StringUtils.equals(boClassName, LaborLedgerPendingEntry.class.getName())) {
+        if (StringUtils.equals(boClassName, LaborLedgerPendingEntry.class.getName())) {
+            String path = super.performLookup(mapping, form, request, response).getPath();
+            path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
+            return new ActionForward(path, true);
+        }
+        else if (StringUtils.equals(boClassName, PositionData.class.getName())) {
+            String path = super.performLookup(mapping, form, request, response).getPath();
+            path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, KFSConstants.GL_MODIFIED_INQUIRY_ACTION);
+            return new ActionForward(path, true);
+        }
+        else {
             return super.performLookup(mapping, form, request, response);
         }
-
-        String path = super.performLookup(mapping, form, request, response).getPath();
-        path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
-
-        return new ActionForward(path, true);
     }
 
     /**

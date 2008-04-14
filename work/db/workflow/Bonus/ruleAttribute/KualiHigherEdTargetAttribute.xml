@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiHigherEdTargetAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Higher Education Target Line</label>
+      <description>Higher Education Function Code Target Accounting Line</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="financialHigherEdFunctionCd" title="kuali_dd_label(Account)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="financialHigherEdFunctionCd" draw="true" service="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/financialHigherEdFunctionCd') = wf:ruledata('financialHigherEdFunctionCd')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

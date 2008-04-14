@@ -148,7 +148,7 @@ public class DisbursementVoucherPreConferenceDetail extends PersistableBusinessO
      * @return Returns the disbVchrConferenceTotalAmt
      */
     public KualiDecimal getDisbVchrConferenceTotalAmt() {
-        KualiDecimal totalConferenceAmount = new KualiDecimal(0);
+        KualiDecimal totalConferenceAmount = KualiDecimal.ZERO;
 
         if (dvPreConferenceRegistrants != null) {
             for (Iterator iter = dvPreConferenceRegistrants.iterator(); iter.hasNext();) {

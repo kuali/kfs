@@ -17,6 +17,7 @@ package org.kuali.kfs.batch;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.kfs.KFSConstants;
@@ -27,7 +28,10 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeOldLookupResultsStep.class);
 
-    public boolean execute(String jobName) {
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     */
+    public boolean execute(String jobName, Date jobRunDate) {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
 

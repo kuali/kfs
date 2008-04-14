@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsStatus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Status</label>
+      <description>Attribute to search and display the Contracts &amp; Grants Status Code of a document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="statusCode" title="kuali_dd_label(AwardStatus)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchStatusCriteriaValuesFinder)</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>concat(wf:xstreamsafe('//newMaintainableObject/businessObject/awardStatusCode'), wf:xstreamsafe('//newMaintainableObject/businessObject/proposalStatusCode'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

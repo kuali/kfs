@@ -33,15 +33,15 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
     private Integer budgetUserSequenceNumber;
     private String institutionAppointmentTypeCode;
 
-    private KualiInteger agencyFringeBenefitTotalAmountTask = new KualiInteger(0);
-    private KualiInteger agencyRequestTotalAmountTask = new KualiInteger(0);
-    private KualiInteger institutionCostShareFringeBenefitTotalAmountTask = new KualiInteger(0);
-    private KualiInteger institutionCostShareRequestTotalAmountTask = new KualiInteger(0);
+    private KualiInteger agencyFringeBenefitTotalAmountTask = KualiInteger.ZERO;
+    private KualiInteger agencyRequestTotalAmountTask = KualiInteger.ZERO;
+    private KualiInteger institutionCostShareFringeBenefitTotalAmountTask = KualiInteger.ZERO;
+    private KualiInteger institutionCostShareRequestTotalAmountTask = KualiInteger.ZERO;
 
-    private KualiInteger gradAsstAgencySalaryTotal = new KualiInteger(0);
-    private KualiInteger gradAsstAgencyHealthInsuranceTotal = new KualiInteger(0);
-    private KualiInteger gradAsstInstSalaryTotal = new KualiInteger(0);
-    private KualiInteger gradAsstInstHealthInsuranceTotal = new KualiInteger(0);
+    private KualiInteger gradAsstAgencySalaryTotal = KualiInteger.ZERO;
+    private KualiInteger gradAsstAgencyHealthInsuranceTotal = KualiInteger.ZERO;
+    private KualiInteger gradAsstInstSalaryTotal = KualiInteger.ZERO;
+    private KualiInteger gradAsstInstHealthInsuranceTotal = KualiInteger.ZERO;
 
     private List userAppointmentTaskPeriods = new ArrayList();
 

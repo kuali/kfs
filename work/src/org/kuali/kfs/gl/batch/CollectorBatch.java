@@ -275,12 +275,9 @@ public class CollectorBatch implements Serializable {
         OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
         for (OriginEntryFull entry : this.originEntries) {
             entry.setGroup(originEntryGroup);
-            if (entry.getFinancialDocumentReversalDate() == null) {
-                entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            }
+
             // don't need to worry about previous origin entries existing in the DB because there'll never be a
             // duplicate record because a sequence # is a key
-
             originEntryService.save(entry);
         }
 

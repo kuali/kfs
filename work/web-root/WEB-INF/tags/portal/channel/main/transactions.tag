@@ -47,8 +47,8 @@
     
     <strong>Labor Distribution</strong><br />
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Benefit Expense Transfer" url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiBenefitExpenseTransferDocument" /></li>	            
-		<li><portal:portalLink displayTitle="true" title="Salary Expense Transfer" url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiSalaryExpenseTransferDocument" /></li>	
+        <li><portal:portalLink displayTitle="true" title="Benefit Expense Transfer" url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=BenefitExpenseTransferDocument" /></li>	            
+		<li><portal:portalLink displayTitle="true" title="Salary Expense Transfer" url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=SalaryExpenseTransferDocument" /></li>	
     </ul>
 
 	<strong>Pre-Award</strong><br />

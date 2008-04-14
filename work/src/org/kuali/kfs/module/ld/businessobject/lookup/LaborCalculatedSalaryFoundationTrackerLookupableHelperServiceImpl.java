@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
  * processing.
  */
 
-@Transactional
 public class LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl.class);
 

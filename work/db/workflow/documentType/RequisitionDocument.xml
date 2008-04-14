@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>RequisitionDocument</name>
+      <parent>KualiPurapDocument</parent>
+      <label>Requisition</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/purapRequisition.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiRequisitionDocumentId</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentVendorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApDocumentOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentRequestorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentDeliveryCampus</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentDeliverToName</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentReferenceText1</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentReferenceText2</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentReferenceText3</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderOrganizationDocumentNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderTotalAmountRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentStatusDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentStatusCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApSearchResultsDisplayType</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiRequisitionDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Content Review" />
+          <requests name="Content Review" nextNode="Sub Account Review" />
+          <requests name="Sub Account Review" nextNode="Account Review" />
+          <requests name="Account Review" nextNode="Org Review" />
+          <requests name="Org Review" nextNode="Separation of Duties" />
+          <requests name="Separation of Duties" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Content Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiRequisitionContentTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Sub Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiSubAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountTemplate</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Separation of Duties">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiRequisitionSeparationOfDutiesTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

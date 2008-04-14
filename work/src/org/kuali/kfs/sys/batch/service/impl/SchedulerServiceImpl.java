@@ -140,6 +140,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         job.setSchedulerService(this);
         job.setParameterService(parameterService);
         job.setSteps(BatchSpringContext.getJobDescriptor(jobName).getSteps());
+        job.setDateTimeService(dateTimeService);
     }
 
     /**

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurApDocumentOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchasing &amp; Accounts Payable Document Organization</label>
+      <description>Attribute to identify the Organization fields of a Purchasing &amp; Accounts Payable Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purapDocumentChartOfAccountsCode" title="kuali_dd_label(Org)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition caseSensitive="false" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purapDocumentOrganizationCode" title="kuali_dd_label(Org)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition caseSensitive="false" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/organizationCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>substring(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), concat('-', wf:xstreamsafe('//document/organizationCode'))), number(not(boolean(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), wf:xstreamsafe('//document/organizationCode')))))*string-length(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), concat('-', wf:xstreamsafe('//document/organizationCode'))))+1)</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

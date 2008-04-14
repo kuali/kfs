@@ -44,5 +44,13 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="NonCheckDisbursement" parameterName="NON_CHECK_DISBURSEMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="sourceAccountingLines" />
+        		<workflowProperty path="sourceAccountingLines.account" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

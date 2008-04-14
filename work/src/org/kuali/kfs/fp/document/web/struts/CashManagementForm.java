@@ -507,7 +507,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             cashDrawerTotal = undepositedCashieringChecksTotal.add(openItemsTotal.add(cashDrawerCurrencyTotal.add(cashDrawerCoinTotal)));
             Map<String, KualiDecimal> results = calculateDepositedCashieringChecksTotalByDepositType(cmDoc);
             interimDepositedCashieringChecksTotal = results.get(DepositConstants.DEPOSIT_TYPE_INTERIM);
-            KualiDecimal finalDepositCashTotal = new KualiDecimal(0);
+            KualiDecimal finalDepositCashTotal = KualiDecimal.ZERO;
             Map<Class, Object> finalDepositCashDetails = SpringContext.getBean(CashManagementService.class).getCashDetailsForFinalDeposit(cmDoc.getDocumentNumber());
             KualiDecimal currencyDepositAmount = KualiDecimal.ZERO;
             if (finalDepositCashDetails.get(CurrencyDetail.class) != null) {
@@ -545,7 +545,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         private KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
-            KualiDecimal total = new KualiDecimal(0);
+            KualiDecimal total = KualiDecimal.ZERO;
             for (CashieringItemInProcess itemInProcess : SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(cmDoc)) {
                 if (itemInProcess.getItemRemainingAmount() != null) {
                     total = total.add(itemInProcess.getItemRemainingAmount());
@@ -556,8 +556,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         private Map<String, KualiDecimal> calculateDepositedCashieringChecksTotalByDepositType(CashManagementDocument cmDoc) {
             Map<String, KualiDecimal> result = new HashMap<String, KualiDecimal>();
-            result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, new KualiDecimal(0));
-            result.put(DepositConstants.DEPOSIT_TYPE_FINAL, new KualiDecimal(0));
+            result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, KualiDecimal.ZERO);
+            result.put(DepositConstants.DEPOSIT_TYPE_FINAL, KualiDecimal.ZERO);
             // 1. get all deposited cashiering checks
             List<Check> checks = SpringContext.getBean(CashManagementService.class).selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
             // 2. get all deposits

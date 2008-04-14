@@ -67,7 +67,6 @@ import org.springframework.util.StringUtils;
 /**
  * The default GL implementation of ScrubberValidator
  */
-@Transactional
 public class ScrubberValidatorImpl implements ScrubberValidator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
 

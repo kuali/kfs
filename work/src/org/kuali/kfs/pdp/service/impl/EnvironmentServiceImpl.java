@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author local-jsissom
  */
-@Transactional
 public class EnvironmentServiceImpl implements org.kuali.module.pdp.service.EnvironmentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EnvironmentServiceImpl.class);
 

@@ -69,6 +69,7 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PdpExtractService;
+import org.kuali.module.purap.service.PurapRunDateService;
 import org.kuali.module.purap.util.VendorGroupingHelper;
 import org.kuali.module.vendor.VendorConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,7 +97,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private DocumentService documentService;
     private MailService mailService;
     private EnvironmentService environmentService;
-
+    private PurapRunDateService purapRunDateService;
+    
     private PaymentStatus openPaymentStatus;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -108,27 +110,33 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     public void extractImmediatePaymentsOnly() {
         LOG.debug("extractImmediatePaymentsOnly() started");
-
-        extractPayments(true);
+        
+        Date processRunDate = dateTimeService.getCurrentDate();
+        extractPayments(true, processRunDate);
     }
 
     /**
-     * @see org.kuali.module.purap.service.PdpExtractService#extractPayments()
+     * @see org.kuali.module.purap.service.PdpExtractService#extractPayments(Date)
      */
-    public void extractPayments() {
+    public void extractPayments(Date runDate) {
         LOG.debug("extractPayments() started");
 
-        extractPayments(false);
+        extractPayments(false, runDate);
     }
 
-    private void extractPayments(boolean immediateOnly) {
+    /**
+     * Extracts payments from the database
+     * 
+     * @param immediateOnly whether to pick up immediate payments only
+     * @param processRunDate time/date to use to put on the {@link Batch} that's created; and when immediateOnly is false, is also used as the maximum
+     * allowed PREQ pay date when searching PREQ documents eligible to have payments extracted 
+     */
+    private void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
         if (openPaymentStatus == null) {
             openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         }
-
-        Date processRunDate = dateTimeService.getCurrentDate();
 
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
         UniversalUser uuser;
@@ -141,7 +149,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         PdpUser puser = new PdpUser(uuser);
 
-        List<String> campusesToProcess = getChartCodes(immediateOnly);
+        List<String> campusesToProcess = getChartCodes(immediateOnly, processRunDate);
         for (Iterator iter = campusesToProcess.iterator(); iter.hasNext();) {
             String campus = (String) iter.next();
 
@@ -202,6 +210,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         // if net > 0, generate PDP payment groups and update the documents
         Set<VendorGroupingHelper> vendors = creditMemoService.getVendorsOnCreditMemosToExtract(campusCode); 
 
+        java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+        
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
         for ( VendorGroupingHelper vendor : vendors ) {
@@ -223,7 +233,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 }
             }
             // get all matching payment requests
-            Iterator<PaymentRequestDocument> pri = paymentRequestService.getPaymentRequestsToExtractByVendor(campusCode, vendor);
+            Iterator<PaymentRequestDocument> pri = paymentRequestService.getPaymentRequestsToExtractByVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
             while (pri.hasNext()) {
                 PaymentRequestDocument prd = pri.next();
                 paymentRequestAmount = paymentRequestAmount.add(prd.getGrandTotal());
@@ -276,7 +286,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug( "processing PREQs without CMs" );
 
         // Get all the payment requests to process that do not have credit memos
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(campusCode);
+        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
         while (prIter.hasNext()) {
             PaymentRequestDocument prd = prIter.next();
             // if in the list created above, don't create the payment group
@@ -367,7 +377,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             prIter = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
         }
         else {
-            prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode);
+            java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+            prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
         }
 
         while (prIter.hasNext()) {
@@ -893,7 +904,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * 
      * @return
      */
-    private List<String> getChartCodes(boolean immediatesOnly) {
+    private List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
         List<String> output = new ArrayList<String>();
 
         Iterator<PaymentRequestDocument> iter = null;
@@ -901,8 +912,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             iter = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
         }
         else {
-            iter = paymentRequestService.getPaymentRequestsToExtract();
-
+            java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
+            iter = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
         while (iter.hasNext()) {
             PaymentRequestDocument prd = iter.next();
@@ -1206,6 +1217,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 }
     public void setEnvironmentService(EnvironmentService es) {
         environmentService = es;
+    }
+
+    public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
+        this.purapRunDateService = purapRunDateService;
     }
 
 }

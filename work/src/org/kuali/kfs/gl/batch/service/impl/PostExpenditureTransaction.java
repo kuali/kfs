@@ -18,6 +18,7 @@ package org.kuali.module.gl.batch.poster.impl;
 import java.util.Date;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -129,7 +130,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
                         foundIt = true;
                     }
                     else {
-                        if (currentObjectCode.getReportsToFinancialObject() == null) {
+                        if (ObjectUtils.isNull(currentObjectCode.getReportsToFinancialObject())) {
                             foundIt = true;
                         }
                         else {

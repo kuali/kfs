@@ -190,7 +190,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
         super.templateVendorAddress(vendorAddress);
-        this.setVendorFaxNumber(vendorAddress.getVendorFaxNumber());
+        if (vendorAddress != null) {
+            this.setVendorFaxNumber(vendorAddress.getVendorFaxNumber());
+        }
     }
 
     /**

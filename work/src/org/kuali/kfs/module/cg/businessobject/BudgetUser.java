@@ -390,7 +390,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
                 this.baseSalary = this.user.getPersonBaseSalaryAmount();
             }
             else {
-                this.baseSalary = new KualiDecimal(0);
+                this.baseSalary = KualiDecimal.ZERO;
             }
 
             String chart = "";
@@ -408,7 +408,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             this.primaryDepartmentCode = org;
         }
         else {
-            this.baseSalary = new KualiDecimal(0);
+            this.baseSalary = KualiDecimal.ZERO;
             this.fiscalCampusCode = "";
             this.primaryDepartmentCode = "";
         }

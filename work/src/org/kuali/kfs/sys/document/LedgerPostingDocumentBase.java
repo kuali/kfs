@@ -118,8 +118,9 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
             postingYear = accountingPeriod.getUniversityFiscalYear();
             postingPeriodCode = accountingPeriod.getUniversityFiscalPeriodCode();
         }
-        setPostingYear(postingYear);
-        setPostingPeriodCode(postingPeriodCode);
+        this.tmpPostingPeriodCode = postingPeriodCode;
+        this.tmpPostingYear = postingYear;
+        handleAccountingPeriodChange();
     }
 
     /**

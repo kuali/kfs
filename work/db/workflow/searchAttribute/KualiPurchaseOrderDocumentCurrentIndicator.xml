@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentCurrentIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Current Indicator</label>
+      <description>Attribute to identify the Current Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentCurrentIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>checkbox_present</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true'</xpathexpression>
+            <!-- concat(substring('Yes', number(not((wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true')))*string-length('Yes')+1), substring('No', number((wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true'))*string-length('No')+1)) -->
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

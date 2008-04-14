@@ -15,6 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.KualiCodeService;
@@ -97,7 +98,7 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
         mtec.setName(newName);
 
         // attempt to save the modified object
-        SpringContext.getBean(KualiCodeService.class).save(mtec);
+        SpringContext.getBean(BusinessObjectService.class).save(mtec);
 
         // open the object byCode() and confirm that the changes were saved
         mtec = null;
@@ -106,7 +107,7 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
         // revert back to the old name if it worked
         mtec.setName(oldName);
-        SpringContext.getBean(KualiCodeService.class).save(mtec);
+        SpringContext.getBean(BusinessObjectService.class).save(mtec);
 
 
         mtec = null;

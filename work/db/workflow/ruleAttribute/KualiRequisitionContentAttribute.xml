@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiRequisitionContentAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Requisition Content Routing</label>
+      <description>Requisition Content Routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="chartOfAccountsCode" title="kuali_dd_label(Org)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode') = wf:ruledata('chartOfAccountsCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="organizationCode" title="kuali_dd_label(Org)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/organizationCode') = wf:ruledata('organizationCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

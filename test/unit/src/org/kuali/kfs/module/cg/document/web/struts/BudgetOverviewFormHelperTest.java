@@ -39,9 +39,9 @@ public class BudgetOverviewFormHelperTest extends KualiTestBase {
     public void testGetTotalPersonnelAgencyRequest() {
         BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
 
-        budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(new KualiInteger(0));
-        budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(new KualiInteger(0));
-        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), new KualiInteger(0));
+        budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(KualiInteger.ZERO);
+        budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(KualiInteger.ZERO);
+        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), KualiInteger.ZERO);
 
         budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(new KualiInteger(5));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(new KualiInteger(-15));
@@ -55,9 +55,9 @@ public class BudgetOverviewFormHelperTest extends KualiTestBase {
     public void testGetTotalPersonnelInstitutionCostShare() {
         BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
 
-        budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(0));
-        budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(0));
-        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(0));
+        budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(KualiInteger.ZERO);
+        budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(KualiInteger.ZERO);
+        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), KualiInteger.ZERO);
 
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(5));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(-15));

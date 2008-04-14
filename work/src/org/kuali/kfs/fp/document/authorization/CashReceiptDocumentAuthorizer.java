@@ -57,7 +57,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
 
         // if an approval is requested, check to make sure that the cash drawer is open
         // if it's not, then they should not be able to verify the CR document
-        if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+        if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && !document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             CashReceiptDocument crd = (CashReceiptDocument) document;
 
             String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());

@@ -16,12 +16,14 @@
 package org.kuali.kfs.batch;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.kuali.core.UserSession;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
@@ -44,6 +46,7 @@ public class Job implements StatefulJob, InterruptableJob {
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;
+    private DateTimeService dateTimeService;
     private List<Step> steps;
     private Step currentStep;
     private Appender ndcAppender;
@@ -75,6 +78,7 @@ public class Job implements StatefulJob, InterruptableJob {
         catch (NumberFormatException ex) {
             // not present, do nothing
         }
+        Date jobRunDate = dateTimeService.getCurrentDate();
         int currentStepNumber = 0;
         try {
             LOG.info("Executing job: " + jobExecutionContext.getJobDetail() + "\n" + jobExecutionContext.getJobDetail().getJobDataMap());
@@ -100,7 +104,7 @@ public class Job implements StatefulJob, InterruptableJob {
                 }
                 step.setInterrupted(false);
                 try {
-                    if (!runStep(parameterService, jobExecutionContext.getJobDetail().getFullName(), currentStepNumber, step)) {
+                    if (!runStep(parameterService, jobExecutionContext.getJobDetail().getFullName(), currentStepNumber, step, jobRunDate)) {
                         break;
                     }
                 }
@@ -125,7 +129,7 @@ public class Job implements StatefulJob, InterruptableJob {
         schedulerService.updateStatus(jobExecutionContext.getJobDetail(), SchedulerService.SUCCEEDED_JOB_STATUS_CODE);
     }
 
-    public static boolean runStep(ParameterService parameterService, String jobName, int currentStepNumber, Step step) throws InterruptedException, UserNotFoundException, WorkflowException {
+    public static boolean runStep(ParameterService parameterService, String jobName, int currentStepNumber, Step step, Date jobRunDate) throws InterruptedException, UserNotFoundException, WorkflowException {
         boolean continueJob = true;
         LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()));
         if (parameterService.parameterExists(step.getClass(), STEP_RUN_PARM_NM) && !parameterService.getIndicatorParameter(step.getClass(), STEP_RUN_PARM_NM)) {
@@ -147,7 +151,7 @@ public class Job implements StatefulJob, InterruptableJob {
             if (LOG.isInfoEnabled()) {
                 LOG.info(new StringBuffer("Executing step: ").append(step.getName()).append("=").append(step.getClass()));
             }
-            if (!step.execute(jobName)) {
+            if (!step.execute(jobName, jobRunDate)) {
                 continueJob = false;
                 LOG.info("Stopping job after successful step execution");
             }
@@ -202,5 +206,9 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public void setSchedulerService(SchedulerService schedulerService) {
         this.schedulerService = schedulerService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

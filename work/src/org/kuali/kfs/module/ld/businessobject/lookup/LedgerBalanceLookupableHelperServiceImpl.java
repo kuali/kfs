@@ -48,7 +48,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry
  * processing.
  */
-@Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
 

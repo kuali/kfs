@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,10 +38,11 @@ public class PurgeBalanceStep extends AbstractStep {
      * class should NOT be transactional.
      * 
      * @param jobName the name of the job this step is being run as part of
+     * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
         LOG.info("PurgeEntryStep was run with year = "+yearStr);
         int year = Integer.parseInt(yearStr);

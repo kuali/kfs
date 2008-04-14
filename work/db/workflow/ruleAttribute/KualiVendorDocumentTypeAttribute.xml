@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiVendorDocumentTypeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Vendor Document Vendor Type Routing</label>
+      <description>Used for routing a vendor based on it's potential new vendor type</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="vendorTypeCode" title="kuali_dd_label(VendorHeader)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/vendorHeader/vendorTypeCode') = wf:ruledata('vendorTypeCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

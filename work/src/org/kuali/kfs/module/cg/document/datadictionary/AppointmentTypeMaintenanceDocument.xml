@@ -34,7 +34,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiAppointmentTypeMaintenanceDocument</documentTypeName>
+    <documentTypeName>AppointmentTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>APPT</documentTypeCode>
 
         <label>Appointment Type</label>
@@ -63,5 +63,6 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+    <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

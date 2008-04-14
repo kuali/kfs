@@ -43,9 +43,7 @@ public class UpdateIndirectCostEvent extends KualiDocumentEventBase implements K
     public UpdateIndirectCostEvent(String errorPathPrefix, Document document, BudgetIndirectCost budgetIndirectCost) {
         super("adding indirectCost to document " + getDocumentId(document), errorPathPrefix, document);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        idc = (BudgetIndirectCost) ObjectUtils.deepCopy(budgetIndirectCost);
+        this.idc = budgetIndirectCost;
     }
 
     /**

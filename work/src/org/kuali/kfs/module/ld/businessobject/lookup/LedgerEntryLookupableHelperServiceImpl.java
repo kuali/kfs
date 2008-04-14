@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.kuali.module.labor.bo.LedgerEntry
  */
-@Transactional
 public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryLookupableHelperServiceImpl.class);
 

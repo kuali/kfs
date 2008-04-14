@@ -16,18 +16,19 @@
 package org.kuali.kfs.lookup.valuefinder;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.LookupService;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.MessageOfTheDay;
 
 public class MessageOfTheDayFinder implements ValueFinder {
 
+    @CacheNoCopy
     public String getValue() {
         String motd = "unable to retrieve message of the day";
-        Collection collection = SpringContext.getBean(LookupService.class).findCollectionBySearch(MessageOfTheDay.class, new HashMap());
+        Collection collection = SpringContext.getBean(BusinessObjectService.class).findAll(MessageOfTheDay.class);
         if (collection != null && !collection.isEmpty()) {
             motd = ((MessageOfTheDay) collection.iterator().next()).getFinancialSystemMessageOfTheDayText();
         }

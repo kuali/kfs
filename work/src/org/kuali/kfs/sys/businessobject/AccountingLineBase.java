@@ -96,7 +96,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * This constructor sets up empty instances for the dependent objects.
      */
     public AccountingLineBase() {
-        setAmount(new KualiDecimal(0));
+        setAmount(KualiDecimal.ZERO);
         chart = new Chart();
         account = new Account();
         objectCode = new ObjectCode();
@@ -105,9 +105,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         project = new ProjectCode();
         postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
-        // all Financial Transaction Processing accounting lines (those extending from this) should use a balance type
-        // of Actual, except for JV which allows a choice and PE which uses "PE"
-        balanceTyp = SpringContext.getBean(BalanceTypService.class).getActualBalanceTyp();
+        balanceTyp = new BalanceTyp();
         objectType = new ObjectType();
         // salesTax = new SalesTax();
         salesTaxRequired = false;
@@ -729,14 +727,14 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
             }
 
             // object references
-            setChart((Chart) ObjectUtils.deepCopy(other.getChart()));
-            setAccount((Account) ObjectUtils.deepCopy(other.getAccount()));
-            setObjectCode((ObjectCode) ObjectUtils.deepCopy(other.getObjectCode()));
-            setSubAccount((SubAccount) ObjectUtils.deepCopy(other.getSubAccount()));
-            setSubObjectCode((SubObjCd) ObjectUtils.deepCopy(other.getSubObjectCode()));
-            setProject((ProjectCode) ObjectUtils.deepCopy(other.getProject()));
-            setBalanceTyp((BalanceTyp) ObjectUtils.deepCopy(other.getBalanceTyp()));
-            setObjectType((ObjectType) ObjectUtils.deepCopy(other.getObjectType()));
+            setChart(other.getChart());
+            setAccount(other.getAccount());
+            setObjectCode(other.getObjectCode());
+            setSubAccount(other.getSubAccount());
+            setSubObjectCode(other.getSubObjectCode());
+            setProject(other.getProject());
+            setBalanceTyp(other.getBalanceTyp());
+            setObjectType(other.getObjectType());
         }
     }
 

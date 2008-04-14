@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiAlienIndicatorAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Alien Indicator Routing</label>
+      <description>Alien Indicator Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="alienIndicator" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="true">true</values>
+            <values title="false">false</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrAlienPaymentCode') = wf:ruledata('alienIndicator')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

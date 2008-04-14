@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsSearchType</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Search Type</label>
+      <description>Attribute to use to search by proposal and award document types</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="searchType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>multibox</type>
+            <values selected="true">kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

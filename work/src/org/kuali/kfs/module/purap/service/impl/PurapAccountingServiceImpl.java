@@ -43,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * Contains a number of helper methods to deal with accounts on Purchasing Accounts Payable Documents
  */
-@Transactional
 public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 
@@ -103,7 +102,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz) {
         String methodName = "generateAccountDistributionForProration()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<PurApAccountingLine> newAccounts = new ArrayList();
 
         if (totalAmount.isZero()) {
@@ -112,11 +113,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         BigDecimal percentTotal = BigDecimal.ZERO;
         BigDecimal totalAmountBigDecimal = totalAmount.bigDecimalValue();
         for (SourceAccountingLine accountingLine : accounts) {
-            LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + totalAmountBigDecimal);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + totalAmountBigDecimal);
+            }
             BigDecimal pct = accountingLine.getAmount().bigDecimalValue().divide(totalAmountBigDecimal, percentScale, BIG_DECIMAL_ROUNDING_MODE);
             pct = pct.multiply(ONE_HUNDRED).stripTrailingZeros();
 
-            LOG.debug(methodName + " pct = " + pct + "  (trailing zeros removed)");
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " pct = " + pct + "  (trailing zeros removed)");
+            }
 
             BigDecimal lowestPossible = this.getLowestPossibleRoundUpNumber();
             if (lowestPossible.compareTo(pct) <= 0) {
@@ -135,10 +140,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
                 PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine);
                 newAccountingLine.setAccountLinePercent(pct);
-                LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
+                }
                 newAccounts.add(newAccountingLine);
                 percentTotal = percentTotal.add(newAccountingLine.getAccountLinePercent());
-                LOG.debug(methodName + " total = " + percentTotal);
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug(methodName + " total = " + percentTotal);
+                }
             }
         }
 
@@ -157,7 +166,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
              * that is higher than the difference and we subtract off the difference
              */
             BigDecimal difference = percentTotal.subtract(ONE_HUNDRED);
-            LOG.debug(methodName + " Rounding up by " + difference);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " Rounding up by " + difference);
+            }
 
             boolean foundAccountToUse = false;
             int currentNbr = newAccounts.size() - 1;
@@ -188,11 +199,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
              * percent to it's already calculated percent
              */
             BigDecimal difference = ONE_HUNDRED.subtract(percentTotal);
-            LOG.debug(methodName + " Rounding down by " + difference);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " Rounding down by " + difference);
+            }
             PurApAccountingLine slushAccount = (PurApAccountingLine) newAccounts.get(newAccounts.size() - 1);
             slushAccount.setAccountLinePercent((slushAccount.getAccountLinePercent().add(difference)).stripTrailingZeros());
         }
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return newAccounts;
     }
 
@@ -202,7 +217,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale) {
         String methodName = "generateAccountDistributionForProrationWithZeroTotal()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
 
         // find the total percent and strip trailing zeros
         BigDecimal totalPercentValue = BigDecimal.ZERO;
@@ -222,7 +239,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         for (PurApAccountingLine accountingLine : accounts) {
             i++;
             BigDecimal percentToUse = BigDecimal.ZERO;
-            LOG.debug(methodName + " " + accountingLine.getChartOfAccountsCode() + "-" + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + percentToUse);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " " + accountingLine.getChartOfAccountsCode() + "-" + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + percentToUse);
+            }
 
             // if it's the last account make up the leftover percent
             BigDecimal acctPercent = accountingLine.getAccountLinePercent();
@@ -237,14 +256,22 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
 
             PurApAccountingLine newAccountingLine = accountingLine.createBlankAmountsCopy();
-            LOG.debug(methodName + " pct = " + percentToUse);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " pct = " + percentToUse);
+            }
             newAccountingLine.setAccountLinePercent(percentToUse.setScale(accountingLine.getAccountLinePercent().scale(), BIG_DECIMAL_ROUNDING_MODE));
-            LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
+            }
             newAccounts.add(newAccountingLine);
             logDisplayOnlyTotal = logDisplayOnlyTotal.add(newAccountingLine.getAccountLinePercent());
-            LOG.debug(methodName + " total = " + logDisplayOnlyTotal);
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug(methodName + " total = " + logDisplayOnlyTotal);
+            }
         }
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return newAccounts;
     }
 
@@ -253,9 +280,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummary(List<PurApItem> items) {
         String methodName = "generateSummary()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
     
@@ -278,7 +309,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     private List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items) {
         String methodName = "generateSummaryAccounts()";
         List<SummaryAccount> returnList = new ArrayList<SummaryAccount>();
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> sourceLines = generateSummary(items);
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
             SummaryAccount summaryAccount = new SummaryAccount();
@@ -296,7 +329,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
             returnList.add(summaryAccount);
         }
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -305,9 +340,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -316,9 +355,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, null, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -327,9 +370,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypes()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -339,9 +386,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypesAndNoZeroTotals()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -350,9 +401,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypes()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, includedItemTypeCodes, ITEM_TYPES_INCLUDED_VALUE, ZERO_TOTALS_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 
@@ -362,9 +417,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      */
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypesAndNoZeroTotals()";
-        LOG.debug(methodName + " started");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " started");
+        }
         List<SourceAccountingLine> returnList = generateAccountSummary(items, excludedItemTypeCodes, ITEM_TYPES_EXCLUDED_VALUE, ZERO_TOTALS_NOT_RETURNED_VALUE, ALTERNATE_AMOUNT_NOT_USED);
-        LOG.debug(methodName + " ended");
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug(methodName + " ended");
+        }
         return returnList;
     }
 

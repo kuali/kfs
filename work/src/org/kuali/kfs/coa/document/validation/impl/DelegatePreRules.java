@@ -66,12 +66,12 @@ public class DelegatePreRules implements PreRulesCheck {
 
         // FROM amount defaults to zero
         if (ObjectUtils.isNull(delegate.getFinDocApprovalFromThisAmt())) {
-            delegate.setFinDocApprovalFromThisAmt(new KualiDecimal(0));
+            delegate.setFinDocApprovalFromThisAmt(KualiDecimal.ZERO);
         }
 
         // TO amount defaults to zero
         if (ObjectUtils.isNull(delegate.getFinDocApprovalToThisAmount())) {
-            delegate.setFinDocApprovalToThisAmount(new KualiDecimal(0));
+            delegate.setFinDocApprovalToThisAmount(KualiDecimal.ZERO);
         }
     }
 

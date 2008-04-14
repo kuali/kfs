@@ -55,5 +55,12 @@
 		<help parameterNamespace="KFS-FP" parameterDetailType="CreditCardReceipt" parameterName="CREDIT_CARD_RECEIPT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="sourceAccountingLines" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

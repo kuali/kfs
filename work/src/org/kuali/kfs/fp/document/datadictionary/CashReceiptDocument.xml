@@ -88,5 +88,13 @@
   		<help parameterNamespace="KFS-FP" parameterDetailType="CashReceipt" parameterName="CASH_RECEIPT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="sourceAccountingLines" />
+        		<workflowProperty path="cashReceiptHeader" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

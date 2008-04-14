@@ -55,7 +55,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides a set of facilities to generate reports.
  */
-@Transactional
 public class LaborReportServiceImpl implements LaborReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborReportServiceImpl.class);
 

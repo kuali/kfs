@@ -64,6 +64,8 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C09", KFSConstants.RULE_CODE_R2));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C10", KFSConstants.RULE_CODE_A));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C11", KFSConstants.RULE_CODE_A));
+        
+        orgRev.refreshReferenceObject("chartOfAccounts");
 
         return orgRev;
     }

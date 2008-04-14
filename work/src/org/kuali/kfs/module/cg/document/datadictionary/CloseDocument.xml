@@ -40,5 +40,7 @@
   
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties/>
     </transactionalDocument>
 </dictionaryEntry>

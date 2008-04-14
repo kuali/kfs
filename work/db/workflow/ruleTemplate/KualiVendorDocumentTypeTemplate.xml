@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate>
+      <name>KualiVendorDocumentTypeTemplate</name>
+      <description>Used for creating Rules based on the Vendor Maintenance Document with respect to the Vendor Type</description>
+      <attributes>
+        <attribute>
+          <name>KualiVendorDocumentTypeAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <ruleInstructions>Please enter a valid Vendor Type code</ruleInstructions>
+        <description>Rule for routing Vendor maintenance document based on document's Vendor Type.</description>
+        <fromDate>07/13/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+        <defaultActionRequested>A</defaultActionRequested>
+        <supportsComplete>false</supportsComplete>
+        <supportsApprove>true</supportsApprove>
+        <supportsAcknowledge>false</supportsAcknowledge>
+        <supportsFYI>false</supportsFYI>
+      </ruleDefaults>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

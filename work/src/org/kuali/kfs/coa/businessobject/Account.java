@@ -141,7 +141,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String accountDescriptionSectionBlank;
     private String accountDescriptionSection;
 
-    private boolean forContractsAndGrants;
+    private Boolean forContractsAndGrants;
 
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
@@ -154,14 +154,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     public Account() {
     }
-
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
-        // This is needed to put a value in the object so the persisted XML has a flag that
-        // can be used in routing to determine if an account is a C&G Account
-        forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
-    }
-
+    
     /**
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
@@ -1491,8 +1484,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     /**
      * @param subFundGroupCode The subFundGroupCode to set.
      */
-    public void setSubFundGroupCode(String subFundGroupCode) {
+    public void setSubFundGroupCode(String subFundGroupCode) {        
         this.subFundGroupCode = subFundGroupCode;
+        forContractsAndGrants = null;
     }
 
     /**
@@ -1792,6 +1786,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the forContractsAndGrants.
      */
     public boolean isForContractsAndGrants() {
+        if ( forContractsAndGrants == null ) {
+            forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
+        }
         return forContractsAndGrants;
     }
 

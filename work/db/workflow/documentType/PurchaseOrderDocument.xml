@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PurchaseOrderDocument</name>
+      <parent>KualiPurapDocument</parent>
+      <description>PurchaseOrderDocument</description>
+      <label>Kuali Purchase Order</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/purapPurchaseOrder.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiPurchaseOrderDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentVendorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderRequisitionDocumentId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApDocumentOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentRequestorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentDeliveryCampus</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentContractManagerCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentPreviousPurchaseOrderId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentVendorId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentContractName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentTransmitDateRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentDateRequiredRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderOrganizationDocumentNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderTotalAmountRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentContractManagerName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentStatusDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentFiscalPostingYear</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentStatusCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentIncompleteStatuses</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurchaseOrderDocumentCurrentIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApSearchResultsDisplayType</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Internal Purchasing Review" />
+          <requests name="Internal Purchasing Review" nextNode="Contracts and Grants Review" />
+          <requests name="Contracts and Grants Review" nextNode="Budget Office Review" />
+          <requests name="Budget Office Review" nextNode="Vendor Tax Review" />
+          <requests name="Vendor Tax Review" nextNode="Document Transmission" />
+          <requests name="Document Transmission" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Internal Purchasing Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiInternalPurchasingTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Contracts and Grants Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiPurApContractsAndGrantsTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Budget Office Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiPurApBudgetReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Vendor Tax Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Document Transmission">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiPurchaseOrderTransmissionTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

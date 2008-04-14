@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentPreviousPurchaseOrderId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document ID</label>
+      <description>Attribute to identify the Previous Purchase Order ID field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentPreviousPurchaseOrderId" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid Previous PO Nbr Value.  A valid Previous Purchase Order number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderPreviousIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
@@ -28,11 +30,12 @@ public class ClearPendingStep extends AbstractStep {
     /**
      * Runs the process of deleting copied ledger entries
      * 
-     * @param the name of the job that this step is being run as part of
+     * @param jobName the name of the job that this step is being run as part of
+     * @param jobRunDate the time/date the job is run
      * @return that the job completed successfully
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         nightlyOutService.deleteCopiedPendingLedgerEntries();
         return true;
     }

@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.service.impl;
 
-import org.kuali.core.util.spring.Cached;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.kfs.bo.HomeOrigination;
 import org.kuali.kfs.dao.HomeOriginationDao;
 import org.kuali.kfs.service.HomeOriginationService;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-@Cached
 public class HomeOriginationServiceImpl implements HomeOriginationService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HomeOriginationServiceImpl.class);
@@ -32,6 +29,7 @@ public class HomeOriginationServiceImpl implements HomeOriginationService {
     /**
      * Retrieves a HomeOrigination object. Currently, there is only a single, unique HomeOriginationCode record in the database.
      */
+    @CacheNoCopy
     public HomeOrigination getHomeOrigination() {
         return getHomeOriginationDao().getHomeOrigination();
     }

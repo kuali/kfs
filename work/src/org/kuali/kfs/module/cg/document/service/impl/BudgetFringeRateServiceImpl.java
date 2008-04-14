@@ -34,12 +34,10 @@ import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  */
-@Transactional
 public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
 
     private ParameterService parameterService;

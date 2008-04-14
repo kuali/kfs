@@ -27,8 +27,7 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
  */
 public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePreRulesBase {
 
-    private IndirectCostRecoveryExclusionAccount newAccount;
-    private IndirectCostRecoveryExclusionAccount copyAccount;
+    private IndirectCostRecoveryExclusionAccount indirectCostRecoveryExclusionAccount;
 
 
     public IndirectCostRecoveryExclusionAccountPreRules() {
@@ -57,11 +56,11 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(newAccount.getAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber(), "");
+        if (StringUtils.isNotBlank(indirectCostRecoveryExclusionAccount.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", indirectCostRecoveryExclusionAccount.getChartOfAccountsCode(), indirectCostRecoveryExclusionAccount.getAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setAccountNumber(account.getAccountNumber());
-                newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                indirectCostRecoveryExclusionAccount.setAccountNumber(account.getAccountNumber());
+                indirectCostRecoveryExclusionAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
@@ -76,8 +75,6 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (IndirectCostRecoveryExclusionAccount) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (IndirectCostRecoveryExclusionAccount) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        indirectCostRecoveryExclusionAccount = (IndirectCostRecoveryExclusionAccount) document.getNewMaintainableObject().getBusinessObject();
     }
 }

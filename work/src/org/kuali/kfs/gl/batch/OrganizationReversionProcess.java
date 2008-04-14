@@ -41,6 +41,7 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.chart.service.PriorYearAccountService;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
@@ -72,6 +73,7 @@ public class OrganizationReversionProcess {
     private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
     private PriorYearAccountService priorYearAccountService;
     private OrgReversionUnitOfWorkService orgReversionUnitOfWorkService;
+    private FlexibleOffsetAccountService flexibleOffsetAccountService;
 
     private OriginEntryGroup outputGroup;
     private OrgReversionUnitOfWork unitOfWork;
@@ -163,6 +165,7 @@ public class OrganizationReversionProcess {
         orgReversionUnitOfWorkService = oruows;
         this.jobParameters = jobParameters;
         this.organizationReversionCounts = organizationReversionCounts;
+        this.flexibleOffsetAccountService = SpringContext.getBean(FlexibleOffsetAccountService.class);
     }
 
     /**
@@ -438,6 +441,8 @@ public class OrganizationReversionProcess {
      */
     public void generateCashReversions(List<OriginEntryFull> originEntriesToWrite) throws FatalErrorException {
         int entriesWritten = 0;
+        
+        // Reversion of cash from the actual account in the fiscal year ending (balance type of NB)
         OriginEntryFull entry = getEntry();
         entry.refreshReferenceObject("option");
 
@@ -476,6 +481,7 @@ public class OrganizationReversionProcess {
 
         originEntriesToWrite.add(entry);
 
+        // Reversion of fund balance, starting with the actual account, to match the cash that was reverted (balance type of NB) 
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(unitOfWork.accountNumber);
@@ -504,8 +510,10 @@ public class OrganizationReversionProcess {
         // 3571 WS-AMT-N.
         // 3572 MOVE WS-AMT-X TO TRN-AMT-RED-X.
 
+        flexibleOffsetAccountService.updateOffset(entry);
         originEntriesToWrite.add(entry);
 
+        // Reversion of cash to the cash reversion account in the fiscal year ending (balance type of NB)
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
@@ -537,6 +545,7 @@ public class OrganizationReversionProcess {
 
         originEntriesToWrite.add(entry);
 
+        // Reversion of fund balance, starting with the cash reversion account, to match the cash that was reverted (balance type of NB) 
         entry = getEntry();
         entry.setChartOfAccountsCode(unitOfWork.chartOfAccountsCode);
         entry.setAccountNumber(organizationReversion.getCashReversionAccountNumber());
@@ -565,7 +574,8 @@ public class OrganizationReversionProcess {
         // 3768 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
         // 3769 WS-AMT-N.
         // 3770 MOVE WS-AMT-X TO TRN-AMT-RED-X.
-
+        
+        flexibleOffsetAccountService.updateOffset(entry);
         originEntriesToWrite.add(entry);
     }
 

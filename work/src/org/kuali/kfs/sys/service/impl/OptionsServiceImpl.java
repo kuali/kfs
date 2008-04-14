@@ -23,16 +23,17 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+//@Transactional
 public class OptionsServiceImpl implements OptionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OptionsServiceImpl.class);
 
     private OptionsDao optionsDao;
-
+    private UniversityDateService universityDateService;
+    
     public Options getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
 
-        Integer fy = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer fy = universityDateService.getCurrentFiscalYear();
         return optionsDao.getByPrimaryId(fy);
     }
 
@@ -45,4 +46,14 @@ public class OptionsServiceImpl implements OptionsService {
     public void setOptionsDao(OptionsDao od) {
         optionsDao = od;
     }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+    
+    
 }

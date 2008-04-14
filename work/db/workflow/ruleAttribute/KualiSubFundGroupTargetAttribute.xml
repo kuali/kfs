@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiSubFundGroupTargetAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>SubFund Group Target Routing</label>
+      <description>SubFund Group Target Accounting Line Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

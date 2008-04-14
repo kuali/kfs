@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -27,13 +29,14 @@ public class ClearOldOriginEntryStep extends AbstractStep {
     private OriginEntryGroupService originEntryGroupService;
 
     /**
-     * Peforms the process of clearing old origin entry groups and entries
+     * Performs the process of clearing old origin entry groups and entries
      * 
      * @param the name of the job that this step is a part of
+     * @param jobRunDate the time/date the job is run
      * @return that the job completed successfully
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         LOG.debug("performStep() started");
         String daysStr = getParameterService().getParameterValue(getClass(), GLConstants.RETAIN_DAYS);
         int days = Integer.parseInt(daysStr);

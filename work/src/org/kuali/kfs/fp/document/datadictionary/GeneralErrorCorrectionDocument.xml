@@ -44,5 +44,14 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="GeneralErrorCorrection" parameterName="GENERAL_ERROR_CORRECTION" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="targetAccountingLines" />
+				<workflowProperty path="sourceAccountingLines" />
+				<workflowProperty path="sourceAccountingLines.account" />
+				<workflowProperty path="targetAccountingLines.account" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

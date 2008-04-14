@@ -39,19 +39,6 @@ public class OrganizationServiceTest extends KualiTestBase {
         organizationService.setOrganizationDao(organizationDao);
     }
 
-    public void testSave() throws Exception {
-        Org o = new Org();
-        o.setChartOfAccountsCode("XX");
-        o.setOrganizationCode("ZZZZ");
-        o.setOrganizationName("Sleep Org");
-
-        organizationService.save(o);
-        assertNotNull("Didn't save", organizationDao.saved);
-        assertEquals("Wrong chart", "XX", organizationDao.saved.getChartOfAccountsCode());
-        assertEquals("Wrong code", "ZZZZ", organizationDao.saved.getOrganizationCode());
-        assertEquals("Wrong name", "Sleep Org", organizationDao.saved.getOrganizationName());
-    }
-
     public void testGetByPrimaryId() throws Exception {
         Org o = new Org();
         o.setChartOfAccountsCode("XX");

@@ -182,6 +182,8 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         private Document auxiliaryVoucherDocument;
         private AccountingPeriod currPeriod;
         private ParameterEvaluator evaluator;
+        private java.sql.Date currentDate;
+        private Integer currentFiscalYear;
 
         public OpenAuxiliaryVoucherPredicate(Document doc) {
             this.parameterService = SpringContext.getBean(ParameterService.class);
@@ -189,6 +191,9 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             this.acctPeriodService = SpringContext.getBean(AccountingPeriodService.class);
             this.auxiliaryVoucherDocument = doc;
             this.currPeriod = acctPeriodService.getByDate(new java.sql.Date(new java.util.GregorianCalendar().getTimeInMillis()));
+            this.currentDate = new java.sql.Date(new java.util.Date().getTime());
+            this.evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, "");
+            this.currentFiscalYear = dateService.getCurrentFiscalYear();
         }
 
         public boolean evaluate(Object o) {
@@ -196,17 +201,10 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             if (o instanceof AccountingPeriod) {
                 AccountingPeriod period = (AccountingPeriod) o;
 
-                java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
-
-                if (evaluator == null) {
-                    evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode());
-                }
-                else {
-                    evaluator.setConstrainedValue(period.getUniversityFiscalPeriodCode());
-                }
+                evaluator.setConstrainedValue(period.getUniversityFiscalPeriodCode());
                 result = evaluator.evaluationSucceeds();
                 if (result) {
-                    result = (period.getUniversityFiscalYear().equals(dateService.getCurrentFiscalYear()));
+                    result = (period.getUniversityFiscalYear().equals( currentFiscalYear ));
                     if (result) {
                         // did this accounting period end before now?
                         result = acctPeriodService.compareAccountingPeriodsByDate(period, currPeriod) >= 0;

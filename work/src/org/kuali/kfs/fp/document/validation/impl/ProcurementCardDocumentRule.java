@@ -17,7 +17,6 @@ package org.kuali.module.financial.rules;
 
 import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.ZERO;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL;
 import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
@@ -272,7 +271,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         KualiDecimal transAmount = pcTransactionDetail.getTransactionTotalAmount();
         List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransactionDetail.getTargetAccountingLines();
 
-        KualiDecimal targetLineTotal = new KualiDecimal(0.00);
+        KualiDecimal targetLineTotal = KualiDecimal.ZERO;
 
         for (TargetAccountingLine targetLine : targetAcctingLines) {
             targetLineTotal = targetLineTotal.add(targetLine.getAmount());
@@ -343,7 +342,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         KualiDecimal amount = accountingLine.getAmount();
 
         // Check for zero
-        if (ZERO.compareTo(amount) == 0) { // amount == 0
+        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.DateMakerService;
@@ -31,9 +33,9 @@ public class FiscalYearMakerStep extends AbstractStep {
      * KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR and KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE
      * parameters from the KFSConstants.ParameterGroups.CHART_FISCAL_YEAR_MAKER security group.
      * 
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         dateMakerService.fiscalYearMakers(Integer.parseInt(getParameterService().getParameterValue(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_SOURCE_FISCAL_YEAR)), getParameterService().getIndicatorParameter(getClass(), KFSConstants.ChartApcParms.FISCAL_YEAR_MAKER_REPLACE_MODE));
         return true;
     }

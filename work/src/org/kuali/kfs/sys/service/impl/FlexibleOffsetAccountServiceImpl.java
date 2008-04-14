@@ -31,12 +31,10 @@ import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is the default implementation of the FlexibleOffsetAccountService interface.
  */
-@Transactional
 public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FlexibleOffsetAccountServiceImpl.class);
 

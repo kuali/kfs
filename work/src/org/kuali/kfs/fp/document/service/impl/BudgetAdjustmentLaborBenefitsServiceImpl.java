@@ -31,6 +31,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
+import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService;
 import org.kuali.module.labor.bo.BenefitsCalculation;
@@ -71,7 +72,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
             // check if the line was previousely generated benefit line, if so delete and skip
             if (line.isFringeBenefitIndicator()) {
-                if (line instanceof BudgetAdjustmentSourceAccountingLine) {
+                if (line.isSourceAccountingLine()) {
                     budgetDocument.getSourceAccountingLines().remove(line);
                 }
                 else {
@@ -80,36 +81,54 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                 continue;
             }
 
-            Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, line);
-            if (objectBenefits != null) {
-                for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
-                    PositionObjectBenefit objectBenefit = (PositionObjectBenefit) iterator.next();
-                    BenefitsCalculation benefitsCalculation = objectBenefit.getBenefitsCalculation();
+            try {
+                Collection objectBenefits = retrieveLaborObjectBenefits(fiscalYear, line);
+                if (objectBenefits != null) {
+                    for (Iterator iterator = objectBenefits.iterator(); iterator.hasNext();) {
+                        PositionObjectBenefit objectBenefit = (PositionObjectBenefit) iterator.next();
+                        BenefitsCalculation benefitsCalculation = objectBenefit.getBenefitsCalculation();
 
-                    // now create and set properties for the benefit line
-                    BudgetAdjustmentAccountingLine benefitLine = (BudgetAdjustmentAccountingLine) ObjectUtils.deepCopy(line);
-                    benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
-                    benefitLine.refresh();
+                        // now create and set properties for the benefit line
+                        BudgetAdjustmentAccountingLine benefitLine = null;
+                        if ( line.isSourceAccountingLine() ) {
+                            benefitLine = (BudgetAdjustmentAccountingLine)budgetDocument.getSourceAccountingLineClass().newInstance();
+                        } else {
+                            benefitLine = (BudgetAdjustmentAccountingLine)budgetDocument.getTargetAccountingLineClass().newInstance();
+                        }
+                        benefitLine.copyFrom(line);
+                        benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
+                        benefitLine.refreshNonUpdateableReferences();
 
-                    KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
-                    benefitLine.setCurrentBudgetAdjustmentAmount(benefitCurrentAmount);
+                        KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
+                        benefitLine.setCurrentBudgetAdjustmentAmount(benefitCurrentAmount);
 
-                    KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
-                    benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
+                        KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
+                        benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
 
-                    // clear monthly lines per KULEDOCS-1606
-                    benefitLine.clearFinancialDocumentMonthLineAmounts();
-                    
-                    // set flag on line so we know it was a generated benefit line and can clear it out later if needed
-                    benefitLine.setFringeBenefitIndicator(true);
+                        // clear monthly lines per KULEDOCS-1606
+                        benefitLine.clearFinancialDocumentMonthLineAmounts();
+                        
+                        // set flag on line so we know it was a generated benefit line and can clear it out later if needed
+                        benefitLine.setFringeBenefitIndicator(true);
 
-                    if (benefitLine instanceof BudgetAdjustmentSourceAccountingLine) {
-                        budgetDocument.addSourceAccountingLine((SourceAccountingLine) benefitLine);
-                    }
-                    else {
-                        budgetDocument.addTargetAccountingLine((TargetAccountingLine) benefitLine);
+                        if (benefitLine.isSourceAccountingLine()) {
+                            budgetDocument.addSourceAccountingLine((SourceAccountingLine) benefitLine);
+                        }
+                        else {
+                            budgetDocument.addTargetAccountingLine((TargetAccountingLine) benefitLine);
+                        }
                     }
                 }
+            }
+            catch (InstantiationException ie) {
+                // it's doubtful this catch block or the catch block below are ever accessible, as accounting lines should already have been generated
+                // for the document.  But we can still make it somebody else's problem
+                throw new RuntimeException(ie);
+            }
+            catch (IllegalAccessException iae) {
+                // with some luck we'll pass the buck now sez some other dev "This sucks!" Get your Runtime on!
+                // but really...we'll never make it this far.  I promise.
+                throw new RuntimeException(iae);
             }
         }
     }

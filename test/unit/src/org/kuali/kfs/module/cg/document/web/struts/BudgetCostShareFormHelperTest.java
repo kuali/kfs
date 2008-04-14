@@ -187,7 +187,7 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
 
             KualiInteger[] periodAmounts = subcontractor.getPeriodAmounts();
             assertEquals("periodAmounts[0] = 3000", periodAmounts[0], new KualiInteger(3000));
-            assertEquals("periodAmounts[1] = 0", periodAmounts[1], new KualiInteger(0));
+            assertEquals("periodAmounts[1] = 0", periodAmounts[1], KualiInteger.ZERO);
         }
 
         // This test does not do any aggregation (hit Subcontractor.addPeriodAmount). That is not very good but in the

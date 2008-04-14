@@ -93,13 +93,13 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // Set amounts to 0 if the indicator is set. Functionally this means if the indicator is checked and
         // they uncheck it, they see 0 instead of the nonpersonnel screen value.
         if (budgetNonpersonnel.getAgencyCopyIndicator()) {
-            this.setAgencyRequestAmount(new KualiInteger(0));
+            this.setAgencyRequestAmount(KualiInteger.ZERO);
         }
         if (budgetNonpersonnel.getBudgetInstitutionCostShareCopyIndicator()) {
-            this.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
+            this.setBudgetThirdPartyCostShareAmount(KualiInteger.ZERO);
         }
         if (budgetNonpersonnel.getBudgetThirdPartyCostShareCopyIndicator()) {
-            this.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
+            this.setBudgetInstitutionCostShareAmount(KualiInteger.ZERO);
         }
 
         // calculate inflation based on origin amounts per method specification.
@@ -145,9 +145,9 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         this.setBudgetPeriodSequenceNumber(budgetPeriodSequenceNumberOverride);
 
         // 2.
-        this.setAgencyRequestAmount(new KualiInteger(0));
-        this.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
-        this.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
+        this.setAgencyRequestAmount(KualiInteger.ZERO);
+        this.setBudgetThirdPartyCostShareAmount(KualiInteger.ZERO);
+        this.setBudgetInstitutionCostShareAmount(KualiInteger.ZERO);
 
         // 3.
         this.setBudgetOriginSequenceNumber(originBudgetNonpersonnel.getBudgetNonpersonnelSequenceNumber());

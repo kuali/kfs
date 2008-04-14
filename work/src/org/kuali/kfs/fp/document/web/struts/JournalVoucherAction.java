@@ -112,7 +112,7 @@ public class JournalVoucherAction extends VoucherAction {
         VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
 
         KualiDecimal balance = vDoc.getCreditTotal().subtract(vDoc.getDebitTotal());
-        if (vDoc.getSourceAccountingLines().size() > 0 && balance.compareTo(KFSConstants.ZERO) != 0) {
+        if (vDoc.getSourceAccountingLines().size() > 0 && balance.compareTo(KualiDecimal.ZERO) != 0) {
             // it's not in "balance"
             ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
 
@@ -397,10 +397,9 @@ public class JournalVoucherAction extends VoucherAction {
         // make sure that there is enough space in the list
         helperLines.ensureCapacity(sourceLines.size());
 
-        KualiDecimal ZERO = new KualiDecimal("0.00");
         for (int i = 0; i < sourceLines.size(); i++) {
             VoucherSourceAccountingLine sourceLine = (VoucherSourceAccountingLine) sourceLines.get(i);
-            sourceLine.setAmount(ZERO);
+            sourceLine.setAmount(KualiDecimal.ZERO);
             sourceLine.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE); // default to debit
 
             helperLines.add(new VoucherAccountingLineHelperBase()); // populate with a fresh new empty object

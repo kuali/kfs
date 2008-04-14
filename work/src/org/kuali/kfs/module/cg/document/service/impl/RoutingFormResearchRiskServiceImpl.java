@@ -31,7 +31,6 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormResearchRiskServiceImpl.class);

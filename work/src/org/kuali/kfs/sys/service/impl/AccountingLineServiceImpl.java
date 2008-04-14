@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
  * that this service can be used for performing services for both the Source and Target AccountingLineBase structures. This is the
  * default, Kuali provided implementation.
  */
-@Transactional
 public class AccountingLineServiceImpl implements AccountingLineService {
     // set up logging
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineServiceImpl.class);
@@ -39,27 +38,6 @@ public class AccountingLineServiceImpl implements AccountingLineService {
      */
     public AccountingLineServiceImpl() {
         super();
-    }
-
-    /**
-     * Saves an accounting line to the DB.
-     * 
-     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source and
-     *        Target lines).
-     */
-    public AccountingLine save(AccountingLine line) {
-        accountingLineDao.save(line);
-        return line;
-    }
-
-    /**
-     * Deletes an accounting line from the DB.
-     * 
-     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source and
-     *        Target lines).
-     */
-    public void deleteAccountingLine(AccountingLine line) {
-        accountingLineDao.deleteAccountingLine(line);
     }
 
     /**

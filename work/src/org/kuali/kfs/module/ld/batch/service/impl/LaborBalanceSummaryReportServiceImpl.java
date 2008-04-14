@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Implements a set of methods that can generate labor balance summary reports
  */
-@Transactional
 public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummaryReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBalanceSummaryReportServiceImpl.class);
 

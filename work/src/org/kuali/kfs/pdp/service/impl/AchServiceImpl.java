@@ -25,9 +25,7 @@ import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PayeeAchAccount;
 import org.kuali.module.pdp.service.AchInformation;
 import org.kuali.module.pdp.service.AchService;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class AchServiceImpl implements AchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchServiceImpl.class);
 

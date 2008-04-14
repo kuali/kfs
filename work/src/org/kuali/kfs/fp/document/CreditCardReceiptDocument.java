@@ -58,7 +58,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     private Integer nextCcCrLineNumber = new Integer(1);
 
     // monetary attributes
-    private KualiDecimal totalCreditCardAmount = new KualiDecimal(0);
+    private KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor that calls super.

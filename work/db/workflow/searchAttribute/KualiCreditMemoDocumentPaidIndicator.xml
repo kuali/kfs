@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentPaidIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Paid Indicator</label>
+      <description>Attribute to identify the Paid Indicator of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/creditMemoPaidTimestamp'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

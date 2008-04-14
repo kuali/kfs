@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * This service implementation is the default implementation of the OrganizationReversion service that is delivered with Kuali.
  */
-@Transactional
 public class OrganizationReversionServiceImpl implements OrganizationReversionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 

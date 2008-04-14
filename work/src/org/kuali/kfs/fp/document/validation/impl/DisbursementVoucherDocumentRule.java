@@ -524,11 +524,11 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             /* for foreign source or treaty exempt, non reportable, tax percents must be 0 and gross indicator can not be checked */
             if (document.getDvNonResidentAlienTax().isForeignSourceIncomeCode() || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode() || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
 
-                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
+                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
                     errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
                 }
 
-                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
+                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
                     errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
                 }
 
@@ -1018,7 +1018,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         }
 
         /* total accounting lines cannot be negative */
-        if (KFSConstants.ZERO.compareTo(document.getSourceTotal()) == 1) {
+        if (KualiDecimal.ZERO.compareTo(document.getSourceTotal()) == 1) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
         }
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -30,10 +32,11 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
      * Marks all ready-to-be-posted scrubber groups as unpostable
      * 
      * @param jobName the name of the job this step is being run as part of
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @param jobRunDate the time/date the job is being run
+     * @return true if the step completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         originEntryGroupService.markPostableScrubberValidGroupsAsUnpostable();
         return true;
     }

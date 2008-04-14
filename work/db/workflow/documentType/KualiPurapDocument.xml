@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>KualiPurapDocument</name>
+      <parent>KualiFinancialDocument</parent>
+      <description>The Purchasing &amp; Accounts Payable parent document type</description>
+      <label>Purchasing &amp; Accounts Payable Parent Document</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <blanketApprovePolicy>NONE</blanketApprovePolicy>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_ADMINISTRATOR</defaultExceptionWorkgroupName>
+      <docHandler>none</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_BLANKET_APPROVE</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_CANCEL</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_ROUTE</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>INITIATOR_MUST_SAVE</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>NOTIFY_ON_SAVE</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>PRE_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>KualiDocumentHeaderTotalAmountRange</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

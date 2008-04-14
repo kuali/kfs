@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiKeywordsMaintenanceDocument</documentTypeName>
+        <documentTypeName>KeywordMaintenanceDocument</documentTypeName>
         <documentTypeCode>KEYW</documentTypeCode>
 
         <label>Keyword</label>
@@ -56,5 +56,6 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

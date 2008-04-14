@@ -31,7 +31,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
     private DateTimeService dateTimeService;

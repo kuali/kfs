@@ -23,8 +23,8 @@ import org.kuali.module.gl.batch.CollectorStepTest;
 import org.kuali.module.gl.batch.FileEnterpriseFeederTest;
 import org.kuali.module.gl.batch.ForwardEncumbranceTest;
 import org.kuali.module.gl.batch.PurgeTest;
+import org.kuali.module.gl.batch.YearEndFlexibleOffsetTest;
 import org.kuali.module.gl.bo.OriginEntryTest;
-import org.kuali.module.gl.dao.ojb.BalanceTestDaoOjb;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.CollectorServiceTest;
@@ -74,6 +74,7 @@ public class AllTests {
         suite.addTestSuite(FileEnterpriseFeederTest.class);
         suite.addTestSuite(ForwardEncumbranceTest.class);
         suite.addTestSuite(PurgeTest.class);
+        suite.addTestSuite(YearEndFlexibleOffsetTest.class);
 
         // org.kuali.module.gl.bo
         suite.addTestSuite(OriginEntryTest.class);

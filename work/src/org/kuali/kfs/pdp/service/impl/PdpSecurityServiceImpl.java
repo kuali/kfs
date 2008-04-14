@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author jsissom
  */
-@Transactional
 public class PdpSecurityServiceImpl implements PdpSecurityService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpSecurityServiceImpl.class);
 

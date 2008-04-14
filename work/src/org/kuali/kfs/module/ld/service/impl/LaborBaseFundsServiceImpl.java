@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
  */
-@Transactional
 public class LaborBaseFundsServiceImpl implements LaborBaseFundsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBaseFundsServiceImpl.class);
 

@@ -377,5 +377,10 @@
 
         </maintainableSections>
 
+		<workflowProperties>
+			<workflowPropertyGroup>
+				<workflowProperty path="newMaintainableObject.businessObject.vendorHeader" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </maintenanceDocument>
 </dictionaryEntry>

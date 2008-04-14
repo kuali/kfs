@@ -134,19 +134,12 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private AccountDescription accountDescription;
 
     private List subAccounts;
-    private boolean forContractsAndGrants;
+    private Boolean forContractsAndGrants;
 
     /**
      * Default no-arg constructor.
      */
     public PriorYearAccount() {
-    }
-
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
-        // This is needed to put a value in the object so the persisted XML has a flag that
-        // can be used in routing to determine if an account is a C&G Account
-        forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
     }
 
     /**
@@ -1415,6 +1408,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
         this.subFundGroupCode = subFundGroupCode;
+        forContractsAndGrants = null;
     }
 
     /**
@@ -1653,6 +1647,9 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @return Returns the forContractsAndGrants.
      */
     public boolean isForContractsAndGrants() {
+        if ( forContractsAndGrants == null ) {
+            forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
+        }
         return forContractsAndGrants;
     }
 }

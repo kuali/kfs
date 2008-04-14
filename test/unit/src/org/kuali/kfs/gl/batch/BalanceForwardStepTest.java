@@ -16,9 +16,6 @@
 
 package org.kuali.module.gl.batch;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
 import org.kuali.kfs.service.ParameterService;
@@ -56,19 +54,6 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
     }
 
     /**
-     * Sets up the test by getting the date parameter
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-
-        super.setUp();
-
-        DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateTimeService.setCurrentDate(new Date(transactionDateFormat.parse(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM)).getTime()));
-    }
-
-    /**
      * Test the encumbrance forwarding process in one fell swoop. IF THIS TEST FAILS, READ
      * KULRNE-34 regarding reference numbers and the year end dates
      * 
@@ -80,9 +65,11 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         clearOriginEntryTables();
         BalanceTestHelper.populateBalanceTable();
 
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        
         // Execute the step ...
         BalanceForwardStep step = SpringContext.getBean(BalanceForwardStep.class);
-        step.execute(getClass().getName());
+        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
 
         // load our services.
         OriginEntryService entryService = SpringContext.getBean(OriginEntryService.class);
@@ -182,7 +169,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
      * @return the filtered origin entry line
      */
     private String filterOriginEntryLine(String line) {
-        // right now, remove the sequence number from this test
-        return line.substring(0, 51) + line.substring(57);
+        line = line.substring(0, 51) + line.substring(56); // remove sequence number
+        line = line.substring(0, 109) + line.substring(119); // remove date
+        return line;
     }
 }

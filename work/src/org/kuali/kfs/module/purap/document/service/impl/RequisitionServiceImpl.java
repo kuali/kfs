@@ -156,7 +156,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
         }
 
-        if (reqTotal.compareTo(KFSConstants.ZERO) <= 0) {
+        if (reqTotal.compareTo(KualiDecimal.ZERO) <= 0) {
 
             return "Requisition total is not greater than zero.";
         }
@@ -210,7 +210,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Payment type is marked as recurring.";
         }
 
-        if ((requisition.getPurchaseOrderTotalLimit() != null) && (KFSConstants.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
+        if ((requisition.getPurchaseOrderTotalLimit() != null) && (KualiDecimal.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
             LOG.debug("isAPO() po total limit is not null and not equal to zero; return false.");
 
             return "The 'PO not to exceed' amount has been entered.";

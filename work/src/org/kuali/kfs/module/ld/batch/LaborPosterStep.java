@@ -15,6 +15,8 @@
  */
 package org.kuali.module.labor.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborPosterService;
 
@@ -26,11 +28,12 @@ public class LaborPosterStep extends AbstractStep {
     private LaborPosterService laborPosterService;
 
     /**
-     * @param String jobName
+     * @param jobName
+     * @param jobRunDate
      * @return boolean when success
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         try {
             laborPosterService.postMainEntries();
         }

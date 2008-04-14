@@ -45,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * An extension of KualiLookupableImpl to support entry lookups
  */
-@Transactional
 public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryLookupableHelperServiceImpl.class);
 

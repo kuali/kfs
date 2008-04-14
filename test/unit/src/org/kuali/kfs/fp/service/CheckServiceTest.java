@@ -21,6 +21,7 @@ import static org.kuali.test.fixtures.UserNameFixture.MHKOZLOW;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -72,7 +73,8 @@ public class CheckServiceTest extends KualiTestBase {
         Check retrievedCheck = null;
         try {
             // save a check
-            savedCheck = SpringContext.getBean(CheckService.class).save(check);
+            SpringContext.getBean(BusinessObjectService.class).save(check);
+            savedCheck = check;
 
             // retrieve it
             retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
@@ -85,7 +87,7 @@ public class CheckServiceTest extends KualiTestBase {
         }
         finally {
             // delete it
-            SpringContext.getBean(CheckService.class).deleteCheck(savedCheck);
+            SpringContext.getBean(BusinessObjectService.class).delete(savedCheck);
         }
 
         // verify that the delete succeeded
@@ -98,7 +100,7 @@ public class CheckServiceTest extends KualiTestBase {
         List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
         if (retrievedChecks.size() > 0) {
             for (Iterator i = retrievedChecks.iterator(); i.hasNext();) {
-                SpringContext.getBean(CheckService.class).deleteCheck((Check) i.next());
+                SpringContext.getBean(BusinessObjectService.class).delete((Check) i.next());
             }
         }
     }

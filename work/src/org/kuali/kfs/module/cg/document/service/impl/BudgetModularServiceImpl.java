@@ -276,7 +276,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         // setup hashmap
         for (Iterator iter = periods.iterator(); iter.hasNext();) {
             BudgetPeriod period = (BudgetPeriod) iter.next();
-            directCostsMap.put(period.getBudgetPeriodSequenceNumber().toString(), new KualiInteger(0));
+            directCostsMap.put(period.getBudgetPeriodSequenceNumber().toString(), KualiInteger.ZERO);
         }
 
         // calculate personnel direct costs
@@ -338,7 +338,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
 
             KualiInteger absoluteCeiling = budgetPeriodMaximumAmount.multiply(periods);
 
-            for (KualiInteger eval = new KualiInteger(0); eval.compareTo(absoluteCeiling) <= 0 && returnVal == null; eval = eval.add(budgetPeriodIncrementAmount)) {
+            for (KualiInteger eval = KualiInteger.ZERO; eval.compareTo(absoluteCeiling) <= 0 && returnVal == null; eval = eval.add(budgetPeriodIncrementAmount)) {
 
                 if (eval.compareTo(new KualiInteger(rawPeriodActualDirectCost)) >= 0) {
                     returnVal = eval;
@@ -358,7 +358,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      * @return KualiInteger
      */
     private KualiInteger calculateTotalActualDirectCostAmount(List budgetModularPeriods) {
-        KualiInteger total = new KualiInteger(0);
+        KualiInteger total = KualiInteger.ZERO;
         for (Iterator iter = budgetModularPeriods.iterator(); iter.hasNext();) {
             BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) iter.next();
             total = total.add(currentModularPeriod.getActualDirectCostAmount());
@@ -384,7 +384,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      * @return KualiInteger
      */
     private KualiInteger calculateTotalAdjustedModularDirectCostAmount(List budgetModularPeriods) {
-        KualiInteger total = new KualiInteger(0);
+        KualiInteger total = KualiInteger.ZERO;
         for (Iterator iter = budgetModularPeriods.iterator(); iter.hasNext();) {
             BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) iter.next();
             total = total.add(currentModularPeriod.getBudgetAdjustedModularDirectCostAmount());
@@ -399,7 +399,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      * @return KualiInteger
      */
     private KualiInteger calculateTotalConsortiumAmount(List budgetModularPeriods) {
-        KualiInteger total = new KualiInteger(0);
+        KualiInteger total = KualiInteger.ZERO;
         for (Iterator iter = budgetModularPeriods.iterator(); iter.hasNext();) {
             BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) iter.next();
             total = total.add(currentModularPeriod.getConsortiumAmount());
@@ -414,7 +414,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      * @return KualiInteger
      */
     private KualiInteger calculateTotalDirectCostAmount(List budgetModularPeriods) {
-        KualiInteger total = new KualiInteger(0);
+        KualiInteger total = KualiInteger.ZERO;
         for (Iterator iter = budgetModularPeriods.iterator(); iter.hasNext();) {
             BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) iter.next();
             total = total.add(currentModularPeriod.getTotalPeriodDirectCostAmount());

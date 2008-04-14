@@ -276,7 +276,7 @@ public class CashieringTransactionRule {
         CurrencyDetail moneyInCurrency = trans.getMoneyInCurrency();
         CurrencyDetail moneyOutCurrency = trans.getMoneyOutCurrency();
 
-        KualiDecimal existingHundredDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingHundredDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentHundredDollarAmount() != null) {
             existingHundredDollarAmount = existingHundredDollarAmount.add(cashDrawer.getFinancialDocumentHundredDollarAmount());
         }
@@ -288,7 +288,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingOtherDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingOtherDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentOtherDollarAmount() != null) {
             existingOtherDollarAmount = existingOtherDollarAmount.add(cashDrawer.getFinancialDocumentOtherDollarAmount());
         }
@@ -300,7 +300,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingTwoDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingTwoDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentTwoDollarAmount() != null) {
             existingTwoDollarAmount = existingTwoDollarAmount.add(cashDrawer.getFinancialDocumentTwoDollarAmount());
         }
@@ -312,7 +312,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingFiftyDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingFiftyDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentFiftyDollarAmount() != null) {
             existingFiftyDollarAmount = existingFiftyDollarAmount.add(cashDrawer.getFinancialDocumentFiftyDollarAmount());
         }
@@ -324,7 +324,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingTwentyDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingTwentyDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentTwentyDollarAmount() != null) {
             existingTwentyDollarAmount = existingTwentyDollarAmount.add(cashDrawer.getFinancialDocumentTwentyDollarAmount());
         }
@@ -336,7 +336,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingTenDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingTenDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentTenDollarAmount() != null) {
             existingTenDollarAmount = existingTenDollarAmount.add(cashDrawer.getFinancialDocumentTenDollarAmount());
         }
@@ -348,7 +348,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingFiveDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingFiveDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentFiveDollarAmount() != null) {
             existingFiveDollarAmount = existingFiveDollarAmount.add(cashDrawer.getFinancialDocumentFiveDollarAmount());
         }
@@ -360,7 +360,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingOneDollarAmount = new KualiDecimal(0);
+        KualiDecimal existingOneDollarAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentOneDollarAmount() != null) {
             existingOneDollarAmount = existingOneDollarAmount.add(cashDrawer.getFinancialDocumentOneDollarAmount());
         }
@@ -375,7 +375,7 @@ public class CashieringTransactionRule {
         // money out coin
         CoinDetail moneyOutCoin = trans.getMoneyOutCoin();
         CoinDetail moneyInCoin = trans.getMoneyInCoin();
-        KualiDecimal existingHundredCentAmount = new KualiDecimal(0);
+        KualiDecimal existingHundredCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentHundredCentAmount() != null) {
             existingHundredCentAmount = existingHundredCentAmount.add(cashDrawer.getFinancialDocumentHundredCentAmount());
         }
@@ -387,7 +387,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingOtherCentAmount = new KualiDecimal(0);
+        KualiDecimal existingOtherCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentOtherCentAmount() != null) {
             existingOtherCentAmount = existingOtherCentAmount.add(cashDrawer.getFinancialDocumentOtherCentAmount());
         }
@@ -399,7 +399,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingFiftyCentAmount = new KualiDecimal(0);
+        KualiDecimal existingFiftyCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentFiftyCentAmount() != null) {
             existingFiftyCentAmount = existingFiftyCentAmount.add(cashDrawer.getFinancialDocumentFiftyCentAmount());
         }
@@ -411,7 +411,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingTwentyFiveCentAmount = new KualiDecimal(0);
+        KualiDecimal existingTwentyFiveCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentTwentyFiveCentAmount() != null) {
             existingTwentyFiveCentAmount = existingTwentyFiveCentAmount.add(cashDrawer.getFinancialDocumentTwentyFiveCentAmount());
         }
@@ -423,7 +423,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingTenCentAmount = new KualiDecimal(0);
+        KualiDecimal existingTenCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentTenCentAmount() != null) {
             existingTenCentAmount = existingTenCentAmount.add(cashDrawer.getFinancialDocumentTenCentAmount());
         }
@@ -435,7 +435,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingFiveCentAmount = new KualiDecimal(0);
+        KualiDecimal existingFiveCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentFiveCentAmount() != null) {
             existingFiveCentAmount = existingFiveCentAmount.add(cashDrawer.getFinancialDocumentFiveCentAmount());
         }
@@ -447,7 +447,7 @@ public class CashieringTransactionRule {
             success = false;
         }
 
-        KualiDecimal existingOneCentAmount = new KualiDecimal(0);
+        KualiDecimal existingOneCentAmount = KualiDecimal.ZERO;
         if (cashDrawer.getFinancialDocumentOneCentAmount() != null) {
             existingOneCentAmount = existingOneCentAmount.add(cashDrawer.getFinancialDocumentOneCentAmount());
         }

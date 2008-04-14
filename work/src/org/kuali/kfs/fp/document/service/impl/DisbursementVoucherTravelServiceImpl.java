@@ -29,13 +29,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is the default implementation of the DisbursementVoucherTravelService interface.
  * Performs calculations of travel per diem and mileage amounts.
  */
-@Transactional
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
 
@@ -71,7 +69,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
      * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
      */
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal rate) {
-        KualiDecimal perDiemAmount = new KualiDecimal(0);
+        KualiDecimal perDiemAmount = KualiDecimal.ZERO;
         KualiDecimal perDiemRate = new KualiDecimal(rate.doubleValue());
 
         // make sure we have the fields needed
@@ -175,7 +173,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
      * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculateMileageAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
      */
     public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate) {
-        KualiDecimal mileageAmount = new KualiDecimal(0);
+        KualiDecimal mileageAmount = KualiDecimal.ZERO;
 
         if (totalMileage == null || travelStartDate == null) {
             LOG.error("Total Mileage and Travel Start Date must be given.");

@@ -130,5 +130,12 @@
 		      </maintainableSection>
 		
         </maintainableSections>
+
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="newMaintainableObject.businessObject" />
+			</workflowPropertyGroup>
+        </workflowProperties>
+        
     </maintenanceDocument>
 </dictionaryEntry>

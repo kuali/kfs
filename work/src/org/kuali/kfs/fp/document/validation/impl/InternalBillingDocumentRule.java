@@ -20,6 +20,7 @@ import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConsta
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -47,7 +48,7 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
-        if (accountingLine.getAmount().equals(KFSConstants.ZERO)) {
+        if (accountingLine.getAmount().equals(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;

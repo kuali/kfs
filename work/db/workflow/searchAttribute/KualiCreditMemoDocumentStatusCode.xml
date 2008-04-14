@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentStatusCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Status Code</label>
+      <description>Attribute to identify the Credit Memo Status of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoStatusCode" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>multibox</type>
+            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.CreditMemoStatusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

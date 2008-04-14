@@ -41,13 +41,6 @@ public interface OrganizationService {
     public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode);
 
     /**
-     * Saves an Org object instance.
-     * 
-     * @param organization
-     */
-    public void save(Org organization);
-
-    /**
      * Retrieves a List of Accounts that are active, and are tied to this Org. If there are no Accounts that meet this criteria, an
      * empty list will be returned.
      * 

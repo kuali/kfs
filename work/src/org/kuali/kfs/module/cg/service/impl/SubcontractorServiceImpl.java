@@ -23,12 +23,10 @@ import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cg.bo.Subcontractor;
 import org.kuali.module.cg.service.SubcontractorService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the Subcontractor service.
  */
-@Transactional
 public class SubcontractorServiceImpl implements SubcontractorService {
 
     private BusinessObjectService businessObjectService;

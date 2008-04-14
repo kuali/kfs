@@ -33,21 +33,4 @@ public interface AccountingLineService {
      */
     public List getByDocumentHeaderId(Class clazz, String documentHeaderId);
 
-    /**
-     * Saves an accounting line.
-     * 
-     * @param line
-     * @return The saved accounting line
-     * @throws Exception
-     */
-    public AccountingLine save(AccountingLine line);
-
-
-    /**
-     * Deletes an accounting line.
-     * 
-     * @param line
-     * @throws Exception
-     */
-    public void deleteAccountingLine(AccountingLine line);
 }

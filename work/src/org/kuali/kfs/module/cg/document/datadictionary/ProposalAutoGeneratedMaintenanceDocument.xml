@@ -118,5 +118,6 @@
         </maintainableSections>               
         <allowsNoteDelete>false</allowsNoteDelete>
         <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

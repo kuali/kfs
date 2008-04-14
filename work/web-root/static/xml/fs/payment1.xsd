@@ -123,7 +123,7 @@
     <xsd:simpleType name="cityType">
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="0"/>
-            <xsd:maxLength value="30"/>
+            <xsd:maxLength value="45"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="countryType">

@@ -210,5 +210,16 @@
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<!-- properties for routing -->
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="accountsForRouting" />
+        		<workflowProperty path="accountsForRouting.account" />
+        		<!-- extra properties for searches -->
+        		<workflowProperty path="status" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
+        
     </transactionalDocument>
 </dictionaryEntry>

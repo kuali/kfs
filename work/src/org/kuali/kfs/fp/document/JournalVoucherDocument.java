@@ -175,7 +175,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @return KualiDecimal
      */
     public KualiDecimal getDebitTotal() {
-        KualiDecimal debitTotal = new KualiDecimal(0);
+        KualiDecimal debitTotal = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
@@ -195,7 +195,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
-        KualiDecimal creditTotal = new KualiDecimal(0);
+        KualiDecimal creditTotal = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
@@ -216,7 +216,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      */
     public KualiDecimal getTotalDollarAmount() {
 
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
 
         this.refreshReferenceObject("balanceType");
 

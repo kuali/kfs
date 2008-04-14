@@ -70,17 +70,6 @@ public class ProjectCodeServiceTest extends KualiTestBase {
         assertNull("Didn't retrieve", retrieved);
     }
 
-    public void testSave() throws Exception {
-        ProjectCode pc = new ProjectCode();
-        pc.setCode("PROJ");
-        pc.setName("PROJ Name");
-
-        projectCodeService.save(pc);
-        assertNotNull("Didn't save", projectCodeDao.saved);
-        assertEquals("Code is wrong", "PROJ", projectCodeDao.saved.getCode());
-        assertEquals("Name is wrong", "PROJ Name", projectCodeDao.saved.getName());
-    }
-
     class FakeProjectCodeDao implements ProjectCodeDao {
         public ProjectCode retrieved = null;
         public ProjectCode saved = null;

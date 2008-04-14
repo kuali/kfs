@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiPurposeMaintenanceDocument</documentTypeName>
+        <documentTypeName>PurposeMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPS</documentTypeCode>
 
         <label>Purpose</label>
@@ -58,5 +58,6 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

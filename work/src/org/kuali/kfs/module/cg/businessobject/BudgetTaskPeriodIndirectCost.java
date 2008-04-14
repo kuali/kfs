@@ -57,17 +57,17 @@ public class BudgetTaskPeriodIndirectCost extends PersistableBusinessObjectBase 
         super();
 
         // Set our totals to zero by default.
-        this.setTotalDirectCost(new KualiInteger(0));
-        this.setBaseCost(new KualiInteger(0));
-        this.setCalculatedIndirectCost(new KualiInteger(0));
+        this.setTotalDirectCost(KualiInteger.ZERO);
+        this.setBaseCost(KualiInteger.ZERO);
+        this.setCalculatedIndirectCost(KualiInteger.ZERO);
 
-        this.setCostShareBaseCost(new KualiInteger(0));
-        this.setCostShareCalculatedIndirectCost(new KualiInteger(0));
-        this.setCostShareIndirectCostRate(new KualiDecimal(0));
-        this.setCostShareUnrecoveredIndirectCost(new KualiInteger(0));
+        this.setCostShareBaseCost(KualiInteger.ZERO);
+        this.setCostShareCalculatedIndirectCost(KualiInteger.ZERO);
+        this.setCostShareIndirectCostRate(KualiDecimal.ZERO);
+        this.setCostShareUnrecoveredIndirectCost(KualiInteger.ZERO);
 
-        this.setBudgetManualIndirectCostRate(new KualiDecimal(0));
-        this.setBudgetManualMtdcAmount(new KualiInteger(0));
+        this.setBudgetManualIndirectCostRate(KualiDecimal.ZERO);
+        this.setBudgetManualMtdcAmount(KualiInteger.ZERO);
     }
 
     public BudgetTaskPeriodIndirectCost(BudgetTaskPeriodIndirectCost template) {

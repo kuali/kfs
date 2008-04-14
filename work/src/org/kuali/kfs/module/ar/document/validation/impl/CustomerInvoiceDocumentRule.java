@@ -16,7 +16,6 @@
 package org.kuali.module.ar.rules;
 
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.ZERO;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -387,7 +386,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
         KualiDecimal amount = accountingLine.getAmount();
 
-        if (ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
+        if (KualiDecimal.ZERO.compareTo(amount) == 0 || KualiDecimal.ZERO.compareTo(amount) > 0) { // amount == 0 or amount < 0
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
@@ -405,7 +404,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         KualiDecimal amount = customerInvoiceDetail.getInvoiceItemUnitPrice();
 
      // amount == 0 or amount < 0
-        if (ObjectUtils.isNull(amount) || ZERO.compareTo(amount) == 0 || ZERO.compareTo(amount) > 0) { 
+        if (ObjectUtils.isNull(amount) || KualiDecimal.ZERO.compareTo(amount) == 0 || KualiDecimal.ZERO.compareTo(amount) > 0) { 
             GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }

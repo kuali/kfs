@@ -18,8 +18,7 @@ package org.kuali.module.financial.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.Timer;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
@@ -29,12 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * This is the default implementation of the UniversityDateService interface.
  */
-@Transactional
+//@Transactional
 public class UniversityDateServiceImpl implements UniversityDateService {
 
     private static final Logger LOG = Logger.getLogger(UniversityDateServiceImpl.class);
 
     private UniversityDateDao universityDateDao;
+    private DateTimeService dateTimeService;
     
     /**
      * This method retrieves a UniversityDate object using today's date to create the instance.
@@ -45,7 +45,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
-        java.util.Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        java.util.Date now = dateTimeService.getCurrentDate();
 
         return universityDateDao.getByPrimaryKey(DateUtils.clearTimeFields(now));
     }
@@ -58,11 +58,11 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.core.service.DateTimeService#getCurrentFiscalYear()
      */
     public Integer getCurrentFiscalYear() {
-        Timer t0 = new Timer("getCurrentFiscalYear");
-        java.util.Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        //Timer t0 = new Timer("getCurrentFiscalYear");
+        java.util.Date now = dateTimeService.getCurrentDate();
 
         Integer result = getFiscalYear(DateUtils.clearTimeFields(now));
-        t0.log();
+        //t0.log();
         return result;
     }
     
@@ -74,6 +74,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.core.service.DateTimeService#getFiscalYear(java.util.Date)
      */
+    @CacheNoCopy
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
@@ -91,6 +92,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.module.financial.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
+    @CacheNoCopy
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -104,6 +106,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.module.financial.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
+    @CacheNoCopy
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -115,6 +118,14 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
     
 }

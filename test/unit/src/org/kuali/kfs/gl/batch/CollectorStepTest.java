@@ -17,6 +17,7 @@ package org.kuali.module.gl.batch;
 
 import java.io.File;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.batch.collector.CollectorInputFileType;
@@ -107,7 +108,9 @@ public class CollectorStepTest extends KualiTestBase {
     public void testAll() throws Exception {
         try {
             CollectorStep collectorStep = SpringContext.getBean(CollectorStep.class);
-            boolean goodExit = collectorStep.execute(getClass().getName());
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+
+            boolean goodExit = collectorStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
 
             assertTrue("collector step did not exit with pass", goodExit);
             assertFalse("done file was not removed", isDoneFileExists());

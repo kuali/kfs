@@ -48,10 +48,10 @@ public class DelegateGlobalTest extends KualiTestBase {
     private static final String DELEGATE_ID_1 = "4287701175"; // AFGORMAN BL-UDIV
     private static final String DELEGATE_ID_2 = "1571201547"; // BBURGER BL-VPIT
     private static final String DELEGATE_ID_3 = "1872708343"; // CSWINSON BL-VPGA
-    private static final KualiDecimal FROM_AMOUNT_1 = new KualiDecimal(0);
-    private static final KualiDecimal FROM_AMOUNT_2 = new KualiDecimal(0);
+    private static final KualiDecimal FROM_AMOUNT_1 = KualiDecimal.ZERO;
+    private static final KualiDecimal FROM_AMOUNT_2 = KualiDecimal.ZERO;
     private static final KualiDecimal FROM_AMOUNT_3 = new KualiDecimal(1000);
-    private static final KualiDecimal TO_AMOUNT_1 = new KualiDecimal(0);
+    private static final KualiDecimal TO_AMOUNT_1 = KualiDecimal.ZERO;
     private static final KualiDecimal TO_AMOUNT_2 = new KualiDecimal(10000);
     private static final KualiDecimal TO_AMOUNT_3 = new KualiDecimal(5000);
     private static final String DOC_TYPE_ALL = "ALL";

@@ -393,7 +393,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String TO = "To";
     public static final String USER_SESSION_KEY = "UserSession";
     public static final String VERSION_NUMBER = "versionNumber";
-    public static final KualiDecimal ZERO = new KualiDecimal("0.00");
 
     public static final String SEARCH_LIST_KEY_PREFIX = "searchResults";
     public static final String SEARCH_LIST_REQUEST_KEY = "searchResultKey";

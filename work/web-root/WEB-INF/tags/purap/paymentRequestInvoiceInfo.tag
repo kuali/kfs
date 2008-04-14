@@ -24,7 +24,7 @@
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
 
-<kul:tab tabTitle="Invoice Info" defaultOpen="true">
+<kul:tab tabTitle="Invoice Info" defaultOpen="true" tabErrorKey="document.paymentRequestPayDate">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Invoice Info</h2>

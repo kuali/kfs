@@ -34,19 +34,4 @@ public interface CheckService {
      */
     public List getByDocumentHeaderId(String documentHeaderId);
 
-    /**
-     * Saves a check.
-     * 
-     * @param check The check to be saved.
-     * @return The saved Check instance.
-     */
-    public Check save(Check check);
-
-
-    /**
-     * Deletes the given Check.
-     * 
-     * @param check The check to be deleted.
-     */
-    public void deleteCheck(Check check);
 }

@@ -45,9 +45,10 @@ public interface PaymentRequestDao {
      * 
      * @param campusCode - limit results to a single chart
      * @param vendor - Vendor Header ID, Vendor Detail ID, Country, Zip Code
+     * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this value will be returned in the iterator
      * @return - list of payment requests that need to be extracted
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor );
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that need to be extracted to PDP.
@@ -56,7 +57,7 @@ public interface PaymentRequestDao {
      * @param chartCode - if not null, limit results to a single chart
      * @return - Iterator of payment requests
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that are marked immediate that need to be extracted to PDP.

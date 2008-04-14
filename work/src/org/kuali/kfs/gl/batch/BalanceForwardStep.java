@@ -46,10 +46,11 @@ public class BalanceForwardStep extends AbstractStep {
      * groups for the output origin entries, and creating the process's reports.
      * 
      * @param jobName the name of the job that this step is a part of
+     * @param jobRunDate the time/date the job is run
      * @return that the job finished successfully
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, java.util.Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, java.util.Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 

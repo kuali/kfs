@@ -43,7 +43,6 @@ import org.kuali.module.kra.routingform.service.PurposeService;
 import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageServiceImpl.class);

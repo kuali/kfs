@@ -288,7 +288,7 @@ public class BudgetModular extends PersistableBusinessObjectBase {
         if (this.getTotalAdjustedModularDirectCostAmount() != null && this.getTotalActualDirectCostAmount() != null) {
             return this.getTotalAdjustedModularDirectCostAmount().subtract(this.getTotalActualDirectCostAmount());
         }
-        return new KualiInteger(0);
+        return KualiInteger.ZERO;
     }
 
     public boolean isInvalidMode() {

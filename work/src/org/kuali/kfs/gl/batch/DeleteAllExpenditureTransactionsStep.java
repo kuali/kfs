@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.ExpenditureTransactionService;
@@ -29,10 +31,11 @@ public class DeleteAllExpenditureTransactionsStep extends AbstractStep implement
      * Runs the process of deleting all expenditure transactions
      * 
      * @param jobName the name of the job this step is being run as part of
+     * @param jobRunDate the time/date when the job was started
      * @return true if the job finished successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         expenditureTransactionService.deleteAllExpenditureTransactions();
         return true;
     }

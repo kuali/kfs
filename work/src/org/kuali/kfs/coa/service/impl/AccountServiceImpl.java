@@ -26,12 +26,10 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
 import org.kuali.module.chart.service.AccountService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  */
-@Transactional
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 

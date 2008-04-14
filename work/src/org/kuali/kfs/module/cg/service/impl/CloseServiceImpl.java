@@ -94,10 +94,6 @@ public class CloseServiceImpl implements CloseService {
         return closeDao.getMaxApprovedClose();
     }
 
-    public void save(Close close) {
-        closeDao.save(close);
-    }
-
     public void setAwardDao(AwardDao awardDao) {
         this.awardDao = awardDao;
     }

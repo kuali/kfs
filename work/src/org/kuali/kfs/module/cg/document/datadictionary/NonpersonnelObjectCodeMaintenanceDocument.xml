@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiNonpersonnelObjectCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>NonpersonnelObjectCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>NPOC</documentTypeCode>
 
         <label>Non-Personnel Object Code</label>
@@ -63,5 +63,6 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

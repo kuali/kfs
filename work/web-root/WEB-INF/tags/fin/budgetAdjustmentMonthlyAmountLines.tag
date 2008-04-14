@@ -31,6 +31,12 @@
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<c:set var="tabSuffix" value="${fn:replace(accountingLine, '.', '-')}" />
+<c:set var="tabSuffix" value="${fn:replace(tabSuffix, '[', '')}" />
+<c:set var="tabSuffix" value="${fn:replace(tabSuffix, ']', '')}" />
+<c:set var="tabKey">
+	${tabKey}-${tabSuffix}
+</c:set>
 <!--  hit form method to increment tab index -->
 <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 

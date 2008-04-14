@@ -72,10 +72,10 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
             String debitCreditCode = originalLine.getDebitCreditCode();
             if (StringUtils.equals(debitCreditCode, KFSConstants.GL_DEBIT_CODE)) {
                 helper.setDebit(originalLine.getAmount());
-                helper.setCredit(KFSConstants.ZERO);
+                helper.setCredit(KualiDecimal.ZERO);
             }
             else if (StringUtils.equals(debitCreditCode, KFSConstants.GL_CREDIT_CODE)) {
-                helper.setDebit(KFSConstants.ZERO);
+                helper.setDebit(KualiDecimal.ZERO);
                 helper.setCredit(originalLine.getAmount());
             }
             // intentionally ignoring the case where debitCreditCode is neither debit nor credir
@@ -249,11 +249,11 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
             if (StringUtils.isNotBlank(sourceAccountingLine.getDebitCreditCode())) {
                 if (sourceAccountingLine.getDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
                     avAcctLineHelperForm.setDebit(sourceAccountingLine.getAmount());
-                    avAcctLineHelperForm.setCredit(KFSConstants.ZERO);
+                    avAcctLineHelperForm.setCredit(KualiDecimal.ZERO);
                 }
                 else if (sourceAccountingLine.getDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
                     avAcctLineHelperForm.setCredit(sourceAccountingLine.getAmount());
-                    avAcctLineHelperForm.setDebit(KFSConstants.ZERO);
+                    avAcctLineHelperForm.setDebit(KualiDecimal.ZERO);
                 }
             }
         }

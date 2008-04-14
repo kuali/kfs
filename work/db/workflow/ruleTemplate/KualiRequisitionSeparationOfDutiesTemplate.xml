@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate>
+      <name>KualiRequisitionSeparationOfDutiesTemplate</name>
+      <description>Kuali Separation of Duties Review</description>
+      <attributes>
+        <attribute>
+          <name>KualiSeparationOfDutiesRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <description>Rule for routing documents via Separation of Duties.</description>
+        <fromDate>07/01/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+        <supportsComplete>true</supportsComplete>
+        <supportsApprove>true</supportsApprove>
+        <supportsAcknowledge>true</supportsAcknowledge>
+        <supportsFYI>true</supportsFYI>
+      </ruleDefaults>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

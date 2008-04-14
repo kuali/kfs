@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.kuali.module.labor.bo.PositionObjectBenefit
  */
-@Transactional
 public class LaborPositionObjectBenefitServiceImpl implements LaborPositionObjectBenefitService {
 
     private BusinessObjectService businessObjectService;

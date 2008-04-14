@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 
@@ -29,7 +31,7 @@ public class EffortCertificationCreateStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         effortCertificationCreateService.create();
         
         return true;

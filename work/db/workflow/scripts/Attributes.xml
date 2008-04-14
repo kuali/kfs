@@ -1,0 +1,2247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiAccountAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiAccountAttribute</className>
+      <label>foo</label>
+      <description>foo</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderBudgetAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderBudgetAttribute</className>
+      <label>Purchase Order Budget Routing Attribute</label>
+      <description>Attribute to determine if Purchase Order document should route for Budget Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderContractAndGrantsAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
+      <label>Purchase Order Contracts &amp; Grants Routing Attribute</label>
+      <description>Attribute to determine if Purchase Order document should route for Contracts &amp; Grants Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiOrgReviewAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiOrgReviewAttribute</className>
+      <label>foo</label>
+      <description>foo</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiChartAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiChartAttribute</className>
+      <label>foo</label>
+      <description>foo</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiInternalPurchasingRoleAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiInternalPurchasingRoleAttribute</className>
+      <label>Purchase Order Internal Purchasing Routing Role Attribute</label>
+      <description>Attribute to determine if Purchase Order document should route for Internal Purchasing Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiSeparationOfDutiesRoleAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiSeparationOfDutiesRoleAttribute</className>
+      <label>Separation of Duties Routing Role Attribute</label>
+      <description>Attribute to determine if document should route for Separation of Duties Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurApDocumentTaxReviewAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiPurApDocumentTaxReviewAttribute</className>
+      <label>Purchasing &amp; Accounts Payable Tax Review Routing Role Attribute</label>
+      <description>Attribute to determine if document should route for Tax Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiAccountsPayableReviewAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiAccountsPayableReviewAttribute</className>
+      <label>Accounts Payable review Routing Role Attribute</label>
+      <description>Attribute to determine if document should route for Accounts Payable Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiWorkflowInitiatorRoleAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.InitiatorRoleAttribute</className>
+      <label>Kuali Workflow Initiator Role Attribute</label>
+      <description>Attribute to identify the initiator of the document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>RuleRoutingAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+      <label>foo</label>
+      <description>foo</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCGAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiCGAttribute</className>
+      <label>Award Workgroup Routing</label>
+      <description>Award Workgroup Routing</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiDocumentHeaderTotalAmountRange</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Document Header Total Amount Range Search Attribute</label>
+      <description>Attribute for adding a document header financial document total amount range search to a Kuali document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="documentTotalAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+            <parameters name="displayFormatPattern">#,##0.00</parameters>
+          </display>
+          <searchDefinition dataType="float" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//documentHeader/financialDocumentTotalAmount/value')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiDocumentHeaderDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Document Header Description</label>
+      <description>Attribute to identify the Description field of a Document Header in a Kuali Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="documentHeaderDescription" title="kuali_dd_label(DocumentHeader)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//documentHeader/financialDocumentDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiDocumentHeaderOrganizationDocumentNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Document Header Organization Document Number</label>
+      <description>Attribute to identify the Organization Document Number field of a Document Header in a Kuali Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="documentHeaderOrganizationDocumentNumber" title="kuali_dd_label(DocumentHeader)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//documentHeader/organizationDocumentNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document ID</label>
+      <description>Attribute to identify the ID field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentRequisitionId" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid REQ Nbr Value.  A valid requisition number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purapDocumentIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentRequestorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Requestor Name</label>
+      <description>Attribute to identify the Requestor Name field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentRequestorName" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requestorPersonName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentDeliveryCampus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Delivery Campus</label>
+      <description>Attribute to identify the Delivery Campus field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentDeliveryCampus" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentVendorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Vendor Name</label>
+      <description>Attribute to identify the Vendor Name field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentVendorName" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurApDocumentOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchasing &amp; Accounts Payable Document Organization</label>
+      <description>Attribute to identify the Organization fields of a Purchasing &amp; Accounts Payable Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purapDocumentChartOfAccountsCode" title="kuali_dd_label(Org)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition caseSensitive="false" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purapDocumentOrganizationCode" title="kuali_dd_label(Org)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition caseSensitive="false" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/organizationCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purapDocumentOrgDisplayValue" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>substring(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), concat('-', wf:xstreamsafe('//document/organizationCode'))), number(not(boolean(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), wf:xstreamsafe('//document/organizationCode')))))*string-length(concat(wf:xstreamsafe('//document/chartOfAccountsCode'), concat('-', wf:xstreamsafe('//document/organizationCode'))))+1)</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentReferenceText1</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document First Reference Text</label>
+      <description>Attribute to identify the first Reference Text field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentOrganizationReference1Text" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requisitionOrganizationReference1Text')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentReferenceText2</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Second Reference Text</label>
+      <description>Attribute to identify the second Reference Text field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentOrganizationReference2Text" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requisitionOrganizationReference2Text')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentReferenceText3</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Third Reference Text</label>
+      <description>Attribute to identify the third Reference Text field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentOrganizationReference3Text" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requisitionOrganizationReference3Text')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentStatusDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Requisition Status Description</label>
+      <description>Attribute to use to display the Requisition Status display value</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentStatusDescription" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/status/statusDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.RequisitionDocumentSearchResultProcessor</className>
+      <label>Kuali Requisition Document Search Result Processor</label>
+      <description>Kuali Requisition Document Search Result Processor</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentDeliverToName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Deliver To Name</label>
+      <description>Attribute to identify the Deliver To Name field of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentDeliverToName" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryToName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocumentStatusCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Requisition Document Status Code</label>
+      <description>Attribute to identify the Requisition Status of the Requisition Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="requisitionDocumentStatusCode" title="kuali_dd_label(RequisitionDocument)">
+          <display>
+            <type>multibox</type>
+            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.RequisitionStatusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderRemoveHoldNotification</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Purchase Order Remove Hold Notification</label>
+      <description>Used to send notification to Accounts Payable</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="purchaseOrderRemoveHoldNotify" title="kuali_dd_label(PurchaseOrderDocument)" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode') = wf:ruledata('purchaseOrderRemoveHoldNotify')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentIncompleteStatuses</name>
+      <className>org.kuali.workflow.module.purap.docsearch.attribute.KualiPurchaseOrderIncompleteStatusesAttribute</className>
+      <label>Kuali Purchase Order Document Incomplete Statuses</label>
+      <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentIncompleteStatuses" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>checkbox_present</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <!-- following xpath expression should match to the status code -->
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentCurrentIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Current Indicator</label>
+      <description>Attribute to identify the Current Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentCurrentIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>checkbox_present</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true'</xpathexpression>
+            <!-- concat(substring('Yes', number(not((wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true')))*string-length('Yes')+1), substring('No', number((wf:xstreamsafe('//document/purchaseOrderCurrentIndicator') = 'true'))*string-length('No')+1)) -->
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document ID</label>
+      <description>Attribute to identify the ID field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentPurchaseOrderId" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PO Nbr Value.  A valid Purchase Order number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purapDocumentIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentPreviousPurchaseOrderId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document ID</label>
+      <description>Attribute to identify the Previous Purchase Order ID field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentPreviousPurchaseOrderId" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid Previous PO Nbr Value.  A valid Previous Purchase Order number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderPreviousIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentRequestorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Requestor Name</label>
+      <description>Attribute to identify the Requestor Name field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentRequestorName" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requestorPersonName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentDeliveryCampus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Delivery Campus</label>
+      <description>Attribute to identify the Delivery Campus field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentDeliveryCampus" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentVendorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Vendor Name</label>
+      <description>Attribute to identify the Vendor Name field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentVendorName" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentContractManagerCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Contract Manager Code</label>
+      <description>Attribute to identify the Contract Manager of the Purchase Order Document using the Contract Manager Code</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentContractManagerCode" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid Contract Manager Code Value.  A valid contract manager code value must be numeric.</message>
+          </validation>
+          <quickfinder appliesTo="contractManagerCode" draw="true" service="workflow-org.kuali.module.vendor.bo.ContractManager-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/contractManagerCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentVendorId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Vendor ID</label>
+      <description>Attribute to identify the Vendor ID of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" autoWildcardLocation="suffixonly" />
+          <fieldEvaluation>
+            <xpathexpression>substring(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), concat('-', wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))), number(not(boolean(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), wf:xstreamsafe('//document/vendorDetailAssignedIdentifier')))))*string-length(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), concat('-', wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))))+1)</xpathexpression>
+            <!--
+            <xpathexpression>concat(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'),'-'),wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))</xpathexpression>
+            -->
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentContractName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Contract Name</label>
+      <description>Attribute to identify the Contract Name of the Vendor Contract on a Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentContractName" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" autoWildcardLocation="suffixonly" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorContract/vendorContractName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentTransmitDateRange</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Transmit Date Range</label>
+      <description>Attribute to identify the Transmit Date Range of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentTransmitDate" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderLastTransmitDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentDateRequiredRange</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Date Required Range</label>
+      <description>Attribute to identify the Date Required Range of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentDateRequired" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryRequiredDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentStatusCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Status Code</label>
+      <description>Attribute to identify the Purchase Order Status of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentStatusCode" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>multibox</type>
+            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.PurchaseOrderStatusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentContractManagerName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Contract Manager Name</label>
+      <description>Attribute to display the Contract Manager Name on the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentContractManagerName" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/contractManager/contractManagerName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentStatusDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Status Description</label>
+      <description>Attribute to use to display the Purchase Order Status display value</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentStatusDescription" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/status/statusDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentFiscalPostingYear</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Fiscal Posting Year</label>
+      <description>Attribute to identify the Fiscal Posting Year field of a Document Header in a Kuali Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentFiscalPostingYear" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/postingYear')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsDocSearchGenerator</name>
+      <className>org.kuali.workflow.module.cg.docsearch.KualiContractsAndGrantsDocSearchGenerator</className>
+      <label>Kuali Contracts And Grants Doc Search Generator</label>
+      <description>Kuali Contracts And Grants Doc Search Generator</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsProposalNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Proposal Number</label>
+      <description>Attribute to search and show search results for Proposal Number</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="proposalNumber" title="kuali_dd_label(Proposal)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <quickfinder appliesTo="proposalNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Proposal-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/proposalNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsAgencyNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Agency Number</label>
+      <description>Attribute to search and show search results for Agency Number</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="agencyNumber" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <quickfinder appliesTo="agencyNumber" draw="true" service="workflow-org.kuali.module.cg.bo.Agency-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/agencyNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractAndGrantsRoutingOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Contracts &amp; Grants Document Organization</label>
+      <description>Attribute to display organization values in search results for Contract &amp; Grants documents</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="routingChartCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingChart')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="routingOrgCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingOrg')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsStatus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Status</label>
+      <description>Attribute to search and display the Contracts &amp; Grants Status Code of a document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="statusCode" title="kuali_dd_label(AwardStatus)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchStatusCriteriaValuesFinder)</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>concat(wf:xstreamsafe('//newMaintainableObject/businessObject/awardStatusCode'), wf:xstreamsafe('//newMaintainableObject/businessObject/proposalStatusCode'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsSearchType</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Search Type</label>
+      <description>Attribute to use to search by proposal and award document types</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="searchType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>multibox</type>
+            <values selected="true">kuali_values_finder_class(org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsAgencyReportName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Contracts &amp; Grants Agency Report Name</label>
+      <description>Attribute to search and show search results for Agency Report Name</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="agencyReportingName" title="kuali_dd_label(Agency)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/agency/reportingName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsDocSearchResultProcessor</name>
+      <className>edu.iu.uis.eden.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
+      <label>Contracts &amp; Grants Document Search Result Processor</label>
+      <description>Attribute to allow for custom search results for Contracts &amp; Grants documents</description>
+      <type>DocumentSearchXMLResultProcessorAttribute</type>
+      <searchResultConfig overrideSearchableAttributes="false" showStandardSearchFields="false">
+        <column name="docTypeLabel" />
+        <column name="docRouteStatusCodeDesc" />
+        <column name="initiator" />
+        <column name="dateCreated" />
+      </searchResultConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>RoutingOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Contracts &amp; Grants Document Organization</label>
+      <description>Attribute to display organization values in search results for Contract &amp; Grants documents</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="routingChartCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingChart')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="routingOrgCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingOrg')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurApSearchResultsDisplayType</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchasing &amp; Accounts Payable Search Result Display Type</label>
+      <description>Attribute to identify which type of search results should be returned for a Purchasing or Accounts Payable document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="displayType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>radio</type>
+            <values selected="true" title="Document Specific Data">document_info</values>
+            <values title="Workflow Data">workflow_standard</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.PurchaseOrderDocumentSearchResultProcessor</className>
+      <label>Kuali Purchase Order Document Search Result Processor</label>
+      <description>Kuali Purchase Order Document Search Result Processor</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiModuleUserAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Module User Routing</label>
+      <description>Module User Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="moduleCode" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="moduleCode" draw="true" service="workflow-org.kuali.kfs.bo.KualiModuleBO-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//businessObject/changedModuleCodes/string') = wf:ruledata('moduleCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionDocSearchGeneratorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.RequisitionDocSearchGenerator</className>
+      <label>Kuali Requisition Document Search Generator</label>
+      <description>Document search generator class for Kuali Requisition Documents</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocSearchGeneratorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.PurchaseOrderDocSearchGenerator</className>
+      <label>Kuali Purchase Order Document Search Generator</label>
+      <description>Document search generator class for Kuali Purchase Order Documents</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocSearchGenerator</className>
+      <label>Kuali Payment Request Document Search Generator</label>
+      <description>Document search generator class for Kuali Payment Request Documents</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocumentSearchResultProcessor</className>
+      <label>Kuali Payment Request Document Search Result Processor</label>
+      <description>Kuali Payment Request Document Search Result Processor</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocSearchGeneratorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.CreditMemoDocSearchGenerator</className>
+      <label>Kuali Credit Memo Document Search Generator</label>
+      <description>Document search generator class for Kuali Credit Memo Documents</description>
+      <type>DocumentSearchGeneratorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.CreditMemoDocumentSearchResultProcessor</className>
+      <label>Kuali Credit Memo Document Search Result Processor</label>
+      <description>Kuali Credit Memo Document Search Result Processor</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request ID</label>
+      <description>Attribute to identify the ID of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestPaymentRequestId" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PREQ Nbr Value.  A valid Payment Request number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purapDocumentIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestPurchaseOrderId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Purchase Order ID</label>
+      <description>Attribute to identify the Purchase Order Number of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestPurchaseOrderId" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PO Nbr Value.  A valid Purchase Order number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestRequisitionId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Requisition ID</label>
+      <description>Attribute to identify the Requisition Number of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestRequisitionId" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid REQ Nbr Value.  A valid Requisition number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requisitionIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestInvoiceNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Invoice Number</label>
+      <description>Attribute to identify the Invoice Number of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestInvoiceNumber" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/invoiceNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentVendorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Vendor Name</label>
+      <description>Attribute to identify the Vendor Name of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestVendorName" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentProcessCampus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Processing Campus</label>
+      <description>Attribute to identify the Processing Campus of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestProcessCampus" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/processingCampusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentCustomerNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Customer Number</label>
+      <description>Attribute to identify the Customer Number of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestCustomerNumber" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorCustomerNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentVendorId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Vendor ID</label>
+      <description>Attribute to identify the Vendor ID of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" autoWildcardLocation="suffixonly" />
+          <fieldEvaluation>
+            <xpathexpression>concat(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'),'-'),wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentStatusCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Status Code</label>
+      <description>Attribute to identify the Payment Request Status of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestStatusCode" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>multibox</type>
+            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.PaymentRequestStatusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentStatusDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Status Description</label>
+      <description>Attribute to use to display the Payment Request Status display value</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestStatusDescription" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/status/statusDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentInvoiceDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Invoice Date Range</label>
+      <description>Attribute to identify the Invoice Date Range of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestInvoiceDate" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/invoiceDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentAccountsPayableDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document AP Approval Date Range</label>
+      <description>Attribute to identify the AP Approval Date Range of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestAccountsPayableDate" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentPayDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Pay Date Range</label>
+      <description>Attribute to identify the Pay Date Range of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestPayDate" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/paymentRequestPayDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentExtractedDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Extracted Date Range</label>
+      <description>Attribute to identify the Extracted Date Range of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestExtractedDate" title="kuali_dd_label(PaymentRequestDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/extractedDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentExtractedIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Extracted Indicator</label>
+      <description>Attribute to identify the Extracted Indicator of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestExtractedIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentHoldIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Hold Indicator</label>
+      <description>Attribute to identify the Hold Indicator of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestHoldIndicator" title="kuali_dd_short_label(PaymentRequestDocument)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/holdIndicator') = 'true'</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Requested for Cancel Indicator</label>
+      <description>Attribute to identify the Requested for Cancel Indicator of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestRequestedCancelIndicator" title="kuali_dd_short_label(PaymentRequestDocument)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/paymentRequestedCancelIndicator') = 'true'</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentPaidIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Payment Request Document Paid Indicator</label>
+      <description>Attribute to identify the Paid Indicator of the Payment Request Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="paymentRequestPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/paymentPaidDate'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo ID</label>
+      <description>Attribute to identify the ID of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoCreditMemoId" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid CM Nbr Value.  A valid Credit Memo number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purapDocumentIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoPaymentRequestId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Payment Request ID</label>
+      <description>Attribute to identify the Payment Request Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoPaymentRequestId" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PREQ Nbr Value.  A valid Payment Request number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/paymentRequestIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoPurchaseOrderId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Purchase Order ID</label>
+      <description>Attribute to identify the Purchase Order Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoPurchaseOrderId" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PO Nbr Value.  A valid Purchase Order number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoVendorCreditMemoNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Vendor Credit Memo Number</label>
+      <description>Attribute to identify the Vendor Credit Memo Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoVendorCreditMemoNumber" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/creditMemoNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentVendorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Vendor Name</label>
+      <description>Attribute to identify the Vendor Name of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoVendorName" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentProcessCampus</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Processing Campus</label>
+      <description>Attribute to identify the Processing Campus of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoProcessCampus" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/processingCampusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentCustomerNumber</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Customer Number</label>
+      <description>Attribute to identify the Customer Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoCustomerNumber" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/vendorCustomerNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentVendorId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Vendor ID</label>
+      <description>Attribute to identify the Vendor ID of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" autoWildcardLocation="suffixonly" />
+          <fieldEvaluation>
+            <xpathexpression>concat(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'),'-'),wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentStatusCode</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Status Code</label>
+      <description>Attribute to identify the Credit Memo Status of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoStatusCode" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>multibox</type>
+            <values>kuali_values_finder_class(org.kuali.module.purap.lookup.keyvalues.CreditMemoStatusValuesFinder)</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/statusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentStatusDescription</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Status Description</label>
+      <description>Attribute to use to display the Credit Memo Status display value</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoStatusDescription" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/status/statusDescription')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentVendorCreditMemoDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Vendor Credit Memo Date Range</label>
+      <description>Attribute to identify the Vendor Credit Memo Date Range of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoVendorCreditMemoDate" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/creditMemoDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentAccountsPayableDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document AP Approval Date Range</label>
+      <description>Attribute to identify the AP Approval Date Range of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoAccountsPayableDate" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/accountsPayableApprovalDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentExtractedDate</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Extracted Date Range</label>
+      <description>Attribute to identify the Extracted Date Range of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoExtractedDate" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <searchDefinition dataType="datetime" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/extractedDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentExtractedIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Extracted Indicator</label>
+      <description>Attribute to identify the Extracted Indicator of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoExtractedIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/extractedDate'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentHoldIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Hold Indicator</label>
+      <description>Attribute to identify the Hold Indicator of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoHoldIndicator" title="kuali_dd_short_label(CreditMemoDocument)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/holdIndicator') = 'true'</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCreditMemoDocumentPaidIndicator</name>
+      <className>org.kuali.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Document Paid Indicator</label>
+      <description>Attribute to identify the Paid Indicator of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoPaidIndicator" title="kuali_dd_short_label(PurApAttributeReferenceDummy)">
+          <display>
+            <type>select</type>
+            <values selected="true" title="" />
+            <values title="Yes">Yes</values>
+            <values title="No">No</values>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>boolean(wf:xstreamsafe('//document/creditMemoPaidTimestamp'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>WorkflowRoutedByUserRoleAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RoutedByUserRoleAttribute</className>
+      <label>Workflow Routed By User Role Attribute</label>
+      <description>Attribute to identify the user who routed the document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurApSourceDocumentRoutedUserRoleAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
+      <label>Purchasing &amp; Accounts Payable Source Document Routed By User Role</label>
+      <description>Attribute to determine the user who routed the source document of the current document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>ChartOrgExtensionAttribute</name>
+      <className>org.kuali.workflow.attribute.ChartOrgExtensionAttribute</className>
+      <label>Chart Org Extension Attribute</label>
+      <description>Chart Org Extension Attribute</description>
+      <type>ExtensionAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiSubFundGroupAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>SubFund Group Routing</label>
+      <description>SubFund Group Both Accounting Lines Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode') or wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SystemParameterRoutingAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>System Parameter Routing</label>
+      <description>System Parameter Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/parameterDescription')
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/parameterDescription')
+                            or
+                                wf:xstreamsafe('//newMaintainableObject/businessObject/parameterTypeCode')
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/parameterTypeCode')
+                            or 
+                                wf:xstreamsafe('//newMaintainableObject/businessObject/workgroupName') 
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/workgroupName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiVerificationWorkgroupAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiVerificationWorkgroupAttribute</className>
+      <label>KualiVerificationWorkgroupAttribute</label>
+      <description>KualiVerificationWorkgroupAttribute</description>
+      <type>RoleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderRequisitionDocumentId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Requisition ID</label>
+      <description>Attribute to identify the Requisition Number of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderRequisitionId" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid REQ Nbr Value.  A valid requisition number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requisitionIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>SystemWorkgroupExtensionAttribute</name>
+      <className>org.kuali.workflow.attribute.SystemWorkgroupExtensionAttribute</className>
+      <label>System Workgroup Extension Attribute</label>
+      <description>Attributes associated with KFS System Workgroups</description>
+      <type>ExtensionAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiSubFundGroupTargetAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>SubFund Group Target Routing</label>
+      <description>SubFund Group Target Accounting Line Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentMethodAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Payment Method Routing</label>
+      <description>Payment Method Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="disbVchrPaymentMethodCode" title="kuali_dd_label(DisbursementVoucherDocument)" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values>kuali_values_finder_class(org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder)</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/disbVchrPaymentMethodCode') = wf:ruledata('disbVchrPaymentMethodCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentReasonAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Payment Reason Routing</label>
+      <description>Payment Reason Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="disbVchrPaymentReasonCode" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="paymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:paymentReasonCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode') = wf:ruledata('disbVchrPaymentReasonCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiEmployeeIndicatorAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Employee Indicator Routing</label>
+      <description>Employee Indicator Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="employeeIndicator" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="true">true</values>
+            <values title="false">false</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPayeeEmployeeCode') = wf:ruledata('employeeIndicator')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiTaxControlCodeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Tax Control Code Routing</label>
+      <description>Tax Control Code Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="taxControlCode" title="kuali_dd_label(DisbursementVoucherDocument)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="taxControlCode" draw="true" service="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable(workflow-code:taxControlCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/disbVchrPayeeTaxControlCode') = wf:ruledata('taxControlCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiAlienIndicatorAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Alien Indicator Routing</label>
+      <description>Alien Indicator Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="alienIndicator" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values title="true">true</values>
+            <values title="false">false</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrAlienPaymentCode') = wf:ruledata('alienIndicator')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiCampusCodeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Campus Code Routing</label>
+      <description>Campus Code Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="campusCode" title="kuali_dd_label(CampusParameter)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.module.chart.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/campusCode') = wf:ruledata('campusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiDisbursementVoucherPdpDates</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Disbursement Voucher Document PDP Date Range</label>
+      <description>Attribute to identify the Extracted, Paid, and Canceled Date Range of the Disbursement Voucher Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="extractDate" title="kuali_dd_label(DisbursementVoucherDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/extractDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="paidDate" title="kuali_dd_label(DisbursementVoucherDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/paidDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="cancelDate" title="kuali_dd_label(DisbursementVoucherDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="datetime" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/cancelDate')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiInitiatorCampusAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Initiator Campus Code Routing</label>
+      <description>Initiator Campus Code Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="campusCode" title="kuali_dd_label(Campus)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.module.chart.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//documentInitiator/universalUser/campus/campusCode') = wf:ruledata('campusCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiAccountSubFundGroupAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Account SubFund Group Routing</label>
+      <description>Account SubFund Group Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="subFundGroupCode" title="kuali_dd_label(SubFundGroup)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="subFundGroupCode" draw="true" service="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable(workflow-subFundGroupCode:subFundGroupCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/subFundGroupCode') = wf:ruledata('subFundGroupCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiAccountSearchAttribute</name>
+      <className>org.kuali.workflow.attribute.AccountNumberSearchAttributeImpl</className>
+      <label>KualiAccountSearchAttribute</label>
+      <description>Allows searches on documents with account numbers.</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="accountNumber" title="kuali_dd_label(SourceAccountingLine)">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/accountNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPayeeTaxIdAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiPayeeTaxIdAttribute</className>
+      <label>foo</label>
+      <description>foo</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPayeeNameSearchableAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payee Name Searchable Attribute</label>
+      <description>Kuali Payee Name Searchable Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="disbVchrPayeePersonName" title="kuali_dd_label(DisbursementVoucherPayeeDetail)">
+          <display>
+            <type>text</type>
+          </display>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPayeePersonName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPayeeIdSearchableAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payee Id Searchable Attribute</label>
+      <description>Kuali Payee Id Searchable Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="disbVchrPayeeIdNumber" title="kuali_dd_label(DisbursementVoucherPayeeDetail)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPayeeIdNumber')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPaymentReasonSearchableAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Reason Searchable Attribute</label>
+      <description>Kuali Payment Reason Searchable Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="disbVchrPaymentReasonCode" title="kuali_dd_label(DisbursementVoucherPayeeDetail)">
+          <display>
+            <type>text</type>
+          </display>
+          <quickfinder appliesTo="disbVchrPaymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:disbVchrPaymentReasonCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiVendorDocumentTypeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Vendor Document Vendor Type Routing</label>
+      <description>Used for routing a vendor based on it's potential new vendor type</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="vendorTypeCode" title="kuali_dd_label(VendorHeader)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <quickfinder appliesTo="vendorTypeCode" draw="true" service="workflow-org.kuali.module.vendor.bo.VendorType-Lookupable(workflow-vendorTypeCode:vendorTypeCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/vendorHeader/vendorTypeCode') = wf:ruledata('vendorTypeCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiRequisitionContentAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Requisition Content Routing</label>
+      <description>Requisition Content Routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="chartOfAccountsCode" title="kuali_dd_label(Org)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="chartOfAccountsCode" draw="true" service="workflow-org.kuali.module.chart.bo.Chart-Lookupable(workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/chartOfAccountsCode') = wf:ruledata('chartOfAccountsCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="organizationCode" title="kuali_dd_label(Org)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="organizationCode" draw="true" service="workflow-org.kuali.module.chart.bo.Org-Lookupable(workflow-organizationCode:organizationCode,workflow-chartOfAccountsCode:chartOfAccountsCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/organizationCode') = wf:ruledata('organizationCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiResearchProjectDirectorRoleAttribute</name>
+      <className>org.kuali.workflow.module.kra.attribute.ResearchProjectDirectorRoleAttribute</className>
+      <label>KualiResearchProjectDirectorRoleAttribute</label>
+      <description>KualiResearchProjectDirectorRoleAttribute</description>
+      <type>RoleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiResearchRiskAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Research Risk Routing</label>
+      <description>Research Risk Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="ProposalResearchRisk" title="kuali_dd_label(ProposalResearchRisk)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="researchRiskTypeCode" draw="true" service="workflow-org.kuali.module.kra.routingform.bo.ResearchRiskType-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.module.cg.bo.ProposalResearchRisk/researchRiskTypeCode') = wf:ruledata('ProposalResearchRisk')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiSubAccountAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiSubAccountAttribute</className>
+      <label>Kuali Sub Account Attribute</label>
+      <description>Sub Account Routing Attribute for Kuali Documents</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>KualiPurchaseOrderTransmissionMethodAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Purchase Order Transmission Method Routing</label>
+      <description>Purchase Order Transmission Method Routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="purchaseOrderTransmissionMthdCd" title="kuali_dd_label(PurchaseOrderTransmissionMethod)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values selected="true" title=" " />
+            <values title="Automatic Purchase Orders Only">Automatic</values>
+            <values title="Non-Automatic Purchase Orders Only">Non-Automatic</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:ruledata('purchaseOrderAutomaticIndicator') = ' ' or (wf:xstreamsafe('//document/purchaseOrderAutomaticIndicator') = 'true' and wf:ruledata('purchaseOrderAutomaticIndicator') = 'Automatic') or (wf:xstreamsafe('//document/purchaseOrderAutomaticIndicator') = 'false' and wf:ruledata('purchaseOrderAutomaticIndicator') = 'Non-Automatic')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>
+

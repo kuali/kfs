@@ -116,10 +116,6 @@ are intended for use only by Kuali Foundation developers.
     <mkdir dir="temp/${release.rice.cvs.module}" />
     <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.rice.cvs.module}" failonerror="true" tag="${release.rice.cvs.tag}" compressionlevel="6" />
     
-    <!-- workflow -->
-    <mkdir dir="temp/${release.workflow.cvs.module}" />
-    <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.workflow.cvs.module}" failonerror="true" tag="${release.workflow.cvs.tag}" compressionlevel="6" />
-    
     <mkdir dir="${release.patches.dir}" />
     
     <!-- KFS -->
@@ -135,8 +131,8 @@ are intended for use only by Kuali Foundation developers.
     <replace file="temp/kuali_project/build/external/user/kuali-build.properties">
       <replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
-      <replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI" 
-    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:KUALI" />
+      <replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
+    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
     	</replace>
     
     <copy file="temp/${release.kfs.cvs.module}/build/README.txt" todir="temp" />
@@ -148,7 +144,6 @@ are intended for use only by Kuali Foundation developers.
       Bootstrap Dataset Tag: ${release.bootstrap.dataset.cvs.tag}
       Impex Tag: ${release.impex.tool.cvs.tag}
       Rice Tag: ${release.rice.cvs.tag}
-      Workflow Tag: ${release.workflow.cvs.tag}   	
     </echo>
     
     <!-- zip it up -->
@@ -166,7 +161,6 @@ are intended for use only by Kuali Foundation developers.
       </zipfileset>
       <zipfileset dir="temp/impex" prefix="database-import-export" />
       <zipfileset dir="temp/${release.rice.cvs.module}" prefix="rice" />
-      <zipfileset dir="temp/${release.workflow.cvs.module}" prefix="enterprise-workflow" />
       <zipfileset dir="${release.patches.dir}" prefix="patches" />
       <zipfileset dir="temp" prefix="">
     	<include name="README.txt" />

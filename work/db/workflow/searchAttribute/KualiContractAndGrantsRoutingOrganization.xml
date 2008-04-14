@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiContractAndGrantsRoutingOrganization</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Contracts &amp; Grants Document Organization</label>
+      <description>Attribute to display organization values in search results for Contract &amp; Grants documents</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="routingChartCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingChart')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="routingOrgCode" title="kuali_dd_label(Award)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <field visible="false" />
+          </visibility>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/routingOrg')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

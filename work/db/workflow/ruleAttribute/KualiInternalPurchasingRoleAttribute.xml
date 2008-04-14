@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiInternalPurchasingRoleAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiInternalPurchasingRoleAttribute</className>
+      <label>Purchase Order Internal Purchasing Routing Role Attribute</label>
+      <description>Attribute to determine if Purchase Order document should route for Internal Purchasing Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

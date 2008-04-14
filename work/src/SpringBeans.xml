@@ -22,17 +22,23 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true"></property>
 		<property name="properties" ref="properties" />
 	</bean>
-	
-	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
-	  	<property name="uniqueResourceName" value="dataSource"/>
-		<property name="driverClassName" value="${datasource.driver.class}"/>
-		<property name="url" value="${datasource.url}"/>
-		<property name="user" value="${datasource.username}"/>
-		<property name="password" value="${datasource.password}"/>
-		<property name="poolSize" value="${datasource.pool.size}"/>
-		<property name="connectionTimeout" value="${datasource.connection.timeout}"/>
-		<property name="validatingQuery" value="${datasource.validating.query}"/>
-		<property name="testOnBorrow" value="true"/>
+
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+        <property name="defaultTimeout" value="${transaction.timeout}"/>
+    </bean>
+
+	<bean id="dataSource" class="org.enhydra.jdbc.standard.StandardXADataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverName" value="${datasource.driver.class}" />
+		<property name="maxCon" value="${datasource.pool.size}" />
+		<property name="minCon" value="5" />
+		<property name="loginTimeout" value="${datasource.connection.timeout}" />
+        <!-- 
+		<property name="validationQuery" value="${datasource.validating.query}" />
+         -->
+		<property name="url" value="${datasource.url}" />
+		<property name="user" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
 	</bean>
 
 	<bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
@@ -116,21 +122,12 @@
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
 	<alias name="encryptionService" alias="enEncryptionService" />
 
-	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
-  		<property name="forceShutdown" value="true"/>
-  		<property name="transactionTimeout" value="${transaction.timeout}"/>
-	</bean>
-  
-	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
-  		<property name="transactionTimeout" value="${transaction.timeout}"/>
-	</bean>
-
 	<bean id="platformTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
-			<ref local="atomikosUserTransaction" />
+			<ref local="jotm" />
 		</property>
 		<property name="transactionManager">
-			<ref local="atomikosTransactionManager" />
+			<ref local="jotm" />
 		</property>
 	</bean>
 

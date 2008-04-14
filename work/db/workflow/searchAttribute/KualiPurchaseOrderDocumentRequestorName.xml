@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentRequestorName</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Requestor Name</label>
+      <description>Attribute to identify the Requestor Name field of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentRequestorName" title="kuali_dd_label(PurchaseOrderDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="true" caseSensitive="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/requestorPersonName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

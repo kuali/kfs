@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>ProposalMaintenanceDocument</name>
+      <parent>KualiMaintenanceDocument</parent>
+      <label>Proposal</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiContractsAndGrantsDocSearchGenerator</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsDocSearchResultProcessor</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsProposalNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsAgencyNumber</name>
+        </attribute>
+        <attribute>
+          <name>RoutingOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsStatus</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsSearchType</name>
+        </attribute>
+        <attribute>
+          <name>KualiContractsAndGrantsAgencyReportName</name>
+        </attribute>
+      </attributes>
+      <routingVersion>1</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Org Review" />
+          <requests name="Org Review" nextNode="Research Risk" />
+          <requests name="Research Risk" nextNode="Central Review" />
+          <requests name="Central Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Research Risk">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Central Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiCentralRoutingTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

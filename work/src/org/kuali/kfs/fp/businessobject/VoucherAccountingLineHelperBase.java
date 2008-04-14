@@ -30,8 +30,8 @@ public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHel
      * Constructs a <code>{@link VoucherAccountingLineHelperBase}</code> instance.
      */
     public VoucherAccountingLineHelperBase() {
-        this.credit = new KualiDecimal(0);
-        this.debit = new KualiDecimal(0);
+        this.credit = KualiDecimal.ZERO;
+        this.debit = KualiDecimal.ZERO;
     }
 
     /**

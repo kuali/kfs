@@ -79,12 +79,12 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
         for (DelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {
             // FROM amount defaults to zero
             if (ObjectUtils.isNull(newDelegateGlobalDetail.getApprovalFromThisAmount())) {
-                newDelegateGlobalDetail.setApprovalFromThisAmount(new KualiDecimal(0));
+                newDelegateGlobalDetail.setApprovalFromThisAmount(KualiDecimal.ZERO);
             }
 
             // TO amount defaults to zero
             if (ObjectUtils.isNull(newDelegateGlobalDetail.getApprovalToThisAmount())) {
-                newDelegateGlobalDetail.setApprovalToThisAmount(new KualiDecimal(0));
+                newDelegateGlobalDetail.setApprovalToThisAmount(KualiDecimal.ZERO);
             }
         }
 

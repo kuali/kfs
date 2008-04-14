@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CreditMemoDocument</name>
+      <parent>KualiPurapDocument</parent>
+      <label>Credit Memo</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_AP_DOCUMENT_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_AP_DOCUMENT_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/purapCreditMemo.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiCreditMemoDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoId</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoVendorCreditMemoNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoPaymentRequestId</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoPurchaseOrderId</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentVendorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentVendorId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApDocumentOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentProcessCampus</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentCustomerNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentVendorCreditMemoDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentAccountsPayableDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentExtractedDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentExtractedIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentHoldIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentPaidIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderTotalAmountRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentStatusCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiCreditMemoDocumentStatusDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApSearchResultsDisplayType</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Accounts Payable Review" />
+          <requests name="Accounts Payable Review" nextNode="Account Review" />
+          <requests name="Account Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Accounts Payable Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiPurApAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

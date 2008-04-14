@@ -39,9 +39,7 @@ public final class InsertPeriodLineEventBase extends KualiDocumentEventBase impl
     public InsertPeriodLineEventBase(String errorPathPrefix, Document document, BudgetPeriod period) {
         super("adding periodLine to document " + getDocumentId(document), errorPathPrefix, document);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.budgetPeriod = (BudgetPeriod) ObjectUtils.deepCopy(period);
+        this.budgetPeriod = period;
     }
 
     /**

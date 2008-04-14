@@ -15,6 +15,8 @@
  */
 package org.kuali.module.labor.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborBalanceSummaryReportService;
 
@@ -28,11 +30,12 @@ public class LaborBalanceSummaryStep extends AbstractStep {
     /**
      * Invokes the method that generates the balance summary report.
      * 
-     * @param String jobName
+     * @param jobName
+     * @param jobRunDate
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         laborBalanceSummaryReportService.generateBalanceSummaryReports();
         return true;
     }

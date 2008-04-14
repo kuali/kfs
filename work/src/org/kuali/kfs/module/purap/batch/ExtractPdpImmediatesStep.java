@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.batch;
 
+import java.util.Date;
+
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.purap.service.PdpExtractService;
 
@@ -22,12 +25,16 @@ public class ExtractPdpImmediatesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPdpImmediatesStep.class);
 
     private PdpExtractService pdpExtractService;
-
+    private DateTimeService dateTimeService;
+    
     public ExtractPdpImmediatesStep() {
         super();
     }
 
-    public boolean execute(String jobName) throws InterruptedException {
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     */
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
         pdpExtractService.extractImmediatePaymentsOnly();
@@ -35,10 +42,14 @@ public class ExtractPdpImmediatesStep extends AbstractStep {
     }
 
     public boolean execute() throws InterruptedException {
-        return execute(null);
+        return execute(null, dateTimeService.getCurrentDate());
     }
 
     public void setPdpExtractService(PdpExtractService pdpExtractService) {
         this.pdpExtractService = pdpExtractService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

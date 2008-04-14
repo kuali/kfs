@@ -149,9 +149,9 @@ public class CoinDetailTest extends KualiTestBase {
         goodAmount.setFinancialDocumentTenCentAmount(null);
         goodAmount.setFinancialDocumentOneCentAmount(null);
         CoinDetail semiPopulatedAmount = CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail();
-        semiPopulatedAmount.setFinancialDocumentHundredCentAmount(new KualiDecimal(0));
-        semiPopulatedAmount.setFinancialDocumentTenCentAmount(new KualiDecimal(0));
-        semiPopulatedAmount.setFinancialDocumentOneCentAmount(new KualiDecimal(0));
+        semiPopulatedAmount.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
+        semiPopulatedAmount.setFinancialDocumentTenCentAmount(KualiDecimal.ZERO);
+        semiPopulatedAmount.setFinancialDocumentOneCentAmount(KualiDecimal.ZERO);
         goodAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(goodAmount, semiPopulatedAmount);
 
@@ -227,9 +227,9 @@ public class CoinDetailTest extends KualiTestBase {
 
     public void testTotal() {
         CoinDetail zeroAmount = CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail();
-        assertEquals(zeroAmount.getTotalAmount(), new KualiDecimal(0));
+        assertEquals(zeroAmount.getTotalAmount(), KualiDecimal.ZERO);
         CoinDetail nullAmount = CoinDetailAmountFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
-        assertEquals(nullAmount.getTotalAmount(), new KualiDecimal(0));
+        assertEquals(nullAmount.getTotalAmount(), KualiDecimal.ZERO);
         CoinDetail allFivesAmount = CoinDetailAmountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail();
         assertEquals(allFivesAmount.getTotalAmount(), new KualiDecimal(30));
         CoinDetail negativeAmount = CoinDetailAmountFixture.NEGATIVE_COIN_AMOUNT.convertToCoinDetail();

@@ -22,16 +22,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.service.ProjectDirectorService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the ProjectDirector service.
  */
-@Transactional
 public class ProjectDirectorServiceImpl implements ProjectDirectorService {
 
     private UniversalUserService universalUserService;
@@ -62,7 +61,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     /**
      * @see org.kuali.module.cg.service.ProjectDirectorService#primaryIdExists(String)
      */
-    @Cached
+    @CacheNoCopy
     public boolean primaryIdExists(String universalIdentifier) {
         return businessObjectService.countMatching(ProjectDirector.class, mapPrimaryKeys(universalIdentifier)) > 0;
     }

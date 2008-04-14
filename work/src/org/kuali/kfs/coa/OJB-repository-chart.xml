@@ -158,12 +158,12 @@
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountGuideline" class-ref="org.kuali.module.chart.bo.AccountGuideline" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+    <reference-descriptor name="accountGuideline" class-ref="org.kuali.module.chart.bo.AccountGuideline" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountDescription" class-ref="org.kuali.module.chart.bo.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+    <reference-descriptor name="accountDescription" class-ref="org.kuali.module.chart.bo.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
@@ -499,7 +499,7 @@
     </reference-descriptor>
 
 <!-- the RI for this reference is reversed and the constraint is on A21 sub-account referencing sub-account; this is because of the problem with 1-1 relationships in OJB -->
-    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+    <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
@@ -736,7 +736,7 @@
     <reference-descriptor name="postalZip" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="organizationZipCode" />
     </reference-descriptor>
-	<reference-descriptor name="organizationExtension" class-ref="org.kuali.module.chart.bo.OrganizationExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+	<reference-descriptor name="organizationExtension" class-ref="org.kuali.module.chart.bo.OrganizationExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>

@@ -43,7 +43,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -158,14 +157,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.purchaseOrderVendorQuotes = new TypedArrayList(PurchaseOrderVendorQuote.class);
         this.purchaseOrderRestrictedMaterials = new TypedArrayList(PurchaseOrderRestrictedMaterial.class);
         this.purchaseOrderRestrictionStatusHistories = new TypedArrayList(PurchaseOrderRestrictionStatusHistory.class);
-    }
-
-    /**
-     * @see org.kuali.core.document.Document#getDocumentRepresentationForSerialization()
-     */
-    @Override
-    protected Document getDocumentRepresentationForSerialization() {
-        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
     }
 
     /**

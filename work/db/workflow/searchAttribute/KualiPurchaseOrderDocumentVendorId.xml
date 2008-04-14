@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderDocumentVendorId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchase Order Document Vendor ID</label>
+      <description>Attribute to identify the Vendor ID of the Purchase Order Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="purchaseOrderDocumentVendorId" title="kuali_dd_label(VendorAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+          <searchDefinition allowWildcards="false" autoWildcardLocation="suffixonly" />
+          <fieldEvaluation>
+            <xpathexpression>substring(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), concat('-', wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))), number(not(boolean(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), wf:xstreamsafe('//document/vendorDetailAssignedIdentifier')))))*string-length(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'), concat('-', wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))))+1)</xpathexpression>
+            <!--
+            <xpathexpression>concat(concat(wf:xstreamsafe('//document/vendorHeaderGeneratedIdentifier'),'-'),wf:xstreamsafe('//document/vendorDetailAssignedIdentifier'))</xpathexpression>
+            -->
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

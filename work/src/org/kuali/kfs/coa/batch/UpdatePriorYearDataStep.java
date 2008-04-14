@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.PriorYearOrganizationService;
@@ -31,9 +33,9 @@ public class UpdatePriorYearDataStep extends AbstractStep {
     /**
      * Executes the table updates when
      * 
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         priorYearAccountService.populatePriorYearAccountsFromCurrent();
         priorYearOrganizationService.populatePriorYearOrganizationsFromCurrent();
         return true;

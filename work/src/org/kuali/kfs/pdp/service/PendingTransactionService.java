@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author jsissom
  */
-@Transactional
 public interface GlPendingTransactionService {
     public void createProcessPaymentTransaction(PaymentDetail pd, Boolean relieveLiabilities);
 

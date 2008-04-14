@@ -59,6 +59,16 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
     }
+    
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        // return the run date to the current date
+        dateTimeService.setCurrentDate(new java.util.Date());
+    }
 
     /**
      * Test to make sure that flexible offset is off when the flag is off

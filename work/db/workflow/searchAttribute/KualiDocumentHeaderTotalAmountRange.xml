@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiDocumentHeaderTotalAmountRange</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Document Header Total Amount Range Search Attribute</label>
+      <description>Attribute for adding a document header financial document total amount range search to a Kuali document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="documentTotalAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>text</type>
+            <parameters name="displayFormatPattern">#,##0.00</parameters>
+          </display>
+          <searchDefinition dataType="float" rangeSearch="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//documentHeader/financialDocumentTotalAmount/value')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

@@ -63,9 +63,9 @@ public class BudgetNonpersonnel extends PersistableBusinessObjectBase implements
      * Default no-arg constructor.
      */
     public BudgetNonpersonnel() {
-        agencyRequestAmount = new KualiInteger(0);
-        budgetThirdPartyCostShareAmount = new KualiInteger(0);
-        budgetInstitutionCostShareAmount = new KualiInteger(0);
+        agencyRequestAmount = KualiInteger.ZERO;
+        budgetThirdPartyCostShareAmount = KualiInteger.ZERO;
+        budgetInstitutionCostShareAmount = KualiInteger.ZERO;
     }
 
     /**

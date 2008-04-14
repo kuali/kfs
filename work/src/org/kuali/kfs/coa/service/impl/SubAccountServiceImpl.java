@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
  * with Kuali.
  */
-@Transactional
 public class SubAccountServiceImpl implements SubAccountService {
     private static final Logger LOG = Logger.getLogger(SubAccountServiceImpl.class);
 

@@ -72,7 +72,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeEntryStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_entry_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -103,7 +103,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeBalanceStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_balance_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -134,7 +134,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeAccountBalancesStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_acct_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -165,7 +165,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeEncumbranceStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_encumbrance_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -196,7 +196,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeCollectorDetailStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_id_bill_t group by univ_fiscal_yr order by univ_fiscal_yr");
@@ -227,7 +227,7 @@ public class PurgeTest extends KualiTestBase {
         Step purgeStep = SpringContext.getBean(PurgeSufficientFundBalancesStep.class);
 
         // Run the purge
-        assertTrue("Should return true", purgeStep.execute(getClass().getName()));
+        assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_sf_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");

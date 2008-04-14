@@ -347,7 +347,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      */
     public void clearNRATaxLines(DisbursementVoucherDocument document) {
         ArrayList<SourceAccountingLine> taxLines = new ArrayList<SourceAccountingLine>();
-        KualiDecimal taxTotal = new KualiDecimal(0);
+        KualiDecimal taxTotal = KualiDecimal.ZERO;
 
         DisbursementVoucherNonResidentAlienTax dvnrat = document.getDvNonResidentAlienTax();
         if (dvnrat != null) {
@@ -361,7 +361,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
                     taxLines.add(line);
 
                     // check if tax line was a positive amount, in which case we had a gross up
-                    if ((new KualiDecimal(0)).compareTo(line.getAmount()) < 0) {
+                    if ((KualiDecimal.ZERO).compareTo(line.getAmount()) < 0) {
                         previousGrossUp = true;
                     }
                     else {
@@ -412,7 +412,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getNonResidentAlienTaxAmount(org.kuali.module.financial.document.DisbursementVoucherDocument)
      */
     public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document) {
-        KualiDecimal taxAmount = new KualiDecimal(0);
+        KualiDecimal taxAmount = KualiDecimal.ZERO;
 
         // if not nra payment or gross has been done, no tax amount should have been taken out
         if (!document.getDvPayeeDetail().isDisbVchrAlienPaymentCode() || (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode())) {
@@ -461,11 +461,11 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         // set nulls to 0
         if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
-            document.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(new KualiDecimal(0));
+            document.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(KualiDecimal.ZERO);
         }
 
         if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
-            document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(new KualiDecimal(0));
+            document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(KualiDecimal.ZERO);
         }
 
         /* call dv rule to do general nra validation */
@@ -502,13 +502,13 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         }
 
         /* check total cannot be negative */
-        if (KFSConstants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
+        if (KualiDecimal.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
             errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KFSKeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
             return false;
         }
 
         /* total accounting lines cannot be negative */
-        if (KFSConstants.ZERO.compareTo(document.getSourceTotal()) == 1) {
+        if (KualiDecimal.ZERO.compareTo(document.getSourceTotal()) == 1) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
             return false;
         }

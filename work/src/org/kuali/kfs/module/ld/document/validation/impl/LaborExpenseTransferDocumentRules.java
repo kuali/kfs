@@ -223,8 +223,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         AccountingLine line = null;
 
         // totals for the from and to lines.
-        KualiDecimal sourceLinesAmount = new KualiDecimal(0);
-        KualiDecimal targetLinesAmount = new KualiDecimal(0);
+        KualiDecimal sourceLinesAmount = KualiDecimal.ZERO;
+        KualiDecimal targetLinesAmount = KualiDecimal.ZERO;
 
         // sum source lines
         for (Iterator i = sourceLines.iterator(); i.hasNext();) {
@@ -538,7 +538,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     private Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines) {
 
         ExpenseTransferAccountingLine line = null;
-        KualiDecimal linesAmount = new KualiDecimal(0);
+        KualiDecimal linesAmount = KualiDecimal.ZERO;
         Map linesMap = new HashMap();
         String payFYPeriodKey = null;
 
@@ -546,7 +546,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         for (Iterator i = accountingLines.iterator(); i.hasNext();) {
             // initialize
             line = (ExpenseTransferAccountingLine) i.next();
-            linesAmount = new KualiDecimal(0);
+            linesAmount = KualiDecimal.ZERO;
 
             // create hash key
             payFYPeriodKey = createPayFYPeriodKey(line.getPayrollEndDateFiscalYear(), line.getPayrollEndDateFiscalPeriodCode());
@@ -579,8 +579,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         boolean isValid = true;
         Map.Entry entry = null;
         String currentKey = null;
-        KualiDecimal sourceLinesAmount = new KualiDecimal(0);
-        KualiDecimal targetLinesAmount = new KualiDecimal(0);
+        KualiDecimal sourceLinesAmount = KualiDecimal.ZERO;
+        KualiDecimal targetLinesAmount = KualiDecimal.ZERO;
 
 
         // Loop through source lines comparing against target lines

@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This is the default implementation of the ServiceBillingControlService interface.
  */
-@Transactional
 public class ServiceBillingControlServiceImpl implements ServiceBillingControlService {
 
     private BusinessObjectService businessObjectService;

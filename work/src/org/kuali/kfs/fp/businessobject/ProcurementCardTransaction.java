@@ -154,7 +154,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.financialDocumentTotalAmount = new KualiDecimal(financialDocumentTotalAmount);
         }
         else {
-            this.financialDocumentTotalAmount = new KualiDecimal(0);
+            this.financialDocumentTotalAmount = KualiDecimal.ZERO;
         }
     }
 
@@ -512,7 +512,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.transactionOriginalCurrencyAmount = new KualiDecimal(transactionOriginalCurrencyAmount);
         }
         else {
-            this.transactionOriginalCurrencyAmount = new KualiDecimal(0);
+            this.transactionOriginalCurrencyAmount = KualiDecimal.ZERO;
         }
     }
 
@@ -578,7 +578,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.transactionSettlementAmount = new KualiDecimal(transactionSettlementAmount);
         }
         else {
-            this.transactionSettlementAmount = new KualiDecimal(0);
+            this.transactionSettlementAmount = KualiDecimal.ZERO;
         }
     }
 
@@ -611,7 +611,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.transactionSalesTaxAmount = new KualiDecimal(transactionSalesTaxAmount);
         }
         else {
-            this.transactionSalesTaxAmount = new KualiDecimal(0);
+            this.transactionSalesTaxAmount = KualiDecimal.ZERO;
         }
     }
 
@@ -1071,7 +1071,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.cardLimit = new KualiDecimal(cardLimit);
         }
         else {
-            this.cardLimit = new KualiDecimal(0);
+            this.cardLimit = KualiDecimal.ZERO;
         }
     }
 
@@ -1104,7 +1104,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.cardCycleAmountLimit = new KualiDecimal(cardCycleAmountLimit);
         }
         else {
-            this.cardCycleAmountLimit = new KualiDecimal(0);
+            this.cardCycleAmountLimit = KualiDecimal.ZERO;
         }
     }
 
@@ -1137,7 +1137,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
             this.cardCycleVolumeLimit = new KualiDecimal(cardCycleVolumeLimit);
         }
         else {
-            this.cardCycleVolumeLimit = new KualiDecimal(0);
+            this.cardCycleVolumeLimit = KualiDecimal.ZERO;
         }
     }
 

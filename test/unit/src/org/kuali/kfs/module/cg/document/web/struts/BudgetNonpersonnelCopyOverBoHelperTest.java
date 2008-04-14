@@ -80,9 +80,9 @@ public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {
         budgetNonpersonnel.setBudgetInstitutionCostShareCopyIndicator(true);
         budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(true);
         newBudgetNonpersonnel2 = new BudgetNonpersonnelCopyOverBoHelper(budgetNonpersonnel, 5, new KualiDecimal(10.0));
-        assertEquality(newBudgetNonpersonnel2.getAgencyRequestAmount(), new KualiInteger(0));
-        assertEquality(newBudgetNonpersonnel2.getBudgetInstitutionCostShareAmount(), new KualiInteger(0));
-        assertEquality(newBudgetNonpersonnel2.getBudgetThirdPartyCostShareAmount(), new KualiInteger(0));
+        assertEquality(newBudgetNonpersonnel2.getAgencyRequestAmount(), KualiInteger.ZERO);
+        assertEquality(newBudgetNonpersonnel2.getBudgetInstitutionCostShareAmount(), KualiInteger.ZERO);
+        assertEquality(newBudgetNonpersonnel2.getBudgetThirdPartyCostShareAmount(), KualiInteger.ZERO);
 
         // inflation over 5 periods, 10%
         assertEquality(newBudgetNonpersonnel2.getBudgetInflatedAgencyAmount(), new KualiInteger(11274));
@@ -115,9 +115,9 @@ public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {
         assertEquality(newBudgetNonpersonnel3.getBudgetPeriodSequenceNumber(), new Integer(11));
 
         // amounts always set to 0
-        assertEquality(newBudgetNonpersonnel3.getAgencyRequestAmount(), new KualiInteger(0));
-        assertEquality(newBudgetNonpersonnel3.getBudgetInstitutionCostShareAmount(), new KualiInteger(0));
-        assertEquality(newBudgetNonpersonnel3.getBudgetThirdPartyCostShareAmount(), new KualiInteger(0));
+        assertEquality(newBudgetNonpersonnel3.getAgencyRequestAmount(), KualiInteger.ZERO);
+        assertEquality(newBudgetNonpersonnel3.getBudgetInstitutionCostShareAmount(), KualiInteger.ZERO);
+        assertEquality(newBudgetNonpersonnel3.getBudgetThirdPartyCostShareAmount(), KualiInteger.ZERO);
 
         // should be equal to the budgetNonpersonnelSequenceNumber
         assertEquality(newBudgetNonpersonnel3.getBudgetOriginSequenceNumber(), new Integer(173));

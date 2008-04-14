@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the SubFundGroup service that is delivered with Kuali.
  */
-@Transactional
 public class SubFundGroupServiceImpl implements SubFundGroupService {
     private ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;

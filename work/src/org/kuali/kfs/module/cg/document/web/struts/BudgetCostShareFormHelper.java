@@ -55,9 +55,9 @@ public class BudgetCostShareFormHelper {
     private KualiInteger[] institutionIndirectCostShare;
     private KualiInteger[] subcontractorCostShare;
     private KualiInteger[] total;
-    private KualiInteger totalInstitutionIndirectCostShare = new KualiInteger(0);
-    private KualiInteger totalSubcontractorCostShare = new KualiInteger(0);
-    private KualiInteger totalTotal = new KualiInteger(0);
+    private KualiInteger totalInstitutionIndirectCostShare = KualiInteger.ZERO;
+    private KualiInteger totalSubcontractorCostShare = KualiInteger.ZERO;
+    private KualiInteger totalTotal = KualiInteger.ZERO;
 
     public BudgetCostShareFormHelper() {
         budgetPeriodService = SpringContext.getBean(BudgetPeriodService.class);
@@ -136,7 +136,7 @@ public class BudgetCostShareFormHelper {
         HashMap<String, Subcontractor> addedSubcontractors = new HashMap();
 
         subcontractorCostShare = new KualiInteger[periods.size()];
-        Arrays.fill(subcontractorCostShare, new KualiInteger(0));
+        Arrays.fill(subcontractorCostShare, KualiInteger.ZERO);
 
         // Loop and check below assumes origin items are always found before copy over items. Sort to make sure.
         Collections.sort(nonpersonnelItems);
@@ -282,9 +282,9 @@ public class BudgetCostShareFormHelper {
         private KualiInteger[] totalBudgeted;
         private KualiInteger[] amountDistributed;
         private KualiInteger[] balanceToBeDistributed;
-        private KualiInteger totalTotalBudgeted = new KualiInteger(0);
-        private KualiInteger totalAmountDistributed = new KualiInteger(0);
-        private KualiInteger totalBalanceToBeDistributed = new KualiInteger(0);
+        private KualiInteger totalTotalBudgeted = KualiInteger.ZERO;
+        private KualiInteger totalAmountDistributed = KualiInteger.ZERO;
+        private KualiInteger totalBalanceToBeDistributed = KualiInteger.ZERO;
 
         private KualiInteger[] totalSource;
 
@@ -304,12 +304,12 @@ public class BudgetCostShareFormHelper {
             totalBudgeted = new KualiInteger[periodsSize];
             amountDistributed = new KualiInteger[periodsSize];
             balanceToBeDistributed = new KualiInteger[periodsSize];
-            Arrays.fill(totalBudgeted, new KualiInteger(0));
-            Arrays.fill(amountDistributed, new KualiInteger(0));
-            Arrays.fill(balanceToBeDistributed, new KualiInteger(0));
+            Arrays.fill(totalBudgeted, KualiInteger.ZERO);
+            Arrays.fill(amountDistributed, KualiInteger.ZERO);
+            Arrays.fill(balanceToBeDistributed, KualiInteger.ZERO);
 
             totalSource = new KualiInteger[sourceSize];
-            Arrays.fill(totalSource, new KualiInteger(0));
+            Arrays.fill(totalSource, KualiInteger.ZERO);
         }
 
         /**
@@ -328,9 +328,9 @@ public class BudgetCostShareFormHelper {
             institutionDirectPersonnel = new KualiInteger[institutionCostSharePersonnel.size()][periods.size()];
             totalInstitutionDirectPersonnel = new KualiInteger[institutionCostSharePersonnel.size()];
             for (int i = 0; i < institutionDirectPersonnel.length; i++) {
-                Arrays.fill(institutionDirectPersonnel[i], new KualiInteger(0));
+                Arrays.fill(institutionDirectPersonnel[i], KualiInteger.ZERO);
             }
-            Arrays.fill(totalInstitutionDirectPersonnel, new KualiInteger(0));
+            Arrays.fill(totalInstitutionDirectPersonnel, KualiInteger.ZERO);
 
             calculateInstitutionDirectPersonnel(periods, personnel, institutionCostSharePersonnel);
 
@@ -576,7 +576,7 @@ public class BudgetCostShareFormHelper {
             budgetNonpersonnelDescription = budgetNonpersonnel.getBudgetNonpersonnelDescription();
 
             periodAmounts = new KualiInteger[periodsSize];
-            Arrays.fill(periodAmounts, new KualiInteger(0));
+            Arrays.fill(periodAmounts, KualiInteger.ZERO);
 
             periodAmounts[periodAmountsIndex] = budgetNonpersonnel.getBudgetThirdPartyCostShareAmount();
             totalPeriodAmount = budgetNonpersonnel.getBudgetThirdPartyCostShareAmount();

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderRemoveHoldNotification</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Purchase Order Remove Hold Notification</label>
+      <description>Used to send notification to Accounts Payable</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="purchaseOrderRemoveHoldNotify" title="kuali_dd_label(PurchaseOrderDocument)" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values>kuali_values_finder_class(org.kuali.core.lookup.keyvalues.CampusValuesFinder)</values>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.core.bo.Campus-Lookupable(null)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/deliveryCampusCode') = wf:ruledata('purchaseOrderRemoveHoldNotify')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

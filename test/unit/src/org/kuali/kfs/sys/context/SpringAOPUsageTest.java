@@ -19,13 +19,14 @@ import java.lang.reflect.Method;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.impl.AbstractStaticConfigurationServiceImpl;
 import org.kuali.core.service.impl.DocumentServiceImpl;
-import org.kuali.core.service.impl.KualiConfigurationServiceImpl;
 import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
+import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.ClassOrMethodAnnotationFilter;
-import org.kuali.kfs.service.impl.ParameterServiceImpl;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.impl.BalanceTypServiceImpl;
@@ -39,21 +40,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
 
+import com.sun.swing.internal.plaf.metal.resources.metal_zh_CN;
+
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
 public class SpringAOPUsageTest extends KualiTestBase {
     public void testCaching() throws Exception {
         ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Cached.class);
-        assertTrue(ParameterServiceImpl.class.isAnnotationPresent(Cached.class));
+        ClassOrMethodAnnotationFilter classOrMethodAnnotationNoCopyFilter = new ClassOrMethodAnnotationFilter(CacheNoCopy.class);
+        assertTrue(AbstractStaticConfigurationServiceImpl.class.isAnnotationPresent(Cached.class));
         assertFalse(BalanceTypServiceImpl.class.isAnnotationPresent(Cached.class));
-        assertTrue(classOrMethodAnnotationFilter.matches(ParameterServiceImpl.class));
-        assertTrue(classOrMethodAnnotationFilter.matches(BalanceTypServiceImpl.class));
+        assertTrue(classOrMethodAnnotationFilter.matches(AbstractStaticConfigurationServiceImpl.class));
+        assertTrue(classOrMethodAnnotationNoCopyFilter.matches(BalanceTypServiceImpl.class));
         // should be cached cause of method annotation
-        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
+        SpringContext.getBean(BalanceTypService.class).getCurrentYearCostShareEncumbranceBalanceType();
+        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
         // should not be cached cause no method annotation and no class annotation
-        SpringContext.getBean(BalanceTypService.class).getCurrentYearEncumbranceBalanceTypes();
-        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
+        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
+        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
         // should not be cached, cause no annotations on the class or its methods
         SpringContext.getBean(PriorYearAccountService.class).getByPrimaryKey("BL", "1031490");
         assertFalse(methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));
@@ -65,10 +69,10 @@ public class SpringAOPUsageTest extends KualiTestBase {
      * having the @Cached annotation.
      */
     public void testClearMethodCache() throws Exception {
-        SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
-        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
-        removeCachedMethod(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {});
-        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
+        SpringContext.getBean(BalanceTypService.class).getCurrentYearCostShareEncumbranceBalanceType();
+        assertTrue(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
+        removeCachedMethod(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {});
+        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearCostShareEncumbranceBalanceType", new Class[] {}), new Object[] {}));
     }
 
     @Transactional
@@ -102,12 +106,24 @@ public class SpringAOPUsageTest extends KualiTestBase {
             String cacheKey = methodCacheInterceptor.buildCacheKey(method.toString(), arguments);
             System.out.println(cacheKey);
             methodCacheInterceptor.removeCacheKey(cacheKey);
-            assertFalse(methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments)));
+            assertFalse(methodCacheInterceptor.containsCacheKey(cacheKey));
+        }
+
+        MethodCacheNoCopyInterceptor methodCacheNoCopyInterceptor = SpringContext.getBean(MethodCacheNoCopyInterceptor.class);
+        if (methodCacheNoCopyInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
+            String cacheKey = methodCacheNoCopyInterceptor.buildCacheKey(method.toString(), arguments);
+            System.out.println(cacheKey);
+            methodCacheNoCopyInterceptor.removeCacheKey(cacheKey);
+            assertFalse(methodCacheNoCopyInterceptor.containsCacheKey(cacheKey));
         }
     }
     
     private boolean methodIsCached(Method method, Object[] arguments) {
         MethodCacheInterceptor methodCacheInterceptor = SpringContext.getBean(MethodCacheInterceptor.class);
-        return methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments));
+        MethodCacheNoCopyInterceptor methodCacheNoCopyInterceptor = SpringContext.getBean(MethodCacheNoCopyInterceptor.class);
+
+        String cacheKey = methodCacheInterceptor.buildCacheKey(method.toString(), arguments);
+        
+        return methodCacheInterceptor.containsCacheKey( cacheKey ) || methodCacheNoCopyInterceptor.containsCacheKey(cacheKey);
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>KualiRoutingFormDocument</name>
+      <parent>KualiResearchDocument</parent>
+      <label>Routing Form</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/researchRoutingFormMainPage.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Project Director" />
+          <requests name="Project Director" nextNode="Split" />
+          <split name="Split" nextNode="Research Risk">
+            <branch name="Adhoc Approvers Branch">
+              <requests name="Adhoc Approvers" nextNode="Final Notification" />
+            </branch>
+            <branch name="Org Review Branch">
+              <requests name="Org Review" nextNode="Final Notification" />
+            </branch>
+            <join name="Final Notification" />
+          </split>
+          <requests name="Research Risk" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Project Director">
+          <activationType>P</activationType>
+          <ruleTemplate>KualiRoutingFormProjectDirectorTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <split name="Split">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </split>
+        <requests name="Adhoc Approvers">
+          <activationType>P</activationType>
+          <ruleTemplate>KualiResearchAdhocApproverTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="Final Notification">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiResearchOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Research Risk">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiResearchRiskTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

@@ -56,6 +56,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -870,7 +871,7 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
     public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineIndex = getSelectedLine(request);
 
-        TargetAccountingLine line = (TargetAccountingLine) ObjectUtils.deepCopy(((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex));
+        TargetAccountingLine line = (TargetAccountingLine)((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
 
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
@@ -1248,4 +1249,19 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
         }
     }
 
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // parse out the business object name from our methodToCall parameter
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+
+        if (!StringUtils.equals(boClassName, GeneralLedgerPendingEntry.class.getName())) {
+            return super.performLookup(mapping, form, request, response);
+        }
+
+        String path = super.performLookup(mapping, form, request, response).getPath();
+        path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, KFSConstants.GL_MODIFIED_INQUIRY_ACTION);
+
+        return new ActionForward(path, true);
+    }
 }

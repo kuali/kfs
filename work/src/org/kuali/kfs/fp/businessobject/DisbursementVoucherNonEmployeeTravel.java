@@ -736,7 +736,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return KualiDecimal
      */
     public KualiDecimal getTotalPrePaidAmount() {
-        KualiDecimal totalPrePaidAmount = new KualiDecimal(0);
+        KualiDecimal totalPrePaidAmount = KualiDecimal.ZERO;
         if (dvPrePaidEmployeeExpenses != null) {
             for (Iterator iter = dvPrePaidEmployeeExpenses.iterator(); iter.hasNext();) {
                 DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
@@ -755,7 +755,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return KualiDecimal
      */
     public KualiDecimal getTotalExpenseAmount() {
-        KualiDecimal totalExpenseAmount = new KualiDecimal(0);
+        KualiDecimal totalExpenseAmount = KualiDecimal.ZERO;
         if (dvNonEmployeeExpenses != null) {
             for (Iterator iter = dvNonEmployeeExpenses.iterator(); iter.hasNext();) {
                 DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
@@ -773,7 +773,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
      * @return KualiDecimal
      */
     public KualiDecimal getTotalTravelAmount() {
-        KualiDecimal travelAmount = new KualiDecimal(0);
+        KualiDecimal travelAmount = KualiDecimal.ZERO;
 
         // get non paid expenses first
         travelAmount = travelAmount.add(getTotalExpenseAmount());

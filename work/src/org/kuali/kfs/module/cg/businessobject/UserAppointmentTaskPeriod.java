@@ -79,36 +79,36 @@ public class UserAppointmentTaskPeriod extends PersistableBusinessObjectBase imp
      */
     public UserAppointmentTaskPeriod() {
         super();
-        agencyFringeBenefitTotalAmount = new KualiInteger(0);
-        agencyPercentEffortAmount = new KualiInteger(0);
-        agencyRequestTotalAmount = new KualiInteger(0);
+        agencyFringeBenefitTotalAmount = KualiInteger.ZERO;
+        agencyPercentEffortAmount = KualiInteger.ZERO;
+        agencyRequestTotalAmount = KualiInteger.ZERO;
         personWeeksAmount = new Integer(0);
-        institutionCostShareFringeBenefitTotalAmount = new KualiInteger(0);
-        institutionCostSharePercentEffortAmount = new KualiInteger(0);
-        institutionCostShareRequestTotalAmount = new KualiInteger(0);
-        userBudgetPeriodSalaryAmount = new KualiInteger(0);
-        userAgencyHours = new KualiInteger(0);
-        userHourlyRate = new KualiDecimal(0);
-        userInstitutionHours = new KualiInteger(0);
+        institutionCostShareFringeBenefitTotalAmount = KualiInteger.ZERO;
+        institutionCostSharePercentEffortAmount = KualiInteger.ZERO;
+        institutionCostShareRequestTotalAmount = KualiInteger.ZERO;
+        userBudgetPeriodSalaryAmount = KualiInteger.ZERO;
+        userAgencyHours = KualiInteger.ZERO;
+        userHourlyRate = KualiDecimal.ZERO;
+        userInstitutionHours = KualiInteger.ZERO;
 
-        agencyFullTimeEquivalentPercent = new KualiInteger(0);
-        agencyHealthInsuranceAmount = new KualiInteger(0);
-        agencyRequestedFeesAmount = new KualiInteger(0);
-        agencySalaryAmount = new KualiInteger(0);
-        institutionFullTimeEquivalentPercent = new KualiInteger(0);
-        institutionHealthInsuranceAmount = new KualiInteger(0);
-        institutionRequestedFeesAmount = new KualiInteger(0);
-        institutionSalaryAmount = new KualiInteger(0);
-        userCreditHoursNumber = new KualiInteger(0);
-        userCreditHourAmount = new KualiDecimal(0);
-        userMiscellaneousFeeAmount = new KualiInteger(0);
-        totalFeeRemissionsAmount = new KualiInteger(0);
-        totalFteAmount = new KualiInteger(0);
-        totalHealthInsuranceAmount = new KualiInteger(0);
-        totalGradAsstSalaryAmount = new KualiInteger(0);
-        totalPercentEffort = new KualiInteger(0);
-        totalSalaryAmount = new KualiInteger(0);
-        totalFringeAmount = new KualiInteger(0);
+        agencyFullTimeEquivalentPercent = KualiInteger.ZERO;
+        agencyHealthInsuranceAmount = KualiInteger.ZERO;
+        agencyRequestedFeesAmount = KualiInteger.ZERO;
+        agencySalaryAmount = KualiInteger.ZERO;
+        institutionFullTimeEquivalentPercent = KualiInteger.ZERO;
+        institutionHealthInsuranceAmount = KualiInteger.ZERO;
+        institutionRequestedFeesAmount = KualiInteger.ZERO;
+        institutionSalaryAmount = KualiInteger.ZERO;
+        userCreditHoursNumber = KualiInteger.ZERO;
+        userCreditHourAmount = KualiDecimal.ZERO;
+        userMiscellaneousFeeAmount = KualiInteger.ZERO;
+        totalFeeRemissionsAmount = KualiInteger.ZERO;
+        totalFteAmount = KualiInteger.ZERO;
+        totalHealthInsuranceAmount = KualiInteger.ZERO;
+        totalGradAsstSalaryAmount = KualiInteger.ZERO;
+        totalPercentEffort = KualiInteger.ZERO;
+        totalSalaryAmount = KualiInteger.ZERO;
+        totalFringeAmount = KualiInteger.ZERO;
 
     }
 

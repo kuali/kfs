@@ -42,5 +42,15 @@
 
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        	    <workflowProperty path="documentHeader" />
+        		<workflowProperty path="transactionEntries.sourceAccountingLines" />
+        		<workflowProperty path="transactionEntries.targetAccountingLines" />
+        		<workflowProperty path="transactionEntries.sourceAccountingLines.account" />
+        		<workflowProperty path="transactionEntries.targetAccountingLines.account" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

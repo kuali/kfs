@@ -67,10 +67,10 @@ public class BudgetOverviewFormHelper {
     private KualiInteger modularBudgetTotalConsortiumAmount;
 
     // Personnel Expenses -- initialized to 0 for easy of summation in setupPersonnel
-    private KualiInteger personnelSalaryAgencyRequest = new KualiInteger(0);
-    private KualiInteger personnelSalaryInstitutionCostShare = new KualiInteger(0);
-    private KualiInteger personnelFringeBenefitsAgencyRequest = new KualiInteger(0);
-    private KualiInteger personnelFringeBenefitsInstitutionCostShare = new KualiInteger(0);
+    private KualiInteger personnelSalaryAgencyRequest = KualiInteger.ZERO;
+    private KualiInteger personnelSalaryInstitutionCostShare = KualiInteger.ZERO;
+    private KualiInteger personnelFringeBenefitsAgencyRequest = KualiInteger.ZERO;
+    private KualiInteger personnelFringeBenefitsInstitutionCostShare = KualiInteger.ZERO;
 
     // Total Direct Costs
     private KualiInteger totalDirectCostsAgencyRequest;
@@ -339,7 +339,7 @@ public class BudgetOverviewFormHelper {
 
         // if modular is in invalid mode then adjustedDirectCostsAgencyRequest == null, to avoid NPE we check it.
         if (adjustedDirectCostsAgencyRequest == null) {
-            adjustedDirectCostsAgencyRequest = new KualiInteger(0);
+            adjustedDirectCostsAgencyRequest = KualiInteger.ZERO;
         }
     }
 
@@ -724,8 +724,8 @@ public class BudgetOverviewFormHelper {
                 this.institutionCostShareFringeBenefitTotalAmount = userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount();
 
                 // %-effort for Fringe Rate are always 0 for GAs
-                this.contractsAndGrantsFringeRateAmount = new KualiDecimal(0);
-                this.institutionCostShareFringeRateAmount = new KualiDecimal(0);
+                this.contractsAndGrantsFringeRateAmount = KualiDecimal.ZERO;
+                this.institutionCostShareFringeRateAmount = KualiDecimal.ZERO;
             }
             else {
                 this.agencyRequestTotalAmount = userAppointmentTaskPeriod.getAgencyRequestTotalAmount();

@@ -17,6 +17,7 @@ package org.kuali.kfs.batch;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -33,7 +34,10 @@ public class PostDataLoadEncryptionStep extends AbstractStep {
     private PostDataLoadEncryptionService postDataLoadEncryptionService;
     private String attributesToEncryptProperties;
 
-    public boolean execute(String jobName) {
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
+     */
+    public boolean execute(String jobName, Date jobRunDate) {
         Properties attributesToEncryptProperties = new Properties();
         try {
             attributesToEncryptProperties.load(new FileSystemResource(this.attributesToEncryptProperties).getInputStream());

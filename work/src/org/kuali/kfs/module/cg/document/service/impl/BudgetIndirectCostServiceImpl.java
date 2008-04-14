@@ -116,8 +116,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
 
         // Task / Period totals for nonpersonnel, personnel and modular.
         KualiInteger personnelTotal = calculatePersonnelTotalDirectCost(userAppointmentTaskPeriods, taskPeriod, temporaryNonPersonnelItems);
-        KualiInteger nonPersonnelTotal = new KualiInteger(0);
-        KualiInteger modularTotal = new KualiInteger(0);
+        KualiInteger nonPersonnelTotal = KualiInteger.ZERO;
+        KualiInteger modularTotal = KualiInteger.ZERO;
 
         // Loop over nonpersonnel items to get the total amount requested for this taskPeriod.
         for (Iterator nonPersonnelIterator = nonPersonnelItems.iterator(); nonPersonnelIterator.hasNext();) {
@@ -178,12 +178,12 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         List nonPersonnelItems = budget.getNonpersonnelItems();
         List<BudgetNonpersonnel> temporaryNonPersonnelItems = new ArrayList<BudgetNonpersonnel>();
 
-        KualiInteger baseCost = new KualiInteger(0);
+        KualiInteger baseCost = KualiInteger.ZERO;
 
         // Task / Period totals for nonpersonnel and personnel.
-        KualiInteger personnelTotal = new KualiInteger(0);
-        KualiInteger nonPersonnelTotal = new KualiInteger(0);
-        KualiInteger modularTotal = new KualiInteger(0);
+        KualiInteger personnelTotal = KualiInteger.ZERO;
+        KualiInteger nonPersonnelTotal = KualiInteger.ZERO;
+        KualiInteger modularTotal = KualiInteger.ZERO;
 
         // If there is no base, or if the base is manual, we don't need any calculations.
         if (baseCode != null && !KraConstants.MANUAL_BASE.equals(baseCode)) {
@@ -243,7 +243,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
 
     private KualiInteger calculatePersonnelTotalDirectCost(List userAppointmentTaskPeriods, BudgetTaskPeriodIndirectCost taskPeriod, List<BudgetNonpersonnel> temporaryNonpersonnelItems) {
 
-        KualiInteger personnelTotal = new KualiInteger(0);
+        KualiInteger personnelTotal = KualiInteger.ZERO;
 
         List<String> graduateAssistantAppointmentTypes = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
 
@@ -317,8 +317,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     private KualiInteger calculateCostShareBaseCost(BudgetTaskPeriodIndirectCost taskPeriod, BudgetDocument budgetDocument) {
         // Task / Period totals for nonpersonnel and personnel.
-        KualiInteger personnelTotal = new KualiInteger(0);
-        KualiInteger nonPersonnelTotal = new KualiInteger(0);
+        KualiInteger personnelTotal = KualiInteger.ZERO;
+        KualiInteger nonPersonnelTotal = KualiInteger.ZERO;
 
         if (budgetDocument.getBudget().getIndirectCost().getBudgetIndirectCostCostShareIndicator()) {
             List<String> graduateAssistantAppointmentTypes = parameterService.getParameterValues(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES);
@@ -383,7 +383,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     private KualiInteger calculateCostShareIndirectCost(BudgetTaskPeriodIndirectCost taskPeriod, BudgetDocument budgetDocument) {
         KualiDecimal rate = taskPeriod.getCostShareIndirectCostRate();
-        KualiInteger costShareCalculatedIndirectCost = new KualiInteger(0);
+        KualiInteger costShareCalculatedIndirectCost = KualiInteger.ZERO;
 
         if (budgetDocument.getBudget().getIndirectCost().getBudgetIndirectCostCostShareIndicator()) {
             costShareCalculatedIndirectCost = new KualiInteger(taskPeriod.getCostShareBaseCost().multiply(rate).divide(new KualiInteger(100)));
@@ -398,7 +398,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     private KualiInteger calculateCostShareUnrecoveredIndirectCost(BudgetTaskPeriodIndirectCost taskPeriod, BudgetDocument budgetDocument) {
         KualiDecimal rate = getIndirectCostRate(taskPeriod, budgetDocument, true);
-        KualiInteger costShareUnrecoveredIndirectCost = new KualiInteger(0);
+        KualiInteger costShareUnrecoveredIndirectCost = KualiInteger.ZERO;
 
         if (budgetDocument.getBudget().isInstitutionCostShareIndicator() && "Y".equals(budgetDocument.getBudget().getIndirectCost().getBudgetManualRateIndicator()) && budgetDocument.getBudget().getIndirectCost().isBudgetUnrecoveredIndirectCostIndicator()) {
             costShareUnrecoveredIndirectCost = new KualiInteger(calculateBaseCost(taskPeriod, KraConstants.MODIFIED_TOTAL_DIRECT_COST, budgetDocument).multiply(rate).divide(new KualiInteger(100))).subtract(taskPeriod.getCalculatedIndirectCost());

@@ -152,18 +152,10 @@
 
             </attribute>
 
-            <attribute name="finalPaymentDate" forceUppercase="true">
+            <attributeReference name="finalPaymentDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Final Payment Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-            </attribute>
+            </attributeReference>
 
             <attribute name="initialPaymentAmount" forceUppercase="true">
                 <label>Initial Payment Amount</label>
@@ -178,18 +170,10 @@
 
             </attribute>
 
-            <attribute name="initialPaymentDate" forceUppercase="true">
+            <attributeReference name="initialPaymentDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Initial Payment Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-            </attribute>
+            </attributeReference>
 
             <attribute name="recurringPaymentAmount" forceUppercase="true">
                 <label>Recurring Payment Amount</label>
@@ -204,18 +188,10 @@
 
             </attribute>
 
-            <attribute name="recurringPaymentDate" forceUppercase="true">
+            <attributeReference name="recurringPaymentDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Recurring Payment Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-            </attribute>
+            </attributeReference>
 
             <attribute name="purchaseOrderCommodityDescription" forceUppercase="true">
                 <label>Purchase Order Commodity Description</label>
@@ -382,6 +358,19 @@
         <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<!-- properties for routing -->
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="accountsForRouting" />
+        		<workflowProperty path="accountsForRouting.account" />
+        		<!-- extra properties for searches -->
+        		<workflowProperty path="status" />
+        		<workflowProperty path="contractManager" />
+        		<workflowProperty path="vendorContract" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
         
     </transactionalDocument>
 </dictionaryEntry>

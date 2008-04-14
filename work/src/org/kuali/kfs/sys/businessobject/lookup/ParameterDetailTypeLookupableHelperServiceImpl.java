@@ -54,7 +54,7 @@ public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupa
         if (activeCheck == null) {
             activeCheck = "";
         }
-        int maxResultsCount = LookupUtils.getApplicationSearchResultsLimit();
+        int maxResultsCount = LookupUtils.getSearchResultsLimit(ParameterDetailType.class);
         // only bother with the component lookup if returning active components
         if (baseLookup instanceof CollectionIncomplete && !activeCheck.equals("N")) {
             long originalCount = Math.max(baseLookup.size(), ((CollectionIncomplete) baseLookup).getActualSizeIfTruncated());
@@ -117,6 +117,19 @@ public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupa
         }
 
         return baseLookup;
+    }
+    
+    /**
+     * Suppress the edit/copy links on synthetic detail types.
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public String getActionUrls(BusinessObject businessObject) {
+        if ( ((ParameterDetailType)businessObject).getObjectId() == null ) {
+            return "";
+        }
+        // TODO Auto-generated method stub
+        return super.getActionUrls(businessObject);
     }
 
     public void setParameterService(ParameterService parameterService) {

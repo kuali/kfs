@@ -82,7 +82,6 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * The base implementation of ReportService
  */
-@Transactional
 public class ReportServiceImpl implements ReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportServiceImpl.class);
 

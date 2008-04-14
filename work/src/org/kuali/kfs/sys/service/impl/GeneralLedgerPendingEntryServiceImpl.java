@@ -119,7 +119,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         Options options = optionsService.getOptions(universityFiscalYear);
 
-        List<String> balanceTypeCodes = balanceTypeService.getCurrentYearEncumbranceBalanceTypes();
+        List<String> balanceTypeCodes = balanceTypeService.getEncumbranceBalanceTypes( universityFiscalYear );
             
 
         return generalLedgerPendingEntryDao.getTransactionSummary(universityFiscalYear, chartOfAccountsCode, accountNumber, objectTypes, balanceTypeCodes, sufficientFundsObjectCode, isDebit, isYearEnd);

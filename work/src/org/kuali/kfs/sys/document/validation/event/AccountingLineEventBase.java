@@ -42,9 +42,7 @@ public abstract class AccountingLineEventBase extends KualiDocumentEventBase imp
     public AccountingLineEventBase(String description, String errorPathPrefix, Document document, AccountingLine accountingLine) {
         super(description, errorPathPrefix, document);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.accountingLine = (AccountingLine) ObjectUtils.deepCopy(accountingLine);
+        this.accountingLine = accountingLine;
 
         logEvent();
     }

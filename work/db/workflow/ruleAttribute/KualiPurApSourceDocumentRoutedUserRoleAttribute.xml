@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurApSourceDocumentRoutedUserRoleAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.PurApSourceDocumentRouteUserRoleAttribute</className>
+      <label>Purchasing &amp; Accounts Payable Source Document Routed By User Role</label>
+      <description>Attribute to determine the user who routed the source document of the current document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

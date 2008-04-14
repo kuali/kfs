@@ -15,10 +15,14 @@
  */
 package org.kuali.module.labor.util;
 
+import java.util.Date;
+
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.batch.JobDescriptor;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
@@ -28,19 +32,21 @@ public class LaborBatchRunner extends KualiTestBase {
 
     public void testRunBatch() {
         JobDescriptor laborBatchJob = BatchSpringContext.getJobDescriptor("laborBatchJob");
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date jobRunDate = dateTimeService.getCurrentDate();
         for (Step step : laborBatchJob.getSteps()) {
-            runStep(step);
+            runStep(step, jobRunDate);
         }
     }
 
-    private void runStep(Step step) {
+    private void runStep(Step step, Date jobRunDate) {
         try {
             String stepName = step.getName();
-
+            
             long start = System.currentTimeMillis();
             System.out.println(stepName + " started at " + start);
-
-            boolean isSuccess = step.execute(getClass().getName());
+            
+            boolean isSuccess = step.execute(getClass().getName(), jobRunDate);
 
             long elapsedTime = System.currentTimeMillis() - start;
             System.out.println("Execution Time = " + elapsedTime + "(" + isSuccess + ")");

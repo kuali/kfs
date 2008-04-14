@@ -21,9 +21,5 @@ import org.kuali.kfs.dao.OriginationCodeDao;
 public interface OriginationCodeService {
     OriginationCode getByPrimaryKey(String code);
 
-    void save(OriginationCode code);
-
-    void delete(OriginationCode code);
-
     void setOriginationCodeDao(OriginationCodeDao dao);
 }

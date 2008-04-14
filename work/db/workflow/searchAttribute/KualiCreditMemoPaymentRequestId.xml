@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiCreditMemoPaymentRequestId</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Credit Memo Payment Request ID</label>
+      <description>Attribute to identify the Payment Request Number of the Credit Memo Document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="creditMemoPaymentRequestId" title="kuali_dd_label(CreditMemoDocument)">
+          <display>
+            <type>text</type>
+          </display>
+          <searchDefinition dataType="long" />
+          <validation required="false">
+            <regex>^[0-9]{0,}$</regex>
+            <message>Invalid PREQ Nbr Value.  A valid Payment Request number value must be numeric.</message>
+          </validation>
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/paymentRequestIdentifier')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

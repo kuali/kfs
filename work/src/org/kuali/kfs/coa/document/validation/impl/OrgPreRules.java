@@ -34,7 +34,6 @@ import org.kuali.module.chart.bo.OrganizationExtension;
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
     private Org newOrg;
-    private Org copyOrg;
 
 
     public OrgPreRules() {
@@ -85,8 +84,6 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
         // setup newOrg convenience objects, make sure all possible sub-objects are populated
         newOrg = (Org) document.getNewMaintainableObject().getBusinessObject();
-        copyOrg = (Org) ObjectUtils.deepCopy(newOrg);
-        copyOrg.refresh();
     }
 
     /**
@@ -123,10 +120,10 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
         // organizationStateCode , organizationCityName are populated by looking up
         // the zip code and getting the state and city from that
-        if (!StringUtils.isBlank(copyOrg.getOrganizationZipCode())) {
+        if (!StringUtils.isBlank(newOrg.getOrganizationZipCode())) {
 
             HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", copyOrg.getOrganizationZipCode());
+            primaryKeys.put("postalZipCode", newOrg.getOrganizationZipCode());
             PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
 
             // If user enters a valid zip code, override city name and state code entered by user

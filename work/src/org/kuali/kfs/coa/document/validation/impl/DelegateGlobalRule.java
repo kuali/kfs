@@ -41,7 +41,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateGlobalRule.class);
 
-    private static final KualiDecimal ZERO = new KualiDecimal(0);
+    private static final KualiDecimal ZERO = KualiDecimal.ZERO;
     private DelegateGlobal newDelegateGlobal;
     private static final String DELEGATE_GLOBALS_PREFIX = "delegateGlobals";
 

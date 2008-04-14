@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiLaborBenefitsTypeMaintenanceDocument</documentTypeName>
+		<documentTypeName>BenefitsTypeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>BENT</documentTypeCode>
 
 		<label>Labor Benefits Type</label>
@@ -55,5 +55,7 @@
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>
+	    
+	    <workflowProperties />
 	</maintenanceDocument>
 </dictionaryEntry>

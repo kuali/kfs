@@ -1,5 +1,6 @@
 Kuali Financial System 
-Release 2.0
+
+Release 2.2 - April 2008
 
 Install Documentation: https://test.kuali.org/confluence/display/KULDOC/Setup+2.0
 
@@ -12,8 +13,6 @@ database-import-export - Import tool used to load the base tables and data into 
 	bootstrap-data-set - Entire database but stripped down contents for use in importing your institution's data.
 
 rice - Kuali Rice source code.  Uses Maven 2 to build.  Contains the implementation of the Kuali Nervous System and other base components.
-
-enterprise-workflow - Kuali Enterprise Workflow (KEW) source code.
 
 patches
 	program-code-extension-attribute - Sample implementation of an extended attribute plus reference table and related tables.

@@ -97,5 +97,15 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="YearEndBudgetAdjustment" parameterName="YEAR_END_BUDGET_ADJUSTMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="sourceAccountingLines" />
+        		<workflowProperty path="sourceAccountingLines.account" />
+        		<workflowProperty path="targetAccountingLines" />
+        		<workflowProperty path="targetAccountingLines.account" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

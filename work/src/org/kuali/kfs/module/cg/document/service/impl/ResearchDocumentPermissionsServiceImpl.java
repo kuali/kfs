@@ -29,7 +29,6 @@ import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
-import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
@@ -37,7 +36,6 @@ import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@Transactional
 public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentPermissionsService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentPermissionsServiceImpl.class);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>ChartOrgExtensionAttribute</name>
+      <className>org.kuali.workflow.attribute.ChartOrgExtensionAttribute</className>
+      <label>Chart Org Extension Attribute</label>
+      <description>Chart Org Extension Attribute</description>
+      <type>ExtensionAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

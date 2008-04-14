@@ -53,9 +53,9 @@ public class SpringContext {
     private static ConfigurableApplicationContext applicationContext;
     private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
     private static Set<String> SINGLETON_NAMES = new HashSet<String>();
-    private static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class, Object>());
-    private static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = Collections.synchronizedMap(new HashMap<String, Object>());
-    private static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class, Map>());
+    private static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class, Object>();
+    private static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
+    private static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class, Map>();
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
@@ -78,6 +78,7 @@ public class SpringContext {
             bean = (T) SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
         }
         else {
+            LOG.info("Bean not already in cache: " + type + " - calling getBeansOfType() ");
             try {
                 Collection<T> beansOfType = getBeansOfType(type).values();
                 if (beansOfType.size() > 1) {
@@ -121,9 +122,22 @@ public class SpringContext {
             beansOfType = SINGLETON_BEANS_OF_TYPE_CACHE.get(type);
         }
         else {
+            LOG.info("Bean not already in \"OF_TYPE\" cache: " + type + " - calling getBeansOfType() on KNS and locally");
+            boolean allOfTypeAreSingleton = true;
             beansOfType = KNSServiceLocator.getBeansOfType(type);
-            beansOfType.putAll(new HashMap(applicationContext.getBeansOfType(type)));
-            if (SINGLETON_TYPES.contains(type) || hasSingletonSuperType(type)) {
+            for ( String key : beansOfType.keySet() ) {
+                if ( !KNSServiceLocator.isSingleton(key) ) {
+                    allOfTypeAreSingleton = false;
+                }                
+            }
+            Map<String,T> localBeansOfType = applicationContext.getBeansOfType(type);
+            for ( String key : localBeansOfType.keySet() ) {
+                if ( !applicationContext.isSingleton(key) ) {
+                    allOfTypeAreSingleton = false;
+                }                
+            }
+            beansOfType.putAll( localBeansOfType );
+            if ( allOfTypeAreSingleton ) {
                 SINGLETON_TYPES.add(type);
                 SINGLETON_BEANS_OF_TYPE_CACHE.put(type, beansOfType);
             }
@@ -135,12 +149,14 @@ public class SpringContext {
     private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
         T bean = null;
+        boolean isSingleton = true;
         if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
             bean = (T) SINGLETON_BEANS_BY_NAME_CACHE.get(name);
         }
         else {
             try {
                 bean = (T) applicationContext.getBean(name);
+                isSingleton = applicationContext.isSingleton(name);
             }
             catch (NoSuchBeanDefinitionException nsbde) {
                 LOG.info("Could not find bean named " + name + " - checking KNS context");
@@ -152,7 +168,7 @@ public class SpringContext {
                     throw new NoSuchBeanDefinitionException(name, new StringBuffer("No bean of this type and name in the in KFS or KNS application contexts: ").append(type.getName()).append(", ").append(name).toString());
                 }
             }
-            if (SINGLETON_NAMES.contains(type)) {
+            if ( isSingleton ) {
                 SINGLETON_BEANS_BY_NAME_CACHE.put(name, bean);
             }
         }
@@ -160,6 +176,7 @@ public class SpringContext {
     }
 
     private static boolean hasSingletonSuperType(Class type) {
+        
         for (Class singletonType : SINGLETON_TYPES) {
             if (singletonType.isAssignableFrom(type)) {
                 return true;
@@ -229,6 +246,21 @@ public class SpringContext {
 
     private static void initializeApplicationContext(String[] springFiles, boolean initializeSchedule) {
         applicationContext = new ClassPathXmlApplicationContext(springFiles);
+
+        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
+        /*
+        Collections.addAll(SINGLETON_NAMES, applicationContext.getBeanFactory().getSingletonNames());
+        LOG.info( "Registering singleton beans:" );
+        for (String singletonName : SINGLETON_NAMES) {
+            SINGLETON_TYPES.add(applicationContext.getBeanFactory().getType(singletonName));
+            //LOG.info( singletonName );
+        }
+        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
+        SINGLETON_TYPES.addAll(KNSServiceLocator.getSingletonTypes());
+        //LOG.info( SINGLETON_TYPES );
+         * 
+         */
+        
         if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
             MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
             MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
@@ -268,12 +300,5 @@ public class SpringContext {
                 LOG.error("Caught exception while starting the scheduler", e);
             }
         }
-        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-        Collections.addAll(SINGLETON_NAMES, applicationContext.getBeanFactory().getSingletonNames());
-        for (String singletonName : SINGLETON_NAMES) {
-            SINGLETON_TYPES.add(applicationContext.getBeanFactory().getType(singletonName));
-        }
-        SINGLETON_NAMES.addAll(KNSServiceLocator.getSingletonNames());
-        SINGLETON_TYPES.addAll(KNSServiceLocator.getSingletonTypes());
     }
 }

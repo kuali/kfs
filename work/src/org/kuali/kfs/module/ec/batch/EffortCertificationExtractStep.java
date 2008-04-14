@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.effort.EffortKeyConstants;
@@ -33,7 +35,7 @@ public class EffortCertificationExtractStep extends AbstractStep {
     /**
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         if(EffortCertificationParameterFinder.getRunIndicator()) {
             effortCertificationExtractService.extract();
         }

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.batch;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -36,14 +36,15 @@ public class PurgeCorrectionProcessFilesStep extends AbstractStep {
      * Runs the process of purging old correction document origin entries from the database.
      * 
      * @param jobName the name of the job this step is being run as part of
+     * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#performStep()
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         int numberOfDaysFinal = Integer.parseInt(getParameterService().getParameterValue(getClass(), "NUMBER_OF_DAYS_FINAL"));
         Calendar financialDocumentFinalCalendar = getDateTimeService().getCurrentCalendar();
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);
-        Collection<CorrectionDocument> documentsFinalOnDate = correctionDocumentService.getCorrectionDocumentsFinalizedOn(new Date(financialDocumentFinalCalendar.getTimeInMillis()));
+        Collection<CorrectionDocument> documentsFinalOnDate = correctionDocumentService.getCorrectionDocumentsFinalizedOn(new java.sql.Date(financialDocumentFinalCalendar.getTimeInMillis()));
         for (CorrectionDocument document : documentsFinalOnDate) {
             correctionDocumentService.removePersistedInputOriginEntries(document);
             correctionDocumentService.removePersistedOutputOriginEntries(document);

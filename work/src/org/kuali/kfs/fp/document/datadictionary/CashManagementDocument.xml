@@ -74,5 +74,9 @@
 		<help parameterNamespace="KFS-FP" parameterDetailType="CashManagement" parameterName="CASH_MANAGEMENT" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+            <workflowPropertyGroup basePath="kualiTransactionalDocumentInformation.documentInitiator.universalUser.campus"/>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

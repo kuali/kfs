@@ -85,6 +85,8 @@
                 </control>
             </attributeReference>
 
+			<attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="projectDirector.personName">
+			</attributeReference>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>

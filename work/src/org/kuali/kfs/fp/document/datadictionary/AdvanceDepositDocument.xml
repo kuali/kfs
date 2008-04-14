@@ -46,5 +46,13 @@
 		<help parameterNamespace="KFS-FP" parameterDetailType="AdvanceDeposit" parameterName="ADVANCE_DEPOSIT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+            <workflowPropertyGroup>
+            	<workflowProperty path="documentHeader" />
+                <workflowProperty path="sourceAccountingLines" />
+                <workflowProperty path="sourceAccountingLines.account" />
+            </workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

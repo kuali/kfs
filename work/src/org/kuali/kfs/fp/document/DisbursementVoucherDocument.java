@@ -129,7 +129,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         dvPayeeDetail = new DisbursementVoucherPayeeDetail();
         dvPreConferenceDetail = new DisbursementVoucherPreConferenceDetail();
         dvWireTransfer = new DisbursementVoucherWireTransfer();
-        disbVchrCheckTotalAmount = new KualiDecimal(0);
+        disbVchrCheckTotalAmount = KualiDecimal.ZERO;
     }
 
 
@@ -156,7 +156,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                         // does not have a flexible offset for cash or liability, set the object code to cash and add to list of
                         // PLEs to check for SF
 
-                        ple = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(ple);
+                        ple = new GeneralLedgerPendingEntry( ple );
                         ple.setFinancialObjectCode(ple.getChart().getFinancialCashObjectCode());
                         ple.setTransactionDebitCreditCode(ple.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
                         ples.add(ple);

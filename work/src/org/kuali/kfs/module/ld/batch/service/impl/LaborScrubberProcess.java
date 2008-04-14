@@ -783,7 +783,10 @@ public class LaborScrubberProcess {
         Iterator<LaborOriginEntry> errorEntryIterator = laborOriginEntryService.getEntriesByGroup(errorGroup);
         while (errorEntryIterator.hasNext()) {
             LaborOriginEntry errorEntry = errorEntryIterator.next();
-            String documentTypeCode = errorEntry.getFinancialDocumentTypeCode().trim();
+            String documentTypeCode = errorEntry.getFinancialDocumentTypeCode();
+            if (documentTypeCode != null) {
+                documentTypeCode.trim();
+            }
 
             // Check each entry is from Benefit Expense Transfer or Salary Expense Transfer
             Collection<LaborOriginEntry> transactions = null;

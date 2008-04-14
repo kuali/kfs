@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.PosterService;
 
@@ -29,10 +31,11 @@ public class PosterEntriesStep extends AbstractStep {
      * Runs the poster service on entries
      * 
      * @param jobName the name of the job this step is being run as part of
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @param jobRunDate the time/date the job was started
+     * @return true if the step completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         posterService.postMainEntries();
         return true;
     }

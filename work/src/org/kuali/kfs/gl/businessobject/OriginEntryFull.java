@@ -114,7 +114,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         setUniversityFiscalPeriodCode(KFSConstants.EMPTY_STRING);
 
         setTransactionLedgerEntrySequenceNumber(new Integer(1));
-        setTransactionLedgerEntryAmount(new KualiDecimal(0));
+        setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         setTransactionLedgerEntryDescription(KFSConstants.EMPTY_STRING);
         setTransactionDate(null);
         setTransactionDebitCreditCode(KFSConstants.EMPTY_STRING);

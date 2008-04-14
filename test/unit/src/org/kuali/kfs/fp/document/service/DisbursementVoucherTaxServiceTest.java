@@ -62,8 +62,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
     public void testValidateNRA() throws Exception {
         // check tax is not created for attributes that it should not be generated for
         dvDocument.setDisbVchrCheckTotalAmount(new KualiDecimal(100));
-        dvDocument.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(new KualiDecimal(0));
-        dvDocument.getDvNonResidentAlienTax().setStateIncomeTaxPercent(new KualiDecimal(0));
+        dvDocument.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(KualiDecimal.ZERO);
+        dvDocument.getDvNonResidentAlienTax().setStateIncomeTaxPercent(KualiDecimal.ZERO);
 
         // should not be generated for non-reportable
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("N");
@@ -104,7 +104,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         GlobalVariables.getErrorMap().clear();
 
         // should not be generated if check amount is 0
-        dvDocument.setDisbVchrCheckTotalAmount(new KualiDecimal(0));
+        dvDocument.setDisbVchrCheckTotalAmount(KualiDecimal.ZERO);
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
         dvDocument.getDvNonResidentAlienTax().setForeignSourceIncomeCode(false);
         dvDocument.getDvNonResidentAlienTax().setIncomeTaxTreatyExemptCode(false);

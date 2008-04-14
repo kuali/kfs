@@ -15,6 +15,8 @@
  */
 package org.kuali.module.pdp.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.pdp.service.ExtractPaymentService;
 
@@ -24,9 +26,9 @@ public class ExtractCanceledChecksStep extends AbstractStep {
     private ExtractPaymentService extractPaymentService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String, java.util.Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
         extractPaymentService.extractCanceledChecks();

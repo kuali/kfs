@@ -41,12 +41,6 @@ public interface KualiCodeService {
     public KualiCode getByName(Class queryClass, String name);
 
     /**
-     * @param kualiCode - KualiCodeBase (or subclass) to be saved Pass the method a populated KualiCodeBase object, and it will be
-     *        saved.
-     */
-    public void save(KualiCode kualiCode);
-
-    /**
      * This method retrieves all objects that extend KualiCodes by a class name.
      * 
      * @param className

@@ -84,7 +84,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
     public void testGenerateModularBudget() {
         List nonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
-        KualiInteger zeroValue = new KualiInteger(0);
+        KualiInteger zeroValue = KualiInteger.ZERO;
 
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
@@ -95,19 +95,19 @@ public class BudgetModularServiceTest extends KualiTestBase {
         assertEquals(modularBudget.getIncrements().size(), 11);
         assertEquals(modularBudget.getBudgetModularDirectCostAmount(), zeroValue);
         assertEquals(modularBudget.getTotalActualDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiInteger(0));
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), KualiInteger.ZERO);
         assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiInteger(0));
+        assertEquals(modularBudget.getTotalDirectCostAmount(), KualiInteger.ZERO);
         assertEquals(modularBudget.getTotalModularDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalModularVarianceAmount(), new KualiInteger(0));
+        assertEquals(modularBudget.getTotalModularVarianceAmount(), KualiInteger.ZERO);
 
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
             assertEquals(modularPeriod.getActualDirectCostAmount(), zeroValue);
             assertEquals(modularPeriod.getConsortiumAmount(), zeroValue);
-            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiInteger(0));
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(0));
-            assertEquals(modularPeriod.getModularVarianceAmount(), new KualiInteger(0));
+            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), KualiInteger.ZERO);
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), KualiInteger.ZERO);
+            assertEquals(modularPeriod.getModularVarianceAmount(), KualiInteger.ZERO);
         }
 
         // Case 2: Budget with personnel, nonpersonnel, consortium costs
@@ -227,7 +227,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
         assertFalse(modularBudget.isInvalidMode());
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(0));
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), KualiInteger.ZERO);
         }
 
         // Case 2: Budget with personnel, nonpersonnel, consortium costs

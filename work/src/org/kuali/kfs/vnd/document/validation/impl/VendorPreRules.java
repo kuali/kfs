@@ -44,7 +44,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorPreRules.class);
 
     private VendorDetail newVendorDetail;
-    private VendorDetail copyVendorDetail;
     private String universalUserId;
 
     public VendorPreRules() {
@@ -88,8 +87,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newVendorDetail = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
-        copyVendorDetail = (VendorDetail) ObjectUtils.deepCopy(newVendorDetail);
-        copyVendorDetail.refresh();
     }
 
     /**
@@ -100,14 +97,14 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * @param document - the maintenanceDocument being evaluated
      */
     private void setVendorNamesAndIndicator(MaintenanceDocument document) {
-        if (StringUtils.isBlank(copyVendorDetail.getVendorName()) && !StringUtils.isBlank(copyVendorDetail.getVendorFirstName()) && !StringUtils.isBlank(copyVendorDetail.getVendorLastName())) {
+        if (StringUtils.isBlank(newVendorDetail.getVendorName()) && !StringUtils.isBlank(newVendorDetail.getVendorFirstName()) && !StringUtils.isBlank(newVendorDetail.getVendorLastName())) {
 
             newVendorDetail.setVendorFirstLastNameIndicator(true);
             newVendorDetail.setVendorFirstName(removeDelimiter(newVendorDetail.getVendorFirstName()));
             newVendorDetail.setVendorLastName(removeDelimiter(newVendorDetail.getVendorLastName()));
 
         }
-        else if (!StringUtils.isBlank(copyVendorDetail.getVendorName()) && StringUtils.isBlank(copyVendorDetail.getVendorFirstName()) && StringUtils.isBlank(copyVendorDetail.getVendorLastName())) {
+        else if (!StringUtils.isBlank(newVendorDetail.getVendorName()) && StringUtils.isBlank(newVendorDetail.getVendorFirstName()) && StringUtils.isBlank(newVendorDetail.getVendorLastName())) {
             newVendorDetail.setVendorFirstLastNameIndicator(false);
         }
     }

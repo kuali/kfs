@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurApSearchResultsDisplayType</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Purchasing &amp; Accounts Payable Search Result Display Type</label>
+      <description>Attribute to identify which type of search results should be returned for a Purchasing or Accounts Payable document</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="displayType" title="kuali_dd_label(KFSAttributeReferenceDummy)">
+          <display>
+            <type>radio</type>
+            <values selected="true" title="Document Specific Data">document_info</values>
+            <values title="Workflow Data">workflow_standard</values>
+          </display>
+          <visibility>
+            <column visible="false" />
+          </visibility>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

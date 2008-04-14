@@ -40,6 +40,7 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 
 /**
@@ -68,7 +69,8 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) businessObject;
             return new InquirableFinancialDocument().getInquirableDocumentUrl(pendingEntry);
         }
-        return super.getInquiryUrl(businessObject, propertyName);
+        return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
+        //return super.getInquiryUrl(businessObject, propertyName);
     }
 
 

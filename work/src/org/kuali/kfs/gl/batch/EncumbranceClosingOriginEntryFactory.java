@@ -33,6 +33,7 @@ import org.kuali.module.chart.service.A21SubAccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.chart.service.SubObjectCodeService;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.EncumbranceForwardStep;
 import org.kuali.module.gl.bo.Encumbrance;
@@ -191,6 +192,8 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setReferenceFinancialSystemOriginationCode(null);
         offset.setReferenceFinancialDocumentNumber(null);
         offset.setReversalDate(null);
+        
+        SpringContext.getBean(FlexibleOffsetAccountService.class).updateOffset(offset);
 
         pair.setOffset(offset);
 
@@ -329,7 +332,8 @@ public class EncumbranceClosingOriginEntryFactory {
             offset.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
         }
-
+        SpringContext.getBean(FlexibleOffsetAccountService.class).updateOffset(offset);
+        
         pair.setOffset(offset);
 
         return pair;

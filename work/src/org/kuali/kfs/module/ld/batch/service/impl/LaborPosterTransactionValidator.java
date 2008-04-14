@@ -33,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is a validator for the transactions processed by Labor Poster.
  */
-@Transactional
 public class LaborPosterTransactionValidator implements VerifyTransaction {
     
     /**

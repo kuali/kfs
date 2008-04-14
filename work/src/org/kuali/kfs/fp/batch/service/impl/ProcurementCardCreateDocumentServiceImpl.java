@@ -60,6 +60,7 @@ import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 import org.kuali.module.financial.bo.ProcurementCardVendor;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -69,6 +70,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  */
+@Transactional
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
 
@@ -266,7 +268,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             // for each transaction, create transaction detail object and then acct lines for the detail
             int transactionLineNumber = 1;
-            KualiDecimal documentTotalAmount = new KualiDecimal(0);
+            KualiDecimal documentTotalAmount = KualiDecimal.ZERO;
             String errorText = "";
             for (Iterator iter = transactions.iterator(); iter.hasNext();) {
                 ProcurementCardTransaction transaction = (ProcurementCardTransaction) iter.next();

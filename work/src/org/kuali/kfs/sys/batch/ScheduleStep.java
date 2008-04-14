@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.batch;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
@@ -24,9 +26,9 @@ public class ScheduleStep extends AbstractStep {
     private SchedulerService schedulerService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         boolean isPastScheduleCutoffTime = false;
         while (schedulerService.hasIncompleteJob() && !isPastScheduleCutoffTime) {
             schedulerService.processWaitingJobs();

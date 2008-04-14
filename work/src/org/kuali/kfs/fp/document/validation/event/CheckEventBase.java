@@ -42,9 +42,7 @@ public abstract class CheckEventBase extends KualiDocumentEventBase implements C
     public CheckEventBase(String description, String errorPathPrefix, Document document, Check check) {
         super(description, errorPathPrefix, document);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.check = (Check) ObjectUtils.deepCopy(check);
+        this.check = check;
 
         logEvent();
     }

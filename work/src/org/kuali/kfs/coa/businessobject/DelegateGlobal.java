@@ -194,14 +194,14 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
 
                 // APPROVAL FROM AMOUNT
                 if (changeDocument.getApprovalFromThisAmount() != null) {
-                    if (!changeDocument.getApprovalFromThisAmount().equals(new KualiDecimal(0))) {
+                    if (!changeDocument.getApprovalFromThisAmount().equals(KualiDecimal.ZERO)) {
                         delegate.setFinDocApprovalFromThisAmt(changeDocument.getApprovalFromThisAmount());
                     }
                 }
 
                 // APPROVAL TO AMOUNT
                 if (changeDocument.getApprovalToThisAmount() != null) {
-                    if (!changeDocument.getApprovalToThisAmount().equals(new KualiDecimal(0))) {
+                    if (!changeDocument.getApprovalToThisAmount().equals(KualiDecimal.ZERO)) {
                         delegate.setFinDocApprovalToThisAmount(changeDocument.getApprovalToThisAmount());
                     }
                 }

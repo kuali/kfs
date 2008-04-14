@@ -40,7 +40,6 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
     private OrganizationRoutingModelName model;
 
-    private static final KualiDecimal ZERO = new KualiDecimal(0);
     private static final String ORG_ROUTING_MODEL_PREFIX = "organizationRoutingModel";
 
     /**
@@ -214,7 +213,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     protected boolean checkDelegateFromAmountPositive(OrganizationRoutingModel delegateModel) {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
-            if (delegateModel.getApprovalFromThisAmount().isLessThan(ZERO)) {
+            if (delegateModel.getApprovalFromThisAmount().isLessThan(KualiDecimal.ZERO)) {
                 GlobalVariables.getErrorMap().putError("approvalFromThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);
                 result = false;
             }
@@ -247,7 +246,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     protected boolean checkDelegateToAmountGreaterThanFromAmount(OrganizationRoutingModel delegateModel) {
         boolean result = true;
         if (ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
-            if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && !delegateModel.getApprovalToThisAmount().equals(ZERO)) {
+            if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && !delegateModel.getApprovalToThisAmount().equals(KualiDecimal.ZERO)) {
                 GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
                 result = false;
             }

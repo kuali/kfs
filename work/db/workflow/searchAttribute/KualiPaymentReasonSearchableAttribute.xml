@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPaymentReasonSearchableAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlSearchableAttributeImpl</className>
+      <label>Kuali Payment Reason Searchable Attribute</label>
+      <description>Kuali Payment Reason Searchable Attribute</description>
+      <type>SearchableXmlAttribute</type>
+      <searchingConfig>
+        <fieldDef name="disbVchrPaymentReasonCode" title="kuali_dd_label(DisbursementVoucherPayeeDetail)">
+          <display>
+            <type>text</type>
+          </display>
+          <quickfinder appliesTo="disbVchrPaymentReasonCode" draw="true" service="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable(workflow-code:disbVchrPaymentReasonCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbVchrPaymentReasonCode')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </searchingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

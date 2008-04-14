@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
  * with Kuali.
  */
-@Transactional
 public class ProjectCodeServiceImpl implements ProjectCodeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
 
@@ -45,13 +44,6 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
      */
     public ProjectCode getByName(String name) {
         return projectCodeDao.getByName(name);
-    }
-
-    /**
-     * @see org.kuali.module.chart.service.ProjectCodeService#save(org.kuali.bo.ProjectCode)
-     */
-    public void save(ProjectCode projectCode) {
-        projectCodeDao.save(projectCode);
     }
 
     /**

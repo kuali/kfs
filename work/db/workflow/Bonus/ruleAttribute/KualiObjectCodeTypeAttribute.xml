@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiObjectCodeTypeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Object Code Type Routing</label>
+      <description>Object Code Type Both Accounting Lines Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="objectCodeType" title="kuali_dd_label(ObjectCode)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="objectCodeType" draw="true" service="workflow-org.kuali.module.chart.bo.ObjectType-Lookupable(workflow-code:objectCodeType)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/objectCode/financialObjectTypeCode') = wf:ruledata('objectCodeType') or
+                                wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/objectCode/financialObjectTypeCode') = wf:ruledata('objectCodeType')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

@@ -56,6 +56,14 @@
 				<value>pdpExtractChecksJob</value>
 				<value>pdpDailyReportJob</value>
 				<value>pdpLoadPaymentsJob</value>
+				<value>pdpNightlyLoadPaymentsJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>pdpLoadPaymentsJobTrigger</value>
+				<value>pdpExtractAchPaymentsJobTrigger</value>
+				<value>pdpExtractCanceledChecksJobTrigger</value>
 			</list>
 		</property>
 	</bean>
@@ -144,12 +152,36 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="pdpLoadPaymentsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpLoadPaymentsJob" />
+		<property name="cronExpression" value="00 00 05,11,15 ? * *" />
+	</bean>
 
+	<bean id="pdpNightlyLoadPaymentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpLoadPaymentsStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="disbursementVoucherPreDisbursementProcessorExtractJob" value="softDependency"/>
+				<entry key="purchasingPreDisbursementExtractJob" value="softDependency"/>
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="pdpDailyReportJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpDailyReportStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="pdpNightlyLoadPaymentsJob" value="softDependency"/>
+			</map>
 		</property>
 	</bean>
 
@@ -177,12 +209,22 @@
 		</property>
 	</bean>
 
+	<bean id="pdpExtractAchPaymentsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpExtractAchPaymentsJob" />
+		<property name="cronExpression" value="00 30 14 ? * *" />
+	</bean>
+
 	<bean id="pdpExtractCanceledChecksJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpExtractCanceledChecksStep" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="pdpExtractCanceledChecksJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpExtractCanceledChecksJob" />
+		<property name="cronExpression" value="00 00 16 ? * *" />
 	</bean>
 
 	<bean id="pdpExtractChecksJob" parent="unscheduledJobDescriptor">

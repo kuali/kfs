@@ -171,27 +171,27 @@ public class CashDrawerTest extends KualiTestBase {
 
     public void testCurrencyTotal() {
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(zeroDrawer.getCurrencyTotalAmount(), new KualiDecimal(0));
+        assertEquals(zeroDrawer.getCurrencyTotalAmount(), KualiDecimal.ZERO);
         CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(nullDrawer.getCurrencyTotalAmount(), new KualiDecimal(0));
+        assertEquals(nullDrawer.getCurrencyTotalAmount(), KualiDecimal.ZERO);
         CashDrawer goodDrawer = CashDrawerAmountFixture.GOOD_CASH_DRAWER.convertToCashDrawer();
         assertEquals(goodDrawer.getCurrencyTotalAmount(), new KualiDecimal(945));
     }
 
     public void testCoinTotal() {
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(zeroDrawer.getCoinTotalAmount(), new KualiDecimal(0));
+        assertEquals(zeroDrawer.getCoinTotalAmount(), KualiDecimal.ZERO);
         CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(nullDrawer.getCoinTotalAmount(), new KualiDecimal(0));
+        assertEquals(nullDrawer.getCoinTotalAmount(), KualiDecimal.ZERO);
         CashDrawer goodDrawer = CashDrawerAmountFixture.GOOD_CASH_DRAWER.convertToCashDrawer();
         assertEquals(goodDrawer.getCoinTotalAmount(), new KualiDecimal(10.05));
     }
 
     public void testDrawerTotal() {
         CashDrawer zeroDrawer = CashDrawerAmountFixture.ZERO_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(zeroDrawer.getTotalAmount(), new KualiDecimal(0));
+        assertEquals(zeroDrawer.getTotalAmount(), KualiDecimal.ZERO);
         CashDrawer nullDrawer = CashDrawerAmountFixture.NULL_CASH_DRAWER.convertToCashDrawer();
-        assertEquals(nullDrawer.getTotalAmount(), new KualiDecimal(0));
+        assertEquals(nullDrawer.getTotalAmount(), KualiDecimal.ZERO);
         CashDrawer goodDrawer = CashDrawerAmountFixture.GOOD_CASH_DRAWER.convertToCashDrawer();
         assertEquals(goodDrawer.getTotalAmount(), new KualiDecimal(955.05));
     }
@@ -380,7 +380,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Hundred Dollar", caught);
-        excessiveDetail.setFinancialDocumentHundredDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -390,7 +390,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Fifty Dollar", caught);
-        excessiveDetail.setFinancialDocumentFiftyDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentFiftyDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -400,7 +400,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Twenty Dollar", caught);
-        excessiveDetail.setFinancialDocumentTwentyDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -410,7 +410,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Ten Dollar", caught);
-        excessiveDetail.setFinancialDocumentTenDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentTenDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -420,7 +420,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Five Dollar", caught);
-        excessiveDetail.setFinancialDocumentFiveDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentFiveDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -430,7 +430,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Two Dollar", caught);
-        excessiveDetail.setFinancialDocumentTwoDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentTwoDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -440,7 +440,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("One Dollar", caught);
-        excessiveDetail.setFinancialDocumentOneDollarAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentOneDollarAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -576,7 +576,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Hundred Cent", caught);
-        excessiveDetail.setFinancialDocumentHundredCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentHundredCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -586,7 +586,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Fifty Cent", caught);
-        excessiveDetail.setFinancialDocumentFiftyCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentFiftyCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -596,7 +596,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Twenty Five Cent", caught);
-        excessiveDetail.setFinancialDocumentTwentyFiveCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentTwentyFiveCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -606,7 +606,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Ten Cent", caught);
-        excessiveDetail.setFinancialDocumentTenCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentTenCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -616,7 +616,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("Five Cent", caught);
-        excessiveDetail.setFinancialDocumentFiveCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentFiveCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {
@@ -626,7 +626,7 @@ public class CashDrawerTest extends KualiTestBase {
             caught = true;
         }
         assertTrue("One Cent", caught);
-        excessiveDetail.setFinancialDocumentOneCentAmount(new KualiDecimal(0));
+        excessiveDetail.setFinancialDocumentOneCentAmount(KualiDecimal.ZERO);
 
         caught = false;
         try {

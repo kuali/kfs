@@ -34,7 +34,7 @@ public class BalanceTypeDaoOjb extends PlatformAwareDaoBaseOjb implements Balanc
      * @see org.kuali.module.chart.dao.BalanceTypeDao#getEncumbranceBalanceTypes()
      * @return a list of {@link BalanceTyp} that hare tied to encumbrances
      */
-    public Collection getEncumbranceBalanceTypes() {
+    public Collection<BalanceTyp> getEncumbranceBalanceTypes() {
         LOG.debug("getEncumbranceBalanceTypes() started");
 
         Criteria criteria = new Criteria();

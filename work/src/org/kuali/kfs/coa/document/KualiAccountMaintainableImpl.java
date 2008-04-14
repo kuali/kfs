@@ -41,12 +41,12 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     public void saveBusinessObject() {
         // make sure we save account first
         super.saveBusinessObject();
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Account acct = (Account) businessObject;
 
         // deactivate any indicated BOs
         List<PersistableBusinessObject> bosToDeactivate = acct.generateDeactivationsToPersist();
         if (bosToDeactivate != null) {
+            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
             if (!bosToDeactivate.isEmpty()) {
                 boService.save(bosToDeactivate);
             }

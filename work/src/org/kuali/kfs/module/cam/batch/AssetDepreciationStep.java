@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.cams.service.AssetDepreciationService;
 
@@ -29,7 +31,7 @@ public class AssetDepreciationStep extends AbstractStep {
      * @return boolean
      * @see org.kuali.kfs.batch.Step#execute()
      */
-    public boolean execute(String jobName)  {
+    public boolean execute(String jobName, Date jobRunDate)  {
         assetDepreciationService.runDepreciation();
         return true;
     }

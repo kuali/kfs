@@ -75,7 +75,7 @@ public class PurapPdf extends PdfPageEventHelper {
 
     Font cour_10_normal = FontFactory.getFont("COURIER", 10, 0);
 
-    static KualiDecimal zero = new KualiDecimal(0);
+    static KualiDecimal zero = KualiDecimal.ZERO;
 
     private DateTimeService dateTimeService;
 

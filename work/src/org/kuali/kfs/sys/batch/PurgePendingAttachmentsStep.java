@@ -16,6 +16,7 @@
 package org.kuali.kfs.batch;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.kuali.core.service.AttachmentService;
 import org.kuali.kfs.KFSConstants;
@@ -40,9 +41,9 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
     /**
      * Deletes all pending attachments that are older than a configured time (see class description)
      * 
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         String maxAgeInSecondsStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);

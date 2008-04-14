@@ -159,7 +159,7 @@ public class BudgetNonpersonnelFormHelper {
      */
     public KualiInteger getNonpersonnelAgencyTotal() {
         Iterator iter = nonpersonnelCategoryHelperMap.values().iterator();
-        KualiInteger agencyTotal = new KualiInteger(0);
+        KualiInteger agencyTotal = KualiInteger.ZERO;
 
         while (iter.hasNext()) {
             NonpersonnelCategoryHelper helper = (NonpersonnelCategoryHelper) iter.next();
@@ -176,7 +176,7 @@ public class BudgetNonpersonnelFormHelper {
      */
     public KualiInteger getNonpersonnelUnivCostShareTotal() {
         Iterator iter = nonpersonnelCategoryHelperMap.values().iterator();
-        KualiInteger univCostShareTotal = new KualiInteger(0);
+        KualiInteger univCostShareTotal = KualiInteger.ZERO;
 
         while (iter.hasNext()) {
             NonpersonnelCategoryHelper helper = (NonpersonnelCategoryHelper) iter.next();
@@ -193,7 +193,7 @@ public class BudgetNonpersonnelFormHelper {
      */
     public KualiInteger getNonpersonnelThirdPartyCostShareTotal() {
         Iterator iter = nonpersonnelCategoryHelperMap.values().iterator();
-        KualiInteger thirdPartyCostShareTotal = new KualiInteger(0);
+        KualiInteger thirdPartyCostShareTotal = KualiInteger.ZERO;
 
         while (iter.hasNext()) {
             NonpersonnelCategoryHelper helper = (NonpersonnelCategoryHelper) iter.next();
@@ -212,9 +212,9 @@ public class BudgetNonpersonnelFormHelper {
 
         private String nonpersonnelCategoryCode;
         private int numItems = 0;
-        private KualiInteger agencyTotal = new KualiInteger(0);
-        private KualiInteger univCostShareTotal = new KualiInteger(0);
-        private KualiInteger thirdPartyCostShareTotal = new KualiInteger(0);
+        private KualiInteger agencyTotal = KualiInteger.ZERO;
+        private KualiInteger univCostShareTotal = KualiInteger.ZERO;
+        private KualiInteger thirdPartyCostShareTotal = KualiInteger.ZERO;
         private List itemIndexes = new ArrayList();
 
         /**

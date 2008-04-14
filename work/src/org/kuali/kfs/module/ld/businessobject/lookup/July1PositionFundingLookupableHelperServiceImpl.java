@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The July1PositionFundingLookupableHelperServiceImpl class is the front-end for all July 1 funds balance inquiry processing.
  */
-@Transactional
 public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(July1PositionFundingLookupableHelperServiceImpl.class);
     

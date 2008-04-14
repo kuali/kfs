@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
  */
-@Transactional
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data
     private BusinessObjectService businessObjectService;
@@ -78,6 +77,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @param fiscalYear
      * @return an accounting period
      */
+    @Cached
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear) {
         // build up the hashmap to find the accounting period
         Map keys = new HashMap();
@@ -92,6 +92,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * 
      * @see org.kuali.module.chart.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
+    @Cached
     public AccountingPeriod getByDate(Date date) {
         // first we need to figure out the last day for a given date
         java.util.Date myDate = new java.util.Date(date.getTime());

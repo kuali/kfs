@@ -37,8 +37,8 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Default no-arg constructor.
      */
     public Delegate() {
-        this.finDocApprovalFromThisAmt = new KualiDecimal(0);
-        this.finDocApprovalToThisAmount = new KualiDecimal(0);
+        this.finDocApprovalFromThisAmt = KualiDecimal.ZERO;
+        this.finDocApprovalToThisAmount = KualiDecimal.ZERO;
     }
 
     private String chartOfAccountsCode;

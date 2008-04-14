@@ -216,7 +216,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
                                 KualiDecimal lineAmount = (new KualiDecimal(selectedPeriodAmount)).divide(new KualiDecimal(100));
 
                                 // Notice that user tried to import an accounting line which has Zero amount
-                                if (KFSConstants.ZERO.compareTo(lineAmount) == 0) {
+                                if (KualiDecimal.ZERO.compareTo(lineAmount) == 0) {
                                     GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, ERROR_ZERO_AMOUNT, "an accounting line");
                                 }
                                 else {

@@ -100,9 +100,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
             item.getBaselineSourceAccountingLines().clear();
 
             for (PurApAccountingLine sourceAccount : item.getSourceAccountingLines()) {
-                PurApAccountingLine baselineAccount = (PurApAccountingLine) ObjectUtils.deepCopy(sourceAccount);
-                item.getBaselineSourceAccountingLines().add(baselineAccount);
-                form.getBaselineSourceAccountingLines().add(baselineAccount);
+                // JHK: KFSMI-287 - removed deep copy since this object will be thrown away after the page renders, we just need a
+                // different path to have them stored on the form
+                // ESPECIALLY since PURAP does not allow lines to be reverted (see calls to setRevertible)
+                item.getBaselineSourceAccountingLines().add(sourceAccount);
+                form.getBaselineSourceAccountingLines().add(sourceAccount);
             }
         }
     }

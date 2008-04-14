@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderTransmissionMethodAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Purchase Order Transmission Method Routing</label>
+      <description>Purchase Order Transmission Method Routing Attribute</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="purchaseOrderTransmissionMthdCd" title="kuali_dd_label(PurchaseOrderTransmissionMethod)" workflowType="ALL">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <quickfinder appliesTo="purchaseOrderTransmissionMethodCode" draw="true" service="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable(workflow-purchaseOrderTransmissionMethodCode:purchaseOrderTransmissionMethodCode)" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/purchaseOrderTransmissionMethodCode') = wf:ruledata('purchaseOrderTransmissionMthdCd')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="purchaseOrderAutomaticIndicator" title="kuali_dd_label(PurApAttributeReferenceDummy)" workflowType="ALL">
+          <display>
+            <type>select</type>
+            <values selected="true" title=" " />
+            <values title="Automatic Purchase Orders Only">Automatic</values>
+            <values title="Non-Automatic Purchase Orders Only">Non-Automatic</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:ruledata('purchaseOrderAutomaticIndicator') = ' ' or (wf:xstreamsafe('//document/purchaseOrderAutomaticIndicator') = 'true' and wf:ruledata('purchaseOrderAutomaticIndicator') = 'Automatic') or (wf:xstreamsafe('//document/purchaseOrderAutomaticIndicator') = 'false' and wf:ruledata('purchaseOrderAutomaticIndicator') = 'Non-Automatic')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

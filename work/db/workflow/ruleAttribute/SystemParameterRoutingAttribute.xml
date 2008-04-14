@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>SystemParameterRoutingAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>System Parameter Routing</label>
+      <description>System Parameter Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="routingAttributeTitle" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/parameterDescription')
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/parameterDescription')
+                            or
+                                wf:xstreamsafe('//newMaintainableObject/businessObject/parameterTypeCode')
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/parameterTypeCode')
+                            or 
+                                wf:xstreamsafe('//newMaintainableObject/businessObject/workgroupName') 
+                                    != wf:xstreamsafe('//oldMaintainableObject/businessObject/workgroupName')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

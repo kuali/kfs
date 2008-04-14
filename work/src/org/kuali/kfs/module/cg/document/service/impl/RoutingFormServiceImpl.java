@@ -174,7 +174,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             RoutingFormInstitutionCostShare routingFormInstitutionCostShare = new RoutingFormInstitutionCostShare();
             routingFormInstitutionCostShare.setChartOfAccountsCode(budgetUser.getFiscalCampusCode());
             routingFormInstitutionCostShare.setOrganizationCode(budgetUser.getPrimaryDepartmentCode());
-            routingFormInstitutionCostShare.setRoutingFormCostShareAmount(new KualiInteger(0));
+            routingFormInstitutionCostShare.setRoutingFormCostShareAmount(KualiInteger.ZERO);
 
             for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
                 for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
@@ -338,9 +338,9 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
         proposal.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
         proposal.setProposalEndingDate(routingFormBudget.getRoutingFormBudgetEndDate());
-        proposal.setProposalTotalAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).add(routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
-        proposal.setProposalDirectCostAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).kualiDecimalValue());
-        proposal.setProposalIndirectCostAmount((routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
+        proposal.setProposalTotalAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : KualiInteger.ZERO).add(routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : KualiInteger.ZERO).kualiDecimalValue());
+        proposal.setProposalDirectCostAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : KualiInteger.ZERO).kualiDecimalValue());
+        proposal.setProposalIndirectCostAmount((routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : KualiInteger.ZERO).kualiDecimalValue());
         proposal.setProposalDueDate(routingFormDocument.getRoutingFormAgency().getRoutingFormDueDate());
 
         // Values coming from RoutingFormAgency (ER_RF_AGNCY_T)

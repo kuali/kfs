@@ -585,8 +585,8 @@ public class BudgetXml {
 
             // Following calculation should probably be somewhere else.
             /** TODO Create App KFSConstants for the below or move into Personnel? Does it already exist there? */
-            KualiInteger agencyPercentEffortAmount = budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount() == null ? new KualiInteger(0) : budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount();
-            KualiInteger institutionCostSharePercentEffortAmount = budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount() == null ? new KualiInteger(0) : budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount();
+            KualiInteger agencyPercentEffortAmount = budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount() == null ? KualiInteger.ZERO : budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount();
+            KualiInteger institutionCostSharePercentEffortAmount = budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount() == null ? KualiInteger.ZERO : budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount();
             BigDecimal combinedPercentEffort = agencyPercentEffortAmount.add(institutionCostSharePercentEffortAmount).divide(new KualiInteger(100));
             String calendarMonths = "";
             String academicMonths = "";

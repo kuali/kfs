@@ -17,6 +17,8 @@ package org.kuali.module.chart.dao;
 
 import java.util.Collection;
 
+import org.kuali.module.chart.bo.codes.BalanceTyp;
+
 /**
  * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.module.chart.bo.codes.BalanceTyp}
  */
@@ -26,5 +28,5 @@ public interface BalanceTypeDao {
      * 
      * @return
      */
-    public Collection getEncumbranceBalanceTypes();
+    public Collection<BalanceTyp> getEncumbranceBalanceTypes();
 }

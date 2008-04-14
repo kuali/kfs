@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.service;
 
+import java.util.Date;
+
 /**
  * Defines methods that must be implemented by a PdpExtractService implementation.
  */
@@ -27,7 +29,9 @@ public interface PdpExtractService {
 
     /**
      * Extract all payments ready to be paid. This may combine payments with appropriate credit memos
+     * 
+     * @param runDate the date to assume when the process (e.g. a batch Step or Job) was started to extract payments 
      */
-    public void extractPayments();
+    public void extractPayments(Date runDate);
 
 }

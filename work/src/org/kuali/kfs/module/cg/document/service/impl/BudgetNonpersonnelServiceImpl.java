@@ -29,7 +29,6 @@ import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
 import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService {
 
     // set up logging

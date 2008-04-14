@@ -119,8 +119,8 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
-        change.setApprovalFromThisAmount(new KualiDecimal(0));
-        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setApprovalFromThisAmount(KualiDecimal.ZERO);
+        change.setApprovalToThisAmount(KualiDecimal.ZERO);
         change.setFinancialDocumentTypeCode("ALL");
         changes.add(change);
 
@@ -170,8 +170,8 @@ public class GlobalDocumentTest extends KualiTestBase {
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
-        change.setApprovalFromThisAmount(new KualiDecimal(0));
-        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setApprovalFromThisAmount(KualiDecimal.ZERO);
+        change.setApprovalToThisAmount(KualiDecimal.ZERO);
         change.setFinancialDocumentTypeCode("ALL");
         changes.add(change);
         bo.setDelegateGlobals(changes);

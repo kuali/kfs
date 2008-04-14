@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author delyea
  */
-@Transactional
 public class BatchSearchServiceImpl implements BatchSearchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearchServiceImpl.class);
 

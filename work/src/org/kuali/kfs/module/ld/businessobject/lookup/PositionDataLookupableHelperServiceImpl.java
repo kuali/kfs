@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The class is the front-end for all position data inquiry processing.
  */
-@Transactional
 public class PositionDataLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     /**

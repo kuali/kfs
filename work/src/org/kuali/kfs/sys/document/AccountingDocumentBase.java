@@ -196,14 +196,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @return if target total is zero, source total, otherwise target total
      */
     public KualiDecimal getTotalDollarAmount() {
-        return getTargetTotal().equals(new KualiDecimal(0)) ? getSourceTotal() : getTargetTotal();
+        return getTargetTotal().equals(KualiDecimal.ZERO) ? getSourceTotal() : getTargetTotal();
     }
 
     /**
      * @see org.kuali.kfs.document.AccountingDocument#getSourceTotal()
      */
     public KualiDecimal getSourceTotal() {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = getSourceAccountingLines().iterator();
         while (iter.hasNext()) {
@@ -221,7 +221,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @see org.kuali.kfs.document.AccountingDocument#getTargetTotal()
      */
     public KualiDecimal getTargetTotal() {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = getTargetAccountingLines().iterator();
         while (iter.hasNext()) {

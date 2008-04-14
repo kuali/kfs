@@ -30,13 +30,6 @@ public interface CloseService {
     public void close();
 
     /**
-     * Saves a close.
-     * 
-     * @param close The close to save.
-     */
-    public void save(Close close);
-
-    /**
      * Gets the Close record with the greatest close date.
      * 
      * @return the close with the greatest close date.

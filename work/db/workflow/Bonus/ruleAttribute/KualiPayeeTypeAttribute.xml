@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPayeeTypeAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Payee Type Routing</label>
+      <description>Payee Type Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="payeeType" title="kuali_dd_label(DisbursementVoucherPayeeDetail)" workflowType="ALL">
+          <display>
+            <type>radio</type>
+            <values>kuali_values_finder_class(org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder)</values>
+          </display>
+          <validation required="true" />
+          <fieldEvaluation>
+            <xpathexpression>wf:xstreamsafe('//document/dvPayeeDetail/disbursementVoucherPayeeTypeCode') = wf:ruledata('payeeType')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

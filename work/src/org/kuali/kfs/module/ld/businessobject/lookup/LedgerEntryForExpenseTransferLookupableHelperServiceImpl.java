@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The class is the front-end for the balance inquiry of Ledger entry For Expense Transfer processing.
  */
-@Transactional
 public class LedgerEntryForExpenseTransferLookupableHelperServiceImpl extends LedgerEntryLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerEntryForExpenseTransferLookupableHelperServiceImpl.class);
 

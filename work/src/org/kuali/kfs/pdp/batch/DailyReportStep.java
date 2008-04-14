@@ -15,6 +15,8 @@
  */
 package org.kuali.module.pdp.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.pdp.service.DailyReportService;
 
@@ -23,7 +25,10 @@ public class DailyReportStep extends AbstractStep {
 
     private DailyReportService dailyReportService;
 
-    public boolean execute(String jobName) throws InterruptedException {
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
+     */
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
         dailyReportService.runReport();

@@ -93,22 +93,22 @@ public class Balance extends PersistableBusinessObjectBase {
     }
 
     public Balance() {
-        accountLineAnnualBalanceAmount = new KualiDecimal(0);
-        beginningBalanceLineAmount = new KualiDecimal(0);
-        contractsGrantsBeginningBalanceAmount = new KualiDecimal(0);
-        month1Amount = new KualiDecimal(0);
-        month2Amount = new KualiDecimal(0);
-        month3Amount = new KualiDecimal(0);
-        month4Amount = new KualiDecimal(0);
-        month5Amount = new KualiDecimal(0);
-        month6Amount = new KualiDecimal(0);
-        month7Amount = new KualiDecimal(0);
-        month8Amount = new KualiDecimal(0);
-        month9Amount = new KualiDecimal(0);
-        month10Amount = new KualiDecimal(0);
-        month11Amount = new KualiDecimal(0);
-        month12Amount = new KualiDecimal(0);
-        month13Amount = new KualiDecimal(0);
+        accountLineAnnualBalanceAmount = KualiDecimal.ZERO;
+        beginningBalanceLineAmount = KualiDecimal.ZERO;
+        contractsGrantsBeginningBalanceAmount = KualiDecimal.ZERO;
+        month1Amount = KualiDecimal.ZERO;
+        month2Amount = KualiDecimal.ZERO;
+        month3Amount = KualiDecimal.ZERO;
+        month4Amount = KualiDecimal.ZERO;
+        month5Amount = KualiDecimal.ZERO;
+        month6Amount = KualiDecimal.ZERO;
+        month7Amount = KualiDecimal.ZERO;
+        month8Amount = KualiDecimal.ZERO;
+        month9Amount = KualiDecimal.ZERO;
+        month10Amount = KualiDecimal.ZERO;
+        month11Amount = KualiDecimal.ZERO;
+        month12Amount = KualiDecimal.ZERO;
+        month13Amount = KualiDecimal.ZERO;
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
     }
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.labor.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborNightlyOutService;
 
@@ -29,10 +31,11 @@ public class ClearLaborPendingStep extends AbstractStep {
      * Deletes copied labor general ledger entries from pending entry table.
      * 
      * @param jobName String that contains the job that will be executed.
+     * @param jobRunDate the time/date the job is run
      * @return boolean
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
         return true;
     }

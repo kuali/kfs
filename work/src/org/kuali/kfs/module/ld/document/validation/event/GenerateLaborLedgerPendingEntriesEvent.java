@@ -41,10 +41,8 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
      */
     public GenerateLaborLedgerPendingEntriesEvent(String errorPathPrefix, LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         super("creating generatePendingEntries event for document " + getDocumentId(accountingDocument), errorPathPrefix, accountingDocument);
-        // note that we want to override the parent b/c we do want this by reference here
-        // the parent does a deepCopy and we don't want that b/c we need to set the GLPEs into the document
-        super.document = accountingDocument;
-        this.accountingLine = (AccountingLine) ObjectUtils.deepCopy(accountingLine);
+
+        this.accountingLine = accountingLine;
         this.sequenceHelper = sequenceHelper;
     }
 

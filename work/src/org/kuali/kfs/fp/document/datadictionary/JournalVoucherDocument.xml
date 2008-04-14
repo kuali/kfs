@@ -88,5 +88,12 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="JournalVoucher" parameterName="JOURNAL_VOUCHER" />        
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+				<workflowProperty path="sourceAccountingLines" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

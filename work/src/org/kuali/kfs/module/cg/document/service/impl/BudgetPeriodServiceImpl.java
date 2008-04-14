@@ -28,7 +28,6 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.service.BudgetPeriodService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class BudgetPeriodServiceImpl implements BudgetPeriodService {
 
     private DateTimeService dateTimeService;

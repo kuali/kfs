@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -41,7 +42,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * @return a University Date record if found, null if not
      * @see org.kuali.module.gl.dao.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
-    @Cached
+    @CacheNoCopy
     public UniversityDate getByPrimaryKey(Date date) {
         LOG.debug("getByPrimaryKey() started");
 
@@ -60,7 +61,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * @return a University Date record if found, null if not
      * @see org.kuali.module.gl.dao.UniversityDateDao#getByPrimaryKey(java.sql.Date)
      */
-    @Cached
+    @CacheNoCopy
     public UniversityDate getByPrimaryKey(java.util.Date date) {
         return getByPrimaryKey(convertDate(date));
     }

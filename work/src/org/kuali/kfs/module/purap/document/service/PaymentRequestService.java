@@ -223,16 +223,17 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * Get all the payment requests that match a vendor.
      * 
      * @param vendor
+     * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this date will be extracted
      * @return      The iterator of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor );
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
     
     /**
      * Get all the payment requests that need to be extracted.
      * 
      * @return The iterator of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract();
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the special payment requests for a single chart that need to be extracted.
@@ -240,7 +241,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param chartCode  The chart code to be used as one of the criterias to retrieve the payment request documents. 
      * @return           The iterator of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the regular payment requests for a single campus.
@@ -248,7 +249,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param chartCode  The chart code to be used as one of the criterias to retrieve the payment request documents. 
      * @return           The iterator of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode);
+    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Recalculate the payment request.
@@ -279,7 +280,19 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return  boolean true if the auto approval of payment requests has at least one error.
      */
     public boolean autoApprovePaymentRequests();
-
+    /**
+     * Checks whether the payment request document is eligible for auto approval. If so, then updates
+     * the status of the document to auto approved and calls the documentService to blanket approve
+     * the document, then returns false.
+     * If the document is not eligible for auto approval then returns true.
+     * 
+     * @param docNumber            The payment request document number (not the payment request ID) to be auto approved.
+     * @param defaultMinimumLimit  The default minimum limit amount to be used in determining the eligibility of the document to be auto approved.
+     * @return                     boolean true if the payment request document is not eligible for auto approval.
+     * @throws RuntimeException    To indicate to Spring transactional management that the transaction for this document should be rolled back
+     */
+    public boolean autoApprovePaymentRequest(String docNumber, KualiDecimal defaultMinimumLimit);
+    
     /**
      * Checks whether the payment request document is eligible for auto approval. If so, then updates
      * the status of the document to auto approved and calls the documentService to blanket approve
@@ -289,6 +302,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param doc                  The payment request document to be auto approved.
      * @param defaultMinimumLimit  The default minimum limit amount to be used in determining the eligibility of the document to be auto approved.
      * @return                     boolean true if the payment request document is not eligible for auto approval.
+     * @throws RuntimeException    To indicate to Spring transactional management that the transaction for this document should be rolled back
      */
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit);
 

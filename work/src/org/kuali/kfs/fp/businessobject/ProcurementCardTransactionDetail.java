@@ -71,7 +71,7 @@ public class ProcurementCardTransactionDetail extends PersistableBusinessObjectB
      * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
      */
     public KualiDecimal getTargetTotal() {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = getTargetAccountingLines().iterator();
         while (iter.hasNext()) {

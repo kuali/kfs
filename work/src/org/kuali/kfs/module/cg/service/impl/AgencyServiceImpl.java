@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Implementation of the Agency service.
  */
-@Transactional
 public class AgencyServiceImpl implements AgencyService {
 
     private BusinessObjectService businessObjectService;

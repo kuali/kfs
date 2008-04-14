@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>VendorDetailMaintenanceDocument</name>
+      <parent>KualiMaintenanceDocument</parent>
+      <label>Vendor</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_ADMINISTRATOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Approval No Approval Split" />
+          <split name="Approval No Approval Split">
+            <branch name="ApprovalBranch">
+              <requests name="Vendor Type" nextNode="Initiator Notification" />
+              <requests name="Initiator Notification" nextNode="Join" />
+            </branch>
+            <branch name="NoApprovalBranch">
+              <simple name="Do Nothing" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <split name="Approval No Approval Split">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.workflow.module.vendor.node.VendorMaintenanceDocumentApprovalNoApprovalSplitNode</type>
+        </split>
+        <requests name="Vendor Type">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiVendorDocumentTypeTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Initiator Notification">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiVendorNotificationTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="Join">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="Do Nothing">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

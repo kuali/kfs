@@ -30,11 +30,11 @@
 	<c:set var="targetDisabled" value="true"/>
 </c:if>
 
-<c:set var="documentTypeName" value="KualiSalaryExpenseTransferDocument"/>
+<c:set var="documentTypeName" value="SalaryExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborSalaryExpenseTransfer"/>
 
 <c:if test="${isYearEnd}">
-  <c:set var="documentTypeName" value="KualiYearEndSalaryExpenseTransferDocument"/>
+  <c:set var="documentTypeName" value="YearEndSalaryExpenseTransferDocument"/>
   <c:set var="htmlFormAction" value="laborYearEndSalaryExpenseTransfer"/>
 </c:if>
 

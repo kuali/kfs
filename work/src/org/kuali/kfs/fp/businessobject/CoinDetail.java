@@ -355,7 +355,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * @return total amount of this detail
      */
     public KualiDecimal getTotalAmount() {
-        KualiDecimal result = new KualiDecimal(0);
+        KualiDecimal result = KualiDecimal.ZERO;
         if (this.financialDocumentHundredCentAmount != null) {
             result = result.add(this.financialDocumentHundredCentAmount);
         }
@@ -384,13 +384,13 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * This method sets all amounts in this record to zero
      */
     public void zeroOutAmounts() {
-        this.financialDocumentHundredCentAmount = new KualiDecimal(0);
-        this.financialDocumentFiftyCentAmount = new KualiDecimal(0);
-        this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0);
-        this.financialDocumentTenCentAmount = new KualiDecimal(0);
-        this.financialDocumentFiveCentAmount = new KualiDecimal(0);
-        this.financialDocumentOneCentAmount = new KualiDecimal(0);
-        this.financialDocumentOtherCentAmount = new KualiDecimal(0);
+        this.financialDocumentHundredCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentFiftyCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentTenCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentFiveCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentOneCentAmount = KualiDecimal.ZERO;
+        this.financialDocumentOtherCentAmount = KualiDecimal.ZERO;
     }
 
     /**
@@ -398,32 +398,32 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      */
     public void zeroOutUnpopulatedAmounts() {
         if (this.financialDocumentHundredCentAmount == null) {
-            this.financialDocumentHundredCentAmount = new KualiDecimal(0);
+            this.financialDocumentHundredCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentFiftyCentAmount == null) {
-            this.financialDocumentFiftyCentAmount = new KualiDecimal(0);
+            this.financialDocumentFiftyCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentTwentyFiveCentAmount == null) {
-            this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0);
+            this.financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentTenCentAmount == null) {
-            this.financialDocumentTenCentAmount = new KualiDecimal(0);
+            this.financialDocumentTenCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentFiveCentAmount == null) {
-            this.financialDocumentFiveCentAmount = new KualiDecimal(0);
+            this.financialDocumentFiveCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentOneCentAmount == null) {
-            this.financialDocumentOneCentAmount = new KualiDecimal(0);
+            this.financialDocumentOneCentAmount = KualiDecimal.ZERO;
         }
         if (this.financialDocumentOtherCentAmount == null) {
-            this.financialDocumentOtherCentAmount = new KualiDecimal(0);
+            this.financialDocumentOtherCentAmount = KualiDecimal.ZERO;
         }
     }
 
     public void add(CoinDetail detail) {
         if (detail.financialDocumentHundredCentAmount != null) {
             if (this.financialDocumentHundredCentAmount == null) {
-                this.financialDocumentHundredCentAmount = new KualiDecimal(0).add(detail.financialDocumentHundredCentAmount);
+                this.financialDocumentHundredCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentHundredCentAmount);
             }
             else {
                 this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.add(detail.financialDocumentHundredCentAmount);
@@ -431,7 +431,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentFiftyCentAmount != null) {
             if (this.financialDocumentFiftyCentAmount == null) {
-                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiftyCentAmount);
+                this.financialDocumentFiftyCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentFiftyCentAmount);
             }
             else {
                 this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.add(detail.financialDocumentFiftyCentAmount);
@@ -439,7 +439,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentTwentyFiveCentAmount != null) {
             if (this.financialDocumentTwentyFiveCentAmount == null) {
-                this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentTwentyFiveCentAmount);
+                this.financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentTwentyFiveCentAmount);
             }
             else {
                 this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.add(detail.financialDocumentTwentyFiveCentAmount);
@@ -447,7 +447,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentTenCentAmount != null) {
             if (this.financialDocumentTenCentAmount == null) {
-                this.financialDocumentTenCentAmount = new KualiDecimal(0).add(detail.financialDocumentTenCentAmount);
+                this.financialDocumentTenCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentTenCentAmount);
             }
             else {
                 this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.add(detail.financialDocumentTenCentAmount);
@@ -455,7 +455,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentFiveCentAmount != null) {
             if (this.financialDocumentFiveCentAmount == null) {
-                this.financialDocumentFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiveCentAmount);
+                this.financialDocumentFiveCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentFiveCentAmount);
             }
             else {
                 this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.add(detail.financialDocumentFiveCentAmount);
@@ -463,7 +463,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentOneCentAmount != null) {
             if (this.financialDocumentOneCentAmount == null) {
-                this.financialDocumentOneCentAmount = new KualiDecimal(0).add(detail.financialDocumentOneCentAmount);
+                this.financialDocumentOneCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentOneCentAmount);
             }
             else {
                 this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.add(detail.financialDocumentOneCentAmount);
@@ -471,7 +471,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentOtherCentAmount != null) {
             if (this.financialDocumentOtherCentAmount == null) {
-                this.financialDocumentOtherCentAmount = new KualiDecimal(0).add(detail.financialDocumentOtherCentAmount);
+                this.financialDocumentOtherCentAmount = KualiDecimal.ZERO.add(detail.financialDocumentOtherCentAmount);
             }
             else {
                 this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.add(detail.financialDocumentOtherCentAmount);
@@ -482,7 +482,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     public void subtract(CoinDetail detail) {
         if (detail.financialDocumentHundredCentAmount != null) {
             if (this.financialDocumentHundredCentAmount == null) {
-                this.financialDocumentHundredCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentHundredCentAmount);
+                this.financialDocumentHundredCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentHundredCentAmount);
             }
             else {
                 this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.subtract(detail.financialDocumentHundredCentAmount);
@@ -490,7 +490,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentFiftyCentAmount != null) {
             if (this.financialDocumentFiftyCentAmount == null) {
-                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiftyCentAmount);
+                this.financialDocumentFiftyCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentFiftyCentAmount);
             }
             else {
                 this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.subtract(detail.financialDocumentFiftyCentAmount);
@@ -498,7 +498,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentTwentyFiveCentAmount != null) {
             if (this.financialDocumentTwentyFiveCentAmount == null) {
-                this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTwentyFiveCentAmount);
+                this.financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentTwentyFiveCentAmount);
             }
             else {
                 this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.subtract(detail.financialDocumentTwentyFiveCentAmount);
@@ -506,7 +506,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentTenCentAmount != null) {
             if (this.financialDocumentTenCentAmount == null) {
-                this.financialDocumentTenCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTenCentAmount);
+                this.financialDocumentTenCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentTenCentAmount);
             }
             else {
                 this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.subtract(detail.financialDocumentTenCentAmount);
@@ -514,7 +514,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentFiveCentAmount != null) {
             if (this.financialDocumentFiveCentAmount == null) {
-                this.financialDocumentFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiveCentAmount);
+                this.financialDocumentFiveCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentFiveCentAmount);
             }
             else {
                 this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.subtract(detail.financialDocumentFiveCentAmount);
@@ -522,7 +522,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentOneCentAmount != null) {
             if (this.financialDocumentOneCentAmount == null) {
-                this.financialDocumentOneCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOneCentAmount);
+                this.financialDocumentOneCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentOneCentAmount);
             }
             else {
                 this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.subtract(detail.financialDocumentOneCentAmount);
@@ -530,7 +530,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         if (detail.financialDocumentOtherCentAmount != null) {
             if (this.financialDocumentOtherCentAmount == null) {
-                this.financialDocumentOtherCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOtherCentAmount);
+                this.financialDocumentOtherCentAmount = KualiDecimal.ZERO.subtract(detail.financialDocumentOtherCentAmount);
             }
             else {
                 this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.subtract(detail.financialDocumentOtherCentAmount);

@@ -137,7 +137,7 @@ public class BalanceServiceImpl implements BalanceService {
             KualiDecimal runningTotal = (KualiDecimal) groups.get(objectCode);
 
             if (runningTotal == null) {
-                runningTotal = new KualiDecimal(0);
+                runningTotal = KualiDecimal.ZERO;
             }
 
             runningTotal = runningTotal.add(begin);
@@ -166,7 +166,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @return the sum of all of those balances
      */
     private KualiDecimal sumBalances(Iterator balances) {
-        KualiDecimal runningTotal = new KualiDecimal(0);
+        KualiDecimal runningTotal = KualiDecimal.ZERO;
 
         KualiDecimal begin;
         KualiDecimal annual;

@@ -166,10 +166,10 @@ public class CurrencyDetailTest extends KualiTestBase {
         goodAmount.setFinancialDocumentFiveDollarAmount(null);
         goodAmount.setFinancialDocumentTwoDollarAmount(null);
         CurrencyDetail semiPopulatedAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
-        semiPopulatedAmount.setFinancialDocumentHundredDollarAmount(new KualiDecimal(0));
-        semiPopulatedAmount.setFinancialDocumentTwentyDollarAmount(new KualiDecimal(0));
-        semiPopulatedAmount.setFinancialDocumentFiveDollarAmount(new KualiDecimal(0));
-        semiPopulatedAmount.setFinancialDocumentTwoDollarAmount(new KualiDecimal(0));
+        semiPopulatedAmount.setFinancialDocumentHundredDollarAmount(KualiDecimal.ZERO);
+        semiPopulatedAmount.setFinancialDocumentTwentyDollarAmount(KualiDecimal.ZERO);
+        semiPopulatedAmount.setFinancialDocumentFiveDollarAmount(KualiDecimal.ZERO);
+        semiPopulatedAmount.setFinancialDocumentTwoDollarAmount(KualiDecimal.ZERO);
         goodAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(goodAmount, semiPopulatedAmount);
 

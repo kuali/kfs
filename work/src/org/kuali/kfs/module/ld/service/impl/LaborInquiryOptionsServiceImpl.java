@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
  * The LaborInquiryOptionsService class is a service that will generate Pending Ledger and Consilidation options for balance
  * inquiries.
  */
-@Transactional
 public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborInquiryOptionsServiceImpl.class);
 

@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.
  */
-@Transactional
 public class ObjectTypeServiceImpl implements ObjectTypeService {
 
     private UniversityDateService universityDateService;

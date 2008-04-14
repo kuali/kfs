@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
  * Kuali.
  */
-@Transactional
 public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     private ObjectCodeDao objectCodeDao;

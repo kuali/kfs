@@ -24,7 +24,6 @@ import org.kuali.module.pdp.service.PaymentDetailService;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Transactional
 public class PaymentDetailServiceImpl implements PaymentDetailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailServiceImpl.class);
 

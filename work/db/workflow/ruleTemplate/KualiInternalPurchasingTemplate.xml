@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate>
+      <name>KualiInternalPurchasingTemplate</name>
+      <description>Kuali Internal Purchasing Review</description>
+      <attributes>
+        <attribute>
+          <name>KualiInternalPurchasingRoleAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+      <ruleDefaults>
+        <description>Rule for routing Purchase Order Documents to Internal Purchasing Review.</description>
+        <fromDate>07/01/2006</fromDate>
+        <toDate>01/01/2100</toDate>
+        <ignorePrevious>true</ignorePrevious>
+        <active>true</active>
+        <defaultActionRequested>A</defaultActionRequested>
+        <supportsComplete>true</supportsComplete>
+        <supportsApprove>true</supportsApprove>
+        <supportsAcknowledge>true</supportsAcknowledge>
+        <supportsFYI>true</supportsFYI>
+      </ruleDefaults>
+    </ruleTemplate>
+  </ruleTemplates>
+</data>

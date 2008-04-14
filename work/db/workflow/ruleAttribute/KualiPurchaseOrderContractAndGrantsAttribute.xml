@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPurchaseOrderContractAndGrantsAttribute</name>
+      <className>org.kuali.workflow.module.purap.attribute.KualiPurchaseOrderContractAndGrantsAttribute</className>
+      <label>Purchase Order Contracts &amp; Grants Routing Attribute</label>
+      <description>Attribute to determine if Purchase Order document should route for Contracts &amp; Grants Review</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

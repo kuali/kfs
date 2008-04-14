@@ -63,12 +63,14 @@
                     <maintainableField name="finConsolidationObjActiveIndicator" >
                         <defaultValue>true</defaultValue>
                     </maintainableField>
-                    <maintainableField name="financialEliminationsObjectCode" required="true" webUILeaveFieldFunction="updateObjectName" />
+                    <maintainableField name="financialEliminationsObjectCode" webUILeaveFieldFunction="updateObjectName" />
                     <maintainableField name="financialEliminationsObject.financialObjectCodeName" required="true" readOnly="true" />
                     <maintainableField name="financialReportingSortCode" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

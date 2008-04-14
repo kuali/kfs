@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.EnterpriseFeederService;
 
@@ -28,11 +30,12 @@ public class EnterpriseFeedStep extends AbstractStep {
     /**
      * Runs the enterprise feeder process
      * 
-     * @jobName the name of the job this step is being execute as part of
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @param jobName the name of the job this step is being execute as part of
+     * @param jobRunDate the time/date when the job was started
+     * @return true if the step completed successfully, false if otherwise
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         enterpriseFeederService.feed(jobName, true);
         return true;
     }

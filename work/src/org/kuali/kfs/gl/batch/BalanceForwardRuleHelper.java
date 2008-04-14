@@ -697,7 +697,7 @@ public class BalanceForwardRuleHelper {
         // 1267 007940 GLGLBL-CONTR-GR-BB-AC-AMT
         // 1268 007950 GIVING TRN-LDGR-ENTR-AMT.
 
-        KualiDecimal transactionLedgerEntryAmount = new KualiDecimal(0);
+        KualiDecimal transactionLedgerEntryAmount = KualiDecimal.ZERO;
         transactionLedgerEntryAmount = transactionLedgerEntryAmount.add(balance.getAccountLineAnnualBalanceAmount()).add(balance.getBeginningBalanceLineAmount()).add(balance.getContractsGrantsBeginningBalanceAmount());
 
         String wsFinancialObjectTypeDebitCreditCode = null;

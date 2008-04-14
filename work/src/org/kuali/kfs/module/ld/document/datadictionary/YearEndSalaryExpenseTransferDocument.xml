@@ -31,7 +31,7 @@
                 </workgroups>
             </authorization>
         </authorizations>
-        <documentTypeName>KualiYearEndSalaryExpenseTransferDocument</documentTypeName>
+        <documentTypeName>YearEndSalaryExpenseTransferDocument</documentTypeName>
         <documentTypeCode>YEST</documentTypeCode>
         <label>Year End Salary Expense Transfer</label>
         
@@ -47,5 +47,15 @@
         
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="sourceAccountingLines" />
+        		<workflowProperty path="targetAccountingLines" />
+        		<workflowProperty path="sourceAccountingLines.account" />
+        		<workflowProperty path="targetAccountingLines.account" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

@@ -55,6 +55,9 @@
 				<value>purchasingPreDisbursementExtractJob</value>
 			</list>
 		</property>
+		<property name="triggerNames">
+				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
+		</property>
 	</bean>
 
 	<bean id="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" singleton="false">
@@ -77,8 +80,6 @@
 			</list>
 		</property>
 	</bean>
-
-    <bean id="purapConciseXmlDocumentConversionService" class="org.kuali.module.purap.service.impl.PurapConciseXmlDocumentConversionServiceImpl"/>
 
 	<bean id="pdpExtractService" class="org.kuali.module.purap.service.impl.PdpExtractServiceImpl">
 		<property name="businessObjectService">
@@ -121,6 +122,9 @@
     	<property name="environmentService">
     		<ref bean="pdpEnvironmentService"/>
     	</property>
+        <property name="purapRunDateService">
+        	<ref bean="purapRunDateService" />
+        </property>
 	</bean>
 
 	<bean id="pdpEnvironmentService" class="org.kuali.module.pdp.service.impl.EnvironmentServiceImpl">
@@ -191,6 +195,9 @@
         </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="purapRunDateService">
+        	<ref bean="purapRunDateService" />
         </property>
     </bean>
     
@@ -421,6 +428,12 @@
         <property name="paymentRequestService">
             <ref bean="paymentRequestService" />
         </property>
+        <property name="parameterService">
+        	<ref bean="parameterService" />
+        </property>
+        <property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
     </bean>
 
 	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.module.purap.batch.ProcessPdPCancelsAndPaidStep" parent="step">
@@ -433,11 +446,17 @@
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
 	</bean>
 
 	<bean id="purchasingPreDisbursementExtractStep" class="org.kuali.module.purap.batch.ExtractPdpStep" parent="step">
 		<property name="pdpExtractService">
 			<ref bean="pdpExtractService"/>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
 		</property>
 	</bean>
 
@@ -456,6 +475,11 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="purchasingPreDisbursementImmediatesExtractJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="purchasingPreDisbursementImmediatesExtractJob" />
+		<property name="cronExpression" value="00 00 11,15 ? * *" />
+	</bean>
 
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -463,6 +487,11 @@
                 <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
 				<ref bean="purchasingPreDisbursementExtractStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="autoApprovePaymentRequestsJob" value="softDependency" />
+			</map>
 		</property>
 	</bean>
 
@@ -472,10 +501,21 @@
 				<ref bean="autoApprovePaymentRequestsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="processPdpCancelsAndPaidJob" value="softDependency" />
+			</map>
+		</property>
 	</bean>
 
 	<bean id="purApOjbCollectionHelper" class="org.kuali.module.purap.util.PurApOjbCollectionHelper" />
 	
 	<bean id="purchasingAccountsPayableGeneralLedgerPostingHelper" class="org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl" parent="kfsGenericGeneralLedgerPostingHelper" />
 	
+
+	<bean id="purapRunDateService" class="org.kuali.module.purap.service.impl.PurapRunDateServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
+	</bean>
 </beans>

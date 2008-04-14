@@ -17,6 +17,7 @@ package org.kuali.module.financial.batch.pcard;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +43,7 @@ public class ProcurementCardLoadStep extends AbstractStep {
     /**
      * Controls the procurement card process.
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         procurementCardLoadTransactionsService.cleanTransactionsTable();
 
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(procurementCardInputFileType);

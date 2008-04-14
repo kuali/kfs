@@ -37,6 +37,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
+import org.kuali.core.util.cache.MethodCacheNoCopyInterceptor;
+import org.kuali.core.util.spring.CacheNoCopy;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.context.SpringContext;
@@ -59,8 +61,6 @@ import org.springframework.transaction.annotation.Transactional;
  * value, and the constrainingValue is used for complex parameters that limit one field value based on the value of another field,
  * e.g VALID_OBJECT_LEVELS_BY_OBJECT_TYPE.
  */
-@Transactional
-@Cached
 public class ParameterServiceImpl implements ParameterService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ParameterServiceImpl.class);
     private static List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
@@ -71,6 +71,7 @@ public class ParameterServiceImpl implements ParameterService {
     /**
      * @see org.kuali.kfs.service.ParameterService#parameterExists(java.lang.Class componentClass, java.lang.String parameterName)
      */
+    @CacheNoCopy
     public boolean parameterExists(Class componentClass, String parameterName) {
         return getParameterWithoutExceptions(getNamespace(componentClass), getDetailType(componentClass), parameterName) != null;
     }
@@ -83,6 +84,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @param parameterName
      * @return boolean value of Yes/No indicator parameter
      */
+    @CacheNoCopy
     public boolean getIndicatorParameter(Class componentClass, String parameterName) {
         return "Y".equals(getParameter(componentClass, parameterName).getParameterValue());
     }
@@ -90,6 +92,7 @@ public class ParameterServiceImpl implements ParameterService {
     /**
      * @see org.kuali.kfs.service.ParameterService#getParameterValue(java.lang.Class componentClass, java.lang.String parameterName)
      */
+    @CacheNoCopy
     public String getParameterValue(Class componentClass, String parameterName) {
         return getParameter(componentClass, parameterName).getParameterValue();
     }
@@ -105,6 +108,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @param constrainingValue
      * @return derived value String or null
      */
+    @CacheNoCopy
     public String getParameterValue(Class componentClass, String parameterName, String constrainingValue) {
         List<String> parameterValues = getParameterValues(componentClass, parameterName, constrainingValue);
         if (parameterValues.size() == 1) {
@@ -120,8 +124,9 @@ public class ParameterServiceImpl implements ParameterService {
      * @param parameterName
      * @return parsed List of String parameter values
      */
+    @CacheNoCopy
     public List<String> getParameterValues(Class componentClass, String parameterName) {
-        return getParameterValues(getParameter(componentClass, parameterName));
+        return Collections.unmodifiableList( getParameterValues(getParameter(componentClass, parameterName)) );
     }
 
     /**
@@ -133,8 +138,9 @@ public class ParameterServiceImpl implements ParameterService {
      * @param constrainingValue
      * @return derived values List<String> or an empty list if no values are found
      */
+    @CacheNoCopy
     public List<String> getParameterValues(Class componentClass, String parameterName, String constrainingValue) {
-        return getParameterValues(getParameter(componentClass, parameterName), constrainingValue);
+        return Collections.unmodifiableList( getParameterValues(getParameter(componentClass, parameterName), constrainingValue) );
     }
 
     /**
@@ -146,6 +152,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @return ParameterEvaluator instance initialized with the Parameter corresponding to the specified componentClass and
      *         parameterName and the values of the Parameter
      */
+    @Cached
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName) {
         return getParameterEvaluator(getParameter(componentClass, parameterName));
     }
@@ -161,6 +168,7 @@ public class ParameterServiceImpl implements ParameterService {
      *         parameterName, the values of the Parameter, the knowledge of whether the values are allowed or denied, and the
      *         constrainedValue
      */
+    @Cached
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainedValue) {
         return getParameterEvaluator(getParameter(componentClass, parameterName), constrainedValue);
     }
@@ -176,6 +184,7 @@ public class ParameterServiceImpl implements ParameterService {
      *         parameterName, the values of the Parameter that correspond to the specified constrainingValue, the knowledge of
      *         whether the values are allowed or denied, and the constrainedValue
      */
+    @Cached
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String parameterName, String constrainingValue, String constrainedValue) {
         return getParameterEvaluator(getParameter(componentClass, parameterName), constrainingValue, constrainedValue);
     }
@@ -196,6 +205,7 @@ public class ParameterServiceImpl implements ParameterService {
      *         the constrainingValue restriction, the values of the Parameter that correspond to the specified constrainingValue,
      *         the knowledge of whether the values are allowed or denied, and the constrainedValue
      */
+    @Cached
     public ParameterEvaluator getParameterEvaluator(Class componentClass, String allowParameterName, String denyParameterName, String constrainingValue, String constrainedValue) {
         Parameter allowParameter = getParameter(componentClass, allowParameterName);
         Parameter denyParameter = getParameter(componentClass, denyParameterName);
@@ -212,6 +222,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
      *      constrainedValue)
      */
+    @Cached
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue) {
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
         for (Parameter parameter : getParameters(componentClass)) {
@@ -224,6 +235,7 @@ public class ParameterServiceImpl implements ParameterService {
      * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
      *      constrainingValue, java.lang.String constrainedValue)
      */
+    @Cached
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue) {
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
         for (Parameter parameter : getParameters(componentClass)) {
@@ -238,6 +250,7 @@ public class ParameterServiceImpl implements ParameterService {
      * 
      * @return List<ParameterDetailedType> containing the detailed types derived from the data dictionary and Spring
      */
+    @Cached
     public List<ParameterDetailType> getNonDatabaseDetailTypes() {
         if (components.isEmpty()) {
             Map<String, ParameterDetailType> uniqueParameterDetailTypeMap = new HashMap<String, ParameterDetailType>();
@@ -294,6 +307,7 @@ public class ParameterServiceImpl implements ParameterService {
         }
     }
 
+    @CacheNoCopy
     private String getNamespace(Class documentOrStepClass) {
         if (documentOrStepClass != null) {
             if (documentOrStepClass.isAnnotationPresent(NAMESPACE.class)) {
@@ -316,6 +330,7 @@ public class ParameterServiceImpl implements ParameterService {
         }
     }
 
+    @CacheNoCopy
     private String getDetailType(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
             return ((COMPONENT) documentOrStepClass.getAnnotation(COMPONENT.class)).component();
@@ -329,6 +344,7 @@ public class ParameterServiceImpl implements ParameterService {
         throw new IllegalArgumentException("The getDetailType method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
     }
 
+    @CacheNoCopy
     private String getDetailTypeName(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
             BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
@@ -436,10 +452,12 @@ public class ParameterServiceImpl implements ParameterService {
 
     private void removeCachedMethod(Method method, Object[] arguments) {
         MethodCacheInterceptor methodCacheInterceptor = SpringContext.getBean(MethodCacheInterceptor.class);
+        
         String cacheKey = methodCacheInterceptor.buildCacheKey(method.toString(), arguments);
-        if (methodCacheInterceptor.containsCacheKey(cacheKey)) {
-            methodCacheInterceptor.removeCacheKey(cacheKey);
-        }
+        methodCacheInterceptor.removeCacheKey(cacheKey);
+
+        MethodCacheNoCopyInterceptor methodCacheNoCopyInterceptor = SpringContext.getBean(MethodCacheNoCopyInterceptor.class);
+        methodCacheNoCopyInterceptor.removeCacheKey(cacheKey);
     }
 
     private boolean constraintIsAllow(Parameter parameter) {

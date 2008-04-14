@@ -219,6 +219,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         if (valid) {
             buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
+            // remove the object type, otherwise, the object type code will get persisted and cause future validation errors
+            clearAccountingLineObjectType(accountingLine);
         }
 
         return valid;
@@ -241,6 +243,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         if (valid) {
             buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
+            // remove the object type, otherwise, the object type code will get persisted and cause future validation errors
+            clearAccountingLineObjectType(accountingLine);
         }
         return valid;
     }
@@ -406,8 +410,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         }
 
         // now loop through all of the GLPEs and calculate buckets for debits and credits
-        KualiDecimal creditAmount = new KualiDecimal(0);
-        KualiDecimal debitAmount = new KualiDecimal(0);
+        KualiDecimal creditAmount = KualiDecimal.ZERO;
+        KualiDecimal debitAmount = KualiDecimal.ZERO;
 
         for (GeneralLedgerPendingEntry glpe : avDoc.getGeneralLedgerPendingEntries()) {
             // make sure we are looking at only the explicit entries that aren't DI types
@@ -430,13 +434,25 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Fixes <code>{@link ObjectType}</code> for the given <code>{@link AccountingLine}</code> instance
+     * Fixes <code>{@link ObjectType}</code> for the given <code>{@link AccountingLine}</code> instance.  Before saving the
+     * document, the {@link #clearAccountingLineObjectType(AccountingLine)} method should be called to clear out changes made in this
+     * method.
      * 
      * @param line accounting line
      */
     private void buildAccountingLineObjectType(AccountingLine line) {
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
         line.setObjectTypeCode(objectTypeCode);
+        line.refresh();
+    }
+    
+    /**
+     * Clears out the info set in {@link #buildAccountingLineObjectType(AccountingLine)}
+     * 
+     * @param line
+     */
+    private void clearAccountingLineObjectType(AccountingLine line) {
+        line.setObjectTypeCode(null);
         line.refresh();
     }
 

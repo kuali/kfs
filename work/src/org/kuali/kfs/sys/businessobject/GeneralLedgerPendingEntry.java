@@ -91,7 +91,9 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     private ProjectCode project;
     private OriginationCode referenceOriginationCode;
     private DocumentType referenceDocumentType;
-    private AccountingPeriod accountingPeriod;
+    
+    @Deprecated
+    private transient AccountingPeriod accountingPeriod;
 
     /**
      * Default no-arg constructor.
@@ -138,6 +140,23 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         acctSufficientFundsFinObjCd = original.getAcctSufficientFundsFinObjCd();
         transactionEntryOffsetIndicator = original.isTransactionEntryOffsetIndicator();
         transactionEntryProcessedTs = original.getTransactionEntryProcessedTs();
+        
+        documentType = original.getDocumentType();
+        documentHeader = original.getDocumentHeader();
+
+        option = original.getOption();
+        chart = original.getChart();
+        account = original.getAccount();
+        subAccount = original.getSubAccount();
+        financialObject = original.getFinancialObject();
+        financialSubObject = original.getFinancialSubObject();
+        balanceType = original.getBalanceType();
+        a21SubAccount = original.getA21SubAccount();
+        dummyBusinessObject = original.getDummyBusinessObject();
+        originationCode = original.getOriginationCode();
+        project = original.getProject();
+        referenceOriginationCode = original.getReferenceOriginationCode();
+        referenceDocumentType = original.getReferenceDocumentType();
     }
 
     public DocumentType getReferenceDocumentType() {
@@ -895,10 +914,6 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
         this.financialSubObject = financialSubObject;
     }
 
-    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        this.accountingPeriod = accountingPeriod;
-    }
-
     public boolean isSubAccountNumberBlank() {
         return subAccountNumber == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber().equals(subAccountNumber);
     }
@@ -917,5 +932,15 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
 
     public boolean isFinancialObjectTypeCodeBlank() {
         return financialObjectTypeCode == null || GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType().equals(financialObjectTypeCode);
+    }
+
+    @Deprecated
+    public AccountingPeriod getAccountingPeriod() {
+        return accountingPeriod;
+    }
+
+    @Deprecated
+    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
+        this.accountingPeriod = accountingPeriod;
     }
 }

@@ -52,7 +52,6 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      * This performs rules checks on document save
      * <ul>
      * <li>{@link ObjectConsRule#checkObjLevelCode(ObjectCons)}</li>
-     * <li>{@link ObjectConsRule#checkEliminationCode(ObjectCons)}</li>
      * </ul>
      * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
@@ -62,7 +61,6 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         ObjectCons objConsolidation = (ObjectCons) getNewBo();
 
         checkObjLevelCode(objConsolidation);
-        checkEliminationCode(objConsolidation);
         return true;
     }
 
@@ -70,7 +68,6 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      * This performs rules checks on document route
      * <ul>
      * <li>{@link ObjectConsRule#checkObjLevelCode(ObjectCons)}</li>
-     * <li>{@link ObjectConsRule#checkEliminationCode(ObjectCons)}</li>
      * </ul>
      * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
@@ -81,7 +78,6 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         ObjectCons objConsolidation = (ObjectCons) getNewBo();
 
         success &= checkObjLevelCode(objConsolidation);
-        success &= checkEliminationCode(objConsolidation);
         return success;
     }
 
@@ -99,27 +95,6 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         if (objLevel != null) {
             success = false;
             putFieldError("finConsolidationObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL);
-        }
-        return success;
-    }
-
-    /**
-     * This method checks that the eliminations object code is really a valid current object code.
-     * 
-     * @return true if eliminations object code is a valid object code currently, false if otherwise
-     */
-    private boolean checkEliminationCode(ObjectCons objConsolidation) {
-        boolean success = true;
-
-        ObjectCode elimCode = objectCodeService.getByPrimaryIdForCurrentYear(objConsolidation.getChartOfAccountsCode(), objConsolidation.getFinancialEliminationsObjectCode());
-        if (elimCode == null) {
-            // KULRNE-61 - otherwise, allow the invalid value if the object is at the top of the hieratchy and the eliminiation
-            // object code
-            // is itself
-            if (!objConsolidation.getFinConsolidationObjectCode().equals(objConsolidation.getFinancialEliminationsObjectCode()) || !chartService.getReportsToHierarchy().get(objConsolidation.getChartOfAccountsCode()).equals(objConsolidation.getChartOfAccountsCode())) {
-                success = false;
-                putFieldError("financialEliminationsObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_INVALID_ELIM_OBJCODE, new String[] { objConsolidation.getFinancialEliminationsObjectCode() });
-            }
         }
         return success;
     }

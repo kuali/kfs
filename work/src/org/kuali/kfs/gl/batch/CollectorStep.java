@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.batch.collector;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.CollectorReportService;
 import org.kuali.module.gl.service.CollectorService;
@@ -34,8 +36,12 @@ public class CollectorStep extends AbstractStep {
 
     /**
      * Controls the collector process.
+     * @param jobName the job running this step
+     * @param jobRunDate the time/date when the job was started
+     * @return whether the job should continue executing other steps
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         CollectorReportData collectorReportData = collectorService.performCollection();
         collectorReportService.sendEmails(collectorReportData);
         collectorReportService.generateCollectorRunReports(collectorReportData);

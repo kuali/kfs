@@ -15,6 +15,7 @@
  */
 package org.kuali.module.ar.batch;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class LockboxStep extends AbstractStep {
     private LockboxService lockboxService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockboxStep.class);
     
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         boolean result = true;
         try {
             result = lockboxService.processLockbox();

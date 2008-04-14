@@ -43,7 +43,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     private KualiConfigurationService configService;
     private AccountService accountService;
     private Account newAccount;
-    private Account copyAccount;
 
     private static final String GENERAL_FUND_CD = "GF";
     private static final String RESTRICTED_FUND_CD = "RF";
@@ -94,10 +93,10 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
         // if subFundGroupCode was not entered, then we have nothing
         // to do here, so exit
-        if (ObjectUtils.isNull(copyAccount.getSubFundGroup()) || StringUtils.isBlank(copyAccount.getSubFundGroupCode())) {
+        if (ObjectUtils.isNull(newAccount.getSubFundGroup()) || StringUtils.isBlank(newAccount.getSubFundGroupCode())) {
             return;
         }
-        SubFundGroup subFundGroup = copyAccount.getSubFundGroup();
+        SubFundGroup subFundGroup = newAccount.getSubFundGroup();
 
         // KULCOA-1112 : if the sub fund group has a restriction code, override whatever the user selected
         if (StringUtils.isNotBlank(subFundGroup.getAccountRestrictedStatusCode())) {
@@ -168,8 +167,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (Account) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        newAccount.refreshNonUpdateableReferences();
     }
 
     /**
@@ -195,7 +193,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
                 newAccount.setAccountCreateDate(ts);
             }
             // On new Accounts acct_effect_date is defaulted to the doc creation date
-            if (copyAccount.getAccountEffectiveDate() == null) {
+            if (newAccount.getAccountEffectiveDate() == null) {
                 newAccount.setAccountEffectiveDate(ts);
             }
         }
@@ -210,10 +208,10 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that
-        if (!StringUtils.isBlank(copyAccount.getAccountZipCode())) {
+        if (!StringUtils.isBlank(newAccount.getAccountZipCode())) {
 
             HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", copyAccount.getAccountZipCode());
+            primaryKeys.put("postalZipCode", newAccount.getAccountZipCode());
             PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
 
             // If user enters a valid zip code, override city name and state code entered by user

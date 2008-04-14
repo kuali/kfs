@@ -43,5 +43,15 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="YearEndDistributionOfIncomeAndExpense" parameterName="YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="targetAccountingLines" />
+				<workflowProperty path="sourceAccountingLines" />
+				<workflowProperty path="sourceAccountingLines.account" />
+				<workflowProperty path="targetAccountingLines.account" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

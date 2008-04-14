@@ -33,7 +33,7 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiLaborBenefitsCalculationMaintenanceDocument</documentTypeName>
+		<documentTypeName>BenefitsCalculationMaintenanceDocument</documentTypeName>
 		<documentTypeCode>BCAL</documentTypeCode>
 
 		<label>Labor Benefits Calculation</label>
@@ -67,5 +67,7 @@
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>
+	    
+	    <workflowProperties />
 	</maintenanceDocument>
 </dictionaryEntry>

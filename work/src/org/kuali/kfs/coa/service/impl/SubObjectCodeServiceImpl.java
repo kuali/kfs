@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
  * with Kuali.
  */
-@Transactional
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private SubObjectCodeDao subObjectCodeDao;
     private UniversityDateService universityDateService;

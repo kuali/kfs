@@ -29,12 +29,12 @@
 	  	<li>
 			<portal:portalLink displayTitle="true"
 				title="Year End Benefit Expense Transfer"
-				url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiYearEndBenefitExpenseTransferDocument" />
+				url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndBenefitExpenseTransferDocument" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Year End Salary Expense Transfer"
-				url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=KualiYearEndSalaryExpenseTransferDocument" />
+				url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YearEndSalaryExpenseTransferDocument" />
 		</li>
     </ul>
 </div>

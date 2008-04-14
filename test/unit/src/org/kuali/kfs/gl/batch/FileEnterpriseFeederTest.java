@@ -31,6 +31,7 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -111,7 +112,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
-        feederStep.execute(getClass().getName());
+        feederStep.execute(getClass().getName(), dateTimeService.getCurrentDate());
 
         assertDoneFilesDeleted(fileSets);
 
@@ -137,7 +138,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
-        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         assertDoneFilesDeleted(fileSets);
 
@@ -166,7 +167,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
-        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         assertDoneFilesDeleted(fileSets);
 
@@ -195,7 +196,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
-        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         assertDoneFilesDeleted(fileSets);
 
@@ -223,7 +225,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(fileSets);
 
         EnterpriseFeedStep feederStep = SpringContext.getBean(EnterpriseFeedStep.class);
-        assertTrue("Step should have returned true", feederStep.execute(getClass().getName()));
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        assertTrue("Step should have returned true", feederStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         assertDoneFilesDeleted(fileSets);
 

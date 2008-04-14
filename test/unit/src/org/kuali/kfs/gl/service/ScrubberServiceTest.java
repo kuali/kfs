@@ -57,6 +57,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
     }
+    
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        // return the run date to the current date
+        dateTimeService.setCurrentDate(new java.util.Date());
+    }
 
     /**
      * Tests the scrubber considers entries with certain fields blank as errors

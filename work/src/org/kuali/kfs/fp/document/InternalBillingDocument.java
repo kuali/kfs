@@ -103,7 +103,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      * @return the total
      */
     public KualiDecimal getItemTotal() {
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator iterator = items.iterator(); iterator.hasNext();) {
             total = total.add(((InternalBillingItem) iterator.next()).getTotal());
         }

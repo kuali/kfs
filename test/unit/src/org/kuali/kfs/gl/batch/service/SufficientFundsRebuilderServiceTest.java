@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,8 +24,12 @@ import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.context.TestUtils;
+import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
@@ -59,6 +64,9 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         sufficientFundBalancesDao = SpringContext.getBean(SufficientFundBalancesDao.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+        
+        // and reset the closing fiscal year
+        TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2007");
     }
 
     /**

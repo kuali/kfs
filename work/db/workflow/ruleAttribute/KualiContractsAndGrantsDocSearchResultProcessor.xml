@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiContractsAndGrantsDocSearchResultProcessor</name>
+      <className>edu.iu.uis.eden.docsearch.xml.DocumentSearchXMLResultProcessorImpl</className>
+      <label>Contracts &amp; Grants Document Search Result Processor</label>
+      <description>Attribute to allow for custom search results for Contracts &amp; Grants documents</description>
+      <type>DocumentSearchXMLResultProcessorAttribute</type>
+      <searchResultConfig overrideSearchableAttributes="false" showStandardSearchFields="false">
+        <column name="docTypeLabel" />
+        <column name="docRouteStatusCodeDesc" />
+        <column name="initiator" />
+        <column name="dateCreated" />
+      </searchResultConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

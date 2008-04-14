@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiResearchRiskTypeMaintenanceDocument</documentTypeName>
+        <documentTypeName>ResearchRiskTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>RRT</documentTypeCode>
 
         <label>Research Risk Type</label>
@@ -61,5 +61,6 @@
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
+        <workflowProperties/>
     </maintenanceDocument>
 </dictionaryEntry>

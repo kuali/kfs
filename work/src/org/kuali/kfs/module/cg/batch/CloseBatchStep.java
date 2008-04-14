@@ -15,6 +15,7 @@
  */
 package org.kuali.module.cg.batch;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -49,9 +50,9 @@ public class CloseBatchStep extends AbstractStep {
     /**
      * See the class description.
      * 
-     * @see org.kuali.kfs.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute(String, Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
 
         MailMessage message = new MailMessage();
 

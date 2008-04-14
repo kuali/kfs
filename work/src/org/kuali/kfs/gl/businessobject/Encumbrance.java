@@ -89,8 +89,8 @@ public class Encumbrance extends PersistableBusinessObjectBase {
         documentNumber = t.getDocumentNumber();
         transactionEncumbranceDescription = t.getTransactionLedgerEntryDescription();
         transactionEncumbranceDate = t.getTransactionDate();
-        accountLineEncumbranceAmount = new KualiDecimal("0");
-        accountLineEncumbranceClosedAmount = new KualiDecimal("0");
+        accountLineEncumbranceAmount = KualiDecimal.ZERO;
+        accountLineEncumbranceClosedAmount = KualiDecimal.ZERO;
         accountLineEncumbrancePurgeCode = " ";
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
     }

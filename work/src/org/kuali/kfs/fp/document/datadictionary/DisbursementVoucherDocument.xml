@@ -430,6 +430,16 @@
         <description>The Disbursement Voucher (DV) is a document that is used to reimburse University employees, non-employees, and other vendors for expenses incurred while conducting university business, performing a service, or providing material goods for the university. Most often this reimbursement is in the form of a check (although occasionally another method of disbursement might be used such as a direct deposit or wire transfer).</description>
         <help parameterNamespace="KFS-FP" parameterDetailType="DisbursementVoucher" parameterName="DISBURSEMENT_VOUCHER" />        
         <allowsCopy>true</allowsCopy>
+
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+            <workflowPropertyGroup>
+				<workflowProperty path="documentHeader" />
+                <workflowProperty path="sourceAccountingLines" />
+                <workflowProperty path="sourceAccountingLines.account" />
+                <workflowProperty path="dvPayeeDetail" />
+            </workflowPropertyGroup>
+        </workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

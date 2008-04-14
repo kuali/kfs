@@ -90,10 +90,10 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
         lines.addAll(tofDoc.getTargetAccountingLines());
 
         // sum the from lines.
-        KualiDecimal mandatoryTransferFromAmount = new KualiDecimal(0);
-        KualiDecimal nonMandatoryTransferFromAmount = new KualiDecimal(0);
-        KualiDecimal mandatoryTransferToAmount = new KualiDecimal(0);
-        KualiDecimal nonMandatoryTransferToAmount = new KualiDecimal(0);
+        KualiDecimal mandatoryTransferFromAmount = KualiDecimal.ZERO;
+        KualiDecimal nonMandatoryTransferFromAmount = KualiDecimal.ZERO;
+        KualiDecimal mandatoryTransferToAmount = KualiDecimal.ZERO;
+        KualiDecimal nonMandatoryTransferToAmount = KualiDecimal.ZERO;
 
         for (Iterator i = lines.iterator(); i.hasNext();) {
             AccountingLine line = (AccountingLine) i.next();

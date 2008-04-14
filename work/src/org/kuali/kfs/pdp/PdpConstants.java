@@ -17,6 +17,10 @@ package org.kuali.module.pdp;
 
 
 public class PdpConstants {
+    /**
+     * Used as the file prefix for temp files for ManualUploadFileAction
+     */
+    public static final String PDP_MANUAL_FILE_UPLOAD_TEMP_FILE_PREFIX = "pdp-manual-upload-file-";
 
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";

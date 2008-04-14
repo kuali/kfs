@@ -15,14 +15,18 @@
  */
 package org.kuali.kfs.batch;
 
+import java.util.Date;
+
 public interface Step {
     /**
      * Perform this step of a batch job.
      * 
+     * @param jobName the name of the job running the step
+     * @param jobRunDate the time/date the job is executed
      * @return true if successful and continue the job, false if successful and stop the job
      * @throws Throwable if unsuccessful
      */
-    public boolean execute(String jobName) throws InterruptedException;
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException;
 
     /**
      * Return id of this step spring bean.

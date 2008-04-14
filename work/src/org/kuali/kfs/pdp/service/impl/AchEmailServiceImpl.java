@@ -25,9 +25,7 @@ import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.service.AchEmailService;
 import org.kuali.module.pdp.service.EnvironmentService;
 import org.kuali.module.pdp.service.PaymentDetailService;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class AchEmailServiceImpl implements AchEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchEmailServiceImpl.class);
 

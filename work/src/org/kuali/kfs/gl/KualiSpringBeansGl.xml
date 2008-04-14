@@ -1124,6 +1124,11 @@
 				<ref bean="nightlyOutStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="processPdpCancelsAndPaidJob" value="hardDependency"/>
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
@@ -1139,6 +1144,7 @@
 				<entry key="collectorJob" value="softDependency" />
 				<entry key="nightlyOutJob" value="hardDependency" />
 				<entry key="clearLaborPendingEntriesJob" value="hardDependency" />
+				<entry key="pdpExtractGlTransactionsStepJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>	

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.purap.document.PurapFullProcessDocumentTest;
 import org.kuali.test.ConfigureContext;
@@ -22,7 +24,7 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext
 public class PurapFullProcessStep extends AbstractStep {
 
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         PurapFullProcessDocumentTest fullTest = new PurapFullProcessDocumentTest();
         try {
             fullTest.testFullProcess();

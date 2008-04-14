@@ -15,13 +15,15 @@
  */
 package org.kuali.module.pdp.batch;
 
+import java.util.Date;
+
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.pdp.service.ExtractPaymentService;
 
 public class SendAchEmailsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SendAchEmailsStep.class);
 
-    public boolean execute(String jobName) throws InterruptedException {
+    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
 
 

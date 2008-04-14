@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali.
  */
-@Transactional
 public class ObjectConsServiceImpl implements ObjectConsService {
     private ObjectConsDao objectConsDao;
 

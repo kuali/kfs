@@ -467,7 +467,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     }
 
     public KualiDecimal getTotalCheckAmount() {
-        KualiDecimal result = new KualiDecimal(0);
+        KualiDecimal result = KualiDecimal.ZERO;
         for (Check c : moneyInChecks) {
             if (c != null && c.getAmount() != null) {
                 result = result.add(c.getAmount());
@@ -507,7 +507,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      * @return the calculated amount
      */
     public KualiDecimal getPaidBackItemsInProcessAmount() {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
         if (this.openItemsInProcess != null) {
             for (CashieringItemInProcess itemInProcess : this.openItemsInProcess) {
                 if (itemInProcess.getCurrentPayment() != null && itemInProcess.getCurrentPayment().isGreaterThan(KualiDecimal.ZERO)) {
@@ -568,7 +568,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      * @return the amount calculated
      */
     public KualiDecimal getMoneyInTotal() {
-        KualiDecimal result = new KualiDecimal(0);
+        KualiDecimal result = KualiDecimal.ZERO;
         result = result.add(this.moneyInCurrency.getTotalAmount());
         result = result.add(this.moneyInCoin.getTotalAmount());
         result = result.add(this.getTotalCheckAmount());
@@ -584,7 +584,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
      * @return the amount calculated
      */
     public KualiDecimal getMoneyOutTotal() {
-        KualiDecimal result = new KualiDecimal(0);
+        KualiDecimal result = KualiDecimal.ZERO;
         result = result.add(this.moneyOutCurrency.getTotalAmount());
         result = result.add(this.moneyOutCoin.getTotalAmount());
         result = result.add(this.getPaidBackItemsInProcessAmount());

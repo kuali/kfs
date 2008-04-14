@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiAmountSourceAttribute</name>
+      <className>org.kuali.workflow.attribute.KualiXmlRuleAttributeImpl</className>
+      <label>Amount Source Line Routing</label>
+      <description>Total Dollar Amount Source Accounting Line Routing</description>
+      <type>RuleXmlAttribute</type>
+      <routingConfig>
+        <fieldDef name="maxDollarAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>string-length(wf:ruledata('maxDollarAmount')) = 0 or
+                                sum(wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value')) &lt;= wf:ruledata('maxDollarAmount')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="minDollarAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="RULE">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="false" />
+          <fieldEvaluation>
+            <xpathexpression>string-length(wf:ruledata('minDollarAmount')) = 0 or 
+                                sum(wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value')) &gt;= wf:ruledata('minDollarAmount')</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <fieldDef name="totalDollarAmount" title="kuali_dd_label(KFSAttributeReferenceDummy)" workflowType="REPORT">
+          <display>
+            <type>text</type>
+          </display>
+          <validation required="true" />
+          <!-- An xpathexpression is required here even though it means nothing, it is used to define the data dictionary entry to get the label from. -->
+          <fieldEvaluation>
+            <xpathexpression>(wf:ruledata('totalDollarAmount'))</xpathexpression>
+          </fieldEvaluation>
+        </fieldDef>
+        <xmlDocumentContent>
+          <org.kuali.core.bo.SourceAccountingLine>
+            <amount>
+              <value>%totaldollarAmount%</value>
+            </amount>
+          </org.kuali.core.bo.SourceAccountingLine>
+        </xmlDocumentContent>
+      </routingConfig>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

@@ -279,10 +279,10 @@ public class BudgetServiceImpl implements BudgetService {
             // if Institution Cost Share check box or Third Party Cost share check boxes are un-checked,
             // set the corresponding amounts to zero.
             if (!(isInstitutionCostShareCheckBoxChecked)) {
-                budgetNonpersonnel.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
+                budgetNonpersonnel.setBudgetInstitutionCostShareAmount(KualiInteger.ZERO);
             }
             if (!(isThirdPartyCostShareCheckBoxChecked)) {
-                budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
+                budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(KualiInteger.ZERO);
             }
 
             // if periods were added and this is an origin item that has been copied over, we need to fill in a new item for each
@@ -350,14 +350,14 @@ public class BudgetServiceImpl implements BudgetService {
         for (BudgetUser budgetUser : budgetDocument.getBudget().getPersonnel()) {
             for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
                 for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
-                    userAppointmentTaskPeriod.setInstitutionCostSharePercentEffortAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUserInstitutionHours(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionFullTimeEquivalentPercent(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionHealthInsuranceAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionRequestedFeesAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionSalaryAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionCostShareFringeBenefitTotalAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setInstitutionCostShareRequestTotalAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionCostSharePercentEffortAmount(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setUserInstitutionHours(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionFullTimeEquivalentPercent(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionHealthInsuranceAmount(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionRequestedFeesAmount(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionSalaryAmount(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionCostShareFringeBenefitTotalAmount(KualiInteger.ZERO);
+                    userAppointmentTaskPeriod.setInstitutionCostShareRequestTotalAmount(KualiInteger.ZERO);
                 }
             }
         }

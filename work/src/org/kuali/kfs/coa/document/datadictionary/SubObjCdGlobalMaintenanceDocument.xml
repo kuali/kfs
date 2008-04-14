@@ -82,13 +82,14 @@
                         </summaryFields>
                         <duplicateIdentificationFields>
                             <duplicateIdentificationField name="chartOfAccountsCode"/>
-                        </duplicateIdentificationFields>                             
-                    </maintainableCollection>
+                            <duplicateIdentificationField name="financialObjectCode"/>
+                        </duplicateIdentificationFields>
+                  	</maintainableCollection>
             	  </maintainableItems>
             </maintainableSection>
             <maintainableSection title="Edit Accounts">
             	  <maintainableItems>
-            		    <maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail"  sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
+            		<maintainableCollection name="accountGlobalDetails" businessObjectClass="org.kuali.module.chart.bo.AccountGlobalDetail"  sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountGlobalDetails" summaryTitle="Account">
                         <maintainableField name="chartOfAccountsCode" template="chartOfAccountsCode" readOnlyAfterAdd="true" />
                         <maintainableField name="accountNumber" template="accountNumber" required="true"/>
                         <maintainableField name="account.accountName" template="accountName" readOnly="true" />
@@ -107,5 +108,13 @@
             </maintainableSection>
 
         </maintainableSections>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="newMaintainableObject.businessObject.accountGlobalDetails" />
+        		<workflowProperty path="newMaintainableObject.businessObject.subObjCdGlobalDetails" />
+			</workflowPropertyGroup>
+        </workflowProperties>
+        
     </maintenanceDocument>
 </dictionaryEntry>

@@ -576,6 +576,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
+            if (KualiWorkflowUtils.CHART_ORG_WORKGROUP_DOC_TYPE.equals(docType.getName())) {
+                return null;
+            }
             Document doc = docContent.getDocument();
             XPath xpath = KualiWorkflowUtils.getXPath(doc);
             boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();

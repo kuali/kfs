@@ -51,6 +51,7 @@
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
 		<property name="dataSourceReference" ref="dataSource" />
+        <property name="nonTransactionalDataSourceReference" ref="nonTransactionalDataSource" />
 		<property name="autoStartup" value="false" />
 		<property name="quartzPropertiesReference">
 			<props>
@@ -63,6 +64,18 @@
 		</property>
 	</bean>
 	
+    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${datasource.driver.class}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+        <property name="maxActive" value="${datasource.pool.size}"/>
+        <property name="validationQuery" value="${datasource.validating.query}"/>
+        <property name="accessToUnderlyingConnectionAllowed" value="true"/>
+        <property name="initialSize" value="2"/>
+        <property name="minIdle" value="2"/>
+    </bean>
+    
 	<bean id="schedulerService" class="org.kuali.kfs.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
@@ -193,6 +206,7 @@
 
 	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
+        <property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="accountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
@@ -232,6 +246,7 @@
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
 		</property>
+        <property name="universityDateService" ref="universityDateService" />
 	</bean>
 	
 	<bean id="generalLedgerPendingEntryService" class="org.kuali.kfs.service.impl.GeneralLedgerPendingEntryServiceImpl">

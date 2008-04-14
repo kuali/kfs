@@ -91,12 +91,6 @@
 	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 	
-	<bean id="proposalService" class="org.kuali.module.cg.service.impl.ProposalServiceImpl">
-    	<property name="proposalDao">
-      		<ref bean="proposalDao" />
-    	</property>
-	</bean>
-
 	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
 
 	<bean id="proposalLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

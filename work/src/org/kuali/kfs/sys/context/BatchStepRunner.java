@@ -16,8 +16,10 @@
 package org.kuali.kfs.context;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchSpringContext;
 import org.kuali.kfs.batch.Job;
@@ -42,10 +44,13 @@ public class BatchStepRunner {
                 stepNames = new String[] { args[0] };
             }
             ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            
             String jobName = args.length >= 2 ? args[1] : KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
+            Date jobRunDate = dateTimeService.getCurrentDate();
             LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
             for (int i = 0; i < stepNames.length; ++i) {
-                if (!Job.runStep(parameterService, jobName, i, BatchSpringContext.getStep(stepNames[i]))) {
+                if (!Job.runStep(parameterService, jobName, i, BatchSpringContext.getStep(stepNames[i]), jobRunDate)) {
                     System.exit(4);
                 }
             }

@@ -35,8 +35,6 @@ import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.cg.service.CloseService;
-import org.kuali.module.cg.service.ProposalService;
-import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 
@@ -77,7 +75,7 @@ public class CloseServiceTest extends KualiTestBase {
         //
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -120,7 +118,7 @@ public class CloseServiceTest extends KualiTestBase {
         //
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -163,7 +161,7 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -206,7 +204,7 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, INVALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -249,7 +247,7 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -292,7 +290,7 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);
@@ -334,7 +332,7 @@ public class CloseServiceTest extends KualiTestBase {
         // Create and save objects for closing.
 
         Proposal proposal = createProposal(proposalBeginningDate, proposalEndingDate, proposalSubmissionDate, proposalClosingDate);
-        SpringContext.getBean(ProposalService.class).save(proposal);
+        SpringContext.getBean(BusinessObjectService.class).save(proposal);
 
         Award award = createAward(proposal, awardEntryDate, awardClosingDate, VALID_AWARD_STATUS_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(award);

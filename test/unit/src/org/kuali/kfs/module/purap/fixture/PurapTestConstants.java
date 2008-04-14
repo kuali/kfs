@@ -50,7 +50,7 @@ public class PurapTestConstants {
     static class AmountsLimits {
         static final KualiDecimal LARGE_NEGATIVE_AMOUNT = new KualiDecimal(-1024);
         static final KualiDecimal SMALL_NEGATIVE_AMOUNT = new KualiDecimal(-32);
-        static final KualiDecimal ZERO = new KualiDecimal(0);
+        static final KualiDecimal ZERO = KualiDecimal.ZERO;
         static final KualiDecimal SMALL_POSITIVE_AMOUNT = new KualiDecimal(32);
         static final KualiDecimal LARGE_POSITIVE_AMOUNT = new KualiDecimal(1024);
     }

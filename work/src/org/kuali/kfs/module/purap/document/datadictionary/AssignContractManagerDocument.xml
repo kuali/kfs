@@ -128,5 +128,12 @@ nalavi: these attributes are added for the purpose of labels display in assingCo
 		<allowsCopy>false</allowsCopy>
 		<allowsErrorCorrection>false</allowsErrorCorrection>
 
+		<workflowProperties>
+        	<workflowPropertyGroup>
+        		<!-- extra properties for searches -->
+        		<workflowProperty path="documentHeader" />
+        	</workflowPropertyGroup>
+        </workflowProperties>
+
 	</transactionalDocument>
 </dictionaryEntry>

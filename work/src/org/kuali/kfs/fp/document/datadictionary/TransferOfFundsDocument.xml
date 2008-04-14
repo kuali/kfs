@@ -48,5 +48,14 @@
         <help parameterNamespace="KFS-FP" parameterDetailType="TransferOfFunds" parameterName="TRANSFER_OF_FUNDS" />        
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        		<workflowProperty path="targetAccountingLines" />
+				<workflowProperty path="sourceAccountingLines" />
+				<workflowProperty path="sourceAccountingLines.account" />
+				<workflowProperty path="targetAccountingLines.account" />
+			</workflowPropertyGroup>
+		</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

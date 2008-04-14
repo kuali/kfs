@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>BudgetAdjustmentDocument</name>
+      <parent>KualiFinancialDocument</parent>
+      <label>Budget Adjustment</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_ROLE_SUPERVISOR</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_ROLE_ADMINISTRATOR</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Approval No Approval Split" />
+          <split name="Approval No Approval Split" nextNode="Award Workgroup">
+            <branch name="ApprovalBranch">
+              <requests name="Account Review" nextNode="Org Review" />
+              <requests name="Org Review" nextNode="Subfund" />
+              <requests name="Subfund" nextNode="Join" />
+            </branch>
+            <branch name="NoApprovalBranch">
+              <simple name="Do Nothing" nextNode="Join" />
+            </branch>
+            <join name="Join" />
+          </split>
+          <requests name="Award Workgroup" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <split name="Approval No Approval Split">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>org.kuali.workflow.node.BudgetAdjustmentDocumentApprovalNoApprovalSplitNode</type>
+        </split>
+        <requests name="Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Subfund">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiSubFundTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <join name="Join">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </join>
+        <simple name="Do Nothing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+          <type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+        </simple>
+        <requests name="Award Workgroup">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAwardWorkgroupTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>PaymentRequestDocument</name>
+      <parent>KualiPurapDocument</parent>
+      <label>Payment Request</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>KUALI_AP_DOCUMENT_SUPER_USERS</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>KUALI_AP_DOCUMENT_BLANKET_APPROVERS</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>KUALI_ROLE_SUPERVISOR</defaultExceptionWorkgroupName>
+      <docHandler>${application.url}/purapPaymentRequest.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>KualiPaymentRequestDocSearchGeneratorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestInvoiceNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestPurchaseOrderId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestRequisitionId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentVendorName</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentVendorId</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApDocumentOrganization</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentProcessCampus</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentCustomerNumber</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentInvoiceDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentPayDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentAccountsPayableDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentExtractedDate</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentExtractedIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentHoldIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentRequestedCancelIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentPaidIndicator</name>
+        </attribute>
+        <attribute>
+          <name>KualiDocumentHeaderTotalAmountRange</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentStatusCode</name>
+        </attribute>
+        <attribute>
+          <name>KualiPaymentRequestDocumentStatusDescription</name>
+        </attribute>
+        <attribute>
+          <name>KualiPurApSearchResultsDisplayType</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Adhoc Routing" nextNode="Accounts Payable Review" />
+          <requests name="Accounts Payable Review" nextNode="Sub Account Review" />
+          <requests name="Sub Account Review" nextNode="Account Review" />
+          <requests name="Account Review" nextNode="Org Review" />
+          <requests name="Org Review" nextNode="Vendor Tax Review" />
+          <requests name="Vendor Tax Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Adhoc Routing">
+          <activationType>S</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Accounts Payable Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountsPayableTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Sub Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiSubAccountTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Account Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiAccountTemplate</ruleTemplate>
+          <mandatoryRoute>true</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Org Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiOrgReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="Vendor Tax Review">
+          <activationType>S</activationType>
+          <ruleTemplate>KualiVendorTaxReviewTemplate</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

@@ -204,9 +204,9 @@ public class BudgetNonpersonnelCopyOverFormHelper {
 
             // initialize the arrays with 0 values
             for (int i = 0; i < periodsSize; i++) {
-                agencyRequestAmountTotalArr[i] = new KualiDecimal(0);
-                budgetInstitutionCostShareAmountTotalArr[i] = new KualiDecimal(0);
-                budgetThirdPartyCostShareAmountTotalArr[i] = new KualiDecimal(0);
+                agencyRequestAmountTotalArr[i] = KualiDecimal.ZERO;
+                budgetInstitutionCostShareAmountTotalArr[i] = KualiDecimal.ZERO;
+                budgetThirdPartyCostShareAmountTotalArr[i] = KualiDecimal.ZERO;
             }
 
             // iterate over each line item

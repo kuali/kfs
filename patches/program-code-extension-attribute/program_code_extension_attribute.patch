@@ -1,12 +1,10 @@
-### Eclipse Workspace Patch 1.0
-#P kuali_project
 Index: work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag
 ===================================================================
 RCS file: /opt/cvs/kuali_project/work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag,v
 retrieving revision 1.2
 diff -u -r1.2 chartOfAccounts.tag
 --- work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag	1 Nov 2007 04:02:23 -0000	1.2
-+++ work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag	11 Nov 2007 01:29:40 -0000
++++ work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag	18 Mar 2008 18:52:26 -0000
 @@ -48,6 +48,7 @@
          <li><portal:portalLink displayTitle="true" title="Organization Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrgType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
          <li><portal:portalLink displayTitle="true" title="Origination Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.bo.OriginationCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -21,7 +19,7 @@ RCS file: /opt/cvs/kuali_project/work/web-root/WEB-INF/tags/fin/accountingLineRo
 retrieving revision 1.63
 diff -u -r1.63 accountingLineRow.tag
 --- work/web-root/WEB-INF/tags/fin/accountingLineRow.tag	29 Oct 2007 20:43:22 -0000	1.63
-+++ work/web-root/WEB-INF/tags/fin/accountingLineRow.tag	11 Nov 2007 01:29:40 -0000
++++ work/web-root/WEB-INF/tags/fin/accountingLineRow.tag	18 Mar 2008 18:52:26 -0000
 @@ -180,12 +180,12 @@
  		accountingLineValuesMap="${accountingLineValuesMap}"
  		anchor="accounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" />
@@ -43,7 +41,7 @@ RCS file: /opt/cvs/kuali_project/work/web-root/scripts/kfs/objectInfo.js,v
 retrieving revision 1.8
 diff -u -r1.8 objectInfo.js
 --- work/web-root/scripts/kfs/objectInfo.js	29 Oct 2007 20:43:21 -0000	1.8
-+++ work/web-root/scripts/kfs/objectInfo.js	11 Nov 2007 01:29:40 -0000
++++ work/web-root/scripts/kfs/objectInfo.js	18 Mar 2008 18:52:26 -0000
 @@ -88,7 +88,12 @@
  		var dwrReply = {
  			callback:function(data) {
@@ -744,6 +742,20 @@ diff -N work/src/edu/sample/kuali/module/chart/bo/AccountExtension.java
 +        // do nothing, needed for bean access only
 +    }
 +}
+Index: sampleu-build.properties
+===================================================================
+RCS file: sampleu-build.properties
+diff -N sampleu-build.properties
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ sampleu-build.properties	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,7 @@
++spring.source.files=org/kuali/kfs/KualiSpringBeansKfs.xml,\
++org/kuali/module/cg/KualiSpringBeansCg.xml,org/kuali/module/chart/KualiSpringBeansChart.xml,\
++org/kuali/module/financial/KualiSpringBeansFinancial.xml,org/kuali/module/gl/KualiSpringBeansGl.xml,\
++org/kuali/module/kra/KualiSpringBeansKra.xml,org/kuali/module/labor/KualiSpringBeansLabor.xml,\
++org/kuali/module/pdp/KualiSpringBeansPdp.xml,org/kuali/module/purap/KualiSpringBeansPurap.xml,\
++org/kuali/module/vendor/KualiSpringBeansVendor.xml,SpringRiceBeans.xml,\
++edu/sample/kuali/module/chart/KualiSpringBeansChart-SampleU.xml
 Index: work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml
 ===================================================================
 RCS file: work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml

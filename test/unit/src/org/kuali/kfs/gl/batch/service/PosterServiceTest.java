@@ -222,6 +222,16 @@ public class PosterServiceTest extends OriginEntryTestBase {
     // }
     
     /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        // return the run date to the current date
+        dateTimeService.setCurrentDate(new java.util.Date());
+    }
+
+    /**
      * Covers the posting of GL entries
      * 
      * @throws Exception thrown if any exception is encountered for any reason

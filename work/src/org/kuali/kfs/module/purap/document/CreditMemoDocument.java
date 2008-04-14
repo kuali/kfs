@@ -37,7 +37,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -80,14 +79,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      */
     public CreditMemoDocument() {
         super();
-    }
-
-    /**
-     * @see org.kuali.core.document.DocumentBase#getDocumentRepresentationForSerialization()
-     */
-    @Override
-    protected Document getDocumentRepresentationForSerialization() {
-        return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
     }
 
     public boolean isSourceDocumentPaymentRequest() {
@@ -327,7 +318,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @return KualiDecimal - above the line item total
      */
     public KualiDecimal getLineItemTotal() {
-        KualiDecimal lineItemTotal = new KualiDecimal(0);
+        KualiDecimal lineItemTotal = KualiDecimal.ZERO;
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
@@ -345,7 +336,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
      * @return KualiDecimal - credit memo document total
      */
     public KualiDecimal getGrandTotal() {
-        KualiDecimal grandTotal = new KualiDecimal(0);
+        KualiDecimal grandTotal = KualiDecimal.ZERO;
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);

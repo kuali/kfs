@@ -168,9 +168,22 @@
 						</c:otherwise>
 
 					</c:choose>
-
+					
 				</c:forEach>
-
+				<c:if test="${param['d-16544-e'] == null}">
+					<logic:present name="KualiForm" property="formKey">
+						<c:if
+							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues && param.inquiryFlag != 'true'}">
+							<display:column class="infocell" title="Return value">
+								<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
+							</display:column>
+						</c:if>
+						<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
+							<display:column class="infocell" property="actionUrls"
+								title="Actions" media="html" />
+						</c:if>
+					</logic:present>
+				</c:if>
 			</display:table></td>
 			</c:if>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" height="20"

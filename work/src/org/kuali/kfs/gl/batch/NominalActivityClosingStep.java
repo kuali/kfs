@@ -32,7 +32,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.springframework.util.StopWatch;
 
 /**
- * The step tha truns the year end nominal activity closing process.
+ * The step that runs the year end nominal activity closing process.
  */
 public class NominalActivityClosingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NominalActivityClosingStep.class);
@@ -46,10 +46,11 @@ public class NominalActivityClosingStep extends AbstractStep {
      * for output origin entries, and generating reports based on the run
      * 
      * @param jobName the name of the job this step is being run as part of
-     * @return true if the job completed successfully, false if otherwise
+     * @param jobRunDate the time/date the job is being run
+     * @return true if the step completed successfully, false if otherwise
      * @see org.kuali.kfs.batch.Step#performStep()
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, java.util.Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 

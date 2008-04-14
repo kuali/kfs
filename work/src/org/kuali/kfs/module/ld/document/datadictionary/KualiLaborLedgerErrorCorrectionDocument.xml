@@ -38,5 +38,11 @@
         <description>Labor Ledger Correction Process Document</description>     
         <help parameterNamespace="KFS-GL" parameterDetailType="Correction" parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />  
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        
+        <workflowProperties>
+        	<workflowPropertyGroup>
+        		<workflowProperty path="documentHeader" />
+        	</workflowPropertyGroup>
+       	</workflowProperties>
     </transactionalDocument>
 </dictionaryEntry>

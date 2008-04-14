@@ -129,7 +129,7 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
         if (this.getBudgetAdjustedModularDirectCostAmount() != null && this.getActualDirectCostAmount() != null) {
             return this.getBudgetAdjustedModularDirectCostAmount().subtract(this.getActualDirectCostAmount());
         }
-        return new KualiInteger(0);
+        return KualiInteger.ZERO;
     }
 
     /**

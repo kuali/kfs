@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,10 +40,11 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
      * generating the reports on the process.
      * 
      * @param jobName the name of the job this step is being run as part of
+     * @param jobRunDate the time/date the job was started
      * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.batch.Step#execute(String, java.util.Date)
      */
-    public boolean execute(String jobName) {
+    public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 

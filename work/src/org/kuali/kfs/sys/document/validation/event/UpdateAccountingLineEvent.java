@@ -40,7 +40,7 @@ public final class UpdateAccountingLineEvent extends AccountingLineEventBase {
     public UpdateAccountingLineEvent(String errorPathPrefix, Document document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         super("updating accountingLine in document " + getDocumentId(document), errorPathPrefix, document, originalAccountingLine);
 
-        this.updatedAccountingLine = (AccountingLine) ObjectUtils.deepCopy(updatedAccountingLine);
+        this.updatedAccountingLine = updatedAccountingLine;
     }
 
 

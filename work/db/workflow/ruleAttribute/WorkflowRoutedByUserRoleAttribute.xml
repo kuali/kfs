@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>WorkflowRoutedByUserRoleAttribute</name>
+      <className>edu.iu.uis.eden.routetemplate.RoutedByUserRoleAttribute</className>
+      <label>Workflow Routed By User Role Attribute</label>
+      <description>Attribute to identify the user who routed the document</description>
+      <type>RuleAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

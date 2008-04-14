@@ -62,7 +62,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
     public void testPersistence() throws Exception {
 
 
-        SpringContext.getBean(AccountingLineService.class).save(sline);
+        SpringContext.getBean(BusinessObjectService.class).save(sline);
 
         List<? extends SourceAccountingLine> sourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(SourceAccountingLine.class, document.getDocumentNumber());
         assertTrue(sourceLines.size() > 0);
@@ -75,7 +75,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
         assertEquals(LINE2_TOF.financialObjectCode, line.getFinancialObjectCode());
         assertEquals(LINE2_TOF.financialSubObjectCode, line.getFinancialSubObjectCode());
 
-        SpringContext.getBean(AccountingLineService.class).deleteAccountingLine((AccountingLine) line);
+        SpringContext.getBean(BusinessObjectService.class).delete((AccountingLine) line);
 
     }
 
@@ -114,8 +114,8 @@ public class AccountingLineServiceTest extends KualiTestBase {
         List targetLines = null;
 
         // save 'em
-        SpringContext.getBean(AccountingLineService.class).save(sline);
-        SpringContext.getBean(AccountingLineService.class).save(tline);
+        SpringContext.getBean(BusinessObjectService.class).save(sline);
+        SpringContext.getBean(BusinessObjectService.class).save(tline);
 
         sourceLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(SourceAccountingLine.class, docNumber);
         targetLines = SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(TargetAccountingLine.class, docNumber);
@@ -126,12 +126,12 @@ public class AccountingLineServiceTest extends KualiTestBase {
         // delete 'em
         if (sourceLines != null) {
             for (Iterator i = sourceLines.iterator(); i.hasNext();) {
-                SpringContext.getBean(AccountingLineService.class).deleteAccountingLine((AccountingLine) i.next());
+                SpringContext.getBean(BusinessObjectService.class).delete((AccountingLine) i.next());
             }
         }
         if (targetLines != null) {
             for (Iterator i = targetLines.iterator(); i.hasNext();) {
-                SpringContext.getBean(AccountingLineService.class).deleteAccountingLine((AccountingLine) i.next());
+                SpringContext.getBean(BusinessObjectService.class).delete((AccountingLine) i.next());
             }
         }
 

@@ -40,7 +40,7 @@ public class InternalBillingItem extends PersistableBusinessObjectBase {
      * Constructs a InternalBillingItem.
      */
     public InternalBillingItem() {
-        setItemUnitAmount(new KualiDecimal(0));
+        setItemUnitAmount(KualiDecimal.ZERO);
     }
 
 

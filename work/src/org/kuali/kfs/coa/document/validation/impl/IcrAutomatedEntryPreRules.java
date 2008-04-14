@@ -29,8 +29,7 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
 
 
-    private IcrAutomatedEntry newAccount;
-    private IcrAutomatedEntry copyAccount;
+    private IcrAutomatedEntry icrAutomatedEntry;
 
 
     public IcrAutomatedEntryPreRules() {
@@ -64,11 +63,11 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(newAccount.getAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber(), "");
+        if (StringUtils.isNotBlank(icrAutomatedEntry.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", icrAutomatedEntry.getChartOfAccountsCode(), icrAutomatedEntry.getAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setAccountNumber(account.getAccountNumber());
-                newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                icrAutomatedEntry.setAccountNumber(account.getAccountNumber());
+                icrAutomatedEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
@@ -77,9 +76,9 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
      * This sets the {@link SubAccount} number to padded dashes ("-") if blank
      */
     protected void setSubAccountToDashesIfBlank() {
-        String newSubAccount = newAccount.getSubAccountNumber();
+        String newSubAccount = icrAutomatedEntry.getSubAccountNumber();
         if (StringUtils.isBlank(newSubAccount)) {
-            newAccount.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+            icrAutomatedEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
     }
 
@@ -87,9 +86,9 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
      * This sets the {@link org.kuali.module.chart.bo.SubObjCd} code to padded dashes ("-") if blank
      */
     protected void setSubObjectToDashesIfBlank() {
-        String newSubObject = newAccount.getFinancialSubObjectCode();
+        String newSubObject = icrAutomatedEntry.getFinancialSubObjectCode();
         if (StringUtils.isBlank(newSubObject)) {
-            newAccount.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+            icrAutomatedEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
     }
 
@@ -101,8 +100,6 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (IcrAutomatedEntry) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (IcrAutomatedEntry) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        icrAutomatedEntry = (IcrAutomatedEntry) document.getNewMaintainableObject().getBusinessObject();
     }
 }

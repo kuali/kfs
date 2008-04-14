@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KualiPaymentRequestDocumentSearchResultProcessorAttribute</name>
+      <className>org.kuali.workflow.module.purap.docsearch.PaymentRequestDocumentSearchResultProcessor</className>
+      <label>Kuali Payment Request Document Search Result Processor</label>
+      <description>Kuali Payment Request Document Search Result Processor</description>
+      <type>DocumentSearchResultProcessorAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

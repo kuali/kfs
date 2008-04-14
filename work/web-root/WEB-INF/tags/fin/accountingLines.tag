@@ -99,6 +99,8 @@
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
 <%@ attribute name="sourceLinesReadOnly" required="false" description="Whether the source lines this tag renders should be rendered as read only" %>
 <%@ attribute name="targetLinesReadOnly" required="false" description="Whether the target lines this tag renders should be rendered as read only" %>
+<%@ attribute name="sourceTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the source accounting line group." type="java.util.Map" %>
+<%@ attribute name="targetTotalsOverride" required="false" description="A map of totals to override the typical totaling behavior on the target accounting line group." type="java.util.Map" %>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -171,6 +173,7 @@
           customActions="${customActions}"
           newLineCustomActions="${newLineCustomActions}"
           readOnly="${sourceLinesReadOnly}"
+          totalsOverride="${sourceTotalsOverride}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -198,6 +201,7 @@
             customActions="${customActions}"
             newLineCustomActions="${newLineCustomActions}"
             readOnly="${targetLinesReadOnly}"
+            totalsOverride="${targetTotalsOverride}"
             />
       </c:if>
     </table>

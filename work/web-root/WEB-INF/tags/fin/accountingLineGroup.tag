@@ -105,6 +105,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 <%@ attribute name="newLineCustomActions" required="false" fragment="true"
               description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
 <%@ attribute name="readOnly" required="false" description="Whether this group of accounting line should be read only" %>
+<%@ attribute name="totalsOverride" required="false" description="A map of totals to show, to override the typical group total line." type="java.util.Map" %>
 		  
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
@@ -361,8 +362,20 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
             baselineAccountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"/>
     </c:if>
-
 </logic:iterate>
+
+<%-- show the totals --%>
+<c:choose>
+  <c:when test="${!empty totalsOverride}">
+    <c:forEach var="totalLineLabel" items="${totalsOverride.keySet}">
+      <tr>
+        <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
+        <%-- show totals override --%>
+        <td class="total-line" style="border-left: 0px;"><strong>${totalLineLabel}: ${totalsOverride[totalLineLabel]}</strong></td>
+      </tr>
+    </c:forEach>
+  </c:when>
+  <c:otherwise>
 <tr>
     <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
     <c:choose>
@@ -395,3 +408,5 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     </c:choose>
     <td class="total-line" style="border-left: 0px;">&nbsp;</td>
 </tr>
+  </c:otherwise>
+</c:choose>

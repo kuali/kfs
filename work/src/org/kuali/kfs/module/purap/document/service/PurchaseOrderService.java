@@ -257,4 +257,15 @@ public interface PurchaseOrderService {
      * @param po
      */
     public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po);
+    
+    /**
+     * If there are commodity codes on the items on the PurchaseOrderDocument that
+     * haven't existed yet on the vendor that the PurchaseOrderDocument is using,
+     * then we will spawn a new VendorDetailMaintenanceDocument automatically to
+     * update the vendor with the commodity codes that aren't already existing on
+     * the vendor.
+     *
+     * @param po The PurchaseOrderDocument containing the vendor that we want to update.
+     */
+    public void updateVendorCommodityCode(PurchaseOrderDocument po);
 }

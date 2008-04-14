@@ -75,6 +75,9 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
+            // update vendor commodity code by automatically spawning vendor maintenance document
+            SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);
+            
             // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
 

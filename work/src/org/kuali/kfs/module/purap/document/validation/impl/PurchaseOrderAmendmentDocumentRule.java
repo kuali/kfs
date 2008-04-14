@@ -17,10 +17,14 @@ package org.kuali.module.purap.rules;
 
 import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
@@ -35,12 +39,15 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
+import org.kuali.module.vendor.bo.CommodityCode;
 
 /**
  * Rules for Purchase Order Amendment documents creation.
@@ -89,5 +96,46 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
 
         GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         return false;
+    }
+    
+    /**
+     * Overrides to provide validation for PurchaseOrderAmendmentDocument. 
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#validateCommodityCodes(org.kuali.module.purap.bo.PurApItem, boolean)
+     */
+    @Override
+    protected boolean validateCommodityCodes(PurApItem item, boolean commodityCodeRequired) {
+        boolean valid = true;
+        String identifierString = item.getItemIdentifierString();
+        PurchasingItemBase purItem = (PurchasingItemBase) item;
+        
+        //If the item is inactive then don't need any of the following validations.
+        if (!((PurchaseOrderItem)purItem).isItemActiveIndicator()) {
+            return true;
+        }
+        
+        //This validation is only needed if the commodityCodeRequired system parameter is true
+        if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
+            //This is the case where the commodity code is required but the item does not currently contain the commodity code.
+            valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
+        }
+        else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
+            //Find out whether the commodity code has existed in the database
+            Map fieldValues = new HashMap<String, String>();
+            fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
+                //This is the case where the commodity code on the item does not exist in the database.
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
+            }
+            //Only validate this if the item has not been saved to the database
+            else if (purItem.getVersionNumber() == null && !purItem.getCommodityCode().isActive()) {
+                //This is the case where the commodity code on the item is not active.
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + identifierString);
+            }
+        }
+        
+        return valid;
     }
 }

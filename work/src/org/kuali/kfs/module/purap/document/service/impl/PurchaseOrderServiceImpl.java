@@ -28,13 +28,16 @@ import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.DocumentBase;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.MaintenanceDocumentService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -45,6 +48,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -70,6 +74,8 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.util.PurApObjectUtils;
+import org.kuali.module.vendor.bo.CommodityCode;
+import org.kuali.module.vendor.bo.VendorCommodityCode;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +101,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private RequisitionService requisitionService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
     private KualiWorkflowInfo workflowInfoService;
+    private MaintenanceDocumentService maintenanceDocumentService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -150,6 +157,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
         this.workflowInfoService = workflowInfoService;
+    }
+
+    public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
+        this.maintenanceDocumentService = maintenanceDocumentService;
     }
     
     /**
@@ -600,7 +611,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     purapService.updateStatus(currentDocument, currentDocumentStatusCode);
                 }
                 try {
-                    documentService.saveDocument(newDocument);
+                    documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class);
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
@@ -731,8 +742,156 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         //check thresholds to see if receiving is required for purchase order
         setReceivingRequiredIndicatorForPurchaseOrder(po);
+        
+        //update the vendor record if the commodity code used on the PO is not already
+        //associated with the vendor.
+        updateVendorCommodityCode(po);
     }
 
+    /**
+     * If there are commodity codes on the items on the PurchaseOrderDocument that
+     * haven't existed yet on the vendor that the PurchaseOrderDocument is using,
+     * then we will spawn a new VendorDetailMaintenanceDocument automatically to
+     * update the vendor with the commodity codes that aren't already existing on
+     * the vendor.
+     *
+     * @param po The PurchaseOrderDocument containing the vendor that we want to update.
+     */
+    public void updateVendorCommodityCode(PurchaseOrderDocument po)  {
+        try {
+            VendorDetail oldVendorDetail = po.getVendorDetail();
+            VendorDetail newVendorDetail = updateVendorWithMissingCommodityCodesIfNecessary(po);
+            if (newVendorDetail != null) {
+                //spawn a new vendor maintenance document to add the not
+                MaintenanceDocument vendorMaintDoc = (MaintenanceDocument)documentService.getNewDocument("VendorDetailMaintenanceDocument");
+                vendorMaintDoc.getDocumentHeader().setFinancialDocumentDescription("Automatically spawned from PO");
+                vendorMaintDoc.getOldMaintainableObject().setBusinessObject(oldVendorDetail);
+                vendorMaintDoc.getNewMaintainableObject().setBusinessObject(newVendorDetail);
+                vendorMaintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION);
+                vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
+                boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
+                if (!isVendorLocked) {
+                    //vendorMaintDoc.getNewMaintainableObject().processAfterEdit(vendorMaintDoc, null);
+                    addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
+                    documentService.routeDocument(vendorMaintDoc, null, null);
+                }
+                else {
+                    //Add a note to the PO to tell the users that we can't automatically update the vendor because it's locked.
+                    try {
+                        Note note = documentService.createNoteFromDocument(po, "Unable to automatically update vendor because it is locked");
+                        documentService.addNoteToDocument(po, note);
+                        saveDocumentNoValidation(po);
+                    }
+                    catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    private void addNoteForCommodityCodeToVendor(Maintainable maintainable, String documentNumber, Integer poID) {
+        Note newBONote = new Note();
+        newBONote.setNoteText("Change vendor document ID <" + documentNumber + ">. Document was automatically created from PO <" + poID + "> to add commodity codes used on this PO that were not yet assigned to this vendor.");
+        try {
+            newBONote = noteService.createNote(newBONote, maintainable.getBusinessObject());
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
+        }
+        maintainable.getBusinessObject().getBoNotes().add(newBONote);        
+    }
+    
+    /**
+     * Checks whether the vendor is currently locked.
+     * 
+     * @param document The MaintenanceDocument containing the vendor.
+     * @return boolean true if the vendor is currently locked and false otherwise.
+     */
+    private boolean checkForLockingDocument(MaintenanceDocument document) {
+        String blockingDocId = maintenanceDocumentService.getLockingDocumentId(document);
+        if (StringUtils.isBlank(blockingDocId)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
+    /**
+     * Check whether each of the items contain commodity code, if so then loop
+     * through the vendor commodity codes on the vendor to find out whether the
+     * commodity code on the item has existed on the vendor. While doing that,
+     * also check whether there exists a default commodity code on the vendor, 
+     * although we only need to check this until we find a vendor commodity code
+     * with default indicator set to true. If we didn't find any matching
+     * commodity code in the existing vendor commodity codes, then add the new
+     * commodity code to a List of commodity code, create a new vendor commodity
+     * code and set all of its attributes appropriately, including setting the 
+     * default indicator to true if we had not found any existing default commodity
+     * code on the vendor, then add the newly created vendor commodity code to
+     * the vendor (which is a deep copy of the original vendor on the PO).
+     * After we're done with all of the items, if the List that contains the
+     * commodity code that were being added to the vendor is not empty, then
+     * for each entry on that list, we should create an empty VendorCommodityCode
+     * to be added to the old vendor (the original vendor that is on the PO document).
+     * The reason we're combining all of these processing here is so that we don't
+     * need to loop through items and vendor commodity codes too many times. 
+     * 
+     * @param po  The PurchaseOrderDocument containing the vendor that we want to update.
+     * 
+     * @return VendorDetail the vendorDetail object which is a deep copy of the original
+     *         vendorDetail on the PurchaseOrderDocument, whose commodity codes have
+     *         already been updated based on our findings on the items' commodity codes.
+     */
+    private VendorDetail updateVendorWithMissingCommodityCodesIfNecessary(PurchaseOrderDocument po) {
+        List<CommodityCode> result = new ArrayList<CommodityCode>();
+        boolean foundDefault = false;
+        VendorDetail vendor = (VendorDetail)ObjectUtils.deepCopy(po.getVendorDetail());
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
+            //Only check on commodity codes if the item is active and is above the line item type.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.isItemActiveIndicator()) {
+                CommodityCode cc = item.getCommodityCode();
+                if (cc != null && !result.contains(cc)) {
+                    List<VendorCommodityCode> vendorCommodityCodes = po.getVendorDetail().getVendorCommodities();
+                    boolean foundMatching = false;
+                    for (VendorCommodityCode vcc : vendorCommodityCodes) {
+                        if (vcc.getCommodityCode().getPurchasingCommodityCode().equals(cc.getPurchasingCommodityCode())) {
+                            foundMatching = true;
+                        }
+                        if (!foundDefault && vcc.isCommodityDefaultIndicator()) {
+                            foundDefault = true;
+                        }
+                    }
+                    if (!foundMatching) {
+                        result.add(cc);
+                        VendorCommodityCode vcc = new VendorCommodityCode(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), cc, true);
+                        vcc.setActive(true);
+                        if (!foundDefault) {
+                            vcc.setCommodityDefaultIndicator(true);
+                            foundDefault = true;
+                        }
+                        vendor.getVendorCommodities().add(vcc);
+                    }
+                }
+            }
+        }
+        if (result.size() > 0) {
+            //We also have to add to the old vendor detail's vendorCommodities if we're adding to the new
+            //vendor detail's vendorCommodities.
+            for (int i=0; i<result.size(); i++) {
+                po.getVendorDetail().getVendorCommodities().add(new VendorCommodityCode());
+            }
+            return vendor;
+        }
+        else {
+            return null;
+        }
+    }
+    
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#setupDocumentForPendingFirstTransmission(org.kuali.module.purap.document.PurchaseOrderDocument,
      *      boolean)

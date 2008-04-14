@@ -71,6 +71,7 @@ import org.kuali.module.vendor.bo.VendorContractOrganization;
 import org.kuali.module.vendor.bo.VendorCustomerNumber;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.TaxNumberService;
 
@@ -277,7 +278,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         else {
             // Retrieve the references objects of the vendor header of this vendor.
-            List<String> headerFieldNames = getObjectReferencesListFromBOClass(vendor.getVendorHeader().getClass());
+            List<String> headerFieldNames = getObjectReferencesListFromBOClass(VendorHeader.class);
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(vendor.getVendorHeader(), headerFieldNames);
 
             // We still need to retrieve all the other references of this vendor in addition to
@@ -698,6 +699,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (!valid && !isParent) {
             putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_PARENT_NEEDS_CHANGED);
         }
+        
         return valid;
     }
 
@@ -711,17 +713,20 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         List<VendorCommodityCode> vendorCommodities = newVendor.getVendorCommodities();
         boolean commodityCodeRequired = newVendor.getVendorHeader().getVendorType().isCommodityRequiredIndicator();
-        if (commodityCodeRequired && vendorCommodities.size() == 0) {
-            //display error that the commodity code is required for this type of vendor.
-            String propertyName = "add." + VendorPropertyConstants.VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE;
-            putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_IS_REQUIRED_FOR_THIS_VENDOR_TYPE);
-            valid = false;
+        if (commodityCodeRequired) {
+            if (vendorCommodities.size() == 0) {
+                //display error that the commodity code is required for this type of vendor.
+                String propertyName = "add." + VendorPropertyConstants.VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE;
+                putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_COMMODITY_CODE_IS_REQUIRED_FOR_THIS_VENDOR_TYPE);
+                valid = false;
+            }
+            //We only need to validate the default indicator if there is at least
+            //one commodity code for the vendor.
+            else if (vendorCommodities.size() > 0) {
+                valid &= validateCommodityCodeDefaultIndicator(vendorCommodities);
+            }
         }
-        //We only need to validate the default indicator if there is at least
-        //one commodity code for the vendor.
-        if (vendorCommodities.size() > 0) {
-            valid &= validateCommodityCodeDefaultIndicator(vendorCommodities);
-        }
+        
         return valid;
     }
     

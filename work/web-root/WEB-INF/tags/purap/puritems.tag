@@ -95,8 +95,8 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" /></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" /></kul:htmlAttributeHeaderCell>				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
@@ -122,12 +122,9 @@
 				<td class="infoline">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" />
 			    </td>
-				<td class="infoline">
-				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
-			    </td>
-			    <td class="infoline">
-			        <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
-			        <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
+                <td class="infoline">
+                    <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
+                    <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.commodityCode}" 
                         property="${commodityCodeField}" 
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
@@ -138,7 +135,10 @@
                     <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
                         <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
                     </div>         
-                </td>
+                </td>			    
+				<td class="infoline">
+				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
+			    </td>
 				<td class="infoline">
 				    <div align="right">
 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="newPurchasingItemLine.itemUnitPrice" />
@@ -194,8 +194,8 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<c:if test="${displayRequisitionFields}">
@@ -348,19 +348,13 @@
 						    property="document.item[${ctr}].itemCatalogNumber"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
 				    </td>
-					<td class="infoline">
-						 <kul:htmlControlAttribute
-						    attributeEntry="${itemAttributes.itemDescription}"
-						    property="document.item[${ctr}].itemDescription"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
-					</td>
-					<td class="infoline">
+                    <td class="infoline">
                         <kul:htmlControlAttribute 
                             attributeEntry="${itemAttributes.commodityCode}" 
                             property="document.item[${ctr}].purchasingCommodityCode"
                             onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
-                            readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-                        <c:if test="${fullEntryMode}">   
+                            readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"/>
+                        <c:if test="${fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)}">   
                             <kul:lookup boClassName="org.kuali.module.vendor.bo.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
@@ -368,7 +362,13 @@
                         <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
                             <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
                         </div>
-                    </td>
+                    </td>				    
+					<td class="infoline">
+						 <kul:htmlControlAttribute
+						    attributeEntry="${itemAttributes.itemDescription}"
+						    property="document.item[${ctr}].itemDescription"
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+					</td>
 					<td class="infoline">
 					    <div align="right">
 					        <kul:htmlControlAttribute

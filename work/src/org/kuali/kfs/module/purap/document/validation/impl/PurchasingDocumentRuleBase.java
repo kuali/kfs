@@ -113,6 +113,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             purapDocumentClass = PurchaseOrderDocument.class;
         }
         String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        boolean commodityCodeRequired = false;
         
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
@@ -130,8 +131,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
-                    valid &= validateCommodityCodes(item);
+                    commodityCodeRequired = true;   
                 }
+                valid &= validateCommodityCodes(item, commodityCodeRequired);
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -183,21 +185,22 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             purapDocumentClass = PurchaseOrderDocument.class;
         }
         String commodityCodeIsRequired = SpringContext.getBean(ParameterService.class).getParameterValue(purapDocumentClass, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
-        if (commodityCodeIsRequired.equalsIgnoreCase("N")) {
-            return valid;
+        boolean commodityCodeRequired = false;
+        
+        if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
+            commodityCodeRequired = true;
         }
-        else {
-            int i = 0;
-            for (PurApItem item : ((PurchasingDocument)document).getItems()) {
-                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-                // This validation is applicable to the above the line items only.
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                    item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
-                    valid &= validateCommodityCodes(item);
-                }
-                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
-                i++;
+        int i = 0;
+        for (PurApItem item : ((PurchasingDocument) document).getItems()) {
+            GlobalVariables.getErrorMap().clearErrorPath();
+            GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+            // This validation is applicable to the above the line items only.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
+                valid &= validateCommodityCodes(item, commodityCodeRequired);
             }
+            GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+            i++;
         }
         return valid;
     }
@@ -442,18 +445,18 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param item  The PurApItem containing the commodity code to be validated.
      * @return boolean false if the validation fails and true otherwise.
      */
-    private boolean validateCommodityCodes(PurApItem item) {
+    protected boolean validateCommodityCodes(PurApItem item, boolean commodityCodeRequired) {
         boolean valid = true;
         String identifierString = item.getItemIdentifierString();
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         
-        //This validation is only needed if this method is not called from the doDistribution for distributing commodity code.
-        if (StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
+        //This validation is only needed if the commodityCodeRequired system parameter is true
+        if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, ItemFields.COMMODITY_CODE + " in " + identifierString);
         }
-        else {
+        else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database
             Map fieldValues = new HashMap<String, String>();
             fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, purItem.getPurchasingCommodityCode());

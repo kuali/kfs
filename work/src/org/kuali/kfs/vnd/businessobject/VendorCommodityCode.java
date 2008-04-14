@@ -22,6 +22,16 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase {
 
 	}
 
+	public VendorCommodityCode(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, CommodityCode commodityCode, boolean active) {
+	    this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+	    this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+	    this.commodityCode = commodityCode;
+	    if (commodityCode != null) {
+	        this.purchasingCommodityCode = commodityCode.getPurchasingCommodityCode();
+	    }
+	    this.active = active;
+	}
+	
 	/**
 	 * Gets the vendorHeaderGeneratedIdentifier attribute.
 	 * 

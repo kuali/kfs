@@ -333,6 +333,9 @@
         <property name="workflowInfoService">
             <ref bean="workflowInfoService" />
         </property>  
+        <property name="maintenanceDocumentService">
+            <ref bean="maintenanceDocumentService" />
+        </property>  
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

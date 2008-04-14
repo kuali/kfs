@@ -35,7 +35,8 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
     private KualiDecimal invoiceItemTaxAmount;
     private boolean taxableIndicator;
     private boolean receivableIndicator;
-
+    private Integer invoiceItemDiscountLineNumber;
+    
     private SubObjCd accountsReceivableSubObject;
     private ObjectCode accountsReceivableObject;
 
@@ -230,6 +231,22 @@ public class CustomerInvoiceDetail extends SourceAccountingLine {
      */
     public void setInvoiceItemTaxAmount(KualiDecimal invoiceItemTaxAmount) {
         this.invoiceItemTaxAmount = invoiceItemTaxAmount;
+    }
+
+    /**
+     * Gets the invoiceItemDiscountLineNumber attribute. 
+     * @return Returns the invoiceItemDiscountLineNumber.
+     */
+    public Integer getInvoiceItemDiscountLineNumber() {
+        return invoiceItemDiscountLineNumber;
+    }
+
+    /**
+     * Sets the invoiceItemDiscountLineNumber attribute value.
+     * @param invoiceItemDiscountLineNumber The invoiceItemDiscountLineNumber to set.
+     */
+    public void setInvoiceItemDiscountLineNumber(Integer invoiceItemDiscountLineNumber) {
+        this.invoiceItemDiscountLineNumber = invoiceItemDiscountLineNumber;
     }
 
     /**

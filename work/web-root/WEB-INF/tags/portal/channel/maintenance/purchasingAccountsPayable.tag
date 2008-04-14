@@ -27,6 +27,10 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CampusParameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
         <li>
+            <portal:portalLink displayTitle="true" title="Capital Asset System Type"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CapitalAssetSystemType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+        </li>		
+        <li>
             <portal:portalLink displayTitle="true" title="Capital Asset Transaction Type"
                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CapitalAssetTransactionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
         </li>

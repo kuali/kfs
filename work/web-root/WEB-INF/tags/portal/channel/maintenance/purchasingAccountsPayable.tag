@@ -135,7 +135,7 @@
         </li>		
 		<li>
 			<portal:portalLink displayTitle="true" title="Unit Of Measure"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.UnitOfMeasure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.bo.UnitOfMeasure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Vendor Stipulation"

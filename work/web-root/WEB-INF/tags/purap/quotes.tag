@@ -40,7 +40,7 @@
 	property="methodToCall.printPoQuoteList"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-prntquolist.gif"
 	alt="print quote list" title="print quote list"
-	styleClass="tinybutton" />
+	styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
 				</span>
 			</td>
 		</tr>

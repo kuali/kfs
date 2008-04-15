@@ -77,6 +77,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private List<LaborLedgerPositionObjectBenefit> positionObjectBenefit;
 
     private KualiDecimal percentChange;
+    private KualiInteger persistedAccountLineAnnualBalanceAmount;
 
     /**
      * Default constructor.
@@ -305,6 +306,22 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
+    }
+
+    /**
+     * Gets the persistedAccountLineAnnualBalanceAmount attribute. 
+     * @return Returns the persistedAccountLineAnnualBalanceAmount.
+     */
+    public KualiInteger getPersistedAccountLineAnnualBalanceAmount() {
+        return persistedAccountLineAnnualBalanceAmount;
+    }
+
+    /**
+     * Sets the persistedAccountLineAnnualBalanceAmount attribute value.
+     * @param persistedAccountLineAnnualBalanceAmount The persistedAccountLineAnnualBalanceAmount to set.
+     */
+    public void setPersistedAccountLineAnnualBalanceAmount(KualiInteger persistedAccountLineAnnualBalanceAmount) {
+        this.persistedAccountLineAnnualBalanceAmount = persistedAccountLineAnnualBalanceAmount;
     }
 
     /**

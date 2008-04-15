@@ -114,6 +114,22 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         }
 
     }
+    
+    public void initializePersistedRequestAmounts(){
+        
+        BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
+
+        Iterator revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
+        while (revenueLines.hasNext()) {
+            PendingBudgetConstructionGeneralLedger revenueLine = (PendingBudgetConstructionGeneralLedger) revenueLines.next();
+            revenueLine.setPersistedAccountLineAnnualBalanceAmount(revenueLine.getAccountLineAnnualBalanceAmount());
+        }
+        Iterator expenditureLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().iterator();
+        while (expenditureLines.hasNext()) {
+            PendingBudgetConstructionGeneralLedger expenditureLine = (PendingBudgetConstructionGeneralLedger) expenditureLines.next();
+            expenditureLine.setPersistedAccountLineAnnualBalanceAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
+        }
+    }
 
     /**
      * This method iterates over all of the rev and exp lines in the BC document. TODO verify this - and calls

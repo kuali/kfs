@@ -142,7 +142,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
         // refresh only the doc refs we need
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
-        budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
+//        budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
         errors.addToErrorPath(RiceConstants.DOCUMENT_PROPERTY_NAME);
         
@@ -198,7 +198,7 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             // refresh only the doc refs we need
             List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
-            budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
+//            budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
 
             isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, pendingBudgetConstructionGeneralLedger, errors, isRevenue, true);
 
@@ -268,8 +268,11 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             isReqAmountValid = (currentErrorCount == originalErrorCount);
             isValid &= isReqAmountValid;
 
+            // only do checks if request amount is non-zero and not equal to currently persisted amount
             if (isReqAmountValid && element.getAccountLineAnnualBalanceAmount().isNonZero()){
-                isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
+                if (!element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())){
+                    isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
+                }
             }
 
             errors.removeFromErrorPath(linesErrorPath + "[" + index + "]");
@@ -659,6 +662,8 @@ public class BudgetConstructionRules extends TransactionalDocumentRuleBase imple
             }
 
             // is subacct type cost share?
+            // TODO this expects a a21_sub_account, kuldev doesn't have one to one instances
+            budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
             if (budgetConstructionDocument.getSubAccount().getA21SubAccount() != null){
                 if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(BCConstants.SUB_ACCOUNT_TYPE_COST_SHARE)){
                     isAllowed = false;

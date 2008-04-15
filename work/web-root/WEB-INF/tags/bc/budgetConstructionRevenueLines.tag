@@ -138,6 +138,7 @@
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBalanceTypeCode"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectTypeCode"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].versionNumber"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].persistedAccountLineAnnualBalanceAmount"/>
               </kul:htmlAttributeHeaderCell>
 
               <bc:pbglLineDataCell dataCellCssClass="datacell"

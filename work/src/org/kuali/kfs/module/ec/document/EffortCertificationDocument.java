@@ -47,7 +47,6 @@ import org.kuali.workflow.attribute.RoutingAccount;
 public class EffortCertificationDocument extends TransactionalDocumentBase implements GenericRoutingSet {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
-    private String documentNumber;
     private String effortCertificationReportNumber;
     private boolean effortCertificationDocumentCode;
     private Integer universityFiscalYear;
@@ -72,24 +71,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase imple
      */
     public EffortCertificationDocument() {
         effortCertificationDetailLines = new TypedArrayList(EffortCertificationDetail.class);
-    }
-
-    /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber.
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute value.
-     * 
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
     }
 
     /**

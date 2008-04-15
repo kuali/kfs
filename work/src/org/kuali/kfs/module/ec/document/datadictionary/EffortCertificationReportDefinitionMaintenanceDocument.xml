@@ -82,8 +82,6 @@
 				<maintainableItems>
 					<maintainableCollection name="effortCertificationReportPositions" 
 						businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition"
-						sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup"
-						sourceAttributeName="effortCertificationReportPositions"
 						summaryTitle="Position Object Group Codes">
 						<maintainableField name="effortCertificationReportPositionObjectGroupCode" required="true" />
 						<maintainableField name="active" required="true" >

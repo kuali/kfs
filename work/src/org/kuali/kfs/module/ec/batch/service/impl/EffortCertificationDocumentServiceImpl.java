@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -181,12 +182,17 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUserPersonUserIdentifier();
-            String actionRequestOfOfficer = this.getActionRequest(routeLevelName, RouteLevelNames.ACCOUNT_REVIEW);
-            adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
+            if(StringUtils.isEmpty(accountFiscalOfficerPersonUserId)) {
+                String actionRequestOfOfficer = this.getActionRequest(routeLevelName, RouteLevelNames.ACCOUNT_REVIEW);
+                adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
+            }
 
-            String accountProjectDirectorPersonUserId = contractsAndGrantsModuleService.getProjectDirectorForAccount(account).getPersonUserIdentifier();
-            String actionRequestOfDirector = this.getActionRequest(routeLevelName, RouteLevelNames.PROJECT_DIRECTOR);
-            adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
+            UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            if (projectDirector != null) {
+                String accountProjectDirectorPersonUserId = projectDirector.getPersonUserIdentifier();
+                String actionRequestOfDirector = this.getActionRequest(routeLevelName, RouteLevelNames.PROJECT_DIRECTOR);
+                adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
+            }
         }
     }
 

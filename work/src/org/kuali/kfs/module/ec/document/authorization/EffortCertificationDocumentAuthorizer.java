@@ -45,8 +45,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         TransactionalDocumentActionFlags documentActionFlags = (TransactionalDocumentActionFlags) flags;
 
-        //KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        boolean initiated = KFSConstants.DocumentStatusCodes.INITIATED.equals(document.getDocumentHeader().getFinancialDocumentStatusCode());
+        boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
         if (initiated) {
             // if the status code is intitiated, then the document should be a recreate document that has not been submitted
             documentActionFlags.setCanBlanketApprove(false);
@@ -56,8 +55,10 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
             documentActionFlags.setCanDisapprove(false);
         }
 
-        // disallowed actions for all status(s)
         documentActionFlags.setHasAmountTotal(true);
+        documentActionFlags.setCanAdHocRoute(true);
+        
+        // disallowed actions for all status(s)
         documentActionFlags.setCanCancel(false);
         documentActionFlags.setCanSave(false);
         documentActionFlags.setCanCopy(false);
@@ -88,6 +89,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
             Map<String,Boolean> editableIndicators = this.getEditableIndicator();
             if (editModes.containsKey(routeLevel) && editableIndicators.get(routeLevel)) {
                 editMode = editModes.get(routeLevel);
+                editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.FALSE.toString());
             }
         }
 

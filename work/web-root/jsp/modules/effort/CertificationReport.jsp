@@ -62,7 +62,7 @@
 	
 	<kul:notes />
 	
-	<kul:adHocRecipients />
+	<kul:adHocRecipients/>
 	
 	<kul:routeLog />
 	

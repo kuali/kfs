@@ -277,6 +277,10 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the change on the payroll amount of the given detail line exceeds the specified limit; otherwise, false
      */
     public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {
+        if(detailLine.isNewLineIndicator()) {
+            return false;
+        }
+        
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
         KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
         KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(HUNDRED_DOLLAR_AMOUNT).abs();

@@ -1201,6 +1201,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         PurchaseOrderVendorQuote awardedQuote = new PurchaseOrderVendorQuote();
+
+        // verify that all vendors have a quote status
+        for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
+            if (poQuote.getPurchaseOrderQuoteStatusCode() == null) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_STATUS_NOT_SELECTED);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);                
+            }
+        }
+
         // verify quote status fields
         if (poForm.getAwardedVendorNumber() == null) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
@@ -1215,7 +1224,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
-
+        
         // use question framework to make sure they REALLY want to complete the quote...
         String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
         String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);

@@ -352,6 +352,9 @@
 	<bean id="budgetConstructionAccountObjectDetailReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountObjectDetailReportDaoJdbc">
 	</bean>
 
+	<bean id="budgetConstructionList2PLGReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionList2PLGReportDaoJdbc">
+	</bean>
+
 	<bean id="budgetConstructionMonthSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionMonthSummaryReportDaoJdbc">
 	</bean>
 
@@ -365,6 +368,9 @@
 	</bean>
 
 	<bean id="budgetConstructionSalarySummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSalarySummaryReportDaoJdbc">
+	</bean>
+
+	<bean id="budgetConstructionSynchronizationProblemsReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionSynchronizationProblemsReportDaoJdbc">
 	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
@@ -460,5 +466,6 @@
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.ImportRequestDaoOjb">
     </bean>
+    
     
 </beans>

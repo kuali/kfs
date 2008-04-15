@@ -17,19 +17,11 @@ package org.kuali.module.budget.dao;
 
 public interface BudgetConstructionList2PLGReportDao {
 
-    /**
-     *  cleans List2PLG table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsList2PLGTable(String personUserIdentifier);
 
     /**
-     *  updates List2PLG table.
+     *  updates the table for the report which lists general ledger rows which do not balance with the corresponding detailed salary rows.  the amount of the difference is in an object class called '2PLG'.
      * 
-     * @param personUserIdentifier
-     * @return
+     * @param personUserIdentifier--the user requesting this report
      */
     public void updateReportsList2PLGTable(String personUserIdentifier);
 }

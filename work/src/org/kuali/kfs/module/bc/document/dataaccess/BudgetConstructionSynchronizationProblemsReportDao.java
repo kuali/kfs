@@ -17,18 +17,11 @@ package org.kuali.module.budget.dao;
 
 public interface BudgetConstructionSynchronizationProblemsReportDao {
 
-    /**
-     *  cleans Synchronization Problems table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsSynchronizationProblemsTable(String personUserIdentifier);
 
     /**
-     *  updates Synchronization Problems table.
+     *  creates rows for report indicating invalid object classes or inactive positions in the detailed salary list.
      * 
-     * @param personUserIdentifier
+     * @param personUserIdentifier--the user requesting the report
      * @return
      */
     public void updateReportsSynchronizationProblemsTable(String personUserIdentifier);

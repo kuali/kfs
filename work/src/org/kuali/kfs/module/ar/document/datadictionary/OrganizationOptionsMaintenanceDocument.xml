@@ -20,6 +20,7 @@
 
 <dictionaryEntry>
 	<maintenanceDocument>
+	
 		<businessObjectClass>
 			org.kuali.module.ar.bo.OrganizationOptions
 		</businessObjectClass>
@@ -33,7 +34,7 @@
 			org.kuali.module.ar.rules.OrganizationOptionsPreRules
 		</preRulesCheckClass>
 		<documentAuthorizerClass>
-			org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
+			org.kuali.module.ar.document.authorization.OrganizationOptionsAuthorizer 
 		</documentAuthorizerClass>
 		<authorizations>
 			<authorization action="initiate">

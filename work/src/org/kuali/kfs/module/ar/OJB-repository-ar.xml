@@ -72,66 +72,6 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.document.CustomerCreditMemoDocument" table="AR_CREDIT_MEMO_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
-	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentReferenceInvoiceNumber" column="FDOC_REF_INV_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentShortDescription" column="FDOC_SHORT_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentOverrideCode" column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
-
-	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentPostingYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="subAccountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentPostingYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="financialObjectCode" />
-		<foreignkey field-ref="financialSubObjectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="projectCode" />
-	</reference-descriptor>
-	<reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentPostingYear" />
-		<foreignkey field-ref="universityFiscalPeriodCode" />
-	</reference-descriptor>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.module.ar.bo.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.ar.bo.CollectionStatus" table="AR_CLCTN_STATUS_T">
 	<field-descriptor name="customerCollectionStatusCode" column="CUST_CLCTN_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -910,6 +850,31 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.ar.bo.CreditMemoDocument" table="AR_CRDT_MEMO_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="financialDocumentReferenceInvoiceNumber" column="FDOC_REF_INV_NBR" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <collection-descriptor name="creditMemoDetails" proxy="true" element-class-ref="org.kuali.module.ar.bo.CreditMemoDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="referenceInvoiceItemNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.ar.bo.CreditMemoDetail" table="AR_CRDT_MEMO_DTL_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="referenceInvoiceItemNumber" column="REF_INV_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="creditMemoItemQuantity" column="CRDT_MEMO_ITM_QTY" jdbc-type="DECIMAL"/>
+	<field-descriptor name="creditMemoItemTaxAmount" column="CRDT_MEMO_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="creditMemoItemTotalAmount" column="CRDT_MEMO_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.ar.bo.InvoicePaidAppliedMove" table="AR_INV_PD_APLD_MT">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="paidAppliedItemNumber" column="AR_PD_APLD_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -1286,12 +1251,5 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-</class-descriptor>
-
-<!-- TEMPORARY TABLE -->
-<class-descriptor class="org.kuali.module.ar.document.CustomerCreditMemoDocument" table="AR_CREDIT_MEMO_DOC_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 </descriptor-repository>

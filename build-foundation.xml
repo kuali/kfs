@@ -186,7 +186,7 @@ are intended for use only by Kuali Foundation developers.
         <filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
       </filterset>
     </copy>
-    <maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />
+    <maven goals="clean:clean install source:jar javadoc:jar" options="-U -Dpackaging=jar" />
     <touch file="${rice.project.directory}/pom.xml" />
   </target>
   
@@ -219,7 +219,7 @@ are intended for use only by Kuali Foundation developers.
     <delete>
       <fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
     </delete>
-    <maven goals="source:jar javadoc:jar" options="-Pinstall-kns-dev" />
+    <maven goals="source:jar javadoc:jar" />
     <copy todir="${dependencies.project.directory}">
       <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
       <chainedmapper>

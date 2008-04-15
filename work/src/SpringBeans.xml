@@ -27,17 +27,15 @@
         <property name="defaultTimeout" value="${transaction.timeout}"/>
     </bean>
 
-	<bean id="dataSource" class="org.enhydra.jdbc.standard.StandardXADataSource">
+	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jotm" />
-		<property name="driverName" value="${datasource.driver.class}" />
-		<property name="maxCon" value="${datasource.pool.size}" />
-		<property name="minCon" value="5" />
-		<property name="loginTimeout" value="${datasource.connection.timeout}" />
-        <!-- 
+		<property name="driverClassName" value="${datasource.driver.class}" />
+		<property name="maxSize" value="${datasource.pool.size}" />
+		<property name="minSize" value="5" />
+		<property name="maxWait" value="${datasource.connection.timeout}" />
 		<property name="validationQuery" value="${datasource.validating.query}" />
-         -->
 		<property name="url" value="${datasource.url}" />
-		<property name="user" value="${datasource.username}" />
+		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
 

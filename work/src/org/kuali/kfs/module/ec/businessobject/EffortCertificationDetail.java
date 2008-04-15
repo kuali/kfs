@@ -34,6 +34,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.kuali.module.integration.service.LaborModuleService;
 
 /**
@@ -562,7 +563,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public boolean isFederalOrFederalPassThroughIndicator() {
         if (this.getAccount() != null) {
             List<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-            return this.getAccount().isAwardedByFederalAcency(federalAgencyTypeCodes);
+            return SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(getAccount().getChartOfAccountsCode(), getAccount().getAccountNumber(), federalAgencyTypeCodes);
         }
 
         return false;

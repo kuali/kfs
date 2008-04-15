@@ -142,10 +142,6 @@
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
 
-    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountCfdaNumber" />
-    </reference-descriptor>
-
     <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
@@ -173,9 +169,11 @@
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
         <inverse-foreignkey field-ref="accountNumber" />
     </collection-descriptor>
+    
     <collection-descriptor name="awards" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <!-- orderby name="awardNumber" sort="ASC" / -->
         <inverse-foreignkey field-ref="chartOfAccountsCode" />
+
         <inverse-foreignkey field-ref="accountNumber" />
     </collection-descriptor>
 </class-descriptor>

@@ -836,14 +836,7 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="laborOriginEntryDao">
-			<ref bean="laborOriginEntryDao" />
-		</property>
 	</bean>
-	
-	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
-	    <property name="entryClass" value="org.kuali.module.labor.bo.LaborOriginEntry"/>
-            </bean>
 
 	<bean id="glNightlyOutService" class="org.kuali.module.gl.service.impl.NightlyOutServiceImpl">
 		<property name="generalLedgerPendingEntryService">

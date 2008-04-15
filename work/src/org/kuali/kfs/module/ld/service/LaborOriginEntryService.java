@@ -253,5 +253,13 @@ public interface LaborOriginEntryService {
      * @return the count of the origin entry collection in the given group
      */
     public int getCountOfEntriesInSingleGroup(OriginEntryGroup group);
+    
+    /**
+     * Get all the unscrubbed backup groups for Labor
+     * 
+     * @param backupDate the date all groups created on or before should be return to be backed up
+     * @return a Collection of labor origin entry groups to backup
+     */
+    public Collection getLaborBackupGroups(Date backupDate);
 
 }

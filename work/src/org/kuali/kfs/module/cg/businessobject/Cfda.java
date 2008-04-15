@@ -19,12 +19,13 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 
 /**
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class Cfda extends PersistableBusinessObjectBase {
+public class Cfda extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;

@@ -546,7 +546,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         Iterator<OriginEntryFull> loei = entries.iterator();
         while (loei.hasNext()) {
             OriginEntryFull oe = loei.next();
-            if (!CorrectionDocumentUtils.doesLaborEntryMatchAnyCriteriaGroups(oe, groups)) {
+            if (!org.kuali.module.labor.util.CorrectionDocumentUtils.doesLaborEntryMatchAnyCriteriaGroups(oe, groups)) {
                 loei.remove();
             }
         }

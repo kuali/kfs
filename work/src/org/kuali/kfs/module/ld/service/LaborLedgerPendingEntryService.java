@@ -34,7 +34,7 @@ public interface LaborLedgerPendingEntryService {
      * @param account
      * @return
      */
-    public boolean hasPendingLaborLedgerEntry(Account account);
+    public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber);
 
     /**
      * determine if there is any pending entry that has not been processed for the given criteria

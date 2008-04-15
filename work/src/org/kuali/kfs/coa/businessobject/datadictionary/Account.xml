@@ -109,6 +109,7 @@
                         <inquiryCollection name="awards" businessObjectClass="org.kuali.module.cg.bo.AwardAccount" numberOfColumns="1">
                             <field attributeName="proposalNumber" />
                             <field attributeName="projectDirector.universalUser.personName" />
+
                             <field attributeName="award.workgroupName" />
                             <field attributeName="award.kualiGroupNames" />
                             <field attributeName="award.proposal.proposalFederalPassThroughIndicator" />

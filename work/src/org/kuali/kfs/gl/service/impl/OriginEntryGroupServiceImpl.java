@@ -26,13 +26,13 @@ import java.util.Map;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +46,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private OriginEntryGroupDao originEntryGroupDao;
     private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
-    private LaborOriginEntryDao laborOriginEntryDao;
 
     /**
      * Constructs a OriginEntryGroupServiceImpl instance
@@ -171,18 +170,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
 
     /**
-     * Returns all labor origin entry groups created on the given date to back them up
-     * @param backupDate the date to find labor origin entry groups created on
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#getLaborBackupGroups(java.sql.Date)
-     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getLaborBackupGroups(java.sql.Date)
-     */
-    public Collection getLaborBackupGroups(Date backupDate) {
-        LOG.debug("getBackupGroups() started");
-
-        return originEntryGroupDao.getLaborBackupGroups(backupDate);
-    }
-
-    /**
      * Retrieves all groups to be created today, and creates backup group versions of them
      * @see org.kuali.module.gl.service.OriginEntryGroupService#createBackupGroup()
      */
@@ -211,44 +198,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
             group.setProcess(false);
             group.setScrub(false);
             originEntryGroupDao.save(group);
-        }
-    }
-
-
-    /**
-     * Retrieves all labor origin entry groups to be backed up today and creates backup versions of them
-     * @see org.kuali.module.gl.service.OriginEntryGroupService#createLaborBackupGroup()
-     */
-    public void createLaborBackupGroup() {
-        LOG.debug("createBackupGroup() started");
-
-        // Get the groups that need to be added
-        Date today = dateTimeService.getCurrentSqlDate();
-        Collection groups = originEntryGroupDao.getLaborGroupsToBackup(today);
-
-        // Create the new group
-        OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);
-
-        for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup group = iter.next();
-            // Get only LaborOriginEntryGroup
-            if (group.getSourceCode().startsWith("L")) {
-                Iterator entry_iter = laborOriginEntryDao.getLaborEntriesByGroup(group, 0);
-
-                while (entry_iter.hasNext()) {
-                    LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();
-
-                    entry.setEntryId(null);
-                    entry.setObjectId(new Guid().toString());
-                    entry.setGroup(backupGroup);
-                    laborOriginEntryDao.saveOriginEntry(entry);
-                }
-
-
-                group.setProcess(false);
-                group.setScrub(false);
-                originEntryGroupDao.save(group);
-            }
         }
     }
 
@@ -328,7 +277,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         for (OriginEntryGroup group : c) {
 
             if (group.getSourceCode().startsWith("L") && !groupException.contains(group.getSourceCode())) {
-                group.setRows(laborOriginEntryDao.getGroupCount(group.getId()));
+                group.setRows(SpringContext.getBean(LaborOriginEntryDao.class).getGroupCount(group.getId()));
             }
             else {
                 group.setRows(originEntryDao.getGroupCount(group.getId()));
@@ -475,11 +424,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void setOriginEntryDao(OriginEntryDao oed) {
         originEntryDao = oed;
     }
-
-    public void setLaborOriginEntryDao(LaborOriginEntryDao loed) {
-        laborOriginEntryDao = loed;
-    }
-
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;

@@ -71,29 +71,12 @@ public interface OriginEntryGroupDao {
     public Collection<OriginEntryGroup> getAllScrubbableBackupGroups();
 
     /**
-     * Get all the Labor backup groups to scrub (ie, origin entry groups with source OriginEntrySource.LABOR_BACKUP)
-     * 
-     * @param groupDate the creation date of labor backup groups to find
-     * @return a Collection of Labor backup groups
-     */
-    public Collection getLaborBackupGroups(Date groupDate);
-
-
-    /**
      * Get all the groups to be copied into the backup group
      * 
      * @param groupDate the date returned origin entry groups must have been created on or before
      * @return a Collection of origin entry groups to backup
      */
     public Collection getGroupsToBackup(Date groupDate);
-
-    /**
-     * Get all the groups to be copied into the backup group
-     * 
-     * @param groupDate the date returned origin entry groups must have been created on or before
-     * @return a Collection of Labor Origin Entry Groups to backup
-     */
-    public Collection getLaborGroupsToBackup(Date groupDate);
 
     /**
      * Save a group

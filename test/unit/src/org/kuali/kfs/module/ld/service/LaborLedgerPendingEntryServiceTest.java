@@ -79,7 +79,7 @@ public class LaborLedgerPendingEntryServiceTest extends KualiTestBase {
         int numOfValidAccounts = Integer.valueOf(properties.getProperty(prefixForValidAccount + ".numOfData"));
         List<Account> validAccounts = TestDataPreparator.buildTestDataList(Account.class, properties, prefixForValidAccount, accountFieldNames, deliminator, numOfValidAccounts);
         for (Account account : validAccounts) {
-            assertTrue("At least one record can be found.", laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(account));
+            assertTrue("At least one record can be found.", laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(account.getChartOfAccountsCode(), account.getAccountNumber()));
         }
 
         // test secondary scenarios -- the input is not correct and nothing can be returned
@@ -87,7 +87,7 @@ public class LaborLedgerPendingEntryServiceTest extends KualiTestBase {
         int numOfInvalidAccounts = Integer.valueOf(properties.getProperty(prefixForInvalidAccount + ".numOfData"));
         List<Account> invalidAccounts = TestDataPreparator.buildTestDataList(Account.class, properties, prefixForInvalidAccount, accountFieldNames, deliminator, numOfInvalidAccounts);
         for (Account account : invalidAccounts) {
-            assertFalse("Must not find anything.", laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(account));
+            assertFalse("Must not find anything.", laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(account.getChartOfAccountsCode(), account.getAccountNumber()));
         }
     }
 }

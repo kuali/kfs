@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.dao;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -85,4 +86,20 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
      * @return Collection of entries in the specified group
      */
     Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group);
+    
+    /**
+     * Get all the Labor backup groups to scrub (ie, origin entry groups with source OriginEntrySource.LABOR_BACKUP)
+     * 
+     * @param groupDate the creation date of labor backup groups to find
+     * @return a Collection of Labor backup groups
+     */
+    public Collection getLaborBackupGroups(Date groupDate);
+    
+    /**
+     * Get all the groups to be copied into the backup group
+     * 
+     * @param groupDate the date returned origin entry groups must have been created on or before
+     * @return a Collection of Labor Origin Entry Groups to backup
+     */
+    public Collection getLaborGroupsToBackup(Date groupDate);
 }

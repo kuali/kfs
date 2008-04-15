@@ -209,7 +209,7 @@ public class LaborScrubberProcess {
             groupsToScrub.add(group);
         }
         else {
-            groupsToScrub = originEntryGroupService.getLaborBackupGroups(runDate);
+            groupsToScrub = laborOriginEntryService.getLaborBackupGroups(runDate);
         }
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 

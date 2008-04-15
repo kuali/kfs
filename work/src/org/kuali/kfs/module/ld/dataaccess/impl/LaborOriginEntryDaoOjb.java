@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
 import org.kuali.module.labor.LaborConstants;
@@ -38,6 +40,12 @@ import org.kuali.module.labor.dao.LaborOriginEntryDao;
  */
 public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
+    
+    private static final String DATE = "date";
+    private static final String SOURCE_CODE = "sourceCode";
+    private static final String PROCESS = "process";
+    private static final String VALID = "valid";
+    private static final String SCRUB = "scrub";
 
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroups(java.util.Collection)
@@ -296,5 +304,48 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
+     * Get all the Labor backup groups to scrub (ie, origin entry groups with source OriginEntrySource.LABOR_BACKUP)
+     * 
+     * @param groupDate this parameter isn't really used
+     * @return a Collection of Labor backup groups
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborBackupGroups(java.sql.Date)
+     */
+    public Collection getLaborBackupGroups(Date groupDate) {
+        LOG.debug("getGroupsToBackup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(SOURCE_CODE, OriginEntrySource.LABOR_BACKUP);
+        criteria.addEqualTo(SCRUB, Boolean.TRUE);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+    /**
+     * Get all the groups to be copied into the backup group...though, notably, this method
+     * does nothing to differentiate labor groups from otherwise normal groups.  One must assume
+     * that processing takes place somewhere else
+     * 
+     * @param groupDate the date returned origin entry groups must have been created on or before
+     * @return a Collection of Labor Origin Entry Groups to backup
+     * 
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborScrubberGroups(java.sql.Date)
+     */
+    public Collection getLaborGroupsToBackup(Date groupDate) {
+        LOG.debug("getLaborGroupsToBackup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessOrEqualThan(DATE, groupDate);
+        criteria.addEqualTo(SCRUB, Boolean.TRUE);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 }

@@ -50,7 +50,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.kuali.module.integration.service.LaborModuleService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -74,7 +74,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private BalanceService balanceService;
     private AccountService accountService;
 
@@ -92,7 +91,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.setGeneralLedgerPendingEntryService(SpringContext.getBean(GeneralLedgerPendingEntryService.class));
         this.setBalanceService(SpringContext.getBean(BalanceService.class));
         this.setAccountService(SpringContext.getBean(AccountService.class));
-        this.setLaborLedgerPendingEntryService(SpringContext.getBean(LaborLedgerPendingEntryService.class));
     }
 
     /**
@@ -612,7 +610,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // We must not have any pending labor ledger entries
-        if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
+        if (SpringContext.getBean(LaborModuleService.class).hasPendingLaborLedgerEntry(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber())) {
             putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
             success &= false;
         }
@@ -1149,15 +1147,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
-    }
-
-    /**
-     * This method sets the laborLedgerPendingEntryService
-     * 
-     * @param laborLedgerPendingEntryService
-     */
-    public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {
-        this.laborLedgerPendingEntryService = laborLedgerPendingEntryService;
     }
 
     /**

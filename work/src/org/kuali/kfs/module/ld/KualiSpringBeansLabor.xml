@@ -409,11 +409,7 @@
 		</property>
 	</bean> 
 
-	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step">
-		<property name="originEntryGroupService">
-            <ref bean="originEntryGroupService" />
-        </property>
-	</bean>         
+	<bean id="createLaborBackupGroupStep" class="org.kuali.module.labor.batch.CreateLaborBackupGroupStep" parent="step" />         
            
 	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep" parent="step">
 		<property name="laborScrubberService">

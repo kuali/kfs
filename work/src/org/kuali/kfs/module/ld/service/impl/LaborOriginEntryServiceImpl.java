@@ -471,12 +471,23 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         return this.getCountOfEntriesInGroups(groups);
     }
 
-
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group) {
         return laborOriginEntryDao.getEntryCollectionByGroup(group);
+    }
+    
+    /**
+     * Returns all labor origin entry groups created on the given date to back them up
+     * @param backupDate the date to find labor origin entry groups created on
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getLaborBackupGroups(java.sql.Date)
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getLaborBackupGroups(java.sql.Date)
+     */
+    public Collection getLaborBackupGroups(Date backupDate) {
+        LOG.debug("getBackupGroups() started");
+
+        return laborOriginEntryDao.getLaborBackupGroups(backupDate);
     }
 
     /**

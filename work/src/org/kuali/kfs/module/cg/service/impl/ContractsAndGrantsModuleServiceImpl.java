@@ -15,21 +15,28 @@
  */
 package org.kuali.module.cg.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cg.bo.AccountAwardInformation;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
+import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
 import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber) {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -79,5 +86,96 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
             return this.getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
         }
         return null;
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getCfda(java.lang.String)
+     */
+    public ContractsAndGrantsCfda getCfda(String cfdaNumber) {
+        return getCfdaService().getByPrimaryId(cfdaNumber);
+    }
+
+    /**
+     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String, java.lang.String, java.util.List)
+     */
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
+        AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
+        if (primaryAward == null) {
+            return false;
+        }
+
+        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
+        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    /**
+     * get the primary award account for the given account
+     * 
+     * @param account the given account
+     * @return the primary award account for the given account
+     */
+    private AwardAccount getPrimaryAwardAccount(String chartOfAccountsCode, String accountNumber) {
+        AwardAccount primaryAwardAccount = null;
+        long highestProposalNumber = 0;
+        
+        Map accountKeyValues = new HashMap();
+        accountKeyValues.put("chartOfAccountsCode", chartOfAccountsCode);
+        accountKeyValues.put("accountNumber", accountNumber);
+
+        for (Object awardAccountAsObject : getBusinessObjectService().findMatching(AwardAccount.class, accountKeyValues)) {
+            AwardAccount awardAccount = (AwardAccount)awardAccountAsObject;
+            Long proposalNumber = awardAccount.getProposalNumber();
+
+            if (proposalNumber >= highestProposalNumber) {
+                highestProposalNumber = proposalNumber;
+                primaryAwardAccount = awardAccount;
+            }
+        }
+
+        return primaryAwardAccount;
+    }
+    
+    /**
+     * @see org.kuali.module.integration.service.ContractsAndGrantsModuleService#getAwardInformationForAccount(java.lang.String, java.lang.String)
+     */
+    public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getting award information for account "+chartOfAccountsCode+"-"+accountNumber);
+        }
+        List<ContractsAndGrantsAccountAwardInformation> awardAccounts = new ArrayList<ContractsAndGrantsAccountAwardInformation>();
+        
+        Map accountKeyValues = new HashMap();
+        accountKeyValues.put("chartOfAccountsCode", chartOfAccountsCode);
+        accountKeyValues.put("accountNumber", accountNumber);
+
+        for (Object awardAccountAsObject : getBusinessObjectService().findMatching(AwardAccount.class, accountKeyValues)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Adding award: "+awardAccountAsObject.toString());
+            }
+            awardAccounts.add(new AccountAwardInformation((AwardAccount)awardAccountAsObject));
+        }
+        return awardAccounts;
+    }
+
+    /**
+     * Returns an implementation of the CfdaService
+     * 
+     * @return an implementation of the CfdaService
+     */
+    public CfdaService getCfdaService() {
+        return SpringContext.getBean(CfdaService.class);
+    }
+    
+    /**
+     * Returns an implementation of the BusinessObjectService
+     * 
+     * @return an implementation of the BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
     }
 }

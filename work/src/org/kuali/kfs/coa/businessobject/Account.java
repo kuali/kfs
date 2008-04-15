@@ -40,13 +40,14 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.cg.bo.Cfda;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
+import org.kuali.module.integration.bo.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.module.integration.bo.ContractsAndGrantsCfda;
+import org.kuali.module.integration.service.ContractsAndGrantsModuleService;
 
 /**
  * 
@@ -129,7 +130,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
-    private Cfda cfda;
+    private ContractsAndGrantsCfda cfda;
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -746,12 +747,23 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.accountCfdaNumber = accountCfdaNumber;
     }
 
-    public Cfda getCfda() {
+    /**
+     * Gets the related CFDA record for this account
+     * @return a CFDA record
+     */
+    public ContractsAndGrantsCfda getCfda() {
+        if (cfda == null || !cfda.getCfdaNumber().equals(accountCfdaNumber)) {
+            cfda = SpringContext.getBean(ContractsAndGrantsModuleService.class).getCfda(accountCfdaNumber);
+        }
         return cfda;
     }
-
-    public void setCfda(Cfda cfda) {
-        this.cfda = cfda;
+    
+    public List getAwards() {
+        return awards;
+    }
+    
+    public void setAwards(List awards) {
+        this.awards = awards;
     }
 
     /**
@@ -1793,24 +1805,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * This method returns a collection of AwardAccount objects.
-     * 
-     * @return Collection of associated AwardAccounts.
-     */
-    public List<AwardAccount> getAwards() {
-        return awards;
-    }
-
-    /**
-     * This method sets the associated collection of AwardAccounts to the local collection attribute.
-     * 
-     * @param awards New collection of AwardAccounts to be assigned to this Account.
-     */
-    public void setAwards(List<AwardAccount> awards) {
-        this.awards = awards;
-    }
-
-    /**
      * determine if the given account is awarded by a federal agency
      * 
      * @param account the given account
@@ -1818,39 +1812,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return true if the given account is funded by a federal agency or associated with federal pass through indicator; otherwise,
      *         false
      */
-    public boolean isAwardedByFederalAcency(List<String> federalAgencyTypeCodes) {
-        AwardAccount primaryAward = this.getPrimaryAwardAccount(this);
-        if (primaryAward == null) {
-            return false;
-        }
-
-        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
-        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
-            return true;
-        }
-
-        return false;
+    public boolean isAwardedByFederalAgency(List<String> federalAgencyTypeCodes) {
+        return SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(getChartOfAccountsCode(), getAccountNumber(), federalAgencyTypeCodes);
     }
 
-    /**
-     * get the primary award account for the given account
-     * 
-     * @param account the given account
-     * @return the primary award account for the given account
-     */
-    private AwardAccount getPrimaryAwardAccount(Account account) {
-        AwardAccount primaryAwardAccount = null;
-        long highestProposalNumber = 0;
-
-        for (AwardAccount awardAccount : account.getAwards()) {
-            Long proposalNumber = awardAccount.getProposalNumber();
-
-            if (proposalNumber >= highestProposalNumber) {
-                highestProposalNumber = proposalNumber;
-                primaryAwardAccount = awardAccount;
-            }
-        }
-
-        return primaryAwardAccount;
-    }
+    
 }

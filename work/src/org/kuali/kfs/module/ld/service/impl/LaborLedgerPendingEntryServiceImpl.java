@@ -51,10 +51,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     /**
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.module.chart.bo.Account)
      */
-    public boolean hasPendingLaborLedgerEntry(Account account) {
+    public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
-        fieldValues.put("accountNumber", account.getAccountNumber());
+        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);
+        fieldValues.put("accountNumber", accountNumber);
 
         return businessObjectService.countMatching(LaborLedgerPendingEntry.class, fieldValues) > 0;
     }

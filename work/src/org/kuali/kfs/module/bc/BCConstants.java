@@ -78,6 +78,19 @@ public class BCConstants extends JstlConstants {
     }
 
 
+    // some constants used in rule checking - may eventually move these to system parameters
+
+    // latest period and number of fiscal years before active bcfy that an account becomes not budgetable
+    public static final String NO_BUDGET_ALLOWED_EXPIRE_ACCOUNTING_PERIOD = "06";
+    public static final Integer NO_BUDGET_ALLOWED_FY_OFFSET = Integer.valueOf(2);
+
+    // latest period and number of fiscal years before active bcfy that an account expire warning message gets issued
+    public static final String ACCOUNT_EXPIRE_WARNING_ACCOUNTING_PERIOD = "12";
+    public static final Integer ACCOUNT_EXPIRE_WARNING_FY_OFFSET = Integer.valueOf(1);
+    
+    // account budgetRecordingLevelCode where no budget is allowed
+    public static final String BUDGET_RECORDING_LEVEL_N = "N";
+    public static final String SUB_ACCOUNT_TYPE_COST_SHARE = "CS";
     
     
     public static final String BC_DOCUMENT_REFRESH_CALLER = "BudgetConstruction";

@@ -28,6 +28,10 @@ public class BCKeyConstants {
     public static final String ERROR_LABOR_OBJECT_IN_NOWAGES_ACCOUNT = "error.budget.laborObjectInNoWagesAccount";
     public static final String ERROR_FRINGE_BENEFIT_OBJECT_NOT_ALLOWED = "error.budget.fringeBenefitObjectNotAllowed";
     public static final String ERROR_SALARY_SETTING_OBJECT_ONLY = "error.budget.salarySettingObjectOnly";
+    public static final String ERROR_NO_BUDGET_ALLOWED = "error.budget.noBudgetAllowed";
+    public static final String ERROR_ACCOUNT_EXPIRES_WARNING = "error.budget.accountExpires";
+    public static final String ERROR_BUDGET_RECORDING_LEVEL_NOT_ALLOWED = "error.budget.budgetRecordingLevelNotAllowed";
+    public static final String ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED = "error.budget.subAccountTypeNotAllowed";
     
     public static final String ERROR_REPORT_GETTING_CHART_DESCRIPTION = "error.budget.report.gettingChartDescription";
     public static final String ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION = "error.budget.report.gettingAccountDescription";

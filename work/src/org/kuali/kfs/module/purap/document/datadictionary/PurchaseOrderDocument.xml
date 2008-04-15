@@ -365,6 +365,7 @@
         		<workflowProperty path="documentHeader" />
         		<workflowProperty path="accountsForRouting" />
         		<workflowProperty path="accountsForRouting.account" />
+        		<workflowProperty path="commodityCodesForRouting" />
         		<!-- extra properties for searches -->
         		<workflowProperty path="status" />
         		<workflowProperty path="contractManager" />

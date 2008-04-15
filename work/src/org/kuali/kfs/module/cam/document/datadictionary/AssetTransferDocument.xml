@@ -276,6 +276,12 @@
         	Asset Transfer Document
         </description>        
         <allowsCopy>false</allowsCopy>
-        <allowsErrorCorrection>false</allowsErrorCorrection>        
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+     	 <workflowProperties>
+            <workflowPropertyGroup>
+            	<workflowProperty path="documentHeader" />
+                <workflowProperty path="assetHeader" />
+            </workflowPropertyGroup>
+        </workflowProperties>        
     </transactionalDocument>
 </dictionaryEntry>

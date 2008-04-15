@@ -15,16 +15,23 @@
  */
 package org.kuali.module.cams.service.impl;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.DateUtils;
@@ -33,7 +40,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsKeyConstants;
@@ -42,6 +48,7 @@ import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlpeSourceDetail;
 import org.kuali.module.cams.bo.AssetHeader;
 import org.kuali.module.cams.bo.AssetLocation;
+import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.cams.bo.AssetOrganization;
 import org.kuali.module.cams.bo.AssetPayment;
 import org.kuali.module.cams.document.AssetTransferDocument;
@@ -51,9 +58,18 @@ import org.kuali.module.cams.service.AssetPaymentService;
 import org.kuali.module.cams.service.AssetService;
 import org.kuali.module.cams.service.AssetTransferService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
+    public static enum AmountCategory {
+        EXPENSE, CAPITALIZATION, ACCUM_DEPRECIATION, OFFSET_AMOUNT;
+    }
+
+    private static final Logger LOG = Logger.getLogger(AssetTransferServiceImpl.class);
+    private static final KualiDecimal KUALI_DECIMAL_ZERO = new KualiDecimal(0);
+    private static final String SET_PERIOD_DEPRECIATION_AMOUNT_REGEX = "setperiod\\d.*depreciation\\damount";
     private AssetService assetService;
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
@@ -61,7 +77,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
 
     /**
-     * This method uses reflection and performs steps on all Amount fields
+     * This method uses reflection and performs below steps on all Amount fields
      * <li>If it is a depreciation field, then reset the value to null, so that they don't get copied to offset payments </li>
      * <li>If it is an amount field, then reverse the amount by multiplying with -1 </li>
      * 
@@ -72,24 +88,29 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @throws InvocationTargetException
      */
     private void adjustAmounts(AssetPayment offsetPayment, boolean reverseAmount) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method[] methods = AssetPayment.class.getMethods();
-        for (Method method : methods) {
-            if (method.getReturnType().isAssignableFrom(KualiDecimal.class)) {
-                String setterName = "set" + method.getName().substring(3);
-                Method setter = AssetPayment.class.getMethod(setterName, KualiDecimal.class);
-                KualiDecimal amount = (KualiDecimal) method.invoke(offsetPayment);
-                if (setter != null && amount != null) {
-                    if (setterName.contains("Depreciation")) {
+        LOG.debug("Starting - adjustAmounts() ");
+        PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(AssetPayment.class);
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            Method readMethod = propertyDescriptor.getReadMethod();
+            if (readMethod != null && propertyDescriptor.getPropertyType() != null && propertyDescriptor.getPropertyType().isAssignableFrom(KualiDecimal.class)) {
+                KualiDecimal amount = (KualiDecimal) readMethod.invoke(offsetPayment);
+                Method writeMethod = propertyDescriptor.getWriteMethod();
+                if (writeMethod != null && amount != null) {
+                    // Reset periodic depreciation expenses
+                    if (Pattern.matches(SET_PERIOD_DEPRECIATION_AMOUNT_REGEX, writeMethod.getName().toLowerCase())) {
                         Object[] nullVal = new Object[] { null };
-                        setter.invoke(offsetPayment, nullVal);
+                        writeMethod.invoke(offsetPayment, nullVal);
                     }
                     else if (reverseAmount) {
                         // reverse the amounts
-                        setter.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
+                        writeMethod.invoke(offsetPayment, (amount).multiply(new KualiDecimal(-1)));
                     }
                 }
+
             }
         }
+        LOG.debug("Finished - adjustAmounts()");
+
     }
 
 
@@ -102,28 +123,52 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @param isSource Indicates if postable is for source organization
      * @return GL Postable source detail
      */
-    private AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource) {
+    private AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
         postable.setAccountNumber(plantAccount.getAccountNumber());
-        postable.setAmount(assetPayment.getAccountChargeAmount());
-        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_TR);
+        postable.setBalanceTypeCode(CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+        String organizationOwnerChartOfAccountsCode = null;
         if (isSource) {
-            postable.setChartOfAccountsCode(document.getAsset().getOrganizationOwnerChartOfAccountsCode());
+            organizationOwnerChartOfAccountsCode = document.getAsset().getOrganizationOwnerChartOfAccountsCode();
         }
         else {
-            postable.setChartOfAccountsCode(document.getOrganizationOwnerChartOfAccountsCode());
+            organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
         }
+        postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
+        AssetObjectCode assetObjectCode = findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment);
+
         postable.setDocumentNumber(document.getDocumentNumber());
-        postable.setFinancialDocumentLineDescription("Asset Transfer " + (document.isDebit(postable) ? "Debit" : "Credit") + " Line");
-        postable.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
-        postable.setObjectCode(assetPayment.getFinancialObject());
+        if (AmountCategory.CAPITALIZATION.equals(amountCategory)) {
+            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost ");
+            postable.setAmount(assetPayment.getAccountChargeAmount());
+            postable.setFinancialObjectCode(assetObjectCode.getCapitalizationFinancialObjectCode());
+            postable.setObjectCode(assetObjectCode.getCapitalizationFinancialObject());
+            postable.setCapitalization(true);
+        }
+        else if (AmountCategory.ACCUM_DEPRECIATION.equals(amountCategory)) {
+            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " accumulated depreciation");
+            postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
+            postable.setFinancialObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObjectCode());
+            postable.setObjectCode(assetObjectCode.getAccumulatedDepreciationFinancialObject());
+            postable.setAccumulatedDepreciation(true);
+        }
+        else if (AmountCategory.OFFSET_AMOUNT.equals(amountCategory)) {
+            OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), AssetTransferDocument.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
+            postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " offset amount");
+            postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
+            postable.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+            postable.setObjectCode(offsetDefinition.getFinancialObject());
+            postable.setOffset(true);
+        }
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        postable.setProjectCode(assetPayment.getProjectCode());
+        postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
+        postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
         return postable;
     }
-
 
     /**
      * @see org.kuali.module.cams.service.AssetTransferService#createGLPostables(org.kuali.module.cams.document.AssetTransferDocument)
@@ -132,11 +177,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         // Create GL entries only for capital assets
         Asset asset = document.getAsset();
         if (getAssetService().isCapitalAsset(asset)) {
-            document.setGeneralLedgerPostables(new ArrayList<GeneralLedgerPendingEntrySourceDetail>());
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
             boolean movableAsset = getAssetService().isAssetMovable(asset);
             if (isGLPostable(document, asset, movableAsset)) {
+                asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
                 List<AssetPayment> assetPayments = asset.getAssetPayments();
                 createSourceGLPostables(document, assetPayments, movableAsset);
                 createTargetGLPostables(document, assetPayments, movableAsset);
@@ -246,7 +291,18 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             if (isPaymentEligibleForGLPosting(assetPayment)) {
                 assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
                 if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-                    document.addGeneralLedgerPostables(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true));
+                    KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
+                    if (accountChargeAmount != null && !accountChargeAmount.equals(KUALI_DECIMAL_ZERO)) {
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
+                    }
+                    KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
+                    if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KUALI_DECIMAL_ZERO)) {
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
+                    }
+                    if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KUALI_DECIMAL_ZERO)) {
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
+
+                    }
                 }
             }
         }
@@ -270,9 +326,39 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         }
         for (AssetPayment assetPayment : assetPayments) {
             if (isPaymentEligibleForGLPosting(assetPayment)) {
-                document.addGeneralLedgerPostables(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false));
+                KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
+                if (accountChargeAmount != null && !accountChargeAmount.equals(KUALI_DECIMAL_ZERO)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
+                }
+                KualiDecimal accPrimaryDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
+                if (accPrimaryDepreciationAmount != null && !accPrimaryDepreciationAmount.equals(KUALI_DECIMAL_ZERO)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
+                }
+                if (accountChargeAmount != null && accPrimaryDepreciationAmount != null && accountChargeAmount.subtract(accPrimaryDepreciationAmount).isGreaterThan(KUALI_DECIMAL_ZERO)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
+                }
             }
         }
+    }
+
+
+    /**
+     * Retrieves the asset object code from database for a given Chart code and payment record
+     * 
+     * @param chartOfAccountsCode Charts of Accounts code
+     * @param assetPayment Current Payment Record
+     * @return AssetObjectCode
+     */
+    private AssetObjectCode findAssetObjectCode(String chartOfAccountsCode, AssetPayment assetPayment) {
+        Map<String, Object> pkKeys = new HashMap<String, Object>();
+        pkKeys.put("universityFiscalYear", getUniversityDateService().getCurrentFiscalYear());
+        pkKeys.put("chartOfAccountsCode", chartOfAccountsCode);
+        pkKeys.put("financialObjectSubTypeCode", assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        AssetObjectCode assetObjectCode = (AssetObjectCode) getBusinessObjectService().findByPrimaryKey(AssetObjectCode.class, pkKeys);
+        if (ObjectUtils.isNull(assetObjectCode)) {
+            throw new ReferentialIntegrityException("Asset object code is not defined for this organizationOwnerChartOfAccountsCode=" + chartOfAccountsCode + ", financialObjectSubTypeCode=" + assetPayment.getFinancialObject().getFinancialObjectSubTypeCode() + " for current fiscal year  " + getUniversityDateService().getCurrentFiscalYear());
+        }
+        return assetObjectCode;
     }
 
 

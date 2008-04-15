@@ -16,20 +16,14 @@
 package org.kuali.module.cams.bo;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.PersistableBusinessObjectExtension;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 
 public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail {
-
     private Account account;
     private String accountNumber;
     private KualiDecimal amount;
@@ -48,6 +42,10 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     private String referenceTypeCode;
     private String subAccountNumber;
     private boolean source;
+    private boolean expense;
+    private boolean capitalization;
+    private boolean accumulatedDepreciation;
+    private boolean offset;
 
 
     public Account getAccount() {
@@ -230,6 +228,36 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     }
 
 
+    public boolean isExpense() {
+        return expense;
+    }
+
+
+    public void setExpense(boolean expense) {
+        this.expense = expense;
+    }
+
+
+    public boolean isCapitalization() {
+        return capitalization;
+    }
+
+
+    public void setCapitalization(boolean capitalization) {
+        this.capitalization = capitalization;
+    }
+
+
+    public boolean isAccumulatedDepreciation() {
+        return accumulatedDepreciation;
+    }
+
+
+    public void setAccumulatedDepreciation(boolean accumulatedDepreciation) {
+        this.accumulatedDepreciation = accumulatedDepreciation;
+    }
+
+
     @Override
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
@@ -237,5 +265,17 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
         map.put("amount", this.chartOfAccountsCode);
         return map;
     }
+
+
+    public void setOffset(boolean b) {
+        this.offset = b;
+
+    }
+
+
+    public boolean isOffset() {
+        return offset;
+    }
+
 
 }

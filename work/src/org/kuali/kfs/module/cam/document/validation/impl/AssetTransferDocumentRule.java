@@ -49,7 +49,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         if (checkReferencesExist(assetTransferDocument)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
-            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
+            if (assetTransferDocument.getSourceAssetGlpeSourceDetails() != null && !SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
                 throw new ValidationException("general ledger GLPE generation failed");
             }
             return true;

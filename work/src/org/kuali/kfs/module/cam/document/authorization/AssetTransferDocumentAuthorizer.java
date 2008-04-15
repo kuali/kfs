@@ -15,6 +15,8 @@
  */
 package org.kuali.module.cams.document.authorization;
 
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -55,5 +57,11 @@ public class AssetTransferDocumentAuthorizer extends TransactionalDocumentAuthor
             actionFlags.setCanSave(false);
         }
         return actionFlags;
+    }
+    
+    @Override
+    public Map getEditMode(Document d, UniversalUser u) {
+        // TODO Auto-generated method stub
+        return super.getEditMode(d, u);
     }
 }

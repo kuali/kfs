@@ -51,9 +51,9 @@ public class AssetTransferForm extends KualiTransactionalDocumentFormBase {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         // TODO - When I use below method gets an error [error getting property value for accountingPeriod Property
         // 'accountingPeriod' has no getter method] while reloading a document
-        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
+        // SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
         // TODO So this is a hack to prevent that error
-        // performCustomForceUpperCase(dataDictionaryService);
+        performCustomForceUpperCase(dataDictionaryService);
 
     }
 

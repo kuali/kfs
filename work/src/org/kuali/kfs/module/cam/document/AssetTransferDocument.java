@@ -15,6 +15,7 @@
  */
 package org.kuali.module.cams.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ import org.kuali.module.financial.document.TransferOfFundsDocument;
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
     public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";
-    public final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    public final static String CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "camsGeneralLedgerPendingEntryGenerationProcess";
     private String representativeUniversalIdentifier;
     private String campusCode;
     private String buildingCode;
@@ -75,7 +76,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private State offCampusState;
     private Building building;
     private Room buildingRoom;
-    private List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables;
+    private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
+    private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
 
     // Transient attributes
     private transient Asset asset;
@@ -83,13 +85,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
     public AssetTransferDocument() {
         super();
-    }
-
-
-    public void addGeneralLedgerPostables(GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail) {
-        if (this.generalLedgerPostables != null) {
-            this.generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
-        }
+        this.sourceAssetGlpeSourceDetails = new ArrayList<AssetGlpeSourceDetail>();
+        this.targetAssetGlpeSourceDetails = new ArrayList<AssetGlpeSourceDetail>();
     }
 
 
@@ -210,14 +207,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         return postable.getAmount();
     }
 
-    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
-        return this.generalLedgerPostables;
+    public List<AssetGlpeSourceDetail> getSourceAssetGlpeSourceDetails() {
+        return this.sourceAssetGlpeSourceDetails;
     }
 
 
     public GeneralLedgerPendingEntryGenerationProcess getGeneralLedgerPostingHelper() {
         Map<String, GeneralLedgerPendingEntryGenerationProcess> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPendingEntryGenerationProcess.class);
-        return glPostingHelpers.get(GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+        return glPostingHelpers.get(CAMS_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
 
     /**
@@ -392,15 +389,19 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
 
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        AssetGlpeSourceDetail srcDetail = (AssetGlpeSourceDetail) postable;
+        AssetGlpeSourceDetail postableDetail = (AssetGlpeSourceDetail) postable;
         boolean isDebit = false;
-        // If source org and amount is negative then true
-        if (srcDetail.isSource() && srcDetail.getAmount().isNegative()) {
-            isDebit = true;
+        // If source org
+        if (postableDetail.isSource()) {
+            if ((postableDetail.isCapitalization() && postableDetail.getAmount().isNegative()) || (postableDetail.isAccumulatedDepreciation() && postableDetail.getAmount().isPositive()) || (postableDetail.isOffset() && postableDetail.getAmount().isPositive())) {
+                isDebit = true;
+            }
         }
         // If target and amount is positive then true
-        if (!srcDetail.isSource() && srcDetail.getAmount().isPositive()) {
-            isDebit = true;
+        if (!postableDetail.isSource()) {
+            if ((postableDetail.isCapitalization() && postableDetail.getAmount().isPositive()) || (postableDetail.isAccumulatedDepreciation() && postableDetail.getAmount().isNegative()) || (postableDetail.isOffset() && postableDetail.getAmount().isNegative())) {
+                isDebit = true;
+            }
         }
         return isDebit;
     }
@@ -522,8 +523,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    public void setGeneralLedgerPostables(List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables) {
-        this.generalLedgerPostables = generalLedgerPostables;
+    public void setGeneralLedgerPostables(List<AssetGlpeSourceDetail> generalLedgerPostables) {
+        this.sourceAssetGlpeSourceDetails = generalLedgerPostables;
     }
 
 
@@ -716,5 +717,32 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPostables() {
+        List<GeneralLedgerPendingEntrySourceDetail> generalLedgerPostables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        for (GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail : this.sourceAssetGlpeSourceDetails) {
+            generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
+        }
+        for (GeneralLedgerPendingEntrySourceDetail generalLedgerPendingEntrySourceDetail : this.targetAssetGlpeSourceDetails) {
+            generalLedgerPostables.add(generalLedgerPendingEntrySourceDetail);
+        }
+        return generalLedgerPostables;
+    }
+
+
+    public List<AssetGlpeSourceDetail> getTargetAssetGlpeSourceDetails() {
+        return targetAssetGlpeSourceDetails;
+    }
+
+
+    public void setTargetAssetGlpeSourceDetails(List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails) {
+        this.targetAssetGlpeSourceDetails = targetAssetGlpeSourceDetails;
+    }
+
+
+    public void setSourceAssetGlpeSourceDetails(List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails) {
+        this.sourceAssetGlpeSourceDetails = sourceAssetGlpeSourceDetails;
     }
 }

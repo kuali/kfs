@@ -26,13 +26,17 @@
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
-<c:set var="readOnly" value="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.VIEW_ONLY]}" />
-
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="effortCertificationReport"
 	documentTypeName="${documentTypeName}" renderMultipart="true"
 	showTabButtons="true">
 	
+	<!-- TODO: remove those hidden fields below after hiddenDocumentFields is fixed -->	
+	<c:forEach items="${KualiForm.editingMode}" var="mode">
+      <html:hidden property="editingMode(${mode.key})"/>
+    </c:forEach>
+    <!-- TODO: remove those hidden fields above after hiddenDocumentFields is fixed -->
+    
 	<html:hidden property="document.effortCertificationReportNumber" />
     <html:hidden property="document.effortCertificationDocumentCode" />
     <html:hidden property="document.universityFiscalYear" />
@@ -49,7 +53,7 @@
 	<c:forTokens var="fieldName" items="${hiddenFieldNames}" delims=",">	
 		<input type="hidden" name="document.${fieldName}" id="document.${fieldName}" value="${KualiForm.document[fieldName]}"/>		  
 	</c:forTokens>
- 
+
  	<c:if test="${KualiForm.editingMode[EffortConstants.EffortCertificationEditMode.PROJECT_ENTRY]}">
 		<er:summaryTab/>	
 	</c:if>

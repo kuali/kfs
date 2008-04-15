@@ -170,7 +170,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         List<AdHocRouteRecipient> adHocRoutePersons = effortCertificationDocument.getAdHocRoutePersons();
 
         KualiWorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
-        String routeLevelName = KualiWorkflowUtils.getRoutingLevelName(workflowDocument);
+        String routeLevelName = workflowDocument.getCurrentRouteNodeNames();
 
         for (EffortCertificationDetail detailLine : detailLines) {
             boolean hasBeenChanged = EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromPersisted(detailLine);

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.Note;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
@@ -49,8 +48,6 @@ import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
 import org.kuali.module.integration.service.LaborModuleService;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -145,18 +142,18 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
             return false;
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
             return false;
         }
 
         KualiDecimal originalTotalAmount = document.getTotalOriginalPayrollAmount();
-        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)).toString());
+        if (EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)) {
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)).toString());
             return false;
         }
 
@@ -180,9 +177,12 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             valid &= this.processUpdateDetailLineRules(effortCertificationDocument, detailLine);
         }
 
-        valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument);
+        valid &= this.processCustomRouteDocumentBusinessRules(effortCertificationDocument); 
+        
+        // TODO: enable it after document types are corrected
+        //valid &= this.processGenerateSalaryExpenseTransferDocumentRules(effortCertificationDocument);
 
-        if(valid) {            
+        if (valid) {
             effortCertificationDocumentService.addRouteLooping(effortCertificationDocument);
         }
 
@@ -204,18 +204,18 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromOriginal(effortCertificationDocument)) {
             List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
             if (notes == null || notes.isEmpty()) {
-                reportError(KFSConstants.DOCUMENT_NOTES_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
+                reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
                 return false;
             }
         }
 
         if (EffortCertificationDocumentRuleUtil.isTotalPayrollAmountOverChanged(effortCertificationDocument, EffortConstants.AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE)).toString());
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE)).toString());
             return false;
         }
 
         if (!EffortCertificationDocumentRuleUtil.isTotalEffortPercentageAs100(effortCertificationDocument)) {
-            reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
@@ -225,7 +225,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (effortCertificationReportDefinitionService.hasApprovedEffortCertification(emplid, reportDefinition)) {
             List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
             if (notes == null || notes.isEmpty()) {
-                reportError(KFSConstants.DOCUMENT_NOTES_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
+                reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
                 return false;
             }
         }
@@ -349,6 +349,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         return comparableFields;
     }

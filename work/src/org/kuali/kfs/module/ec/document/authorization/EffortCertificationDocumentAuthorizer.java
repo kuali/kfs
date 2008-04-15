@@ -72,15 +72,10 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
      */
     @Override
     public Map<String, String> getEditMode(Document document, UniversalUser universalUser) {
-        Map<String, String> editModeMap = super.getEditMode(document, universalUser);
+        Map<String, String> editModeMap = new HashMap<String, String>();
         String editMode = EffortCertificationEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();  
-        
-        // TODO: to be removed after the routing works
-        LOG.info("=====> workflowDocument: " + workflowDocument + ":" + workflowDocument.getStatusDisplayValue());
-        LOG.info("=====> routeLevelName: " + workflowDocument.getCurrentRouteNodeNames() + ":" + workflowDocument.getDocRouteLevel() + ":" + workflowDocument.isApprovalRequested());
-        
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(document, universalUser)) {
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());

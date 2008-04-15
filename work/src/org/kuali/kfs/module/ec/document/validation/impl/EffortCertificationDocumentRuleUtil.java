@@ -177,7 +177,7 @@ public class EffortCertificationDocumentRuleUtil {
         List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailLines();
 
         for (EffortCertificationDetail line : detailLines) {
-            if (ObjectUtil.equals(line, detailLine, comparableFields)) {
+            if(detailLine != line && ObjectUtil.equals(line, detailLine, comparableFields)) {
                 return true;
             }
         }

@@ -159,9 +159,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         // Handling lookups for quote vendor search that is specific to Purchase Order.
-        if (request.getParameter("document.newQuoteVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.newQuoteVendorDetailAssignedIdentifier") != null) {
+        String newVendorHeaderGeneratedIdentifier = request.getParameter("newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier");
+        String newVendorDetailAssignedIdentifier = request.getParameter("newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier");
+        if (newVendorHeaderGeneratedIdentifier != null && newVendorDetailAssignedIdentifier != null) {
             // retrieve this vendor from DB and add it to the end of the list
-            VendorDetail newVendor = SpringContext.getBean(VendorService.class).getVendorDetail(document.getNewQuoteVendorHeaderGeneratedIdentifier(), document.getNewQuoteVendorDetailAssignedIdentifier());
+            VendorDetail newVendor = SpringContext.getBean(VendorService.class).getVendorDetail(Integer.parseInt(newVendorHeaderGeneratedIdentifier), Integer.parseInt(newVendorDetailAssignedIdentifier));
             PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
             newPOVendorQuote.setVendorName(newVendor.getVendorName());
             newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());

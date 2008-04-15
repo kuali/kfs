@@ -225,7 +225,7 @@
 			<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorCityName" />					
 			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorStateCode" />							
 			<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorZipCode" >
-				<required>true</required>
+				<required>false</required>
 			</attributeReference>                 				
 			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorCountryCode" >	
 				<required>false</required>

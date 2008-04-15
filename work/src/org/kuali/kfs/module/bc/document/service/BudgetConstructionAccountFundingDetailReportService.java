@@ -20,7 +20,7 @@ import java.util.Collection;
 import org.kuali.module.budget.bo.BudgetConstructionOrgAccountFundingDetailReport;
 
 /**
- * This interface defines the methods for BudgetConstructionAccountFundingDetailReports
+ * defines the methods for BudgetConstructionAccountFundingDetailReports
  */
 public interface BudgetConstructionAccountFundingDetailReportService {
 

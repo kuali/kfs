@@ -15,13 +15,23 @@
  */
 package org.kuali.module.budget.rules;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.service.AccountingPeriodService;
 
 /**
  * Common Budget Construction rule utilities
@@ -59,5 +69,29 @@ public class BudgetConstructionRuleUtil {
         }
 
         return isFound;
+    }
+    public static Calendar getNoBudgetAllowedExpireDate(Integer activeBCFiscalYear){
+        
+        AccountingPeriod accountingPeriod = (AccountingPeriod) SpringContext.getBean(AccountingPeriodService.class).getByPeriod(BCConstants.NO_BUDGET_ALLOWED_EXPIRE_ACCOUNTING_PERIOD, activeBCFiscalYear-BCConstants.NO_BUDGET_ALLOWED_FY_OFFSET);
+        
+        Date date = accountingPeriod.getUniversityFiscalPeriodEndDate();
+        GregorianCalendar gcal = new GregorianCalendar();
+        gcal.setTime(date);
+        gcal.add(Calendar.DAY_OF_MONTH, 1);
+
+        return gcal;
+        
+    }
+    public static Calendar getAccountExpiredWarningExpireDate(Integer activeBCFiscalYear){
+        
+        AccountingPeriod accountingPeriod = (AccountingPeriod) SpringContext.getBean(AccountingPeriodService.class).getByPeriod(BCConstants.ACCOUNT_EXPIRE_WARNING_ACCOUNTING_PERIOD, activeBCFiscalYear-BCConstants.ACCOUNT_EXPIRE_WARNING_FY_OFFSET);
+        
+        Date date = accountingPeriod.getUniversityFiscalPeriodEndDate();
+        GregorianCalendar gcal = new GregorianCalendar();
+        gcal.setTime(date);
+        gcal.add(Calendar.DAY_OF_MONTH, 1);
+
+        return gcal;
+        
     }
 }

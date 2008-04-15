@@ -1,9 +1,11 @@
 package org.kuali.module.cams.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.Room;
@@ -14,35 +16,39 @@ import org.kuali.kfs.bo.State;
  */
 public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
-	private String documentNumber;
-	private Long capitalAssetNumber;
-	private String campusCode;
-	private String buildingCode;
-	private String serialNumber;
-	private String buildingRoomNumber;
-	private String buildingSubRoomNumber;
-	private String campusTagNumber;
-	private String organizationInventoryName;
-	private String organizationAssetTypeIdentifier;
+    private String documentNumber;
+    private Long capitalAssetNumber;
+    private String campusCode;
+    private String buildingCode;
+    private String serialNumber;
+    private String buildingRoomNumber;
+    private String buildingSubRoomNumber;
+    private String campusTagNumber;
+    private String organizationInventoryName;
+    private String organizationAssetTypeIdentifier;
     private String offCampusName;
     private String offCampusAddress;
-	private String offCampusCityName;
-	private String offCampusStateCode;
-	private String offCampusZipCode;
+    private String offCampusCityName;
+    private String offCampusStateCode;
+    private String offCampusZipCode;
     private String offCampusCountryCode;
     private String governmentTagNumber;
     private String nationalStockNumber;
-    
+
     private Asset asset;
     private Campus campus;
     private Building building;
     private Room buildingRoom;
     private State offCampusState;
     private Country offCampusCountry;
-    
+
     private Integer locationQuantity;
-    
-	/**
+
+    // Non persistent
+    private List<AssetGlobalDetail> assetGlobalUniqueDetails;
+
+
+    /**
      * Gets the locationQuantity attribute.
      * 
      * @return Returns the locationQuantity.
@@ -61,305 +67,279 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-	 * Default constructor.
-	 */
-	public AssetGlobalDetail() {
+     * Default constructor.
+     */
+    public AssetGlobalDetail() {
+        assetGlobalUniqueDetails = new TypedArrayList(AssetGlobalDetail.class);
 
-	}
+    }
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
-	/**
-	 * Gets the capitalAssetNumber attribute.
-	 * 
-	 * @return Returns the capitalAssetNumber
-	 * 
-	 */
-	public Long getCapitalAssetNumber() { 
-		return capitalAssetNumber;
-	}
+    /**
+     * Gets the capitalAssetNumber attribute.
+     * 
+     * @return Returns the capitalAssetNumber
+     */
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
 
-	/**
-	 * Sets the capitalAssetNumber attribute.
-	 * 
-	 * @param capitalAssetNumber The capitalAssetNumber to set.
-	 * 
-	 */
-	public void setCapitalAssetNumber(Long capitalAssetNumber) {
-		this.capitalAssetNumber = capitalAssetNumber;
-	}
+    /**
+     * Sets the capitalAssetNumber attribute.
+     * 
+     * @param capitalAssetNumber The capitalAssetNumber to set.
+     */
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
 
-	/**
-	 * Gets the campusCode attribute.
-	 * 
-	 * @return Returns the campusCode
-	 * 
-	 */
-	public String getCampusCode() { 
-		return campusCode;
-	}
+    /**
+     * Gets the campusCode attribute.
+     * 
+     * @return Returns the campusCode
+     */
+    public String getCampusCode() {
+        return campusCode;
+    }
 
-	/**
-	 * Sets the campusCode attribute.
-	 * 
-	 * @param campusCode The campusCode to set.
-	 * 
-	 */
-	public void setCampusCode(String campusCode) {
-		this.campusCode = campusCode;
-	}
+    /**
+     * Sets the campusCode attribute.
+     * 
+     * @param campusCode The campusCode to set.
+     */
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
 
 
-	/**
-	 * Gets the buildingCode attribute.
-	 * 
-	 * @return Returns the buildingCode
-	 * 
-	 */
-	public String getBuildingCode() { 
-		return buildingCode;
-	}
+    /**
+     * Gets the buildingCode attribute.
+     * 
+     * @return Returns the buildingCode
+     */
+    public String getBuildingCode() {
+        return buildingCode;
+    }
 
-	/**
-	 * Sets the buildingCode attribute.
-	 * 
-	 * @param buildingCode The buildingCode to set.
-	 * 
-	 */
-	public void setBuildingCode(String buildingCode) {
-		this.buildingCode = buildingCode;
-	}
+    /**
+     * Sets the buildingCode attribute.
+     * 
+     * @param buildingCode The buildingCode to set.
+     */
+    public void setBuildingCode(String buildingCode) {
+        this.buildingCode = buildingCode;
+    }
 
 
-	/**
-	 * Gets the serialNumber attribute.
-	 * 
-	 * @return Returns the serialNumber
-	 * 
-	 */
-	public String getSerialNumber() { 
-		return serialNumber;
-	}
+    /**
+     * Gets the serialNumber attribute.
+     * 
+     * @return Returns the serialNumber
+     */
+    public String getSerialNumber() {
+        return serialNumber;
+    }
 
-	/**
-	 * Sets the serialNumber attribute.
-	 * 
-	 * @param serialNumber The serialNumber to set.
-	 * 
-	 */
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
+    /**
+     * Sets the serialNumber attribute.
+     * 
+     * @param serialNumber The serialNumber to set.
+     */
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
 
-	/**
-	 * Gets the buildingRoomNumber attribute.
-	 * 
-	 * @return Returns the buildingRoomNumber
-	 * 
-	 */
-	public String getBuildingRoomNumber() { 
-		return buildingRoomNumber;
-	}
+    /**
+     * Gets the buildingRoomNumber attribute.
+     * 
+     * @return Returns the buildingRoomNumber
+     */
+    public String getBuildingRoomNumber() {
+        return buildingRoomNumber;
+    }
 
-	/**
-	 * Sets the buildingRoomNumber attribute.
-	 * 
-	 * @param buildingRoomNumber The buildingRoomNumber to set.
-	 * 
-	 */
-	public void setBuildingRoomNumber(String buildingRoomNumber) {
-		this.buildingRoomNumber = buildingRoomNumber;
-	}
+    /**
+     * Sets the buildingRoomNumber attribute.
+     * 
+     * @param buildingRoomNumber The buildingRoomNumber to set.
+     */
+    public void setBuildingRoomNumber(String buildingRoomNumber) {
+        this.buildingRoomNumber = buildingRoomNumber;
+    }
 
 
-	/**
-	 * Gets the buildingSubRoomNumber attribute.
-	 * 
-	 * @return Returns the buildingSubRoomNumber
-	 * 
-	 */
-	public String getBuildingSubRoomNumber() { 
-		return buildingSubRoomNumber;
-	}
+    /**
+     * Gets the buildingSubRoomNumber attribute.
+     * 
+     * @return Returns the buildingSubRoomNumber
+     */
+    public String getBuildingSubRoomNumber() {
+        return buildingSubRoomNumber;
+    }
 
-	/**
-	 * Sets the buildingSubRoomNumber attribute.
-	 * 
-	 * @param buildingSubRoomNumber The buildingSubRoomNumber to set.
-	 * 
-	 */
-	public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
-		this.buildingSubRoomNumber = buildingSubRoomNumber;
-	}
+    /**
+     * Sets the buildingSubRoomNumber attribute.
+     * 
+     * @param buildingSubRoomNumber The buildingSubRoomNumber to set.
+     */
+    public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
+        this.buildingSubRoomNumber = buildingSubRoomNumber;
+    }
 
 
-	/**
-	 * Gets the campusTagNumber attribute.
-	 * 
-	 * @return Returns the campusTagNumber
-	 * 
-	 */
-	public String getCampusTagNumber() { 
-		return campusTagNumber;
-	}
+    /**
+     * Gets the campusTagNumber attribute.
+     * 
+     * @return Returns the campusTagNumber
+     */
+    public String getCampusTagNumber() {
+        return campusTagNumber;
+    }
 
-	/**
-	 * Sets the campusTagNumber attribute.
-	 * 
-	 * @param campusTagNumber The campusTagNumber to set.
-	 * 
-	 */
-	public void setCampusTagNumber(String campusTagNumber) {
-		this.campusTagNumber = campusTagNumber;
-	}
+    /**
+     * Sets the campusTagNumber attribute.
+     * 
+     * @param campusTagNumber The campusTagNumber to set.
+     */
+    public void setCampusTagNumber(String campusTagNumber) {
+        this.campusTagNumber = campusTagNumber;
+    }
 
 
-	/**
-	 * Gets the organizationInventoryName attribute.
-	 * 
-	 * @return Returns the organizationInventoryName
-	 * 
-	 */
-	public String getOrganizationInventoryName() { 
-		return organizationInventoryName;
-	}
+    /**
+     * Gets the organizationInventoryName attribute.
+     * 
+     * @return Returns the organizationInventoryName
+     */
+    public String getOrganizationInventoryName() {
+        return organizationInventoryName;
+    }
 
-	/**
-	 * Sets the organizationInventoryName attribute.
-	 * 
-	 * @param organizationInventoryName The organizationInventoryName to set.
-	 * 
-	 */
-	public void setOrganizationInventoryName(String organizationInventoryName) {
-		this.organizationInventoryName = organizationInventoryName;
-	}
+    /**
+     * Sets the organizationInventoryName attribute.
+     * 
+     * @param organizationInventoryName The organizationInventoryName to set.
+     */
+    public void setOrganizationInventoryName(String organizationInventoryName) {
+        this.organizationInventoryName = organizationInventoryName;
+    }
 
 
-	/**
-	 * Gets the organizationAssetTypeIdentifier attribute.
-	 * 
-	 * @return Returns the organizationAssetTypeIdentifier
-	 * 
-	 */
-	public String getOrganizationAssetTypeIdentifier() { 
-		return organizationAssetTypeIdentifier;
-	}
+    /**
+     * Gets the organizationAssetTypeIdentifier attribute.
+     * 
+     * @return Returns the organizationAssetTypeIdentifier
+     */
+    public String getOrganizationAssetTypeIdentifier() {
+        return organizationAssetTypeIdentifier;
+    }
 
-	/**
-	 * Sets the organizationAssetTypeIdentifier attribute.
-	 * 
-	 * @param organizationAssetTypeIdentifier The organizationAssetTypeIdentifier to set.
-	 * 
-	 */
-	public void setOrganizationAssetTypeIdentifier(String organizationAssetTypeIdentifier) {
-		this.organizationAssetTypeIdentifier = organizationAssetTypeIdentifier;
-	}
+    /**
+     * Sets the organizationAssetTypeIdentifier attribute.
+     * 
+     * @param organizationAssetTypeIdentifier The organizationAssetTypeIdentifier to set.
+     */
+    public void setOrganizationAssetTypeIdentifier(String organizationAssetTypeIdentifier) {
+        this.organizationAssetTypeIdentifier = organizationAssetTypeIdentifier;
+    }
 
 
-	/**
-	 * Gets the offCampusAddress attribute.
-	 * 
-	 * @return Returns the offCampusAddress
-	 * 
-	 */
-	public String getOffCampusAddress() { 
-		return offCampusAddress;
-	}
+    /**
+     * Gets the offCampusAddress attribute.
+     * 
+     * @return Returns the offCampusAddress
+     */
+    public String getOffCampusAddress() {
+        return offCampusAddress;
+    }
 
-	/**
-	 * Sets the offCampusAddress attribute.
-	 * 
-	 * @param offCampusAddress The offCampusAddress to set.
-	 * 
-	 */
-	public void setOffCampusAddress(String offCampusAddress) {
-		this.offCampusAddress = offCampusAddress;
-	}
+    /**
+     * Sets the offCampusAddress attribute.
+     * 
+     * @param offCampusAddress The offCampusAddress to set.
+     */
+    public void setOffCampusAddress(String offCampusAddress) {
+        this.offCampusAddress = offCampusAddress;
+    }
 
 
-	/**
-	 * Gets the offCampusCityName attribute.
-	 * 
-	 * @return Returns the offCampusCityName
-	 * 
-	 */
-	public String getOffCampusCityName() { 
-		return offCampusCityName;
-	}
+    /**
+     * Gets the offCampusCityName attribute.
+     * 
+     * @return Returns the offCampusCityName
+     */
+    public String getOffCampusCityName() {
+        return offCampusCityName;
+    }
 
-	/**
-	 * Sets the offCampusCityName attribute.
-	 * 
-	 * @param offCampusCityName The offCampusCityName to set.
-	 * 
-	 */
-	public void setOffCampusCityName(String offCampusCityName) {
-		this.offCampusCityName = offCampusCityName;
-	}
+    /**
+     * Sets the offCampusCityName attribute.
+     * 
+     * @param offCampusCityName The offCampusCityName to set.
+     */
+    public void setOffCampusCityName(String offCampusCityName) {
+        this.offCampusCityName = offCampusCityName;
+    }
 
 
-	/**
-	 * Gets the offCampusStateCode attribute.
-	 * 
-	 * @return Returns the offCampusStateCode
-	 * 
-	 */
-	public String getOffCampusStateCode() { 
-		return offCampusStateCode;
-	}
+    /**
+     * Gets the offCampusStateCode attribute.
+     * 
+     * @return Returns the offCampusStateCode
+     */
+    public String getOffCampusStateCode() {
+        return offCampusStateCode;
+    }
 
-	/**
-	 * Sets the offCampusStateCode attribute.
-	 * 
-	 * @param offCampusStateCode The offCampusStateCode to set.
-	 * 
-	 */
-	public void setOffCampusStateCode(String offCampusStateCode) {
-		this.offCampusStateCode = offCampusStateCode;
-	}
+    /**
+     * Sets the offCampusStateCode attribute.
+     * 
+     * @param offCampusStateCode The offCampusStateCode to set.
+     */
+    public void setOffCampusStateCode(String offCampusStateCode) {
+        this.offCampusStateCode = offCampusStateCode;
+    }
 
 
-	/**
-	 * Gets the offCampusZipCode attribute.
-	 * 
-	 * @return Returns the offCampusZipCode
-	 * 
-	 */
-	public String getOffCampusZipCode() { 
-		return offCampusZipCode;
-	}
+    /**
+     * Gets the offCampusZipCode attribute.
+     * 
+     * @return Returns the offCampusZipCode
+     */
+    public String getOffCampusZipCode() {
+        return offCampusZipCode;
+    }
 
-	/**
-	 * Sets the offCampusZipCode attribute.
-	 * 
-	 * @param offCampusZipCode The offCampusZipCode to set.
-	 * 
-	 */
-	public void setOffCampusZipCode(String offCampusZipCode) {
-		this.offCampusZipCode = offCampusZipCode;
-	}
+    /**
+     * Sets the offCampusZipCode attribute.
+     * 
+     * @param offCampusZipCode The offCampusZipCode to set.
+     */
+    public void setOffCampusZipCode(String offCampusZipCode) {
+        this.offCampusZipCode = offCampusZipCode;
+    }
 
-	/**
-     * Gets the offCampusCountryCode attribute. 
+    /**
+     * Gets the offCampusCountryCode attribute.
+     * 
      * @return Returns the offCampusCountryCode.
      */
     public String getOffCampusCountryCode() {
@@ -368,6 +348,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the offCampusCountryCode attribute value.
+     * 
      * @param offCampusCountryCode The offCampusCountryCode to set.
      */
     public void setOffCampusCountryCode(String offCampusCountryCode) {
@@ -375,7 +356,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Gets the offCampusName attribute. 
+     * Gets the offCampusName attribute.
+     * 
      * @return Returns the offCampusName.
      */
     public String getOffCampusName() {
@@ -384,6 +366,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the offCampusName attribute value.
+     * 
      * @param offCampusName The offCampusName to set.
      */
     public void setOffCampusName(String offCampusName) {
@@ -394,9 +377,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the governmentTagNumber attribute.
      * 
      * @return Returns the governmentTagNumber
-     * 
      */
-    public String getGovernmentTagNumber() { 
+    public String getGovernmentTagNumber() {
         return governmentTagNumber;
     }
 
@@ -404,7 +386,6 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the governmentTagNumber attribute.
      * 
      * @param governmentTagNumber The governmentTagNumber to set.
-     * 
      */
     public void setGovernmentTagNumber(String governmentTagNumber) {
         this.governmentTagNumber = governmentTagNumber;
@@ -415,9 +396,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the nationalStockNumber attribute.
      * 
      * @return Returns the nationalStockNumber
-     * 
      */
-    public String getNationalStockNumber() { 
+    public String getNationalStockNumber() {
         return nationalStockNumber;
     }
 
@@ -425,34 +405,33 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the nationalStockNumber attribute.
      * 
      * @param nationalStockNumber The nationalStockNumber to set.
-     * 
      */
     public void setNationalStockNumber(String nationalStockNumber) {
         this.nationalStockNumber = nationalStockNumber;
     }
-    
-    /**
-	 * Gets the campus attribute.
-	 * 
-	 * @return Returns the campus
-	 * 
-	 */
-	public Campus getCampus() { 
-		return campus;
-	}
-
-	/**
-	 * Sets the campus attribute.
-	 * 
-	 * @param campus The campus to set.
-	 * @deprecated
-	 */
-	public void setCampus(Campus campus) {
-		this.campus = campus;
-	}
 
     /**
-     * Gets the building attribute. 
+     * Gets the campus attribute.
+     * 
+     * @return Returns the campus
+     */
+    public Campus getCampus() {
+        return campus;
+    }
+
+    /**
+     * Sets the campus attribute.
+     * 
+     * @param campus The campus to set.
+     * @deprecated
+     */
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+    /**
+     * Gets the building attribute.
+     * 
      * @return Returns the building.
      */
     public Building getBuilding() {
@@ -461,6 +440,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the building attribute value.
+     * 
      * @param building The building to set.
      * @deprecated
      */
@@ -469,7 +449,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Gets the buildingRoom attribute. 
+     * Gets the buildingRoom attribute.
+     * 
      * @return Returns the buildingRoom.
      */
     public Room getBuildingRoom() {
@@ -478,6 +459,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the buildingRoom attribute value.
+     * 
      * @param buildingRoom The buildingRoom to set.
      * @deprecated
      */
@@ -486,7 +468,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Gets the offCampusState attribute. 
+     * Gets the offCampusState attribute.
+     * 
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
@@ -495,6 +478,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the offCampusState attribute value.
+     * 
      * @param offCampusState The offCampusState to set.
      * @deprecated
      */
@@ -503,7 +487,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Gets the offCampusCountry attribute. 
+     * Gets the offCampusCountry attribute.
+     * 
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
@@ -512,15 +497,17 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the offCampusCountry attribute value.
+     * 
      * @param offCampusCountry The offCampusCountry to set.
      * @deprecated
      */
     public void setOffCampusCountry(Country offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
-    
+
     /**
-     * Gets the asset attribute. 
+     * Gets the asset attribute.
+     * 
      * @return Returns the asset.
      */
     public Asset getAsset() {
@@ -529,17 +516,37 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Sets the asset attribute value.
+     * 
      * @param asset The asset to set.
      */
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-    
+
+
+    /**
+     * Gets the assetGlobalUniqueDetails attribute.
+     * 
+     * @return Returns the assetGlobalUniqueDetails.
+     */
+    public List<AssetGlobalDetail> getAssetGlobalUniqueDetails() {
+        return assetGlobalUniqueDetails;
+    }
+
+    /**
+     * Sets the assetGlobalUniqueDetails attribute value.
+     * 
+     * @param assetGlobalUniqueDetails The assetGlobalUniqueDetails to set.
+     */
+    public void setAssetGlobalUniqueDetails(List<AssetGlobalDetail> assetGlobalUniqueDetails) {
+        this.assetGlobalUniqueDetails = assetGlobalUniqueDetails;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());

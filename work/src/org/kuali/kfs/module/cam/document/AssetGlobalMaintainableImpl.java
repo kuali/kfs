@@ -14,57 +14,49 @@
  * limitations under the License.
  */
 package org.kuali.module.cams.maintenance;
-
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
-import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
+import org.kuali.module.cams.bo.AssetPaymentDetail;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
-    
+
     /**
      * Hook for quantity and setting asset numbers.
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
-        
-        if (addAssetLine.getLocationQuantity() >= 1) {
-            for (int i = 1; i < addAssetLine.getLocationQuantity(); i++) {
-                AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
+        /*
+         * AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
+         * addAssetLine.setNewCollectionRecord(true); Collection maintCollection = (Collection)
+         * ObjectUtils.getPropertyValue(getBusinessObject(), collectionName); maintCollection.add(addAssetLine);
+         */
 
-                assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());              
-                assetGlobalDetail.setCampusCode(addAssetLine.getCampusCode());
-                assetGlobalDetail.setBuildingCode(addAssetLine.getBuildingCode());
-                assetGlobalDetail.setBuildingRoomNumber(addAssetLine.getBuildingRoomNumber());
-                assetGlobalDetail.setBuildingSubRoomNumber(addAssetLine.getBuildingSubRoomNumber());
-                assetGlobalDetail.setOffCampusName(addAssetLine.getOffCampusName());
-                assetGlobalDetail.setOffCampusAddress(addAssetLine.getOffCampusAddress());
-                assetGlobalDetail.setOffCampusCityName(addAssetLine.getOffCampusCityName());
-                assetGlobalDetail.setOffCampusStateCode(addAssetLine.getOffCampusStateCode());
-                assetGlobalDetail.setOffCampusZipCode(addAssetLine.getOffCampusZipCode());
-                assetGlobalDetail.setOffCampusCountryCode(addAssetLine.getOffCampusCountryCode());
-                
-                assetGlobalDetail.setNewCollectionRecord(true);
-                Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
-                maintCollection.add(assetGlobalDetail);
+        //super.addNewLineToCollection(collectionName);
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        if ("assetPaymentDetails".equalsIgnoreCase(collectionName)) {
+            AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
+            if (assetPaymentDetail != null) {
+                assetPaymentDetail.setFinancialDocumentLineNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             }
         }
-        addAssetLine.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
         super.addNewLineToCollection(collectionName);
     }
 
@@ -97,5 +89,72 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             maintenanceLocks.add(maintenanceLock);
         }
         return maintenanceLocks;
+    }
+
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+
+        List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
+        List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
+
+        for (AssetGlobalDetail locationDetail : assetGlobalDetails) {
+            List<AssetGlobalDetail> assetGlobalUniqueDetails = locationDetail.getAssetGlobalUniqueDetails();
+
+            for (AssetGlobalDetail detail : assetGlobalUniqueDetails) {
+                // read from location and set it to detail
+                detail.setCampusCode(locationDetail.getCampusCode());
+                detail.setBuildingCode(locationDetail.getBuildingCode());
+                detail.setBuildingRoomNumber(locationDetail.getBuildingRoomNumber());
+                detail.setBuildingSubRoomNumber(locationDetail.getBuildingSubRoomNumber());
+                detail.setOffCampusName(locationDetail.getOffCampusName());
+                detail.setOffCampusAddress(locationDetail.getOffCampusAddress());
+                detail.setOffCampusCityName(locationDetail.getOffCampusCityName());
+                detail.setOffCampusStateCode(locationDetail.getOffCampusStateCode());
+                detail.setOffCampusCountryCode(locationDetail.getOffCampusCountryCode());
+                detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
+                newDetails.add(detail);
+            }
+        }
+        assetGlobal.getAssetGlobalDetails().clear();
+        assetGlobal.setAssetGlobalDetails(newDetails);
+
+
+    }
+
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
+        AssetGlobalDetail currLocationDetail = null;
+        HashMap<String, AssetGlobalDetail> locationMap = new HashMap<String, AssetGlobalDetail>();
+
+        for (AssetGlobalDetail detail : assetGlobalDetails) {
+            String key = generateLocationKey(detail);
+            if ((currLocationDetail = locationMap.get(key)) == null) {
+                currLocationDetail = detail;
+                locationMap.put(key, currLocationDetail);
+            }
+            currLocationDetail.getAssetGlobalUniqueDetails().add(detail);
+        }
+        assetGlobal.getAssetGlobalDetails().clear();
+        assetGlobal.setAssetGlobalDetails(new ArrayList<AssetGlobalDetail>(locationMap.values()));
+    }
+
+    private String generateLocationKey(AssetGlobalDetail location) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(location.getCampusCode() == null ? "" : location.getCampusCode().toLowerCase().trim());
+        builder.append(location.getBuildingCode() == null ? "" : location.getBuildingCode().toLowerCase().trim());
+        builder.append(location.getBuildingRoomNumber() == null ? "" : location.getBuildingRoomNumber().toLowerCase().trim());
+        builder.append(location.getBuildingSubRoomNumber() == null ? "" : location.getBuildingSubRoomNumber().toLowerCase().trim());
+        builder.append(location.getOffCampusName() == null ? "" : location.getOffCampusName().toLowerCase().trim());
+        builder.append(location.getOffCampusAddress() == null ? "" : location.getOffCampusAddress().toLowerCase().trim());
+        builder.append(location.getOffCampusCityName() == null ? "" : location.getOffCampusCityName().toLowerCase().trim());
+        builder.append(location.getOffCampusStateCode() == null ? "" : location.getOffCampusStateCode().toLowerCase().trim());
+        builder.append(location.getOffCampusCountryCode() == null ? "" : location.getOffCampusCountryCode().toLowerCase().trim());
+        builder.append(location.getOffCampusZipCode() == null ? "" : location.getOffCampusZipCode().toLowerCase().trim());
+        return builder.toString();
     }
 }

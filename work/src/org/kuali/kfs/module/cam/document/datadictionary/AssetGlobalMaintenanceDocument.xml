@@ -83,14 +83,13 @@
 					<maintainableField name="createDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
-					<maintainableField name="capitalAssetInServiceDate" required="false">
-                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
-                    </maintainableField>
-					<maintainableField name="capitalAssetDepreciationDate" />
+					<maintainableField name="capitalAssetInServiceDate" required="false" readOnly="true"/>
+					<maintainableField name="capitalAssetDepreciationDate" readOnly="true"/>
 					<maintainableField name="landCountyName" required="false" />
  				    <maintainableField name="landAcreageSize" required="false" />
 				    <maintainableField name="landParcelNumber" required="false" />
 	                <maintainableField name="versionNumber" required="false" />	
+	                <maintainableField name="financialDocumentNextLineNumber" required="false" />
 	                				
                     <!-- TODO following is temporary fix to avoid OJB ver# exception -->
 	                <maintainableField name="assetHeader.versionNumber" required="false" readOnly="true"/>
@@ -99,7 +98,8 @@
 
             <maintainableSection title="Campus Location">
                 <maintainableItems>
-                	 <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
+               
+                   	   <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" summaryTitle="Asset Location">
 
 						<!-- <subSectionHeader name="On Campus" /> -->
 						<maintainableField name="capitalAssetNumber" required="false" readOnly="true"/>
@@ -114,19 +114,31 @@
                         <maintainableField name="offCampusStateCode" required="true" />
                         <maintainableField name="offCampusZipCode" required="true" />
                         <maintainableField name="offCampusCountryCode" required="false" />
-                        <maintainableField name="locationQuantity" required="false" />
+                        <!-- maintainableField name="locationQuantity" required="false" /-->
 	                    <maintainableField name="versionNumber" required="false" />					
+                        <maintainableCollection name="assetGlobalUniqueDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" summaryTitle="Asset Unique Information">
+                        	<maintainableField name="serialNumber" required="false" />
+                        	<maintainableField name="organizationInventoryName" required="false" />
+                        	<maintainableField name="organizationAssetTypeIdentifier" required="false" />
+                        	<maintainableField name="governmentTagNumber" required="false" />
+                        	<maintainableField name="campusTagNumber" required="false" />
+                        	<maintainableField name="nationalStockNumber" required="false" />
+                        	<maintainableField name="versionNumber" required="false" />
+                        	<summaryFields >
+                        		<summaryField name="serialNumber" />
+                        	</summaryFields>
+                        </maintainableCollection>
                         <summaryFields>
-                        	<summaryField name="campusCode" />
                             <summaryField name="capitalAssetNumber" />
                         </summaryFields>
-                    </maintainableCollection>
+                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
 
             <maintainableSection title="Add Payments">
                 <maintainableItems>
-                    <maintainableCollection name="assetPaymentDetails" businessObjectClass="org.kuali.module.cams.bo.AssetPaymentDetail">
+                    <maintainableCollection name="assetPaymentDetails" businessObjectClass="org.kuali.module.cams.bo.AssetPaymentDetail" summaryTitle="Asset Payment">
+                    	 <maintainableField name="financialDocumentLineNumber" readOnly="true" />
 					    <maintainableField name="chartOfAccountsCode" required="true" />
 					    <maintainableField name="accountNumber" required="true" />
 					    	<!-- display acct name & org. code -->
@@ -144,6 +156,9 @@
 					    <maintainableField name="financialDocumentPostingPeriodCode" required="true" />
 					    <maintainableField name="accountChargeAmount" required="true" />
 					    <maintainableField name="versionNumber" required="false" />
+					    <summaryFields>
+                            <summaryField name="financialDocumentLineNumber" />
+                        </summaryFields>
                     </maintainableCollection>
 				</maintainableItems>
             </maintainableSection>

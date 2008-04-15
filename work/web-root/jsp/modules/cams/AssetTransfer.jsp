@@ -192,6 +192,7 @@
 				lookupParameters="document.assetRepresentative.personUserIdentifier:personUserIdentifier,document.representativeUniversalIdentifier:personUniversalIdentifier,document.assetRepresentative.personName:personName" 
 				fieldConversions="personUserIdentifier:document.assetRepresentative.personUserIdentifier,personUniversalIdentifier:document.representativeUniversalIdentifier,personName:document.assetRepresentative.personName" 
 				userId="${KualiForm.document.assetRepresentative.personUserIdentifier}" universalId="${KualiForm.document.representativeUniversalIdentifier}" userName="${KualiForm.document.assetRepresentative.personName}"/>
+				<html:hidden property="document.representativeUniversalIdentifier" />
 				</td>
 			</tr>
 			<tr>

@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.dao;
 
+import java.util.List;
+
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 
 /**
@@ -24,75 +27,16 @@ import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 public interface ImportRequestDao {
     
     /**
-     * checks if record has a non-budgeted account
      * 
-     * @return true if account is non-budgeted.
+     * @return header record or null if record does not exist.
      */
-    public boolean isNonBudgetedAccount(BudgetConstructionRequestMove record);
+    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record);
     
     /**
-     * if record's account closed account is flagged with 'CLAC' error code
+     * find all BudgetConstructionRequestMove records with null error codes
      * 
-     * @return true if account was flagged. false if not flagged
+     * @return List<BudgetConstructionRequestMove>
      */
-    //public void isClosedAccount(BudgetConstructionRequestMove record);
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords();
     
-    /**
-     * Flags all expired account records with 'EXAC' error code
-     * 
-     */
-    //public void flagExpiredAccounts();
-    
-    /**
-     * Flags all inactive subaccount records with 'INSA' error code
-     * 
-     */
-    //public void flagInactiveSubAccounts();
-    
-    /**
-     * Sets subaccount type code for each budget construction request record
-     */
-    //public void setObjectTypeCodes();
-    
-    /**
-     * Flags all invalid object due to null object type with 'NOOB' error code
-     * 
-     */
-    //public void flagInvalidObjectCodesDueToNullObjectType();
-    
-    /**
-     * Flags all invalid object due to bad object type with 'NOOB' error code
-     * 
-     */
-    //public void flagInvalidObjectCodesDueToBadObjectType();
-    
-    /**
-     * Flags all invalid object codes that are not due to bad or null object types with 'INOB' error codes
-     * 
-     */
-    //public void flagOtherInvalidObjectCodes();
-    
-    /**
-     * flags all compensation object codes with 'COMP' error codes
-     * 
-     */
-    //public void flagCompensationObjectCodes();
-    
-    /**
-     * flag all no wage accounts with 'CMPA' error codes
-     * 
-     */
-    //public void flagNoWageAccounts();
-    
-    /**
-     * flag invalid sub-object codes with 'NOSO' error codes 
-     * 
-     */
-    //public void flagInvalidSubObjectCodes();
-    
-    /**
-     * flag all inactive sub-object codes with 'INSO' error codes
-     * 
-     */
-    //public void flagInactiveSubObjectCodes();
 }

@@ -51,7 +51,10 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
     private KualiInteger financialDocumentMonth10LineAmount;
     private KualiInteger financialDocumentMonth11LineAmount;
     private KualiInteger financialDocumentMonth12LineAmount;
-
+    
+    private boolean hasAccess = false;
+    private boolean hasLock = false;
+    
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
@@ -458,7 +461,56 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
+    
+    /**
+     * returs true if user has access
+     * 
+     * @return
+     */
+    public boolean getHasAccess() {
+        return this.hasAccess;
+    }
 
+    /**
+     * sets user access
+     * 
+     * @param hasAccess
+     */
+    public void setHasAccess(boolean hasAccess) {
+        this.hasAccess = hasAccess;
+    }
+    
+    /**
+     * returns true if record has lock
+     * 
+     * @return
+     */
+    public boolean getHasLock() {
+        return this.hasLock;
+    }
+    
+    /**
+     * sets has lock
+     * 
+     * @param hasLock
+     */
+    public void setHasLock(boolean hasLock) {
+        this.hasLock = hasLock;
+    }
+    
+    /**
+     * returns concatenated string of personUniversalIdentifier, chart, account, subaccount
+     * 
+     * @return
+     */
+    public String getSubAccountingString() {
+        return personUniversalIdentifier + "-" + chartOfAccountsCode + "-" + accountNumber + "-" + subAccountNumber;
+    }
+    
+    public String getErrorLinePrefixForLogFile() {
+        return "Line Key: " + chartOfAccountsCode + ", " + accountNumber + ", " + subAccountNumber + ", " + financialObjectCode + ", " + financialSubObjectCode;
+    }
+    
     /**
      * Sets the chartOfAccounts attribute.
      * 

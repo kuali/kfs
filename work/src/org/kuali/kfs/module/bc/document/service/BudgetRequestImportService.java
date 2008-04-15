@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.budget.dao.ImportRequestDao;
 
 import com.lowagie.text.DocumentException;
@@ -38,7 +39,7 @@ public interface BudgetRequestImportService {
      * @return list of errors encountered during file processing
      * @throws IOException
      */
-    public List processImportFile (InputStream fileImportStream, String fieldSeperator, String textDelimiter, String fileType) throws IOException;
+    public List processImportFile (InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType) throws IOException;
     
     /**
      * Generates the log file
@@ -52,10 +53,17 @@ public interface BudgetRequestImportService {
     /**
      * Checks the imported request records for valid data. Sets error codes on invalid records.
      * 
-     * @return true if data is valid. false otherwise
+     * @return true if no data validation errors were found. false otherwise
      * 
      */
-    public boolean validateData();
+    public List<String> validateData();
+    
+    /**
+     * Loads all budget request records that do not have error codes
+     * 
+     * @return
+     */
+    public List<String> loadBudget(UniversalUser user, String fileType) throws Exception;
     
     /**
      * Gets ImportRequestDao

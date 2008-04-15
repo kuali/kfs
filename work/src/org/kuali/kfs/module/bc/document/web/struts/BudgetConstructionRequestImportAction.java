@@ -16,6 +16,7 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -71,7 +73,10 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             return new ActionForward(lookupUrl, true);
         }
         
-        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String personUniversalIdentifier = user.getPersonUniversalIdentifier();
+        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType());
+        
         if (!parsingErrors.isEmpty()) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             budgetRequestImportService.generatePdf(parsingErrors, baos);
@@ -79,11 +84,16 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
             return null;
         }
         
-        boolean isFileDataValid = budgetRequestImportService.validateData();
+        List<String> dataValidationErrorList = budgetRequestImportService.validateData();
+        List<String> messageList = new ArrayList<String>();
         
-        if (!isFileDataValid) {
-            //write error line to file?
+        if (!dataValidationErrorList.isEmpty()) {
+            messageList.add("Fatal error during data validation");
+            messageList.addAll(dataValidationErrorList);
         }
+        
+        List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType());
+        //TODO: write error messages to pdf
         
         basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         lookupUrl = basePath + "/" + BCConstants.BC_SELECTION_ACTION + "?methodToCall=loadExpansionScreen";
@@ -122,68 +132,56 @@ public class BudgetConstructionRequestImportAction extends KualiAction {
         
         if ( form.getFile() == null || form.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FILE_IS_REQUIRED);
             isValid = false;
         }
         if (form.getFile() != null && (StringUtils.isBlank(form.getFile().getFileName())) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
         
         //file type validation
         if ( StringUtils.isBlank(form.getFileType()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
             isValid = false;
         }
         if (!StringUtils.isBlank(form.getFileType()) && 
                 !form.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString()) &&
                 !form.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
             isValid = false;
         }
         //field separator validations
         if ( StringUtils.isBlank(form.getFieldDelimiter()) )  {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
             isValid = false;
         } else if (form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) && StringUtils.isBlank(form.getOtherFieldDelimiter()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
             isValid = false;
         } else if (!form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.COMMA.getSeparator()) &&
                     !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.TAB.getSeparator()) &&
                     !form.getFieldDelimiter().equals(BCConstants.RequestImportFieldSeparator.OTHER.toString()) ) {
                         //user did not pick a valid field separator value
                         errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-                        System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_FIELD_SEPARATOR_REQUIRED);
-                        System.out.println("field delimiter = " + form.getFieldDelimiter());
                         isValid = false;    
         }
         
         //text delimiter validations
         if ( StringUtils.isBlank(form.getTextFieldDelimiter()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
             isValid = false;
         } else if (form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) && StringUtils.isBlank(form.getOtherTextFieldDelimiter()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
             isValid = false;
         } else if (!form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter()) &&
                 !form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter()) &&
                 !form.getTextFieldDelimiter().equals(BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()) ) {
                     //user did not pick a valid field separator value
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
-                    System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_TEXT_DELIMITER_REQUIRED);
                     isValid = false;    
         }
         
         if (isValid && getFieldSeparator(form).equalsIgnoreCase(getTextFieldDelimiter(form))) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_DISTINCT_DELIMITERS_REQUIRED);
-            System.out.println("!!ERROR !! " + BCKeyConstants.ERROR_DISTINCT_DELIMITERS_REQUIRED);
             isValid = false;
         }
          

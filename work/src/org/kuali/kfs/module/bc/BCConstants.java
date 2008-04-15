@@ -263,27 +263,36 @@ public class BCConstants extends JstlConstants {
     }
     
     //budget construction request move data validation error codes
-    public enum RequestImportDataValidationErrorFlag {
-        DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE("ACSA"),
-        DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE("CLAC"),
-        DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE("EXAC"),
-        DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE("INSA"),
-        DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE("NOOB"),
-        DATA_VALIDATION_OBJECT_TYPE_INVALID_ERROR_CODE("NOOB"),
-        DATA_VALIDATION_OBJECT_TYPE_INACTIVE_ERROR_CODE("INOB"),
-        DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE("INSO"),
-        DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE("NOSO"),
-        DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE("CMPA"),
-        DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE("CMPA");
+    public enum RequestImportErrorCode {
+        DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE("ACSA", "Error: No budgeted account/sub-account found"),
+        DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE("CLAC", "Error: Account is closed"),
+        DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE("EXAC", "Error: Account is expired"),
+        DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE("INSA", "Error: Sub-account is inactive"),
+        DATA_VALIDATION_OBJECT_TYPE_NULL_ERROR_CODE("NOOB", "Error: Invalid object code"),
+        DATA_VALIDATION_OBJECT_TYPE_INVALID_ERROR_CODE("NOOB", "Error: Invalid object code"),
+        DATA_VALIDATION_OBJECT_TYPE_INACTIVE_ERROR_CODE("INOB", "Error: Inactive object code"),
+        DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE("INSO", "Error: Inactive sub-object code"),
+        DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE("NOSO", "Error: Invalid sub-object code"),
+        DATA_VALIDATION_NO_WAGE_ACCOUNT_ERROR_CODE("CMPA", "Error: Wage object in no wages account"),
+        DATA_VALIDATION_COMPENSATION_OBJECT_CODE_ERROR_CODE("COMP", "Error: Compensation object code"),
+        UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED("MNTH", "Warning: Monthly budget deleted"),
+        UPDATE_ERROR_CODE_BUDGET_ACCOUNT_LOCKED("LOCK", "Error: Budgeted account locked"),
+        UPDATE_ERROR_CODE_NO_ACCESS_TO_BUDGET_ACCOUNT("ACCE", "Error: No update access to budgeted account");
         
         private String errorCode;
+        private String message;
         
-        private RequestImportDataValidationErrorFlag(String errorCode) {
+        private RequestImportErrorCode(String errorCode, String message) {
             this.errorCode = errorCode;
+            this.message = message;
         }
         
         public String getErrorCode() {
             return this.errorCode;
+        }
+        
+        public String getMessage() {
+            return this.message;
         }
     }
     

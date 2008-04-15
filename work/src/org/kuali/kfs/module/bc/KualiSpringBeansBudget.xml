@@ -459,6 +459,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
+		<property name="permissionService">
+			<ref bean="permissionService" />
+		</property>	
 		<property name="importRequestDao">
 			<ref bean="importRequestDao" />
 		</property>					

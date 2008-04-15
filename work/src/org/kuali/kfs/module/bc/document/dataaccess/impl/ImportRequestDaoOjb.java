@@ -15,32 +15,42 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionRequestMove;
 import org.kuali.module.budget.dao.ImportRequestDao;
 
 public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements ImportRequestDao {
+    
     /**
      * 
-     * @see org.kuali.module.budget.dao.ImportRequestDao#isNonBudgetedAccounts()
+     * @see org.kuali.module.budget.dao.ImportRequestDao#findAllNonErrorCodeRecords()
      */
-    public boolean isNonBudgetedAccount(BudgetConstructionRequestMove record) {
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords() {
+        Criteria criteria = new Criteria();
+        criteria.addColumnNotNull("requestUpdateErrorCode");
+        
+        List<BudgetConstructionRequestMove> records = new ArrayList<BudgetConstructionRequestMove>(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria)));
+        
+        return records;
+    }
+
+    
+    public BudgetConstructionHeader getHeaderRecord(BudgetConstructionRequestMove record) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", record.getChartOfAccountsCode());
         criteria.addEqualTo("accountNumber", record.getAccountNumber());
         criteria.addEqualTo("subAccountNumber", record.getSubAccountNumber());
         
-        Collection headerList = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria));
+        BudgetConstructionHeader header = (BudgetConstructionHeader)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria));
         
-        if (headerList.size() == 0)  return true;
-        
-        return false;
+        return header;
     }
 
 }

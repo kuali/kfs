@@ -110,8 +110,6 @@
 
             <attributeReference name="disbVchrPayeeEmployeeCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeEmployeeCode" />
 
-            <attributeReference name="dvPayeeRevolvingFundCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeRevolvingFundCode" />
-
             <attributeReference name="disbVchrAlienPaymentCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="alienPaymentCode" />
         </attributes>
         <objectLabel>DV Payee Detail</objectLabel>

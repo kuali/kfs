@@ -1377,7 +1377,6 @@
     <field-descriptor name="disbVchrRemitZipCode" column="DV_RMT_ZIP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="disbVchrRemitCountryCode" column="DV_RMT_CNTRY_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="disbursementVoucherPayeeTypeCode" column="DV_PAYEE_TYP_CD" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

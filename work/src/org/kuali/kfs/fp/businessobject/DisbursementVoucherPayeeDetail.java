@@ -48,7 +48,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private String disbVchrRemitZipCode;
     private String disbVchrRemitCountryCode;
     private boolean disbVchrPayeeEmployeeCode;
-    private boolean dvPayeeRevolvingFundCode;
     private String disbursementVoucherPayeeTypeCode;
 
     private PaymentReasonCode disbVchrPaymentReason;
@@ -419,25 +418,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      */
     public void setDisbVchrPayeeEmployeeCode(boolean disbVchrPayeeEmployeeCode) {
         this.disbVchrPayeeEmployeeCode = disbVchrPayeeEmployeeCode;
-    }
-
-    /**
-     * Gets the dvPayeeRevolvingFundCode attribute.
-     * 
-     * @return Returns the dvPayeeRevolvingFundCode
-     */
-    public boolean isDvPayeeRevolvingFundCode() {
-        return dvPayeeRevolvingFundCode;
-    }
-
-
-    /**
-     * Sets the dvPayeeRevolvingFundCode attribute.
-     * 
-     * @param dvPayeeRevolvingFundCode The dvPayeeRevolvingFundCode to set.
-     */
-    public void setDvPayeeRevolvingFundCode(boolean dvPayeeRevolvingFundCode) {
-        this.dvPayeeRevolvingFundCode = dvPayeeRevolvingFundCode;
     }
 
     /**

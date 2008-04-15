@@ -790,7 +790,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(payee.getPayeeCountryCode());
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(payee.isPayeeEmployeeCode());
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(payee.isAlienPaymentCode());
-        this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(payee.isPayeeRevolvingFundCode());
 
         this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
         this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
@@ -817,7 +816,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-        this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(false);
 
         this.disbVchrPayeeTaxControlCode = "";
         this.disbVchrPayeeW9CompleteCode = true;

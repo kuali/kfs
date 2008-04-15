@@ -826,7 +826,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // check revolving fund restrictions
         // retrieve revolving fund payment reasons
         ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAY_REASONS_PARM_NM, paymentReasonCode);
-        if (revolvingFundPaymentReasonCodeEvaluator.evaluationSucceeds() && !document.getDvPayeeDetail().isDvPayeeRevolvingFundCode() && !document.getDvPayeeDetail().isVendor()) {
+        if (revolvingFundPaymentReasonCodeEvaluator.evaluationSucceeds() && !document.getDvPayeeDetail().isVendor()) {
             errors.putError(DV_PAYMENT_REASON_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
         }
 

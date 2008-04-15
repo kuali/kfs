@@ -84,4 +84,5 @@ public class LaborPropertyConstants {
     public static final String TRANSACTION_TOTAL_HOURS = "transactionTotalHours";
     public static final String PAYROLL_TOTAL_HOURS = "payrollTotalHours";
     public static final String POSITION_BENEFIT_TYPE_CODE = "positionBenefitTypeCode";
+    public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
 }

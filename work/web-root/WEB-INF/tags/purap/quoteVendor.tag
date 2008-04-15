@@ -136,6 +136,12 @@
 						alt="transmit quote" title="transmit quote" 
 						styleClass="tinybutton" />
 					<c:if test="${isTransmitPrintDisplayed}">
+  <script language ="javascript">
+    window.onload = dothis();
+    function dothis() {
+      _win = window.open('purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}', 'printpopdf');
+    }
+  </script>
 						Transmit information saved.
 						<a href="purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}" target="_BLANK">
 							Click here to print Quote.
